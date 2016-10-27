@@ -1,8 +1,11 @@
 import { QuestionBase } from './question-base';
 
-export class TextInputQuestion extends QuestionBase<any> {
+import { ITextQuestionsOptions } from '../interfaces/text-question-options';
+export class TextInputQuestion extends QuestionBase {
+
     placeholder: string;
-    constructor(options: TextInputQuestion) {
+    constructor(options: ITextQuestionsOptions) {
+
         super(options);
         this.placeholder = options.placeholder || '';
 

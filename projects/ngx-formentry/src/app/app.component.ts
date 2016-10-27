@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-
-import {SampleService} from './services/sample.service';
+import { MockForm } from './mock/mock-form';
 
 import '../style/app.scss';
 
@@ -10,10 +9,8 @@ import '../style/app.scss';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  pipeTest: string = 'Create an amazing community by contributing a library';
-  url: string = 'https://github.com/preboot/angular2-library-seed';
-
-  constructor(public sampleService: SampleService) {
-    // Do something with sampleService
+  data = new MockForm().getMockForm();
+  constructor() {
+    // Do stuff
   }
 }

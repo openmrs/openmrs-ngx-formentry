@@ -1,7 +1,8 @@
 import { QuestionBase } from './question-base';
-export class QuestionGroup extends QuestionBase<string> {
+
+export class QuestionGroup extends QuestionBase {
     questions: any[] = [];
-    settings: any;
+
     constructor(options: QuestionGroup) {
         super(options);
         this.type = 'group';

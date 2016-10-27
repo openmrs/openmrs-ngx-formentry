@@ -8,14 +8,15 @@ import { SampleComponent } from './components/sample.component';
 import { SampleDirective } from './directives/sample.directive';
 import { SamplePipe } from './pipes/sample.pipe';
 import { SampleService } from './services/sample.service';
-
+import { FormEntryModule } from './form-entry/form-entry.module';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    FormEntryModule
   ],
   declarations: [
     AppComponent,
@@ -29,7 +30,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef) {}
+  constructor(public appRef: ApplicationRef) { }
   hmrOnInit(store) {
     console.log('HMR store', store);
   }

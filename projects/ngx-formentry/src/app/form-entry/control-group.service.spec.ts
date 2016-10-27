@@ -180,13 +180,10 @@ describe('ControlGroupService', () => {
             key: 'Drugi',
             label: 'I Reference',
             value: '',
-            placeholder: 'I Reference',
-            validation: [
-                { type: 'required' }
-            ]
+            placeholder: 'I Reference'
         })], 'fbGroup');
         formGroup.fbGroup.controls.Drugi.updateValueAndValidity();
-        expect(formGroup.fbGroup.valid).toBe(false);
+        expect(formGroup.fbGroup.valid).toBe(true);
         expect(formGroup.fbGroup.value).toEqual({ 'Drugi': '' });
     });
 });
