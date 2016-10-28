@@ -1,5 +1,5 @@
-import { IBaseOptions } from '../interfaces/base-options';
+import { BaseOptions } from '../interfaces/base-options';
 
-export interface IDateQuestionOptions extends IBaseOptions {
+export interface DateQuestionOptions extends BaseOptions {
     
 }

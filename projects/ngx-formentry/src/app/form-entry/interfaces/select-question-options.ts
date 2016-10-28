@@ -1,5 +1,5 @@
-import { IBaseOptions } from '../interfaces/base-options';
+import { BaseOptions } from '../interfaces/base-options';
 
-export interface ISelectQuestionOptions extends IBaseOptions {
+export interface SelectQuestionOptions extends BaseOptions {
    options: { key: string, value: string }[];
 }

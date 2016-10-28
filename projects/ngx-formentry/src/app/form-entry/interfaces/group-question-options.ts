@@ -1,5 +1,5 @@
-import { IBaseOptions } from '../interfaces/base-options';
+import { BaseOptions } from '../interfaces/base-options';
 
-export interface IGroupQuestionOptions extends IBaseOptions {
-    questions: IBaseOptions[];
+export interface GroupQuestionOptions extends BaseOptions {
+    questions: BaseOptions[];
 }

@@ -1,4 +1,4 @@
-export interface IBaseOptions {
+export interface BaseOptions {
     value?: any;
     type: string;
     key: string;

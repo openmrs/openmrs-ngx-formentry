@@ -1,9 +1,9 @@
 import { QuestionBase } from './question-base';
-import { IDateQuestionOptions } from '../interfaces/date-question-options';
+import { DateQuestionOptions } from '../interfaces/date-question-options';
 
 export class DateQuestion extends QuestionBase {
     
-    constructor(options: IDateQuestionOptions) {
+    constructor(options: DateQuestionOptions) {
         super(options);
         this.type = 'date';
     }

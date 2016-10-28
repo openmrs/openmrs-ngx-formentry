@@ -1,5 +1,5 @@
-import { IBaseOptions } from '../interfaces/base-options';
+import { BaseOptions } from '../interfaces/base-options';
 
-export interface ITextQuestionOptions extends IBaseOptions {
+export interface TextQuestionOptions extends BaseOptions {
     placeholder: string;
 }

@@ -1,4 +1,4 @@
-import { IBaseOptions } from '../interfaces/base-options';
+import { BaseOptions } from '../interfaces/base-options';
 
 export class QuestionBase {
     value?: any;
@@ -6,7 +6,7 @@ export class QuestionBase {
     key: string;
     label?: string;
 
-    constructor(options: IBaseOptions) {
+    constructor(options: BaseOptions) {
 
         this.value = options.value;
         this.type = options.type;

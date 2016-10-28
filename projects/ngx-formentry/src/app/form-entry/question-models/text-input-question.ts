@@ -1,10 +1,10 @@
 import { QuestionBase } from './question-base';
-import { ITextQuestionOptions } from '../interfaces/text-question-options';
+import { TextQuestionOptions } from '../interfaces/text-question-options';
 
 export class TextInputQuestion extends QuestionBase {
 
     placeholder: string;
-    constructor(options: ITextQuestionOptions) {
+    constructor(options: TextQuestionOptions) {
 
         super(options);
         this.placeholder = options.placeholder || '';
