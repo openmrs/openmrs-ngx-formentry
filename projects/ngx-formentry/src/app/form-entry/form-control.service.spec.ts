@@ -3,9 +3,9 @@ import { getTestBed, TestBed } from '@angular/core/testing';
 import { FormsModule,FormArray,FormControl } from '@angular/forms';
 
 import { FormControlService } from './form-control.service';
-import { TextInputQuestion } from './models/text-input-question';
-import { QuestionGroup } from './models/question-group';
-import { RepeatingQuestion } from './models/repeating-question'
+import { TextInputQuestion } from './question-models/text-input-question';
+import { QuestionGroup } from './question-models/group-question';
+import { RepeatingQuestion } from './question-models/repeating-question'
 import { MockForm } from '../mock/mock-form'
 
 describe('Form Factory Control Service Tests', () => {

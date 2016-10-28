@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { Validation } from './models/validation';
-import { QuestionBase } from './models/question-base';
-import { QuestionGroup } from './models/question-group';
+import { Validation } from './question-models/validation';
+import { QuestionBase } from './question-models/question-base';
+import { QuestionGroup } from './question-models/group-question';
 @Injectable()
 export class ControlGroupService {
   repeating = [];
@@ -10,7 +10,7 @@ export class ControlGroupService {
   formValue: any;
   controls = [];
   constructor(private formBuilder: FormBuilder) { }
-  create(questions: QuestionBase<any>[], formKey?): any {
+  create(questions: QuestionBase[], formKey?): any {
     let temp = {},
       toReturn = {},
       self = this;
@@ -18,17 +18,6 @@ export class ControlGroupService {
     for (let question of questions) {
       let val = question.value || '',
         validators = null;
-
-      if (question.validation) {
-
-        if (Array.isArray(question.validation)) {
-          validators = [];
-          question.validation.forEach(i => validators.push(setValidator(i, question)));
-        } else {
-          validators = setValidator(question.validation);
-        };
-      }
-
 
       if (question.type === 'group') {
         let questionGroup = question as QuestionGroup;

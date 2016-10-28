@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ControlGroupService } from './control-group.service';
-import { FormEntryForm } from './models/form-entry-form';
+import { FormEntryForm } from './question-models/form-entry-form';
 
 @Component({
     selector: 'form-entry',
@@ -20,7 +20,6 @@ export class FormEntryComponent implements OnInit {
     // Input
     @Input() set formEntryFormData(value: FormEntryForm) {
         this._data = value;
-        this.sortQuestions();
 
         let cg = this._controlGroup.create(this._data.questions, 'fbGroup');
         this._form = cg.fbGroup;
@@ -53,5 +52,4 @@ export class FormEntryComponent implements OnInit {
         console.log('Value', event);
         this.onChanges.emit(event);
     }
-    sortQuestions() { this._data.questions.sort((a, b) => a.order - b.order); }
 }

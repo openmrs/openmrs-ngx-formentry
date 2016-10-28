@@ -1,7 +1,7 @@
 import { Component, EventEmitter, HostBinding, Input, Output, OnInit } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 import { ControlGroupService } from './control-group.service';
-import { QuestionBase } from './models/question-base';
+import { QuestionBase } from './question-models/question-base';
 
 @Component({
     selector: 'fe-question',
@@ -118,6 +118,4 @@ export class QuestionComponent implements OnInit {
         return reference.control;
     }
 
-
-    onValueChange(event) { if (this.question.emitChanges !== false) { this.valueChange.emit({ [this.question.key]: event }); } }
 }

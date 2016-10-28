@@ -4,5 +4,4 @@ export interface IBaseOptions {
     key: string;
     label?: string;
     order?: number;
-    emitChanges?: boolean;
 }

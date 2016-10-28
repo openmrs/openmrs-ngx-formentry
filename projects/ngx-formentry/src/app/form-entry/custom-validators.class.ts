@@ -1,6 +1,6 @@
 import { FormControl } from '@angular/forms';
 import { ControlGroupService } from './control-group.service';
-import { Validation } from './models/validation';
+import { Validation } from './question-models/validation';
 export class CustomValidators {
   static match(key: string, service: ControlGroupService) {
     return (control: FormControl) => {

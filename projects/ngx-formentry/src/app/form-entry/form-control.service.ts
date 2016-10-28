@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {FormControl, FormGroup, FormArray} from '@angular/forms';
 
-import {QuestionBase} from './models/question-base';
-import {QuestionGroup} from './models/question-group';
+import {QuestionBase} from './question-models/question-base';
+import {QuestionGroup} from './question-models/group-question';
 
 @Injectable()
 export class FormControlService {
