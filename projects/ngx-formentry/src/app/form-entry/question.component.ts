@@ -1,15 +1,15 @@
 import { Component, EventEmitter, HostBinding, Input, Output, OnInit } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
-import { ControlGroupService } from './control-group.service';
+import { FormControlService } from './form-control.service';
 import { QuestionBase } from './question-models/question-base';
 
 @Component({
     selector: 'fe-question',
     template: `
   
-        <div  [formGroup]="form" class="form-group" [ngClass]="{'has-error': !form.controls[question.key].valid }">
+        <div  [formGroup]="form" class="form-group">
             <label
-                *ngIf="question.label"
+                *ngIf="question.label &&(question.type !=='group' && question.type !=='repeating')"
                 class="control-label"
                 [attr.for]="question.key">
                 {{question.label}}
@@ -17,11 +17,11 @@ import { QuestionBase } from './question-models/question-base';
 
             <div [ngSwitch]="question.type">
                 <select class="form-control"
-                    *ngSwitchCase="'dropdown'"
+                    *ngSwitchCase="'select'"
                     [formControlName]="question.key"
                     (ngModelChange)="onValueChange($event)"
                     [id]="question.key + 'id'">
-                    <option *ngFor="let o of question.options" [value]="o.value">{{o.name ? o.name : o.value}}</option>
+                    <option *ngFor="let o of question.options" [value]="o.value">{{o.label}}</option>
                 </select>
 
                 <textarea
@@ -31,17 +31,14 @@ import { QuestionBase } from './question-models/question-base';
                     (ngModelChange)="onValueChange($event)"
                     [id]="question.key + 'id'">
                 </textarea>
-
                 <div *ngSwitchCase="'group'">
-                  <span>Group</span>
                   <fe-question *ngFor="let q of question.questions" [info]="{question: q,
                     form: getForm(question.key)}">
                   </fe-question>
                 </div>
 
-                <div *ngSwitchCase="'repeating'">
+                <div class='well' *ngSwitchCase="'repeating'">
                 <button class='btn btn-primary' (click)="addRepeating(question)">Add</button>
-                  <span>Repeating Group</span>
                   <div *ngFor="let po of getArray(question).controls; let i = index">
                   <fe-question *ngFor="let q of question.questions" [info]="{question: q,
                     form: po }">
@@ -58,9 +55,6 @@ import { QuestionBase } from './question-models/question-base';
                     [type]="question.type"
                     (ngModelChange)="onValueChange($event)"
                     [id]="question.key + 'id'">
-            </div>
-            <div class="help-block"  *ngIf="!form.controls[question.key].valid">
-                <span *ngFor="let e of errors()">{{e}}</span>
             </div>
         </div>
     `
@@ -84,7 +78,7 @@ export class QuestionComponent implements OnInit {
     form: FormGroup;
     formArray: FormArray;
 
-    constructor(private controlGroupService: ControlGroupService) {
+    constructor(private controlGroupService: FormControlService) {
         // Do stuff
     }
     ngOnInit() {
@@ -110,12 +104,13 @@ export class QuestionComponent implements OnInit {
         this.formArray.removeAt(index);
     }
     getArray(question) {
-        let reference = this.controlGroupService.controls.find(a => a.id.toLowerCase() === question.key.toLowerCase());
+
+        let reference = this.controlGroupService.controls.find(a => a.id === question.key);
         return reference.control;
     }
     getForm(q) {
         let reference = this.controlGroupService.controls.find(a => a.id.toLowerCase() === q.toLowerCase());
         return reference.control;
     }
-
+    onValueChange(event) { { this.valueChange.emit({ [this.question.key]: event }); } }
 }

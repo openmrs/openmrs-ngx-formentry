@@ -1,2 +1,19 @@
-<form-entry [formEntryFormData]="data">
-</form-entry>
+<div>
+	<ul class="nav nav-tabs">
+		<li role="presentation" (click)="clickTab(i)" [class.active]="activeTab === i" *ngFor="let page of schema.pages; let i = index;"><a href="#">{{page.label}}</a></li>
+	</ul>
+	<div class="tab-content">
+		<div *ngFor="let page of schema.pages; let i = index;">
+			<div class="tab-pane" [class.active]="activeTab === i" *ngIf="activeTab === i" [@flyIn]="in">
+				<div class="panel  panel-primary" *ngFor="let section of page.sections; let j = index;">
+					<div class="panel-heading">{{section.label}}</div>
+					<div class="panel-body">
+						<form-entry [formEntryFormData]="getSectionData(section.id)">
+						</form-entry>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

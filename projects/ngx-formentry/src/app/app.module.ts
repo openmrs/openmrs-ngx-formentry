@@ -8,9 +8,11 @@ import { SampleComponent } from './components/sample.component';
 import { SampleDirective } from './directives/sample.directive';
 import { SamplePipe } from './pipes/sample.pipe';
 import { SampleService } from './services/sample.service';
-import { FormEntryModule } from './form-entry/form-entry.module';
-import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+import { MockDataService } from './services/mock-data.service';
 
+import { FormEntryModule } from './form-entry/form-entry.module';
+import { QuestionFactory } from './form-entry/factories/question.factory';
+import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 @NgModule({
   imports: [
     BrowserModule,
@@ -25,7 +27,9 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     SamplePipe
   ],
   providers: [
-    SampleService
+    SampleService,
+    QuestionFactory,
+    MockDataService
   ],
   bootstrap: [AppComponent]
 })

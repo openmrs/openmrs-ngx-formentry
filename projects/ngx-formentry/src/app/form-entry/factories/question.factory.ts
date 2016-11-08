@@ -1,11 +1,12 @@
 
-import { TextInputQuestion } from "../question-models/text-input-question";
-import { TextAreaInputQuestion } from "../question-models/text-area-input-question";
-import { SelectQuestion } from "../question-models/select-question";
-import { DateQuestion } from "../question-models/date-question";
-import { MultiSelectQuestion } from "../question-models/multi-select-question";
-import { QuestionGroup } from "../question-models/group-question";
-import { RepeatingQuestion } from "../question-models/repeating-question";
+import { TextInputQuestion } from '../question-models/text-input-question';
+import { TextAreaInputQuestion } from '../question-models/text-area-input-question';
+import { SelectQuestion } from '../question-models/select-question';
+import { UiSelectQuestion } from '../question-models/ui-select-question';
+import { DateQuestion } from '../question-models/date-question';
+import { MultiSelectQuestion } from '../question-models/multi-select-question';
+import { QuestionGroup } from '../question-models/group-question';
+import { RepeatingQuestion } from '../question-models/repeating-question';
 
 export class QuestionFactory {
     constructor() {
@@ -15,7 +16,12 @@ export class QuestionFactory {
         let question = new SelectQuestion({ options: [], type: '', key: '' });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
-        question.options = schemaQuestion.questionOptions.answers;
+        question.options = schemaQuestion.questionOptions.answers.map(function (obj) {
+            return {
+                label: obj.label,
+                value: obj.concept
+            };
+        });
         question.type = schemaQuestion.questionOptions.rendering;
         return question;
     }
@@ -54,7 +60,12 @@ export class QuestionFactory {
         let question = new MultiSelectQuestion({ renderType: '', options: [], type: '', key: '' });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
-        question.options = schemaQuestion.questionOptions.answers;
+        question.options = schemaQuestion.questionOptions.answers.map(function (obj) {
+            return {
+                label: obj.label,
+                value: obj.concept
+            };
+        });
         return question;
     }
 
@@ -87,6 +98,7 @@ export class QuestionFactory {
         let question = new RepeatingQuestion({ questions: [], type: '', key: '' });
         question.label = schemaQuestion.label;
         question.questions = schemaQuestion.questions;
+        question.key = schemaQuestion.id;
         return question;
     }
 
@@ -94,11 +106,17 @@ export class QuestionFactory {
         let question = new QuestionGroup({ questions: [], type: '', key: '' });
         question.label = schemaQuestion.label;
         question.questions = schemaQuestion.questions;
+        question.key = schemaQuestion.id;
         return question;
     }
 
     toPersonAttributeQuestion(schemaQuestion: any): SelectQuestion {
-        let question = new SelectQuestion({ options: [], type: '', key: '' });
+        let question = new UiSelectQuestion({
+            options: [], type: '', key: '', searchFunction: function () { },
+            resolveFunction: function () {
+
+            }
+        });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
         question.type = schemaQuestion.type;
@@ -106,7 +124,12 @@ export class QuestionFactory {
     }
 
     toEncounterProviderQuestion(schemaQuestion: any): SelectQuestion {
-        let question = new SelectQuestion({ options: [], type: '', key: '' });
+        let question = new UiSelectQuestion({
+            options: [], type: '', key: '', searchFunction: function () { },
+            resolveFunction: function () {
+
+            }
+        });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
         question.type = schemaQuestion.type;
@@ -114,7 +137,12 @@ export class QuestionFactory {
     }
 
     toEncounterLocationQuestion(schemaQuestion: any): SelectQuestion {
-        let question = new SelectQuestion({ options: [], type: '', key: '' });
+        let question = new UiSelectQuestion({
+            options: [], type: '', key: '', searchFunction: function () { },
+            resolveFunction: function () {
+
+            }
+        });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
         question.type = schemaQuestion.type;
@@ -123,17 +151,20 @@ export class QuestionFactory {
 
     getSchemaQuestions(schema: any): any {
         let listQuestions = new Array();
-        this.getQuestions(schema, listQuestions)
-        return listQuestions
+        this.getQuestions(schema, listQuestions);
+        return listQuestions;
     }
 
     getQuestions(schema: any, foundArray: any): any {
-        if (!Array.isArray(foundArray))
+        if (!Array.isArray(foundArray)) {
             foundArray = [];
-
+        }
         if (Array.isArray(schema)) {
+
             for (let property in schema) {
-                this.getQuestions(schema[property], foundArray);
+                if (schema.hasOwnProperty(property)) {
+                    this.getQuestions(schema[property], foundArray);
+                }
             };
         }
 
@@ -142,13 +173,14 @@ export class QuestionFactory {
                 if (schema.questionOptions.rendering === 'group' || schema.questionOptions.rendering === 'repeating') {
                     schema.questions = this.getGroupMembers(schema.questions);
                     foundArray.push(this.toModel(schema, schema.questionOptions.rendering));
-                }
-                else {
+                } else {
                     foundArray.push(this.toModel(schema, schema.questionOptions.rendering));
                 }
             } else {
                 for (let o in schema) {
-                    this.getQuestions(schema[o], foundArray);
+                    if (schema.hasOwnProperty(o)) {
+                        this.getQuestions(schema[o], foundArray);
+                    }
                 }
             }
         }
@@ -163,7 +195,9 @@ export class QuestionFactory {
     }
 
     toModel(schema: any, renderType: string): any {
-        if (renderType === 'ui-select-extended') renderType = schema.type;
+        if (renderType === 'ui-select-extended') {
+            renderType = schema.type;
+        }
         switch (renderType) {
             case 'select':
                 return this.toSelectQuestion(schema);
@@ -198,8 +232,8 @@ export class QuestionFactory {
                 return this.toEncounterProviderQuestion(schema);
 
             default:
-                console.log("New Schema Question Type found........." + renderType);
-                return schema;
+                console.log('New Schema Question Type found.........' + renderType);
+                return this.toTextQuestion(schema);
         }
 
     }

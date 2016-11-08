@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ControlGroupService } from './control-group.service';
+import { FormControlService } from './form-control.service';
 import { FormEntryForm } from './question-models/form-entry-form';
 
 @Component({
@@ -37,7 +37,7 @@ export class FormEntryComponent implements OnInit {
 
     private _data: FormEntryForm;
     private _form: FormGroup;
-    constructor(private _controlGroup: ControlGroupService) { }
+    constructor(private _controlGroup: FormControlService) { }
     ngOnInit() {
         this.onSubmit.emit({ value: this._form.value, valid: this._form.valid });
         this._form.valueChanges.subscribe(data => {
