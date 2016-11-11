@@ -1,6 +1,10 @@
 import { Injector } from '@angular/core';
 import { getTestBed, TestBed } from '@angular/core/testing';
-import { FormsModule,FormArray,FormControl } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+
+import { AfeFormControl } from '../abstract-controls-extension/afe-form-control';
+import { AfeFormArray } from '../abstract-controls-extension/afe-form-array';
+import { AfeFormGroup } from '../abstract-controls-extension/afe-form-group';
 
 import { FormControlService } from './form-control.service';
 import { TextInputQuestion } from './question-models/text-input-question';
@@ -87,7 +91,7 @@ describe('Form Factory Control Service Tests', () => {
       ]
     }));
 
-    expect(formArray instanceof FormArray).toBeTruthy();
+    expect(formArray instanceof AfeFormArray).toBeTruthy();
   });
 
   it('Should have a generateControl function that returns a form control', () => {
@@ -100,7 +104,7 @@ describe('Form Factory Control Service Tests', () => {
     }));
 
     expect(control.value).toEqual('Hello');
-    expect(control instanceof FormControl).toBeTruthy();
+    expect(control instanceof AfeFormControl).toBeTruthy();
   });
 
 });

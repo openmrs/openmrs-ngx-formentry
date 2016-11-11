@@ -1,9 +1,11 @@
-import { FormControl } from '@angular/forms';
+// import { AfeFormControl } from '@angular/forms';
+import { AfeFormControl } from '../abstract-controls-extension/afe-form-control'
+
 import { ControlGroupService } from './control-group.service';
 import { Validation } from './question-models/validation';
 export class CustomValidators {
   static match(key: string, service: ControlGroupService) {
-    return (control: FormControl) => {
+    return (control: AfeFormControl) => {
       if (control.value) {
         let value = window[key];
         return value !== control.value ? {
@@ -17,7 +19,7 @@ export class CustomValidators {
     };
   }
   static jsValidator(validation: Validation, service: ControlGroupService) {
-    return (control: FormControl): { [key: string]: any } => {
+    return (control: AfeFormControl): { [key: string]: any } => {
       for (let reference of validation.controls) {
         let referenced = service.controls.find(a => a.id.toLowerCase() === reference.toLowerCase());
         window[reference] = '';

@@ -1,5 +1,8 @@
 import {Injectable} from '@angular/core';
-import {FormControl, FormGroup, FormArray} from '@angular/forms';
+import { AfeFormControl } from '../abstract-controls-extension/afe-form-control';
+import { AfeFormArray } from '../abstract-controls-extension/afe-form-array';
+import { AfeFormGroup } from '../abstract-controls-extension/afe-form-group';
+
 
 import {QuestionBase} from './question-models/question-base';
 import {QuestionGroup} from './question-models/group-question';
@@ -25,11 +28,11 @@ export class FormControlService {
       }
     }
 
-    toReturn[formKey] = new FormGroup(temp);
+    toReturn[formKey] = new AfeFormGroup(temp);
     return toReturn;
   }
 
-  generateGroup(question: QuestionBase): FormGroup {
+  generateGroup(question: QuestionBase): AfeFormGroup {
 
     let questionGroup = question as QuestionGroup;
     let formGroup = this.create(questionGroup.questions, question.key);
@@ -44,9 +47,9 @@ export class FormControlService {
     return group;
   }
 
-  generateFormArray(question: QuestionBase): FormArray {
+  generateFormArray(question: QuestionBase): AfeFormArray {
 
-    let formArray = new FormArray([]);
+    let formArray = new AfeFormArray([]);
 
     this.controls.push({
       id: question.key,
@@ -57,11 +60,11 @@ export class FormControlService {
     return formArray;
   }
 
-  generateControl(question: QuestionBase): FormControl {
+  generateControl(question: QuestionBase): AfeFormControl {
 
     let value = question.value || '';
 
-    let control = new FormControl(value);
+    let control = new AfeFormControl(value);
     this.controls.push({
       id: question.key,
       type: 'control',
