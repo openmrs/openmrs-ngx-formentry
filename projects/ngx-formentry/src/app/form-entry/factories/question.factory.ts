@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 
 import { TextInputQuestion } from '../question-models/text-input-question';
 import { TextAreaInputQuestion } from '../question-models/text-area-input-question';
@@ -7,6 +8,10 @@ import { DateQuestion } from '../question-models/date-question';
 import { MultiSelectQuestion } from '../question-models/multi-select-question';
 import { QuestionGroup } from '../question-models/group-question';
 import { RepeatingQuestion } from '../question-models/repeating-question';
+import { QuestionBase } from '../question-models/question-base';
+import { ValidationModel } from '../models/validation.model';
+import { DateValidationModel } from '../models/date-validation.model';
+import { Pair } from '../models/pair.model';
 
 export class QuestionFactory {
     constructor() {
@@ -44,8 +49,16 @@ export class QuestionFactory {
 
     toDateQuestion(schemaQuestion: any): DateQuestion {
         let question = new DateQuestion({ type: '', key: '' });
-        question.label = schemaQuestion.label;
-        question.key = schemaQuestion.id;
+        question.type = 'date';
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+          label: "label",
+          required: "required",
+          id: "key"
+        };
+        
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -238,4 +251,34 @@ export class QuestionFactory {
 
     }
 
+    copyProperties(mappings: any, source: any, destination: QuestionBase) {
+
+      for (let property in source) {
+          if (mappings.hasOwnProperty(property) && destination.hasOwnProperty(mappings[property])) {
+              destination[mappings[property]] = source[property];
+          }
+      };
+    }
+
+    addValidators(schemaQuestion: any): Array<ValidationModel> {
+
+      let validators: Array<ValidationModel> = [];
+
+      if(schemaQuestion.validators) {
+
+        //TODO - add more validator types
+        _.forEach(schemaQuestion.validators, (validator: any) => {
+          switch(validator.type) {
+            case 'date':
+              validators.push(new DateValidationModel(validator));
+              break;
+            default:
+              validators.push(new ValidationModel(validator));
+              break;
+          }
+        });
+      }
+
+      return validators;
+    }
 }

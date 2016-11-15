@@ -7,6 +7,7 @@ import { MultiSelectQuestion } from "../question-models/multi-select-question";
 import { QuestionGroup } from "../question-models/group-question";
 import { RepeatingQuestion } from "../question-models/repeating-question";
 import { QuestionFactory } from "./question.factory";
+import { ValidationFactory } from "./validation.factory";
 
 describe('Question Factory', () => {
 

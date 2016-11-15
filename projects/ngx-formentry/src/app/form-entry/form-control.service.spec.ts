@@ -11,6 +11,7 @@ import { TextInputQuestion } from './question-models/text-input-question';
 import { QuestionGroup } from './question-models/group-question';
 import { RepeatingQuestion } from './question-models/repeating-question'
 import { MockForm } from '../mock/mock-form'
+import { ValidationFactory } from './factories/validation.factory';
 
 describe('Form Factory Control Service Tests', () => {
   let injector: Injector;
@@ -22,7 +23,8 @@ describe('Form Factory Control Service Tests', () => {
         FormsModule
       ],
       providers: [
-        FormControlService
+        FormControlService,
+        ValidationFactory
       ]
     });
     injector = getTestBed();

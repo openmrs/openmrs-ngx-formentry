@@ -1,13 +1,14 @@
 import { Component, EventEmitter, HostBinding, Input, Output, OnInit } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 import { FormControlService } from './form-control.service';
+import { ValidationFactory } from './factories/validation.factory';
 import { QuestionBase } from './question-models/question-base';
 
 @Component({
     selector: 'fe-question',
     template: `
-  
-        <div  [formGroup]="form" class="form-group">
+
+        <div  [formGroup]="form" novalidate class="form-group">
             <label
                 *ngIf="question.label &&(question.type !=='group' && question.type !=='repeating')"
                 class="control-label"
@@ -56,12 +57,19 @@ import { QuestionBase } from './question-models/question-base';
                     (ngModelChange)="onValueChange($event)"
                     [id]="question.key + 'id'">
             </div>
+            <div *ngIf="hasErrors()">
+              <p *ngFor="let e of errors()">
+                <span class="text-danger">{{e}}</span>
+              </p>
+            </div>
         </div>
     `
 })
 
 export class QuestionComponent implements OnInit {
+
     questionMap = {};
+
     // Add class to the wrapper
     @HostBinding('class') get toSet() {
         return this.question;
@@ -78,7 +86,7 @@ export class QuestionComponent implements OnInit {
     form: FormGroup;
     formArray: FormArray;
 
-    constructor(private controlGroupService: FormControlService) {
+    constructor(private controlGroupService: FormControlService, private validationFactory: ValidationFactory) {
         // Do stuff
     }
     ngOnInit() {
@@ -113,4 +121,20 @@ export class QuestionComponent implements OnInit {
         return reference.control;
     }
     onValueChange(event) { { this.valueChange.emit({ [this.question.key]: event }); } }
+
+    hasErrors() {
+      return this.form.controls[this.question.key].touched && !this.form.controls[this.question.key].valid;
+    }
+
+    errors() {
+
+      let errors: any = this.form.controls[this.question.key].errors;
+
+      if(errors) {
+
+        return this.validationFactory.errors(errors, this.question);
+      }
+
+      return [];
+    }
 }
