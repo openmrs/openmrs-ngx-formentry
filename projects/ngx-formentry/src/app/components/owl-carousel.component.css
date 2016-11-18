@@ -8,9 +8,16 @@ a {
 
 ul {
   list-style-type: none;
+  max-width: 500px;
   margin: 2px auto;
   background: #353434;
   position: relative;
+}
+
+.tab-content {
+  max-width: 500px;
+  border: 1px solid black;
+  margin: 0 auto;
 }
 
 li {
@@ -27,6 +34,13 @@ li:hover {
   cursor: pointer;
 }
 
+.tab-content > div {
+  display: none;
+}
+
+.tab-content > div.active {
+  display: block;
+}
 
 .owl-theme .owl-controls .owl-nav {
   position: absolute;
@@ -55,42 +69,12 @@ li:hover {
   transform: translate(-120%);
 }
 
-$swipe-tab-color: #757575;
-$swipe-active-tab-color: #337AB7;
 
-
-.slick-initialized {
-  .swipe-tab-content {
-    position: relative;
-    min-height: 365px;
-
-    @media screen and (min-width: 767px) {
-      min-height: 500px;
-    }
-  }
-
-  .swipe-tab {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    background: none;
-    border: 0;
-    color: $swipe-tab-color;
-    cursor: pointer;
-    text-align: center;
-    border-bottom: 2px solid rgba($swipe-active-tab-color, 0);
-    transition: all 0.5s;
-    &:hover {
-      color: $swipe-active-tab-color;
-    }
-
-    &.active-tab {
-      border-bottom-color: $swipe-active-tab-color;
-      color: $swipe-active-tab-color;
-      font-weight: bold;
-    }
-
-  }
+.slick-prev:before, 
+.slick-next:before {
+    color: black;    
 }
 
+.slick-dots {
+    bottom: -30px;
+}

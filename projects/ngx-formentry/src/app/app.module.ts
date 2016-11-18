@@ -13,6 +13,7 @@ import { MockDataService } from './services/mock-data.service';
 import { FormEntryModule } from './form-entry/form-entry.module';
 import { QuestionFactory } from './form-entry/factories/question.factory';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+import { OwlCarouselComponent } from './components/owl-carousel';
 @NgModule({
   imports: [
     BrowserModule,
@@ -24,7 +25,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AppComponent,
     SampleComponent,
     SampleDirective,
-    SamplePipe
+    SamplePipe,
+    OwlCarouselComponent
   ],
   providers: [
     SampleService,

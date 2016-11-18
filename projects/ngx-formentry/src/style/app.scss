@@ -1,0 +1,18 @@
+$c1: #cee5ea;
+$c2: #efdfda;
+.slider {
+    width: auto;
+    margin: 30px;
+}
+
+.slick-prev:before, 
+.slick-next:before {
+    color:#337AB7;  
+}
+
+.slick-dots {
+    bottom: -40px;
+}
+.slick-slide {
+    outline: none
+}
