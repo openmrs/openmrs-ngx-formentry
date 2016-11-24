@@ -3,7 +3,7 @@ import { QuestionFactory } from './form-entry/form-factory/question.factory';
 import { FormGroup } from '@angular/forms';
 import { Form } from './form-entry/form-factory/form';
 import { FormFactory } from './form-entry/form-factory/form.factory';
-import '../style/app.scss';
+// import '../style/app.scss';
 const adultForm = require('./adult');
 @Component({
     selector: 'my-app', // <my-app></my-app>
