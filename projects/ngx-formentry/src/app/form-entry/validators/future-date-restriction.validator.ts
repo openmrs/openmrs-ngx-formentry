@@ -1,11 +1,11 @@
-import { FormControl } from '@angular/forms';
+import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { DateValidator } from './date.validator';
 
 export class FutureDateRestrictionValidator {
 
   constructor() {}
 
-  validate(c: FormControl) {
+  validate(c: AfeFormControl) {
 
     let value = c.value;
     let now: Date = new Date();

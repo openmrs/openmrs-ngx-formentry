@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { MinDateValidator } from './min-date.validator';
 
 describe('MinDateValidator Unit Tests', () => {
@@ -9,7 +9,7 @@ describe('MinDateValidator Unit Tests', () => {
     let minDate = new Date('2016-11-10');
     let date = '2016-11-13';
 
-    let formControl = new FormControl(date, [ validator.validate(minDate) ]);
+    let formControl = new AfeFormControl(date, [ validator.validate(minDate) ]);
 
     expect(formControl.errors).toBe(null);
   });
@@ -20,8 +20,8 @@ describe('MinDateValidator Unit Tests', () => {
     let minDate = new Date();
     let date = '2016-11-13';
 
-    let formControl = new FormControl(date, [ validator.validate(minDate) ]);
+    let formControl = new AfeFormControl(date, [ validator.validate(minDate) ]);
 
-    expect(formControl.errors.mindate).not.toBe(null);
+    expect(formControl.errors['mindate']).not.toBe(null);
   });
 });

@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { FutureDateRestrictionValidator } from './future-date-restriction.validator';
 
 describe('FutureDateRestrictionValidator Unit Tests', () => {
@@ -8,7 +8,7 @@ describe('FutureDateRestrictionValidator Unit Tests', () => {
     let validator: FutureDateRestrictionValidator = new FutureDateRestrictionValidator();
     let date = '2016-11-01';
 
-    let formControl = new FormControl(date, [ validator.validate ]);
+    let formControl = new AfeFormControl(date, [ validator.validate ]);
 
     expect(formControl.errors).toBe(null);
   });
@@ -18,8 +18,8 @@ describe('FutureDateRestrictionValidator Unit Tests', () => {
     let validator: FutureDateRestrictionValidator = new FutureDateRestrictionValidator();
     let date = '2300-11-11';
 
-    let formControl = new FormControl(date, [ validator.validate ]);
+    let formControl = new AfeFormControl(date, [ validator.validate ]);
 
-    expect(formControl.errors.futureDateRestriction).toBe(true);
+    expect(formControl.errors['futureDateRestriction']).toBe(true);
   });
 });

@@ -1,4 +1,4 @@
-import { ValidationModel } from '../../models/validation.model';
+import { ValidationModel } from '../validation.model';
 
 export interface BaseOptions {
     defaultValue?: any;

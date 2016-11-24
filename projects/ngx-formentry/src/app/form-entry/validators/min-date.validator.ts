@@ -1,13 +1,13 @@
-import { FormControl } from '@angular/forms';
+import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { DateValidator } from './date.validator';
 
 export class MinDateValidator {
 
   validate(min: Date) {
 
-    return (control: FormControl): {[key: string]: any} => {
+    return (control: AfeFormControl): {[key: string]: any} => {
 
-      if(control.value && control.value.length != 0) {
+      if(control.value && control.value.length !== 0) {
 
         if(!new DateValidator().validate(control.value)) {
 

@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { MaxValidator } from './max.validator';
 
 describe('MaxValidator Unit Tests', () => {
@@ -9,7 +9,7 @@ describe('MaxValidator Unit Tests', () => {
     let max = 10;
     let value = 2;
 
-    let formControl = new FormControl(value, [ validator.validate(max) ]);
+    let formControl = new AfeFormControl(value, [ validator.validate(max) ]);
 
     expect(formControl.errors).toBe(null);
   });
@@ -20,8 +20,8 @@ describe('MaxValidator Unit Tests', () => {
     let max = 10;
     let value = 11;
 
-    let formControl = new FormControl(value, [ validator.validate(max) ]);
+    let formControl = new AfeFormControl(value, [ validator.validate(max) ]);
 
-    expect(formControl.errors.max).not.toBe(null);
+    expect(formControl.errors['max']).not.toBe(null);
   });
 });

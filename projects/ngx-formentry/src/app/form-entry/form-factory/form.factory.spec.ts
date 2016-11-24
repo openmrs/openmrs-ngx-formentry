@@ -7,6 +7,7 @@ import { LeafNode, GroupNode, ArrayNode } from './form-node';
 import { SampleSchema } from './sample-schema';
 
 import { QuestionFactory } from '../factories/question.factory';
+import { ValidationFactory } from '../factories/validation.factory';
 
 import { Form } from './form';
 
@@ -16,7 +17,8 @@ describe('Form Factory:', () => {
             providers: [
                 FormFactory,
                 FormControlService,
-                QuestionFactory
+                QuestionFactory,
+                ValidationFactory
             ]
         });
     });

@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { MinValidator } from './min.validator';
 
 describe('MinValidator Unit Tests', () => {
@@ -9,7 +9,7 @@ describe('MinValidator Unit Tests', () => {
     let min = 1;
     let value = 2;
 
-    let formControl = new FormControl(value, [ validator.validate(min) ]);
+    let formControl = new AfeFormControl(value, [ validator.validate(min) ]);
 
     expect(formControl.errors).toBe(null);
   });
@@ -20,8 +20,8 @@ describe('MinValidator Unit Tests', () => {
     let min = 1;
     let value = -1;
 
-    let formControl = new FormControl(value, [ validator.validate(min) ]);
+    let formControl = new AfeFormControl(value, [ validator.validate(min) ]);
 
-    expect(formControl.errors.min).not.toBe(null);
+    expect(formControl.errors['min']).not.toBe(null);
   });
 });

@@ -34,6 +34,11 @@
             [type]="node.question.renderingType" [id]="node.question.key + 'id'">
 
     </div>
+    <div *ngIf="hasErrors()">
+        <p *ngFor="let e of errors()">
+            <span class="text-danger">{{e}}</span>
+        </p>
+    </div>
 </div>
 <div *ngIf="node.question.controlType === 1">
     <!--ARRAY CONTROL-->

@@ -11,9 +11,8 @@ import { RepeatingQuestion } from '../question-models/repeating-question';
 import { QuestionBase } from '../question-models/question-base';
 import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
-import { ValidationModel } from '../models/validation.model';
-import { DateValidationModel } from '../models/date-validation.model';
-import { Pair } from '../models/pair.model';
+import { ValidationModel } from '../question-models/validation.model';
+import { DateValidationModel } from '../question-models/date-validation.model';
 
 export class QuestionFactory {
     constructor() {
@@ -21,10 +20,6 @@ export class QuestionFactory {
 
     createQuestionModel(formSchema: any): QuestionBase {
         return this.toFormQuestionModel(formSchema);
-    }
-
-    createFormSchema(questionModel: QuestionBase): any {
-        // TODO: Implement when creating functionality to create schemas
     }
 
     toSelectQuestion(schemaQuestion: any): SelectQuestion {
@@ -38,6 +33,15 @@ export class QuestionFactory {
             };
         });
         question.renderingType = schemaQuestion.questionOptions.rendering;
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -46,6 +50,15 @@ export class QuestionFactory {
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
         question.renderingType = 'number';
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -54,6 +67,15 @@ export class QuestionFactory {
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
         question.renderingType = 'number';
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -63,9 +85,9 @@ export class QuestionFactory {
         question.validators = this.addValidators(schemaQuestion);
 
         let mappings: any = {
-          label: "label",
-          required: "required",
-          id: "key"
+            label: 'label',
+            required: 'required',
+            id: 'key'
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
@@ -76,6 +98,15 @@ export class QuestionFactory {
         let question = new DateQuestion({ type: '', key: '' });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -89,6 +120,15 @@ export class QuestionFactory {
                 value: obj.concept
             };
         });
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -98,6 +138,15 @@ export class QuestionFactory {
         question.key = schemaQuestion.id;
         question.isExpanded = schemaQuestion.isExpanded;
         question.rows = schemaQuestion.questionOptions.rows;
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -106,6 +155,15 @@ export class QuestionFactory {
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
         question.renderingType = 'text';
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -114,6 +172,15 @@ export class QuestionFactory {
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
         question.renderingType = schemaQuestion.type;
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -122,6 +189,15 @@ export class QuestionFactory {
         question.label = schemaQuestion.label;
         question.questions = schemaQuestion.questions;
         question.key = schemaQuestion.id;
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -130,6 +206,15 @@ export class QuestionFactory {
         question.label = schemaQuestion.label;
         question.questions = schemaQuestion.questions;
         question.key = schemaQuestion.id;
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -179,6 +264,15 @@ export class QuestionFactory {
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
         question.renderingType = schemaQuestion.type;
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -192,6 +286,15 @@ export class QuestionFactory {
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
         question.renderingType = schemaQuestion.type;
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -205,6 +308,15 @@ export class QuestionFactory {
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
         question.renderingType = schemaQuestion.type;
+        question.validators = this.addValidators(schemaQuestion);
+
+        let mappings: any = {
+            label: 'label',
+            required: 'required',
+            id: 'key'
+        };
+
+        this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
 
@@ -299,32 +411,32 @@ export class QuestionFactory {
 
     copyProperties(mappings: any, source: any, destination: QuestionBase) {
 
-      for (let property in source) {
-          if (mappings.hasOwnProperty(property) && destination.hasOwnProperty(mappings[property])) {
-              destination[mappings[property]] = source[property];
-          }
-      };
+        for (let property in source) {
+            if (mappings.hasOwnProperty(property) && destination.hasOwnProperty(mappings[property])) {
+                destination[mappings[property]] = source[property];
+            }
+        };
     }
 
     addValidators(schemaQuestion: any): Array<ValidationModel> {
 
-      let validators: Array<ValidationModel> = [];
+        let validators: Array<ValidationModel> = [];
 
-      if(schemaQuestion.validators) {
+        if (schemaQuestion.validators) {
 
-        //TODO - add more validator types
-        _.forEach(schemaQuestion.validators, (validator: any) => {
-          switch(validator.type) {
-            case 'date':
-              validators.push(new DateValidationModel(validator));
-              break;
-            default:
-              validators.push(new ValidationModel(validator));
-              break;
-          }
-        });
-      }
+            // TODO - add more validator types
+            _.forEach(schemaQuestion.validators, (validator: any) => {
+                switch (validator.type) {
+                    case 'date':
+                        validators.push(new DateValidationModel(validator));
+                        break;
+                    default:
+                        validators.push(new ValidationModel(validator));
+                        break;
+                }
+            });
+        }
 
-      return validators;
+        return validators;
     }
 }

@@ -1,10 +1,10 @@
-import { FormControl } from '@angular/forms';
+import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 
 export class MaxValidator {
 
   validate(max: number) {
 
-    return (control: FormControl): {[key: string]: any} => {
+    return (control: AfeFormControl): {[key: string]: any} => {
 
       if(control.value && control.value.length != 0) {
 

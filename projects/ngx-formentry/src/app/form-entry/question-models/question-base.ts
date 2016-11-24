@@ -1,6 +1,6 @@
 import { BaseOptions } from './interfaces/base-options';
 import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
-import { ValidationModel } from '../models/validation.model';
+import { ValidationModel } from './validation.model';
 
 export class QuestionBase {
     key: string;

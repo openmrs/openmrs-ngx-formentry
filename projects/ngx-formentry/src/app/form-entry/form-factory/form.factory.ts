@@ -5,7 +5,7 @@ import { LeafNode, GroupNode, ArrayNode, NodeBase } from './form-node';
 import { QuestionBase, NestedQuestion, RepeatingQuestion, QuestionGroup } from '../question-models/models';
 import { FormControlService } from '../form-control.service';
 import { QuestionFactory } from '../factories/question.factory';
-import { AfeFormGroup, AfeControlType, AfeFormControl, AfeFormArray } from '../../abstract-controls-extension/control-extensions';
+import { AfeFormGroup, AfeControlType, AfeFormArray } from '../../abstract-controls-extension/control-extensions';
 
 import { Form } from './form';
 

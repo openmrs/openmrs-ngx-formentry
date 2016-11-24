@@ -10,8 +10,8 @@ import { MaxDateValidator } from '../validators/max-date.validator';
 import { FutureDateRestrictionValidator } from '../validators/future-date-restriction.validator';
 import { QuestionBase } from '../question-models/question-base';
 import { Messages } from '../utils/messages';
-import { ValidationModel } from '../models/validation.model';
-import { DateValidationModel } from '../models/date-validation.model';
+import { ValidationModel } from '../question-models/validation.model';
+import { DateValidationModel } from '../question-models/date-validation.model';
 
 @Injectable()
 export class ValidationFactory {
@@ -51,7 +51,7 @@ export class ValidationFactory {
 
       //TODO - handle custom required validator
     }
-    
+
     return list;
   }
 

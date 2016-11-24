@@ -1,11 +1,11 @@
-import { FormControl } from '@angular/forms';
+import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { DateValidator } from './date.validator';
 
 export class MaxDateValidator {
 
   validate(max: Date) {
 
-    return (control: FormControl): {[key: string]: any} => {
+    return (control: AfeFormControl): {[key: string]: any} => {
 
       if(control.value && control.value.length != 0) {
 
