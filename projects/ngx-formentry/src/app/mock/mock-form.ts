@@ -11,14 +11,14 @@ export class MockForm {
                 type: 'text',
                 key: 'things',
                 label: 'Things You Like',
-                value: 'Hello',
+                defaultValue: 'Hello',
                 placeholder: ''
             }),
             new TextInputQuestion({
                 type: 'text',
                 key: 'things1',
                 label: 'Things You Like 1',
-                value: 'Hello',
+                defaultValue: 'Hello',
                 placeholder: ''
             }),
             new QuestionGroup({
@@ -29,7 +29,7 @@ export class MockForm {
                         type: 'text',
                         key: 'nestedText',
                         label: 'Nested In Group',
-                        value: 'Nested In Group',
+                        defaultValue: 'Nested In Group',
                         placeholder: ''
                     }),
                     new QuestionGroup({
@@ -40,7 +40,7 @@ export class MockForm {
                                 type: 'text',
                                 key: 'nestedTextDeep',
                                 label: 'Nested In Deep Group',
-                                value: 'Nested In Deep Group',
+                                defaultValue: 'Nested In Deep Group',
                                 placeholder: ''
                             }),
                             new RepeatingQuestion({
@@ -83,14 +83,14 @@ export class MockForm {
                 type: 'text',
                 key: 'Drugi',
                 label: 'I Reference',
-                value: '',
+                defaultValue: '',
                 placeholder: 'I Reference'
             }),
             new TextInputQuestion({
                 type: 'text',
                 key: 'Prvi',
                 label: 'Am Referenced',
-                value: '',
+                defaultValue: '',
                 placeholder: 'Am Referenced'
             }),
         ]

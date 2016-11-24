@@ -1,5 +1,6 @@
 import { QuestionBase } from './question-base';
-import { SelectQuestionOptions } from '../interfaces/select-question-options';
+import { SelectQuestionOptions } from './interfaces/select-question-options';
+import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
 export class SelectQuestion extends QuestionBase {
 
@@ -7,8 +8,9 @@ export class SelectQuestion extends QuestionBase {
 
     constructor(options: SelectQuestionOptions) {
         super(options);
-        this.type = 'select';
+        this.renderingType = 'select';
         this.options = options.options || [];
+        this.controlType = AfeControlType.AfeFormControl;
     }
 
 }

@@ -4,7 +4,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
 import { FormEntryComponent } from './form-entry.component';
-import { FormEntryModule } from './form-entry.module';
+import { FormEntryModule } from '../form-entry.module';
 
 describe('Form Entry Component', () => {
     // provide our implementations or mocks to the dependency injector

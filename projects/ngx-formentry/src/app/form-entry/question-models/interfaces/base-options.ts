@@ -1,0 +1,14 @@
+import { ValidationModel } from '../../models/validation.model';
+
+export interface BaseOptions {
+    defaultValue?: any;
+    originalValue?: any;
+    type: string;
+    key: string;
+    label?: string;
+    order?: number;
+    extras?: any;
+    validators?: Array<ValidationModel>;
+    required?: boolean;
+    questionOptions?: any;
+}

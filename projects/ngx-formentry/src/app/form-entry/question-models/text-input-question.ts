@@ -1,5 +1,6 @@
 import { QuestionBase } from './question-base';
-import { TextQuestionOptions } from '../interfaces/text-question-options';
+import { TextQuestionOptions } from './interfaces/text-question-options';
+import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
 export class TextInputQuestion extends QuestionBase {
 
@@ -8,6 +9,6 @@ export class TextInputQuestion extends QuestionBase {
 
         super(options);
         this.placeholder = options.placeholder || '';
-
+        this.controlType = AfeControlType.AfeFormControl;
     }
 }

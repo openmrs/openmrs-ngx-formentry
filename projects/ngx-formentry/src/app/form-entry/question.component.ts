@@ -7,7 +7,6 @@ import { QuestionBase } from './question-models/question-base';
 @Component({
     selector: 'fe-question',
     template: `
-
         <div  [formGroup]="form" novalidate class="form-group">
             <label
                 *ngIf="question.label &&(question.type !=='group' && question.type !=='repeating')"
@@ -101,24 +100,26 @@ export class QuestionComponent implements OnInit {
         return true;
     }
     addRepeating(question) {
-        let reference = this.controlGroupService.controls.find(a => a.id.toLowerCase() === question.key.toLowerCase());
-        this.formArray = reference.control;
-        if (this.formArray) {
-            let control = this.controlGroupService.create(question.questions, question.key)[question.key];
-            this.formArray.push(control);
-        }
+        // let reference = this.controlGroupService.controls.find(a => a.id.toLowerCase() === question.key.toLowerCase());
+        // this.formArray = reference.control;
+        // if (this.formArray) {
+        //     let control = this.controlGroupService.create(question.questions, question.key)[question.key];
+        //     this.formArray.push(control);
+        // }
     }
     removeRepeating(index) {
         this.formArray.removeAt(index);
     }
     getArray(question) {
 
-        let reference = this.controlGroupService.controls.find(a => a.id === question.key);
-        return reference.control;
+        // let reference = this.controlGroupService.controls.find(a => a.id === question.key);
+        // return reference.control;
+        return null;
     }
     getForm(q) {
-        let reference = this.controlGroupService.controls.find(a => a.id.toLowerCase() === q.toLowerCase());
-        return reference.control;
+        // let reference = this.controlGroupService.controls.find(a => a.id.toLowerCase() === q.toLowerCase());
+        // return reference.control;
+        return null;
     }
     onValueChange(event) { { this.valueChange.emit({ [this.question.key]: event }); } }
 

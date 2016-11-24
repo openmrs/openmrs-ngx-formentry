@@ -1,13 +1,7 @@
-import { TestBed } from '@angular/core/testing';
-import { TextInputQuestion } from "../question-models/text-input-question";
-import { TextAreaInputQuestion } from "../question-models/text-area-input-question";
-import { SelectQuestion } from "../question-models/select-question";
-import { DateQuestion } from "../question-models/date-question";
-import { MultiSelectQuestion } from "../question-models/multi-select-question";
-import { QuestionGroup } from "../question-models/group-question";
-import { RepeatingQuestion } from "../question-models/repeating-question";
-import { QuestionFactory } from "./question.factory";
-import { ValidationFactory } from "./validation.factory";
+import { QuestionGroup } from '../question-models/group-question';
+import { QuestionBase } from '../question-models/question-base';
+import { SelectQuestion } from '../question-models/select-question';
+import { QuestionFactory } from './question.factory';
 
 describe('Question Factory', () => {
 
@@ -47,16 +41,16 @@ describe('Question Factory', () => {
     };
 
     let numberSchemaQuestion: any = {
-        label: "mg",
+        label: 'mg',
         questionOptions: {
-            concept: "a8a063c8-1350-11df-a1f1-0026b9348838",
-            max: "1000",
-            min: "0",
-            rendering: "number"
+            concept: 'a8a063c8-1350-11df-a1f1-0026b9348838',
+            max: '1000',
+            min: '0',
+            rendering: 'number'
         },
         validators: [],
         hide: {
-            hideWhenExpression: "MothersArvUse !== 'a89aadc0-1350-11df-a1f1-0026b9348838'"
+            hideWhenExpression: 'MothersArvUse !== "a89aadc0-1350-11df-a1f1-0026b9348838"'
         }
     };
 
@@ -76,7 +70,8 @@ describe('Question Factory', () => {
             },
             {
                 type: 'js_expression',
-                failsWhenExpression: '(new moment(encDate)).isBefore((new moment(myValue)), "day") || (new moment(encDate)).isSame((new moment(myValue)), "day")',
+                failsWhenExpression: '(new moment(encDate)).isBefore((new moment(myValue)), "day")' +
+                ' || (new moment(encDate)).isSame((new moment(myValue)), "day")',
                 message: 'Date should be before the encounter date.'
             }
         ]
@@ -221,24 +216,6 @@ describe('Question Factory', () => {
         }
     };
 
-
-    let textSchemaQuestion: any = {
-        label: 'Eligible for ART but not started: Other (specify):',
-        questionOptions: {
-            concept: 'a8a06fc6-1350-11df-a1f1-0026b9348838',
-            rendering: 'text'
-        }
-    };
-
-    let problemSchemaQuestion: any = {
-        label: 'Reason for hospitalization:',
-        questionOptions: {
-            concept: 'a8a07a48-1350-11df-a1f1-0026b9348838',
-            rendering: 'problem'
-        },
-        type: 'obs'
-    };
-
     let encounterProviderSchemaQuestion: any = {
         type: 'encounterProvider',
         label: 'Provider',
@@ -258,7 +235,7 @@ describe('Question Factory', () => {
         questionOptions: {
             rendering: 'ui-select-extended'
         }
-    }
+    };
 
     let formSchema: any = {
         name: 'triage',
@@ -562,7 +539,7 @@ describe('Question Factory', () => {
             }
             ]
         }]
-    }
+    };
 
     let factory = new QuestionFactory();
 
@@ -575,7 +552,7 @@ describe('Question Factory', () => {
                 value: obj.concept
             };
         }));
-        expect(converted.type).toEqual(selectSchemaQuestion.questionOptions.rendering);
+        expect(converted.renderingType).toEqual(selectSchemaQuestion.questionOptions.rendering);
         expect(converted.key).toEqual(selectSchemaQuestion.id);
 
     });
@@ -584,7 +561,7 @@ describe('Question Factory', () => {
         let converted = factory.toNumericQuestion(numericSchemaQuestion);
         expect(converted.label).toEqual(numericSchemaQuestion.label);
         expect(converted.key).toEqual(numericSchemaQuestion.id);
-        expect(converted.type).toEqual('number');
+        expect(converted.renderingType).toEqual('number');
 
     });
 
@@ -592,7 +569,7 @@ describe('Question Factory', () => {
         let converted = factory.toNumberQuestion(numberSchemaQuestion);
         expect(converted.label).toEqual(numberSchemaQuestion.label);
         expect(converted.key).toEqual(numberSchemaQuestion.id);
-        expect(converted.type).toEqual('number');
+        expect(converted.renderingType).toEqual('number');
 
     });
 
@@ -600,7 +577,7 @@ describe('Question Factory', () => {
         let converted = factory.toDateQuestion(dateSchemaQuestion);
         expect(converted.label).toEqual(dateSchemaQuestion.label);
         expect(converted.key).toEqual(dateSchemaQuestion.id);
-        expect(converted.type).toEqual('date');
+        expect(converted.renderingType).toEqual('date');
 
     });
 
@@ -614,7 +591,7 @@ describe('Question Factory', () => {
                 value: obj.concept
             };
         }));
-        expect(converted.type).toEqual('multi-select');
+        expect(converted.renderingType).toEqual('multi-select');
 
     });
 
@@ -631,7 +608,7 @@ describe('Question Factory', () => {
         let converted = factory.toDrugQuestion(drugSchemaQuestion);
         expect(converted.label).toEqual(drugSchemaQuestion.label);
         expect(converted.key).toEqual(drugSchemaQuestion.id);
-        expect(converted.type).toEqual(drugSchemaQuestion.type);
+        expect(converted.renderingType).toEqual(drugSchemaQuestion.type);
 
     });
 
@@ -653,7 +630,7 @@ describe('Question Factory', () => {
         let converted = factory.toPersonAttributeQuestion(personAttributeSchemaQuestion);
         expect(converted.label).toEqual(personAttributeSchemaQuestion.label);
         expect(converted.key).toEqual(personAttributeSchemaQuestion.id);
-        expect(converted.type).toEqual(personAttributeSchemaQuestion.type);
+        expect(converted.renderingType).toEqual(personAttributeSchemaQuestion.type);
 
     });
 
@@ -661,7 +638,7 @@ describe('Question Factory', () => {
         let converted = factory.toEncounterProviderQuestion(encounterProviderSchemaQuestion);
         expect(converted.label).toEqual(encounterProviderSchemaQuestion.label);
         expect(converted.key).toEqual(encounterProviderSchemaQuestion.id);
-        expect(converted.type).toEqual(encounterProviderSchemaQuestion.type);
+        expect(converted.renderingType).toEqual(encounterProviderSchemaQuestion.type);
 
     });
 
@@ -669,25 +646,47 @@ describe('Question Factory', () => {
         let converted = factory.toEncounterLocationQuestion(encounterLocationSchemaQuestion);
         expect(converted.label).toEqual(encounterLocationSchemaQuestion.label);
         expect(converted.key).toEqual(encounterLocationSchemaQuestion.id);
-        expect(converted.type).toEqual(encounterLocationSchemaQuestion.type);
+        expect(converted.renderingType).toEqual(encounterLocationSchemaQuestion.type);
 
     });
 
-    it('should convert form schema to a list of question models', () => {
+    it('should convert form schema to a list of question models, without pages', () => {
         let converted = factory.getSchemaQuestions(formSchema);
-        let convertedSample1 = converted[1];
-        let convertedSample2 = converted[12];
-        let convertedSample3 = converted[14];
+        let convertedSample1: QuestionBase = converted[1];
+        let convertedSample2: QuestionGroup = converted[12];
+        let convertedSample3: SelectQuestion = converted[14];
         expect(converted.length).toEqual(18);
-        expect(convertedSample1.type).toEqual('encounterProvider');
+        expect(convertedSample1.renderingType).toEqual('encounterProvider');
         expect(convertedSample1.key).toEqual('provider');
-        expect(convertedSample2.type).toEqual('group');
-        expect(convertedSample2.questions[0].type).toEqual('select');
+        expect(convertedSample2.renderingType).toEqual('group');
+        expect(convertedSample2.questions[0].renderingType).toEqual('select');
         expect(convertedSample2.questions[0].label).toEqual('Person bringing patient:');
-        expect(convertedSample2.questions[0].options[1].label).toEqual('Father');
-        expect(convertedSample3.type).toEqual('select');
-        expect(convertedSample3.options[0].label).toEqual('Yes');
+        expect(((convertedSample2.questions[0] as SelectQuestion).options[1] as any).label).toEqual('Father');
+        expect(convertedSample3.renderingType).toEqual('select');
+        expect((convertedSample3.options[0] as any).label).toEqual('Yes');
 
     });
 
-})
+    it('should convert form schema to question model', () => {
+        let converted = factory.createQuestionModel(formSchema);
+        expect(converted instanceof QuestionGroup).toBe(true);
+        let asGroup = converted as QuestionGroup;
+
+        // check page count
+        expect(asGroup.questions.length).toBe(1);
+        expect(asGroup.questions[0] instanceof QuestionGroup).toBe(true);
+        asGroup = asGroup.questions[0] as QuestionGroup;
+
+        // check section count and sections
+        expect(asGroup.questions.length).toBe(5);
+        expect(asGroup.questions[0].label).toBe('Encounter Details');
+        expect(asGroup.questions[4].label).toBe('Assessment Notes');
+
+        // verify section questions
+        expect(asGroup.questions[0] instanceof QuestionGroup).toBe(true);
+        asGroup = asGroup.questions[0] as QuestionGroup;
+        expect(asGroup.questions[0].label).toBe('Visit date');
+        expect(asGroup.questions[0].key).toBe('encDate');
+    });
+
+});

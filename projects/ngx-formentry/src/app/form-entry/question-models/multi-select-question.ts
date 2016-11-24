@@ -1,5 +1,6 @@
 import { SelectQuestion } from './select-question';
-import { MultiSelectQuestionOptions } from '../interfaces/multi-select-options';
+import { MultiSelectQuestionOptions } from './interfaces/multi-select-options';
+import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
 export class MultiSelectQuestion extends SelectQuestion {
 
@@ -7,8 +8,9 @@ export class MultiSelectQuestion extends SelectQuestion {
 
     constructor(options: MultiSelectQuestionOptions) {
         super(options);
-        this.type = 'multi-select';
+        this.renderingType = 'multi-select';
         this.options = options.options || [];
+        this.controlType = AfeControlType.AfeFormControl;
     }
 
 }

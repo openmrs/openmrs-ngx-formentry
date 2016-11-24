@@ -1,80 +1,94 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
+
 import { AfeFormControl } from '../abstract-controls-extension/afe-form-control';
 import { AfeFormArray } from '../abstract-controls-extension/afe-form-array';
 import { AfeFormGroup } from '../abstract-controls-extension/afe-form-group';
-import {FormControl, FormGroup, FormArray, Validators} from '@angular/forms';
 
-import {QuestionBase} from './question-models/question-base';
-import {QuestionGroup} from './question-models/group-question';
-import {ValidationFactory} from './factories/validation.factory';
+import { NestedQuestion } from './question-models/interfaces/nested-questions';
+import { AfeControlType } from '../abstract-controls-extension/afe-control-type';
+
+
+import { QuestionBase } from './question-models/question-base';
+import { QuestionGroup } from './question-models/group-question';
+import { ValidationFactory } from './factories/validation.factory';
 
 @Injectable()
 export class FormControlService {
-  controls = [];
-  validationFactory: ValidationFactory;
+    controls = [];
+    validationFactory: ValidationFactory;
 
-  constructor(validationFactory: ValidationFactory) {
-    this.validationFactory = validationFactory;
-  }
-
-  create(questions: QuestionBase[], formKey?): any {
-    let temp = {},
-      toReturn = {};
-    for (let question of questions) {
-
-      if (question.type === 'group') {
-        temp[question.key] = this.generateGroup(question);
-      } else if (question.type === 'repeating') {
-        temp[question.key] = this.generateFormArray(question);
-      } else {
-        temp[question.key] = this.generateControl(question);
-      }
+    constructor(validationFactory: ValidationFactory) {
+        this.validationFactory = validationFactory;
     }
 
-    toReturn[formKey] = new AfeFormGroup(temp);
-    return toReturn;
-  }
+    generateControlModel(questionModel: QuestionBase | NestedQuestion, parentControl: AfeFormGroup,
+        generateChildren: boolean): AbstractControl {
+        if (questionModel instanceof QuestionBase) {
+            if (questionModel.controlType === AfeControlType.AfeFormArray) {
+                return this.generateFormArray(questionModel, parentControl);
+            }
+            if (questionModel.controlType === AfeControlType.AfeFormGroup) {
+                return this.generateFormGroupModel(questionModel, generateChildren, parentControl);
+            }
 
-  generateGroup(question: QuestionBase): AfeFormGroup {
+            if (questionModel.controlType === AfeControlType.AfeFormControl) {
+                return this.generateFormControl(questionModel, parentControl);
+            }
+        }
+        return null;
+    }
 
-    let questionGroup = question as QuestionGroup;
-    let formGroup = this.create(questionGroup.questions, question.key);
-    let group = formGroup[question.key];
+    generateFormGroupModel(question: QuestionBase, generateChildren: boolean, parentControl?: AfeFormGroup): AfeFormGroup {
+        let formGroup = new AfeFormGroup({});
 
-    this.controls.push({
-      id: question.key,
-      type: 'group',
-      control: group
-    });
+        if (parentControl instanceof AfeFormGroup) {
+            parentControl.setControl(question.key, formGroup);
+        }
 
-    return group;
-  }
+        let asGroup = question as QuestionGroup;
 
-  generateFormArray(question: QuestionBase): AfeFormArray {
+        if (generateChildren && asGroup && asGroup.questions.length > 0) {
+            this._generateFormGroupChildrenModel(asGroup.questions, formGroup);
+        }
 
-    let formArray = new AfeFormArray([]);
+        return formGroup;
+    }
 
-    this.controls.push({
-      id: question.key,
-      type: 'repeating',
-      control: formArray
-    });
+    _generateFormGroupChildrenModel(questions: QuestionBase[], parentControl: AfeFormGroup) {
 
-    return formArray;
-  }
+        if (questions.length > 0) {
+            questions.forEach(element => {
+                let generated = this.generateControlModel(element, parentControl, true);
+                if (generated !== null) {
+                    parentControl.addControl(element.key, generated);
+                }
+            });
+        }
+    }
 
-  generateControl(question: QuestionBase): AfeFormControl {
 
-    let value = question.value || '';
-    let validators = this.validationFactory.getValidators(question);
+    generateFormArray(question: QuestionBase, parentControl?: AfeFormGroup): AfeFormArray {
 
-    let control = new AfeFormControl(value, validators);
-    this.controls.push({
-      id: question.key,
-      type: 'control',
-      control: control
-    });
+        let formArray = new AfeFormArray([]);
+        if (parentControl instanceof AfeFormGroup) {
+            parentControl.setControl(question.key, formArray);
+        }
 
-    return control;
-  }
+        return formArray;
+    }
+
+    generateFormControl(question: QuestionBase, parentControl?: AfeFormGroup): AfeFormControl {
+
+        let value = question.defaultValue || '';
+        let validators = this.validationFactory.getValidators(question);
+
+        let control = new AfeFormControl(value, validators);
+        if (parentControl instanceof AfeFormGroup) {
+            parentControl.setControl(question.key, control);
+        }
+
+        return control;
+    }
+
 }

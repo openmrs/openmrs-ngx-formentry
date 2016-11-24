@@ -1,5 +1,6 @@
 import { TextInputQuestion } from './text-input-question';
-import { TextAreaQuestionOptions } from '../interfaces/text-area-question-options';
+import { TextAreaQuestionOptions } from './interfaces/text-area-question-options';
+import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
 export class TextAreaInputQuestion extends TextInputQuestion {
     isExpanded: boolean;
@@ -11,7 +12,7 @@ export class TextAreaInputQuestion extends TextInputQuestion {
         this.placeholder = options.placeholder || '';
         this.isExpanded = options.isExpanded || false;
         this.rows = options.rows || 18;
-        this.type = 'textarea';
-
+        this.renderingType = 'textarea';
+        this.controlType = AfeControlType.AfeFormControl;
     }
 }

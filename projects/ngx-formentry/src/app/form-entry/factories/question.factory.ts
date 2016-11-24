@@ -9,12 +9,22 @@ import { MultiSelectQuestion } from '../question-models/multi-select-question';
 import { QuestionGroup } from '../question-models/group-question';
 import { RepeatingQuestion } from '../question-models/repeating-question';
 import { QuestionBase } from '../question-models/question-base';
+import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
+
 import { ValidationModel } from '../models/validation.model';
 import { DateValidationModel } from '../models/date-validation.model';
 import { Pair } from '../models/pair.model';
 
 export class QuestionFactory {
     constructor() {
+    }
+
+    createQuestionModel(formSchema: any): QuestionBase {
+        return this.toFormQuestionModel(formSchema);
+    }
+
+    createFormSchema(questionModel: QuestionBase): any {
+        // TODO: Implement when creating functionality to create schemas
     }
 
     toSelectQuestion(schemaQuestion: any): SelectQuestion {
@@ -27,7 +37,7 @@ export class QuestionFactory {
                 value: obj.concept
             };
         });
-        question.type = schemaQuestion.questionOptions.rendering;
+        question.renderingType = schemaQuestion.questionOptions.rendering;
         return question;
     }
 
@@ -35,7 +45,7 @@ export class QuestionFactory {
         let question = new TextInputQuestion({ placeholder: '', type: '', key: '' });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
-        question.type = 'number';
+        question.renderingType = 'number';
         return question;
     }
 
@@ -43,13 +53,13 @@ export class QuestionFactory {
         let question = new TextInputQuestion({ placeholder: '', type: '', key: '' });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
-        question.type = 'number';
+        question.renderingType = 'number';
         return question;
     }
 
     toDateQuestion(schemaQuestion: any): DateQuestion {
         let question = new DateQuestion({ type: '', key: '' });
-        question.type = 'date';
+        question.renderingType = 'date';
         question.validators = this.addValidators(schemaQuestion);
 
         let mappings: any = {
@@ -57,7 +67,7 @@ export class QuestionFactory {
           required: "required",
           id: "key"
         };
-        
+
         this.copyProperties(mappings, schemaQuestion, question);
         return question;
     }
@@ -95,7 +105,7 @@ export class QuestionFactory {
         let question = new TextInputQuestion({ placeholder: '', type: '', key: '' });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
-        question.type = 'text';
+        question.renderingType = 'text';
         return question;
     }
 
@@ -103,7 +113,7 @@ export class QuestionFactory {
         let question = new SelectQuestion({ options: [], type: '', key: '' });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
-        question.type = schemaQuestion.type;
+        question.renderingType = schemaQuestion.type;
         return question;
     }
 
@@ -115,11 +125,47 @@ export class QuestionFactory {
         return question;
     }
 
-    toGroupQuestion(schemaQuestion: any): RepeatingQuestion {
+    toGroupQuestion(schemaQuestion: any): QuestionGroup {
         let question = new QuestionGroup({ questions: [], type: '', key: '' });
         question.label = schemaQuestion.label;
         question.questions = schemaQuestion.questions;
         question.key = schemaQuestion.id;
+        return question;
+    }
+
+    toPageQuestion(schemaQuestion: any): QuestionGroup {
+        let question = new QuestionGroup({ questions: [], type: '', key: '' });
+        question.label = schemaQuestion.label;
+        question.key = schemaQuestion.label;
+        question.renderingType = 'page';
+        question.controlType = AfeControlType.None;
+        question.questions = [];
+        schemaQuestion.sections.forEach(element => {
+            question.questions.push(this.toSectionQuestion(element));
+        });
+        return question;
+    }
+
+    toFormQuestionModel(schemaQuestion: any): QuestionGroup {
+        let question = new QuestionGroup({ questions: [], type: '', key: '' });
+        question.label = schemaQuestion.label;
+        question.key = schemaQuestion.label;
+        question.renderingType = 'form';
+        question.controlType = AfeControlType.AfeFormGroup;
+        question.questions = [];
+        schemaQuestion.pages.forEach(element => {
+            question.questions.push(this.toPageQuestion(element));
+        });
+        return question;
+    }
+
+    toSectionQuestion(schemaQuestion: any): QuestionGroup {
+        let question = new QuestionGroup({ questions: [], type: '', key: '' });
+        question.label = schemaQuestion.label;
+        question.key = schemaQuestion.label;
+        question.renderingType = 'section';
+        question.controlType = AfeControlType.None;
+        question.questions = this.getSchemaQuestions(schemaQuestion.questions);
         return question;
     }
 
@@ -132,7 +178,7 @@ export class QuestionFactory {
         });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
-        question.type = schemaQuestion.type;
+        question.renderingType = schemaQuestion.type;
         return question;
     }
 
@@ -145,7 +191,7 @@ export class QuestionFactory {
         });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
-        question.type = schemaQuestion.type;
+        question.renderingType = schemaQuestion.type;
         return question;
     }
 
@@ -158,7 +204,7 @@ export class QuestionFactory {
         });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
-        question.type = schemaQuestion.type;
+        question.renderingType = schemaQuestion.type;
         return question;
     }
 

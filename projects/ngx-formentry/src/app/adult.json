@@ -2245,10 +2245,10 @@
                                 "rendering": "repeating"
                             },
                             "label": "Problem Resolved",
-                            "id": "probResolved",
                             "questions": [
                                 {
                                     "label": "Problem resolved",
+                                    "id": "probResolved",
                                     "questionOptions": {
                                         "concept": "a8af4aa0-1350-11df-a1f1-0026b9348838",
                                         "rendering": "problem"

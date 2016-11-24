@@ -1,0 +1,62 @@
+<!--CONTAINERS-->
+<div *ngIf="node.question.renderingType === 'form'">
+    <h1 class="text-primary">FORM ENTRY</h1>
+    <form-renderer *ngFor="let question of node.question.questions" [node]="node.children[question.key]" [parentGroup]="node.control"></form-renderer>
+</div>
+<div *ngIf="node.question.renderingType === 'page'">
+    <h2>{{node.question.label}}</h2>
+    <form-renderer *ngFor="let question of node.question.questions" [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
+</div>
+<div *ngIf="node.question.renderingType === 'section'">
+    <div class="panel  panel-primary">
+        <div class="panel-heading">{{node.question.label}}</div>
+        <div class="panel-body">
+            <form-renderer *ngFor="let question of node.question.questions" [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
+        </div>
+    </div>
+</div>
+
+<!--CONTROLS-->
+<div *ngIf="node.question.controlType === 0" class="form-group" [formGroup]="parentGroup">
+    <!--LEAF CONTROL-->
+    <label *ngIf="node.question.label" class="control-label" [attr.for]="node.question.key">
+                {{node.question.label}}
+    </label>
+    <div [ngSwitch]="node.question.renderingType">
+        <select class="form-control" *ngSwitchCase="'select'" [formControlName]="node.question.key" [id]="node.question.key + 'id'">
+                    <option *ngFor="let o of node.question.options" [value]="o.value">{{o.label}}</option>
+                </select>
+
+        <textarea class="form-control" *ngSwitchCase="'textarea'" [formControlName]="node.question.key" [id]="node.question.key + 'id'">
+                </textarea>
+
+        <input class="form-control" *ngSwitchDefault [formControlName]="node.question.key" [attr.placeholder]="node.question.placeholder"
+            [type]="node.question.renderingType" [id]="node.question.key + 'id'">
+
+    </div>
+</div>
+<div *ngIf="node.question.controlType === 1">
+    <!--ARRAY CONTROL-->
+    <div [ngSwitch]="node.question.renderingType">
+        <div class='well' style="padding: 2px;" *ngSwitchCase="'repeating'">
+            <h4 style="margin: 2px;">{{node.question.label}}</h4>
+            <div *ngFor="let child of node.children; let i = index">
+                <form-renderer *ngFor="let question of child.question.questions" [node]="child.children[question.key]" [parentGroup]="child.control"></form-renderer>
+                <button type="button" class='btn btn-sm btn-danger' (click)="node.removeAt(i)">Remove</button>
+            </div>
+            <button type="button" class='btn btn-primary' (click)="node.createChildNode()">Add</button>
+        </div>
+    </div>
+
+</div>
+<div *ngIf="node.question.controlType === 2">
+    <!--GROUP-->
+    <div [ngSwitch]="node.question.renderingType">
+        <div *ngSwitchCase="'group'">
+            <form-renderer *ngFor="let question of node.question.questions" [node]="node.children[question.key]" [parentGroup]="node.control"></form-renderer>
+        </div>
+    </div>
+</div>
+<!--<div *ngSwitchCase="3">
+        NO CONTROL
+    </div>-->

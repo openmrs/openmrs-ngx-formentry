@@ -1,7 +1,6 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { SampleComponent } from './components/sample.component';
@@ -12,13 +11,15 @@ import { MockDataService } from './services/mock-data.service';
 
 import { FormEntryModule } from './form-entry/form-entry.module';
 import { QuestionFactory } from './form-entry/factories/question.factory';
+import { FormFactory } from './form-entry/form-factory/form.factory';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+import { ReactiveFormsModule } from '@angular/forms';
 import { OwlCarouselComponent } from './components/owl-carousel';
 @NgModule({
   imports: [
     BrowserModule,
     HttpModule,
-    FormsModule,
+    ReactiveFormsModule,
     FormEntryModule
   ],
   declarations: [
@@ -31,7 +32,8 @@ import { OwlCarouselComponent } from './components/owl-carousel';
   providers: [
     SampleService,
     QuestionFactory,
-    MockDataService
+    MockDataService,
+    FormFactory
   ],
   bootstrap: [AppComponent]
 })

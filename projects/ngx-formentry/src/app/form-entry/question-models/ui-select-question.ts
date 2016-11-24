@@ -1,5 +1,6 @@
 import { QuestionBase } from './question-base';
-import { UiSelectQuestionOptions } from '../interfaces/ui-select-question-options';
+import { UiSelectQuestionOptions } from './interfaces/ui-select-question-options';
+import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
 export class UiSelectQuestion extends QuestionBase {
 
@@ -8,8 +9,9 @@ export class UiSelectQuestion extends QuestionBase {
     resolveFunction: Function;
     constructor(options: UiSelectQuestionOptions) {
         super(options);
-        this.type = 'ui-select';
+        this.renderingType = 'ui-select';
         this.options = options.options || [];
+        this.controlType = AfeControlType.AfeFormControl;
     }
 
 }
