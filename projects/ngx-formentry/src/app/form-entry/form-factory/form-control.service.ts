@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
-import { AfeFormControl } from '../abstract-controls-extension/afe-form-control';
-import { AfeFormArray } from '../abstract-controls-extension/afe-form-array';
-import { AfeFormGroup } from '../abstract-controls-extension/afe-form-group';
+import { AfeFormControl, AfeFormArray, AfeFormGroup, AfeControlType } from '../../abstract-controls-extension/control-extensions';
 
-import { NestedQuestion } from './question-models/interfaces/nested-questions';
-import { AfeControlType } from '../abstract-controls-extension/afe-control-type';
+import { NestedQuestion } from '../question-models/interfaces/nested-questions';
 
-
-import { QuestionBase } from './question-models/question-base';
-import { QuestionGroup } from './question-models/group-question';
-import { ValidationFactory } from './factories/validation.factory';
+import { QuestionBase } from '../question-models/question-base';
+import { QuestionGroup } from '../question-models/group-question';
+import { ValidationFactory } from '../form-factory/validation.factory';
 
 @Injectable()
 export class FormControlService {

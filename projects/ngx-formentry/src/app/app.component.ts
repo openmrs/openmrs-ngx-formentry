@@ -1,5 +1,5 @@
-import { Component, style, state, animate, transition, trigger, AfterViewChecked, OnDestroy, ViewChild } from '@angular/core';
-import { QuestionFactory } from './form-entry/factories/question.factory';
+import { Component, style, state, animate, transition, trigger } from '@angular/core';
+import { QuestionFactory } from './form-entry/form-factory/question.factory';
 import { FormGroup } from '@angular/forms';
 import { Form } from './form-entry/form-factory/form';
 import { FormFactory } from './form-entry/form-factory/form.factory';

@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { NodeBase } from '../form-factory/form-node';
 import { AfeFormGroup } from '../../abstract-controls-extension/control-extensions';
-import { ValidationFactory } from '../factories/validation.factory';
+import { ValidationFactory } from '../form-factory/validation.factory';
 @Component({
     selector: 'form-renderer',
     templateUrl: 'form-renderer.component.html'

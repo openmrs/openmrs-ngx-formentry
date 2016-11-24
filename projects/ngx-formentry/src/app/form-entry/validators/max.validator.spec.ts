@@ -9,7 +9,7 @@ describe('MaxValidator Unit Tests', () => {
     let max = 10;
     let value = 2;
 
-    let formControl = new AfeFormControl(value, [ validator.validate(max) ]);
+    let formControl = new AfeFormControl(value, [validator.validate(max)]);
 
     expect(formControl.errors).toBe(null);
   });
@@ -20,7 +20,7 @@ describe('MaxValidator Unit Tests', () => {
     let max = 10;
     let value = 11;
 
-    let formControl = new AfeFormControl(value, [ validator.validate(max) ]);
+    let formControl = new AfeFormControl(value, [validator.validate(max)]);
 
     expect(formControl.errors['max']).not.toBe(null);
   });

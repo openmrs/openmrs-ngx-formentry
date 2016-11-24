@@ -9,7 +9,7 @@ describe('MinValidator Unit Tests', () => {
     let min = 1;
     let value = 2;
 
-    let formControl = new AfeFormControl(value, [ validator.validate(min) ]);
+    let formControl = new AfeFormControl(value, [validator.validate(min)]);
 
     expect(formControl.errors).toBe(null);
   });
@@ -20,7 +20,7 @@ describe('MinValidator Unit Tests', () => {
     let min = 1;
     let value = -1;
 
-    let formControl = new AfeFormControl(value, [ validator.validate(min) ]);
+    let formControl = new AfeFormControl(value, [validator.validate(min)]);
 
     expect(formControl.errors['min']).not.toBe(null);
   });

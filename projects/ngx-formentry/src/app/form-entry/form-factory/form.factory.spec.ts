@@ -2,12 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { FormFactory } from './form.factory';
 import { QuestionBase, TextInputQuestion, QuestionGroup, RepeatingQuestion } from '../question-models/models';
 import { AfeFormGroup, AfeControlType, AfeFormControl, AfeFormArray } from '../../abstract-controls-extension/control-extensions';
-import { FormControlService } from '../form-control.service';
+import { FormControlService } from './form-control.service';
 import { LeafNode, GroupNode, ArrayNode } from './form-node';
 import { SampleSchema } from './sample-schema';
 
-import { QuestionFactory } from '../factories/question.factory';
-import { ValidationFactory } from '../factories/validation.factory';
+import { QuestionFactory } from './question.factory';
+import { ValidationFactory } from './validation.factory';
 
 import { Form } from './form';
 
@@ -110,7 +110,7 @@ describe('Form Factory:', () => {
         expect(createdFormModel.get(testQuestion.key)).toBeTruthy();
         expect(createdFormModel.get(testQuestion.key) instanceof AfeFormControl).toBeTruthy();
         expect(createdFormModel.get(testQuestion2.key)).toBeTruthy();
-        expect(createdFormModel.get(testQuestion2.key) instanceof AfeFormControl ).toBeTruthy();
+        expect(createdFormModel.get(testQuestion2.key) instanceof AfeFormControl).toBeTruthy();
         expect(createdFormModel.get(groupQuestion2.key)).toBeTruthy();
         expect(createdFormModel.get(groupQuestion2.key) instanceof AfeFormGroup).toBeTruthy();
         expect(createdFormModel.get(groupQuestion2.key + '.' + testQuestion3.key)).toBeTruthy();

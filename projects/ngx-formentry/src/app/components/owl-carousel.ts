@@ -1,16 +1,16 @@
-import { Component, Input, ElementRef, HostBinding } from '@angular/core';
+import { Component, Input, ElementRef, HostBinding, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel';
 declare var $: any;
 @Component({
     selector: 'owl-carousel',
     template: `
-    	<ul class="nav nav-tabs">
+    <ul class="nav nav-tabs">
     <ng-content></ng-content>
-    	</ul>
+    </ul>
     `
 })
-export class OwlCarouselComponent {
+export class OwlCarouselComponent implements OnInit, OnDestroy, AfterViewInit {
     @HostBinding('class') defaultClass = 'owl-carousel';
     @Input() options: Object;
 
@@ -35,6 +35,10 @@ export class OwlCarouselComponent {
     constructor(private el: ElementRef) { }
 
     ngAfterViewInit() {
+        this.AfterViewInit();
+    }
+
+    AfterViewInit() {
         // use default - empty
         // for (var key in this.options) {
         //   this.defaultOptions[key] = this.options[key];
@@ -42,8 +46,19 @@ export class OwlCarouselComponent {
         this.$owlElement = $(this.el.nativeElement).owlCarousel(this.defaultOptions);
     }
 
-    ngOnDestroy() {
+    OnDestroy() {
         this.$owlElement.data('owlCarousel').destroy();
         this.$owlElement = null;
+    }
+
+    ngOnDestroy() {
+        this.OnDestroy();
+    }
+
+    OnInit() {
+    }
+
+    ngOnInit() {
+        this.OnInit();
     }
 }

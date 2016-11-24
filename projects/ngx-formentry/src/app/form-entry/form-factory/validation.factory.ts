@@ -22,16 +22,16 @@ export class ValidationFactory {
 
     let list: Array<any> = [];
 
-    if(question.validators) {
+    if (question.validators) {
 
       _.forEach(question.validators, (validator: ValidationModel) => {
 
-        switch(validator.type) {
+        switch (validator.type) {
           case 'date':
 
             list.push(this.dateValidator);
 
-            if(!( <DateValidationModel>validator ).allowFutureDates) {
+            if (!( <DateValidationModel>validator ).allowFutureDates) {
               list.push(this.futureDateRestrictionValidator);
             }
 
@@ -45,11 +45,11 @@ export class ValidationFactory {
 
 
 
-    if(question.required && typeof(question.required) === 'string' && question.required === 'true') {
+    if (question.required && typeof(question.required) === 'string' && question.required === 'true') {
       list.push(this.requiredValidator);
     } else {
 
-      //TODO - handle custom required validator
+      // TODO - handle custom required validator
     }
 
     return list;
@@ -99,7 +99,7 @@ export class ValidationFactory {
     for (let property in errors) {
         if (errors.hasOwnProperty(property)) {
 
-            switch(property) {
+            switch (property) {
               case 'required':
                 messages.push(Messages.REQUIRED_FIELD_MSG);
                 break;

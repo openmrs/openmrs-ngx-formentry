@@ -2,18 +2,14 @@ import { Injector } from '@angular/core';
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
-import { AfeFormControl } from '../abstract-controls-extension/afe-form-control';
-import { AfeFormArray } from '../abstract-controls-extension/afe-form-array';
-import { AfeFormGroup } from '../abstract-controls-extension/afe-form-group';
+import { AfeFormControl, AfeFormArray, AfeFormGroup } from '../../abstract-controls-extension/control-extensions';
 
 import { FormControlService } from './form-control.service';
-import { TextInputQuestion } from './question-models/text-input-question';
-import { RepeatingQuestion } from './question-models/repeating-question';
-// import { MockForm } from '../mock/mock-form';
-import { QuestionBase } from './question-models/question-base';
-import { QuestionGroup } from './question-models/group-question';
-import { MockForm } from '../mock/mock-form'
-import { ValidationFactory } from './factories/validation.factory';
+import { TextInputQuestion } from '../question-models/text-input-question';
+import { RepeatingQuestion } from '../question-models/repeating-question';
+import { QuestionBase } from '../question-models/question-base';
+import { QuestionGroup } from '../question-models/group-question';
+import { ValidationFactory } from '../form-factory/validation.factory';
 
 describe('Form Factory Control Service Tests', () => {
   let injector: Injector;

@@ -9,7 +9,7 @@ describe('MaxDateValidator Unit Tests', () => {
     let maxDate = new Date();
     let date = '2016-11-14';
 
-    let formControl = new AfeFormControl(date, [ validator.validate(maxDate) ]);
+    let formControl = new AfeFormControl(date, [validator.validate(maxDate)]);
 
     expect(formControl.errors).toBe(null);
   });
@@ -20,7 +20,7 @@ describe('MaxDateValidator Unit Tests', () => {
     let maxDate = new Date();
     let date = '2300-11-14';
 
-    let formControl = new AfeFormControl(date, [ validator.validate(maxDate) ]);
+    let formControl = new AfeFormControl(date, [validator.validate(maxDate)]);
 
     expect(formControl.errors['maxdate']).not.toBe(null);
   });

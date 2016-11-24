@@ -5,11 +5,11 @@ export class MaxDateValidator {
 
   validate(max: Date) {
 
-    return (control: AfeFormControl): {[key: string]: any} => {
+    return (control: AfeFormControl): { [key: string]: any } => {
 
-      if(control.value && control.value.length != 0) {
+      if (control.value && control.value.length !== 0) {
 
-        if(!new DateValidator().validate(control.value)) {
+        if (!new DateValidator().validate(control.value)) {
 
           let newDate: Date = new Date(control.value);
 
