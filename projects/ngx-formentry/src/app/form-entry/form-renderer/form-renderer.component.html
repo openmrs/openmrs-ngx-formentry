@@ -23,7 +23,8 @@
 </div>
 
 <!--CONTROLS-->
-<div *ngIf="node.question.controlType === 0" class="form-group" [formGroup]="parentGroup" [hidden]="node.control.hidden" [ngClass]="{disabled: node.control.disabled}">
+<div *ngIf="node.question.controlType === 0" class="form-group" [formGroup]="parentGroup" [hidden]="node.control.hidden"
+    [ngClass]="{disabled: node.control.disabled}">
     <!--LEAF CONTROL-->
     <label *ngIf="node.question.label" class="control-label" [attr.for]="node.question.key">
                 {{node.question.label}}
@@ -35,39 +36,46 @@
 
         <textarea class="form-control" *ngSwitchCase="'textarea'" [formControlName]="node.question.key" [id]="node.question.key + 'id'">
                 </textarea>
+        <afe-ng-select class="form-control" *ngSwitchCase="'multi-select'" [formControlName]="node.question.key" [id]="node.question.key + 'id'"
+            [dataSource]="node.question.dataSource" [multiple]="true">
+        </afe-ng-select>
 
-        <input class="form-control" *ngSwitchDefault [formControlName]="node.question.key" [attr.placeholder]="node.question.placeholder"
-            [type]="node.question.renderingType" [id]="node.question.key + 'id'">
+        <input class=" form-control " *ngSwitchDefault [formControlName]="node.question.key " [attr.placeholder]="node.question.placeholder "
+            [type]="node.question.renderingType " [id]="node.question.key + 'id' ">
 
     </div>
-    <div *ngIf="hasErrors()">
-        <p *ngFor="let e of errors()">
-            <span class="text-danger">{{e}}</span>
+    <div *ngIf="hasErrors() ">
+        <p *ngFor="let e of errors() ">
+            <span class="text-danger ">{{e}}</span>
         </p>
     </div>
 </div>
 <div *ngIf="node.question.controlType === 1" [hidden]="node.control.hidden" [ngClass]="{disabled: node.control.disabled}">
+
     <!--ARRAY CONTROL-->
-    <div [ngSwitch]="node.question.renderingType">
-        <div class='well' style="padding: 2px;" *ngSwitchCase="'repeating'">
-            <h4 style="margin: 2px;">{{node.question.label}}</h4>
-            <div *ngFor="let child of node.children; let i = index">
-                <form-renderer *ngFor="let question of child.question.questions" [node]="child.children[question.key]" [parentGroup]="child.control"></form-renderer>
-                <button type="button" class='btn btn-sm btn-danger' (click)="node.removeAt(i)">Remove</button>
+    <div [ngSwitch]="node.question.renderingType ">
+        <div class='well' style="padding: 2px; " *ngSwitchCase=" 'repeating' ">
+            <h4 style="margin: 2px; ">{{node.question.label}}</h4>
+            <div *ngFor="let child of node.children; let i=i ndex ">
+                <form-renderer *ngFor="let question of child.question.questions " [node]="child.children[question.key]
+            " [parentGroup]="child.control "></form-renderer>
+                <button type="button " class='btn btn-sm btn-danger' (click)="node.removeAt(i) ">Remove</button>
             </div>
-            <button type="button" class='btn btn-primary' (click)="node.createChildNode()">Add</button>
+            <button type="button " class='btn btn-primary' (click)="node.createChildNode() ">Add</button>
         </div>
     </div>
 
 </div>
 <div *ngIf="node.question.controlType === 2" [hidden]="node.control.hidden" [ngClass]="{disabled: node.control.disabled}">
+
     <!--GROUP-->
-    <div [ngSwitch]="node.question.renderingType">
-        <div *ngSwitchCase="'group'">
-            <form-renderer *ngFor="let question of node.question.questions" [node]="node.children[question.key]" [parentGroup]="node.control"></form-renderer>
+    <div [ngSwitch]="node.question.renderingType ">
+        <div *ngSwitchCase=" 'group' ">
+            <form-renderer *ngFor="let question of node.question.questions " [node]="node.children[question.key]
+            " [parentGroup]="node.control "></form-renderer>
         </div>
     </div>
 </div>
-<!--<div *ngSwitchCase="3">
+<!--<div *ngSwitchCase="3 ">
         NO CONTROL
     </div>-->

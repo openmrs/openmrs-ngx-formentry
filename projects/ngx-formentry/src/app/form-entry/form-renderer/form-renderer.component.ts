@@ -36,7 +36,7 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
     }
 
     ngOnInit() {
-        // console.log('Node', this.node);
+        console.log('Node', this.node);
     }
 
     ngAfterViewChecked(): void {

@@ -13,6 +13,7 @@ import { AfeControlType } from '../../abstract-controls-extension/afe-control-ty
 
 import { ValidationModel } from '../question-models/validation.model';
 import { DateValidationModel } from '../question-models/date-validation.model';
+import { DummyDataSource } from '../data-sources/dummy-data-source';
 
 export class QuestionFactory {
     constructor() {
@@ -26,7 +27,7 @@ export class QuestionFactory {
         let question = new SelectQuestion({ options: [], type: '', key: '' });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
-        question.options = schemaQuestion.questionOptions.answers.map(function (obj) {
+        question.options = schemaQuestion.questionOptions.answers.map(function(obj) {
             return {
                 label: obj.label,
                 value: obj.concept
@@ -119,13 +120,14 @@ export class QuestionFactory {
         let question = new MultiSelectQuestion({ renderType: '', options: [], type: '', key: '' });
         question.label = schemaQuestion.label;
         question.key = schemaQuestion.id;
-        question.options = schemaQuestion.questionOptions.answers.map(function (obj) {
+        question.options = schemaQuestion.questionOptions.answers.map(function(obj) {
             return {
                 label: obj.label,
                 value: obj.concept
             };
         });
         question.validators = this.addValidators(schemaQuestion);
+        question.dataSource = new DummyDataSource();
 
         let mappings: any = {
             label: 'label',
@@ -267,8 +269,8 @@ export class QuestionFactory {
 
     toPersonAttributeQuestion(schemaQuestion: any): SelectQuestion {
         let question = new UiSelectQuestion({
-            options: [], type: '', key: '', searchFunction: function () { },
-            resolveFunction: function () {
+            options: [], type: '', key: '', searchFunction: function() { },
+            resolveFunction: function() {
 
             }
         });
@@ -289,8 +291,8 @@ export class QuestionFactory {
 
     toEncounterProviderQuestion(schemaQuestion: any): SelectQuestion {
         let question = new UiSelectQuestion({
-            options: [], type: '', key: '', searchFunction: function () { },
-            resolveFunction: function () {
+            options: [], type: '', key: '', searchFunction: function() { },
+            resolveFunction: function() {
 
             }
         });
@@ -312,8 +314,8 @@ export class QuestionFactory {
 
     toEncounterLocationQuestion(schemaQuestion: any): SelectQuestion {
         let question = new UiSelectQuestion({
-            options: [], type: '', key: '', searchFunction: function () { },
-            resolveFunction: function () {
+            options: [], type: '', key: '', searchFunction: function() { },
+            resolveFunction: function() {
 
             }
         });

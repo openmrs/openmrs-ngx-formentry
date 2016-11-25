@@ -7,17 +7,19 @@ import { FormBuilder } from '@angular/forms';
 import { FormRendererComponent } from './form-renderer/form-renderer.component';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { OwlCarouselComponent } from '../components/owl-carousel';
+import { SelectModule } from '../components/select';
+import { AfeNgSelectComponent } from '../components/afe-ng-select.component';
 @NgModule({
-    imports: [CommonModule, ReactiveFormsModule],
-    declarations: [FormRendererComponent, OwlCarouselComponent],
+    imports: [CommonModule, ReactiveFormsModule, SelectModule],
+    declarations: [FormRendererComponent, OwlCarouselComponent, AfeNgSelectComponent],
     providers: [FormBuilder, FormControlService, ValidationFactory],
     exports: [FormRendererComponent]
 })
 export class FormEntryModule {
 
-  constructor(public appRef: ApplicationRef) {
+    constructor(public appRef: ApplicationRef) {
 
-  }
+    }
     hmrOnInit(store) {
         console.log('HMR store', store);
     }
