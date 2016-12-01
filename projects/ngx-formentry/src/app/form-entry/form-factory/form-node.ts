@@ -75,7 +75,6 @@ export class ArrayNode extends NodeBase {
         if (this.removeChildFunc) {
             this.removeChildFunc(index, this);
         }
-
     }
 
 }
