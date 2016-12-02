@@ -10,6 +10,9 @@ import { DisablerHelper } from '../form-entry/control-hiders-disablers/disabler-
 export class AfeFormGroup extends FormGroup implements CanHide, CanDisable {
     private _controlRelations: ControlRelations;
 
+    public uuid: string;
+    public pathFromRoot: string;
+
     hidden: false;
     hiders: Hider[];
 

@@ -10,6 +10,8 @@ import { DisablerHelper } from '../form-entry/control-hiders-disablers/disabler-
 
 export class AfeFormArray extends FormArray implements CanHide, CanDisable {
     private _controlRelations: ControlRelations;
+    public uuid: string;
+    public pathFromRoot: string;
 
     hidden: false;
     hiders: Hider[];
