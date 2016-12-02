@@ -11,4 +11,6 @@ export interface BaseOptions {
     validators?: Array<ValidationModel>;
     required?: boolean;
     questionOptions?: any;
+    hide?: string | boolean;
+    disable?: string | boolean;
 }
