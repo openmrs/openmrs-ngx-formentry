@@ -8,6 +8,13 @@ export class ExpressionRunner {
             run: () => {
                 /* tslint:disable */
                 let scope: any = {};
+
+                if(control instanceof AfeFormArray ||
+                    control instanceof AfeFormControl ||
+                    control instanceof AfeFormGroup) {
+                    scope[control.uuid] = control.value;
+                }
+
                 runner.getControlRelationValueString(control, scope);
                 runner.getHelperMethods(helper, scope);
                 runner.getDataDependencies(dataDependencies, scope);

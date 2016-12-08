@@ -18,12 +18,6 @@ describe('ValidationFactory Unit Tests', () => {
             {
                 type: 'date',
                 allowFutureDates: 'false'
-            },
-            {
-                type: 'js_expression',
-                failsWhenExpression: '(new moment(encDate)).isBefore((new moment(myValue)), "day") ' +
-                '|| (new moment(encDate)).isSame((new moment(myValue)), "day")',
-                message: 'Date should be before the encounter date.'
             }
         ]
     };

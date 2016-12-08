@@ -8,10 +8,12 @@ import { MaxValidator } from '../validators/max.validator';
 import { MinDateValidator } from '../validators/min-date.validator';
 import { MaxDateValidator } from '../validators/max-date.validator';
 import { FutureDateRestrictionValidator } from '../validators/future-date-restriction.validator';
+import { JsExpressionValidator } from '../validators/js-expression.validator';
 import { QuestionBase } from '../question-models/question-base';
 import { Messages } from '../utils/messages';
 import { ValidationModel } from '../question-models/validation.model';
 import { DateValidationModel } from '../question-models/date-validation.model';
+import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
 
 @Injectable()
 export class ValidationFactory {
@@ -37,13 +39,11 @@ export class ValidationFactory {
 
             break;
           case 'js_expression':
-
+            list.push(this.jsExpressionValidator.validate(<JsExpressionValidationModel>validator));
             break;
         }
       });
     }
-
-
 
     if (question.required && typeof(question.required) === 'string' && question.required === 'true') {
       list.push(this.requiredValidator);
@@ -90,6 +90,11 @@ export class ValidationFactory {
   get maxValueValidator() {
 
     return new MaxValidator().validate;
+  }
+
+  get jsExpressionValidator() {
+
+    return new JsExpressionValidator();
   }
 
   errors(errors: any, question: QuestionBase): Array<string> {
