@@ -15,6 +15,8 @@ export class QuestionBase {
     controlType?: AfeControlType;
     validators?: Array<ValidationModel>;
     required?: boolean;
+    hide?: string | boolean;
+    disable?: string | boolean;
 
     constructor(options: BaseOptions) {
 
@@ -27,5 +29,7 @@ export class QuestionBase {
         this.label = options.label || '';
         this.validators = options.validators || [];
         this.required = options.required;
+        this.hide = options.hide;
+        this.disable = options.disable;
     }
 }

@@ -42,6 +42,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -59,6 +60,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -76,6 +78,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -91,6 +94,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -107,6 +111,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -129,6 +134,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -147,6 +153,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -164,6 +171,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -181,6 +189,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -198,6 +207,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -215,6 +225,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -295,6 +306,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -317,6 +329,7 @@ export class QuestionFactory {
         };
 
         this.copyProperties(mappings, schemaQuestion, question);
+        this.addDisableOrHideProperty(schemaQuestion, question);
         return question;
     }
 
@@ -438,5 +451,23 @@ export class QuestionFactory {
         }
 
         return validators;
+    }
+
+    addDisableOrHideProperty(schemaQuestion: any, question: QuestionBase): any {
+
+        if (!!schemaQuestion.disable) {
+            question.disable = schemaQuestion.disable;
+        }
+
+        if (typeof schemaQuestion.disable === 'object') {
+            question.disable = schemaQuestion.disable.disableWhenExpression;
+        }
+
+        if (!!schemaQuestion.hide) {
+            question.hide = schemaQuestion.hide;
+        }
+        if (typeof schemaQuestion.hide === 'object') {
+            question.hide = schemaQuestion.hide.hideWhenExpression;
+        }
     }
 }

@@ -22,7 +22,9 @@ describe('Question Factory', () => {
                 }
             ],
             rendering: 'select'
-        }
+        },
+        disable: true
+
     };
 
     let numericSchemaQuestion: any = {
@@ -35,9 +37,7 @@ describe('Question Factory', () => {
             answers: []
         },
         validators: [],
-        hide: {
-            hideWhenExpression: 'NewbornProhpArv !== "a899b35c-1350 - 11df-a1f1 - 0026b9348838"'
-        }
+        hide: true
     };
 
     let numberSchemaQuestion: any = {
@@ -49,9 +49,7 @@ describe('Question Factory', () => {
             rendering: 'number'
         },
         validators: [],
-        hide: {
-            hideWhenExpression: 'MothersArvUse !== "a89aadc0-1350-11df-a1f1-0026b9348838"'
-        }
+        disable: 'onArt !== "a899b35c-1350-11df-a1f1-0026b9348838"'
     };
 
 
@@ -74,7 +72,8 @@ describe('Question Factory', () => {
                 ' || (new moment(encDate)).isSame((new moment(myValue)), "day")',
                 message: 'Date should be before the encounter date.'
             }
-        ]
+        ],
+        hide:  'NewbornProhpArv !== "a899b35c-1350 - 11df-a1f1 - 0026b9348838"'
     };
 
     let multiCheckboxSchemaQuestion: any = {
@@ -95,10 +94,7 @@ describe('Question Factory', () => {
             rendering: 'multiCheckbox'
         },
         type: 'obs',
-        validators: [],
-        hide: {
-            hideWhenExpression: 'onArt !== "a899b35c-1350 - 11df-a1f1 - 0026b9348838"'
-        }
+        validators: []
     };
 
 
@@ -554,6 +550,7 @@ describe('Question Factory', () => {
         }));
         expect(converted.renderingType).toEqual(selectSchemaQuestion.questionOptions.rendering);
         expect(converted.key).toEqual(selectSchemaQuestion.id);
+        expect(converted.disable).toEqual(selectSchemaQuestion.disable);
 
     });
 
@@ -562,6 +559,7 @@ describe('Question Factory', () => {
         expect(converted.label).toEqual(numericSchemaQuestion.label);
         expect(converted.key).toEqual(numericSchemaQuestion.id);
         expect(converted.renderingType).toEqual('number');
+        expect(converted.hide).toEqual(numericSchemaQuestion.hide);
 
     });
 
@@ -570,6 +568,7 @@ describe('Question Factory', () => {
         expect(converted.label).toEqual(numberSchemaQuestion.label);
         expect(converted.key).toEqual(numberSchemaQuestion.id);
         expect(converted.renderingType).toEqual('number');
+        expect(converted.disable).toEqual(numberSchemaQuestion.disable);
 
     });
 
@@ -578,6 +577,7 @@ describe('Question Factory', () => {
         expect(converted.label).toEqual(dateSchemaQuestion.label);
         expect(converted.key).toEqual(dateSchemaQuestion.id);
         expect(converted.renderingType).toEqual('date');
+        expect(converted.hide).toEqual(dateSchemaQuestion.hide);
 
     });
 
