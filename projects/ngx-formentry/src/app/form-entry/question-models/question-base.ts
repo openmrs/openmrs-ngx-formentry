@@ -23,7 +23,6 @@ export class QuestionBase {
         this.defaultValue = options.defaultValue;
         this.originalValue = options.originalValue;
         this.extras = options.extras;
-
         this.renderingType = options.type;
         this.key = options.key || '';
         this.label = options.label || '';
