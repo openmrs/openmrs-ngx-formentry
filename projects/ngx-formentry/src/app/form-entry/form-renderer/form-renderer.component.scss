@@ -96,6 +96,6 @@ $swipe-active-tab-color: #337AB7;
 }
 
 .disabled {
-      color: gray;
-      border: medium solid gray;
+  opacity: .5;
+  pointer-events: none;
 }
