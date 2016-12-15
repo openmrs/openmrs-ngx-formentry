@@ -32,7 +32,7 @@ export class JsExpressionHelper {
 
       let contains = true;
 
-      for ( let i = 0; i < members.length; i++ ) {
+      for (let i = 0; i < members.length; i++) {
         let val = members[i];
         if (array.indexOf(val) === -1) {
           contains = false;
@@ -54,8 +54,8 @@ export class JsExpressionHelper {
 
       value = new Date(value);
       if (value === null || value === undefined) {
-      throw new Error('DateFormatException: value passed ' +
-      'is not a valid date');
+        throw new Error('DateFormatException: value passed ' +
+          'is not a valid date');
       }
     }
 
@@ -67,20 +67,30 @@ export class JsExpressionHelper {
 
     if (Array.isArray(members)) {
       if (members.length === 0) {
-          return true;
+        return true;
       }
       let contains = false;
 
-      for ( let i = 0; i < members.length; i++ ) {
+      for (let i = 0; i < members.length; i++) {
 
         let val = members[i];
         if (array.indexOf(val) !== -1) {
-            contains = true;
+          contains = true;
         }
       }
       return contains;
     } else {
       return array.indexOf(members) !== -1;
     }
+  }
+
+  get helperFunctions() {
+    let helper = this;
+    return {
+      arrayContainsAny: helper.arrayContainsAny,
+      calcBMI: helper.calcBMI,
+      isEmpty: helper.isEmpty,
+      arrayContains: helper.arrayContains,
+    };
   }
 }

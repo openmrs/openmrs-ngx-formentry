@@ -32,6 +32,9 @@ export class HiderHelper {
         });
 
         control.hidden = hiddenValue;
+        if (control.hidden === true && control.disable) {
+            control.disable();
+        }
     }
 
     public setUpReEvaluationWhenValueChanges(control: CanHide) {

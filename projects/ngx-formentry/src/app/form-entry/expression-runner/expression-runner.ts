@@ -1,54 +1,64 @@
+import { AbstractControl } from '@angular/forms';
 import { AfeFormControl, AfeFormArray, AfeFormGroup } from '../../abstract-controls-extension/control-extensions';
 export class ExpressionRunner {
     getRunnable(expression: string, control: AfeFormArray | AfeFormGroup | AfeFormControl, helper: any, dataDependencies: any):
         Runnable {
-        let toRun = this.getControlRelationValueString(control);
-        toRun = toRun + this.getHelperMethods(helper);
-        toRun = toRun + this.getDataDependencies(dataDependencies);
+        let runner = this;
         let runnable: Runnable = {
             run: () => {
                 /* tslint:disable */
-                return eval(toRun + expression);
+                let scope: any = {};
+                runner.getControlRelationValueString(control, scope);
+                runner.getHelperMethods(helper, scope);
+                runner.getDataDependencies(dataDependencies, scope);
+                let paramList = '';
+                let argList = '';
+                for (let o in scope) {
+                    paramList = paramList === '' ? paramList + o : paramList + ',' + o;
+                    argList = argList === '' ? argList + 'scope.' + o : argList + ',' + 'scope.' + o;
+                }
+                expression = '"return ' + expression + '"';
+                let funcDeclarationCode = 'var afeDynamicFunc = new Function("' + paramList + '", ' + expression + ');';
+                let funcCallCode = 'afeDynamicFunc.call(this ' + (argList === '' ? '' : ',' + argList) + ');';
+                console.log('Running Expression:', funcDeclarationCode + funcCallCode);
+                return eval(funcDeclarationCode + funcCallCode);
                 /* tslint:enable */
             }
         };
         return runnable;
     }
 
-    private getControlRelationValueString(control: AfeFormArray | AfeFormGroup | AfeFormControl): string {
-        let toRun = '';
+    private getControlRelationValueString(control: AfeFormArray | AfeFormGroup | AfeFormControl, scope?: any) {
         control.controlRelations.relations.forEach(relation => {
             if (relation.relatedTo instanceof AfeFormArray ||
                 relation.relatedTo instanceof AfeFormControl ||
                 relation.relatedTo instanceof AfeFormGroup) {
                 let related = relation.relatedTo as any;
-                toRun = toRun + ' var ' + related.uuid + '=' + relation.relatedTo.value + ';';
+                let relatedAsControl = relation.relatedTo as AbstractControl;
+                if (relatedAsControl && Array.isArray(relatedAsControl.value)) {
+                    scope[related.uuid] = relation.relatedTo.value;
+                } else {
+                    scope[related.uuid] = relation.relatedTo.value;
+                }
             }
+
         });
-        return toRun;
     }
 
-    private getHelperMethods(obj: any) {
-        let toRun = '';
+    private getHelperMethods(obj: any, scope?: any) {
         for (let key in obj) {
             if (obj.hasOwnProperty(key)) {
-                toRun = toRun + ' var ' + key + ' = ' + obj[key] + ';';
+                scope[key] = obj[key];
             }
         }
-        return toRun;
     }
 
-    private getDataDependencies(obj: any) {
-        let toRun = '';
+    private getDataDependencies(obj: any, scope?: any) {
         for (let key in obj) {
             if (obj.hasOwnProperty(key)) {
-                toRun = toRun + ' var ' + key + ' = ' +
-                    JSON.stringify(obj[key], (key, val) => {
-                        return (typeof val === 'function') ? '' + val : val;
-                    }) + ';';
+                scope[key] = obj[key];
             }
         }
-        return toRun;
     }
 
 }

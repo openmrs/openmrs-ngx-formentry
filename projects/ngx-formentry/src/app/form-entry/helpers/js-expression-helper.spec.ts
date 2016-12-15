@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { JsExpressionHelper } from './js-expression-helper';
 
-fdescribe('Control Hider Helper Service:', () => {
+describe('Control Hider Helper Service:', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
