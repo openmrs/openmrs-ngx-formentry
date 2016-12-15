@@ -14,7 +14,7 @@ export class HistoricalHelperService {
 
     _.each(this.functions, (v) => {
 
-      if (expr.indexOf(v) !== -1 ) {
+      if (expr.indexOf(v) !== -1) {
         expr = expr.replace(new RegExp(v, 'g'), 'this.' + v);
       }
 
@@ -22,22 +22,23 @@ export class HistoricalHelperService {
     // remove duplicates TODO: not the best way
     expr = expr.replace('this.this.', 'this.');
 
+    // tslint:disable-next-line:no-eval
     return eval(expr);
   }
 
-  public arrayContains(array: Array<>, members: any) {
+  public arrayContains(array: Array<any>, members: any) {
 
     return this.contains(array, members, true);
 
   }
 
-  public arrayContainsAny(array: Array<>, members: any) {
+  public arrayContainsAny(array: Array<any>, members: any) {
 
     return this.contains(array, members, false);
 
   }
 
-  private contains(array: Array<>, members: any, _contains: boolean) {
+  private contains(array: Array<any>, members: any, _contains: boolean) {
 
     if (_.isArray(members)) {
       if (members.length === 0) {
@@ -47,7 +48,7 @@ export class HistoricalHelperService {
       _.each(members, (val) => {
         if (array.indexOf(val) === -1) {
           contains = false;
-        }else {
+        } else {
           contains = true;
         }
       });

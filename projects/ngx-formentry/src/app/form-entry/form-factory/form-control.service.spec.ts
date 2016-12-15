@@ -10,6 +10,9 @@ import { RepeatingQuestion } from '../question-models/repeating-question';
 import { QuestionBase } from '../question-models/question-base';
 import { QuestionGroup } from '../question-models/group-question';
 import { ValidationFactory } from '../form-factory/validation.factory';
+import { HidersDisablersFactory } from './hiders-disablers.factory';
+import { ExpressionRunner } from '../expression-runner/expression-runner';
+import { JsExpressionHelper } from '../helpers/js-expression-helper';
 
 describe('Form Factory Control Service Tests', () => {
   let injector: Injector;
@@ -21,7 +24,10 @@ describe('Form Factory Control Service Tests', () => {
       ],
       providers: [
         FormControlService,
-        ValidationFactory
+        ValidationFactory,
+        HidersDisablersFactory,
+        ExpressionRunner,
+        JsExpressionHelper
       ]
     });
     injector = getTestBed();
@@ -162,6 +168,75 @@ describe('Form Factory Control Service Tests', () => {
 
     // examine the parent control
     expect(createdControl.get(testQuestion.questions[0].key)).toBeTruthy();
+
+  });
+
+  it('should wire disabling and hiding expressions', () => {
+    // CASE: CONTROLS
+    let testQuestion: QuestionBase = new TextInputQuestion({
+      type: 'text',
+      key: 'things',
+      label: 'Things You Like',
+      defaultValue: 'Hello',
+      placeholder: '',
+      hide: '1 === 2',
+      disable: '3 === 4'
+    });
+
+    let parentControl = new AfeFormGroup({});
+    let createdControl = formControlService.generateFormControl(testQuestion, parentControl);
+
+    // examine the created control
+    expect(createdControl).toBeTruthy();
+    expect(createdControl.disablers).toBeTruthy();
+    expect(createdControl.disablers.length).toBe(1);
+    expect(createdControl.disablers[0].disableWhenExpression).toBe('3 === 4');
+
+    expect(createdControl.hiders).toBeTruthy();
+    expect(createdControl.hiders.length).toBe(1);
+    expect(createdControl.hiders[0].hideWhenExpression).toBe('1 === 2');
+
+    // CASE: GROUPS
+    let testGroup: QuestionGroup = new QuestionGroup({
+      type: 'group',
+      key: 'things',
+      label: 'Things You Like',
+      questions: [],
+      hide: '1 === 2',
+      disable: '3 === 4'
+    });
+
+    let createdGroupControl = formControlService.generateFormGroupModel(testGroup, false);
+    // examine the created control
+    expect(createdGroupControl).toBeTruthy();
+    expect(createdGroupControl.disablers).toBeTruthy();
+    expect(createdGroupControl.disablers.length).toBe(1);
+    expect(createdGroupControl.disablers[0].disableWhenExpression).toBe('3 === 4');
+
+    expect(createdGroupControl.hiders).toBeTruthy();
+    expect(createdGroupControl.hiders.length).toBe(1);
+    expect(createdGroupControl.hiders[0].hideWhenExpression).toBe('1 === 2');
+
+     // CASE: Arrays
+    let testArray: QuestionGroup = new RepeatingQuestion({
+      type: 'group',
+      key: 'things',
+      label: 'Things You Like',
+      questions: [],
+      hide: '1 === 2',
+      disable: '3 === 4'
+    });
+
+    let createdArrayControl = formControlService.generateFormArray(testArray);
+    // examine the created control
+    expect(createdArrayControl).toBeTruthy();
+    expect(createdArrayControl.disablers).toBeTruthy();
+    expect(createdArrayControl.disablers.length).toBe(1);
+    expect(createdArrayControl.disablers[0].disableWhenExpression).toBe('3 === 4');
+
+    expect(createdArrayControl.hiders).toBeTruthy();
+    expect(createdArrayControl.hiders.length).toBe(1);
+    expect(createdArrayControl.hiders[0].hideWhenExpression).toBe('1 === 2');
 
   });
 

@@ -12,10 +12,14 @@ import { HistoricalDataService } from './services/historical-data-service.mock';
 import { HistoricalFieldHelperService } from './services/historical-field-helper-service';
 import { SelectModule } from '../components/select';
 import { AfeNgSelectComponent } from '../components/afe-ng-select.component';
+import { HidersDisablersFactory } from './form-factory/hiders-disablers.factory';
+import { ExpressionRunner } from './expression-runner/expression-runner';
+import { JsExpressionHelper } from './helpers/js-expression-helper';
 @NgModule({
     imports: [CommonModule, ReactiveFormsModule, SelectModule],
     declarations: [FormRendererComponent, OwlCarouselComponent, AfeNgSelectComponent, HistoricalValueDirective],
-    providers: [FormBuilder, FormControlService, ValidationFactory, HistoricalDataService, HistoricalFieldHelperService],
+    providers: [FormBuilder, FormControlService, ValidationFactory, HidersDisablersFactory, ExpressionRunner, JsExpressionHelper,
+        HistoricalDataService, HistoricalFieldHelperService],
     exports: [FormRendererComponent]
 })
 export class FormEntryModule {

@@ -30,7 +30,7 @@ import { DiacriticsService } from './diacritics.service';
                     [attr.data-value]="optionValue">
                     {{optionsDict[optionValue].label}}
                 </li>
-                <li 
+                <li
                     *ngIf="optionValuesFiltered.length === 0"
                     [ngClass]="getOptionClass(null)">
                     {{MSG_NOT_FOUND}}
@@ -317,6 +317,7 @@ export class SelectDropdownComponent implements AfterViewInit, OnChanges, OnInit
      * Classes.
      **************************************************************************/
 
+    // tslint:disable-next-line:no-unused-variable
     private getOptionClass(optionValue: string): any {
         let result = {};
         let hlValue = this.highlighted === null ? '' : this.highlighted.value;

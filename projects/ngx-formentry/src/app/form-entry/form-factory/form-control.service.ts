@@ -8,14 +8,18 @@ import { NestedQuestion } from '../question-models/interfaces/nested-questions';
 import { QuestionBase } from '../question-models/question-base';
 import { QuestionGroup } from '../question-models/group-question';
 import { ValidationFactory } from '../form-factory/validation.factory';
+import { HidersDisablersFactory } from './hiders-disablers.factory';
 
 @Injectable()
 export class FormControlService {
     controls = [];
     validationFactory: ValidationFactory;
+    hidersDisablersFactory: HidersDisablersFactory;
 
-    constructor(validationFactory: ValidationFactory) {
+    constructor(validationFactory: ValidationFactory,
+        hidersDisablersFactory: HidersDisablersFactory) {
         this.validationFactory = validationFactory;
+        this.hidersDisablersFactory = hidersDisablersFactory;
     }
 
     generateControlModel(questionModel: QuestionBase | NestedQuestion, parentControl: AfeFormGroup,
@@ -37,7 +41,7 @@ export class FormControlService {
 
     generateFormGroupModel(question: QuestionBase, generateChildren: boolean, parentControl?: AfeFormGroup): AfeFormGroup {
         let formGroup = new AfeFormGroup({});
-
+        this.wireHidersDisablers(question, formGroup);
         if (parentControl instanceof AfeFormGroup) {
             parentControl.setControl(question.key, formGroup);
         }
@@ -67,6 +71,7 @@ export class FormControlService {
     generateFormArray(question: QuestionBase, parentControl?: AfeFormGroup): AfeFormArray {
 
         let formArray = new AfeFormArray([]);
+        this.wireHidersDisablers(question, formArray);
         if (parentControl instanceof AfeFormGroup) {
             parentControl.setControl(question.key, formArray);
         }
@@ -80,11 +85,27 @@ export class FormControlService {
         let validators = this.validationFactory.getValidators(question);
 
         let control = new AfeFormControl(value, validators);
+        this.wireHidersDisablers(question, control);
+
         if (parentControl instanceof AfeFormGroup) {
             parentControl.setControl(question.key, control);
         }
 
         return control;
+    }
+
+    private wireHidersDisablers(question: QuestionBase,
+        control: AfeFormArray | AfeFormGroup | AfeFormControl) {
+        if (question.hide && question.hide !== '') {
+            let hider = this.hidersDisablersFactory.getJsExpressionHider(question, control);
+            control.setHidingFn(hider);
+        }
+
+        if (question.disable && question.disable !== '') {
+            let disable =
+                this.hidersDisablersFactory.getJsExpressionDisabler(question, control);
+            control.setDisablingFn(disable);
+        }
     }
 
 }

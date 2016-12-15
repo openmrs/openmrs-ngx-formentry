@@ -28,7 +28,7 @@ export class QuestionFactory {
     let question = new SelectQuestion({ options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
-    question.options = schemaQuestion.questionOptions.answers.map(function(obj) {
+    question.options = schemaQuestion.questionOptions.answers.map(function (obj) {
       return {
         label: obj.label,
         value: obj.concept
@@ -126,7 +126,7 @@ export class QuestionFactory {
     let question = new MultiSelectQuestion({ renderType: '', options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
-    question.options = schemaQuestion.questionOptions.answers.map(function(obj) {
+    question.options = schemaQuestion.questionOptions.answers.map(function (obj) {
       return {
         label: obj.label,
         value: obj.concept
@@ -281,8 +281,8 @@ export class QuestionFactory {
 
   toPersonAttributeQuestion(schemaQuestion: any): UiSelectQuestion {
     let question = new UiSelectQuestion({
-      options: [], type: '', key: '', searchFunction: function() { },
-      resolveFunction: function() {
+      options: [], type: '', key: '', searchFunction: function () { },
+      resolveFunction: function () {
 
       }
     });
@@ -304,8 +304,8 @@ export class QuestionFactory {
 
   toEncounterProviderQuestion(schemaQuestion: any): UiSelectQuestion {
     let question = new UiSelectQuestion({
-      options: [], type: '', key: '', searchFunction: function() { },
-      resolveFunction: function() {
+      options: [], type: '', key: '', searchFunction: function () { },
+      resolveFunction: function () {
 
       }
     });
@@ -328,8 +328,8 @@ export class QuestionFactory {
 
   toEncounterLocationQuestion(schemaQuestion: any): UiSelectQuestion {
     let question = new UiSelectQuestion({
-      options: [], type: '', key: '', searchFunction: function() { },
-      resolveFunction: function() {
+      options: [], type: '', key: '', searchFunction: function () { },
+      resolveFunction: function () {
 
       }
     });
@@ -470,7 +470,7 @@ export class QuestionFactory {
     return validators;
   }
 
-  addHistoricalExpressions(schemaQuestion: any, question: QuestionBase): any{
+  addHistoricalExpressions(schemaQuestion: any, question: QuestionBase): any {
 
     if (schemaQuestion.historicalExpression && schemaQuestion.historicalExpression.length > 0) {
 
