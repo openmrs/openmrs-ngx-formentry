@@ -13,9 +13,11 @@ export class HidersDisablersFactory {
     constructor(private expressionRunner: ExpressionRunner, private expressionHelper: JsExpressionHelper) {
     }
 
-    getJsExpressionDisabler(question: QuestionBase, control: AfeFormControl | AfeFormArray | AfeFormGroup): Disabler {
+    getJsExpressionDisabler(question: QuestionBase, control: AfeFormControl | AfeFormArray | AfeFormGroup,
+        dataSource?: any): Disabler {
         let runnable: Runnable =
-            this.expressionRunner.getRunnable(question.disable as string, control, this.expressionHelper.helperFunctions, {});
+            this.expressionRunner.getRunnable(question.disable as string, control,
+                this.expressionHelper.helperFunctions, dataSource);
         let disabler: Disabler = {
             toDisable: false,
             disableWhenExpression: question.disable as string,
@@ -27,9 +29,11 @@ export class HidersDisablersFactory {
         return disabler;
     }
 
-    getJsExpressionHider(question: QuestionBase, control: AfeFormControl | AfeFormArray | AfeFormGroup): Hider {
+    getJsExpressionHider(question: QuestionBase, control: AfeFormControl | AfeFormArray | AfeFormGroup,
+        dataSource?: any): Hider {
         let runnable: Runnable =
-            this.expressionRunner.getRunnable(question.hide as string, control, this.expressionHelper.helperFunctions, {});
+            this.expressionRunner.getRunnable(question.hide as string, control,
+                this.expressionHelper.helperFunctions, dataSource);
         let hider: Hider = {
             toHide: false,
             hideWhenExpression: question.hide as string,

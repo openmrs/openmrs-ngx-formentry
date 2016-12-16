@@ -23,55 +23,61 @@ export class FormFactory {
     createForm(schema: any): Form {
         let form: Form = new Form(schema, this, this.questionFactroy);
         let question = this.questionFactroy.createQuestionModel(schema);
-        form.rootNode = this.createNode(question) as GroupNode;
+        form.rootNode = this.createNode(question, null, null, form) as GroupNode;
+        console.log('Created Form', form);
         return form;
     }
 
     createNode(question: QuestionBase | NestedQuestion,
-        parentNode?: GroupNode, parentControl?: AfeFormGroup): NodeBase {
+        parentNode?: GroupNode, parentControl?: AfeFormGroup, form?: Form): NodeBase {
         let node: NodeBase = null;
         if (question instanceof NestedQuestion) {
             if (question instanceof RepeatingQuestion) {
-                node = this.createArrayNode(question, parentNode, parentControl);
+                node = this.createArrayNode(question, parentNode, parentControl, form);
             } else {
-                node = this.createGroupNode(question, parentNode, parentControl);
+                node = this.createGroupNode(question, parentNode, parentControl, form);
             }
         } else {
-            node = this.createLeafNode(question, parentNode, parentControl);
+            node = this.createLeafNode(question, parentNode, parentControl, form);
         }
         return node;
     }
 
-    createLeafNode(question: QuestionBase, parentNode: GroupNode, parentControl?: AfeFormGroup): LeafNode {
+    createLeafNode(question: QuestionBase,
+        parentNode: GroupNode, parentControl?: AfeFormGroup, form?: Form): LeafNode {
         let controlModel = this.controlService.generateControlModel(question, parentControl, false);
-        return new LeafNode(question, controlModel);
+        return new LeafNode(question, controlModel, null, form);
     }
 
-    createGroupNode(question: NestedQuestion, parentNode?: GroupNode, parentControl?: AfeFormGroup): GroupNode {
+    createGroupNode(question: NestedQuestion, parentNode?: GroupNode,
+        parentControl?: AfeFormGroup, form?: Form): GroupNode {
         let controlModel = this.controlService.generateControlModel(question, parentControl, false) as AfeFormGroup;
-        let groupNode = new GroupNode(question, controlModel);
-        this.createNodeChildren(question, groupNode, (controlModel || parentControl));
+        let groupNode = new GroupNode(question, controlModel, null, form);
+        this.createNodeChildren(question, groupNode, (controlModel || parentControl), form);
         return groupNode;
     }
 
-    createArrayNode(question: NestedQuestion, parentNode?: GroupNode, parentControl?: AfeFormGroup): ArrayNode {
+    createArrayNode(question: NestedQuestion, parentNode?: GroupNode,
+        parentControl?: AfeFormGroup, form?: Form): ArrayNode {
         let controlModel = this.controlService.generateControlModel(question, parentControl, false) as AfeFormGroup;
-        let arrayNode = new ArrayNode(question, controlModel, parentControl, this);
+        let arrayNode = new ArrayNode(question, controlModel, parentControl, this, form);
         arrayNode.createChildFunc = this.createArrayNodeChild;
         arrayNode.removeChildFunc = this.removeArrayNodeChild;
         return arrayNode;
     }
 
-    createNodeChildren(question: NestedQuestion, node: GroupNode, parentControl?: AfeFormGroup): any {
+    createNodeChildren(question: NestedQuestion, node: GroupNode,
+        parentControl?: AfeFormGroup, form?: Form): any {
         question.questions.forEach(element => {
-            let child = this.createNode(element, node, parentControl);
+            let child = this.createNode(element, node, parentControl, form);
             node.setChild(element.key, child);
         });
         return node.children;
     }
 
 
-    createArrayNodeChild(question: RepeatingQuestion, node: ArrayNode, factory?: FormFactory): GroupNode {
+    createArrayNodeChild(question: RepeatingQuestion,
+        node: ArrayNode, factory?: FormFactory): GroupNode {
         if (factory === null || factory === undefined) {
             factory = this;
         }
@@ -82,7 +88,7 @@ export class FormFactory {
             groupQuestion.controlType = question.controlType;
         }
 
-        let group = factory.createGroupNode(groupQuestion, null, null);
+        let group = factory.createGroupNode(groupQuestion, null, null, node.form);
         node.children.push(group);
 
         if (node.control instanceof AfeFormArray) {
