@@ -7,8 +7,10 @@ import { AppComponent } from './app.component';
 import { FormEntryModule } from './form-entry/form-entry.module';
 import { QuestionFactory } from './form-entry/form-factory/question.factory';
 import { FormFactory } from './form-entry/form-factory/form.factory';
+
 // import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormSchemaCompiler } from './form-entry/services/form-schema-compiler.service';
 @NgModule({
   imports: [
     BrowserModule,
@@ -21,7 +23,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   providers: [
     QuestionFactory,
-    FormFactory
+    FormFactory,
+    FormSchemaCompiler
   ],
   bootstrap: [AppComponent]
 })
