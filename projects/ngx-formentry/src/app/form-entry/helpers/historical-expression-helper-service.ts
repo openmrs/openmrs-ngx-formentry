@@ -1,4 +1,4 @@
-import { HistoricalDataService } from './historical-data-service.mock';
+import { HistoricalDataService } from '../services/historical-data-service.mock';
 import * as _ from 'lodash';
 
 export class HistoricalHelperService {

@@ -99,3 +99,12 @@ $swipe-active-tab-color: #337AB7;
   opacity: .5;
   pointer-events: none;
 }
+
+.select2-container {
+  margin-top:-5px;
+}
+
+ng-select.form-control {
+  padding-top:0;
+  padding-bottom:0;
+}

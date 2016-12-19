@@ -3,6 +3,7 @@ export const DEFAULT_STYLES = `
 .select2-container {
   box-sizing: border-box;
   display: inline-block;
+  margin-top: -5px;
   margin: 0;
   position: relative;
   vertical-align: middle; }
@@ -175,8 +176,8 @@ export const DEFAULT_STYLES = `
 
 .select2-container--default .select2-selection--multiple {
   background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 1px;
+  border: 0;
+  border-radius: 0;
   cursor: text; }
   .select2-container--default .select2-selection--multiple .select2-selection__rendered {
     box-sizing: border-box;
@@ -187,13 +188,13 @@ export const DEFAULT_STYLES = `
     .select2-container--default .select2-selection--multiple .select2-selection__rendered li {
       list-style: none; }
   .select2-container--default .select2-selection--multiple .select2-selection__placeholder {
-    margin-top: 5px;
+    margin-top: 0;
     float: left; }
   .select2-container--default .select2-selection--multiple .select2-selection__clear {
     cursor: pointer;
     float: right;
     font-weight: bold;
-    margin-top: 5px;
+    margin-top: 0;
     margin-right: 10px; }
   .select2-container--default .select2-selection--multiple .select2-selection__choice {
     background-color: #e4e4e4;
@@ -227,7 +228,7 @@ export const DEFAULT_STYLES = `
   margin-right: auto; }
 
 .select2-container--default.select2-container--focus .select2-selection--multiple {
-  border: solid black 1px;
+  border: 0;
   outline: 0; }
 
 .select2-container--default.select2-container--disabled .select2-selection--multiple {

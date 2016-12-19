@@ -9,7 +9,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { OwlCarouselComponent } from '../components/owl-carousel';
 import { HistoricalValueDirective } from './directives/historical-value-directive';
 import { HistoricalDataService } from './services/historical-data-service.mock';
-import { HistoricalFieldHelperService } from './services/historical-field-helper-service';
+import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
 import { SelectModule } from '../components/select';
 import { AfeNgSelectComponent } from '../components/afe-ng-select.component';
 import { HidersDisablersFactory } from './form-factory/hiders-disablers.factory';

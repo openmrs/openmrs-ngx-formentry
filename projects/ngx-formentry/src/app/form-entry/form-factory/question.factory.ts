@@ -14,7 +14,7 @@ import { AfeControlType } from '../../abstract-controls-extension/afe-control-ty
 import { ValidationModel } from '../question-models/validation.model';
 import { DateValidationModel } from '../question-models/date-validation.model';
 import { DummyDataSource } from '../data-sources/dummy-data-source';
-import { HistoricalHelperService } from '../services/historical-expression-helper-service';
+import { HistoricalHelperService } from '../helpers/historical-expression-helper-service';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
 
 export class QuestionFactory {
@@ -457,7 +457,8 @@ export class QuestionFactory {
 
       let helper = new HistoricalHelperService();
       let origValue = helper.evaluate(schemaQuestion.historicalExpression);
-      question.originalValue = origValue;
+
+      question['historicalDataValue'] = origValue;
       if (schemaQuestion.historicalPrepopulate) {
         question.defaultValue = origValue;
       }
