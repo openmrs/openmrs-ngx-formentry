@@ -1,6 +1,7 @@
 import { AbstractControl } from '@angular/forms';
 
 import { FormFactory } from './form.factory';
+import { Form } from './form';
 
 // import { AfeControlType, AfeFormArray, AfeFormGroup, AfeFormControl } from '../../abstract-controls-extension/control-extensions';
 import { QuestionBase, RepeatingQuestion } from '../question-models/models';
@@ -8,10 +9,12 @@ import { QuestionBase, RepeatingQuestion } from '../question-models/models';
 export class NodeBase {
     private _control: AbstractControl;
     private _questionModel: QuestionBase;
+    private _form: Form;
 
-    constructor(question: QuestionBase, control?: AbstractControl) {
+    constructor(question: QuestionBase, control?: AbstractControl, form?: Form) {
         this._control = control;
         this._questionModel = question;
+        this._form = form;
     }
 
     public get question(): QuestionBase {
@@ -22,18 +25,22 @@ export class NodeBase {
         return this._control;
     }
 
+    public get form(): Form {
+        return this._form;
+    }
+
 }
 
 export class LeafNode extends NodeBase {
-    constructor(question: QuestionBase, control?: AbstractControl, parentControl?: AbstractControl) {
-        super(question, control);
+    constructor(question: QuestionBase, control?: AbstractControl, parentControl?: AbstractControl, form?: Form) {
+        super(question, control, form);
     }
 }
 
 export class GroupNode extends NodeBase {
     private _children: any;
-    constructor(question: QuestionBase, control?: AbstractControl, parentControl?: AbstractControl) {
-        super(question, control);
+    constructor(question: QuestionBase, control?: AbstractControl, parentControl?: AbstractControl, form?: Form) {
+        super(question, control, form);
         this._children = {};
     }
 
@@ -53,8 +60,9 @@ export class ArrayNode extends NodeBase {
     public createChildFunc: CreateArrayChildNodeFunction;
     public removeChildFunc: RemoveArrayChildNodeFunction;
 
-    constructor(question: QuestionBase, control?: AbstractControl, parentControl?: AbstractControl, private formFactory?: FormFactory) {
-        super(question, control);
+    constructor(question: QuestionBase, control?: AbstractControl,
+        parentControl?: AbstractControl, private formFactory?: FormFactory, form?: Form) {
+        super(question, control, form);
         this._children = [];
     }
 
