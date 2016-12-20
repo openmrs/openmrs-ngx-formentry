@@ -45,8 +45,7 @@ describe('JS Expression Validator:', () => {
       control.controlRelations.addRelatedControls(control3);
 
       let result = validator.validate(model)(control);
-      console.log(result);
-      expect(result.js_expression).toBeTruthy();
+      expect(result['js_expression']).toBeTruthy();
 
     });
 

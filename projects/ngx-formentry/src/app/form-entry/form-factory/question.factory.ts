@@ -13,6 +13,7 @@ import { AfeControlType } from '../../abstract-controls-extension/afe-control-ty
 
 import { ValidationModel } from '../question-models/validation.model';
 import { DateValidationModel } from '../question-models/date-validation.model';
+import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
 import { DummyDataSource } from '../data-sources/dummy-data-source';
 import { HistoricalHelperService } from '../helpers/historical-expression-helper-service';
 
@@ -459,6 +460,9 @@ export class QuestionFactory {
         switch (validator.type) {
           case 'date':
             validators.push(new DateValidationModel(validator));
+            break;
+          case 'js_expression':
+            validators.push(new JsExpressionValidationModel(validator));
             break;
           default:
             validators.push(new ValidationModel(validator));

@@ -31,7 +31,14 @@ export class SampleSchema {
                         default: '',
                         questionOptions: {
                             rendering: 'ui-select-extended'
-                        }
+                        },
+                        validators: [
+                          {
+                            'type': 'js_expression',
+                            'failsWhenExpression': '!isEmpty(encDate)',
+                            'message': 'test message'
+                          }
+                        ]
                     }, {
                         type: 'encounterLocation',
                         label: 'Facility name (site/satellite clinic required):',

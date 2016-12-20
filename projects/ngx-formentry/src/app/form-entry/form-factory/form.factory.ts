@@ -6,6 +6,7 @@ import { QuestionBase, NestedQuestion, RepeatingQuestion, QuestionGroup } from '
 import { FormControlService } from './form-control.service';
 import { QuestionFactory } from './question.factory';
 import { AfeFormGroup, AfeControlType, AfeFormArray } from '../../abstract-controls-extension/control-extensions';
+import { ControlRelationsFactory } from './control-relations.factory';
 
 import { Form } from './form';
 
@@ -17,15 +18,21 @@ export class FormFactory {
         }
     };
 
-    constructor(public controlService: FormControlService, public questionFactroy: QuestionFactory) {
+    constructor(public controlService: FormControlService,
+      public questionFactroy: QuestionFactory, public controlRelationsFactory: ControlRelationsFactory) {
     }
 
     createForm(schema: any): Form {
         let form: Form = new Form(schema, this, this.questionFactroy);
         let question = this.questionFactroy.createQuestionModel(schema);
         form.rootNode = this.createNode(question, null, null, form) as GroupNode;
-        console.log('Created Form', form);
+
+        this.buildRelations(form.rootNode);
         return form;
+    }
+
+    buildRelations(rootNode: GroupNode) {
+      this.controlRelationsFactory.buildRelations(rootNode);
     }
 
     createNode(question: QuestionBase | NestedQuestion,

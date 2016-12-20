@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { FormEntryModule } from './form-entry/form-entry.module';
 import { QuestionFactory } from './form-entry/form-factory/question.factory';
 import { FormFactory } from './form-entry/form-factory/form.factory';
+import { ControlRelationsFactory } from './form-entry/form-factory/control-relations.factory';
 
 // import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +25,8 @@ import { FormSchemaCompiler } from './form-entry/services/form-schema-compiler.s
   providers: [
     QuestionFactory,
     FormFactory,
-    FormSchemaCompiler
+    FormSchemaCompiler,
+    ControlRelationsFactory
   ],
   bootstrap: [AppComponent]
 })

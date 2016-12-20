@@ -73,6 +73,7 @@ export class FormControlService {
     generateFormArray(question: QuestionBase, parentControl?: AfeFormGroup, form?: Form): AfeFormArray {
 
         let formArray = new AfeFormArray([]);
+        formArray.uuid = question.key;
         this.wireHidersDisablers(question, formArray, (form ? form.dataSourcesContainer.dataSources : null));
         if (parentControl instanceof AfeFormGroup) {
             parentControl.setControl(question.key, formArray);
@@ -87,6 +88,7 @@ export class FormControlService {
         let validators = this.validationFactory.getValidators(question);
 
         let control = new AfeFormControl(value, validators);
+        control.uuid = question.key;
         this.wireHidersDisablers(question, control, (form ? form.dataSourcesContainer.dataSources : null));
 
         if (parentControl instanceof AfeFormGroup) {
