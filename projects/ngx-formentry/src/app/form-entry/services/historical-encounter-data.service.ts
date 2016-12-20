@@ -1,9 +1,8 @@
 import * as _ from 'lodash';
-import { DataSources } from '../data-sources/data-sources';
 
 export class HistoricalEncounterDataService {
 
-  dataSource: any = {};
+  store: any = {};
 
   encounters: any;
 
@@ -13,7 +12,6 @@ export class HistoricalEncounterDataService {
 
     this.encounters = openmrsEncounters;
     this.name = name;
-    this.dataSource = new DataSources();
     this.registerEncounters();
   }
 
@@ -21,6 +19,7 @@ export class HistoricalEncounterDataService {
 
     let encStore: any = {
       data: [],
+
       getValue: (key: string, index = 0): any => {
 
         let pathArray = key.split('.');
@@ -30,9 +29,12 @@ export class HistoricalEncounterDataService {
         }
         return encStore.data[index][key];
       },
+
       getAllObjects: () => {
         return encStore.data;
       },
+
+
       getSingleObject: (index = 0) => {
 
         return encStore.data[index];
@@ -52,21 +54,33 @@ export class HistoricalEncounterDataService {
       // Assume a single openmrs rest encounter object.
       encStore.data.push(this._transformEncounter(this.encounters));
     }
+
     this.putObject(this.name, encStore);
+
   }
 
   putObject(name, object): void {
-    this.dataSource.registerDataSource(name, object);
+    this.store[name] = object;
   }
 
   getObject(name: string): any {
-    return this.dataSource.dataSources[name] || null;
+    return this.store[name] || null;
   }
+
+  hasKey(name: string): boolean {
+    return _.has(this.store, name);
+  };
+
+  removeAllObjects(): void {
+    this.store = {};
+  };
 
   getFirstValue(path: Array<string>, object: any) {
 
     let answers = [];
+
     this.getAllValues(path, object, answers);
+
     if (answers.length > 0) {
       return answers[0];
     }

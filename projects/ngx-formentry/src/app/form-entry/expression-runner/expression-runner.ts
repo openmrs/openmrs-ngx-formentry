@@ -20,6 +20,7 @@ export class ExpressionRunner {
 
                 }
 
+                runner.getControlRelationValueString(control,scope);
                 runner.getHelperMethods(helper, scope);
                 runner.getDataDependencies(dataDependencies, scope);
                 let paramList = '';

@@ -36,7 +36,8 @@
   <div [ngSwitch]="node.question.renderingType">
     <select class="form-control" *ngSwitchCase="'select'" [formControlName]="node.question.key"
             [id]="node.question.key + 'id'" [(ngModel)]="node.question">
-      <option *ngFor="let o of node.question.options" [selected]="node.question.historicalValue? node.question.historicalValue==o.value : 'false'"
+      <option *ngFor="let o of node.question.options"
+              [selected]="node.question.historicalValue? node.question.historicalValue==o.value : 'false'"
               [ngValue]="o">{{o.label}}
       </option>
     </select>

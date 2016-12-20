@@ -15,7 +15,6 @@ import { ValidationModel } from '../question-models/validation.model';
 import { DateValidationModel } from '../question-models/date-validation.model';
 import { DummyDataSource } from '../data-sources/dummy-data-source';
 import { HistoricalHelperService } from '../helpers/historical-expression-helper-service';
-import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
 
 export class QuestionFactory {
   constructor() {
@@ -449,6 +448,28 @@ export class QuestionFactory {
     };
   }
 
+  addValidators(schemaQuestion: any): Array<ValidationModel> {
+
+    let validators: Array<ValidationModel> = [];
+
+    if (schemaQuestion.validators) {
+
+      // TODO - add more validator types
+      _.forEach(schemaQuestion.validators, (validator: any) => {
+        switch (validator.type) {
+          case 'date':
+            validators.push(new DateValidationModel(validator));
+            break;
+          default:
+            validators.push(new ValidationModel(validator));
+            break;
+        }
+      });
+    }
+
+    return validators;
+  }
+
   addHistoricalExpressions(schemaQuestion: any, question: QuestionBase): any {
 
     if (schemaQuestion.historicalExpression && schemaQuestion.historicalExpression.length > 0) {
@@ -460,6 +481,7 @@ export class QuestionFactory {
 
       question['historicalDataValue'] = origValue;
       if (schemaQuestion.historicalPrepopulate) {
+
         question.defaultValue = origValue;
       }
     }
@@ -479,34 +501,8 @@ export class QuestionFactory {
     if (!!schemaQuestion.hide) {
       question.hide = schemaQuestion.hide;
     }
-
     if (typeof schemaQuestion.hide === 'object') {
       question.hide = schemaQuestion.hide.hideWhenExpression;
     }
-  }
-
-  addValidators(schemaQuestion: any): Array<ValidationModel> {
-
-      let validators: Array<ValidationModel> = [];
-
-      if (schemaQuestion.validators) {
-
-          // TODO - add more validator types
-          _.forEach(schemaQuestion.validators, (validator: any) => {
-              switch (validator.type) {
-                  case 'date':
-                    validators.push(new DateValidationModel(validator));
-                    break;
-                  case 'js_expression':
-                    validators.push(new JsExpressionValidationModel(validator));
-                    break;
-                  default:
-                      validators.push(new ValidationModel(validator));
-                      break;
-              }
-          });
-      }
-
-      return validators;
   }
 }
