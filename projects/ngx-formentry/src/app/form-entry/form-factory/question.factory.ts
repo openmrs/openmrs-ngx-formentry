@@ -37,6 +37,7 @@ export class QuestionFactory {
     });
     question.renderingType = schemaQuestion.questionOptions.rendering;
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -56,6 +57,7 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.renderingType = 'number';
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -75,6 +77,7 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.renderingType = 'number';
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -92,6 +95,7 @@ export class QuestionFactory {
     let question = new DateQuestion({ type: '', key: '' });
     question.renderingType = 'date';
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -110,6 +114,7 @@ export class QuestionFactory {
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -135,6 +140,7 @@ export class QuestionFactory {
     });
     question.validators = this.addValidators(schemaQuestion);
     question.dataSource = new DummyDataSource();
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -155,6 +161,7 @@ export class QuestionFactory {
     question.isExpanded = schemaQuestion.isExpanded;
     question.rows = schemaQuestion.questionOptions.rows;
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -174,6 +181,7 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.renderingType = 'text';
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -193,6 +201,7 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.renderingType = schemaQuestion.type;
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -212,6 +221,7 @@ export class QuestionFactory {
     question.questions = schemaQuestion.questions;
     question.key = schemaQuestion.id;
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -231,6 +241,7 @@ export class QuestionFactory {
     question.questions = schemaQuestion.questions;
     question.key = schemaQuestion.id;
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -263,6 +274,7 @@ export class QuestionFactory {
     question.key = schemaQuestion.label;
     question.renderingType = 'form';
     question.controlType = AfeControlType.AfeFormGroup;
+    question.extras = schemaQuestion;
     question.questions = [];
     schemaQuestion.pages.forEach(element => {
       question.questions.push(this.toPageQuestion(element));
@@ -291,6 +303,7 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.renderingType = schemaQuestion.type;
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -314,6 +327,7 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.renderingType = schemaQuestion.type;
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -338,6 +352,7 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.renderingType = schemaQuestion.type;
     question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
 
     let mappings: any = {
       label: 'label',
@@ -370,7 +385,7 @@ export class QuestionFactory {
       };
     }
 
-    if (!Array.isArray(schema) && typeof schema === 'object') {
+    if (schema && !Array.isArray(schema) && typeof schema === 'object') {
       if (schema.questionOptions) {
         if (schema.questionOptions.rendering === 'group' || schema.questionOptions.rendering === 'repeating') {
           schema.questions = this.getGroupMembers(schema.questions);

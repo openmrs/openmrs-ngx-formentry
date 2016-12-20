@@ -8,6 +8,7 @@ import { FormEntryModule } from './form-entry/form-entry.module';
 import { QuestionFactory } from './form-entry/form-factory/question.factory';
 import { FormFactory } from './form-entry/form-factory/form.factory';
 import { ControlRelationsFactory } from './form-entry/form-factory/control-relations.factory';
+import { ObsPayloadFactoryService } from './form-entry/services/obs-payload-factory.service';
 
 // import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -26,7 +27,9 @@ import { FormSchemaCompiler } from './form-entry/services/form-schema-compiler.s
     QuestionFactory,
     FormFactory,
     FormSchemaCompiler,
-    ControlRelationsFactory
+    ControlRelationsFactory,
+    ObsPayloadFactoryService
+
   ],
   bootstrap: [AppComponent]
 })

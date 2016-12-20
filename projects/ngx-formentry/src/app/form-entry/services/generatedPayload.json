@@ -1,0 +1,124 @@
+[
+    {
+        "uuid": "9adc503f-4da7-4cb1-a73f-d94e76317da2",
+        "value": "a899b35c-1350-11df-a1f1-0026b9348838"
+    },
+    {
+        "uuid": "47e82c1b-ac9b-4e8d-ab49-30a5859f3e90",
+        "value": "a89adc46-1350-11df-a1f1-0026b9348838"
+    },
+    {
+        "uuid": "f611b2ce-28b6-4e56-bec8-dddab7861323",
+        "value": "2016-12-01T00:00:00.000+0300"
+    },
+    {
+        "uuid": "e32ad4e1-d896-4340-86c5-5156868adf13",
+        "value": "034047bd-3fa1-4b2a-b0f0-2787e9b9f7b3"
+    },
+    {
+        "concept": "bc3834dd-ef07-4027-be30-729baa069291",
+        "groupMembers": [
+            {
+                "uuid": "e385a894-7a1e-4aa9-bc42-9a2c17131a3e",
+                "value": "a73d20b3-d721-4763-a362-14a0c41a6b5e"
+            },
+            {
+                "uuid": "82abee24-873a-4b4c-ad67-98ca472e2f6b",
+                "value": "illness"
+            }
+        ]
+    },
+    {
+        "uuid": "556d656c-bf17-40b3-8cff-edeb2ff07e1d",
+        "value": "a8989396-1350-11df-a1f1-0026b9348838"
+    },
+    {
+        "concept": "275eee16-c358-4f3a-ac16-e8f24659df87",
+        "groupMembers": [
+            {
+                "uuid": "95675eb7-f202-498c-9dc9-097b12234f1d",
+                "value": "a8b0f882-1350-11df-a1f1-0026b9348838"
+            }
+        ]
+    },
+    {
+        "uuid": "6897e49a-eb56-4720-bef1-764280e5780e",
+        "value": "162724df-5a66-4ae3-bbf6-5dc6dbba4ebb"
+    },
+    {
+        "concept": "3a69cfcf-f129-4702-a8dd-d061d2a16b9d",
+        "groupMembers": [
+            {
+                "uuid": "2c85c31a-cc0b-4eca-8c19-fe8e5c359e84",
+                "value": "a8b0f882-1350-11df-a1f1-0026b9348838"
+            }
+        ]
+    },
+    {
+        "uuid": "cb15310c-44f9-4917-a5b5-933802d1e7eb",
+        "value": "a899b35c-1350-11df-a1f1-0026b9348838"
+    },
+    {
+        "concept": "a8afdb8c-1350-11df-a1f1-0026b9348838",
+        "groupMembers": [
+            {
+                "uuid": "6b8a232c-5124-45d7-9ff5-cd63a9d3a9d5",
+                "value": "2016-11-29T00:00:00.000+0300"
+            }
+        ]
+    },
+    {
+        "uuid": "bcff492e-ebd4-4f67-bcda-b73b40c81582",
+        "value": "a8afdd08-1350-11df-a1f1-0026b9348838"
+    },
+    {
+        "uuid": "35a0c87d-6383-46fd-924a-01684c171ea8",
+        "value": "2016-12-29T00:00:00.000+0300"
+    },
+    {
+        "concept": "2a4b87dd-977d-4ce8-a321-1f13df4a31b2",
+        "groupMembers": [
+            {
+                "uuid": "78d3d4dc-cdd3-4b3a-ae87-4cb9c13aea62",
+                "value": "a8b0f882-1350-11df-a1f1-0026b9348838"
+            }
+        ]
+    },
+    {
+        "uuid": "084a2b50-33e9-4597-9560-625738d37125",
+        "value": "a89efccc-1350-11df-a1f1-0026b9348838"
+    },
+    {
+        "uuid": "8fd821ef-bf6e-4c74-b325-bd17aa1501af",
+        "value": "45eb8953-dc14-4c2e-8ce6-12cdf7da280a"
+    },
+    {
+        "uuid": "7beef8f5-d403-4d57-aaaa-eae82093c605",
+        "value": "a8afcc82-1350-11df-a1f1-0026b9348838"
+    },
+    {
+        "uuid": "77596785-e04f-4905-8db6-72839c31ca1b",
+        "value": "a89b7908-1350-11df-a1f1-0026b9348838"
+    },
+    {
+        "uuid": "c37e1202-04ad-4bbe-a8d1-40cbb5373ac1",
+        "value": "a89b7908-1350-11df-a1f1-0026b9348838"
+    },
+    {
+        "uuid": "775499b2-9dfb-4a67-9e60-caeffe8d53ed",
+        "value": "a89b7908-1350-11df-a1f1-0026b9348838"
+    },
+    {
+        "concept": "a89fe6f0-1350-11df-a1f1-0026b9348838",
+        "groupMembers": [
+            {
+                "uuid": "ba0cc10b-f40b-420a-99b3-6926c626f27b",
+                "value": "a89b7908-1350-11df-a1f1-0026b9348838"
+            }
+        ]
+    },
+    {
+        "uuid": "26c0d6bd-1b8c-46be-a9ff-a3bbbc9209b7",
+        "value": "2017-01-12T00:00:00.000+0300"
+    }
+]

@@ -394,6 +394,7 @@
                             "questions": [
                                 {
                                     "label": "Reason for hospitalization:",
+                                    "id": "hospReasonProb",
                                     "questionOptions": {
                                         "concept": "a8a07a48-1350-11df-a1f1-0026b9348838",
                                         "rendering": "problem"
@@ -1817,6 +1818,7 @@
                             "questions": [
                                 {
                                     "label": "Other drugs:",
+                                    "id": "OtherdrugsId",
                                     "questionOptions": {
                                         "concept": "a8a060c6-1350-11df-a1f1-0026b9348838",
                                         "rendering": "drug"
@@ -1879,6 +1881,7 @@
                             "questions": [
                                 {
                                     "label": "Drug:",
+                                    "id": "DrugId",
                                     "questionOptions": {
                                         "concept": "1682a920-c93d-4aad-b9cb-4a2b2c41ff1a",
                                         "rendering": "drug"
@@ -4327,6 +4330,7 @@
                                 },
                                 {
                                     "label": "tabs/day",
+                                    "id": "tabsPerDay",
                                     "questionOptions": {
                                         "concept": "a8a07386-1350-11df-a1f1-0026b9348838",
                                         "max": "30",
@@ -4345,6 +4349,7 @@
                                 },
                                 {
                                     "label": "mg",
+                                    "id": "mgstb",
                                     "questionOptions": {
                                         "concept": "a8a063c8-1350-11df-a1f1-0026b9348838",
                                         "max": "1000",
@@ -4363,6 +4368,7 @@
                                 },
                                 {
                                     "label": "mg/day",
+                                    "id": "mgsPersDay",
                                     "questionOptions": {
                                         "concept": "a8a0744e-1350-11df-a1f1-0026b9348838",
                                         "max": "2000",
@@ -4380,6 +4386,7 @@
                                 },
                                 {
                                     "label": "tabs",
+                                    "id": "tabsNumbers",
                                     "questionOptions": {
                                         "concept": "a8a0630a-1350-11df-a1f1-0026b9348838",
                                         "max": "180",

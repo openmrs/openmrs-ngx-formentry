@@ -1,8 +1,8 @@
 <div>
-	<form [formGroup]="form.rootNode.control" (ngSubmit)="onSubmit()">
+	<form [formGroup]="form.rootNode.control" (ngSubmit)="onSubmit($event)">
 		<form-renderer [node]="form.rootNode"></form-renderer>
 		<div class="form-row">
-			<button type="submit" [disabled]="!form.rootNode.control.valid">Save</button>
+			<button>Save</button>
 		</div>
 	</form>
 </div>

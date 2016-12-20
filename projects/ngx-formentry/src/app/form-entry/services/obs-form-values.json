@@ -1,0 +1,201 @@
+{
+    "encDate": "",
+    "provider": "",
+    "location": "",
+    "TransferinGroup": {
+        "transferIn": "",
+        "transfered_in_to_ampath": "",
+        "nonAmpathSpecify": ""
+    },
+    "scheduledVisit": "",
+    "actualDate": "",
+    "PatientcoveredbyNHIF:": "",
+    "Civilstatus": "",
+    "Discordantcouple": "",
+    "PreventionWithPositivesRisk": "",
+    "PreventionWithPositivesServices": "",
+    "RecenthospitalizationsGroup": {
+        "wasHospitalized": ""
+    },
+    "hospReason": [],
+    "onFamilyPlanning": "",
+    "FamilyplanningGroup": {
+        "fpMethod": "",
+        "otherfp": ""
+    },
+    "appStartDate": "",
+    "reasonNotOnFamilyPlanning": "",
+    "menStatus": "",
+    "lastPeriod": "",
+    "preg": "",
+    "lastDelivery": "",
+    "onArt": "a899b35c-1350-11df-a1f1-0026b9348838",
+    "reasonUse": "a89adc46-1350-11df-a1f1-0026b9348838",
+    "startDate": "2016-12-01T00:00:00.000+0300",
+    "current_arv_line": "034047bd-3fa1-4b2a-b0f0-2787e9b9f7b3",
+    "current_art_regimen_adult": [
+        "a89cc876-1350-11df-a1f1-0026b9348838",
+        "6a73f32d-1870-4527-af6e-74443251ded2",
+        "1c4a75d0-cc91-4752-b0a5-4b833326ff7a"
+    ],
+    "ARTadherenceGroup": {
+        "artAdherence": "a73d20b3-d721-4763-a362-14a0c41a6b5e",
+        "artReasonPoorFair": [
+            "a8935fde-1350-11df-a1f1-0026b9348838",
+            "a89eac04-1350-11df-a1f1-0026b9348838",
+            "a8aaf3e2-1350-11df-a1f1-0026b9348838",
+            "a89ced88-1350-11df-a1f1-0026b9348838"
+        ],
+        "ARTAdherenceOther": "illness"
+    },
+    "pcpProphylaxisCurrent": "a8989396-1350-11df-a1f1-0026b9348838",
+    "pcpAdherenceGroup": {
+        "pcpProphylaxisAdherence": "a8b0f882-1350-11df-a1f1-0026b9348838",
+        "pcpAdherence": "",
+        "pcpOtherAdherence": ""
+    },
+    "onTbProphylaxis": "162724df-5a66-4ae3-bbf6-5dc6dbba4ebb",
+    "TbProphTreatment": "",
+    "tbProAdherenceGroup": {
+        "q16c": "a8b0f882-1350-11df-a1f1-0026b9348838",
+        "tbProphylaxisAdherence": "",
+        "tbProphylaxisOtherAdherence": ""
+    },
+    "onTbTreatment": "a899b35c-1350-11df-a1f1-0026b9348838",
+    "StartdateofTBtreatmentGroup": {
+        "startDateOfTbTreatment": "2016-11-29T00:00:00.000+0300"
+    },
+    "tbPhase": "a8afdd08-1350-11df-a1f1-0026b9348838",
+    "CurrentTBregimenGroup": [
+        {
+            "tb_current": "a899f51a-1350-11df-a1f1-0026b9348838",
+            "tbtabsPerday": 2,
+            "tbTabsMg": "",
+            "tbtabsMgPerDay": "",
+            "tbTabsCount": ""
+        }
+    ],
+    "tbComplDate": "2016-12-29T00:00:00.000+0300",
+    "tbDefaultDate": "",
+    "tbadhere": {
+        "tb_adherence": "a8b0f882-1350-11df-a1f1-0026b9348838",
+        "adherenceTbTreatment": "",
+        "adherenceTbOther": ""
+    },
+    "cryptCurrent": "",
+    "OtherModGroup": [
+        {
+            "OtherdrugsId": "a890c3aa-1350-11df-a1f1-0026b9348838"
+        },
+        {
+            "OtherdrugsId": "de26899a-3960-4bc2-b5ae-79520a920db2"
+        }
+    ],
+    "sideEff": {
+        "currSideEffect": ""
+    },
+    "drugSuspectedGroup": [
+        {
+            "DrugId": "a893a426-1350-11df-a1f1-0026b9348838"
+        },
+        {
+            "DrugId": "a898a700-1350-11df-a1f1-0026b9348838"
+        }
+    ],
+    "sideEffectsk": "",
+    "howSevere": "a89efccc-1350-11df-a1f1-0026b9348838",
+    "howCertain": "45eb8953-dc14-4c2e-8ce6-12cdf7da280a",
+    "syst": "",
+    "pulse": "",
+    "temp": "",
+    "weight": "",
+    "height": "",
+    "sp02": "",
+    "bmi": "",
+    "muac": "",
+    "hpiText": "",
+    "problemAddedGroup": [],
+    "problemResolvedGroup": [],
+    "TBSymQ": [
+        "a8ad1276-1350-11df-a1f1-0026b9348838"
+    ],
+    "tbstatus": "a8afcc82-1350-11df-a1f1-0026b9348838",
+    "STIQ": "",
+    "adultWhoStage": "",
+    "adultWhoStageCrit": "",
+    "creatinine_test": "",
+    "sgptalt_test": "",
+    "ast_test": "",
+    "hgbgdl_test": "",
+    "testWBCmm": "",
+    "platelets_test": "",
+    "alcmm_test": "",
+    "mcv_test": "",
+    "cd4_test": "",
+    "cd4percent_test": "",
+    "viralLoad_test": "",
+    "sputumgene_test": "",
+    "sputumafp_test": "",
+    "sputumculture_test": "",
+    "tst_test": "",
+    "cxrcode_test": "",
+    "assNote": "",
+    "arvPlan": "a89b7908-1350-11df-a1f1-0026b9348838",
+    "arvStartReason": "",
+    "ARTchangereasonGroup": {
+        "arvChangeReason": "",
+        "arvToxicityCause": "",
+        "q24cToxOther": ""
+    },
+    "EligibleforARTGroup": {
+        "artEligibleNotStarted": "",
+        "q24dOther": ""
+    },
+    "planCate": "",
+    "artStartedAdult": "",
+    "pcpProphylaxisPlan": "a89b7908-1350-11df-a1f1-0026b9348838",
+    "PCPprophylaxisChangeReasibGroup": {
+        "pcpProphylaxisChangeReason": ""
+    },
+    "pcpToxicityCause": "",
+    "q25OtherToxicity": "",
+    "pcpPlanMedication": "",
+    "tbpropplan": "a89b7908-1350-11df-a1f1-0026b9348838",
+    "tbStoppingReasonGroup": {
+        "tbpropreasonstop": "",
+        "toxCause": "",
+        "toxcauseOther": ""
+    },
+    "tbTreatementStartedGroup": {
+        "tbTreatmentPlan": "a89b7908-1350-11df-a1f1-0026b9348838"
+    },
+    "tbPlanChangeReasonGroup": {
+        "tbPlanChangeReason": "",
+        "tbToxicityCause": "",
+        "26bToxicityOther": "",
+        "tbRestart": ""
+    },
+    "tbMedPickupSiteGroup": {
+        "tbMedPickupSite": "",
+        "medspickOther": ""
+    },
+    "TBTreatmentGroup": [],
+    "Cryptococcaltreatmentplan": "",
+    "AdditionalMedicationOrderGroup": [],
+    "testOrdersGroup": {
+        "order1": [],
+        "TestOrderOther": "",
+        "vljust": ""
+    },
+    "RefferralsGroup": {
+        "ReferralsMade": "",
+        "ReferrealMadeOther": ""
+    },
+    "HopiReferralLoc": "",
+    "hospReasonGroup": [],
+    "trandaferToOtherGroup": {
+        "TrandferTo": ""
+    },
+    "transfered_out_to_ampath": "",
+    "NextAppointMent": "2017-01-12T00:00:00.000+0300"
+}

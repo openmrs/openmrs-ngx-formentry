@@ -1,10 +1,13 @@
-import { Component, style, state, animate, transition, trigger } from '@angular/core';
+import { Component, style, state, animate, transition, trigger, OnInit } from '@angular/core';
 import { QuestionFactory } from './form-entry/form-factory/question.factory';
 import { FormGroup } from '@angular/forms';
+
 import { Form } from './form-entry/form-factory/form';
 import { FormFactory } from './form-entry/form-factory/form.factory';
-// import '../style/app.scss';
+import { ObsPayloadFactoryService } from './form-entry/services/obs-payload-factory.service';
+
 const adultForm = require('./adult');
+const adultFormObs = require('./mock/obs');
 @Component({
     selector: 'my-app', // <my-app></my-app>
     templateUrl: './app.component.html',
@@ -19,34 +22,27 @@ const adultForm = require('./adult');
         ])
     ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
     data: any;
     schema: any;
     sections: {} = {};
     formGroup: FormGroup;
     activeTab = 0;
     form: Form;
-    constructor(private questionFactory: QuestionFactory, private formFactory: FormFactory) {
-        // Do stuff
-        console.log(adultForm);
+    stack = [];
+    constructor(private questionFactory: QuestionFactory, private formFactory: FormFactory, private obsFactory: ObsPayloadFactoryService) {
         this.schema = adultForm;
-        // this.sections = this.createSections(adultForm);
         this.createForm();
     }
-    createSections(formSchema) {
-        let sections = {};
-        for (let page of formSchema.pages) {
-            for (let section of page.sections) {
-                let sectionData = {};
-                sectionData[section.id] = {
-                    form: this.formGroup,
-                    questions: this.questionFactory.getSchemaQuestions(section.questions)
-                };
-                Object.assign(sections, sectionData);
-            }
-        }
-        return sections;
+    ngOnInit() {
+        // Traverse  to get all nodes
+        let pages = this.obsFactory.traverse(this.form.rootNode);
+        // Extract actual question nodes
+        let questionNodes = this.obsFactory.getQuestionNodes(pages);
+        // Extract set obs
+        this.obsFactory.setValues(questionNodes, adultFormObs.obs);
     }
+
     getSectionData(sectionId) {
         let data = {};
         data = this.sections[sectionId];
@@ -62,7 +58,14 @@ export class AppComponent {
         this.form = this.formFactory.createForm(this.schema);
     }
 
-    onSubmit() {
-        console.log('FORM MODEL:', this.form.rootNode.control);
+    onSubmit($event) {
+        $event.preventDefault();
+        // Traverse  to get all nodes
+        let pages = this.obsFactory.traverse(this.form.rootNode);
+        // Extract actual question nodes
+        let questionNodes = this.obsFactory.getQuestionNodes(pages);
+        // Get obs Payload
+        let payload = this.obsFactory.getObsPayload(questionNodes);
+        console.log(payload);
     }
 }

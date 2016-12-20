@@ -89,7 +89,7 @@ export class FormFactory {
             factory = this;
         }
         let groupQuestion: QuestionGroup =
-            new QuestionGroup({ key: question.key, type: 'group', label: '', questions: question.questions });
+            new QuestionGroup({ key: question.key, type: 'group', extras: question.extras, label: '', questions: question.questions });
 
         if (question.controlType === AfeControlType.None) {
             groupQuestion.controlType = question.controlType;
@@ -110,7 +110,6 @@ export class FormFactory {
         let nodeToRemove = node.children[index];
 
         node.children.splice(index, 1);
-
         if (node.control !== null || node.control !== undefined) {
             if (node.control instanceof AfeFormArray) {
                 let control = node.control as AfeFormArray;
