@@ -11,6 +11,8 @@ export class NodeBase {
     private _questionModel: QuestionBase;
     private _form: Form;
 
+    public initialValue: any;
+
     constructor(question: QuestionBase, control?: AbstractControl, form?: Form) {
         this._control = control;
         this._questionModel = question;
