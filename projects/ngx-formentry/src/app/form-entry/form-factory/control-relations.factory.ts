@@ -5,7 +5,6 @@ import { JsExpressionValidationModel } from '../question-models/js-expression-va
 import { NodeBase, GroupNode, LeafNode, ArrayNode } from './form-node';
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { AfeFormArray } from '../../abstract-controls-extension/afe-form-array';
-import { ControlRelation } from '../../change-tracking/control-relation';
 
 @Injectable()
 export class ControlRelationsFactory {
@@ -98,26 +97,50 @@ export class ControlRelationsFactory {
         }
       });
     }
+
+    if ( !hasRelation ) {
+
+      if ( typeof questionBase.hide === 'string' ) {
+
+        let hide: string = questionBase.hide as string;
+
+        if ( hide.length > 0 && hide.indexOf(id) !== -1 ) {
+          hasRelation = true;
+        }
+      }
+
+      if ( typeof questionBase.disable === 'string' ) {
+
+        let disable: string = questionBase.disable as string;
+
+        if ( disable.length > 0 && disable.indexOf(id) !== -1 ) {
+          hasRelation = true;
+        }
+      }
+    }
+
     return hasRelation;
   }
 
   addRelationToControl(control: AfeFormControl | AfeFormArray, related: AfeFormControl | AfeFormArray) {
 
-    let relations = control.controlRelations.relations;
+    // let relations = control.controlRelations.relations;
 
-    let hasRelation = false;
+    // let hasRelation = false;
 
-    relations.forEach(element => {
+    // relations.forEach(element => {
+    //
+    //   let controlRelation: ControlRelation = element as ControlRelation;
+    //
+    //   let relation: AfeFormControl | AfeFormArray = controlRelation.control as AfeFormControl | AfeFormArray;
+    //
+    //   if ( control.uuid !== undefined && control.uuid === relation.uuid ) {
+    //     hasRelation = true;
+    //   }
+    // });
 
-      let controlRelation: ControlRelation = element as ControlRelation;
-
-      if ( control === controlRelation.control ) {
-        hasRelation = true;
-      }
-    });
-
-    if ( !hasRelation ) {
-      control.controlRelations.addRelatedControls(related);
-    }
+    // if ( !hasRelation ) {
+    control.controlRelations.addRelatedControls(related);
+    // }
   }
 }

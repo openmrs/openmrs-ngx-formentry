@@ -13,6 +13,7 @@ export interface CanHide {
     setHidingFn(newHider: Hider);
     clearHidingFns();
     updateHiddenState();
+    setValue(value: any);
 }
 
 export interface Hider {
@@ -20,5 +21,3 @@ export interface Hider {
     hideWhenExpression: string;
     reEvaluateHidingExpression: EvaluateExpressionFn;
 }
-
-
