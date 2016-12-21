@@ -73,7 +73,7 @@ describe('Question Factory', () => {
                 message: 'Date should be before the encounter date.'
             }
         ],
-        hide:  'NewbornProhpArv !== "a899b35c-1350 - 11df-a1f1 - 0026b9348838"'
+        hide: 'NewbornProhpArv !== "a899b35c-1350 - 11df-a1f1 - 0026b9348838"'
     };
 
     let multiCheckboxSchemaQuestion: any = {

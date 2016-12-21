@@ -9,6 +9,7 @@ import { MultiSelectQuestion } from '../question-models/multi-select-question';
 import { QuestionGroup } from '../question-models/group-question';
 import { RepeatingQuestion } from '../question-models/repeating-question';
 import { QuestionBase } from '../question-models/question-base';
+import { TestOrderQuestion } from '../question-models/test-order-question';
 import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
 import { ValidationModel } from '../question-models/validation.model';
@@ -239,6 +240,12 @@ export class QuestionFactory {
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
 
+    if (schemaQuestion.type === 'testOrder') {
+      let testOrder = this.toTestOrderQuestion(schemaQuestion);
+      let orders = []; orders.push(testOrder);
+      question.questions = orders;
+    }
+
     let mappings: any = {
       label: 'label',
       required: 'required',
@@ -383,6 +390,33 @@ export class QuestionFactory {
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
+    return question;
+  }
+
+  toTestOrderQuestion(schemaQuestion: any): TestOrderQuestion {
+
+    let question = new TestOrderQuestion({
+      type: '', key: '', orderType: '', selectableOrders: [],
+      orderSettingUuid: '', label: '', rendering: ''
+    });
+
+    question.label = schemaQuestion.label;
+    question.key = schemaQuestion.id;
+    question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
+    question.options = schemaQuestion.questionOptions.selectableOrders.map(function (obj) {
+      return {
+        label: obj.label,
+        value: obj.concept
+      };
+    });
+
+    let mappings: any = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+    this.copyProperties(mappings, schemaQuestion, question);
     return question;
   }
 

@@ -1,0 +1,330 @@
+{
+    "uuid": "3e9f1808-34dd-4407-b474-c334a2653a10",
+    "display": "ADULTRETURN 16/11/2016",
+    "encounterDatetime": "2016-11-16T11:46:37.000+0300",
+    "patient": {
+        "uuid": "b4ddd369-bec5-446e-b8f8-47fd5567b295",
+        "display": "234750205-2 - Robai Test Robai",
+        "links": [
+            {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/b4ddd369-bec5-446e-b8f8-47fd5567b295"
+            }
+        ]
+    },
+    "form": {
+        "uuid": "81f92a8a-ff5c-415d-a34c-b5bdca2406be",
+        "display": "AMPATH POC Adult Return Visit Form v1.0",
+        "name": "AMPATH POC Adult Return Visit Form v1.0",
+        "description": "AMPATH POC Adult Return Visit Form v1.0",
+        "encounterType": {
+            "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "display": "ADULTRETURN",
+            "links": [
+                {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encountertype/8d5b2be0-c2cc-11de-8d13-0010c6dffd0f"
+                }
+            ]
+        },
+        "version": "1.0",
+        "build": null,
+        "published": true,
+        "formFields": [],
+        "retired": false,
+        "resources": [
+            {
+                "uuid": "991e36d7-98df-45a9-b77b-37dba0dfcb67",
+                "display": "json schema",
+                "links": [
+                    {
+                        "rel": "value",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/form/81f92a8a-ff5c-415d-a34c-b5bdca2406be/resource/991e36d7-98df-45a9-b77b-37dba0dfcb67/value"
+                    },
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/form/81f92a8a-ff5c-415d-a34c-b5bdca2406be/resource/991e36d7-98df-45a9-b77b-37dba0dfcb67"
+                    }
+                ]
+            }
+        ],
+        "links": [
+            {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/form/81f92a8a-ff5c-415d-a34c-b5bdca2406be"
+            },
+            {
+                "rel": "full",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/form/81f92a8a-ff5c-415d-a34c-b5bdca2406be?v=full"
+            }
+        ],
+        "resourceVersion": "1.9"
+    },
+    "encounterType": {
+        "uuid": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+        "display": "ADULTRETURN",
+        "name": "ADULTRETURN",
+        "description": "Outpatient Adult Return Visit",
+        "retired": false,
+        "links": [
+            {
+                "rel": "self",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encountertype/8d5b2be0-c2cc-11de-8d13-0010c6dffd0f"
+            },
+            {
+                "rel": "full",
+                "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encountertype/8d5b2be0-c2cc-11de-8d13-0010c6dffd0f?v=full"
+            }
+        ],
+        "resourceVersion": "1.8"
+    },
+    "orders": [
+        {
+            "uuid": "order-1-uuid",
+            "orderNumber": "ORD-13737",
+            "voided": true,
+            "patient": {
+                "uuid": "b4ddd369-bec5-446e-b8f8-47fd5567b295",
+                "display": "234750205-2 - Robai Test Robai",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/b4ddd369-bec5-446e-b8f8-47fd5567b295"
+                    }
+                ]
+            },
+            "concept": {
+                "uuid": "a8982474-1350-11df-a1f1-0026b9348838",
+                "display": "HIV VIRAL LOAD, QUANTITATIVE",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8982474-1350-11df-a1f1-0026b9348838"
+                    }
+                ]
+            },
+            "action": "NEW",
+            "careSetting": {
+                "uuid": "6f0c9a92-6f24-11e3-af88-005056821db0",
+                "display": "Outpatient",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/caresetting/6f0c9a92-6f24-11e3-af88-005056821db0"
+                    }
+                ]
+            },
+            "previousOrder": null,
+            "dateActivated": "2016-12-14T06:38:52.000+0300",
+            "dateStopped": null,
+            "autoExpireDate": null,
+            "encounter": {
+                "uuid": "3e9f1808-34dd-4407-b474-c334a2653a10",
+                "display": "ADULTRETURN 16/11/2016",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encounter/3e9f1808-34dd-4407-b474-c334a2653a10"
+                    }
+                ]
+            },
+            "orderer": {
+                "uuid": "d9ca67ef-c8ea-4d2d-9102-eb515573f856",
+                "display": "1118-9 - Florida Jepngetich Kiplagat",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/provider/d9ca67ef-c8ea-4d2d-9102-eb515573f856"
+                    }
+                ]
+            },
+            "orderReason": null,
+            "orderReasonNonCoded": null,
+            "urgency": "ROUTINE",
+            "instructions": null,
+            "commentToFulfiller": null,
+            "display": "HIV VIRAL LOAD, QUANTITATIVE",
+            "specimenSource": null,
+            "laterality": null,
+            "clinicalHistory": null,
+            "frequency": null,
+            "numberOfRepeats": null,
+            "links": [
+                {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/order/04702e88-b06a-44c0-a5e8-c3f3291595a0"
+                },
+                {
+                    "rel": "full",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/order/04702e88-b06a-44c0-a5e8-c3f3291595a0?v=full"
+                }
+            ],
+            "type": "testorder",
+            "resourceVersion": "1.10"
+        },
+        {
+            "uuid": "order-1-uuid",
+            "orderNumber": "ORD-13738",
+            "patient": {
+                "uuid": "b4ddd369-bec5-446e-b8f8-47fd5567b295",
+                "display": "234750205-2 - Robai Test Robai",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/b4ddd369-bec5-446e-b8f8-47fd5567b295"
+                    }
+                ]
+            },
+            "concept": {
+                "uuid": "a8982474-1350-11df-a1f1-0026b9348838",
+                "display": "HIV VIRAL LOAD, QUANTITATIVE",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a8982474-1350-11df-a1f1-0026b9348838"
+                    }
+                ]
+            },
+            "action": "NEW",
+            "careSetting": {
+                "uuid": "6f0c9a92-6f24-11e3-af88-005056821db0",
+                "display": "Outpatient",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/caresetting/6f0c9a92-6f24-11e3-af88-005056821db0"
+                    }
+                ]
+            },
+            "previousOrder": null,
+            "dateActivated": "2016-12-14T06:38:52.000+0300",
+            "dateStopped": null,
+            "autoExpireDate": null,
+            "encounter": {
+                "uuid": "3e9f1808-34dd-4407-b474-c334a2653a10",
+                "display": "ADULTRETURN 16/11/2016",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encounter/3e9f1808-34dd-4407-b474-c334a2653a10"
+                    }
+                ]
+            },
+            "orderer": {
+                "uuid": "d9ca67ef-c8ea-4d2d-9102-eb515573f856",
+                "display": "1118-9 - Florida Jepngetich Kiplagat",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/provider/d9ca67ef-c8ea-4d2d-9102-eb515573f856"
+                    }
+                ]
+            },
+            "orderReason": null,
+            "orderReasonNonCoded": null,
+            "urgency": "ROUTINE",
+            "instructions": null,
+            "commentToFulfiller": null,
+            "display": "HIV VIRAL LOAD, QUANTITATIVE",
+            "specimenSource": null,
+            "laterality": null,
+            "clinicalHistory": null,
+            "frequency": null,
+            "numberOfRepeats": null,
+            "links": [
+                {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/order/04702e88-b06a-44c0-a5e8-c3f3291595a0"
+                },
+                {
+                    "rel": "full",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/order/04702e88-b06a-44c0-a5e8-c3f3291595a0?v=full"
+                }
+            ],
+            "type": "testorder",
+            "resourceVersion": "1.10"
+        },
+        {
+            "uuid": "order-2-uuid",
+            "orderNumber": "ORD-13739",
+            "patient": {
+                "uuid": "b4ddd369-bec5-446e-b8f8-47fd5567b295",
+                "display": "234750205-2 - Robai Test Robai",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/patient/b4ddd369-bec5-446e-b8f8-47fd5567b295"
+                    }
+                ]
+            },
+            "concept": {
+                "uuid": "a898fe80-1350-11df-a1f1-0026b9348838",
+                "display": "HIV DNA POLYMERASE CHAIN REACTION, QUALITATIVE",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/concept/a898fe80-1350-11df-a1f1-0026b9348838"
+                    }
+                ]
+            },
+            "action": "NEW",
+            "careSetting": {
+                "uuid": "6f0c9a92-6f24-11e3-af88-005056821db0",
+                "display": "Outpatient",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/caresetting/6f0c9a92-6f24-11e3-af88-005056821db0"
+                    }
+                ]
+            },
+            "previousOrder": null,
+            "dateActivated": "2016-12-14T06:38:53.000+0300",
+            "dateStopped": null,
+            "autoExpireDate": null,
+            "encounter": {
+                "uuid": "3e9f1808-34dd-4407-b474-c334a2653a10",
+                "display": "ADULTRETURN 16/11/2016",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/encounter/3e9f1808-34dd-4407-b474-c334a2653a10"
+                    }
+                ]
+            },
+            "orderer": {
+                "uuid": "d9ca67ef-c8ea-4d2d-9102-eb515573f856",
+                "display": "1118-9 - Florida Jepngetich Kiplagat",
+                "links": [
+                    {
+                        "rel": "self",
+                        "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/provider/d9ca67ef-c8ea-4d2d-9102-eb515573f856"
+                    }
+                ]
+            },
+            "orderReason": null,
+            "orderReasonNonCoded": null,
+            "urgency": "ROUTINE",
+            "instructions": null,
+            "commentToFulfiller": null,
+            "display": "HIV DNA POLYMERASE CHAIN REACTION, QUALITATIVE",
+            "specimenSource": null,
+            "laterality": null,
+            "clinicalHistory": null,
+            "frequency": null,
+            "numberOfRepeats": null,
+            "links": [
+                {
+                    "rel": "self",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/order/38e07c3c-3291-4d5b-8d4b-7c9dbd5df072"
+                },
+                {
+                    "rel": "full",
+                    "uri": "https://amrs.ampath.or.ke:8443/amrs/ws/rest/v1/order/38e07c3c-3291-4d5b-8d4b-7c9dbd5df072?v=full"
+                }
+            ],
+            "type": "testorder",
+            "resourceVersion": "1.10"
+        }
+    ]
+}
