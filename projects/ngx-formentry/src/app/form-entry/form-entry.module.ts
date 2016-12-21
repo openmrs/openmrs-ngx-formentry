@@ -6,7 +6,6 @@ import { ValidationFactory } from './form-factory/validation.factory';
 import { FormBuilder } from '@angular/forms';
 import { FormRendererComponent } from './form-renderer/form-renderer.component';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
-import { OwlCarouselComponent } from '../components/owl-carousel';
 import { HistoricalValueDirective } from './directives/historical-value-directive';
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
 import { SelectModule } from '../components/select';
@@ -14,11 +13,12 @@ import { AfeNgSelectComponent } from '../components/afe-ng-select.component';
 import { HidersDisablersFactory } from './form-factory/hiders-disablers.factory';
 import { ExpressionRunner } from './expression-runner/expression-runner';
 import { JsExpressionHelper } from './helpers/js-expression-helper';
+import { FormSchemaCompiler } from './services/form-schema-compiler.service';
 @NgModule({
     imports: [CommonModule, ReactiveFormsModule, SelectModule],
-    declarations: [FormRendererComponent, OwlCarouselComponent, AfeNgSelectComponent, HistoricalValueDirective],
+    declarations: [FormRendererComponent, AfeNgSelectComponent, HistoricalValueDirective],
     providers: [FormBuilder, FormControlService, ValidationFactory, HidersDisablersFactory, ExpressionRunner, JsExpressionHelper,
-      HistoricalFieldHelperService],
+        HistoricalFieldHelperService, FormSchemaCompiler],
     exports: [FormRendererComponent]
 })
 export class FormEntryModule {
