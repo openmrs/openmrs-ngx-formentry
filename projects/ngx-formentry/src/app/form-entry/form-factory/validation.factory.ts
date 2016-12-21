@@ -132,6 +132,9 @@ export class ValidationFactory {
               case 'min':
                 messages.push(Messages.MIN_MSG.replace('{min}', errors.min.requiredValue));
                 break;
+              case 'js_expression':
+                messages.push(errors['js_expression'].message);
+                break;
             }
         }
     }
