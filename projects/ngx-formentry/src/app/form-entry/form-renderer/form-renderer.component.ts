@@ -5,6 +5,7 @@ import {
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../../../style/app.scss';
+import { DEFAULT_STYLES } from './form-renderer.component.css';
 
 import { NodeBase } from '../form-factory/form-node';
 import { AfeFormGroup } from '../../abstract-controls-extension/control-extensions';
@@ -12,7 +13,7 @@ import { ValidationFactory } from '../form-factory/validation.factory';
 @Component({
     selector: 'form-renderer',
     templateUrl: 'form-renderer.component.html',
-    styleUrls: ['form-renderer.component.scss'],
+    styles: [DEFAULT_STYLES],
     animations: [
         trigger('flyIn', [
             state('in', style({ transform: 'translateX(0)' })),
