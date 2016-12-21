@@ -10,7 +10,7 @@ import { DisablerHelper } from '../form-entry/control-hiders-disablers/disabler-
 
 export class AfeFormArray extends FormArray implements CanHide, CanDisable {
     private _controlRelations: ControlRelations;
-    public uuid: string;
+    private _uuid: string;
     public pathFromRoot: string;
 
     hidden: false;
@@ -26,6 +26,13 @@ export class AfeFormArray extends FormArray implements CanHide, CanDisable {
         this._controlRelations = new ControlRelations(this);
         this.hiders = [];
         this.disablers = [];
+    }
+
+    get uuid(): string {
+        return this._uuid;
+    }
+    set uuid(val: string) {
+        this._uuid = val;
     }
 
     get controlRelations(): ControlRelations {
