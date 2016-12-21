@@ -1,9 +1,9 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { FormControlService } from './form-factory/form-control.service';
 import { ValidationFactory } from './form-factory/validation.factory';
-import { FormBuilder } from '@angular/forms';
 import { FormRendererComponent } from './form-renderer/form-renderer.component';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { HistoricalValueDirective } from './directives/historical-value-directive';
@@ -14,11 +14,27 @@ import { HidersDisablersFactory } from './form-factory/hiders-disablers.factory'
 import { ExpressionRunner } from './expression-runner/expression-runner';
 import { JsExpressionHelper } from './helpers/js-expression-helper';
 import { FormSchemaCompiler } from './services/form-schema-compiler.service';
+import { FormFactory } from './form-factory/form.factory';
+import { QuestionFactory } from './form-factory/question.factory';
+import { ControlRelationsFactory } from './form-factory/control-relations.factory';
+
 @NgModule({
     imports: [CommonModule, ReactiveFormsModule, SelectModule],
     declarations: [FormRendererComponent, AfeNgSelectComponent, HistoricalValueDirective],
-    providers: [FormBuilder, FormControlService, ValidationFactory, HidersDisablersFactory, ExpressionRunner, JsExpressionHelper,
-        HistoricalFieldHelperService, FormSchemaCompiler],
+    providers: [
+        FormBuilder,
+        FormControlService,
+        ValidationFactory,
+        HidersDisablersFactory,
+        ExpressionRunner,
+        JsExpressionHelper,
+        HistoricalFieldHelperService,
+        FormSchemaCompiler,
+        FormFactory,
+        QuestionFactory,
+        ValidationFactory,
+        ControlRelationsFactory
+        ],
     exports: [FormRendererComponent]
 })
 export class FormEntryModule {
