@@ -2,17 +2,14 @@ import { Directive, HostListener, Input, Output, EventEmitter } from '@angular/c
 
 import { HistoricalFieldHelperService } from '../helpers/historical-field-helper-service';
 import  *  as _  from 'lodash';
-import {NodeBase} from '../form-factory/form-node';
+import { NodeBase } from '../form-factory/form-node';
 
 @Directive({
-  selector: `[historicalValue]`
+  selector: `historicalValue`
 })
 
 @Directive({
-  selector: `[node]`,
-  properties: {
-    'node': NodeBase
-  }
+  selector: `[node]`
 })
 
 export class HistoricalValueDirective {
