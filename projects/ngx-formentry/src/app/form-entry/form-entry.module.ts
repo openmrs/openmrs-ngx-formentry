@@ -17,6 +17,7 @@ import { FormSchemaCompiler } from './services/form-schema-compiler.service';
 import { FormFactory } from './form-factory/form.factory';
 import { QuestionFactory } from './form-factory/question.factory';
 import { ControlRelationsFactory } from './form-factory/control-relations.factory';
+import { ObsPayloadFactoryService } from './services/obs-payload-factory.service';
 
 @NgModule({
     imports: [CommonModule, ReactiveFormsModule, SelectModule],
@@ -33,7 +34,8 @@ import { ControlRelationsFactory } from './form-factory/control-relations.factor
         FormFactory,
         QuestionFactory,
         ValidationFactory,
-        ControlRelationsFactory
+        ControlRelationsFactory,
+        ObsPayloadFactoryService
         ],
     exports: [FormRendererComponent]
 })
