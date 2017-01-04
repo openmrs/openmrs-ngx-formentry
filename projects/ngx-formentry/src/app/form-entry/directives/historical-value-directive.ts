@@ -5,11 +5,6 @@ import  *  as _  from 'lodash';
 import { NodeBase } from '../form-factory/form-node';
 
 @Directive({
-  // tslint:disable-next-line:directive-selector-type
-  selector: `historicalValue`
-})
-
-@Directive({
   selector: `[node]`
 })
 
