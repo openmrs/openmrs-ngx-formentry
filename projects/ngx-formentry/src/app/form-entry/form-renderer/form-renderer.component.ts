@@ -8,7 +8,7 @@ import '../../../style/app.scss';
 import { DEFAULT_STYLES } from './form-renderer.component.css';
 
 import { NodeBase } from '../form-factory/form-node';
-import { AfeFormGroup } from '../../abstract-controls-extension/control-extensions';
+import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
 import { ValidationFactory } from '../form-factory/validation.factory';
 @Component({
     selector: 'form-renderer',
