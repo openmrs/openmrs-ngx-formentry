@@ -9,7 +9,7 @@ export class QuestionBase {
 
     defaultValue?: any;
     originalValue?: any;
-
+    historicalDataValue?: any;
     extras?: any;
 
     controlType?: AfeControlType;
@@ -17,6 +17,8 @@ export class QuestionBase {
     required?: boolean;
     hide?: string | boolean;
     disable?: string | boolean;
+
+    options?: any;
 
     constructor(options: BaseOptions) {
 

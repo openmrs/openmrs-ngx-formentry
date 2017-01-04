@@ -41,7 +41,8 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
     }
 
     ngAfterViewChecked(): void {
-        this.$owlElement = this.slick && this.slick.nativeElement ? $(this.slick.nativeElement).not('.slick-initialized').slick({
+        this.$owlElement = this.slick && this.slick.nativeElement ?
+          (<any>$(this.slick.nativeElement)).not('.slick-initialized').slick({
             dots: false,
             infinite: false,
             speed: 300,
@@ -78,6 +79,7 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
             ]
         }
         ) : null;
+
     }
     ngOnDestroy() {
         if (this.$owlElement && this.$owlElement.unslick) { this.$owlElement.unslick(); }
