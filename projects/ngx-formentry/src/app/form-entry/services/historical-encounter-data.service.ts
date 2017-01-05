@@ -1,79 +1,56 @@
+import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
+@Injectable()
 export class HistoricalEncounterDataService {
 
-  store: any = {};
+  dataSources: any = {};
 
-  encounters: any;
-
-  name: string;
-
-  constructor(name: string, openmrsEncounters: any) {
-
-    this.encounters = openmrsEncounters;
-    this.name = name;
-    this.registerEncounters();
+  constructor() {
   }
 
-  registerEncounters() {
-
+  registerEncounters(name: string, encounters: any) {
     let encStore: any = {
       data: [],
-
       getValue: (key: string, index = 0): any => {
-
         let pathArray = key.split('.');
-
         if (pathArray.length > 0) {
           return this.getFirstValue(pathArray, encStore.data[index]);
         }
         return encStore.data[index][key];
       },
-
       getAllObjects: () => {
         return encStore.data;
       },
-
-
       getSingleObject: (index = 0) => {
-
         return encStore.data[index];
       }
     };
 
-
-    if (_.isArray(this.encounters)) {
+    if (_.isArray(encounters)) {
       let group: Array<any> = [];
-      _.each(this.encounters, (encounter) => {
-        group.push(this._transformEncounter(encounter));
+      _.each(encounters, (encounter) => {
+          group.push(this._transformEncounter(encounter));
       });
 
       // Sort them in reverse chronological order
       encStore.data = _.sortBy(group, 'encounterDatetime').reverse();
     } else {
       // Assume a single openmrs rest encounter object.
-      encStore.data.push(this._transformEncounter(this.encounters));
+      encStore.data.push(this._transformEncounter(encounters));
     }
 
-    this.putObject(this.name, encStore);
+    this.putObject(name, encStore);
 
   }
 
   putObject(name, object): void {
-    this.store[name] = object;
+    this.dataSources[name] = object;
   }
 
   getObject(name: string): any {
-    return this.store[name] || null;
+    return this.dataSources[name] || null;
   }
-
-  hasKey(name: string): boolean {
-    return _.has(this.store, name);
-  };
-
-  removeAllObjects(): void {
-    this.store = {};
-  };
 
   getFirstValue(path: Array<string>, object: any) {
 
@@ -112,9 +89,12 @@ export class HistoricalEncounterDataService {
   }
 
   private _transformEncounter(encounter: any) {
+    if (_.isNil(encounter)) {
+      return;
+    }
     // Transform encounter Level details to key value pairs.
     let prevEncounter: any = {
-      encounterDatetime: encounter.encounterDatetime,
+      encounterDatetime: encounter.encounterDatetime
     };
 
     if (encounter.location && encounter.location.uuid) {

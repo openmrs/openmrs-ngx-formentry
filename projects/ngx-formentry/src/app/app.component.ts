@@ -5,6 +5,7 @@ import { FormGroup } from '@angular/forms';
 import { Form } from './form-entry/form-factory/form';
 import { FormFactory } from './form-entry/form-factory/form.factory';
 import { ObsPayloadFactoryService } from './form-entry/services/obs-payload-factory.service';
+import { MockObs } from './mock/mock-obs';
 
 const adultForm = require('./adult');
 const adultFormObs = require('./mock/obs');
@@ -55,7 +56,8 @@ export class AppComponent implements OnInit {
     }
 
     createForm() {
-        this.form = this.formFactory.createForm(this.schema);
+        let obs = new MockObs();
+        this.form = this.formFactory.createForm(this.schema, obs.getObs());
     }
 
     onSubmit($event) {
