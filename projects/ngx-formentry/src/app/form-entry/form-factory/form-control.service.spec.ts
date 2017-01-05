@@ -240,4 +240,46 @@ describe('Form Factory Control Service Tests', () => {
 
   });
 
+  it('should wire calculator expressions functions and evaluate correctly', () => {
+
+    let heightQuestion: QuestionBase = new TextInputQuestion({
+      type: 'text',
+      key: 'height',
+      label: 'Height',
+      defaultValue: '180',
+      placeholder: ''
+    });
+
+    let weightQuestion: QuestionBase = new TextInputQuestion({
+      type: 'text',
+      key: 'weight',
+      label: 'Weight',
+      defaultValue: '70',
+      placeholder: ''
+    });
+
+    let bmiQuestion: QuestionBase = new TextInputQuestion({
+      type: 'text',
+      key: 'bmi',
+      label: 'BMI:Kg/M2',
+      placeholder: '',
+      calculateExpression: 'calcBMI(height,weight)'
+    });
+
+    let control1 = formControlService.generateFormControl(heightQuestion);
+    let control2 = formControlService.generateFormControl(weightQuestion);
+
+    let control3 = formControlService.generateFormControl(bmiQuestion);
+
+    control3.controlRelations.addRelatedControls([control1,control2]);
+    // this will trigger propagateChange() function in the controls
+    control1.setValue(180);
+    control2.setValue(70);
+
+    expect(control3).toBeTruthy();
+    expect(control3.calculator).toBeTruthy();
+    expect(control3.value).toEqual(21.6);
+
+  });
+
 });

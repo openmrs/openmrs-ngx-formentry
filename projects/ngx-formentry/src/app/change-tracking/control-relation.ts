@@ -29,6 +29,11 @@ export class ControlRelation {
     updateControlBasedOnRelation(newValue: any): boolean {
         if (newValue !== this._lastUpdateValue) {
             this._lastUpdateValue = newValue;
+
+            if ((this._control as any).updateCalculatedValue) {
+              (this._control as any).updateCalculatedValue();
+            }
+
             this._control.updateValueAndValidity();
             if ((this._control as any).updateHiddenState) {
                 (this._control as any).updateHiddenState();
@@ -39,6 +44,7 @@ export class ControlRelation {
                 (this._control as any).updateDisabledState();
                 //  console.log('updating disabled');
             }
+
             return true;
         }
         return false;

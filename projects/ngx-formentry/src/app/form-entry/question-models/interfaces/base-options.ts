@@ -13,4 +13,5 @@ export interface BaseOptions {
     questionOptions?: any;
     hide?: string | boolean;
     disable?: string | boolean;
+    calculateExpression?: string;
 }

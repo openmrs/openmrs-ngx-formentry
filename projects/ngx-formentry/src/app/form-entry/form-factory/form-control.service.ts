@@ -10,6 +10,8 @@ import { QuestionGroup } from '../question-models/group-question';
 import { ValidationFactory } from '../form-factory/validation.factory';
 import { HidersDisablersFactory } from './hiders-disablers.factory';
 import { Form } from './form';
+import { ExpressionRunner, Runnable } from '../expression-runner/expression-runner';
+import { JsExpressionHelper } from '../helpers/js-expression-helper';
 
 @Injectable()
 export class FormControlService {
@@ -90,6 +92,7 @@ export class FormControlService {
         let control = new AfeFormControl(value, validators);
         control.uuid = question.key;
         this.wireHidersDisablers(question, control, (form ? form.dataSourcesContainer.dataSources : null));
+        this.wireCalculator(question, control, (form ? form.dataSourcesContainer.dataSources : null));
 
         if (parentControl instanceof AfeFormGroup) {
             parentControl.setControl(question.key, control);
@@ -111,5 +114,17 @@ export class FormControlService {
             control.setDisablingFn(disable);
         }
     }
+
+  private wireCalculator(question: QuestionBase,
+                              control: AfeFormControl, dataSource?: any) {
+      if (question.calculateExpression && question.calculateExpression !== '') {
+        let helper: JsExpressionHelper = new JsExpressionHelper();
+        let runner: ExpressionRunner = new ExpressionRunner();
+        let runnable: Runnable = runner.getRunnable(question.calculateExpression, control, helper.helperFunctions, {});
+        // this functionality strictly assumes the calculateExpression function has been defined in the JsExpressionHelper class
+        control.setCalculatorFn(runnable.run);
+      }
+
+  }
 
 }
