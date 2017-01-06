@@ -327,4 +327,71 @@ describe('Form Factory:', () => {
         expect(encDate).toBe(question1.control);
 
     });
+
+    it('should create a form with searching-by-id functionality', () => {
+        let testSchema = new SampleSchema().getSchema();
+        let factory: FormFactory = TestBed.get(FormFactory);
+
+        let createdForm: Form = factory.createForm(testSchema);
+
+        // CASE 1: top level nodes
+        //  ID 'encDate': First field in the form, date field
+        let found = createdForm.searchNodeByQuestionId('encDate');
+
+        expect(found).toBeTruthy();
+        expect(found.length).toBe(1);
+        expect(found[0].question.key).toBe('encDate');
+
+        found = null;
+
+        // CASE 2: Deeper controls
+
+        // ID 'testGroup': A group holding vital signs
+        found = createdForm.searchNodeByQuestionId('testGroup');
+
+        expect(found).toBeTruthy();
+        expect(found.length).toBe(1);
+        expect(found[0].question.key).toBe('testGroup');
+        expect(found[0].question.label).toBe('test group');
+
+        // ID 'systolic': A control within vital signs group
+        found = createdForm.searchNodeByQuestionId('systolic');
+
+        expect(found).toBeTruthy();
+        expect(found.length).toBe(1);
+        expect(found[0].question.key).toBe('systolic');
+        expect(found[0].question.label).toBe('BP:Systolic:');
+
+        found = null;
+
+        // CASE 3: Controls within  node arrays i.e controls created at run time
+        // ID 'otherDrugDetail' a control within the repeating group 'otherDrug'
+
+        let repeatingNode: ArrayNode;
+        found = createdForm.searchNodeByQuestionId('otherDrug');
+
+        expect(found).toBeTruthy();
+        expect(found.length).toBe(1);
+        expect(found[0] instanceof ArrayNode).toBe(true);
+
+        repeatingNode = found[0] as ArrayNode;
+
+        // simulate user adding controls at run time
+        repeatingNode.createChildNode();
+        repeatingNode.createChildNode();
+        repeatingNode.createChildNode();
+
+        found = null;
+
+        found = createdForm.searchNodeByQuestionId('otherDrugDetail');
+        expect(found).toBeTruthy();
+        expect(found.length).toBe(3);
+        expect(found[0].question.key).toBe('otherDrugDetail');
+        expect(found[0].question.label).toBe('Other drugs:');
+        expect(found[1].question.key).toBe('otherDrugDetail');
+        expect(found[1].question.label).toBe('Other drugs:');
+        expect(found[2].question.key).toBe('otherDrugDetail');
+        expect(found[2].question.label).toBe('Other drugs:');
+
+    });
 });

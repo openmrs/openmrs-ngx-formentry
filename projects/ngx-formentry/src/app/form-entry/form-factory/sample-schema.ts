@@ -184,12 +184,14 @@ export class SampleSchema {
                     questions: [{
                         type: 'obsGroup',
                         label: 'test group',
+                        id: 'testGroup',
                         questionOptions: {
                             rendering: 'group',
                             concept: 'a899e6d8-1350-11df-a1f1-0026b9348838'
                         },
                         questions: [{
                             label: 'BP:Systolic:',
+                            id: 'systolic',
                             questionOptions: {
                                 rendering: 'number',
                                 concept: 'a8a65d5a-1350-11df-a1f1-0026b9348838',
