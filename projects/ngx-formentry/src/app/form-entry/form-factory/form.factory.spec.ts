@@ -43,7 +43,9 @@ describe('Form Factory:', () => {
         testQuestion.controlType = AfeControlType.AfeFormControl;
 
         let parentControl = new AfeFormGroup({});
-        let parentNode = new GroupNode(new QuestionBase({ key: 'key', label: 'label', type: 'type' }));
+        let parentNode = new GroupNode(new QuestionBase({ key: 'key', label: 'label', type: 'type' }),
+            null, null, null, 'path.to.parent');
+
         let createdNode = factory.createNode(testQuestion, parentNode, parentControl);
 
         // case leaf with control
@@ -52,6 +54,7 @@ describe('Form Factory:', () => {
         expect(createdNode.control instanceof AfeFormControl).toBe(true);
         expect(createdNode.question).toBeTruthy();
         expect(createdNode.question).toBe(testQuestion);
+        expect(createdNode.path).toBe('path.to.parent.key.key1');
 
         // case leaf without control
         let testQuestion2 = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
@@ -62,8 +65,9 @@ describe('Form Factory:', () => {
         let createdNode2 = factory.createNode(testQuestion2, parentNode, parentControl);
         expect(createdNode2).toBeTruthy();
         expect(createdNode2.control).toBeNull();
-        expect(createdNode.question).toBeTruthy();
-        expect(createdNode.question).toBe(testQuestion);
+        expect(createdNode2.question).toBeTruthy();
+        expect(createdNode2.question).toBe(testQuestion2);
+        expect(createdNode2.path).toBe('key.key1');
 
     });
 
@@ -87,6 +91,7 @@ describe('Form Factory:', () => {
         expect(createdNode.control).toBeTruthy();
         expect(createdNode.control instanceof AfeFormGroup).toBe(true);
         expect(createdNode.question).toBe(groupQuestion);
+        expect(createdNode.path).toBe(groupQuestion.key);
 
         // examine children
         expect(createdNode.children).toBeTruthy();
@@ -94,16 +99,19 @@ describe('Form Factory:', () => {
         expect(createdNode.children[testQuestion.key] instanceof LeafNode).toBe(true);
         expect(createdNode.children[testQuestion.key].control instanceof AfeFormControl).toBe(true);
         expect(createdNode.children[testQuestion.key].question).toBe(testQuestion);
+        expect(createdNode.children[testQuestion.key].path).toBe('g1.key1');
 
         expect(createdNode.children[testQuestion2.key]).toBeTruthy();
         expect(createdNode.children[testQuestion2.key] instanceof LeafNode).toBe(true);
         expect(createdNode.children[testQuestion2.key].control instanceof AfeFormControl).toBe(true);
         expect(createdNode.children[testQuestion2.key].question).toBe(testQuestion2);
+        expect(createdNode.children[testQuestion2.key].path).toBe('g1.key2');
 
         expect(createdNode.children[groupQuestion2.key]).toBeTruthy();
         expect(createdNode.children[groupQuestion2.key] instanceof GroupNode).toBe(true);
         expect(createdNode.children[groupQuestion2.key].control instanceof AfeFormGroup).toBe(true);
         expect(createdNode.children[groupQuestion2.key].question).toBe(groupQuestion2);
+        expect(createdNode.children[groupQuestion2.key].path).toBe('g1.g2');
 
         // test recursive nature
         let group2 = createdNode.children[groupQuestion2.key] as GroupNode;
@@ -112,6 +120,7 @@ describe('Form Factory:', () => {
         expect(group2.control instanceof AfeFormGroup).toBe(true);
         expect(group2.children).toBeTruthy();
         expect(group2.children[testQuestion3.key]).toBeTruthy();
+        expect(group2.children[testQuestion3.key].path).toBe('g1.g2.key3');
 
         // test generated form model to be well generated
         let createdFormModel = createdNode.control as AfeFormGroup;
@@ -193,6 +202,7 @@ describe('Form Factory:', () => {
         expect(createdNode.control).toBeTruthy();
         expect(createdNode.control instanceof AfeFormArray).toBe(true);
         expect(createdNode.question).toBe(repeatingQuestion);
+        expect(createdNode.path).toBe('r1');
 
         // check functions
         let childNode = createdNode.createChildNode();
@@ -229,14 +239,17 @@ describe('Form Factory:', () => {
 
         expect(childNode.children['key1'] as LeafNode).toBeTruthy();
         expect((childNode.children['key1'] as LeafNode).question).toBe(testQuestion);
+        expect((childNode.children['key1'] as LeafNode).path).toBe('r1.0.key1');
 
         expect(childNode.children['g1'] as GroupNode).toBeTruthy();
-        expect((childNode.children['g1'] as LeafNode).question).toBe(groupQuestion);
+        expect((childNode.children['g1'] as GroupNode).question).toBe(groupQuestion);
+        expect((childNode.children['g1'] as GroupNode).path).toBe('r1.0.g1');
 
         let childGroup = childNode.children['g1'] as GroupNode;
 
         expect(childGroup.children['key2'] as LeafNode).toBeTruthy();
         expect((childGroup.children['key2'] as LeafNode).question).toBe(testQuestion2);
+        expect((childGroup.children['key2'] as LeafNode).path).toBe('r1.0.g1.key2');
 
         // examine the model of the repeating field after adding node
         let model = createdNode.control as AfeFormArray;
@@ -325,6 +338,73 @@ describe('Form Factory:', () => {
 
         expect(encDate).toBeTruthy();
         expect(encDate).toBe(question1.control);
+
+    });
+
+    it('should create a form with searching-by-id functionality', () => {
+        let testSchema = new SampleSchema().getSchema();
+        let factory: FormFactory = TestBed.get(FormFactory);
+
+        let createdForm: Form = factory.createForm(testSchema);
+
+        // CASE 1: top level nodes
+        //  ID 'encDate': First field in the form, date field
+        let found = createdForm.searchNodeByQuestionId('encDate');
+
+        expect(found).toBeTruthy();
+        expect(found.length).toBe(1);
+        expect(found[0].question.key).toBe('encDate');
+
+        found = null;
+
+        // CASE 2: Deeper controls
+
+        // ID 'testGroup': A group holding vital signs
+        found = createdForm.searchNodeByQuestionId('testGroup');
+
+        expect(found).toBeTruthy();
+        expect(found.length).toBe(1);
+        expect(found[0].question.key).toBe('testGroup');
+        expect(found[0].question.label).toBe('test group');
+
+        // ID 'systolic': A control within vital signs group
+        found = createdForm.searchNodeByQuestionId('systolic');
+
+        expect(found).toBeTruthy();
+        expect(found.length).toBe(1);
+        expect(found[0].question.key).toBe('systolic');
+        expect(found[0].question.label).toBe('BP:Systolic:');
+
+        found = null;
+
+        // CASE 3: Controls within  node arrays i.e controls created at run time
+        // ID 'otherDrugDetail' a control within the repeating group 'otherDrug'
+
+        let repeatingNode: ArrayNode;
+        found = createdForm.searchNodeByQuestionId('otherDrug');
+
+        expect(found).toBeTruthy();
+        expect(found.length).toBe(1);
+        expect(found[0] instanceof ArrayNode).toBe(true);
+
+        repeatingNode = found[0] as ArrayNode;
+
+        // simulate user adding controls at run time
+        repeatingNode.createChildNode();
+        repeatingNode.createChildNode();
+        repeatingNode.createChildNode();
+
+        found = null;
+
+        found = createdForm.searchNodeByQuestionId('otherDrugDetail');
+        expect(found).toBeTruthy();
+        expect(found.length).toBe(3);
+        expect(found[0].question.key).toBe('otherDrugDetail');
+        expect(found[0].question.label).toBe('Other drugs:');
+        expect(found[1].question.key).toBe('otherDrugDetail');
+        expect(found[1].question.label).toBe('Other drugs:');
+        expect(found[2].question.key).toBe('otherDrugDetail');
+        expect(found[2].question.label).toBe('Other drugs:');
 
     });
 });

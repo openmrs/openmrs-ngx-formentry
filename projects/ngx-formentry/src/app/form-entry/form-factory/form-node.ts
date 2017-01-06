@@ -10,13 +10,15 @@ export class NodeBase {
     private _control: AbstractControl;
     private _questionModel: QuestionBase;
     private _form: Form;
+    private _path: string;
 
     public initialValue: any;
 
-    constructor(question: QuestionBase, control?: AbstractControl, form?: Form) {
+    constructor(question: QuestionBase, control?: AbstractControl, form?: Form, parentPath?: string) {
         this._control = control;
         this._questionModel = question;
         this._form = form;
+        this._path = parentPath ? parentPath + '.' + question.key : question.key;
     }
 
     public get question(): QuestionBase {
@@ -31,18 +33,22 @@ export class NodeBase {
         return this._form;
     }
 
+    public get path(): string {
+        return this._path;
+    }
+
 }
 
 export class LeafNode extends NodeBase {
-    constructor(question: QuestionBase, control?: AbstractControl, parentControl?: AbstractControl, form?: Form) {
-        super(question, control, form);
+    constructor(question: QuestionBase, control?: AbstractControl, parentControl?: AbstractControl, form?: Form, parentPath?: string) {
+        super(question, control, form, parentPath);
     }
 }
 
 export class GroupNode extends NodeBase {
     private _children: any;
-    constructor(question: QuestionBase, control?: AbstractControl, parentControl?: AbstractControl, form?: Form) {
-        super(question, control, form);
+    constructor(question: QuestionBase, control?: AbstractControl, parentControl?: AbstractControl, form?: Form, parentPath?: string) {
+        super(question, control, form, parentPath);
         this._children = {};
     }
 
@@ -63,8 +69,9 @@ export class ArrayNode extends NodeBase {
     public removeChildFunc: RemoveArrayChildNodeFunction;
 
     constructor(question: QuestionBase, control?: AbstractControl,
-        parentControl?: AbstractControl, private formFactory?: FormFactory, form?: Form) {
-        super(question, control, form);
+        parentControl?: AbstractControl, private formFactory?: FormFactory,
+        form?: Form, parentPath?: string) {
+        super(question, control, form, parentPath);
         this._children = [];
     }
 
