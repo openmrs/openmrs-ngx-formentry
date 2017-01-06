@@ -19,7 +19,7 @@ export class FormFactory {
     };
 
     constructor(public controlService: FormControlService,
-      public questionFactroy: QuestionFactory, public controlRelationsFactory: ControlRelationsFactory) {
+        public questionFactroy: QuestionFactory, public controlRelationsFactory: ControlRelationsFactory) {
     }
 
     createForm(schema: any): Form {
@@ -32,7 +32,7 @@ export class FormFactory {
     }
 
     buildRelations(rootNode: GroupNode) {
-      this.controlRelationsFactory.buildRelations(rootNode);
+        this.controlRelationsFactory.buildRelations(rootNode);
     }
 
     createNode(question: QuestionBase | NestedQuestion,
@@ -53,13 +53,15 @@ export class FormFactory {
     createLeafNode(question: QuestionBase,
         parentNode: GroupNode, parentControl?: AfeFormGroup, form?: Form): LeafNode {
         let controlModel = this.controlService.generateControlModel(question, parentControl, false);
-        return new LeafNode(question, controlModel, null, form);
+        return new LeafNode(question, controlModel, null, form,
+            parentNode ? parentNode.path : undefined);
     }
 
     createGroupNode(question: NestedQuestion, parentNode?: GroupNode,
         parentControl?: AfeFormGroup, form?: Form): GroupNode {
         let controlModel = this.controlService.generateControlModel(question, parentControl, false) as AfeFormGroup;
-        let groupNode = new GroupNode(question, controlModel, null, form);
+        let groupNode = new GroupNode(question, controlModel, null,
+            form, parentNode ? parentNode.path : undefined);
         this.createNodeChildren(question, groupNode, (controlModel || parentControl), form);
         return groupNode;
     }
@@ -67,7 +69,8 @@ export class FormFactory {
     createArrayNode(question: NestedQuestion, parentNode?: GroupNode,
         parentControl?: AfeFormGroup, form?: Form): ArrayNode {
         let controlModel = this.controlService.generateControlModel(question, parentControl, false) as AfeFormGroup;
-        let arrayNode = new ArrayNode(question, controlModel, parentControl, this, form);
+        let arrayNode = new ArrayNode(question, controlModel, parentControl,
+            this, form, parentNode ? parentNode.path : undefined);
         arrayNode.createChildFunc = this.createArrayNodeChild;
         arrayNode.removeChildFunc = this.removeArrayNodeChild;
         return arrayNode;
@@ -89,7 +92,10 @@ export class FormFactory {
             factory = this;
         }
         let groupQuestion: QuestionGroup =
-            new QuestionGroup({ key: question.key, type: 'group', extras: question.extras, label: '', questions: question.questions });
+            new QuestionGroup({
+                key:  node.path + '.' + node.children.length + '',
+                type: 'group', extras: question.extras, label: '', questions: question.questions
+            });
 
         if (question.controlType === AfeControlType.None) {
             groupQuestion.controlType = question.controlType;
