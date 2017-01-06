@@ -17,7 +17,7 @@ export class QuestionBase {
     required?: boolean;
     hide?: string | boolean;
     disable?: string | boolean;
-
+    calculateExpression?: string;
     options?: any;
 
     constructor(options: BaseOptions) {
@@ -32,5 +32,6 @@ export class QuestionBase {
         this.required = options.required;
         this.hide = options.hide;
         this.disable = options.disable;
+        this.calculateExpression = options.calculateExpression;
     }
 }
