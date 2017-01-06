@@ -334,8 +334,12 @@ describe('ObsPayloadFactoryService Specs', () => {
                     s.setValues(questionNodes, adultFormObs.obs);
 
                     let value = form.rootNode.control.value;
-
-                    expect(value).toEqual(formValue);
+                    expect(value['onArt']).toEqual('a899b35c-1350-11df-a1f1-0026b9348838');
+                    expect(value['tbadhere']).toEqual({
+                        tb_adherence: 'a8b0f882-1350-11df-a1f1-0026b9348838',
+                        adherenceTbTreatment: '',
+                        adherenceTbOther: ''
+                    });
                 }));
     });
 

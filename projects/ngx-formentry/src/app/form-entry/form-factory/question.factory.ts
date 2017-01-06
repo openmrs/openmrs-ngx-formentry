@@ -415,6 +415,9 @@ export class QuestionFactory {
     if (renderType === 'ui-select-extended') {
       renderType = schema.type;
     }
+    if (!schema.id) {
+      schema['id'] = this.generateId(10);
+    }
     switch (renderType) {
       case 'select':
         return this.toSelectQuestion(schema);
@@ -523,5 +526,13 @@ export class QuestionFactory {
     if (typeof schemaQuestion.hide === 'object') {
       question.hide = schemaQuestion.hide.hideWhenExpression;
     }
+  }
+  private generateId(x) {
+    let s = '';
+    while (s.length < x && x > 0) {
+      let r = Math.random();
+      s += (r < 0.1 ? Math.floor(r * 100) : String.fromCharCode(Math.floor(r * 26) + (r > 0.5 ? 97 : 65)));
+    }
+    return s;
   }
 }
