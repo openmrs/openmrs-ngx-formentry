@@ -18,6 +18,7 @@ import { FormFactory } from './form-factory/form.factory';
 import { QuestionFactory } from './form-factory/question.factory';
 import { ControlRelationsFactory } from './form-factory/control-relations.factory';
 import { ObsPayloadFactoryService } from './services/obs-payload-factory.service';
+import { EncounterAdapter, PersonAttribuAdapter } from './value-adapters';
 
 @NgModule({
     imports: [CommonModule, ReactiveFormsModule, SelectModule],
@@ -35,8 +36,10 @@ import { ObsPayloadFactoryService } from './services/obs-payload-factory.service
         QuestionFactory,
         ValidationFactory,
         ControlRelationsFactory,
-        ObsPayloadFactoryService
-        ],
+        ObsPayloadFactoryService,
+        EncounterAdapter,
+        PersonAttribuAdapter
+    ],
     exports: [FormRendererComponent]
 })
 export class FormEntryModule {

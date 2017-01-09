@@ -10,6 +10,7 @@ import { AfeFormArray } from '../../abstract-controls-extension/afe-form-array';
 
 export class Form {
     public rootNode: GroupNode;
+    public valueProcessingInfo: any = {};
     private _dataSourcesContainer: DataSources;
     constructor(public schema: any, public FormFactory: FormFactory, public questionFactory: QuestionFactory) {
         this._dataSourcesContainer = new DataSources();
