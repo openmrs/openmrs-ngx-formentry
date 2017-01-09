@@ -1,9 +1,12 @@
+import * as _ from 'lodash';
+
 import { FormFactory } from './form.factory';
 import { QuestionFactory } from './question.factory';
 import { DataSources } from '../data-sources/data-sources';
-
-// import { AfeFormGroup } from '../../abstract-controls-extension/control-extensions';
-import { GroupNode, ArrayNode, LeafNode, NodeBase } from './form-node';
+import { NodeBase, GroupNode, LeafNode, ArrayNode } from './form-node';
+import { QuestionBase} from '../question-models/question-base';
+import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
+import { AfeFormArray } from '../../abstract-controls-extension/afe-form-array';
 
 export class Form {
     public rootNode: GroupNode;
@@ -43,5 +46,49 @@ export class Form {
                 this.findNodesByQuestionId(node, questionId, results);
             });
         }
+    }
+
+    get valid() {
+
+      return this.rootNode.control.valid;
+    }
+
+    markInvalidControls(node: GroupNode) {
+
+      let children: NodeBase = node.children;
+
+      for ( let key in children ) {
+
+        if ( children.hasOwnProperty(key) ) {
+
+          let child: NodeBase = children[key];
+
+          if ( child instanceof GroupNode ) {
+
+            this.markInvalidControls(child);
+          } else if ( child instanceof LeafNode ) {
+
+            let questionBase: QuestionBase = (child as LeafNode).question;
+
+            if ( questionBase.key && questionBase.key.length > 0 ) {
+
+              let c: AfeFormControl | AfeFormArray = child.control as AfeFormControl | AfeFormArray;
+
+              if (!c.valid) {
+                 c.markAsTouched(true);
+              }
+            }
+          } else if ( child instanceof ArrayNode ) {
+            let arrayNode: ArrayNode = child as ArrayNode;
+
+            if (arrayNode && arrayNode.children && arrayNode.children.length > 0) {
+
+              _.forEach(arrayNode.children, (groupNode: any) => {
+                this.markInvalidControls(groupNode);
+              });
+            }
+          }
+        }
+      }
     }
 }

@@ -3351,7 +3351,7 @@
         }, {
           "label": "If toxicity, please provide cause: Other (specify):",
           "type": "obs",
-          "id": "26bToxicityOther",
+          "id": "_26bToxicityOther",
           "questionOptions": {
             "concept": "a8a06fc6-1350-11df-a1f1-0026b9348838",
             "rendering": "text"

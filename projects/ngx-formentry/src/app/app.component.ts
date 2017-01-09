@@ -61,13 +61,25 @@ export class AppComponent implements OnInit {
     }
 
     onSubmit($event) {
-        $event.preventDefault();
-        // Traverse  to get all nodes
-        let pages = this.obsFactory.traverse(this.form.rootNode);
-        // Extract actual question nodes
-        let questionNodes = this.obsFactory.getQuestionNodes(pages);
-        // Get obs Payload
-        let payload = this.obsFactory.getObsPayload(questionNodes);
-        console.log(payload);
+
+      $event.preventDefault();
+
+        if (this.form.valid) {
+
+          // Traverse  to get all nodes
+          let pages = this.obsFactory.traverse(this.form.rootNode);
+          // Extract actual question nodes
+          let questionNodes = this.obsFactory.getQuestionNodes(pages);
+          // Get obs Payload
+          let payload = this.obsFactory.getObsPayload(questionNodes);
+          console.log(payload);
+        } else {
+
+          this.form.markInvalidControls(this.form.rootNode);
+        }
+    }
+
+    getPayLoad() {
+
     }
 }
