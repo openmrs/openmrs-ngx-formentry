@@ -271,7 +271,7 @@ describe('Form Factory Control Service Tests', () => {
 
     let control3 = formControlService.generateFormControl(bmiQuestion);
 
-    control3.controlRelations.addRelatedControls([control1,control2]);
+    control3.controlRelations.addRelatedControls([control1, control2]);
     // this will trigger propagateChange() function in the controls
     control1.setValue(180);
     control2.setValue(70);

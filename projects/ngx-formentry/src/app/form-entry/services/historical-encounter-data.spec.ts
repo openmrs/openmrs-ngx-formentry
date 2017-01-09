@@ -12,7 +12,9 @@ describe('Historical Encounter Data Service', () => {
         {
           provide: HistoricalEncounterDataService,
           useFactory: () => {
-            return new HistoricalEncounterDataService('prevEnc', obs.getObs());
+            let HD = new HistoricalEncounterDataService();
+            HD.registerEncounters('prevEnc', obs.getObs());
+            return HD;
           },
           deps: []
         }
@@ -27,7 +29,6 @@ describe('Historical Encounter Data Service', () => {
 
   it('should have "prevEnc" registered as key', () => {
     let service: HistoricalEncounterDataService = TestBed.get(HistoricalEncounterDataService);
-    expect(service.name).toEqual('prevEnc');
     expect(service.getObject('prevEnc').getSingleObject()).toEqual(obs.getExpected());
   });
 
@@ -83,7 +84,8 @@ describe('Historical Encounter Data Service', () => {
       }]
     }];
 
-    let service: HistoricalEncounterDataService = new HistoricalEncounterDataService('prevEncs', encArray);
+    let service: HistoricalEncounterDataService = new HistoricalEncounterDataService();
+    service.registerEncounters('prevEncs', encArray);
     let store: Array<any> = service.getObject('prevEncs').getAllObjects();
     expect(store.length).toEqual(encArray.length);
     expect(store[0].encounterDatetime).toEqual(encArray[1].encounterDatetime);

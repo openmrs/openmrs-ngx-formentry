@@ -22,9 +22,12 @@ export class FormFactory {
         public questionFactroy: QuestionFactory, public controlRelationsFactory: ControlRelationsFactory) {
     }
 
-    createForm(schema: any): Form {
+    createForm(schema: any, dataSource?: any): Form {
         let form: Form = new Form(schema, this, this.questionFactroy);
-        let question = this.questionFactroy.createQuestionModel(schema);
+        if (dataSource) {
+          form.dataSourcesContainer.registerDataSource('rawPrevEnc', dataSource);
+        }
+        let question = this.questionFactroy.createQuestionModel(schema, form);
         form.rootNode = this.createNode(question, null, null, form) as GroupNode;
 
         this.buildRelations(form.rootNode);

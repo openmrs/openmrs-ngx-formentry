@@ -16,12 +16,19 @@ import { DateValidationModel } from '../question-models/date-validation.model';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
 import { DummyDataSource } from '../data-sources/dummy-data-source';
 import { HistoricalHelperService } from '../helpers/historical-expression-helper-service';
+import { Form } from './form';
 
 export class QuestionFactory {
+  dataSources: any = {};
+  historicalHelperService: HistoricalHelperService = new HistoricalHelperService();
   constructor() {
   }
 
-  createQuestionModel(formSchema: any): QuestionBase {
+  createQuestionModel(formSchema: any, form?: Form): QuestionBase {
+    if (form) {
+      let dataSources = form.dataSourcesContainer.dataSources;
+      this.dataSources = dataSources;
+    }
     return this.toFormQuestionModel(formSchema);
   }
 
@@ -506,21 +513,14 @@ export class QuestionFactory {
   }
 
   addHistoricalExpressions(schemaQuestion: any, question: QuestionBase): any {
-
     if (schemaQuestion.historicalExpression && schemaQuestion.historicalExpression.length > 0) {
-
       question['hasHistoricalValue'] = true;
-
-      let helper = new HistoricalHelperService();
-      let origValue = helper.evaluate(schemaQuestion.historicalExpression);
-
+      let origValue = this.historicalHelperService.evaluate(schemaQuestion.historicalExpression, this.dataSources);
       question['historicalDataValue'] = origValue;
       if (schemaQuestion.historicalPrepopulate) {
-
         question.defaultValue = origValue;
       }
     }
-
   }
 
   addCalculatorProperty(schemaQuestion: any, question: QuestionBase): any {

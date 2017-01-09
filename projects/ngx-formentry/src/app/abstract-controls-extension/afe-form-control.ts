@@ -1,4 +1,4 @@
-import { FormControl, ValidatorFn, AsyncValidatorFn, AbstractControl } from '@angular/forms';
+import { FormControl, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
 
 import { ControlRelations } from '../change-tracking/control-relations';
 
@@ -7,7 +7,7 @@ import { CanDisable, Disabler } from '../form-entry/control-hiders-disablers/can
 import { HiderHelper } from '../form-entry/control-hiders-disablers/hider-helpers';
 import { DisablerHelper } from '../form-entry/control-hiders-disablers/disabler-helper';
 import { CanCalculate } from '../form-entry/control-calculators/can-calculate';
-import { Runnable } from '../form-entry/expression-runner/expression-runner';
+import { ExpressionRunner } from '../form-entry/expression-runner/expression-runner';
 
 export class AfeFormControl extends FormControl implements CanHide, CanDisable, CanCalculate {
     private _controlRelations: ControlRelations;
@@ -51,7 +51,7 @@ export class AfeFormControl extends FormControl implements CanHide, CanDisable, 
 
     updateCalculatedValue() {
       if (this.calculator) {
-        let _val = this.calculator.call(Runnable, {});
+        let _val = this.calculator.call(ExpressionRunner, {});
         if (this.value === '') {
           this.setValue(_val);
         }
