@@ -3,20 +3,26 @@ import { Injectable } from '@angular/core';
 import { NodeBase, GroupNode, ArrayNode } from '../form-factory/form-node';
 import { Form } from '../form-factory/form';
 
-import { ValueAdapter } from './value.adapter';
+import { ValueAdapter } from '.';
+import { ObsValueAdapter } from './obs.adapter';
+import { OrderValueAdapter } from './order.adapter';
 
 const moment = require('moment');
 
 @Injectable()
-export class EncounterAdapter implements  ValueAdapter {
+export class EncounterAdapter implements ValueAdapter {
 
-    constructor() { }
+    constructor(public ordersAdapter: OrderValueAdapter, public obsAdapter: ObsValueAdapter) { }
 
     populateForm(form: Form, payload) {
         this.populateNode(form.rootNode, payload);
 
-        // Populate obs by using the obs payload
-        // Populate orders by using the orders payload
+        if (Array.isArray(payload.orders)) {
+            this.ordersAdapter.populateForm(form, payload);
+        }
+        if (Array.isArray(payload.obs)) {
+            this.obsAdapter.populateForm(form, payload.obs);
+        }
     }
 
     populateNode(rootNode: NodeBase, payload) {
@@ -59,8 +65,10 @@ export class EncounterAdapter implements  ValueAdapter {
 
         this.setNonFilledPayloadMembers(form, payload);
 
-        // Generate obs payload and attach to encounter
-        // Generate orders payload and attach to encounter
+        payload['obs'] = this.obsAdapter.generateFormPayload(form) || [];
+
+        payload['orders'] = this.ordersAdapter.generateFormPayload(form) || [];
+
         return payload;
     }
 
