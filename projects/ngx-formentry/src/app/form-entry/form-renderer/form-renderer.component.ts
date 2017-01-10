@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import '../../../style/app.scss';
+import '../../../style/app.css';
 import { DEFAULT_STYLES } from './form-renderer.component.css';
 
 import { NodeBase } from '../form-factory/form-node';
