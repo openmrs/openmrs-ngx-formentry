@@ -3,11 +3,31 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 
 import { LeafNode } from '../form-factory/form-node';
+import { Form } from '../form-factory/form';
+import { ValueAdapter } from './value.adapter';
 
 @Injectable()
-export class ObsPayloadFactoryService {
+export class ObsValueAdapter implements ValueAdapter {
 
     constructor() { }
+
+    generateFormPayload(form: Form) {
+        // Traverse  to get all nodes
+        let pages = this.traverse(form.rootNode);
+        // Extract actual question nodes
+        let questionNodes = this.getQuestionNodes(pages);
+        // Get obs Payload
+        return this.getObsPayload(questionNodes);
+    }
+
+    populateForm(form: Form, payload) {
+        // Traverse  to get all nodes
+        let pages = this.traverse(form.rootNode);
+        // Extract actual question nodes
+        let questionNodes = this.getQuestionNodes(pages);
+        // Extract set obs
+        this.setValues(questionNodes, payload);
+    }
 
     setValues(nodes, payload?, forcegroup?) {
         if (nodes) {

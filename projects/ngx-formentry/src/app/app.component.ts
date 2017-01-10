@@ -4,9 +4,8 @@ import { FormGroup } from '@angular/forms';
 
 import { Form } from './form-entry/form-factory/form';
 import { FormFactory } from './form-entry/form-factory/form.factory';
-import { ObsPayloadFactoryService } from './form-entry/services/obs-payload-factory.service';
 import { MockObs } from './mock/mock-obs';
-import { OrderValueAdapter } from './form-entry/value-adapters';
+import { ObsValueAdapter, OrderValueAdapter } from './form-entry/value-adapters';
 
 const adultForm = require('./adult');
 const adultFormObs = require('./mock/obs');
@@ -33,20 +32,17 @@ export class AppComponent implements OnInit {
     activeTab = 0;
     form: Form;
     stack = [];
-    constructor(private questionFactory: QuestionFactory, private formFactory: FormFactory, private obsFactory: ObsPayloadFactoryService,
+    constructor(private questionFactory: QuestionFactory, private formFactory: FormFactory, private obsValueAdapater: ObsValueAdapter,
         private orderAdaptor: OrderValueAdapter) {
         this.schema = adultForm;
         this.createForm();
     }
     ngOnInit() {
-        // Traverse  to get all nodes
-        let pages = this.obsFactory.traverse(this.form.rootNode);
-        // Extract actual question nodes
-        let questionNodes = this.obsFactory.getQuestionNodes(pages);
-        // Extract set obs
-        this.obsFactory.setValues(questionNodes, adultFormObs.obs);
 
-        // Traverse to get  orders' nodes
+        // Set obs
+        this.obsValueAdapater.populateForm(this.form, adultFormObs.obs);
+
+        // Set orders
         this.orderAdaptor.populateForm(this.form, formOrdersPayload);
 
     }
@@ -73,18 +69,11 @@ export class AppComponent implements OnInit {
         $event.preventDefault();
 
         if (this.form.valid) {
+            // generate obs payload
+            let payload = this.obsValueAdapater.generateFormPayload(this.form);
+            console.log('obs payload', payload);
 
-            // Traverse  to get all nodes
-            let pages = this.obsFactory.traverse(this.form.rootNode);
-            // Extract actual question nodes
-            let questionNodes = this.obsFactory.getQuestionNodes(pages);
-            // Get obs Payload
-            let payload = this.obsFactory.getObsPayload(questionNodes);
-            console.log(payload);
-            // Assign a provider to be used as orderer
-            this.orderAdaptor.setOrderProvider('provider-uuid');
-
-            // generate payload
+            // generate orders payload
             let ordersPayload = this.orderAdaptor.generateFormPayload(this.form);
             console.log('orders Payload', ordersPayload);
 
@@ -92,8 +81,5 @@ export class AppComponent implements OnInit {
 
             this.form.markInvalidControls(this.form.rootNode);
         }
-    }
-
-    getPayLoad() {
     }
 }

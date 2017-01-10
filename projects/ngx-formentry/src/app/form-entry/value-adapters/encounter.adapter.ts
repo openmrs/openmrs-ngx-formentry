@@ -3,10 +3,12 @@ import { Injectable } from '@angular/core';
 import { NodeBase, GroupNode, ArrayNode } from '../form-factory/form-node';
 import { Form } from '../form-factory/form';
 
+import { ValueAdapter } from './value.adapter';
+
 const moment = require('moment');
 
 @Injectable()
-export class EncounterAdapter {
+export class EncounterAdapter implements  ValueAdapter {
 
     constructor() { }
 

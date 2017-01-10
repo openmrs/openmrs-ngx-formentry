@@ -13,7 +13,7 @@ export interface CanHide {
     setHidingFn(newHider: Hider);
     clearHidingFns();
     updateHiddenState();
-    setValue(value: any);
+    setValue?(value: any);
 }
 
 export interface Hider {

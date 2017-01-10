@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Form } from '../form-factory/form';
-import { ValueAdapter } from './interfaces/value.adapter';
+import { ValueAdapter } from './value.adapter';
 import * as _ from 'lodash';
 @Injectable()
 export class OrderValueAdapter implements ValueAdapter {

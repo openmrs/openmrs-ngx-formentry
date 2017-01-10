@@ -17,8 +17,7 @@ import { FormSchemaCompiler } from './services/form-schema-compiler.service';
 import { FormFactory } from './form-factory/form.factory';
 import { QuestionFactory } from './form-factory/question.factory';
 import { ControlRelationsFactory } from './form-factory/control-relations.factory';
-import { ObsPayloadFactoryService } from './services/obs-payload-factory.service';
-import { EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter } from './value-adapters';
+import { EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter } from './value-adapters';
 
 @NgModule({
     imports: [CommonModule, ReactiveFormsModule, SelectModule],
@@ -36,7 +35,7 @@ import { EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter } from './val
         QuestionFactory,
         ValidationFactory,
         ControlRelationsFactory,
-        ObsPayloadFactoryService,
+        ObsValueAdapter,
         EncounterAdapter,
         PersonAttribuAdapter,
         OrderValueAdapter

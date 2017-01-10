@@ -1,10 +1,8 @@
 
-import { TestBed, async, inject } from '@angular/core/testing';
-import { ObsPayloadFactoryService } from './obs-payload-factory.service';
+import { TestBed, inject } from '@angular/core/testing';
 
 const adultForm = require('../../adult');
 const adultFormObs = require('../../mock/obs');
-const formValue = require('./obs-form-values');
 const generatedPayload = require('./generatedPayload');
 import { FormFactory } from '../../form-entry/form-factory/form.factory';
 import { FormControlService } from '../../form-entry/form-factory/form-control.service';
@@ -15,13 +13,14 @@ import { ExpressionRunner } from '../../form-entry/expression-runner/expression-
 import { JsExpressionHelper } from '../../form-entry/helpers/js-expression-helper';
 import { ControlRelationsFactory } from '../../form-entry/form-factory/control-relations.factory';
 import { Form } from '../form-factory/form';
+import { ObsValueAdapter } from '.';
 
-describe('ObsPayloadFactoryService Specs', () => {
+
+describe('Obs Value Adapter: ', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [],
             providers: [
-                ObsPayloadFactoryService,
                 FormFactory,
                 FormControlService,
                 ValidationFactory,
@@ -29,7 +28,8 @@ describe('ObsPayloadFactoryService Specs', () => {
                 QuestionFactory,
                 ExpressionRunner,
                 JsExpressionHelper,
-                ControlRelationsFactory
+                ControlRelationsFactory,
+                ObsValueAdapter
             ]
         });
     });
@@ -37,14 +37,14 @@ describe('ObsPayloadFactoryService Specs', () => {
         TestBed.resetTestingModule();
     });
     it('should be defined',
-        inject([ObsPayloadFactoryService], (s: ObsPayloadFactoryService) => {
+        inject([ObsValueAdapter], (s: ObsValueAdapter) => {
             expect(s).toBeTruthy();
 
         })
     );
     describe('getObsPayload', () => {
-        it('should return payload from the form', inject([ObsPayloadFactoryService, FormFactory],
-            (s: ObsPayloadFactoryService, f: FormFactory) => {
+        it('should return payload from the form', inject([ObsValueAdapter, FormFactory],
+            (s: ObsValueAdapter, f: FormFactory) => {
 
 
             }));
@@ -53,12 +53,12 @@ describe('ObsPayloadFactoryService Specs', () => {
 
     describe('processMultiSelect', () => {
         it('should exist',
-            inject([ObsPayloadFactoryService], (s: ObsPayloadFactoryService) => {
+            inject([ObsValueAdapter], (s: ObsValueAdapter) => {
                 let processMultiSelectSpy = spyOn(s, 'processMultiSelect');
                 expect(processMultiSelectSpy).toBeTruthy();
             }));
-        it('should return payload for multi select given a concept and values', inject([ObsPayloadFactoryService],
-            (s: ObsPayloadFactoryService) => {
+        it('should return payload for multi select given a concept and values', inject([ObsValueAdapter],
+            (s: ObsValueAdapter) => {
                 let payload = s.processMultiSelect('concept', ['value1', 'value2']);
                 expect(payload).toEqual([{ concept: 'concept', value: 'value1' }, { concept: 'concept', value: 'value2' }]);
             }));
@@ -66,18 +66,18 @@ describe('ObsPayloadFactoryService Specs', () => {
     });
     describe('updateOrVoidObs', () => {
         it('should exist',
-            inject([ObsPayloadFactoryService], (s: ObsPayloadFactoryService) => {
+            inject([ObsValueAdapter], (s: ObsValueAdapter) => {
                 let updateOrVoidObs = spyOn(s, 'updateOrVoidObs');
                 expect(updateOrVoidObs).toBeTruthy();
             }));
-        it('should insert updated obs into payload', inject([ObsPayloadFactoryService],
-            (s: ObsPayloadFactoryService) => {
+        it('should insert updated obs into payload', inject([ObsValueAdapter],
+            (s: ObsValueAdapter) => {
                 let obsPayload = [];
                 s.updateOrVoidObs({ value: 'value1' }, { obsUuid: 'uuid', value: 'value2' }, obsPayload);
                 expect(obsPayload).toEqual([{ uuid: 'uuid', value: 'value1' }]);
             }));
-        it('should insert voided obs into payload', inject([ObsPayloadFactoryService],
-            (s: ObsPayloadFactoryService) => {
+        it('should insert voided obs into payload', inject([ObsValueAdapter],
+            (s: ObsValueAdapter) => {
                 let obsPayload = [];
                 s.updateOrVoidObs({ value: '' }, { obsUuid: 'uuid', value: 'value2' }, obsPayload);
                 expect(obsPayload).toEqual([{ uuid: 'uuid', voided: true }]);
@@ -87,12 +87,12 @@ describe('ObsPayloadFactoryService Specs', () => {
 
     describe('processNewMultiSelectObs', () => {
         it('should exist',
-            inject([ObsPayloadFactoryService], (s: ObsPayloadFactoryService) => {
+            inject([ObsValueAdapter], (s: ObsValueAdapter) => {
                 let processNewMultiSelectObs = spyOn(s, 'processNewMultiSelectObs');
                 expect(processNewMultiSelectObs).toBeTruthy();
             }));
-        it('should insert new multiselect obs into payload', inject([ObsPayloadFactoryService],
-            (s: ObsPayloadFactoryService) => {
+        it('should insert new multiselect obs into payload', inject([ObsValueAdapter],
+            (s: ObsValueAdapter) => {
                 let obsPayload = [];
                 s.processNewMultiSelectObs([{ value: { concept: 'concept1', value: 'value1' } },
                 { value: { concept: 'concept1', value: 'value2' } }], obsPayload);
@@ -102,12 +102,12 @@ describe('ObsPayloadFactoryService Specs', () => {
 
     describe('processDeletedMultiSelectObs', () => {
         it('should exist',
-            inject([ObsPayloadFactoryService], (s: ObsPayloadFactoryService) => {
+            inject([ObsValueAdapter], (s: ObsValueAdapter) => {
                 let processDeletedMultiSelectObs = spyOn(s, 'processDeletedMultiSelectObs');
                 expect(processDeletedMultiSelectObs).toBeTruthy();
             }));
-        it('should insert deleted multiselect obs into payload', inject([ObsPayloadFactoryService],
-            (s: ObsPayloadFactoryService) => {
+        it('should insert deleted multiselect obs into payload', inject([ObsValueAdapter],
+            (s: ObsValueAdapter) => {
                 let obsPayload = [];
                 s.processDeletedMultiSelectObs([{ uuid: 'uuid', value: { concept: 'concept1', value: 'value1' } },
                 { uuid: 'uuid2', value: { concept: 'concept1', value: 'value2' } }], obsPayload);
@@ -117,12 +117,12 @@ describe('ObsPayloadFactoryService Specs', () => {
 
     describe('createGroupDeletedObs', () => {
         it('should exist',
-            inject([ObsPayloadFactoryService], (s: ObsPayloadFactoryService) => {
+            inject([ObsValueAdapter], (s: ObsValueAdapter) => {
                 let createGroupDeletedObs = spyOn(s, 'createGroupDeletedObs');
                 expect(createGroupDeletedObs).toBeTruthy();
             }));
-        it('should return deleted obs given a payload of existing groups', inject([ObsPayloadFactoryService],
-            (s: ObsPayloadFactoryService) => {
+        it('should return deleted obs given a payload of existing groups', inject([ObsValueAdapter],
+            (s: ObsValueAdapter) => {
                 let obsPayload = [];
                 obsPayload = s.createGroupDeletedObs([{ uuid: 'uuid' }, { uuid: 'uuid2' }]);
                 expect(obsPayload).toEqual([{ uuid: 'uuid', voided: true }, { uuid: 'uuid2', voided: true }]);
@@ -131,12 +131,12 @@ describe('ObsPayloadFactoryService Specs', () => {
 
     describe('createGroupNewObs', () => {
         it('should exist',
-            inject([ObsPayloadFactoryService], (s: ObsPayloadFactoryService) => {
+            inject([ObsValueAdapter], (s: ObsValueAdapter) => {
                 let createGroupNewObs = spyOn(s, 'createGroupNewObs');
                 expect(createGroupNewObs).toBeTruthy();
             }));
-        it('should return new obs given a mapped obs group payload', inject([ObsPayloadFactoryService],
-            (s: ObsPayloadFactoryService) => {
+        it('should return new obs given a mapped obs group payload', inject([ObsValueAdapter],
+            (s: ObsValueAdapter) => {
                 let obsPayload = s.createGroupNewObs([{ value: { 'uuid:value1': 'value1', 'uuid2:value2': 'value2' } }]);
                 expect(obsPayload).toEqual([{ concept: 'uuid', value: 'value1' }, { concept: 'uuid2', value: 'value2' }]);
             }));
@@ -144,12 +144,12 @@ describe('ObsPayloadFactoryService Specs', () => {
 
     describe('leftOuterJoinArrays', () => {
         it('should exist',
-            inject([ObsPayloadFactoryService], (s: ObsPayloadFactoryService) => {
+            inject([ObsValueAdapter], (s: ObsValueAdapter) => {
                 let leftOuterJoinArrays = spyOn(s, 'leftOuterJoinArrays');
                 expect(leftOuterJoinArrays).toBeTruthy();
             }));
-        it('should return the objects in the first array that are not in the second', inject([ObsPayloadFactoryService],
-            (s: ObsPayloadFactoryService) => {
+        it('should return the objects in the first array that are not in the second', inject([ObsValueAdapter],
+            (s: ObsValueAdapter) => {
                 let joined = s.leftOuterJoinArrays([{ value: { concept: 'uuid1', value: 'value1' } },
                 { value: { concept: 'uuid2', value: 'value2' } }], [{ value: { concept: 'uuid2', value: 'value2' } }]);
                 expect(joined).toEqual([{ value: { concept: 'uuid1', value: 'value1' } }]);
@@ -158,12 +158,12 @@ describe('ObsPayloadFactoryService Specs', () => {
 
     describe('mapInitialGroup', () => {
         it('should exist',
-            inject([ObsPayloadFactoryService], (s: ObsPayloadFactoryService) => {
+            inject([ObsValueAdapter], (s: ObsValueAdapter) => {
                 let mapInitialGroup = spyOn(s, 'mapInitialGroup');
                 expect(mapInitialGroup).toBeTruthy();
             }));
-        it('should properly map group payload', inject([ObsPayloadFactoryService],
-            (s: ObsPayloadFactoryService) => {
+        it('should properly map group payload', inject([ObsValueAdapter],
+            (s: ObsValueAdapter) => {
                 let payload = {
                     'uuid': '7e5d7b85-075a-4d5e-aa0c-678196b40a18',
                     'obsDatetime': '2016-12-01T11:33:57.000+0300',
@@ -285,12 +285,12 @@ describe('ObsPayloadFactoryService Specs', () => {
 
     describe('getMultiselectValues', () => {
         it('should exist',
-            inject([ObsPayloadFactoryService], (s: ObsPayloadFactoryService) => {
+            inject([ObsValueAdapter], (s: ObsValueAdapter) => {
                 let getMultiselectValues = spyOn(s, 'getMultiselectValues');
                 expect(getMultiselectValues).toBeTruthy();
             }));
-        it('it should return an array of concept uuids given multiselect payload', inject([ObsPayloadFactoryService],
-            (s: ObsPayloadFactoryService) => {
+        it('it should return an array of concept uuids given multiselect payload', inject([ObsValueAdapter],
+            (s: ObsValueAdapter) => {
                 let joined = s.getMultiselectValues([{ value: { uuid: 'uuid1' } }, { value: { uuid: 'uuid2' } }]);
                 expect(joined).toEqual(['uuid1', 'uuid2']);
             }));
@@ -298,13 +298,13 @@ describe('ObsPayloadFactoryService Specs', () => {
 
     describe('getObsPayload', () => {
         it('should exist',
-            inject([ObsPayloadFactoryService], (s: ObsPayloadFactoryService) => {
+            inject([ObsValueAdapter], (s: ObsValueAdapter) => {
                 let getObsPayload = spyOn(s, 'getObsPayload');
                 expect(getObsPayload).toBeTruthy();
             }));
         it('it should return correct payload given an array of nodes with and without values set',
-            inject([ObsPayloadFactoryService, FormFactory],
-                (s: ObsPayloadFactoryService, f: FormFactory) => {
+            inject([ObsValueAdapter, FormFactory],
+                (s: ObsValueAdapter, f: FormFactory) => {
                     // Traverse  to get all nodes
                     let pages = s.traverse(f.createForm(adultForm).rootNode);
                     // Extract actual question nodes
@@ -318,13 +318,13 @@ describe('ObsPayloadFactoryService Specs', () => {
 
     describe('Set Values', () => {
         it('should exist',
-            inject([ObsPayloadFactoryService], (s: ObsPayloadFactoryService) => {
+            inject([ObsValueAdapter], (s: ObsValueAdapter) => {
                 let setValues = spyOn(s, 'setValues');
                 expect(setValues).toBeTruthy();
             }));
         it('should correctly set the values given question nodes and obs payload',
-            inject([ObsPayloadFactoryService, FormFactory],
-                (s: ObsPayloadFactoryService, f: FormFactory) => {
+            inject([ObsValueAdapter, FormFactory],
+                (s: ObsValueAdapter, f: FormFactory) => {
                     let form: Form = f.createForm(adultForm);
 
                     let pages = s.traverse(form.rootNode);
