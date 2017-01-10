@@ -19,7 +19,7 @@ export class JsExpressionValidator {
       let helperFunctions = helper.helperFunctions;
       let runnable = new ExpressionRunner().getRunnable(expression, control, helperFunctions, dataDependencies);
 
-      if (!runnable.run()) {
+      if (runnable.run()) {
 
         return { 'js_expression': { 'expression': expression, message:  model.message } };
       }

@@ -36,7 +36,7 @@ describe('JS Expression Validator:', () => {
       control.uuid = 'a';
       let control2 = new AfeFormControl();
       control2.uuid = 'b';
-      control2.setValue('20');
+      control2.setValue(null);
       let control3 = new AfeFormControl();
       control3.uuid = 'c';
       control3.setValue(30);
@@ -47,19 +47,24 @@ describe('JS Expression Validator:', () => {
       let result = validator.validate(model)(control);
       expect(result['js_expression']).toBeTruthy();
 
+      control2.setValue('test');
+      result = validator.validate(model)(control);
+      expect(result).toBe(null);
+
     });
 
-    it('should return null when validation fails', () => {
+    it('should return null when validation passes', () => {
 
       let validator: JsExpressionValidator = TestBed.get(JsExpressionValidator);
       let model = new JsExpressionValidationModel({
         type: 'js_expression',
         message: 'test message',
-        failsWhenExpression: 'isEmpty(a)'
+        failsWhenExpression: 'isEmpty(a) && isEmpty(b)'
       });
 
       let control = new AfeFormControl();
       control.uuid = 'a';
+      control.setValue('test');
       let control2 = new AfeFormControl();
       control2.uuid = 'b';
       control2.setValue('20');
