@@ -43,9 +43,9 @@ export class EncounterAdapter implements ValueAdapter {
                     }
                     break;
                 case 'encounterProvider':
-                    if (payload['provider'] && payload['provider'].person) {
-                        node.control.setValue(payload['provider'].person.uuid);
-                        node.initialValue = payload['provider'].person.uuid;
+                    if (payload['provider'] && payload['provider'].uuid) {
+                        node.control.setValue(payload['provider'].uuid);
+                        node.initialValue = payload['provider'].uuid;
                     }
                     break;
                 case 'encounterLocation':

@@ -95,10 +95,7 @@ describe('Encounter Value Adapter:', () => {
             },
             provider: {
                 uuid: 'ef59ac9d-9cca-46c5-ab04-b4d708584e13',
-                display: 'Florida Jepngetich Kiplagat',
-                person: {
-                    uuid: 'person-provider-uuid'
-                }
+                display: 'Florida Jepngetich Kiplagat'
             },
             uuid: '3841e9e6-b6cb-4667-b495-89331c6a973a'
         };
@@ -113,8 +110,8 @@ describe('Encounter Value Adapter:', () => {
         expect(nodes[0].initialValue).toEqual(moment('2016-12-14T11:26:23.000+0300').toDate());
 
         // Encounter Provider
-        expect(nodes[1].control.value).toBe('person-provider-uuid');
-        expect(nodes[1].initialValue).toBe('person-provider-uuid');
+        expect(nodes[1].control.value).toBe('ef59ac9d-9cca-46c5-ab04-b4d708584e13');
+        expect(nodes[1].initialValue).toBe('ef59ac9d-9cca-46c5-ab04-b4d708584e13');
 
         // Encounter Location
         expect(nodes[2].control.value).toBe('18c343eb-b353-462a-9139-b16606e6b6c2');
@@ -156,10 +153,7 @@ describe('Encounter Value Adapter:', () => {
             },
             provider: {
                 uuid: 'ef59ac9d-9cca-46c5-ab04-b4d708584e13',
-                display: 'Florida Jepngetich Kiplagat',
-                person: {
-                    uuid: 'person-provider-uuid'
-                }
+                display: 'Florida Jepngetich Kiplagat'
             },
             uuid: '3841e9e6-b6cb-4667-b495-89331c6a973a'
         };

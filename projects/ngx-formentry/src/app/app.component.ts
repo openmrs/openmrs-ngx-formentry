@@ -5,7 +5,7 @@ import { FormGroup } from '@angular/forms';
 import { Form } from './form-entry/form-factory/form';
 import { FormFactory } from './form-entry/form-factory/form.factory';
 import { MockObs } from './mock/mock-obs';
-import { ObsValueAdapter, OrderValueAdapter } from './form-entry/value-adapters';
+import { ObsValueAdapter, OrderValueAdapter, EncounterAdapter } from './form-entry/value-adapters';
 
 const adultForm = require('./adult');
 const adultFormObs = require('./mock/obs');
@@ -33,17 +33,23 @@ export class AppComponent implements OnInit {
     form: Form;
     stack = [];
     constructor(private questionFactory: QuestionFactory, private formFactory: FormFactory, private obsValueAdapater: ObsValueAdapter,
-        private orderAdaptor: OrderValueAdapter) {
+        private orderAdaptor: OrderValueAdapter, private encAdapter: EncounterAdapter) {
         this.schema = adultForm;
         this.createForm();
     }
     ngOnInit() {
 
-        // Set obs
-        this.obsValueAdapater.populateForm(this.form, adultFormObs.obs);
+        // Set encounter, obs, orders
 
-        // Set orders
-        this.orderAdaptor.populateForm(this.form, formOrdersPayload);
+        adultFormObs.orders = formOrdersPayload.orders;
+        this.encAdapter.populateForm(this.form, adultFormObs);
+
+        // Alternative is to set individually for obs and orders as show below
+        // // Set obs
+        // this.obsValueAdapater.populateForm(this.form, adultFormObs.obs);
+
+        // // Set orders
+        // this.orderAdaptor.populateForm(this.form, formOrdersPayload);
 
     }
 
@@ -68,14 +74,33 @@ export class AppComponent implements OnInit {
 
         $event.preventDefault();
 
-        if (this.form.valid) {
-            // generate obs payload
-            let payload = this.obsValueAdapater.generateFormPayload(this.form);
-            console.log('obs payload', payload);
+        // Set valueProcessingInfo
+        this.form.valueProcessingInfo = {
+            patientUuid: 'patientUuid',
+            visitUuid: 'visitUuid',
+            encounterTypeUuid: 'encounterTypeUuid',
+            formUuid: 'formUuid',
+            encounterUuid: 'encounterUuid',
+            providerUuid: 'providerUuid',
+            utcOffset: '+0300'
+        };
 
-            // generate orders payload
-            let ordersPayload = this.orderAdaptor.generateFormPayload(this.form);
-            console.log('orders Payload', ordersPayload);
+        let payload = this.encAdapter.generateFormPayload(this.form);
+        console.log('encounter payload', payload);
+
+        if (this.form.valid) {
+
+            let payload = this.encAdapter.generateFormPayload(this.form);
+            console.log('encounter payload', payload);
+
+            // Alternative is to populate for each as shown below
+            // // generate obs payload
+            // let payload = this.obsValueAdapater.generateFormPayload(this.form);
+            // console.log('obs payload', payload);
+
+            // // generate orders payload
+            // let ordersPayload = this.orderAdaptor.generateFormPayload(this.form);
+            // console.log('orders Payload', ordersPayload);
 
         } else {
 
