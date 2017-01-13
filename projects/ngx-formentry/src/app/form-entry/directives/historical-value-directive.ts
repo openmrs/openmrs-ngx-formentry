@@ -40,7 +40,7 @@ export class HistoricalValueDirective {
 
     if (node) {
 
-      if (node.question.hasOwnProperty('hasHistoricalValue')) {
+      if (node.question.enableHistoricalValue) {
 
         this._node = node;
 

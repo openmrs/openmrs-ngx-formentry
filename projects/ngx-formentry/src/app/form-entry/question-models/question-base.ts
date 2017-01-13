@@ -9,6 +9,7 @@ export class QuestionBase {
 
     defaultValue?: any;
     originalValue?: any;
+    enableHistoricalValue?: boolean;
     historicalDataValue?: any;
     extras?: any;
 
@@ -32,6 +33,11 @@ export class QuestionBase {
         this.required = options.required;
         this.hide = options.hide;
         this.disable = options.disable;
+        this.historicalDataValue = options.historicalDataValue;
         this.calculateExpression = options.calculateExpression;
+    }
+
+    setHistoricalValue?(v: boolean) {
+      this.enableHistoricalValue = v;
     }
 }
