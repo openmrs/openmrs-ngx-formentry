@@ -31,17 +31,33 @@ export class HidersDisablersFactory {
 
     getJsExpressionHider(question: QuestionBase, control: AfeFormControl | AfeFormArray | AfeFormGroup,
         dataSource?: any): Hider {
+
+        let hide: any = question.hide;
+        let value: string = typeof hide === 'object' ? this.convertHideObjectToString(hide) : question.hide as string;
+
         let runnable: Runnable =
-            this.expressionRunner.getRunnable(question.hide as string, control,
+            this.expressionRunner.getRunnable(value, control,
                 this.expressionHelper.helperFunctions, dataSource);
         let hider: Hider = {
             toHide: false,
-            hideWhenExpression: question.hide as string,
+            hideWhenExpression: value,
             reEvaluateHidingExpression: () => {
                 let result = runnable.run();
                 hider.toHide = result;
             }
         };
         return hider;
+    }
+
+    convertHideObjectToString(hide: any) {
+
+      if (hide.value instanceof Array) {
+
+        let arrayStr: string = "'" + hide.value.join("','") + "'";
+        let exp = '!arrayContains([' + arrayStr + '],' + hide.field + ')';
+        return exp;
+      }
+
+      return '';
     }
 }

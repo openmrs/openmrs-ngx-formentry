@@ -59,13 +59,15 @@ describe('Control Relations Factory:', () => {
 
       factory.buildRelations(createdForm.rootNode);
 
-      expect(Object.keys(factory.controlsStore ).length > 0).toBe(true);
+      let controlStore: any = factory.mapControlIds(createdForm.rootNode, {});
+
+      expect(Object.keys(controlStore).length > 0).toBe(true);
 
       let hasRelations = false;
 
-      let keys = Object.keys(factory.controlsStore);
+      let keys = Object.keys(controlStore);
        keys.forEach(key => {
-         let nodeBase: NodeBase = factory.controlsStore[key];
+         let nodeBase: NodeBase = controlStore[key];
          if ( (nodeBase.control as AfeFormControl | AfeFormArray).controlRelations.relations.length > 0 ) {
            hasRelations = true;
          }

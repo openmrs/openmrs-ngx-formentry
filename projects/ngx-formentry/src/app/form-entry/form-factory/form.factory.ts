@@ -76,6 +76,10 @@ export class FormFactory {
             this, form, parentNode ? parentNode.path : undefined);
         arrayNode.createChildFunc = this.createArrayNodeChild;
         arrayNode.removeChildFunc = this.removeArrayNodeChild;
+
+        arrayNode.addChildNodeCreatedListener((node: GroupNode) => {
+          this.controlRelationsFactory.buildArrayNodeRelations(node);
+        });
         return arrayNode;
     }
 
@@ -91,6 +95,7 @@ export class FormFactory {
 
     createArrayNodeChild(question: RepeatingQuestion,
         node: ArrayNode, factory?: FormFactory): GroupNode {
+
         if (factory === null || factory === undefined) {
             factory = this;
         }

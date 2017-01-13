@@ -62,8 +62,9 @@ export class GroupNode extends NodeBase {
 
 }
 
-export class ArrayNode extends NodeBase {
+export class ArrayNode extends NodeBase implements ChildNodeCreatedListener {
 
+    private childNodeCreatedEvents: ChildNodeCreatedEvent[];
     private _children: GroupNode[];
     public createChildFunc: CreateArrayChildNodeFunction;
     public removeChildFunc: RemoveArrayChildNodeFunction;
@@ -73,9 +74,8 @@ export class ArrayNode extends NodeBase {
         form?: Form, parentPath?: string) {
         super(question, control, form, parentPath);
         this._children = [];
+        this.childNodeCreatedEvents = [];
     }
-
-
 
     public get children(): GroupNode[] {
         return this._children;
@@ -83,7 +83,9 @@ export class ArrayNode extends NodeBase {
 
     public createChildNode(): GroupNode {
         if (this.createChildFunc) {
-            return this.createChildFunc(this.question as RepeatingQuestion, this, this.formFactory);
+          let g: GroupNode = this.createChildFunc(this.question as RepeatingQuestion, this, this.formFactory);
+          this.fireChildNodeCreatedListener(g);
+            return g;
         }
         return null;
     }
@@ -94,6 +96,25 @@ export class ArrayNode extends NodeBase {
         }
     }
 
+    addChildNodeCreatedListener(func: any) {
+      this.childNodeCreatedEvents.push(func);
+    }
+
+    fireChildNodeCreatedListener(node: GroupNode) {
+      for (let i = 0; i < this.childNodeCreatedEvents.length; i++) {
+
+        let func: any = this.childNodeCreatedEvents[i];
+        func(node);
+      }
+    }
+
+}
+
+export interface ChildNodeCreatedListener {
+
+  addChildNodeCreatedListener(func: any);
+
+  fireChildNodeCreatedListener(node: GroupNode);
 }
 
 export interface CreateArrayChildNodeFunction {

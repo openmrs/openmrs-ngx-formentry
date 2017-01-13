@@ -541,6 +541,12 @@ describe('Question Factory', () => {
 
     it('should convert schema select question to select question model', () => {
         let converted = factory.toSelectQuestion(selectSchemaQuestion);
+
+        selectSchemaQuestion.questionOptions.answers.splice(0, 0, {
+          label: '',
+          concept: ''
+        });
+
         expect(converted.label).toEqual(selectSchemaQuestion.label);
         expect(converted.options).toEqual(selectSchemaQuestion.questionOptions.answers.map(function (obj) {
             return {
@@ -661,9 +667,9 @@ describe('Question Factory', () => {
         expect(convertedSample2.renderingType).toEqual('group');
         expect(convertedSample2.questions[0].renderingType).toEqual('select');
         expect(convertedSample2.questions[0].label).toEqual('Person bringing patient:');
-        expect(((convertedSample2.questions[0] as SelectQuestion).options[1] as any).label).toEqual('Father');
+        expect(((convertedSample2.questions[0] as SelectQuestion).options[2] as any).label).toEqual('Father');
         expect(convertedSample3.renderingType).toEqual('select');
-        expect((convertedSample3.options[0] as any).label).toEqual('Yes');
+        expect((convertedSample3.options[1] as any).label).toEqual('Yes');
 
     });
 

@@ -43,6 +43,13 @@ export class QuestionFactory {
         value: obj.concept
       };
     });
+
+    let options: any = question.options;
+    options.splice(0, 0, {
+      label: '',
+      value: ''
+    });
+
     question.renderingType = schemaQuestion.questionOptions.rendering;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
@@ -579,7 +586,10 @@ export class QuestionFactory {
       question.hide = schemaQuestion.hide;
     }
     if (typeof schemaQuestion.hide === 'object') {
-      question.hide = schemaQuestion.hide.hideWhenExpression;
+
+      if (schemaQuestion.hide.hideWhenExpression) {
+        question.hide = schemaQuestion.hide.hideWhenExpression;
+      }
     }
   }
   private generateId(x) {

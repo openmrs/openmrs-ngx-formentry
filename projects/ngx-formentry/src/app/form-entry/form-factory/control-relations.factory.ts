@@ -5,31 +5,71 @@ import { JsExpressionValidationModel } from '../question-models/js-expression-va
 import { NodeBase, GroupNode, LeafNode, ArrayNode } from './form-node';
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { AfeFormArray } from '../../abstract-controls-extension/afe-form-array';
+import { Form } from './form';
 
 @Injectable()
 export class ControlRelationsFactory {
 
-  controlsStore: any = {};
-
   constructor() {}
-
-  get controlStore() {
-    return this.controlStore;
-  }
 
   buildRelations(rootNode: GroupNode) {
 
-    this.mapControlIds(rootNode);
+     let controlsStore: any = this.mapControlIds(rootNode, {});
 
-    for ( let key in this.controlsStore ) {
+    for ( let key in controlsStore ) {
 
-      if ( this.controlsStore.hasOwnProperty(key) ) {
-        this.setRelations(key);
+      if ( controlsStore.hasOwnProperty(key) ) {
+        let nodeBase: NodeBase = controlsStore[key];
+        this.setRelations(controlsStore, nodeBase);
       }
     }
   }
 
-  mapControlIds(node: GroupNode) {
+  buildArrayNodeRelations(node: GroupNode) {
+
+    let form: Form = node.form;
+
+    if (!form) {
+      return;
+    }
+    let rootNode: GroupNode = form.rootNode;
+
+     // build relations for controls in the same array
+     this.buildRelations(node);
+
+    // build relations for control outside the array
+    let rootControlsStore: any = this.mapControlIds(rootNode, {});
+    let arrayControlStore: any = this.mapControlIds(node, {});
+
+    for (let key in rootControlsStore) {
+
+      if (rootControlsStore.hasOwnProperty(key)) {
+
+        let child: NodeBase = rootControlsStore[key];
+
+        if (child instanceof LeafNode) {
+
+          let questionBase: QuestionBase = (child as LeafNode).question;
+
+          if ( questionBase.key && questionBase.key.length > 0 ) {
+            this.setRelations(arrayControlStore, child);
+          }
+        }
+      }
+    }
+
+    // fire relations
+    for (let id in arrayControlStore) {
+      if (arrayControlStore.hasOwnProperty(id)) {
+
+          let child: NodeBase = arrayControlStore[id];
+          let control: AfeFormControl | AfeFormArray = child.control as AfeFormControl | AfeFormArray;
+          control.updateHiddenState();
+      }
+    }
+  }
+
+  mapControlIds(node: GroupNode, controlsStore: any) {
 
     let children: NodeBase = node.children;
 
@@ -41,34 +81,38 @@ export class ControlRelationsFactory {
 
         if ( child instanceof GroupNode ) {
 
-          this.mapControlIds(child);
+          this.mapControlIds(child, controlsStore);
         } else if ( child instanceof LeafNode ) {
 
           let questionBase: QuestionBase = (child as LeafNode).question;
 
           if ( questionBase.key && questionBase.key.length > 0 ) {
-            this.controlsStore[questionBase.key] = child;
+            controlsStore[questionBase.key] = child;
           }
         } else if ( child instanceof ArrayNode ) {
 
            let questionBase: QuestionBase = (child as ArrayNode).question;
 
            if ( questionBase.key && questionBase.key.length > 0 ) {
-             this.controlsStore[questionBase.key] = child;
+             controlsStore[questionBase.key] = child;
            }
         }
       }
     }
+
+    return controlsStore;
   }
 
-  setRelations(id: string) {
+  setRelations(controlsStore: any, nodeBase: NodeBase) {
 
-    let nodeBase: NodeBase = this.controlsStore[id];
+    let questionBase: QuestionBase = nodeBase.question;
 
-    for ( let key in this.controlsStore ) {
-        if ( this.controlsStore.hasOwnProperty(key) && key !== id ) {
+    let id = questionBase.key;
 
-          let node: NodeBase = this.controlsStore[key];
+    for ( let key in controlsStore ) {
+        if ( controlsStore.hasOwnProperty(key) && key !== id ) {
+
+          let node: NodeBase = controlsStore[key];
           let question: QuestionBase = node.question;
 
           if ( this.hasRelation(id, question) ) {
@@ -105,6 +149,13 @@ export class ControlRelationsFactory {
         let hide: string = questionBase.hide as string;
 
         if ( hide.length > 0 && hide.indexOf(id) !== -1 ) {
+          hasRelation = true;
+        }
+      } if ( typeof questionBase.hide === 'object' ) {
+
+        let hideObj: any = questionBase.hide;
+
+        if (hideObj.field === id) {
           hasRelation = true;
         }
       }
