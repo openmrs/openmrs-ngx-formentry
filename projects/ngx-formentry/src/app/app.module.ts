@@ -5,15 +5,18 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 
 import { FormEntryModule } from './form-entry/form-entry.module';
+import { DateTimePickerModule } from './components/date-time-picker';
 
 // import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     BrowserModule,
     HttpModule,
     ReactiveFormsModule,
-    FormEntryModule
+    FormsModule,
+    FormEntryModule,
+    DateTimePickerModule
   ],
   declarations: [
     AppComponent

@@ -9,6 +9,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { HistoricalValueDirective } from './directives/historical-value-directive';
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
 import { SelectModule } from '../components/select';
+import { DateTimePickerModule } from '../components/date-time-picker';
 import { AfeNgSelectComponent } from '../components/afe-ng-select.component';
 import { HidersDisablersFactory } from './form-factory/hiders-disablers.factory';
 import { ExpressionRunner } from './expression-runner/expression-runner';
@@ -20,7 +21,7 @@ import { ControlRelationsFactory } from './form-factory/control-relations.factor
 import { EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter } from './value-adapters';
 
 @NgModule({
-    imports: [CommonModule, ReactiveFormsModule, SelectModule],
+    imports: [CommonModule, ReactiveFormsModule, SelectModule, DateTimePickerModule],
     declarations: [FormRendererComponent, AfeNgSelectComponent, HistoricalValueDirective],
     providers: [
         FormBuilder,

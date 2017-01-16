@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
     activeTab = 0;
     form: Form;
     stack = [];
+
     constructor(private questionFactory: QuestionFactory, private formFactory: FormFactory, private obsValueAdapater: ObsValueAdapter,
         private orderAdaptor: OrderValueAdapter, private encAdapter: EncounterAdapter) {
         this.schema = adultForm;

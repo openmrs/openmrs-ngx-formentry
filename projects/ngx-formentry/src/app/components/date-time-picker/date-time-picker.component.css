@@ -1,0 +1,8 @@
+input[readonly] {
+    background-color: #fff;
+    /* any other styles */
+}
+.up { bottom:100% !important; top:auto !important; }
+.glyphicon {
+    top: 1px;
+}
