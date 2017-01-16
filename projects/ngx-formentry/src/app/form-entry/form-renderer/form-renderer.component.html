@@ -1,108 +1,113 @@
 <!--CONTAINERS-->
-<div *ngIf="node.question.renderingType === 'form'">
-  <div #slick class="slider swipe-tabs">
-    <div role="presentation" (click)="clickTab(i)" class="swipe-tab" [class.active-tab]="activeTab === i" *ngFor="let page of node.question.questions; let i = index;">{{page.label}}
-    </div>
-  </div>
-  <div *ngFor="let question of node.question.questions; let i = index;">
-    <div [class.active]="activeTab === i" *ngIf="activeTab === i" [@flyIn]="in">
-      <form-renderer [node]="node.children[question.key]" [parentGroup]="node.control"></form-renderer>
-    </div>
-  </div>
+<div *ngIf="node.question.renderingType === 'form'" class="container">
+	<div #slick class="slider swipe-tabs">
+		<div role="presentation" (click)="clickTab(i)" class="swipe-tab" [class.active-tab]="activeTab === i" *ngFor="let page of node.question.questions; let i = index;">{{page.label}}
+		</div>
+	</div>
+	<div *ngFor="let question of node.question.questions; let i = index;">
+		<div [class.active]="activeTab === i" *ngIf="activeTab === i" [@flyIn]="in">
+			<form-renderer [node]="node.children[question.key]" [parentGroup]="node.control"></form-renderer>
+		</div>
+	</div>
+	<div style="text-align: center;">
+		<button type="button" class="btn btn-default" (click)="loadPreviousTab()" [ngClass]="{disabled: isCurrentTabFirst()}">&lt;&lt;</button>
+		<button type="button" class="btn btn-default" (click)="loadNextTab()" [ngClass]="{disabled: isCurrentTabLast()}">&gt;&gt;</button>
+	</div>
 </div>
 <div *ngIf="node.question.renderingType === 'page'">
-  <!--<h2>{{node.question.label}}</h2>-->
-  <form-renderer *ngFor="let question of node.question.questions" [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
+	<!--<h2>{{node.question.label}}</h2>-->
+	<form-renderer *ngFor="let question of node.question.questions" [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
+
 </div>
 <div *ngIf="node.question.renderingType === 'section'">
-  <div class="panel  panel-primary">
-    <div class="panel-heading">{{node.question.label}}</div>
-    <div class="panel-body">
-      <form-renderer *ngFor="let question of node.question.questions" [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
-    </div>
-  </div>
+	<div class="panel  panel-primary">
+		<div class="panel-heading">{{node.question.label}}</div>
+		<div class="panel-body">
+			<form-renderer *ngFor="let question of node.question.questions" [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
+		</div>
+	</div>
 </div>
 
 <!--CONTROLS-->
 <div *ngIf="node.question.controlType === 0" class="form-group" [formGroup]="parentGroup" [hidden]="node.control.hidden"
-  [ngClass]="{disabled: node.control.disabled}">
-  <!--LEAF CONTROL-->
-  <label *ngIf="node.question.label" class="control-label" [attr.for]="node.question.key">
+	[ngClass]="{disabled: node.control.disabled}">
+	<!--LEAF CONTROL-->
+	<label *ngIf="node.question.label" class="control-label" [attr.for]="node.question.key">
     {{node.question.label}}
   </label>
-  <div [ngSwitch]="node.question.renderingType">
-    <select class="form-control" *ngSwitchCase="'select'" [formControlName]="node.question.key" [id]="node.question.key + 'id'">
+	<div [ngSwitch]="node.question.renderingType">
+		<select class="form-control" *ngSwitchCase="'select'" [formControlName]="node.question.key" [id]="node.question.key + 'id'">
       <option *ngFor="let o of node.question.options"
               [ngValue]="o.value">{{o.label}}
       </option>
     </select>
 
-    <textarea class="form-control" *ngSwitchCase="'textarea'" [formControlName]="node.question.key" [id]="node.question.key + 'id'">
+		<textarea class="form-control" *ngSwitchCase="'textarea'" [formControlName]="node.question.key" [id]="node.question.key + 'id'">
                 </textarea>
-    <remote-select *ngSwitchCase="'remote-select'" [placeholder]="node.question.placeholder" [dataSource]="dataSource" [formControlName]="node.question.key"></remote-select>
-    <date-time-picker *ngSwitchCase="'date'" [showTime]="showTime" [showWeeks]="showWeeks" [formControlName]="node.question.key"
-      [id]="node.question.key + 'id'"></date-time-picker>
-    <ng-select *ngSwitchCase="'multi-select'" class="form-control" [formControlName]="node.question.key" [id]="node.question.key + 'id'"
-      [options]="node.question.options" [multiple]="true">
-    </ng-select>
-    <input class="form-control" *ngSwitchDefault [formControlName]="node.question.key " [attr.placeholder]="node.question.placeholder "
-      [type]="node.question.renderingType " [id]="node.question.key + 'id' ">
-    <div *ngIf="node.question.enableHistoricalValue">
-      <div class="container-fluid">
-        <div [style.padding]="1" class="row">
-          <div [style.padding.left]="4" [style.padding.top]="4" class="col-xs-9">
-            <span [style.font.weight]="bold" class="text-warning">Previous Value: </span>
-            <span [style.font.weight]="bold">{{node.question?.historicalDisplay}}</span>
-          </div>
-          <button type="button" [node]="node" [name]="'historyValue'" class="btn btn-primary btn-small col-xs-3">Use Value
+		<remote-select *ngSwitchCase="'remote-select'" [placeholder]="node.question.placeholder" [dataSource]="dataSource" [formControlName]="node.question.key"></remote-select>
+		<date-time-picker *ngSwitchCase="'date'" [showTime]="showTime" [showWeeks]="showWeeks" [formControlName]="node.question.key"
+			[id]="node.question.key + 'id'"></date-time-picker>
+		<ng-select *ngSwitchCase="'multi-select'" class="form-control" [formControlName]="node.question.key" [id]="node.question.key + 'id'"
+			[options]="node.question.options" [multiple]="true">
+		</ng-select>
+		<input class="form-control" *ngSwitchDefault [formControlName]="node.question.key " [attr.placeholder]="node.question.placeholder "
+			[type]="node.question.renderingType " [id]="node.question.key + 'id' ">
+		<div *ngIf="node.question.enableHistoricalValue">
+			<div class="container-fluid">
+				<div [style.padding]="1" class="row">
+					<div [style.padding.left]="4" [style.padding.top]="4" class="col-xs-9">
+						<span [style.font.weight]="bold" class="text-warning">Previous Value: </span>
+						<span [style.font.weight]="bold">{{node.question?.historicalDisplay}}</span>
+					</div>
+					<button type="button" [node]="node" [name]="'historyValue'" class="btn btn-primary btn-small col-xs-3">Use Value
           </button>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="hasErrors() ">
-      <p *ngFor="let e of errors() ">
-        <span class="text-danger ">{{e}}</span>
-      </p>
-    </div>
-  </div>
+				</div>
+			</div>
+		</div>
+		<div *ngIf="hasErrors() ">
+			<p *ngFor="let e of errors() ">
+				<span class="text-danger ">{{e}}</span>
+			</p>
+		</div>
+	</div>
 </div>
 <div *ngIf="node.question.controlType === 1" [hidden]="node.control.hidden" [ngClass]="{disabled: node.control.disabled}">
 
 
-  <!--ARRAY CONTROL-->
-  <div [ngSwitch]="node.question.renderingType ">
-    <div class='well' style="padding: 2px; " *ngSwitchCase=" 'repeating' ">
-<h4 style="margin: 2px; ">{{node.question.label}}</h4>
+	<!--ARRAY CONTROL-->
+	<div [ngSwitch]="node.question.renderingType ">
+		<div class='well' style="padding: 2px; " *ngSwitchCase=" 'repeating' ">
+			<h4 style="margin: 2px; ">{{node.question.label}}</h4>
 
-<div [ngSwitch]="node.question.extras.type">
-  <div *ngSwitchCase="'testOrder'">
-    <div *ngFor="let child of node.children; let i=index ">
-      <form-renderer *ngFor="let question of child.question.questions " [node]="child.children[question.key]
+			<div [ngSwitch]="node.question.extras.type">
+				<div *ngSwitchCase="'testOrder'">
+					<div *ngFor="let child of node.children; let i=index ">
+						<form-renderer *ngFor="let question of child.question.questions " [node]="child.children[question.key]
             " [parentGroup]="child.control "></form-renderer>
-      <div>{{child.orderNumber}}</div>
-      <button type="button " class='btn btn-sm btn-danger' (click)="node.removeAt(i) ">Remove</button>
-    </div>
-  </div>
+						<div>{{child.orderNumber}}</div>
+						<button type="button " class='btn btn-sm btn-danger' (click)="node.removeAt(i) ">Remove</button>
+					</div>
+				</div>
 
-  <div *ngSwitchCase="'obsGroup'">
-    <div *ngFor="let child of node.children; let i=index ">
-      <form-renderer *ngFor="let question of child.question.questions " [node]="child.children[question.key]
+				<div *ngSwitchCase="'obsGroup'">
+					<div *ngFor="let child of node.children; let i=index ">
+						<form-renderer *ngFor="let question of child.question.questions " [node]="child.children[question.key]
             " [parentGroup]="child.control "></form-renderer>
-      <button type="button " class='btn btn-sm btn-danger' (click)="node.removeAt(i) ">Remove</button>
-    </div>
-  </div>
-</div>
-<button type="button " class='btn btn-primary' (click)="node.createChildNode() ">Add</button>
-</div>
-</div>
+						<button type="button " class='btn btn-sm btn-danger' (click)="node.removeAt(i) ">Remove</button>
+					</div>
+				</div>
+			</div>
+			<button type="button " class='btn btn-primary' (click)="node.createChildNode() ">Add</button>
+		</div>
+	</div>
 
 </div>
 <div *ngIf="node.question.controlType === 2" [hidden]="node.control.hidden" [ngClass]="{disabled: node.control.disabled}">
 
-  <!--GROUP-->
-  <div [ngSwitch]="node.question.renderingType ">
-    <div *ngSwitchCase=" 'group' ">
-      <form-renderer *ngFor="let question of node.question.questions " [node]="node.children[question.key]
+	<!--GROUP-->
+	<div [ngSwitch]="node.question.renderingType ">
+		<div *ngSwitchCase=" 'group' ">
+			<form-renderer *ngFor="let question of node.question.questions " [node]="node.children[question.key]
             " [parentGroup]="node.control "></form-renderer>
     </div>
     <div *ngSwitchCase=" 'field-set' " style="border: 1px solid #eeeeee; padding: 2px; margin: 2px;">
