@@ -34,6 +34,10 @@ export class ObsValueAdapter implements ValueAdapter {
             for (let node of nodes) {
                 if (node instanceof LeafNode) {
                     this.setObsValue(node, payload);
+                  if (node.question.enableHistoricalValue && node.initialValue !== undefined) {
+                    node.question.setHistoricalValue(false);
+                  }
+
                 } else if (node.question && node.question.extras && node.question.renderingType === 'group' || forcegroup) {
                     let groupObs = _.find(payload, (o: any) => {
                         return o.concept.uuid === node.question.extras.questionOptions.concept;

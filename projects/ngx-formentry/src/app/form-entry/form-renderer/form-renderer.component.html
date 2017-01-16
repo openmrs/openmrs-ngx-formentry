@@ -46,7 +46,7 @@
     </ng-select>
     <input class="form-control" *ngSwitchDefault [formControlName]="node.question.key " [attr.placeholder]="node.question.placeholder "
       [type]="node.question.renderingType " [id]="node.question.key + 'id' ">
-    <div *ngIf="node.question.hasHistoricalValue">
+    <div *ngIf="node.question.enableHistoricalValue">
       <div class="container-fluid">
         <div [style.padding]="1" class="row">
           <div [style.padding.left]="4" [style.padding.top]="4" class="col-xs-9">

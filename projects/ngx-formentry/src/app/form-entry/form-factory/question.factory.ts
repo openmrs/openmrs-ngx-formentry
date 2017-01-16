@@ -548,9 +548,9 @@ export class QuestionFactory {
 
   addHistoricalExpressions(schemaQuestion: any, question: QuestionBase): any {
     if (schemaQuestion.historicalExpression && schemaQuestion.historicalExpression.length > 0) {
-      question['hasHistoricalValue'] = true;
+      question.setHistoricalValue(true);
       let origValue = this.historicalHelperService.evaluate(schemaQuestion.historicalExpression, this.dataSources);
-      question['historicalDataValue'] = origValue;
+      question.historicalDataValue = origValue;
       if (schemaQuestion.historicalPrepopulate) {
         question.defaultValue = origValue;
       }
