@@ -107,9 +107,11 @@ export class ObsValueAdapter implements ValueAdapter {
                 let obs = o.groupMembers.map((a) => {
                     return a.concept.uuid;
                 });
-                let schemaQuestions = node.question.extras.questions.map((a) => {
+
+                let schemaQuestions = node.question.questions.map((a) => {
                     return a.extras.questionOptions.concept;
                 });
+
                 intersect = (_.intersection(obs, schemaQuestions).length > 0);
             }
             return found && intersect;

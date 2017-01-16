@@ -242,7 +242,7 @@ export class QuestionFactory {
   toRepeatingQuestion(schemaQuestion: any): RepeatingQuestion {
     let question = new RepeatingQuestion({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
-    question.questions = schemaQuestion.questions;
+    question.questions = this.getChildrenQuestionModels(schemaQuestion.questions);
     question.key = schemaQuestion.id;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
@@ -269,7 +269,7 @@ export class QuestionFactory {
   toGroupQuestion(schemaQuestion: any): QuestionGroup {
     let question = new QuestionGroup({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
-    question.questions = schemaQuestion.questions;
+    question.questions =  this.getChildrenQuestionModels(schemaQuestion.questions);
     question.key = schemaQuestion.id;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
@@ -311,6 +311,8 @@ export class QuestionFactory {
     schemaQuestion.pages.forEach(element => {
       question.questions.push(this.toPageQuestion(element));
     });
+
+    console.log('Created form model', question);
     return question;
   }
 
@@ -448,10 +450,13 @@ export class QuestionFactory {
 
     if (schema && !Array.isArray(schema) && typeof schema === 'object') {
       if (schema.questionOptions) {
-        if (schema.questionOptions.rendering === 'group' || schema.questionOptions.rendering === 'repeating') {
-          schema.questions = this.getGroupMembers(schema.questions);
+        if (schema.questionOptions.rendering === 'group' ||
+        schema.questionOptions.rendering === 'repeating') {
+          // schema.questions = this.getGroupMembers(schema.questions);
           foundArray.push(this.toModel(schema, schema.questionOptions.rendering));
-        } else {
+        } else if (schema.questionOptions.rendering === 'field-set') {
+        }
+        else {
           foundArray.push(this.toModel(schema, schema.questionOptions.rendering));
         }
       } else {
@@ -465,10 +470,10 @@ export class QuestionFactory {
 
   }
 
-  getGroupMembers(schema: any): any {
-    let groupMembers = [];
-    this.getQuestions(schema, groupMembers);
-    return groupMembers;
+  getChildrenQuestionModels(schema: any): any {
+    let children = [];
+    this.getQuestions(schema, children);
+    return children;
 
   }
 
@@ -593,7 +598,7 @@ export class QuestionFactory {
     }
   }
   private generateId(x) {
-    let s = '';
+    let s = '_';
     while (s.length < x && x > 0) {
       let r = Math.random();
       s += (r < 0.1 ? Math.floor(r * 100) : String.fromCharCode(Math.floor(r * 26) + (r > 0.5 ? 97 : 65)));
