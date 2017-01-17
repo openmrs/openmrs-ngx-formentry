@@ -543,8 +543,8 @@ describe('Question Factory', () => {
         let converted = factory.toSelectQuestion(selectSchemaQuestion);
 
         selectSchemaQuestion.questionOptions.answers.splice(0, 0, {
-          label: '',
-          concept: ''
+            label: '',
+            concept: ''
         });
 
         expect(converted.label).toEqual(selectSchemaQuestion.label);
@@ -692,6 +692,180 @@ describe('Question Factory', () => {
         asGroup = asGroup.questions[0] as QuestionGroup;
         expect(asGroup.questions[0].label).toBe('Visit date');
         expect(asGroup.questions[0].key).toBe('encDate');
+    });
+
+    it('should convert complex obs schema question to field set question model', () => {
+        let schemaQuestion = {
+            'type': 'complex-obs',
+            'label': 'Creatinine:',
+            'id': 'complex_creatinine',
+            'questionOptions': {
+                'concept': 'a897e450-1350-11df-a1f1-0026b9348838',
+                'rendering': 'field-set'
+            },
+            'questions': [
+                {
+                    'type': 'complex-obs-child',
+                    'label': 'Creatinine mmol/L:',
+                    'id': 'creat_test',
+                    'questionOptions': {
+                        'rendering': 'number',
+                        'max': '11050',
+                        'min': '0',
+                        'obsField': 'value'
+                    },
+                    'validators': []
+                },
+                {
+                    'type': 'complex-obs-child',
+                    'label': 'Date of Creatinine mmol/L:',
+                    'id': 'date_creat_test',
+                    'questionOptions': {
+                        'rendering': 'date',
+                        'obsField': 'obsDatetime'
+                    },
+                    'validators': [
+                        {
+                            'type': 'date'
+                        },
+                        {
+                            'type': 'js_expression',
+                            'failsWhenExpression': '!isEmpty(creat_test) && isEmpty(myValue)',
+                            'message': 'Date result is required.'
+                        }
+                    ],
+                    'hde': {
+                        'hideWhenExpression': 'isEmpty(creat_test)'
+                    }
+                }
+            ],
+            'validators': []
+        };
+
+        let converted = factory.toModel(schemaQuestion, 'field-set');
+        let result: QuestionGroup = converted as QuestionGroup;
+
+        expect(result).toBeTruthy();
+        expect(result.extras).toBe(schemaQuestion);
+        expect(result.key).toBe(schemaQuestion.id);
+        expect(result.renderingType).toBe(schemaQuestion.questionOptions.rendering);
+
+        expect(result.questions.length).toBe(2);
+
+        expect((result.questions[0] as QuestionBase).label).toBe('Creatinine mmol/L:');
+        expect((result.questions[0] as QuestionBase).key).toBe('creat_test');
+        expect((result.questions[0] as QuestionBase).extras).toBe(schemaQuestion.questions[0]);
+        expect((result.questions[0] as QuestionBase).renderingType).toBe('number');
+
+        expect((result.questions[1] as QuestionBase).label).toBe('Date of Creatinine mmol/L:');
+        expect((result.questions[1] as QuestionBase).key).toBe('date_creat_test');
+        expect((result.questions[1] as QuestionBase).extras).toBe(schemaQuestion.questions[1]);
+        expect((result.questions[1] as QuestionBase).renderingType).toBe('date');
+
+    });
+
+    it('should convert old schema version complex obs schema question to field set question model', () => {
+        let schemaQuestion = {
+            'type': 'obs',
+            'label': 'Creatinine mmol/L:',
+            'id': 'creatinine_test',
+            'questionOptions': {
+                'concept': 'a897e450-1350-11df-a1f1-0026b9348838',
+                'rendering': 'number',
+                'showDate': 'true',
+                'max': '11050',
+                'min': '0',
+                'shownDateOptions': {
+                    'validators': [
+                        {
+                            'type': 'date'
+                        },
+                        {
+                            'type': 'js_expression',
+                            'failsWhenExpression': '!isEmpty(creatinine_test) && isEmpty(myValue)',
+                            'message': 'Date result is required.'
+                        }
+                    ],
+                    'hide': {
+                        'hideWhenExpression': 'isEmpty(creatinine_test)'
+                    }
+                }
+            },
+            'validators': []
+        };
+
+        let expectedConvertedSchema = {
+            'type': 'complex-obs',
+            'label': 'Creatinine mmol/L:',
+            'id': 'complex_creatinine_test',
+            'questionOptions': {
+                'concept': 'a897e450-1350-11df-a1f1-0026b9348838',
+                'rendering': 'field-set'
+            },
+            'questions': [
+                {
+                    'type': 'complex-obs-child',
+                    'label': 'Creatinine mmol/L:',
+                    'id': 'creatinine_test',
+                    'questionOptions': {
+                        'concept': 'a897e450-1350-11df-a1f1-0026b9348838',
+                        'rendering': 'number',
+                        'max': '11050',
+                        'min': '0',
+                        'obsField': 'value'
+                    },
+                    'validators': []
+                },
+                {
+                    'type': 'complex-obs-child',
+                    'label': 'Date of Creatinine mmol/L:',
+                    'id': 'date_creatinine_test',
+                    'questionOptions': {
+                        'concept': 'a897e450-1350-11df-a1f1-0026b9348838',
+                        'rendering': 'date',
+                        'obsField': 'obsDatetime'
+                    },
+                    'validators': [
+                        {
+                            'type': 'date'
+                        },
+                        {
+                            'type': 'js_expression',
+                            'failsWhenExpression': '!isEmpty(creatinine_test) && isEmpty(myValue)',
+                            'message': 'Date result is required.'
+                        }
+                    ],
+                    'hide': {
+                        'hideWhenExpression': 'isEmpty(creatinine_test)'
+                    }
+                }
+            ],
+            'validators': []
+        };
+
+        let converted = factory.toModel(schemaQuestion, 'field-set');
+        let result: QuestionGroup = converted as QuestionGroup;
+
+        console.log('result :', result.extras.questions[1]);
+        console.log('expected', expectedConvertedSchema.questions[1]);
+
+        expect(result).toBeTruthy();
+        expect(result.extras).toEqual(expectedConvertedSchema);
+        expect(result.key).toEqual(expectedConvertedSchema.id);
+        expect(result.renderingType).toBe(expectedConvertedSchema.questionOptions.rendering);
+
+        expect(result.questions.length).toBe(2);
+
+        expect((result.questions[0] as QuestionBase).label).toBe('Creatinine mmol/L:');
+        expect((result.questions[0] as QuestionBase).key).toBe('creatinine_test');
+        expect((result.questions[0] as QuestionBase).extras).toEqual(expectedConvertedSchema.questions[0]);
+        expect((result.questions[0] as QuestionBase).renderingType).toBe('number');
+
+        expect((result.questions[1] as QuestionBase).label).toBe('Date of Creatinine mmol/L:');
+        expect((result.questions[1] as QuestionBase).key).toBe('date_creatinine_test');
+        expect((result.questions[1] as QuestionBase).extras).toEqual(expectedConvertedSchema.questions[1]);
+        expect((result.questions[1] as QuestionBase).renderingType).toBe('date');
+
     });
 
 });

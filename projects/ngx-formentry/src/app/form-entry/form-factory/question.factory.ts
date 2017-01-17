@@ -269,7 +269,7 @@ export class QuestionFactory {
   toGroupQuestion(schemaQuestion: any): QuestionGroup {
     let question = new QuestionGroup({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
-    question.questions =  this.getChildrenQuestionModels(schemaQuestion.questions);
+    question.questions = this.getChildrenQuestionModels(schemaQuestion.questions);
     question.key = schemaQuestion.id;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
@@ -312,7 +312,6 @@ export class QuestionFactory {
       question.questions.push(this.toPageQuestion(element));
     });
 
-    console.log('Created form model', question);
     return question;
   }
 
@@ -374,6 +373,12 @@ export class QuestionFactory {
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
+  }
+
+  toFieldSetQuestion(schemaQuestion: any): QuestionGroup {
+    let toReturn = this.toGroupQuestion(schemaQuestion);
+    toReturn.renderingType = 'field-set';
+    return toReturn;
   }
 
   toEncounterLocationQuestion(schemaQuestion: any): UiSelectQuestion {
@@ -451,7 +456,7 @@ export class QuestionFactory {
     if (schema && !Array.isArray(schema) && typeof schema === 'object') {
       if (schema.questionOptions) {
         if (schema.questionOptions.rendering === 'group' ||
-        schema.questionOptions.rendering === 'repeating') {
+          schema.questionOptions.rendering === 'repeating') {
           // schema.questions = this.getGroupMembers(schema.questions);
           foundArray.push(this.toModel(schema, schema.questionOptions.rendering));
         } else if (schema.questionOptions.rendering === 'field-set') {
@@ -484,6 +489,14 @@ export class QuestionFactory {
     if (!schema.id) {
       schema['id'] = this.generateId(10);
     }
+
+    if (schema.questionOptions &&
+      (schema.questionOptions.showDate === true ||
+        schema.questionOptions.showDate === 'true')) {
+      schema = this.convertOldVersionComplexObsQuestionToNewVersion(schema);
+      renderType = 'field-set';
+    }
+
     switch (renderType) {
       case 'select':
         return this.toSelectQuestion(schema);
@@ -499,6 +512,8 @@ export class QuestionFactory {
         return this.toDrugQuestion(schema);
       case 'group':
         return this.toGroupQuestion(schema);
+      case 'field-set':
+        return this.toFieldSetQuestion(schema);
       case 'repeating':
         return this.toRepeatingQuestion(schema);
       case 'personAttribute':
@@ -522,6 +537,41 @@ export class QuestionFactory {
         return this.toTextQuestion(schema);
     }
 
+  }
+
+  convertOldVersionComplexObsQuestionToNewVersion(schemaQuestion: any) {
+    let converted: any = {};
+    converted.type = 'complex-obs';
+    converted.label = schemaQuestion.label;
+    converted.id = 'complex_' + schemaQuestion.id;
+    converted.questionOptions = {};
+    converted.questionOptions.concept = schemaQuestion.questionOptions.concept;
+    converted.questionOptions.rendering = 'field-set';
+    converted.questions = [];
+    converted.validators = [];
+
+    let mainField: any = JSON.parse(JSON.stringify(schemaQuestion));
+    mainField.type = 'complex-obs-child';
+    delete mainField.questionOptions.showDate;
+    delete mainField.questionOptions.shownDateOptions;
+    mainField.questionOptions.obsField = 'value';
+
+    let dateField: any = {};
+    dateField.type = 'complex-obs-child';
+    dateField.label = 'Date of ' + mainField.label;
+    dateField.id = 'date_' + mainField.id;
+    dateField.questionOptions = {};
+    dateField.questionOptions.concept = schemaQuestion.questionOptions.concept;
+    dateField.questionOptions.rendering = 'date';
+    dateField.questionOptions.obsField = 'obsDatetime';
+    dateField.validators = JSON.parse(JSON.stringify(schemaQuestion.questionOptions.shownDateOptions)).validators;
+    dateField.hide = JSON.parse(JSON.stringify(schemaQuestion.questionOptions.shownDateOptions)).hide;
+
+
+    converted.questions.push(mainField);
+    converted.questions.push(dateField);
+
+    return converted;
   }
 
   copyProperties(mappings: any, source: any, destination: QuestionBase) {

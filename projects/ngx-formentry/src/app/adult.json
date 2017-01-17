@@ -2592,6 +2592,52 @@
               "validators": []
             },
             {
+              "type": "complex-obs",
+              "label": "Creatinine:",
+              "id": "complex_creatinine",
+              "questionOptions": {
+                "concept": "a897e450-1350-11df-a1f1-0026b9348838",
+                "rendering": "field-set"
+              },
+              "questions": [
+                {
+                  "type": "complex-obs-child",
+                  "label": "Creatinine mmol/L:",
+                  "id": "creat_test",
+                  "questionOptions": {
+                    "rendering": "number",
+                    "max": "11050",
+                    "min": "0",
+                    "obsField": "value"
+                  },
+                  "validators": []
+                },
+                {
+                  "type": "complex-obs-child",
+                  "label": "Date of Creatinine mmol/L:",
+                  "id": "date_creat_test",
+                  "questionOptions": {
+                    "rendering": "date",
+                    "obsField": "obsDatetime"
+                  },
+                  "validators": [
+                    {
+                      "type": "date"
+                    },
+                    {
+                      "type": "js_expression",
+                      "failsWhenExpression": "!isEmpty(creat_test) && isEmpty(myValue)",
+                      "message": "Date result is required."
+                    }
+                  ],
+                  "hde": {
+                    "hideWhenExpression": "isEmpty(creat_test)"
+                  }
+                }
+              ],
+              "validators": []
+            },
+            {
               "type": "obs",
               "label": "SGPT(ALT):",
               "id": "sgptalt_test",
