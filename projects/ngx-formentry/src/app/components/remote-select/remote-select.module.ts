@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
+import { CommonModule } from '@angular/common';
 import { SelectModule } from 'ng2-select/ng2-select';
 
 import { RemoteSelectComponent } from './remote-select.component';
 
 @NgModule({
-    imports: [BrowserModule, SelectModule],
+    imports: [CommonModule, SelectModule],
     exports: [RemoteSelectComponent],
     declarations: [RemoteSelectComponent],
     providers: [],

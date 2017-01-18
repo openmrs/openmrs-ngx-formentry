@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 
 import { FormEntryModule } from './form-entry/form-entry.module';
 import { DateTimePickerModule } from './components/date-time-picker';
-import { RemoteSelectModule } from './components/remote-select/remote-select.module';
 // import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DataSources } from './form-entry/data-sources/data-sources';
@@ -18,8 +17,7 @@ import { DataSources } from './form-entry/data-sources/data-sources';
     ReactiveFormsModule,
     FormsModule,
     FormEntryModule,
-    DateTimePickerModule,
-    RemoteSelectModule
+    DateTimePickerModule
   ],
   declarations: [
     AppComponent
