@@ -2584,11 +2584,59 @@
                       "message": "Date result is required."
                     }
                   ],
-                  "hde": {
+                  "hide": {
                     "hideWhenExpression": "isEmpty(creatinine_test)"
                   }
                 }
               },
+              "validators": []
+            },
+            {
+              "type": "complex-obs",
+              "label": "Creatinine:",
+              "id": "complex_creatinine",
+              "questionOptions": {
+                "concept": "a897e450-1350-11df-a1f1-0026b9348830",
+                "rendering": "field-set"
+              },
+              "questions": [
+                {
+                  "type": "complex-obs-child",
+                  "label": "Creatinine mmol/L:",
+                  "id": "creat_test",
+                  "questionOptions": {
+                    "concept": "a897e450-1350-11df-a1f1-0026b9348830",
+                    "rendering": "number",
+                    "max": "11050",
+                    "min": "0",
+                    "obsField": "value"
+                  },
+                  "validators": []
+                },
+                {
+                  "type": "complex-obs-child",
+                  "label": "Date of Creatinine mmol/L:",
+                  "id": "date_creat_test",
+                  "questionOptions": {
+                    "concept": "a897e450-1350-11df-a1f1-0026b9348830",
+                    "rendering": "date",
+                    "obsField": "obsDatetime"
+                  },
+                  "validators": [
+                    {
+                      "type": "date"
+                    },
+                    {
+                      "type": "js_expression",
+                      "failsWhenExpression": "!isEmpty(creat_test) && isEmpty(myValue)",
+                      "message": "Date result is required."
+                    }
+                  ],
+                  "hide": {
+                    "hideWhenExpression": "isEmpty(creat_test)"
+                  }
+                }
+              ],
               "validators": []
             },
             {

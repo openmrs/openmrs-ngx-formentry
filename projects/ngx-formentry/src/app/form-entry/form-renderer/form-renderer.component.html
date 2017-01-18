@@ -104,6 +104,10 @@
       <form-renderer *ngFor="let question of node.question.questions " [node]="node.children[question.key]
             " [parentGroup]="node.control "></form-renderer>
     </div>
+    <div *ngSwitchCase=" 'field-set' " style="border: 1px solid #eeeeee; padding: 2px; margin: 2px;">
+      <form-renderer *ngFor="let question of node.question.questions " [node]="node.children[question.key]
+            " [parentGroup]="node.control "></form-renderer>
+    </div>
   </div>
 </div>
 <!--<div *ngSwitchCase="3 ">

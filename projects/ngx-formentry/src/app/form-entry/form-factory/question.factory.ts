@@ -242,7 +242,7 @@ export class QuestionFactory {
   toRepeatingQuestion(schemaQuestion: any): RepeatingQuestion {
     let question = new RepeatingQuestion({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
-    question.questions = schemaQuestion.questions;
+    question.questions = this.getChildrenQuestionModels(schemaQuestion.questions);
     question.key = schemaQuestion.id;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
@@ -269,7 +269,7 @@ export class QuestionFactory {
   toGroupQuestion(schemaQuestion: any): QuestionGroup {
     let question = new QuestionGroup({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
-    question.questions = schemaQuestion.questions;
+    question.questions = this.getChildrenQuestionModels(schemaQuestion.questions);
     question.key = schemaQuestion.id;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
@@ -311,6 +311,7 @@ export class QuestionFactory {
     schemaQuestion.pages.forEach(element => {
       question.questions.push(this.toPageQuestion(element));
     });
+
     return question;
   }
 
@@ -372,6 +373,12 @@ export class QuestionFactory {
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
+  }
+
+  toFieldSetQuestion(schemaQuestion: any): QuestionGroup {
+    let toReturn = this.toGroupQuestion(schemaQuestion);
+    toReturn.renderingType = 'field-set';
+    return toReturn;
   }
 
   toEncounterLocationQuestion(schemaQuestion: any): UiSelectQuestion {
@@ -448,10 +455,13 @@ export class QuestionFactory {
 
     if (schema && !Array.isArray(schema) && typeof schema === 'object') {
       if (schema.questionOptions) {
-        if (schema.questionOptions.rendering === 'group' || schema.questionOptions.rendering === 'repeating') {
-          schema.questions = this.getGroupMembers(schema.questions);
+        if (schema.questionOptions.rendering === 'group' ||
+          schema.questionOptions.rendering === 'repeating') {
+          // schema.questions = this.getGroupMembers(schema.questions);
           foundArray.push(this.toModel(schema, schema.questionOptions.rendering));
-        } else {
+        } else if (schema.questionOptions.rendering === 'field-set') {
+        }
+        else {
           foundArray.push(this.toModel(schema, schema.questionOptions.rendering));
         }
       } else {
@@ -465,10 +475,10 @@ export class QuestionFactory {
 
   }
 
-  getGroupMembers(schema: any): any {
-    let groupMembers = [];
-    this.getQuestions(schema, groupMembers);
-    return groupMembers;
+  getChildrenQuestionModels(schema: any): any {
+    let children = [];
+    this.getQuestions(schema, children);
+    return children;
 
   }
 
@@ -479,6 +489,14 @@ export class QuestionFactory {
     if (!schema.id) {
       schema['id'] = this.generateId(10);
     }
+
+    if (schema.questionOptions &&
+      (schema.questionOptions.showDate === true ||
+        schema.questionOptions.showDate === 'true')) {
+      schema = this.convertOldVersionComplexObsQuestionToNewVersion(schema);
+      renderType = 'field-set';
+    }
+
     switch (renderType) {
       case 'select':
         return this.toSelectQuestion(schema);
@@ -494,6 +512,8 @@ export class QuestionFactory {
         return this.toDrugQuestion(schema);
       case 'group':
         return this.toGroupQuestion(schema);
+      case 'field-set':
+        return this.toFieldSetQuestion(schema);
       case 'repeating':
         return this.toRepeatingQuestion(schema);
       case 'personAttribute':
@@ -517,6 +537,41 @@ export class QuestionFactory {
         return this.toTextQuestion(schema);
     }
 
+  }
+
+  convertOldVersionComplexObsQuestionToNewVersion(schemaQuestion: any) {
+    let converted: any = {};
+    converted.type = 'complex-obs';
+    converted.label = schemaQuestion.label;
+    converted.id = 'complex_' + schemaQuestion.id;
+    converted.questionOptions = {};
+    converted.questionOptions.concept = schemaQuestion.questionOptions.concept;
+    converted.questionOptions.rendering = 'field-set';
+    converted.questions = [];
+    converted.validators = [];
+
+    let mainField: any = JSON.parse(JSON.stringify(schemaQuestion));
+    mainField.type = 'complex-obs-child';
+    delete mainField.questionOptions.showDate;
+    delete mainField.questionOptions.shownDateOptions;
+    mainField.questionOptions.obsField = 'value';
+
+    let dateField: any = {};
+    dateField.type = 'complex-obs-child';
+    dateField.label = 'Date of ' + mainField.label;
+    dateField.id = 'date_' + mainField.id;
+    dateField.questionOptions = {};
+    dateField.questionOptions.concept = schemaQuestion.questionOptions.concept;
+    dateField.questionOptions.rendering = 'date';
+    dateField.questionOptions.obsField = 'obsDatetime';
+    dateField.validators = JSON.parse(JSON.stringify(schemaQuestion.questionOptions.shownDateOptions)).validators;
+    dateField.hide = JSON.parse(JSON.stringify(schemaQuestion.questionOptions.shownDateOptions)).hide;
+
+
+    converted.questions.push(mainField);
+    converted.questions.push(dateField);
+
+    return converted;
   }
 
   copyProperties(mappings: any, source: any, destination: QuestionBase) {
@@ -593,7 +648,7 @@ export class QuestionFactory {
     }
   }
   private generateId(x) {
-    let s = '';
+    let s = '_';
     while (s.length < x && x > 0) {
       let r = Math.random();
       s += (r < 0.1 ? Math.floor(r * 100) : String.fromCharCode(Math.floor(r * 26) + (r > 0.5 ? 97 : 65)));

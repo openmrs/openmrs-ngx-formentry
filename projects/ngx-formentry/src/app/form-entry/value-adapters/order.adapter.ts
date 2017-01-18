@@ -179,10 +179,12 @@ export class OrderValueAdapter implements ValueAdapter {
 
                                 break;
                             case 'repeating':
-                                if (formNode.question.extras) {
-                                    for (let question of formNode.question.extras.questions) {
+                                if (formNode.children) {
+                                    // tslint:disable-next-line:forin
+                                    for (let node in formNode.children) {
+                                        let question = formNode.children[node].question;
                                         if (question.extras && question.extras.type === 'testOrder') {
-                                            this.formOrderNodes.push(formNode.children[question.key]);
+                                            this.formOrderNodes.push(formNode.children[node]);
                                         }
                                     }
 
