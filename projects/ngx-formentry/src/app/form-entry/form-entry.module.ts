@@ -19,9 +19,10 @@ import { FormFactory } from './form-factory/form.factory';
 import { QuestionFactory } from './form-factory/question.factory';
 import { ControlRelationsFactory } from './form-factory/control-relations.factory';
 import { EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter } from './value-adapters';
+import { RemoteSelectModule } from '../components/remote-select/remote-select.module';
 
 @NgModule({
-    imports: [CommonModule, ReactiveFormsModule, SelectModule, DateTimePickerModule],
+    imports: [CommonModule, ReactiveFormsModule, SelectModule, DateTimePickerModule, RemoteSelectModule],
     declarations: [FormRendererComponent, AfeNgSelectComponent, HistoricalValueDirective],
     providers: [
         FormBuilder,
@@ -41,7 +42,7 @@ import { EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdap
         PersonAttribuAdapter,
         OrderValueAdapter
     ],
-    exports: [FormRendererComponent]
+    exports: [FormRendererComponent, AfeNgSelectComponent]
 })
 export class FormEntryModule {
 

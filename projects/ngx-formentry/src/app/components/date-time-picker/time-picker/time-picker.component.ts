@@ -34,7 +34,9 @@ export class TimePickerComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (this.use12Hour) this.hourFormat = 'hh';
+        if (this.use12Hour) {
+            this.hourFormat = 'hh';
+        }
         this.time = this.initTime ? moment(this.initTime, this.viewFormat) : moment();
 
         // check if the input initDate has value

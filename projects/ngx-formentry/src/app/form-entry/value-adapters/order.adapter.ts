@@ -10,7 +10,7 @@ export class OrderValueAdapter implements ValueAdapter {
 
     generateFormPayload(form: Form) {
         this.formOrderNodes = [];
-        this._setOrderProvider(form)
+        this._setOrderProvider(form);
         this._findTestOrderQuestionNodes(form.rootNode);
         return this._createOrdersPayload(this.formOrderNodes);
     }

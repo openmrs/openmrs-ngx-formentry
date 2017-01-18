@@ -38,12 +38,20 @@ export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
         this.value = Moment(nextDate).format();
     }
     setDate(date: any): void {
-        this.value = Moment(date).format();
-        return;
+        if (date && date !== '') {
+            this.value = Moment(date).format();
+        } else {
+            this.value = date;
+        }
+
     }
 
     setTime(time: any): void {
-        this.value = Moment(time).format();
+        if (time && time !== '') {
+            this.value = Moment(time).format();
+        } else {
+            this.value = time;
+        }
         return;
     }
 

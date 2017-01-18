@@ -152,7 +152,7 @@ export class ObsValueAdapter implements ValueAdapter {
         });
         if (groupRepeatingObs.length > 0) {
             node.node['initialValue'] = groupRepeatingObs;
-            for (let o of groupRepeatingObs) {
+            for (let i = 0; i < groupRepeatingObs.length; i++) {
                 node.node.createChildNode();
             }
         }

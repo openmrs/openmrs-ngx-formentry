@@ -21,7 +21,7 @@ describe('MomentPipe', () => {
     });
 
     it('should transform "nowMoment" to a string formatted as a provided format', () => {
-        let providedFormat = "dddd, MMMM Do YYYY, h:mm:ss a";
+        let providedFormat = 'dddd, MMMM Do YYYY, h:mm:ss a';
         expect(pipe.transform(nowMoment, providedFormat)).toBe(nowMoment.format(providedFormat));
-    })
+    });
 });

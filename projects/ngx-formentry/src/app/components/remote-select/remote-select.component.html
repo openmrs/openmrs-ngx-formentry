@@ -1,0 +1,8 @@
+<div>
+    <ng-select (data)="data($event)" (selected)="onChange($event)" (removed)="removed($event)" [allowClear]="true" [active]="value"
+        [items]="items" (typed)="typed($event)" [placeholder]="placeholder">
+    </ng-select>
+    <div *ngIf="loading">
+        loading....
+    </div>
+</div>

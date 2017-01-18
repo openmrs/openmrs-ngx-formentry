@@ -12,6 +12,7 @@ export class QuestionBase {
     enableHistoricalValue?: boolean;
     historicalDataValue?: any;
     extras?: any;
+    dataSource?: string;
 
     controlType?: AfeControlType;
     validators?: Array<ValidationModel>;
@@ -38,6 +39,6 @@ export class QuestionBase {
     }
 
     setHistoricalValue?(v: boolean) {
-      this.enableHistoricalValue = v;
+        this.enableHistoricalValue = v;
     }
 }

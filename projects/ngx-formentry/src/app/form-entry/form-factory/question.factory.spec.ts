@@ -128,6 +128,15 @@ describe('Question Factory', () => {
         }
     };
 
+    let problemSchemaQuestion: any = {
+        type: 'obs',
+        label: 'Problem',
+        id: 'problem',
+        required: 'true',
+        questionOptions: {
+            rendering: 'problem'
+        }
+    };
 
     let repeatingGroupSchemaQuestion: any = {
         label: 'Other Medications',
@@ -614,7 +623,15 @@ describe('Question Factory', () => {
         let converted = factory.toDrugQuestion(drugSchemaQuestion);
         expect(converted.label).toEqual(drugSchemaQuestion.label);
         expect(converted.key).toEqual(drugSchemaQuestion.id);
-        expect(converted.renderingType).toEqual(drugSchemaQuestion.type);
+        expect(converted.renderingType).toEqual('remote-select');
+
+    });
+
+    it('should convert schema problem question to Problem question model', () => {
+        let converted = factory.toProblemQuestion(problemSchemaQuestion);
+        expect(converted.label).toEqual(problemSchemaQuestion.label);
+        expect(converted.key).toEqual(problemSchemaQuestion.id);
+        expect(converted.renderingType).toEqual('remote-select');
 
     });
 
@@ -635,7 +652,7 @@ describe('Question Factory', () => {
         let converted = factory.toPersonAttributeQuestion(personAttributeSchemaQuestion);
         expect(converted.label).toEqual(personAttributeSchemaQuestion.label);
         expect(converted.key).toEqual(personAttributeSchemaQuestion.id);
-        expect(converted.renderingType).toEqual(personAttributeSchemaQuestion.type);
+        expect(converted.renderingType).toEqual('remote-select');
 
     });
 
@@ -643,7 +660,7 @@ describe('Question Factory', () => {
         let converted = factory.toEncounterProviderQuestion(encounterProviderSchemaQuestion);
         expect(converted.label).toEqual(encounterProviderSchemaQuestion.label);
         expect(converted.key).toEqual(encounterProviderSchemaQuestion.id);
-        expect(converted.renderingType).toEqual(encounterProviderSchemaQuestion.type);
+        expect(converted.renderingType).toEqual('remote-select');
 
     });
 
@@ -651,7 +668,7 @@ describe('Question Factory', () => {
         let converted = factory.toEncounterLocationQuestion(encounterLocationSchemaQuestion);
         expect(converted.label).toEqual(encounterLocationSchemaQuestion.label);
         expect(converted.key).toEqual(encounterLocationSchemaQuestion.id);
-        expect(converted.renderingType).toEqual(encounterLocationSchemaQuestion.type);
+        expect(converted.renderingType).toEqual('remote-select');
 
     });
 
@@ -661,7 +678,7 @@ describe('Question Factory', () => {
         let convertedSample2: QuestionGroup = converted[12];
         let convertedSample3: SelectQuestion = converted[14];
         expect(converted.length).toEqual(18);
-        expect(convertedSample1.renderingType).toEqual('encounterProvider');
+        expect(convertedSample1.renderingType).toEqual('remote-select');
         expect(convertedSample1.key).toEqual('provider');
         expect(convertedSample2.renderingType).toEqual('group');
         expect(convertedSample2.questions[0].renderingType).toEqual('select');

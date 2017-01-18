@@ -1,11 +1,11 @@
 /**
  * time-picker.component.spec
  */
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { TimePickerComponent } from "./time-picker.component";
-import { ModalComponent } from "../picker-modal/modal.component";
-import { MomentPipe } from "../pipes/moment.pipe";
-import { By } from "@angular/platform-browser";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TimePickerComponent } from './time-picker.component';
+import { ModalComponent } from '../picker-modal/modal.component';
+import { MomentPipe } from '../pipes/moment.pipe';
+import { By } from '@angular/platform-browser';
 import * as moment from 'moment/moment';
 
 describe('TimePickerComponent', () => {
@@ -29,7 +29,7 @@ describe('TimePickerComponent', () => {
     it('should display "Time Picker" as the picker header', () => {
         fixture.detectChanges();
         let pickerHeader = fixture.debugElement.query(By.css('.picker-header'));
-        expect(pickerHeader.nativeElement.textContent).toBe("Time Picker");
+        expect(pickerHeader.nativeElement.textContent).toBe('Time Picker');
     });
 
     it('should have a button named "Now"', () => {
@@ -39,7 +39,7 @@ describe('TimePickerComponent', () => {
 
     it('should raise onSelectTime event when "Now" button clicked', () => {
         let selectedTimeValue: string;
-        comp.onSelectTime.subscribe(( time: string ) => selectedTimeValue = time);
+        comp.onSelectTime.subscribe((time: string) => selectedTimeValue = time);
         comp.returnObject = 'string';
         let nowBtnEl = fixture.debugElement.query(By.css('.action-now'));
         nowBtnEl.triggerEventHandler('click', null);
@@ -57,7 +57,7 @@ describe('TimePickerComponent', () => {
         comp.initTime = initTimeMoment.format(comp.viewFormat);
         comp.returnObject = 'string';
         fixture.detectChanges();
-        comp.onSelectTime.subscribe(( time: string ) => selectedTimeValue = time);
+        comp.onSelectTime.subscribe((time: string) => selectedTimeValue = time);
         let confirmBtnEl = fixture.debugElement.query(By.css('.action-confirm'));
         confirmBtnEl.triggerEventHandler('click', null);
         expect(selectedTimeValue).toBe(initTimeMoment.format(comp.viewFormat));
@@ -70,7 +70,7 @@ describe('TimePickerComponent', () => {
 
     it('should raise onSelectTime event when "Clear" button clicked', () => {
         let selectedTimeValue: string;
-        comp.onSelectTime.subscribe(( time: string ) => selectedTimeValue = time);
+        comp.onSelectTime.subscribe((time: string) => selectedTimeValue = time);
         let clearBtnEl = fixture.debugElement.query(By.css('.action-clear'));
         clearBtnEl.triggerEventHandler('click', null);
         expect(selectedTimeValue).toBeNull();
@@ -83,7 +83,7 @@ describe('TimePickerComponent', () => {
 
     it('should raise onTimePickerCancel event when "Close" button clicked', () => {
         let timePickerStatus: boolean;
-        comp.onTimePickerCancel.subscribe(( status: boolean ) => timePickerStatus = status);
+        comp.onTimePickerCancel.subscribe((status: boolean) => timePickerStatus = status);
         let closeBtnEl = fixture.debugElement.query(By.css('.action-close'));
         closeBtnEl.triggerEventHandler('click', null);
         expect(timePickerStatus).toBeFalsy();

@@ -1,11 +1,11 @@
 /**
  * date-picker.component.spec
  */
-import { TestBed, ComponentFixture } from "@angular/core/testing";
-import { DatePickerComponent } from "./date-picker.component";
-import { By } from "@angular/platform-browser";
-import { MomentPipe } from "../pipes/moment.pipe";
-import { ModalComponent } from "../picker-modal/modal.component";
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { DatePickerComponent } from './date-picker.component';
+import { By } from '@angular/platform-browser';
+import { MomentPipe } from '../pipes/moment.pipe';
+import { ModalComponent } from '../picker-modal/modal.component';
 import * as moment from 'moment/moment';
 import { Moment } from 'moment/moment';
 
@@ -41,7 +41,7 @@ describe('DatePickerComponent', () => {
 
     it('should raise onSelectDate event when "Today" button clicked', () => {
         let selectedDateValue: any;
-        comp.onSelectDate.subscribe(( date: any ) => selectedDateValue = date);
+        comp.onSelectDate.subscribe((date: any) => selectedDateValue = date);
         expect(selectedDateValue).toBeUndefined();
         let todayBtnEl = fixture.debugElement.query(By.css('.action-today'));
         todayBtnEl.triggerEventHandler('click', null);
@@ -55,7 +55,7 @@ describe('DatePickerComponent', () => {
 
     it('should raise onSelectDate event when "Clear" button clicked', () => {
         let selectedDateValue: any;
-        comp.onSelectDate.subscribe(( date: any ) => selectedDateValue = date);
+        comp.onSelectDate.subscribe((date: any) => selectedDateValue = date);
         let clearBtnEl = fixture.debugElement.query(By.css('.action-clear'));
         clearBtnEl.triggerEventHandler('click', null);
         expect(selectedDateValue).toBeNull();
@@ -68,7 +68,7 @@ describe('DatePickerComponent', () => {
 
     it('should raise onDatePickerCancel event when "Close" button clicked', () => {
         let pickerStatus: boolean;
-        comp.onDatePickerCancel.subscribe(( status: boolean ) => pickerStatus = status);
+        comp.onDatePickerCancel.subscribe((status: boolean) => pickerStatus = status);
         let closeBtnEl = fixture.debugElement.query(By.css('.action-close'));
         closeBtnEl.triggerEventHandler('click', null);
         expect(pickerStatus).toBeFalsy();
@@ -138,7 +138,7 @@ describe('DatePickerComponent', () => {
         comp.initDate = initMoment.format(comp.viewFormat);
         comp.returnObject = 'string';
         fixture.detectChanges();
-        comp.calendarDays.map(( day: Moment, index: number ) => {
+        comp.calendarDays.map((day: Moment, index: number) => {
             if (day.format(comp.viewFormat) === initMoment.format(comp.viewFormat)) {
                 selectedIndex = index;
             }
@@ -154,7 +154,7 @@ describe('DatePickerComponent', () => {
         comp.initDate = todayMoment.format(comp.viewFormat);
         comp.returnObject = 'string';
         fixture.detectChanges();
-        comp.calendarDays.map(( day: Moment, index: number ) => {
+        comp.calendarDays.map((day: Moment, index: number) => {
             if (day.format(comp.viewFormat) === todayMoment.format(comp.viewFormat)) {
                 todayIndex = index;
             }
@@ -170,8 +170,8 @@ describe('DatePickerComponent', () => {
         comp.initDate = todayMoment.format(comp.viewFormat);
         comp.returnObject = 'string';
         fixture.detectChanges();
-        comp.calendarDays.map(( day: Moment, index: number ) => {
-            if (day.format('MMMM') != todayMoment.format('MMMM')) {
+        comp.calendarDays.map((day: Moment, index: number) => {
+            if (day.format('MMMM') !== todayMoment.format('MMMM')) {
                 notCurrentMonthDaysIndex.push(index);
             }
         });

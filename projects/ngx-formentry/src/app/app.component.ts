@@ -1,11 +1,13 @@
 import { Component, style, state, animate, transition, trigger, OnInit } from '@angular/core';
 import { QuestionFactory } from './form-entry/form-factory/question.factory';
 import { FormGroup } from '@angular/forms';
+import { Observable, Subject } from 'rxjs/Rx';
 
 import { Form } from './form-entry/form-factory/form';
 import { FormFactory } from './form-entry/form-factory/form.factory';
 import { MockObs } from './mock/mock-obs';
 import { ObsValueAdapter, OrderValueAdapter, EncounterAdapter } from './form-entry/value-adapters';
+import { DataSources } from './form-entry/data-sources/data-sources';
 
 const adultForm = require('./adult');
 const adultFormObs = require('./mock/obs');
@@ -32,19 +34,24 @@ export class AppComponent implements OnInit {
     activeTab = 0;
     form: Form;
     stack = [];
-
     constructor(private questionFactory: QuestionFactory, private formFactory: FormFactory, private obsValueAdapater: ObsValueAdapter,
-        private orderAdaptor: OrderValueAdapter, private encAdapter: EncounterAdapter) {
+        private orderAdaptor: OrderValueAdapter, private encAdapter: EncounterAdapter, private dataSources: DataSources) {
         this.schema = adultForm;
         this.createForm();
     }
+
     ngOnInit() {
 
         // Set encounter, obs, orders
 
         adultFormObs.orders = formOrdersPayload.orders;
         this.encAdapter.populateForm(this.form, adultFormObs);
-
+        this.dataSources.registerDataSource('drug', { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
+        this.dataSources.registerDataSource('personAttribute',
+            { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
+        this.dataSources.registerDataSource('problem', { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
+        this.dataSources.registerDataSource('location', { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
+        this.dataSources.registerDataSource('provider', { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
         // Alternative is to set individually for obs and orders as show below
         // // Set obs
         // this.obsValueAdapater.populateForm(this.form, adultFormObs.obs);
@@ -70,6 +77,24 @@ export class AppComponent implements OnInit {
         let obs = new MockObs();
         this.form = this.formFactory.createForm(this.schema, obs.getObs());
     }
+    sampleResolve(): Observable<any> {
+        let item = { id: 1, text: 'Kenya' };
+        return Observable.create((observer: Subject<any>) => {
+            setTimeout(() => {
+                observer.next(item);
+            }, 1000);
+
+        });
+    }
+    sampleSearch(): Observable<any> {
+        let items: Array<any> = [{ id: 1, text: 'Kenya' }, { id: 2, text: 'Uganda' }];
+        return Observable.create((observer: Subject<any>) => {
+            setTimeout(() => {
+                observer.next(items);
+            }, 1000);
+
+        });
+    }
 
     onSubmit($event) {
 
@@ -91,8 +116,8 @@ export class AppComponent implements OnInit {
 
         if (this.form.valid) {
 
-            let payload = this.encAdapter.generateFormPayload(this.form);
-            console.log('encounter payload', payload);
+            let generated = this.encAdapter.generateFormPayload(this.form);
+            console.log('encounter payload', generated);
 
             // Alternative is to populate for each as shown below
             // // generate obs payload

@@ -1,9 +1,8 @@
 <div>
-	<form [formGroup]="form.rootNode.control" (ngSubmit)="onSubmit($event)">
+	<form [formGroup]="form.rootNode.control">
 		<form-renderer [node]="form.rootNode"></form-renderer>
 		<div class="form-row">
-			<button>Save</button>
+			<button type="submit" (click)="onSubmit($event)">Save</button>
 		</div>
 	</form>
 </div>
-<date-time-picker [showWeeks]="true"></date-time-picker>

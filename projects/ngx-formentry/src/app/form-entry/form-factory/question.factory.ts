@@ -222,10 +222,31 @@ export class QuestionFactory {
     let question = new SelectQuestion({ options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
-    question.renderingType = schemaQuestion.type;
+    question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
+    question.dataSource = 'drug';
+    let mappings: any = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
 
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
+    return question;
+  }
+
+  toProblemQuestion(schemaQuestion: any): SelectQuestion {
+    let question = new SelectQuestion({ options: [], type: '', key: '' });
+    question.label = schemaQuestion.label;
+    question.key = schemaQuestion.id;
+    question.renderingType = 'remote-select';
+    question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
+    question.dataSource = 'problem';
     let mappings: any = {
       label: 'label',
       required: 'required',
@@ -334,9 +355,10 @@ export class QuestionFactory {
     });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
-    question.renderingType = schemaQuestion.type;
+    question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
+    question.dataSource = 'personAttribute';
 
     let mappings: any = {
       label: 'label',
@@ -358,9 +380,10 @@ export class QuestionFactory {
     });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
-    question.renderingType = schemaQuestion.type;
+    question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
+    question.dataSource = 'provider';
 
     let mappings: any = {
       label: 'label',
@@ -391,8 +414,10 @@ export class QuestionFactory {
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = schemaQuestion.type;
+    question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
+    question.dataSource = 'location';
 
     let mappings: any = {
       label: 'label',
@@ -460,8 +485,7 @@ export class QuestionFactory {
           // schema.questions = this.getGroupMembers(schema.questions);
           foundArray.push(this.toModel(schema, schema.questionOptions.rendering));
         } else if (schema.questionOptions.rendering === 'field-set') {
-        }
-        else {
+        } else {
           foundArray.push(this.toModel(schema, schema.questionOptions.rendering));
         }
       } else {
@@ -510,6 +534,8 @@ export class QuestionFactory {
         return this.toMultiCheckboxQuestion(schema);
       case 'drug':
         return this.toDrugQuestion(schema);
+      case 'problem':
+        return this.toProblemQuestion(schema);
       case 'group':
         return this.toGroupQuestion(schema);
       case 'field-set':
@@ -653,6 +679,6 @@ export class QuestionFactory {
       let r = Math.random();
       s += (r < 0.1 ? Math.floor(r * 100) : String.fromCharCode(Math.floor(r * 26) + (r > 0.5 ? 97 : 65)));
     }
-    return s;
+    return '_' + s;
   }
 }

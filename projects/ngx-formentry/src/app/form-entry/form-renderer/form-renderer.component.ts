@@ -6,10 +6,11 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../../../style/app.css';
 import { DEFAULT_STYLES } from './form-renderer.component.css';
-
+import { DataSources } from '../data-sources/data-sources';
 import { NodeBase } from '../form-factory/form-node';
 import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
 import { ValidationFactory } from '../form-factory/validation.factory';
+import { DataSource } from '../question-models/interfaces/data-source';
 @Component({
     selector: 'form-renderer',
     templateUrl: 'form-renderer.component.html',
@@ -32,16 +33,22 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
     showWeeks: boolean;
     activeTab: number;
     $owlElement: any;
+    dataSource: DataSource;
     @ViewChild('slick') slick;
 
-    constructor(private validationFactory: ValidationFactory) {
+    constructor(private validationFactory: ValidationFactory, private dataSources: DataSources) {
         this.activeTab = 0;
     }
 
     ngOnInit() {
         this.setShowTimeAndWeeks();
+        this.setUpRemoteSelect();
     }
-
+    setUpRemoteSelect() {
+        if (this.node && this.node.question.extras && this.node.question.renderingType === 'remote-select') {
+            this.dataSource = this.dataSources.dataSources[this.node.question.dataSource];
+        }
+    }
     setShowTimeAndWeeks() {
         if (this.node.question.extras && this.node.question.extras['questionOptions']) {
             this.showTime = this.node.question.extras['questionOptions']['showTime'];

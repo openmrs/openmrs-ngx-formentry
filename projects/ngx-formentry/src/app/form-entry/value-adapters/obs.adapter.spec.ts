@@ -317,13 +317,9 @@ describe('Obs Value Adapter: ', () => {
                     let creatineValue = form.searchNodeByQuestionId('creatinine_test')[0];
                     let creatineDate = form.searchNodeByQuestionId('date_creatinine_test')[0];
                     creatineValue.control.setValue(2000);
-                    creatineDate.control.setValue('2016-01-22T16:17:46.000+0300')
+                    creatineDate.control.setValue('2016-01-22T16:17:46.000+0300');
 
                     let payload = s.getObsPayload(questionNodes);
-
-                    console.log('actual  ', payload);
-                    console.log('expected', generatedPayload);
-
                     expect(payload).toEqual(generatedPayload);
                 }));
     });
