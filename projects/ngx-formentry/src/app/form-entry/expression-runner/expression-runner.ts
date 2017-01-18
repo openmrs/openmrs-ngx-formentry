@@ -50,8 +50,11 @@ export class ExpressionRunner {
                     // }
                     // console.error(window['error_count'] + ' Error running expression:' + expression + '. ',
                     //     e, control, 'Effective Expression', (funcDeclarationCode + funcCallCode));
-                    console.error('Error running expression:' + expression + '. ',
-                        e, control, 'Effective Expression', (funcDeclarationCode + funcCallCode));
+                    // console.error('Error running expression:' + expression + '. ',
+                    //     e, control, 'Effective Expression', (funcDeclarationCode + funcCallCode));
+
+                    // Uncomment the line above during debugging
+                    console.error('Error running expression:' + expression);
 
                     return false;
                 }

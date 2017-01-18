@@ -195,6 +195,15 @@
     "orders": [],
     "obs": [
         {
+          "uuid": "ac55c445-9661-4d42-86b5-4d6ec33a000",
+          "obsDatetime": "2016-01-21T16:17:46.000+0300",
+          "concept": {
+            "uuid": "a897e450-1350-11df-a1f1-0026b9348838"
+          },
+          "value": 1000,
+          "groupMembers": null
+        },
+        {
             "uuid": "bcff492e-ebd4-4f67-bcda-b73b40c81582",
             "obsDatetime": "2016-12-01T11:33:57.000+0300",
             "concept": {

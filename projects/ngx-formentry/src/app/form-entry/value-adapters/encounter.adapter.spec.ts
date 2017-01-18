@@ -68,7 +68,7 @@ describe('Encounter Value Adapter:', () => {
             .toBe('encounterLocation');
     });
 
-    xit('should populate form with existing encounter', () => {
+    it('should populate form with existing encounter', () => {
         let adapter = TestBed.get(EncounterAdapter);
         let factory: FormFactory = TestBed.get(FormFactory);
         let form = factory.createForm(adultFormSchema);
@@ -126,7 +126,7 @@ describe('Encounter Value Adapter:', () => {
 
     });
 
-    xit('should generate encounter payload', () => {
+    it('should generate encounter payload', () => {
         let adapter = TestBed.get(EncounterAdapter);
         let factory: FormFactory = TestBed.get(FormFactory);
         let form = factory.createForm(adultFormSchema);

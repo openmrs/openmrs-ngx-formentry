@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as _ from 'lodash';
 
-import { LeafNode } from '../form-factory/form-node';
+import { LeafNode, GroupNode } from '../form-factory/form-node';
 import { Form } from '../form-factory/form';
 import { ValueAdapter } from './value.adapter';
 
@@ -34,9 +34,9 @@ export class ObsValueAdapter implements ValueAdapter {
             for (let node of nodes) {
                 if (node instanceof LeafNode) {
                     this.setObsValue(node, payload);
-                  if (node.question.enableHistoricalValue && node.initialValue !== undefined) {
-                    node.question.setHistoricalValue(false);
-                  }
+                    if (node.question.enableHistoricalValue && node.initialValue !== undefined) {
+                        node.question.setHistoricalValue(false);
+                    }
 
                 } else if (node.question && node.question.extras && node.question.renderingType === 'group' || forcegroup) {
                     let groupObs = _.find(payload, (o: any) => {
@@ -53,6 +53,8 @@ export class ObsValueAdapter implements ValueAdapter {
                     }
 
 
+                } else if (node instanceof GroupNode && node.question.extras.type === 'complex-obs') {
+                    this.setComplexObsValue(node, payload);
                 } else if (node.question && node.question.extras && node.question.renderingType === 'repeating' && !forcegroup) {
                     this.setRepeatingGroupValues(node, payload);
                     node.node.control.updateValueAndValidity();
@@ -64,8 +66,11 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     setObsValue(node, payload) {
-        if (node.question && node.question.extras && node.question.extras.type === 'obs'
-            && node.question.extras.questionOptions.rendering !== 'multiCheckbox') {
+        if (node.question && node.question.extras &&
+            (node.question.extras.type === 'obs' ||
+                (node.question.extras.type === 'complex-obs-child' &&
+                    node.question.extras.questionOptions.obsField === 'value')) &&
+            node.question.extras.questionOptions.rendering !== 'multiCheckbox') {
             let obs = _.find(payload, (o: any) => {
                 return o.concept.uuid === node.question.extras.questionOptions.concept;
             });
@@ -88,6 +93,35 @@ export class ObsValueAdapter implements ValueAdapter {
                 node.control.updateValueAndValidity();
                 node['initialValue'] = multiObs;
             }
+        }
+    }
+
+    setComplexObsValue(node, payload) {
+        let valueField: any;
+        let dateField: any;
+
+        // tslint:disable-next-line:forin
+        for (let o in node.children) {
+            if ((node.children[o] as LeafNode).question.extras.questionOptions.obsField === 'value') {
+                valueField = node.children[o];
+            }
+
+            if ((node.children[o] as LeafNode).question.extras.questionOptions.obsField === 'obsDatetime') {
+                dateField = node.children[o];
+            }
+        }
+        // set the usual obs value
+        this.setObsValue(valueField, payload);
+
+        // set the obs date
+        let obs = _.find(payload, (o: any) => {
+            return o.concept.uuid === node.question.extras.questionOptions.concept;
+        });
+
+        if (obs) {
+            dateField['initialValue'] = { obsUuid: obs.uuid, value: obs.obsDatetime };
+            (dateField as LeafNode).control.setValue(obs.obsDatetime);
+            (dateField as LeafNode).control.updateValueAndValidity();
         }
     }
 
@@ -302,6 +336,37 @@ export class ObsValueAdapter implements ValueAdapter {
         }
     }
 
+    processComplexObs(node, obsPayload) {
+        let valueField: any;
+        let dateField: any;
+
+        // tslint:disable-next-line:forin
+        for (let o in node.children) {
+            if ((node.children[o] as LeafNode).question.extras.questionOptions.obsField === 'value') {
+                valueField = node.children[o];
+            }
+
+            if ((node.children[o] as LeafNode).question.extras.questionOptions.obsField === 'obsDatetime') {
+                dateField = node.children[o];
+            }
+        }
+
+        if (valueField) {
+            // process obs as usual
+            this.processObs(valueField, obsPayload);
+
+            // obtain the last inserted obs and set the obsDatetime
+            let createdPayload = obsPayload.length > 0 ? obsPayload[obsPayload.length - 1] : undefined;
+            if (createdPayload &&
+                ((createdPayload.concept && createdPayload.concept === node.question.extras.questionOptions.concept) ||
+                    (valueField.initialValue && createdPayload.uuid === valueField.initialValue.obsUuid))) {
+                if (dateField.initialValue && dateField.control.value !== dateField.initialValue.value) {
+                    createdPayload.obsDatetime = dateField.control.value;
+                }
+            }
+        }
+    }
+
     processDeletedMultiSelectObs(values, obsPayload) {
         for (let value of values) {
             obsPayload.push({ uuid: value.uuid, voided: true });
@@ -374,8 +439,11 @@ export class ObsValueAdapter implements ValueAdapter {
         return multiSelectObs;
     }
 
+
     isObs(node) {
-        return (node.question.extras.type === 'obs' || node.question.extras.type === 'obsGroup');
+        return (node.question.extras.type === 'obs' ||
+            node.question.extras.type === 'obsGroup' ||
+            node.question.extras.type === 'complex-obs');
     }
 
     getObsPayload(nodes) {
@@ -388,6 +456,8 @@ export class ObsValueAdapter implements ValueAdapter {
 
                 } else if (node.groupMembers, node.question.extras.questionOptions.rendering === 'repeating') {
                     this.processRepeatingGroups(node, obsPayload);
+                } else if (node instanceof GroupNode && (node as GroupNode).question.extras.type === 'complex-obs') {
+                    this.processComplexObs(node, obsPayload);
                 } else {
                     this.processObs(node, obsPayload);
                 }

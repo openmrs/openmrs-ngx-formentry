@@ -302,16 +302,28 @@ describe('Obs Value Adapter: ', () => {
                 let getObsPayload = spyOn(s, 'getObsPayload');
                 expect(getObsPayload).toBeTruthy();
             }));
-        xit('it should return correct payload given an array of nodes with and without values set',
+        it('it should return correct payload given an array of nodes with and without values set',
             inject([ObsValueAdapter, FormFactory],
                 (s: ObsValueAdapter, f: FormFactory) => {
                     // Traverse  to get all nodes
-                    let pages = s.traverse(f.createForm(adultForm).rootNode);
+                    let form = f.createForm(adultForm);
+                    let pages = s.traverse(form.rootNode);
                     // Extract actual question nodes
                     let questionNodes = s.getQuestionNodes(pages);
                     // Extract set obs
                     s.setValues(questionNodes, adultFormObs.obs);
+
+                    // simulate user changing complex obs values
+                    let creatineValue = form.searchNodeByQuestionId('creatinine_test')[0];
+                    let creatineDate = form.searchNodeByQuestionId('date_creatinine_test')[0];
+                    creatineValue.control.setValue(2000);
+                    creatineDate.control.setValue('2016-01-22T16:17:46.000+0300')
+
                     let payload = s.getObsPayload(questionNodes);
+
+                    console.log('actual  ', payload);
+                    console.log('expected', generatedPayload);
+
                     expect(payload).toEqual(generatedPayload);
                 }));
     });
@@ -322,7 +334,7 @@ describe('Obs Value Adapter: ', () => {
                 let setValues = spyOn(s, 'setValues');
                 expect(setValues).toBeTruthy();
             }));
-        xit('should correctly set the values given question nodes and obs payload',
+        it('should correctly set the values given question nodes and obs payload',
             inject([ObsValueAdapter, FormFactory],
                 (s: ObsValueAdapter, f: FormFactory) => {
                     let form: Form = f.createForm(adultForm);
@@ -340,6 +352,13 @@ describe('Obs Value Adapter: ', () => {
                         adherenceTbTreatment: '',
                         adherenceTbOther: ''
                     });
+
+                    // check complex values
+                    let creatineValue = form.searchNodeByQuestionId('creatinine_test')[0];
+                    let creatineDate = form.searchNodeByQuestionId('date_creatinine_test')[0];
+
+                    expect(creatineValue.control.value).toEqual(1000);
+                    expect(creatineDate.control.value).toEqual('2016-01-21T16:17:46.000+0300');
                 }));
     });
 

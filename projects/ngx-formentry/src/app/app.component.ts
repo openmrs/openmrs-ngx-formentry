@@ -42,8 +42,8 @@ export class AppComponent implements OnInit {
 
         // Set encounter, obs, orders
 
-        // adultFormObs.orders = formOrdersPayload.orders;
-        // this.encAdapter.populateForm(this.form, adultFormObs);
+        adultFormObs.orders = formOrdersPayload.orders;
+        this.encAdapter.populateForm(this.form, adultFormObs);
 
         // Alternative is to set individually for obs and orders as show below
         // // Set obs
