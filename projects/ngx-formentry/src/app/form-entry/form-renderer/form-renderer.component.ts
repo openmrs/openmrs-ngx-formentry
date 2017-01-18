@@ -1,17 +1,22 @@
 import {
     Component, OnInit, Input, animate, transition, style, state,
-    trigger, AfterViewChecked, OnDestroy, ViewChild
+    trigger, AfterViewChecked, OnDestroy, ViewChild, Inject
 } from '@angular/core';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../../../style/app.css';
+
 import { DEFAULT_STYLES } from './form-renderer.component.css';
+import {PageScrollService, PageScrollInstance} from 'ng2-page-scroll';
+import {DOCUMENT} from '@angular/platform-browser';
 import { DataSources } from '../data-sources/data-sources';
 import { NodeBase } from '../form-factory/form-node';
 import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
 import { ValidationFactory } from '../form-factory/validation.factory';
 import { DataSource } from '../question-models/interfaces/data-source';
 import { FormErrorsService } from '../services';
+
 @Component({
     selector: 'form-renderer',
     templateUrl: 'form-renderer.component.html',
@@ -38,15 +43,12 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
     @ViewChild('slick') slick;
 
     constructor(private validationFactory: ValidationFactory,
-      private dataSources: DataSources, private formErrorsService: FormErrorsService) {
+      private dataSources: DataSources, private formErrorsService: FormErrorsService,
+      private pageScrollService: PageScrollService, @Inject(DOCUMENT) private document: Document) {
         this.activeTab = 0;
         formErrorsService.announceErrorField$.subscribe(
           error => {
-            let tab: number = +error.split(',')[0];
-            // let elSelector = '#' + error.split(',')[1];
-            this.clickTab(tab);
-
-            // TODO focus element
+            this.scrollToControl(error);
           });
     }
 
@@ -136,4 +138,14 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
         return [];
     }
 
+    scrollToControl(error: string) {
+      let tab: number = +error.split(',')[0];
+      let elSelector = '#' + error.split(',')[1] + 'id';
+      this.clickTab(tab);
+
+      setTimeout(() => {
+        let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, elSelector);
+        this.pageScrollService.start(pageScrollInstance);
+      }, 200);
+    }
 }

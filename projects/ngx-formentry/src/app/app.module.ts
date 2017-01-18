@@ -1,6 +1,7 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
+import {Ng2PageScrollModule} from 'ng2-page-scroll';
 
 import { AppComponent } from './app.component';
 
@@ -17,7 +18,8 @@ import { DataSources } from './form-entry/data-sources/data-sources';
     ReactiveFormsModule,
     FormsModule,
     FormEntryModule,
-    DateTimePickerModule
+    DateTimePickerModule,
+    Ng2PageScrollModule.forRoot()
   ],
   declarations: [
     AppComponent
