@@ -8,6 +8,7 @@ import { FormFactory } from './form-entry/form-factory/form.factory';
 import { MockObs } from './mock/mock-obs';
 import { ObsValueAdapter, OrderValueAdapter, EncounterAdapter } from './form-entry/value-adapters';
 import { DataSources } from './form-entry/data-sources/data-sources';
+import { FormErrorsService } from './form-entry/services';
 
 const adultForm = require('./adult');
 const adultFormObs = require('./mock/obs');
@@ -24,7 +25,8 @@ const formOrdersPayload = require('./mock/orders');
                 animate(250)
             ])
         ])
-    ]
+    ],
+    providers: [FormErrorsService]
 })
 export class AppComponent implements OnInit {
     data: any;
@@ -35,7 +37,8 @@ export class AppComponent implements OnInit {
     form: Form;
     stack = [];
     constructor(private questionFactory: QuestionFactory, private formFactory: FormFactory, private obsValueAdapater: ObsValueAdapter,
-        private orderAdaptor: OrderValueAdapter, private encAdapter: EncounterAdapter, private dataSources: DataSources) {
+        private orderAdaptor: OrderValueAdapter, private encAdapter: EncounterAdapter, private dataSources: DataSources,
+        private formErrorsService: FormErrorsService) {
         this.schema = adultForm;
         this.createForm();
     }
@@ -111,13 +114,11 @@ export class AppComponent implements OnInit {
             utcOffset: '+0300'
         };
 
-        let payload = this.encAdapter.generateFormPayload(this.form);
-        console.log('encounter payload', payload);
-
         if (this.form.valid) {
 
-            let generated = this.encAdapter.generateFormPayload(this.form);
-            console.log('encounter payload', generated);
+            this.form.showErrors = false;
+            let payload = this.encAdapter.generateFormPayload(this.form);
+            console.log('encounter payload', payload);
 
             // Alternative is to populate for each as shown below
             // // generate obs payload
@@ -129,7 +130,7 @@ export class AppComponent implements OnInit {
             // console.log('orders Payload', ordersPayload);
 
         } else {
-
+            this.form.showErrors = true;
             this.form.markInvalidControls(this.form.rootNode);
         }
     }

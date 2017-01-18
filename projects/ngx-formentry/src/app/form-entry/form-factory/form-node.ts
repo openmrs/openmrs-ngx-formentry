@@ -64,7 +64,7 @@ export class GroupNode extends NodeBase {
 
 export class ArrayNode extends NodeBase implements ChildNodeCreatedListener {
 
-    private childNodeCreatedEvents: any[];
+    private childNodeCreatedEvents: any[] = [];
     private _children: GroupNode[];
     public createChildFunc: CreateArrayChildNodeFunction;
     public removeChildFunc: RemoveArrayChildNodeFunction;

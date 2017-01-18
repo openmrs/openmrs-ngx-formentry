@@ -12,6 +12,7 @@ export class Form {
     public rootNode: GroupNode;
     public valueProcessingInfo: any = {};
     private _dataSourcesContainer: DataSources;
+    private _showErrors: boolean = false;
     constructor(public schema: any, public FormFactory: FormFactory, public questionFactory: QuestionFactory) {
         this._dataSourcesContainer = new DataSources();
     }
@@ -54,7 +55,16 @@ export class Form {
       return this.rootNode.control.valid;
     }
 
-    markInvalidControls(node: GroupNode) {
+    set showErrors(show: boolean) {
+      this._showErrors = show;
+    }
+
+    get showErrors() {
+      return this._showErrors;
+    }
+
+    markInvalidControls(node: GroupNode, invalidControlNodes?: any) {
+
 
       let children: NodeBase = node.children;
 
@@ -66,7 +76,7 @@ export class Form {
 
           if ( child instanceof GroupNode ) {
 
-            this.markInvalidControls(child);
+            this.markInvalidControls(child, invalidControlNodes);
           } else if ( child instanceof LeafNode ) {
 
             let questionBase: QuestionBase = (child as LeafNode).question;
@@ -76,6 +86,10 @@ export class Form {
               let c: AfeFormControl | AfeFormArray = child.control as AfeFormControl | AfeFormArray;
 
               if (!c.valid) {
+                if (invalidControlNodes) {
+                  invalidControlNodes.push(child);
+                }
+
                  c.markAsTouched(true);
               }
             }
@@ -85,11 +99,13 @@ export class Form {
             if (arrayNode && arrayNode.children && arrayNode.children.length > 0) {
 
               _.forEach(arrayNode.children, (groupNode: any) => {
-                this.markInvalidControls(groupNode);
+                this.markInvalidControls(groupNode, invalidControlNodes);
               });
             }
           }
         }
       }
+
+      return invalidControlNodes;
     }
 }

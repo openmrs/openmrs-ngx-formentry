@@ -11,6 +11,7 @@ import { NodeBase } from '../form-factory/form-node';
 import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
 import { ValidationFactory } from '../form-factory/validation.factory';
 import { DataSource } from '../question-models/interfaces/data-source';
+import { FormErrorsService } from '../services';
 @Component({
     selector: 'form-renderer',
     templateUrl: 'form-renderer.component.html',
@@ -36,8 +37,17 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
     dataSource: DataSource;
     @ViewChild('slick') slick;
 
-    constructor(private validationFactory: ValidationFactory, private dataSources: DataSources) {
+    constructor(private validationFactory: ValidationFactory,
+      private dataSources: DataSources, private formErrorsService: FormErrorsService) {
         this.activeTab = 0;
+        formErrorsService.announceErrorField$.subscribe(
+          error => {
+            let tab: number = +error.split(',')[0];
+            // let elSelector = '#' + error.split(',')[1];
+            this.clickTab(tab);
+
+            // TODO focus element
+          });
     }
 
     ngOnInit() {

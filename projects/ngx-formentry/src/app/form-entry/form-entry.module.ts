@@ -2,9 +2,11 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
+import { FormErrorsService } from './services';
 import { FormControlService } from './form-factory/form-control.service';
 import { ValidationFactory } from './form-factory/validation.factory';
 import { FormRendererComponent } from './form-renderer/form-renderer.component';
+import { ErrorRendererComponent } from './error-renderer/error-renderer.component';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { HistoricalValueDirective } from './directives/historical-value-directive';
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
@@ -23,10 +25,11 @@ import { RemoteSelectModule } from '../components/remote-select/remote-select.mo
 
 @NgModule({
     imports: [CommonModule, ReactiveFormsModule, SelectModule, DateTimePickerModule, RemoteSelectModule],
-    declarations: [FormRendererComponent, AfeNgSelectComponent, HistoricalValueDirective],
+    declarations: [FormRendererComponent, AfeNgSelectComponent, HistoricalValueDirective, ErrorRendererComponent],
     providers: [
         FormBuilder,
         FormControlService,
+        FormErrorsService,
         ValidationFactory,
         HidersDisablersFactory,
         ExpressionRunner,
@@ -42,7 +45,7 @@ import { RemoteSelectModule } from '../components/remote-select/remote-select.mo
         PersonAttribuAdapter,
         OrderValueAdapter
     ],
-    exports: [FormRendererComponent, AfeNgSelectComponent]
+    exports: [FormRendererComponent, AfeNgSelectComponent, ErrorRendererComponent]
 })
 export class FormEntryModule {
 
