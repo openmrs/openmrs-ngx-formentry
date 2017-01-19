@@ -7,6 +7,7 @@ import { FormControlService } from './form-control.service';
 import { QuestionFactory } from './question.factory';
 import { AfeFormGroup, AfeControlType, AfeFormArray } from '../../abstract-controls-extension/control-extensions';
 import { ControlRelationsFactory } from './control-relations.factory';
+import { Validations } from '../validators/validations';
 
 import { Form } from './form';
 
@@ -31,11 +32,17 @@ export class FormFactory {
         form.rootNode = this.createNode(question, null, null, form) as GroupNode;
 
         this.buildRelations(form.rootNode);
+
         return form;
     }
 
     buildRelations(rootNode: GroupNode) {
-        this.controlRelationsFactory.buildRelations(rootNode);
+
+      Validations.JSExpressionValidatorsEnabled = false;
+      this.controlRelationsFactory.buildRelations(rootNode);
+
+      // enable js expression validations
+      Validations.JSExpressionValidatorsEnabled = true;
     }
 
     createNode(question: QuestionBase | NestedQuestion,
@@ -78,7 +85,10 @@ export class FormFactory {
         arrayNode.removeChildFunc = this.removeArrayNodeChild;
 
         arrayNode.addChildNodeCreatedListener((node: GroupNode) => {
+
+          Validations.JSExpressionValidatorsEnabled = false;
           this.controlRelationsFactory.buildArrayNodeRelations(node);
+          Validations.JSExpressionValidatorsEnabled = true;
         });
         return arrayNode;
     }
