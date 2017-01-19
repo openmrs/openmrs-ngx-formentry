@@ -22,10 +22,24 @@ import { QuestionFactory } from './form-factory/question.factory';
 import { ControlRelationsFactory } from './form-factory/control-relations.factory';
 import { EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter } from './value-adapters';
 import { RemoteSelectModule } from '../components/remote-select/remote-select.module';
+import { DataSources } from './data-sources/data-sources';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 @NgModule({
-    imports: [CommonModule, ReactiveFormsModule, SelectModule, DateTimePickerModule, RemoteSelectModule],
-    declarations: [FormRendererComponent, AfeNgSelectComponent, HistoricalValueDirective, ErrorRendererComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        SelectModule,
+        DateTimePickerModule,
+        RemoteSelectModule,
+        Ng2PageScrollModule.forRoot()
+    ],
+    declarations: [
+        FormRendererComponent,
+        AfeNgSelectComponent,
+        HistoricalValueDirective,
+        ErrorRendererComponent
+    ],
     providers: [
         FormBuilder,
         FormControlService,
@@ -43,7 +57,8 @@ import { RemoteSelectModule } from '../components/remote-select/remote-select.mo
         ObsValueAdapter,
         EncounterAdapter,
         PersonAttribuAdapter,
-        OrderValueAdapter
+        OrderValueAdapter,
+        DataSources
     ],
     exports: [FormRendererComponent, AfeNgSelectComponent, ErrorRendererComponent]
 })
