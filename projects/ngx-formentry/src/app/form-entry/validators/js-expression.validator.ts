@@ -2,6 +2,7 @@ import { AfeFormControl } from '../../abstract-controls-extension/afe-form-contr
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
+import { Validations } from './validations';
 
 export class JsExpressionValidator {
 
@@ -11,6 +12,10 @@ export class JsExpressionValidator {
 
     // convert helper functions to string
     return (control: AfeFormControl): { [key: string]: any } => {
+
+      if (!Validations.JSExpressionValidatorsEnabled) {
+        return null;
+      }
 
       let expression = model.failsWhenExpression;
       let helper = new JsExpressionHelper();

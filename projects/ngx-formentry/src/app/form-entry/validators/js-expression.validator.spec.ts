@@ -5,7 +5,7 @@ import { JsExpressionValidator } from './js-expression.validator';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
-
+import { Validations } from './validations';
 
 describe('JS Expression Validator:', () => {
     beforeEach(() => {
@@ -25,6 +25,7 @@ describe('JS Expression Validator:', () => {
 
     it('should validate a given expression', () => {
 
+      Validations.JSExpressionValidatorsEnabled = true;
       let validator: JsExpressionValidator = TestBed.get(JsExpressionValidator);
       let model = new JsExpressionValidationModel({
         type: 'js_expression',
@@ -55,6 +56,7 @@ describe('JS Expression Validator:', () => {
 
     it('should return null when validation passes', () => {
 
+      Validations.JSExpressionValidatorsEnabled = true;
       let validator: JsExpressionValidator = TestBed.get(JsExpressionValidator);
       let model = new JsExpressionValidationModel({
         type: 'js_expression',
