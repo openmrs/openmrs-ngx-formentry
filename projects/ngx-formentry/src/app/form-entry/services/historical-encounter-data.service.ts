@@ -113,12 +113,10 @@ export class HistoricalEncounterDataService {
       prevEncounter.encounterType = encounter.encounterType.uuid;
     }
 
-    let provider = encounter.provider;
-    let encProvider = encounter.encounterProviders;
-
-    let providerValue = provider ? provider.uuid : encProvider[0].provider.uuid;
-
-    prevEncounter.provider = providerValue;
+    if (encounter.provider) {
+      let provider = encounter.provider;
+      prevEncounter.provider = provider.uuid;
+    }
 
     // Deal with obs.
     if (encounter.obs) {
