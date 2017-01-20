@@ -31,9 +31,11 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
         this.loading = true;
         if (this.dataSource) {
             this.dataSource.searchOptions(value).subscribe((result) => {
-                let existing = _.map(this.value, _.clone);
-                let concat = existing.concat(result);
-                this.items = _.uniqBy(concat, 'id');
+                if (result.length > 0) {
+                    let existing = _.map(this.value, _.clone);
+                    let concat = existing.concat(result);
+                    this.items = _.uniqBy(concat, 'id');
+                }
                 this.loading = false;
             });
         }
