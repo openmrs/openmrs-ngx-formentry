@@ -1,5 +1,5 @@
 <!--CONTAINERS-->
-<div *ngIf="node.question.renderingType === 'form'" class="container">
+<div *ngIf="node.question.renderingType === 'form'">
   <div #slick class="slider swipe-tabs">
     <div role="presentation" (click)="clickTab(i)" class="swipe-tab" [class.active-tab]="activeTab === i" *ngFor="let page of node.question.questions; let i = index;">{{page.label}}
     </div>
@@ -106,10 +106,10 @@
             " [parentGroup]="node.control "></form-renderer>
     </div>
     <div *ngSwitchCase=" 'field-set' " style="border: 1px solid #eeeeee; padding: 2px; margin: 2px;">
-      <form-renderer *ngFor="let question of node.question.questions " [node]="node.children[question.key]
+<form-renderer *ngFor="let question of node.question.questions " [node]="node.children[question.key]
             " [parentGroup]="node.control "></form-renderer>
-    </div>
-  </div>
+</div>
+</div>
 </div>
 <!--<div *ngSwitchCase="3 ">
         NO CONTROL
