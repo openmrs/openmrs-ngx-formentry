@@ -39,28 +39,30 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
         }
     }
 
-    // the method set in registerOnChange, it is just 
-    // a placeholder for a method that takes one parameter, 
-    // we use it to emit changes back to the form
-    private propagateChange = (_: any) => { };
     // this is the initial value set to the component
     public writeValue(value: any) {
         if (value && value !== '') {
-            this.loading = true;
             if (this.dataSource) {
-                this.dataSource.resolveSelectedValue(value).subscribe((result) => {
-                    this.items.push(result);
-                    this.value = [result];
+                this.loading = true;
+                this.dataSource.resolveSelectedValue(value).subscribe((result: any) => {
+                    if (result instanceof Object && result.text && result.id) {
+                        this.items.push(result);
+                        this.value = [result];
+                    }
+                    this.loading = false;
+                }, (error) => {
                     this.loading = false;
                 });
             }
         }
     }
+
     // registers 'fn' that will be fired when changes are made
     // this is how we emit the changes back to the form
     public registerOnChange(fn: any) {
         this.propagateChange = fn;
     }
+
     // not used, used for touch input
     public registerOnTouched() { }
     // change events from the textarea
@@ -76,4 +78,9 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     data(event) {
         this.propagateChange(event.id);
     }
+
+    // the method set in registerOnChange, it is just 
+    // a placeholder for a method that takes one parameter, 
+    // we use it to emit changes back to the form
+    private propagateChange = (_: any) => { };
 }
