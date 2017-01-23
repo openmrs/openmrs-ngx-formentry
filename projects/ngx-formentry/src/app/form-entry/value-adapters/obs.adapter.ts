@@ -375,7 +375,11 @@ export class ObsValueAdapter implements ValueAdapter {
 
     processNewMultiSelectObs(values, obsPayload) {
         for (let multi of values) {
-            obsPayload.push(multi.value);
+            if (multi.value instanceof Object) {
+                obsPayload.push(multi.value);
+            } else {
+                obsPayload.push(multi);
+            }
         }
     }
 
