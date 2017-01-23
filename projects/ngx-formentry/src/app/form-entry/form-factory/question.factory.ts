@@ -590,8 +590,9 @@ export class QuestionFactory {
     dateField.questionOptions.concept = schemaQuestion.questionOptions.concept;
     dateField.questionOptions.rendering = 'date';
     dateField.questionOptions.obsField = 'obsDatetime';
-    dateField.validators = JSON.parse(JSON.stringify(schemaQuestion.questionOptions.shownDateOptions)).validators;
-    dateField.hide = JSON.parse(JSON.stringify(schemaQuestion.questionOptions.shownDateOptions)).hide;
+    let dateOptions: any = Object.assign({}, schemaQuestion.questionOptions.shownDateOptions);
+    dateField.validators = dateOptions.validators;
+    dateField.hide = dateOptions.hide;
 
 
     converted.questions.push(mainField);
