@@ -30,7 +30,7 @@ export class HistoricalEncounterDataService {
     if (_.isArray(encounters)) {
       let group: Array<any> = [];
       _.each(encounters, (encounter) => {
-          group.push(this._transformEncounter(encounter));
+        group.push(this._transformEncounter(encounter));
       });
 
       // Sort them in reverse chronological order
@@ -155,7 +155,7 @@ export class HistoricalEncounterDataService {
       }
       return obsRep;
     } else {
-      if (typeof obs.value === 'object') {
+      if (obs.value instanceof Object) {
         obsRep[obs.concept.uuid] = obs.value.uuid;
       } else {
         obsRep[obs.concept.uuid] = obs.value;
