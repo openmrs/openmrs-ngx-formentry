@@ -303,7 +303,7 @@ describe('Obs Value Adapter: ', () => {
                 let getObsPayload = spyOn(s, 'getObsPayload');
                 expect(getObsPayload).toBeTruthy();
             }));
-        it('it should return correct payload given an array of nodes with and without values set',
+        it('should return correct payload given an array of nodes with and without values set',
             inject([ObsValueAdapter, FormFactory],
                 (s: ObsValueAdapter, f: FormFactory) => {
                     // Traverse  to get all nodes
@@ -321,6 +321,8 @@ describe('Obs Value Adapter: ', () => {
                     creatineDate.control.setValue('2016-01-22T16:17:46.000+0300');
 
                     let payload = s.getObsPayload(questionNodes);
+                    console.log('expected ', payload);
+                    console.log('generated', generatedPayload);
                     expect(payload).toEqual(generatedPayload);
                 }));
     });

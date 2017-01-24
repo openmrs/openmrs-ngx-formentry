@@ -47,6 +47,11 @@ export class AfeFormArray extends FormArray implements CanHide, CanDisable {
         this.hiderHelper.showControl(this);
     }
 
+    disable(param?: { onlySelf?: boolean, emitEvent?: boolean }) {
+        super.disable(param);
+        super.setValue([]);
+    }
+
     setHidingFn(newHider: Hider) {
         this.hiderHelper.setHiderForControl(this, newHider);
     }

@@ -384,11 +384,23 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     updateOrVoidObs(obsValue, initialValue, obsPayload) {
-        if (obsValue.value === '' && initialValue.value) {
+        if (this.isEmpty(obsValue.value) && initialValue.value) {
             obsPayload.push({ uuid: initialValue.obsUuid, voided: true });
-        } else if (obsValue.value !== '' && initialValue.value) {
+        } else if (!this.isEmpty(obsValue.value) && initialValue.value) {
             obsPayload.push({ uuid: initialValue.obsUuid, value: obsValue.value });
         }
+    }
+
+    isEmpty(value): boolean {
+        if (value === '' ||
+            value === null ||
+            value === undefined
+            // || value === [] ||
+            // value === {}
+        ) {
+            return true;
+        }
+        return false;
     }
 
     traverse(o, type?) {
@@ -433,12 +445,14 @@ export class ObsValueAdapter implements ValueAdapter {
 
     processMultiSelect(concept, values) {
         let multiSelectObs = [];
-        for (let value of values) {
-            let obs = {
-                concept: concept,
-                value: value
-            };
-            multiSelectObs.push(obs);
+        if (values && values !== null) {
+            for (let value of values) {
+                let obs = {
+                    concept: concept,
+                    value: value
+                };
+                multiSelectObs.push(obs);
+            }
         }
         return multiSelectObs;
     }
