@@ -32,6 +32,7 @@ export class FormFactory {
         form.rootNode = this.createNode(question, null, null, form) as GroupNode;
 
         this.buildRelations(form.rootNode);
+        form.updateHiddenDisabledStateForAllControls();
 
         return form;
     }
