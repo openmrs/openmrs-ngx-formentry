@@ -33,6 +33,11 @@ export class AfeFormControl extends FormControl implements CanHide, CanDisable, 
         return this._controlRelations;
     }
 
+    disable(param?: { onlySelf?: boolean, emitEvent?: boolean }) {
+        super.disable(param);
+        super.setValue('');
+    }
+
     hide() {
         this.hiderHelper.hideControl(this);
     }
@@ -46,16 +51,16 @@ export class AfeFormControl extends FormControl implements CanHide, CanDisable, 
     }
 
     setCalculatorFn(newCalculator: Function) {
-      this.calculator = newCalculator;
+        this.calculator = newCalculator;
     }
 
     updateCalculatedValue() {
-      if (this.calculator) {
-        let _val = this.calculator.call(ExpressionRunner, {});
-        if (this.value === '') {
-          this.setValue(_val);
+        if (this.calculator) {
+            let _val = this.calculator.call(ExpressionRunner, {});
+            if (this.value === '') {
+                this.setValue(_val);
+            }
         }
-      }
     }
 
     clearHidingFns() {
