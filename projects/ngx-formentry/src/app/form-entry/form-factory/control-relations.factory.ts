@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+// import { ControlRelation } from  '../../change-tracking/control-relation';
 import { QuestionBase} from '../question-models/question-base';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
 import { NodeBase, GroupNode, LeafNode, ArrayNode } from './form-node';
@@ -58,6 +59,9 @@ export class ControlRelationsFactory {
       }
     }
 
+    // define relations for controls outside the group to controls in this group
+    this.createRelationsToArrayControls(node);
+
     // fire relations
     for (let id in arrayControlStore) {
       if (arrayControlStore.hasOwnProperty(id)) {
@@ -67,6 +71,91 @@ export class ControlRelationsFactory {
           control.updateHiddenState();
       }
     }
+  }
+
+  createRelationsToArrayControls(node: GroupNode) {
+
+    let form: Form = node.form;
+
+    let rootNode: GroupNode = form.rootNode;
+
+    // build relations for control outside the array
+    let rootControlsStore: any = this.mapControlIds(rootNode, {});
+    let arrayControlStore: any = this.mapControlIds(node, {});
+
+    // loop through form controls
+    for (let key in rootControlsStore) {
+      if (rootControlsStore.hasOwnProperty(key)) {
+
+        let rChild: NodeBase = rootControlsStore[key];
+
+        let parentNodePath = node.path.substring(0, node.path.lastIndexOf('.'));
+
+        if (rChild.path.indexOf(parentNodePath + '.') === -1) {
+
+          // loop through controls in the array group
+          for (let id in arrayControlStore) {
+            if (arrayControlStore.hasOwnProperty(id)) {
+
+              let aChild: NodeBase = arrayControlStore[id];
+              let aChildId = aChild.question.key;
+              if ( this.hasRelation(aChildId, rChild.question)) {
+
+                let nodes: Array<NodeBase> = node.form.searchNodeByPath(rootNode, parentNodePath, []);
+                if (nodes.length > 0) {
+                  let an = nodes[0] as ArrayNode;
+                  let rootControl = (rChild.control as AfeFormControl | AfeFormArray);
+
+                  if (rootControl.controlRelations.otherRelations.indexOf(an) === -1) {
+                    rootControl.controlRelations.otherRelations.push(an);
+                  }
+
+                  (aChild.control as AfeFormControl | AfeFormArray).addValueChangeListener((value) => {
+
+                    if ((rootControl as any).updateCalculatedValue) {
+                      (rootControl as any).updateCalculatedValue();
+                    }
+
+                    rootControl.updateValueAndValidity();
+                    if ((rootControl as any).updateHiddenState) {
+                      (rootControl as any).updateHiddenState();
+                    }
+
+                    if ((rootControl as any).updateDisabledState) {
+                      (rootControl as any).updateDisabledState();
+                    }
+                  });
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  getRelationsForControl(id, node: GroupNode): Array<AfeFormControl | AfeFormArray> {
+
+    let relations: Array<AfeFormControl | AfeFormArray> = new Array<AfeFormControl | AfeFormArray>();
+
+    let nodeBaseArray: Array<NodeBase> = node.form.searchNodeByQuestionId(id);
+
+    if (nodeBaseArray.length > 0) {
+
+      let nodeBase: NodeBase = nodeBaseArray[0];
+
+      let controlList: any = this.mapControlIds(node, {});
+
+      for (let key in controlList) {
+        if (controlList.hasOwnProperty(key)) {
+
+          if ( this.hasRelation(controlList[key].question.key, nodeBase.question)) {
+            relations.push(controlList[key].control);
+          }
+        }
+      }
+    }
+    return relations;
   }
 
   mapControlIds(node: GroupNode, controlsStore: any) {
@@ -175,23 +264,23 @@ export class ControlRelationsFactory {
 
   addRelationToControl(control: AfeFormControl | AfeFormArray, related: AfeFormControl | AfeFormArray) {
 
-    // let relations = control.controlRelations.relations;
+    //  let relations = control.controlRelations.relations;
+     //
+    //  let hasRelation = false;
+     //
+    //   relations.forEach(element => {
+     //
+    //     let controlRelation: ControlRelation = element as ControlRelation;
+     //
+    //     let relation: AfeFormControl | AfeFormArray = controlRelation.control as AfeFormControl | AfeFormArray;
+     //
+    //     if ( control.uuid !== undefined && control.uuid === relation.uuid ) {
+    //       hasRelation = true;
+    //     }
+    //   });
 
-    // let hasRelation = false;
-
-    // relations.forEach(element => {
-    //
-    //   let controlRelation: ControlRelation = element as ControlRelation;
-    //
-    //   let relation: AfeFormControl | AfeFormArray = controlRelation.control as AfeFormControl | AfeFormArray;
-    //
-    //   if ( control.uuid !== undefined && control.uuid === relation.uuid ) {
-    //     hasRelation = true;
-    //   }
-    // });
-
-    // if ( !hasRelation ) {
-    control.controlRelations.addRelatedControls(related);
-    // }
+     // if ( !hasRelation ) {
+        control.controlRelations.addRelatedControls(related);
+     // }
   }
 }

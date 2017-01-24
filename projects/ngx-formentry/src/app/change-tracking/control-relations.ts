@@ -6,6 +6,7 @@ export class ControlRelations {
 
     private _relationFor: AbstractControl;
     private _relations: ControlRelation[];
+    private _otherRelations: any = [];
 
     constructor(relationFor: AbstractControl, relatedTo?: AbstractControl | AbstractControl[]) {
         this._relationFor = relationFor;
@@ -24,6 +25,10 @@ export class ControlRelations {
         return this._relations;
     }
 
+    get otherRelations() {
+      return this._otherRelations;
+    }
+
     addRelatedControls(relatedTo: AbstractControl | AbstractControl[]) {
         if (relatedTo instanceof AbstractControl) {
             this.relations.push(new ControlRelation(this._relationFor, relatedTo));
@@ -35,6 +40,4 @@ export class ControlRelations {
             }
         }
     }
-
 }
-

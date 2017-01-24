@@ -1,7 +1,7 @@
 import { FormControl, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
 
 import { ControlRelations } from '../change-tracking/control-relations';
-
+import { ValueChangeListener } from './value-change.listener';
 import { CanHide, Hider } from '../form-entry/control-hiders-disablers/can-hide';
 import { CanDisable, Disabler } from '../form-entry/control-hiders-disablers/can-disable';
 import { HiderHelper } from '../form-entry/control-hiders-disablers/hider-helpers';
@@ -9,9 +9,10 @@ import { DisablerHelper } from '../form-entry/control-hiders-disablers/disabler-
 import { CanCalculate } from '../form-entry/control-calculators/can-calculate';
 import { ExpressionRunner } from '../form-entry/expression-runner/expression-runner';
 
-export class AfeFormControl extends FormControl implements CanHide, CanDisable, CanCalculate {
+export class AfeFormControl extends FormControl implements CanHide, CanDisable, CanCalculate, ValueChangeListener {
     private _controlRelations: ControlRelations;
-
+    private _valueChangeListener: any;
+    private _previousValue;
     public uuid: string;
     public pathFromRoot: string;
 
@@ -27,6 +28,13 @@ export class AfeFormControl extends FormControl implements CanHide, CanDisable, 
         this._controlRelations = new ControlRelations(this);
         this.hiders = [];
         this.disablers = [];
+
+        this.valueChanges.subscribe((value) => {
+          if (this._previousValue !== value) {
+            this.fireValueChangeListener(value);
+            this._previousValue = value;
+          }
+        });
     }
 
     get controlRelations(): ControlRelations {
@@ -83,4 +91,13 @@ export class AfeFormControl extends FormControl implements CanHide, CanDisable, 
         this.disablerHelper.evaluateControlDisablers(this);
     }
 
+    addValueChangeListener(func: any) {
+      this._valueChangeListener = func;
+    }
+
+    fireValueChangeListener(value: any) {
+      if (this._valueChangeListener && typeof this._valueChangeListener === 'function') {
+        this._valueChangeListener(value);
+      }
+    }
 }

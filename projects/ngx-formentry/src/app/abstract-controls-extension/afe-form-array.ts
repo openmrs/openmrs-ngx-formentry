@@ -1,15 +1,17 @@
 import { FormArray, ValidatorFn, AsyncValidatorFn, AbstractControl } from '@angular/forms';
 
 import { ControlRelations } from '../change-tracking/control-relations';
-
+import { ValueChangeListener } from './value-change.listener';
 import { CanHide, Hider } from '../form-entry/control-hiders-disablers/can-hide';
 import { CanDisable, Disabler } from '../form-entry/control-hiders-disablers/can-disable';
 import { HiderHelper } from '../form-entry/control-hiders-disablers/hider-helpers';
 import { DisablerHelper } from '../form-entry/control-hiders-disablers/disabler-helper';
 
 
-export class AfeFormArray extends FormArray implements CanHide, CanDisable {
+export class AfeFormArray extends FormArray implements CanHide, CanDisable, ValueChangeListener {
     private _controlRelations: ControlRelations;
+    private _valueChangeListener: any;
+    private _previousValue;
     private _uuid: string;
     public pathFromRoot: string;
 
@@ -26,6 +28,13 @@ export class AfeFormArray extends FormArray implements CanHide, CanDisable {
         this._controlRelations = new ControlRelations(this);
         this.hiders = [];
         this.disablers = [];
+
+        this.valueChanges.subscribe((value) => {
+          if (this._previousValue !== value) {
+            this.fireValueChangeListener(value);
+            this._previousValue = value;
+          }
+        });
     }
 
     get uuid(): string {
@@ -74,6 +83,16 @@ export class AfeFormArray extends FormArray implements CanHide, CanDisable {
 
     updateDisabledState() {
         this.disablerHelper.evaluateControlDisablers(this);
+    }
+
+    addValueChangeListener(func: any) {
+      this._valueChangeListener = func;
+    }
+
+    fireValueChangeListener(value: any) {
+      if (this._valueChangeListener && typeof this._valueChangeListener === 'function') {
+        this._valueChangeListener(value);
+      }
     }
 
 }

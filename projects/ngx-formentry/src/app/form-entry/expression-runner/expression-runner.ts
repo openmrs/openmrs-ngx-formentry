@@ -1,5 +1,8 @@
 import { AbstractControl } from '@angular/forms';
 import { AfeFormControl, AfeFormArray, AfeFormGroup } from '../../abstract-controls-extension/control-extensions';
+import { ArrayNode } from '../form-factory/form-node';
+import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
+
 const moment = require('moment');
 export class ExpressionRunner {
     getRunnable(expression: string, control: AfeFormArray | AfeFormGroup | AfeFormControl, helper: any, dataDependencies: any):
@@ -64,7 +67,7 @@ export class ExpressionRunner {
         return runnable;
     }
 
-    private getControlRelationValueString(control: AfeFormArray | AfeFormGroup | AfeFormControl, scope?: any) {
+    private getControlRelationValueString(control: AfeFormArray | AfeFormGroup | AfeFormControl, scope: any) {
 
         if (control && control.controlRelations && control.controlRelations.relations) {
             control.controlRelations.relations.forEach(relation => {
@@ -83,6 +86,62 @@ export class ExpressionRunner {
             });
         }
 
+        if (control && control.controlRelations && control.controlRelations.otherRelations
+          && control.controlRelations.otherRelations.length > 0) {
+
+          control.controlRelations.otherRelations.forEach(node => {
+            if (node instanceof ArrayNode) {
+              let arrayNode: ArrayNode = node as ArrayNode;
+              let uuid = control.uuid;
+
+              let controlRelationsFactory: ControlRelationsFactory = new ControlRelationsFactory();
+              let relationsForControl: Array<AfeFormControl | AfeFormArray> = [];
+              // get all related controls
+              arrayNode.children.forEach(child => {
+                relationsForControl = relationsForControl.concat(controlRelationsFactory.getRelationsForControl(uuid, child));
+                ;
+              });
+
+              this.setControlArrayValues(control as AfeFormControl | AfeFormArray, relationsForControl, scope);
+            }
+          });
+        }
+    }
+
+    private setControlArrayValues(control: AfeFormControl | AfeFormArray,
+      relationsForControl: Array<AfeFormControl | AfeFormArray>, scope: any) {
+        let keys: Array<string> = this._getFormControlKeys(relationsForControl);
+
+        keys.forEach(key => {
+          let values: any = this._getValuesForKey(key, relationsForControl);
+          scope[key] = values;
+        });
+    }
+
+    private _getFormControlKeys(array: Array<AfeFormControl | AfeFormArray>): Array<string> {
+
+      let keys: Array<string> = [];
+      array.forEach(control => {
+
+        if (keys.indexOf(control.uuid) === -1) {
+          keys.push(control.uuid);
+        }
+      });
+
+      return keys;
+    }
+
+    private _getValuesForKey(key: string, array: Array<AfeFormControl | AfeFormArray>): any {
+      let values: any = [];
+
+      array.forEach(control => {
+
+        if (control.uuid === key) {
+          values.push(control.value);
+        }
+      });
+
+      return values;
     }
 
     private getHelperMethods(obj: any, scope?: any) {
@@ -100,7 +159,6 @@ export class ExpressionRunner {
             }
         }
     }
-
 }
 
 export interface Runnable {

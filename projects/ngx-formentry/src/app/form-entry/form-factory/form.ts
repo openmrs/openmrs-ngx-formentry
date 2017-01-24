@@ -21,6 +21,49 @@ export class Form {
         return this._dataSourcesContainer;
     }
 
+    searchNodeByPath(node: GroupNode, path, found: Array<NodeBase>) {
+
+      let children: NodeBase = node.children;
+
+      for ( let key in children ) {
+
+        if ( children.hasOwnProperty(key) ) {
+
+          let child: NodeBase = children[key];
+
+          if ( child instanceof GroupNode ) {
+
+            if (path === child.path) {
+              found.push(child);
+              return found;
+            }
+
+            this.searchNodeByPath(child, path, found);
+          } else if ( child instanceof LeafNode ) {
+
+            if (path === child.path) {
+              found.push(child);
+              return found;
+            }
+          } else if ( child instanceof ArrayNode ) {
+
+            if (path === child.path) {
+              found.push(child);
+              return found;
+            }
+
+            let aChild: ArrayNode = child as ArrayNode;
+
+            aChild.children.forEach(aChildNode => {
+              this.searchNodeByPath(aChildNode, path, found);
+            });
+          }
+        }
+      }
+
+      return found;
+    }
+
     searchNodeByQuestionId(questionId: string): Array<NodeBase> {
         let found = [];
         this.findNodesByQuestionId(this.rootNode, questionId, found);

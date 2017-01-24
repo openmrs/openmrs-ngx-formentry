@@ -37,12 +37,10 @@ export class ControlRelation {
             this._control.updateValueAndValidity();
             if ((this._control as any).updateHiddenState) {
                 (this._control as any).updateHiddenState();
-                // console.log('updating hidden');
             }
 
             if ((this._control as any).updateDisabledState) {
                 (this._control as any).updateDisabledState();
-                //  console.log('updating disabled');
             }
 
             return true;
@@ -51,8 +49,9 @@ export class ControlRelation {
     }
 
     private _registerForChangesFromRelatedControl() {
-        this._relatedTo.valueChanges.subscribe((newValue) => {
-            this.updateControlBasedOnRelation(newValue);
-        });
+
+      this._relatedTo.valueChanges.subscribe((value) => {
+        this.updateControlBasedOnRelation(value);
+      });
     }
 }
