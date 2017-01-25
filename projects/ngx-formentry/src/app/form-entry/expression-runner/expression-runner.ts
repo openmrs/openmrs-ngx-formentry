@@ -43,7 +43,7 @@ export class ExpressionRunner {
                         console.warn('Missing reference found', expression, scope);
                         return false;
                     }
-                    console.info('results: ', expression, eval(funcDeclarationCode + funcCallCode));
+                    // console.info('results: ', expression, eval(funcDeclarationCode + funcCallCode));
                     return eval(funcDeclarationCode + funcCallCode);
                 } catch (e) {
                     // if (window['error_count']) {
@@ -57,7 +57,7 @@ export class ExpressionRunner {
                     //     e, control, 'Effective Expression', (funcDeclarationCode + funcCallCode));
 
                     // Uncomment the line above during debugging
-                    console.error('Error running expression:' + expression);
+                    // console.error('Error running expression:' + expression);
 
                     return false;
                 }
@@ -87,61 +87,61 @@ export class ExpressionRunner {
         }
 
         if (control && control.controlRelations && control.controlRelations.otherRelations
-          && control.controlRelations.otherRelations.length > 0) {
+            && control.controlRelations.otherRelations.length > 0) {
 
-          control.controlRelations.otherRelations.forEach(node => {
-            if (node instanceof ArrayNode) {
-              let arrayNode: ArrayNode = node as ArrayNode;
-              let uuid = control.uuid;
+            control.controlRelations.otherRelations.forEach(node => {
+                if (node instanceof ArrayNode) {
+                    let arrayNode: ArrayNode = node as ArrayNode;
+                    let uuid = control.uuid;
 
-              let controlRelationsFactory: ControlRelationsFactory = new ControlRelationsFactory();
-              let relationsForControl: Array<AfeFormControl | AfeFormArray> = [];
-              // get all related controls
-              arrayNode.children.forEach(child => {
-                relationsForControl = relationsForControl.concat(controlRelationsFactory.getRelationsForControl(uuid, child));
-                ;
-              });
+                    let controlRelationsFactory: ControlRelationsFactory = new ControlRelationsFactory();
+                    let relationsForControl: Array<AfeFormControl | AfeFormArray> = [];
+                    // get all related controls
+                    arrayNode.children.forEach(child => {
+                        relationsForControl = relationsForControl.concat(controlRelationsFactory.getRelationsForControl(uuid, child));
+                        ;
+                    });
 
-              this.setControlArrayValues(control as AfeFormControl | AfeFormArray, relationsForControl, scope);
-            }
-          });
+                    this.setControlArrayValues(control as AfeFormControl | AfeFormArray, relationsForControl, scope);
+                }
+            });
         }
     }
 
     private setControlArrayValues(control: AfeFormControl | AfeFormArray,
-      relationsForControl: Array<AfeFormControl | AfeFormArray>, scope: any) {
+        relationsForControl: Array<AfeFormControl | AfeFormArray>, scope: any) {
         let keys: Array<string> = this._getFormControlKeys(relationsForControl);
 
         keys.forEach(key => {
-          let values: any = this._getValuesForKey(key, relationsForControl);
-          scope[key] = values;
+            let values: any = this._getValuesForKey(key, relationsForControl);
+            scope[key] = values;
         });
     }
 
     private _getFormControlKeys(array: Array<AfeFormControl | AfeFormArray>): Array<string> {
 
-      let keys: Array<string> = [];
-      array.forEach(control => {
+        let keys: Array<string> = [];
+        array.forEach(control => {
 
-        if (keys.indexOf(control.uuid) === -1) {
-          keys.push(control.uuid);
-        }
-      });
+            if (keys.indexOf(control.uuid) === -1) {
+                keys.push(control.uuid);
+            }
+        });
 
-      return keys;
+        return keys;
     }
 
     private _getValuesForKey(key: string, array: Array<AfeFormControl | AfeFormArray>): any {
-      let values: any = [];
+        let values: any = [];
 
-      array.forEach(control => {
+        array.forEach(control => {
 
-        if (control.uuid === key) {
-          values.push(control.value);
-        }
-      });
+            if (control.uuid === key) {
+                values.push(control.value);
+            }
+        });
 
-      return values;
+        return values;
     }
 
     private getHelperMethods(obj: any, scope?: any) {

@@ -137,7 +137,7 @@ export class ObsValueAdapter implements ValueAdapter {
         let groupRepeatingObs = _.filter(payload, (o: any) => {
             let found = o.concept.uuid === node.question.extras.questionOptions.concept;
             let intersect = false;
-            if (found) {
+            if (found && o.groupMembers) {
                 let obs = o.groupMembers.map((a) => {
                     return a.concept.uuid;
                 });

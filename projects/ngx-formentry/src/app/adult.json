@@ -598,7 +598,6 @@
               "questions": [
                 {
                   "label": "Family planning method:",
-                  "required": "true",
                   "id": "fpMethod",
                   "questionOptions": {
                     "concept": "a894b1cc-1350-11df-a1f1-0026b9348838",

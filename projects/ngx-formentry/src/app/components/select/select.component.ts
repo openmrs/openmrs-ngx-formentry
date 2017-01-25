@@ -57,7 +57,7 @@ export const SELECT_VALUE_ACCESSOR: ExistingProvider = {
                         {{option.label}}
                     </li>
                     <li class="select2-search select2-search--inline">
-                        <input class="select2-search__field"
+                        <input readonly class="select2-search__field"
                             #searchInput
                             placeholder="{{getPlaceholder()}}"
                             [ngStyle]="getInputStyle()"

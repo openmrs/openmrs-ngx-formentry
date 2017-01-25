@@ -53,12 +53,15 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
         }
     }
     setShowTimeAndWeeks() {
-        if (this.node.question.extras && this.node.question.extras['questionOptions']) {
+        if (this.node.question.extras && this.node.question.extras['questionOptions'] &&
+            this.weeksOrTime(this.node.question.extras['questionOptions'])) {
             this.showTime = this.node.question.extras['questionOptions']['showTime'];
             this.showWeeks = this.node.question.extras['questionOptions']['showWeeks'];
         }
     }
-
+    weeksOrTime(questionOptions) {
+        return (this.node.question.extras['questionOptions']['showTime'] || this.node.question.extras['questionOptions']['showWeeks']);
+    }
     ngAfterViewChecked(): void {
         this.$owlElement = this.slick && this.slick.nativeElement ?
             (<any>$(this.slick.nativeElement)).not('.slick-initialized').slick({

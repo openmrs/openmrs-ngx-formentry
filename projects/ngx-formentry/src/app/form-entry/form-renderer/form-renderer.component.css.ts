@@ -95,5 +95,6 @@ export const DEFAULT_STYLES = `a {
 
     ng-select.form-control {
       padding-top: 0;
+      height: auto;
       padding-bottom: 0;
     }`;

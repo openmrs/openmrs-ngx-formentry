@@ -486,6 +486,6 @@ export const DEFAULT_STYLES = `
   padding: 6px; }
 
 .select2-container--classic.select2-container--open .select2-dropdown {
-  border-color: #62BAE9; }
+  border-color: #62BAE9; } 
 `;
 

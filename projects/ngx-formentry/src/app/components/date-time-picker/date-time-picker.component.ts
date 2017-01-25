@@ -83,7 +83,10 @@ export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
     }
 
     writeValue(value) {
-        if (value) {
+        if (value instanceof Date) {
+            this.value = Moment(value).format();
+            console.log('Date', this.value);
+        } else {
             this.value = value;
         }
     }

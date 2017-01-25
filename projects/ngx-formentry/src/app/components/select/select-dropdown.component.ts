@@ -11,7 +11,7 @@ import { DiacriticsService } from './diacritics.service';
         [ngStyle]="{width: width + 'px'}">
         <span class="select2-search select2-search--dropdown"
             *ngIf="!multiple">
-            <input class="select2-search__field"
+            <input readonly class="select2-search__field"
                 #input
                 (input)="onInput($event)"
                 (keydown)="onKeydown($event)"
@@ -55,9 +55,9 @@ export class SelectDropdownComponent implements AfterViewInit, OnChanges, OnInit
     private S2_OPTION: string = this.S2_RESULTS + '__option';
     private S2_OPTION_HL: string = this.S2_OPTION + '--highlighted';
 
-      /***************************************************************************
-     * Keys/scroll.
-     **************************************************************************/
+    /***************************************************************************
+   * Keys/scroll.
+   **************************************************************************/
 
     private KEYS: any = {
         TAB: 9,
