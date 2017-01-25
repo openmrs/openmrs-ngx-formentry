@@ -48,7 +48,7 @@ export class ObsValueAdapter implements ValueAdapter {
                         }
                         this.setValues(node.groupMembers, groupObs.groupMembers);
                     }
-                    if (forcegroup) {
+                    if (forcegroup && node.payload) {
                         this.setValues(node.groupMembers, node.payload.groupMembers);
                     }
 
