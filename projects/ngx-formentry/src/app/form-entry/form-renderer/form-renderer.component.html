@@ -31,8 +31,8 @@
 <div *ngIf="node.question.controlType === 0" class="form-group" [formGroup]="parentGroup" [hidden]="node.control.hidden"
 	[ngClass]="{disabled: node.control.disabled}">
 	<!--LEAF CONTROL-->
-	<label *ngIf="node.question.label" class="control-label" [attr.for]="node.question.key">
-    {{node.question.label}}
+	<label *ngIf="node.question.label" [style.color]="hasErrors()? 'red' :''" class="control-label" [attr.for]="node.question.key">
+	{{node.question.required === 'true' ? '*':''}} {{node.question.label}}
   </label>
 	<div [ngSwitch]="node.question.renderingType">
 		<select class="form-control" *ngSwitchCase="'select'" [formControlName]="node.question.key" [id]="node.question.key + 'id'">
