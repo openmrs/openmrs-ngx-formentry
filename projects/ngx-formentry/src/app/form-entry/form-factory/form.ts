@@ -130,7 +130,7 @@ export class Form {
 
             let c: AfeFormControl | AfeFormArray = child.control as AfeFormControl | AfeFormArray;
 
-            if (!c.valid && !c.disable) {
+            if (!c.valid && !c.disabled) {
               if (invalidControlNodes) {
                 invalidControlNodes.push(child);
               }
