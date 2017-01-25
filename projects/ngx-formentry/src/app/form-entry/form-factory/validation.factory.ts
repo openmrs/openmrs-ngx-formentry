@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import { Validators } from '@angular/forms';
 import * as _ from 'lodash';
 
+import { RequiredValidator } from '../validators/required.validator';
 import { DateValidator } from '../validators/date.validator';
 import { MinValidator } from '../validators/min.validator';
 import { MaxValidator } from '../validators/max.validator';
@@ -56,7 +57,7 @@ export class ValidationFactory {
   }
 
   get requiredValidator() {
-    return Validators.required;
+    return new RequiredValidator().validate;
   }
 
   get dateValidator() {

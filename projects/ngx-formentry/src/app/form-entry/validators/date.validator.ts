@@ -5,9 +5,13 @@ export class DateValidator {
 
   constructor() { }
 
-  validate(c: AfeFormControl) {
+  validate(control: AfeFormControl) {
 
-    let value = c.value;
+    if (control.hidden) {
+      return null;
+    }
+
+    let value = control.value;
 
     if (value && value.length !== 0) {
 

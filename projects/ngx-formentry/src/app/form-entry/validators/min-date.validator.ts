@@ -7,6 +7,10 @@ export class MinDateValidator {
 
     return (control: AfeFormControl): { [key: string]: any } => {
 
+      if (control.hidden) {
+        return null;
+      }
+
       if (control.value && control.value.length !== 0) {
 
         if (!new DateValidator().validate(control.value)) {
