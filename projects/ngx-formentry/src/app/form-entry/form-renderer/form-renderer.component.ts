@@ -113,6 +113,28 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
         // console.log(tabNumber);
     }
 
+    loadPreviousTab() {
+        if (!this.isCurrentTabFirst()) {
+            this.clickTab(this.activeTab - 1);
+            document.body.scrollTop = 0;
+        }
+    }
+
+    isCurrentTabFirst() {
+        return this.activeTab === 0;
+    }
+
+    isCurrentTabLast() {
+        return this.activeTab ===  this.node.question['questions'].length - 1;
+    }
+
+    loadNextTab() {
+        if (!this.isCurrentTabLast()) {
+            this.clickTab(this.activeTab + 1);
+            document.body.scrollTop = 0;
+        }
+    }
+
     hasErrors() {
         return this.node.control.touched && !this.node.control.valid;
     }
