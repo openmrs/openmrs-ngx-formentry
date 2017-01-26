@@ -40,12 +40,13 @@ export class ObsValueAdapter implements ValueAdapter {
 
                 } else if (node.question && node.question.extras && node.question.renderingType === 'group' || forcegroup) {
                     let groupObs = _.find(payload, (o: any) => {
-                        return o.concept.uuid === node.question.extras.questionOptions.concept;
+                        return o.concept.uuid === node.question.extras.questionOptions.concept && o.groupMembers;
                     });
                     if (groupObs) {
                         if (node.node) {
                             node.node['initialValue'] = groupObs;
                         }
+
                         this.setValues(node.groupMembers, groupObs.groupMembers);
                     }
                     if (forcegroup && node.payload) {
@@ -191,6 +192,7 @@ export class ObsValueAdapter implements ValueAdapter {
             let members = _.filter(this.getObsPayload(obs.groupMembers), (o: any) => {
                 return o.value !== '';
             });
+
             let mappedMembers = members.map((a) => {
                 return a.voided;
             });
@@ -200,10 +202,17 @@ export class ObsValueAdapter implements ValueAdapter {
                     voided: true
                 });
             } else if (members.length > 0) {
-                obsPayload.push({
-                    concept: obs.question.extras.questionOptions.concept,
-                    groupMembers: members
-                });
+                if (obs.node.initialValue) {
+                    obsPayload.push({
+                        uuid: obs.node.initialValue.uuid,
+                        groupMembers: members
+                    });
+                } else {
+                    obsPayload.push({
+                        concept: obs.question.extras.questionOptions.concept,
+                        groupMembers: members
+                    });
+                }
             }
         }
     }
