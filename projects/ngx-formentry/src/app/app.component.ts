@@ -40,21 +40,31 @@ export class AppComponent implements OnInit {
         private orderAdaptor: OrderValueAdapter, private encAdapter: EncounterAdapter, private dataSources: DataSources,
         private formErrorsService: FormErrorsService) {
         this.schema = adultForm;
-        this.createForm();
+
     }
 
     ngOnInit() {
-
-        // Set encounter, obs, orders
-
-        adultFormObs.orders = formOrdersPayload.orders;
-        this.encAdapter.populateForm(this.form, adultFormObs);
         this.dataSources.registerDataSource('drug', { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
         this.dataSources.registerDataSource('personAttribute',
             { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
         this.dataSources.registerDataSource('problem', { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
         this.dataSources.registerDataSource('location', { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
         this.dataSources.registerDataSource('provider', { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
+
+        let obs = new MockObs();
+        this.dataSources.registerDataSource('rawPrevEnc', obs.getObs());
+
+        this.dataSources.registerDataSource('patient', { sex: 'M' }, true);
+
+        // Create form
+        this.createForm();
+
+
+        // Set encounter, obs, orders
+
+        adultFormObs.orders = formOrdersPayload.orders;
+        this.encAdapter.populateForm(this.form, adultFormObs);
+
         // Alternative is to set individually for obs and orders as show below
         // // Set obs
         // this.obsValueAdapater.populateForm(this.form, adultFormObs.obs);
@@ -77,8 +87,8 @@ export class AppComponent implements OnInit {
     }
 
     createForm() {
-        let obs = new MockObs();
-        this.form = this.formFactory.createForm(this.schema, obs.getObs());
+        this.form = this.formFactory.createForm(this.schema, this.dataSources.dataSources);
+
     }
     sampleResolve(): Observable<any> {
         let item = { id: 1, text: 'Kenya' };

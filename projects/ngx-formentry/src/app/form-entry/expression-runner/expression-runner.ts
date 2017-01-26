@@ -2,10 +2,12 @@ import { AbstractControl } from '@angular/forms';
 import { AfeFormControl, AfeFormArray, AfeFormGroup } from '../../abstract-controls-extension/control-extensions';
 import { ArrayNode } from '../form-factory/form-node';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
+import { Form } from '../form-factory/form';
 
 const moment = require('moment');
 export class ExpressionRunner {
-    getRunnable(expression: string, control: AfeFormArray | AfeFormGroup | AfeFormControl, helper: any, dataDependencies: any):
+    getRunnable(expression: string, control: AfeFormArray | AfeFormGroup | AfeFormControl,
+        helper: any, dataDependencies: any, form?: Form):
         Runnable {
         let runner = this;
         let runnable: Runnable = {
@@ -22,6 +24,12 @@ export class ExpressionRunner {
                 runner.getControlRelationValueString(control, scope);
                 runner.getHelperMethods(helper, scope);
                 runner.getDataDependencies(dataDependencies, scope);
+
+                if (form) {
+                    // console.error('Form defined', form);
+                    runner.getDataDependencies(form.dataSourcesContainer.dataSources, scope);
+                }
+
                 let paramList = '';
                 let argList = '';
                 for (let o in scope) {
@@ -57,7 +65,7 @@ export class ExpressionRunner {
                     //     e, control, 'Effective Expression', (funcDeclarationCode + funcCallCode));
 
                     // Uncomment the line above during debugging
-                    // console.error('Error running expression:' + expression);
+                    // console.error('Error running expression:' + expression, scope);
 
                     return false;
                 }
