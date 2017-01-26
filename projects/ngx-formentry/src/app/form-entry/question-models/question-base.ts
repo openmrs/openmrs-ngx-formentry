@@ -10,6 +10,7 @@ export class QuestionBase {
     defaultValue?: any;
     originalValue?: any;
     enableHistoricalValue?: boolean;
+    showHistoricalValueDate?: boolean;
     historicalDataValue?: any;
     extras?: any;
     dataSource?: string;
@@ -40,5 +41,9 @@ export class QuestionBase {
 
     setHistoricalValue?(v: boolean) {
         this.enableHistoricalValue = v;
+    }
+    // show by default
+    showHistoricalEncounterDate?(v?: boolean) {
+      this.showHistoricalValueDate = v === undefined ? true : v;
     }
 }

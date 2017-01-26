@@ -9,6 +9,7 @@ describe('Question Factory', () => {
         label: 'Patient previous ART use',
         type: 'obs',
         id: 'pastArtUse',
+        showHistoricalEncounterDate: 'false',
         questionOptions: {
             concept: 'a8a318e8-1350-11df-a1f1-0026b9348838',
             answers: [
@@ -556,6 +557,11 @@ describe('Question Factory', () => {
             concept: ''
         });
 
+        converted.showHistoricalEncounterDate((selectSchemaQuestion.showHistoricalEncounterDate === 'true'));
+        expect(converted.showHistoricalValueDate).toBeFalsy();
+        selectSchemaQuestion.showHistoricalEncounterDate = 'true';
+        converted.showHistoricalEncounterDate((selectSchemaQuestion.showHistoricalEncounterDate === 'true'));
+        expect(converted.showHistoricalValueDate).toBeTruthy();
         expect(converted.label).toEqual(selectSchemaQuestion.label);
         expect(converted.options).toEqual(selectSchemaQuestion.questionOptions.answers.map(function (obj) {
             return {

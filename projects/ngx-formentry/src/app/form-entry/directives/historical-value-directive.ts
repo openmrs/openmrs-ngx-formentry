@@ -41,19 +41,20 @@ export class HistoricalValueDirective {
     if (node) {
 
       if (node.question.enableHistoricalValue) {
-
         this._node = node;
-
         if ((this._node.question.renderingType === 'select'
             || this._node.question.renderingType === 'multi-select')
             && !_.isUndefined(this._node.question.historicalDataValue)) {
-
-          this._node.question['historicalDisplay'] = this.historicalFieldHelper.getDisplayTextFromOptions(
-              this._node.question.options,
+          let display = {
+            text: this.historicalFieldHelper.getDisplayTextFromOptions(
+              this._node.question,
               'value',
-              this._node.question.historicalDataValue,
               'label'
-          );
+            ),
+            _date: this._node.question.historicalDataValue.valueDate
+          };
+
+          this._node.question['historicalDisplay'] = display;
 
         }
       }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 @Injectable()
 export class HistoricalEncounterDataService {
 
   dataSources: any = {};
-
   constructor() {
   }
 
@@ -52,14 +52,17 @@ export class HistoricalEncounterDataService {
     return this.dataSources[name] || null;
   }
 
-  getFirstValue(path: Array<string>, object: any) {
+  getFirstValue(path: Array<string>, object: any): any {
 
     let answers = [];
 
     this.getAllValues(path, object, answers);
 
     if (answers.length > 0) {
-      return answers[0];
+      return {
+        value: answers[0],
+        valueDate: moment(object.encounterDatetime).format('ll')
+      };
     }
 
   }
