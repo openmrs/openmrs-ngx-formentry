@@ -338,7 +338,7 @@ export class ObsValueAdapter implements ValueAdapter {
             } else {
                 if (obs.initialValue && obs.initialValue.value && obsValue) {
                     this.updateOrVoidObs(obsValue, obs.initialValue, obsPayload);
-                } else if (obsValue.value !== '') {
+                } else if (obsValue.value !== '' && obsValue.value !== null) {
                     obsPayload.push(obsValue);
                 }
             }

@@ -240,7 +240,7 @@ export class ControlRelationsFactory {
         if ( hide.length > 0 && hide.indexOf(id) !== -1 ) {
           hasRelation = true;
         }
-      } if ( typeof questionBase.hide === 'object' ) {
+      } else if ( typeof questionBase.hide === 'object' ) {
 
         let hideObj: any = questionBase.hide;
 
@@ -256,6 +256,11 @@ export class ControlRelationsFactory {
         if ( disable.length > 0 && disable.indexOf(id) !== -1 ) {
           hasRelation = true;
         }
+      }
+
+      if (questionBase.calculateExpression && questionBase.calculateExpression.length > 0
+        && questionBase.calculateExpression.indexOf(id) !== -1) {
+        hasRelation = true;
       }
     }
 
