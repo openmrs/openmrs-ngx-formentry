@@ -101,20 +101,20 @@ describe('Historical Encounter Data Service', () => {
   it('getValue() should get the correct value', () => {
     let service: HistoricalEncounterDataService = TestBed.get(HistoricalEncounterDataService);
     let _obs: any = obs.getObs();
-    expect(service.getObject('prevEnc').getValue('encounterDatetime')).toEqual(_obs.encounterDatetime);
-    expect(service.getObject('prevEnc').getValue('location')).toEqual(_obs.location.uuid);
-    expect(service.getObject('prevEnc').getValue('patient')).toEqual(_obs.patient.uuid);
-    expect(service.getObject('prevEnc').getValue('form')).toEqual(_obs.form.uuid);
-    expect(service.getObject('prevEnc').getValue('encounterType')).toEqual(_obs.encounterType.uuid);
+    expect(service.getObject('prevEnc').getValue('encounterDatetime').value).toEqual(_obs.encounterDatetime);
+    expect(service.getObject('prevEnc').getValue('location').value).toEqual(_obs.location.uuid);
+    expect(service.getObject('prevEnc').getValue('patient').value).toEqual(_obs.patient.uuid);
+    expect(service.getObject('prevEnc').getValue('form').value).toEqual(_obs.form.uuid);
+    expect(service.getObject('prevEnc').getValue('encounterType').value).toEqual(_obs.encounterType.uuid);
     expect(service.getObject('prevEnc').
-    getValue('2a4b87dd-977d-4ce8-a321-1f13df4a31b2.479decbd-e964-41c3-9576-98b39089ebd3'))
+    getValue('2a4b87dd-977d-4ce8-a321-1f13df4a31b2.479decbd-e964-41c3-9576-98b39089ebd3').value)
       .toEqual('a8b0f882-1350-11df-a1f1-0026b9348838');
     expect(service.getObject('prevEnc')
-      .getValue('a8afdb8c-1350-11df-a1f1-0026b9348838.a8a0744e-1350-11df-a1f1-0026b9348838'))
+      .getValue('a8afdb8c-1350-11df-a1f1-0026b9348838.a8a0744e-1350-11df-a1f1-0026b9348838').value)
       .toEqual(600);
     expect(service.getObject('prevEnc')
       .getValue('a8afdb8c-1350-11df-a1f1-0026b9348838.a899e5f2-1350-11df-a1f1-0026b9348838'))
-      .toEqual('2016-01-10T00:00:00.000+0300');
+      .toEqual({ value: '2016-01-10T00:00:00.000+0300', valueDate: 'Jan 21, 2016' });
   });
 
 });
