@@ -33,8 +33,9 @@ export class ValidationFactory {
           case 'date':
 
             list.push(this.dateValidator);
+            let allowFutureDates: boolean = ( <DateValidationModel>validator ).allowFutureDates;
 
-            if (!( <DateValidationModel>validator ).allowFutureDates) {
+            if (!allowFutureDates) {
               list.push(this.futureDateRestrictionValidator);
             }
 
