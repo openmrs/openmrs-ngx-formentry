@@ -26,7 +26,11 @@ export class FormFactory {
     createForm(schema: any, dataSource?: any): Form {
         let form: Form = new Form(schema, this, this.questionFactroy);
         if (dataSource) {
-          form.dataSourcesContainer.registerDataSource('rawPrevEnc', dataSource);
+            for (let key in dataSource) {
+                if (dataSource.hasOwnProperty(key)) {
+                    form.dataSourcesContainer.registerDataSource(key, dataSource[key], false);
+                }
+            }
         }
         let question = this.questionFactroy.createQuestionModel(schema, form);
         form.rootNode = this.createNode(question, null, null, form) as GroupNode;
@@ -39,11 +43,11 @@ export class FormFactory {
 
     buildRelations(rootNode: GroupNode) {
 
-      Validations.JSExpressionValidatorsEnabled = false;
-      this.controlRelationsFactory.buildRelations(rootNode);
+        Validations.JSExpressionValidatorsEnabled = false;
+        this.controlRelationsFactory.buildRelations(rootNode);
 
-      // enable js expression validations
-      Validations.JSExpressionValidatorsEnabled = true;
+        // enable js expression validations
+        Validations.JSExpressionValidatorsEnabled = true;
     }
 
     createNode(question: QuestionBase | NestedQuestion,
@@ -63,14 +67,14 @@ export class FormFactory {
 
     createLeafNode(question: QuestionBase,
         parentNode: GroupNode, parentControl?: AfeFormGroup, form?: Form): LeafNode {
-        let controlModel = this.controlService.generateControlModel(question, parentControl, false);
+        let controlModel = this.controlService.generateControlModel(question, parentControl, false, form);
         return new LeafNode(question, controlModel, null, form,
             parentNode ? parentNode.path : undefined);
     }
 
     createGroupNode(question: NestedQuestion, parentNode?: GroupNode,
         parentControl?: AfeFormGroup, form?: Form): GroupNode {
-        let controlModel = this.controlService.generateControlModel(question, parentControl, false) as AfeFormGroup;
+        let controlModel = this.controlService.generateControlModel(question, parentControl, false, form) as AfeFormGroup;
         let groupNode = new GroupNode(question, controlModel, null,
             form, parentNode ? parentNode.path : undefined);
         this.createNodeChildren(question, groupNode, (controlModel || parentControl), form);
@@ -79,7 +83,7 @@ export class FormFactory {
 
     createArrayNode(question: NestedQuestion, parentNode?: GroupNode,
         parentControl?: AfeFormGroup, form?: Form): ArrayNode {
-        let controlModel = this.controlService.generateControlModel(question, parentControl, false) as AfeFormGroup;
+        let controlModel = this.controlService.generateControlModel(question, parentControl, false, form) as AfeFormGroup;
         let arrayNode = new ArrayNode(question, controlModel, parentControl,
             this, form, parentNode ? parentNode.path : undefined);
         arrayNode.createChildFunc = this.createArrayNodeChild;
@@ -87,9 +91,9 @@ export class FormFactory {
 
         arrayNode.addChildNodeCreatedListener((node: GroupNode) => {
 
-          Validations.JSExpressionValidatorsEnabled = false;
-          this.controlRelationsFactory.buildArrayNodeRelations(node);
-          Validations.JSExpressionValidatorsEnabled = true;
+            Validations.JSExpressionValidatorsEnabled = false;
+            this.controlRelationsFactory.buildArrayNodeRelations(node);
+            Validations.JSExpressionValidatorsEnabled = true;
         });
         return arrayNode;
     }
@@ -112,7 +116,7 @@ export class FormFactory {
         }
         let groupQuestion: QuestionGroup =
             new QuestionGroup({
-                key:  node.path + '.' + node.children.length + '',
+                key: node.path + '.' + node.children.length + '',
                 type: 'group', extras: question.extras, label: '', questions: question.questions
             });
 

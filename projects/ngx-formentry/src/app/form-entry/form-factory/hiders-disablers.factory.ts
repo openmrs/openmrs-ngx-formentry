@@ -7,6 +7,7 @@ import { ExpressionRunner, Runnable } from '../expression-runner/expression-runn
 import { AfeFormControl, AfeFormArray, AfeFormGroup } from '../../abstract-controls-extension/control-extensions';
 import { QuestionBase } from '../question-models/question-base';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
+import { Form} from './form';
 
 @Injectable()
 export class HidersDisablersFactory {
@@ -14,10 +15,10 @@ export class HidersDisablersFactory {
     }
 
     getJsExpressionDisabler(question: QuestionBase, control: AfeFormControl | AfeFormArray | AfeFormGroup,
-        dataSource?: any): Disabler {
+        form?: Form): Disabler {
         let runnable: Runnable =
             this.expressionRunner.getRunnable(question.disable as string, control,
-                this.expressionHelper.helperFunctions, dataSource);
+                this.expressionHelper.helperFunctions, {}, form);
         let disabler: Disabler = {
             toDisable: false,
             disableWhenExpression: question.disable as string,
@@ -30,14 +31,14 @@ export class HidersDisablersFactory {
     }
 
     getJsExpressionHider(question: QuestionBase, control: AfeFormControl | AfeFormArray | AfeFormGroup,
-        dataSource?: any): Hider {
+        form?: Form): Hider {
 
         let hide: any = question.hide;
         let value: string = typeof hide === 'object' ? this.convertHideObjectToString(hide) : question.hide as string;
 
         let runnable: Runnable =
             this.expressionRunner.getRunnable(value, control,
-                this.expressionHelper.helperFunctions, dataSource);
+                this.expressionHelper.helperFunctions, {}, form);
         let hider: Hider = {
             toHide: false,
             hideWhenExpression: value,
