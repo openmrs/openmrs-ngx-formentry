@@ -25,7 +25,7 @@ export class HistoricalValueDirective {
 
       if (this._node && (this._node.question.renderingType !== 'page' || this._node.question.renderingType !== 'section')) {
 
-        this._node.control.setValue(this._node.question.historicalDataValue);
+        this._node.control.setValue(this._node.question.historicalDataValue.value);
 
         this._node.question['historicalValue'] = this._node.question.historicalDataValue;
 

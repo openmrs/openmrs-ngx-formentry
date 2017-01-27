@@ -65,9 +65,7 @@ export class AfeFormControl extends FormControl implements CanHide, CanDisable, 
     updateCalculatedValue() {
         if (this.calculator) {
             let _val = this.calculator.call(ExpressionRunner, {});
-            if (this.value === '') {
-                this.setValue(_val);
-            }
+            this.setValue(_val);
         }
     }
 

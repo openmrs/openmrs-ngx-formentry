@@ -62,7 +62,7 @@
     </ng-select>
     <input class="form-control" *ngSwitchDefault [formControlName]="node.question.key "
            [attr.placeholder]="node.question.placeholder "
-           [type]="node.question.renderingType " [id]="node.question.key + 'id' ">
+           [type]="node.question.key === 'bmi' ? 'text' : node.question.renderingType" [id]="node.question.key + 'id' ">
     <div *ngIf="node.question.enableHistoricalValue && node.question.historicalDisplay">
       <div class="container-fluid">
         <div class="row">
