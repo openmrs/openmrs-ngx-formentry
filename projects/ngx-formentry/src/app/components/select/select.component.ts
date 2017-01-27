@@ -319,8 +319,8 @@ export class SelectComponent
             this.opened.emit(null);
         }
     }
-
-    private closeDropdown(focus: boolean) {
+    /* tslint:disable */
+    private closeDropdown(focus: boolean = false) {
         if (this.isOpen) {
             this.clearFilterInput();
             this.isOpen = false;
@@ -330,7 +330,7 @@ export class SelectComponent
             this.closed.emit(null);
         }
     }
-
+    /* tslint:enable */
     /** Select. **/
 
     private selectOption(option: Option) {
