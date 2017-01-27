@@ -597,6 +597,8 @@ export class QuestionFactory {
         return this.toConceptAnswerSelect(schema);
       case 'encounterLocation':
         return this.toEncounterLocationQuestion(schema);
+      case 'encounterDatetime':
+        return this.toEncounterDatetimeQuestion(schema);
       case 'encounterProvider':
         return this.toEncounterProviderQuestion(schema);
 
