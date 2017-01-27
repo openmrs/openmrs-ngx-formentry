@@ -51,6 +51,31 @@ export class AppComponent implements OnInit {
         this.dataSources.registerDataSource('location', { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
         this.dataSources.registerDataSource('provider', { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
 
+        let ds = {
+            dataSourceOptions: { concept: undefined },
+            searchOptions: (text?: string) => {
+                if (ds.dataSourceOptions && ds.dataSourceOptions.concept) {
+                    let items: Array<any> = [{ id: 1, text: 'Stage 1 Symptom' }, { id: 2, text: 'Stage 2 Symptom' }];
+                    return Observable.create((observer: Subject<any>) => {
+                        setTimeout(() => {
+                            observer.next(items);
+                        }, 1000);
+                    });
+                }
+            },
+            resolveSelectedValue: (key: string) => {
+                if (ds.dataSourceOptions && ds.dataSourceOptions.concept) {
+                    let item = { id: 1, text: 'Stage 1 Symptom' };
+                    return Observable.create((observer: Subject<any>) => {
+                        setTimeout(() => {
+                            observer.next(item);
+                        }, 1000);
+                    });
+                }
+            }
+        };
+        this.dataSources.registerDataSource('conceptAnswers', ds);
+
         let obs = new MockObs();
         this.dataSources.registerDataSource('rawPrevEnc', obs.getObs());
 

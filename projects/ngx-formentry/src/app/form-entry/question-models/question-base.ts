@@ -14,6 +14,7 @@ export class QuestionBase {
     historicalDataValue?: any;
     extras?: any;
     dataSource?: string;
+    dataSourceOptions?: any;
 
     controlType?: AfeControlType;
     validators?: Array<ValidationModel>;

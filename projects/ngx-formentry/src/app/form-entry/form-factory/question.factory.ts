@@ -260,6 +260,30 @@ export class QuestionFactory {
     return question;
   }
 
+  toConceptAnswerSelect(schemaQuestion: any): SelectQuestion {
+    let question = new SelectQuestion({ options: [], type: '', key: '' });
+    question.label = schemaQuestion.label;
+    question.key = schemaQuestion.id;
+    question.renderingType = 'remote-select';
+    question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
+    question.dataSource = schemaQuestion.questionOptions.dataSource || 'conceptAnswers';
+    question.dataSourceOptions = {
+      concept: schemaQuestion.questionOptions.concept
+    };
+    let mappings: any = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
+    return question;
+  }
+
   toRepeatingQuestion(schemaQuestion: any): RepeatingQuestion {
     let question = new RepeatingQuestion({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
@@ -550,16 +574,17 @@ export class QuestionFactory {
         return this.toTextAreaQuestion(schema);
       case 'textarea':
         return this.toTextAreaQuestion(schema);
+      case 'select-concept-answers':
+        return this.toConceptAnswerSelect(schema);
       case 'encounterLocation':
         return this.toEncounterLocationQuestion(schema);
-
       case 'encounterDatetime':
         return this.toEncounterDatetimeQuestion(schema);
       case 'encounterProvider':
         return this.toEncounterProviderQuestion(schema);
 
       default:
-        console.log('New Schema Question Type found.........' + renderType);
+        console.warn('New Schema Question Type found.........' + renderType);
         return this.toTextQuestion(schema);
     }
 

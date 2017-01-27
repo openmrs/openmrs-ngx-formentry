@@ -678,6 +678,41 @@ describe('Question Factory', () => {
 
     });
 
+    it('should convert select-concept-answers to remote select question', () => {
+        let conceptAnswerSchema = {
+            'label': 'Select criteria for new WHO stage:',
+            'type': 'obs',
+            'id': 'criteriaLabel',
+            'questionOptions': {
+                'concept': 'a8ae88a4-1350-11df-a1f1-0026b9348838',
+                'rendering': 'select-concept-answers'
+            },
+            'required': {
+                'type': 'conditionalRequired',
+                'message': 'Patient marked as receiving new WHO stage. Please select stage.',
+                'referenceQuestionId': 'adultWHOStage',
+                'referenceQuestionAnswers': [
+                    'a89b2606-1350-11df-a1f1-0026b9348838'
+                ]
+            },
+            'validators': []
+        };
+
+        let converted: SelectQuestion = factory.toConceptAnswerSelect(conceptAnswerSchema);
+
+        expect(converted).toBeDefined();
+        expect(converted.label).toEqual(conceptAnswerSchema.label);
+        expect(converted.key).toEqual(conceptAnswerSchema.id);
+        expect(converted.renderingType).toEqual('remote-select');
+        expect(converted.extras).toEqual(conceptAnswerSchema);
+        expect(converted.dataSource).toEqual('conceptAnswers');
+        expect(converted.dataSourceOptions).toEqual(
+            {
+                concept: 'a8ae88a4-1350-11df-a1f1-0026b9348838'
+            }
+        );
+    });
+
     it('should convert form schema to a list of question models, without pages', () => {
         let converted = factory.getSchemaQuestions(formSchema);
         let convertedSample1: QuestionBase = converted[1];

@@ -50,6 +50,9 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
     setUpRemoteSelect() {
         if (this.node && this.node.question.extras && this.node.question.renderingType === 'remote-select') {
             this.dataSource = this.dataSources.dataSources[this.node.question.dataSource];
+            if (this.dataSource && this.node.question.dataSourceOptions) {
+                this.dataSource.dataSourceOptions = this.node.question.dataSourceOptions;
+            }
         }
     }
     setShowTimeAndWeeks() {
@@ -125,7 +128,7 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
     }
 
     isCurrentTabLast() {
-        return this.activeTab ===  this.node.question['questions'].length - 1;
+        return this.activeTab === this.node.question['questions'].length - 1;
     }
 
     loadNextTab() {
