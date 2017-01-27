@@ -1,8 +1,8 @@
 <div>
-    <ng-select (data)="data($event)" (selected)="onChange($event)" (removed)="removed($event)" [allowClear]="true" [active]="value"
-        [items]="items" (typed)="typed($event)" [placeholder]="placeholder">
+    <ng-select [noFilter]="0" (selected)="selected($event)" (deselected)="removed($event)" [options]="items" [allowClear]="true"
+        [placeholder]="placeholder" [notFoundMsg]="notFoundMsg" (typed)="typed($event)">
     </ng-select>
     <div *ngIf="loading">
-        loading....
+        resolving....
     </div>
 </div>

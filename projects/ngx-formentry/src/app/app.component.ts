@@ -116,7 +116,7 @@ export class AppComponent implements OnInit {
 
     }
     sampleResolve(): Observable<any> {
-        let item = { id: 1, text: 'Kenya' };
+        let item = { value: '1', label: 'Art3mis' };
         return Observable.create((observer: Subject<any>) => {
             setTimeout(() => {
                 observer.next(item);
@@ -125,7 +125,11 @@ export class AppComponent implements OnInit {
         });
     }
     sampleSearch(): Observable<any> {
-        let items: Array<any> = [{ id: 1, text: 'Kenya' }, { id: 2, text: 'Uganda' }];
+        let items: Array<any> = [{ value: '0', label: 'Aech' },
+        { value: '5b6e58ea-1359-11df-a1f1-0026b9348838', label: 'Art3mis' },
+        { value: '2', label: 'Daito' },
+        { value: '3', label: 'Parzival' },
+        { value: '4', label: 'Shoto' }];
         return Observable.create((observer: Subject<any>) => {
             setTimeout(() => {
                 observer.next(items);

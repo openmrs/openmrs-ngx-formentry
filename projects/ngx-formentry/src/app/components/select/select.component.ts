@@ -1,11 +1,21 @@
 import {
-    Component, Input, OnChanges, OnInit, Output, EventEmitter, ExistingProvider,
-    ViewChild, ViewEncapsulation, forwardRef
+    AfterViewInit,
+    Component,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    EventEmitter,
+    ExistingProvider,
+    ViewChild,
+    ViewEncapsulation,
+    forwardRef
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-
-import { DEFAULT_STYLES } from './style';
+import { STYLE } from './select.component.style';
 import { SelectDropdownComponent } from './select-dropdown.component';
+import { Option } from './option';
+import { OptionList } from './option-list';
 
 export const SELECT_VALUE_ACCESSOR: ExistingProvider = {
     provide: NG_VALUE_ACCESSOR,
@@ -15,92 +25,16 @@ export const SELECT_VALUE_ACCESSOR: ExistingProvider = {
 
 @Component({
     selector: 'ng-select',
-    template: `
-<div style="width:100%;position:relative;">
-    <span style="width:100%"
-        #container
-        [ngClass]="getContainerClass()"
-        (window:resize)="onWindowResize()"
-        (window:click)="onWindowClick()">
-        <span class="selection">
-            <span tabindex=0
-                #selectionSpan
-                [ngClass]="getSelectionClass()"
-                (click)="onSelectionClick($event)"
-                (keydown)="onKeydown($event)">
-
-                <span class="select2-selection__rendered"
-                    *ngIf="!multiple">
-                    <span class="select2-selection__placeholder">
-                        {{getPlaceholder()}}
-                    </span>
-                </span>
-
-                <span class="select2-selection__rendered"
-                    *ngIf="!multiple && selection.length > 0">
-                    <span class="select2-selection__clear"
-                        *ngIf="allowClear"
-                        (click)="onClearClick($event)">
-                        x
-                    </span>
-                    {{selection[0].label}}
-                </span>
-
-                <ul class="select2-selection__rendered"
-                    *ngIf="multiple">
-                    <li class="select2-selection__choice" title="{{option.label}}"
-                        *ngFor="let option of selection">
-                        <span class="select2-selection__choice__remove"
-                            [attr.data-value]="option.value"
-                            (click)=onClearItemClick($event)>
-                            ×</span>
-                        {{option.label}}
-                    </li>
-                    <li class="select2-search select2-search--inline">
-                        <input readonly class="select2-search__field"
-                            #searchInput
-                            placeholder="{{getPlaceholder()}}"
-                            [ngStyle]="getInputStyle()"
-                            (input)="onInput($event)"
-                            (keydown)="onSearchKeydown($event)"/>
-                    </li>
-                </ul>
-                <span class="select2-selection__arrow">
-                    <b></b>
-                </span>
-            </span>
-        </span>
-    </span>
-    <select-dropdown
-        *ngIf="isOpen"
-        #dropdown
-        [multiple]="multiple"
-        [optionValues]="optionValues"
-        [optionsDict]="optionsDict"
-        [selection]="selection"
-        [width]="width"
-        [top]="top"
-        [left]="left"
-        (toggleSelect)="onToggleSelect($event)"
-        (close)="onClose($event)">
-    </select-dropdown>
-</div>
-`,
-    styles: [
-        DEFAULT_STYLES
-    ],
-    encapsulation: ViewEncapsulation.None,
-    providers: [
-        SELECT_VALUE_ACCESSOR
-    ]
+    templateUrl: './select.component.html',
+    styles: [STYLE],
+    providers: [SELECT_VALUE_ACCESSOR],
+    encapsulation: ViewEncapsulation.None
 })
 
-export class SelectComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class SelectComponent
+    implements AfterViewInit, ControlValueAccessor, OnChanges, OnInit {
+    /** Keys. **/
 
-    // Class names.
-    private S2: string = 'select2';
-    private S2_CONTAINER: string = this.S2 + '-container';
-    private S2_SELECTION: string = this.S2 + '-selection';
     private KEYS: any = {
         BACKSPACE: 8,
         TAB: 9,
@@ -112,301 +46,194 @@ export class SelectComponent implements ControlValueAccessor, OnInit, OnChanges 
     };
 
     @Input() options: Array<any>;
-    @Input() theme: string;
-    @Input() searchFunction: Function;
-    @Input() multiple: boolean;
-    @Input() placeholder: string;
-    @Input() allowClear: boolean;
-    @Input() resolveFuncation: Function;
+
+    @Input() allowClear: boolean = false;
+    @Input() disabled: boolean = false;
+    @Input() highlightColor: string = '#2196f3';
+    @Input() highlightTextColor: string = '#fff';
+    @Input() multiple: boolean = false;
+    @Input() noFilter: number = 0;
+    @Input() notFoundMsg: string = 'No results found';
+    @Input() placeholder: string = '';
 
     @Output() opened: EventEmitter<null> = new EventEmitter<null>();
     @Output() closed: EventEmitter<null> = new EventEmitter<null>();
     @Output() selected: EventEmitter<any> = new EventEmitter<any>();
     @Output() deselected: EventEmitter<any> = new EventEmitter<any>();
-    @Output() searchInputText: EventEmitter<any> = new EventEmitter<any>();
+    @Output() typed: EventEmitter<any> = new EventEmitter<any>();
 
-    @ViewChild('container') container: any;
-    @ViewChild('selectionSpan') selectionSpan: any;
+
+    @ViewChild('selection') selectionSpan: any;
     @ViewChild('dropdown') dropdown: SelectDropdownComponent;
-    @ViewChild('searchInput') searchInput: any;
+    @ViewChild('filterInput') filterInput: any;
 
-    // State variables.
-    isDisabled: boolean = false;
-    isBelow: boolean = true;
-    isOpen: boolean = false;
+    private _value: Array<any> = [];
+    optionList: OptionList;
+
+    // Selection state variables.
+    hasSelected: boolean = false;
+
+    // View state variables.
+    filterEnabled: boolean = true;
+    filterInputWidth: number = 1;
     hasFocus: boolean = false;
+    isBelow: boolean = true;
+    isDisabled: boolean = false;
+    isOpen: boolean = false;
+    placeholderView: string = '';
 
+    clearClicked: boolean = false;
+    selectContainerClicked: boolean = false;
+
+    // Width and position for the dropdown container.
     width: number;
     top: number;
     left: number;
 
-    // Select options.
-    optionValues: Array<string> = [];
-    optionsDict: any = {};
+    private onChange = (_: any) => { };
+    private onTouched = () => { };
 
-    selection: Array<any> = [];
-    value: Array<string> = [];
+    /** Event handlers. **/
 
-    onChange = (_: any) => { };
-    onTouched = () => { };
-
-    /***************************************************************************
-     * Event handlers.
-     **************************************************************************/
+    // Angular lifecycle hooks.
 
     ngOnInit() {
-        this.init();
+        this.placeholderView = this.placeholder;
+    }
+
+    ngAfterViewInit() {
+        this.updateFilterWidth();
     }
 
     ngOnChanges(changes: any) {
-        this.init();
-    }
-
-    onSelectionClick(event: any) {
-        this.toggleDropdown();
-
-        if (this.multiple) {
-            this.searchInput.nativeElement.focus();
+        if (changes.hasOwnProperty('options')) {
+            this.updateOptionsList(changes['options'].isFirstChange());
         }
-        event.stopPropagation();
+        if (changes.hasOwnProperty('noFilter')) {
+            let numOptions: number = this.optionList.options.length;
+            let minNumOptions: number = changes['noFilter'].currentValue;
+            this.filterEnabled = numOptions >= minNumOptions;
+        }
     }
 
-    /**
-     * Event handler of the single select clear (x) button click. It is assumed
-     * that there is exactly one item selected.
-     *
-     * The `deselect` method is used instead of `clear`, to heve the deselected
-     * event emitted.
-     */
-    onClearClick(event: any) {
-        this.deselect(this.selection[0].value);
-        event.stopPropagation();
-    }
-
-    onClearItemClick(event: any) {
-        this.deselect(event.target.dataset.value);
-        event.stopPropagation();
-    }
-
-    onToggleSelect(optionValue: any) {
-        this.toggleSelect(optionValue);
-    }
-
-    onClose(focus: any) {
-        this.close(focus);
-    }
+    // Window.
 
     onWindowClick() {
-        this.close(false);
+        if (!this.selectContainerClicked) {
+            this.closeDropdown();
+        }
+        this.clearClicked = false;
+        this.selectContainerClicked = false;
     }
 
     onWindowResize() {
         this.updateWidth();
     }
 
-    onKeydown(event: any) {
-        this.handleKeyDown(event);
-    }
+    // Select container.
 
-    onInput(event: any) {
-
-        // Open dropdown, if it is currently closed.
-        if (!this.isOpen) {
-            this.open();
-            // HACK
-            setTimeout(() => {
-                this.handleInput(event);
-            }, 100);
-        } else {
-            this.handleInput(event);
+    onSelectContainerClick(event: any) {
+        this.selectContainerClicked = true;
+        if (!this.clearClicked) {
+            this.toggleDropdown();
         }
     }
 
-    onSearchKeydown(event: any) {
-        this.handleSearchKeyDown(event);
+    onSelectContainerFocus() {
+        this.onTouched();
     }
 
-    /***************************************************************************
-     * Initialization.
-     **************************************************************************/
-
-    init() {
-        this.initOptions();
-        this.initDefaults();
+    onSelectContainerKeydown(event: any) {
+        this.handleSelectContainerKeydown(event);
     }
 
-    initOptions() {
-        let values: any[] = [];
-        let opts = {};
+    // Dropdown container.
 
-        for (let option of this.options) {
+    onDropdownOptionClicked(option: Option) {
+        this.multiple ?
+            this.toggleSelectOption(option) : this.selectOption(option);
+    }
 
-            let selected = false;
-            let existingOption = this.optionsDict[option.value];
-            if (typeof existingOption !== 'undefined') {
-                selected = existingOption.selected;
+    onDropdownClose(focus: any) {
+        this.closeDropdown(focus);
+    }
+
+    // Single filter input.
+
+    onSingleFilterClick() {
+        this.selectContainerClicked = true;
+    }
+
+    onSingleFilterInput(term: string) {
+        setTimeout(() => {
+            if (term.length > 3) {
+                this.typed.emit(term);
             }
-
-            opts[option.value] = {
-                value: option.value,
-                label: option.label,
-                selected: selected
-            };
-            values.push(option.value);
-        }
-
-        this.optionValues = values;
-        this.optionsDict = opts;
-
-        this.updateSelection();
+        }, 500);
+        this.optionList.filter(term);
     }
 
-    initDefaults() {
-        if (typeof this.multiple === 'undefined') {
-            this.multiple = false;
-        }
-        if (typeof this.theme === 'undefined') {
-            this.theme = 'default';
-        }
-        if (typeof this.allowClear === 'undefined') {
-            this.allowClear = false;
-        }
+    onSingleFilterKeydown(event: any) {
+        this.handleSingleFilterKeydown(event);
     }
 
-    /***************************************************************************
-     * Dropdown toggle.
-     **************************************************************************/
+    // Multiple filter input.
 
-    toggleDropdown() {
-        if (!this.isDisabled) {
-            this.isOpen ? this.close(true) : this.open();
+    onMultipleFilterInput(event: any) {
+        if (!this.isOpen) {
+            this.openDropdown();
         }
+        this.updateFilterWidth();
+        setTimeout(() => {
+            this.optionList.filter(event.target.value);
+        });
     }
 
+    onMultipleFilterKeydown(event: any) {
+        this.handleMultipleFilterKeydown(event);
+    }
+
+    // Single clear select.
+
+    onClearSelectionClick(event: any) {
+        this.clearClicked = true;
+        this.clearSelection();
+        this.closeDropdown(true);
+    }
+
+    // Multiple deselect option.
+
+    onDeselectOptionClick(option: Option) {
+        this.clearClicked = true;
+        this.deselectOption(option);
+    }
+
+    /** API. **/
+
+    // TODO fix issues with global click/key handler that closes the dropdown.
     open() {
-        if (!this.isOpen) {
-            this.updateWidth();
-            this.updatePosition();
-            this.isOpen = true;
-            this.opened.emit(null);
-        }
+        this.openDropdown();
     }
 
-    close(focus: boolean) {
-        if (this.isOpen) {
-            this.isOpen = false;
-            if (focus) {
-                this.focus();
-            }
-            this.closed.emit(null);
-        }
-    }
-
-    /***************************************************************************
-     * Select.
-     **************************************************************************/
-
-    toggleSelect(value: string) {
-
-        if (!this.multiple && this.selection.length > 0) {
-            this.selection[0].selected = false;
-        }
-
-        this.optionsDict[value].selected ?
-            this.deselect(value) : this.select(value);
-
-        if (this.multiple) {
-            this.searchInput.nativeElement.value = '';
-            this.searchInput.nativeElement.focus();
-        } else {
-            this.focus();
-        }
-    }
-
-    select(value: string) {
-        this.optionsDict[value].selected = true;
-        this.updateSelection();
-        this.selected.emit(this.optionsDict[value]);
-    }
-
-    deselect(value: string) {
-        this.optionsDict[value].selected = false;
-        this.updateSelection();
-        this.deselected.emit(this.optionsDict[value]);
-    }
-
-    updateSelection() {
-        let s: Array<any> = [];
-        let v: Array<string> = [];
-        for (let optionValue of this.optionValues) {
-            if (this.optionsDict[optionValue].selected) {
-                let opt = this.optionsDict[optionValue];
-                s.push(opt);
-                v.push(opt.value);
-            }
-        }
-
-        this.selection = s;
-        this.value = v;
-
-        // TODO first check if value has changed?
-        this.onChange(this.getOutputValue());
-    }
-
-    popSelect() {
-        if (this.selection.length > 0) {
-            this.selection[this.selection.length - 1].selected = false;
-            this.updateSelection();
-            this.onChange(this.getOutputValue());
-        }
+    close() {
+        this.closeDropdown();
     }
 
     clear() {
-        for (let item in this.optionsDict) {
-            if (this.optionsDict.hasOwnProperty(item)) {
-                this.optionsDict[item].selected = false;
-            }
-        }
-        this.selection = [];
-        this.value = [];
-
-        // TODO first check if value has changed?
-        this.onChange(this.getOutputValue());
+        this.clearSelection();
     }
 
-    getOutputValue(): any {
-        if (this.multiple) {
-            return this.value.length === 0 ? '' : this.value.slice(0);
-        } else {
-            return this.value.length === 0 ? '' : this.value[0];
-        }
+    select(value: string) {
+        this.optionList.getOptionsByValue(value).forEach((option) => {
+            this.selectOption(option);
+        });
+        this.valueChanged();
     }
 
-    /***************************************************************************
-     * ControlValueAccessor interface methods.
-     **************************************************************************/
+    /** ControlValueAccessor interface methods. **/
 
     writeValue(value: any) {
-
-        if (typeof value === 'undefined' || value === null || value === '') {
-            value = this.multiple ? [] : '';
-        }
-
-        for (let item in this.optionsDict) {
-            if (this.optionsDict.hasOwnProperty(item)) {
-                this.optionsDict[item].selected = false;
-            }
-        }
-
-        if (this.multiple) {
-            for (let item of value) {
-                this.optionsDict[item].selected = true;
-            }
-        } else if (value !== '') {
-            this.optionsDict[value].selected = true;
-        }
-
-        this.updateSelection();
+        this.value = value;
     }
 
     registerOnChange(fn: (_: any) => void) {
@@ -417,66 +244,250 @@ export class SelectComponent implements ControlValueAccessor, OnInit, OnChanges 
         this.onTouched = fn;
     }
 
+    setDisabledState(isDisabled: boolean) {
+        this.disabled = isDisabled;
+    }
 
-    handleKeyDown(event: any) {
+    /** Value. **/
 
-        let key = event.which;
-
-        if (key === this.KEYS.ENTER || key === this.KEYS.SPACE ||
-            (key === this.KEYS.DOWN && event.altKey)) {
-
-            this.open();
-            event.preventDefault();
+    get value(): any {
+        if (this._value.length === 0) {
+            return '';
+        } else {
+            return this.multiple ? this._value : this._value[0];
         }
     }
 
-    handleInput(event: any) {
-        let value = event.target.value;
-        this.searchInputText.emit(value);
-        this.dropdown.filter(event.target.value);
+    set value(v: any) {
+        if (typeof v === 'undefined' || v === null || v === '') {
+            v = [];
+        } else if (typeof v === 'string') {
+            v = [v];
+        } else if (!Array.isArray(v)) {
+            throw new TypeError('Value must be a string or an array.');
+        }
+
+        if (!OptionList.equalValues(v, this._value)) {
+            this.optionList.value = v;
+            this.valueChanged();
+        }
     }
 
-    handleSearchKeyDown(event: any) {
+    private valueChanged() {
+        this._value = this.optionList.value;
 
+        this.hasSelected = this._value.length > 0;
+        this.placeholderView = this.hasSelected ? '' : this.placeholder;
+        this.updateFilterWidth();
+
+        this.onChange(this.value);
+    }
+
+    /** Initialization. **/
+
+    private updateOptionsList(firstTime: boolean) {
+        let v: Array<string>;
+
+        if (!firstTime) {
+            v = this.optionList.value;
+        }
+
+        this.optionList = new OptionList(this.options);
+
+        if (!firstTime) {
+            this.optionList.value = v;
+            this.valueChanged();
+        }
+    }
+
+    /** Dropdown. **/
+
+    private toggleDropdown() {
+        if (!this.isDisabled) {
+            this.isOpen ? this.closeDropdown(true) : this.openDropdown();
+        }
+    }
+
+    private openDropdown() {
+        if (!this.isOpen) {
+            this.updateWidth();
+            this.updatePosition();
+            this.isOpen = true;
+            if (this.multiple && this.filterEnabled) {
+                this.filterInput.nativeElement.focus();
+            }
+            this.opened.emit(null);
+        }
+    }
+
+    private closeDropdown(focus: boolean) {
+        if (this.isOpen) {
+            this.clearFilterInput();
+            this.isOpen = false;
+            if (focus) {
+                this.focus();
+            }
+            this.closed.emit(null);
+        }
+    }
+
+    /** Select. **/
+
+    private selectOption(option: Option) {
+        if (!option.selected) {
+            this.optionList.select(option, this.multiple);
+            this.valueChanged();
+            this.selected.emit(option.undecoratedCopy());
+            // Is this not allready done when setting the value??
+            /*setTimeout(() => {
+                if (this.multiple) {
+                    this.updateFilterWidth();
+                }
+            });*/
+        }
+    }
+
+    private deselectOption(option: Option) {
+        if (option.selected) {
+            this.optionList.deselect(option);
+            this.valueChanged();
+            this.deselected.emit(option.undecoratedCopy());
+            setTimeout(() => {
+                if (this.multiple) {
+                    // this.updateFilterWidth();
+                    this.updatePosition();
+                    this.optionList.highlight();
+                    if (this.isOpen) {
+                        this.dropdown.moveHighlightedIntoView();
+                    }
+                }
+            });
+        }
+    }
+
+    private clearSelection() {
+        let selection: Array<Option> = this.optionList.selection;
+        if (selection.length > 0) {
+            this.optionList.clearSelection();
+            this.valueChanged();
+
+            if (selection.length === 1) {
+                this.deselected.emit(selection[0].undecoratedCopy());
+            } else {
+                this.deselected.emit(selection.map((option) => {
+                    return option.undecoratedCopy();
+                }));
+            }
+        }
+    }
+
+    private toggleSelectOption(option: Option) {
+        option.selected ?
+            this.deselectOption(option) : this.selectOption(option);
+    }
+
+    private selectHighlightedOption() {
+        let option: Option = this.optionList.highlightedOption;
+        if (option !== null) {
+            this.selectOption(option);
+            this.closeDropdown(true);
+        }
+    }
+
+    private deselectLast() {
+        let sel: Array<Option> = this.optionList.selection;
+
+        if (sel.length > 0) {
+            let option: Option = sel[sel.length - 1];
+            this.deselectOption(option);
+            this.setMultipleFilterInput(option.label + ' ');
+        }
+    }
+
+    /** Filter. **/
+
+    private clearFilterInput() {
+        if (this.multiple && this.filterEnabled) {
+            this.filterInput.nativeElement.value = '';
+        } else {
+            this.dropdown.clearFilterInput();
+        }
+    }
+
+    private setMultipleFilterInput(value: string) {
+        if (this.filterEnabled) {
+            this.filterInput.nativeElement.value = value;
+        }
+    }
+
+
+    private handleSelectContainerKeydown(event: any) {
         let key = event.which;
 
-        if (key === this.KEYS.ENTER) {
-            if (typeof this.dropdown !== 'undefined') {
-                let hl = this.dropdown.highlighted;
-
-                if (hl !== null) {
-                    this.onToggleSelect(hl.value);
+        if (this.isOpen) {
+            if (key === this.KEYS.ESC ||
+                (key === this.KEYS.UP && event.altKey)) {
+                this.closeDropdown(true);
+            } else if (key === this.KEYS.TAB) {
+                this.closeDropdown();
+            } else if (key === this.KEYS.ENTER) {
+                this.selectHighlightedOption();
+            } else if (key === this.KEYS.UP) {
+                this.optionList.highlightPreviousOption();
+                this.dropdown.moveHighlightedIntoView();
+                if (!this.filterEnabled) {
+                    event.preventDefault();
+                }
+            } else if (key === this.KEYS.DOWN) {
+                this.optionList.highlightNextOption();
+                this.dropdown.moveHighlightedIntoView();
+                if (!this.filterEnabled) {
+                    event.preventDefault();
                 }
             }
-        } else if (key === this.KEYS.BACKSPACE) {
-            if (this.searchInput.nativeElement.value === '') {
-                this.popSelect();
+        } else {
+            if (key === this.KEYS.ENTER || key === this.KEYS.SPACE ||
+                (key === this.KEYS.DOWN && event.altKey)) {
+
+                /* FIREFOX HACK:
+                 *
+                 * The setTimeout is added to prevent the enter keydown event
+                 * to be triggered for the filter input field, which causes
+                 * the dropdown to be closed again.
+                 */
+                setTimeout(() => { this.openDropdown(); });
             }
-        } else if (key === this.KEYS.UP) {
-            if (typeof this.dropdown === 'undefined') {
-                this.open();
-            } else {
-                this.dropdown.highlightPrevious();
+        }
+
+    }
+
+    private handleMultipleFilterKeydown(event: any) {
+        let key = event.which;
+
+        if (key === this.KEYS.BACKSPACE) {
+            if (this.hasSelected && this.filterEnabled &&
+                this.filterInput.nativeElement.value === '') {
+                this.deselectLast();
             }
-        } else if (key === this.KEYS.DOWN) {
-            if (typeof this.dropdown === 'undefined') {
-                this.open();
-            } else {
-                this.dropdown.highlightNext();
-            }
-        } else if (key === this.KEYS.ESC) {
-            this.close(true);
         }
     }
 
-    /***************************************************************************
-     * Layout/Style/Classes/Focus.
-     **************************************************************************/
+    private handleSingleFilterKeydown(event: any) {
+        let key = event.which;
+
+        if (key === this.KEYS.ESC || key === this.KEYS.TAB
+            || key === this.KEYS.UP || key === this.KEYS.DOWN
+            || key === this.KEYS.ENTER) {
+            this.handleSelectContainerKeydown(event);
+        }
+    }
+
+    /** View. **/
 
     focus() {
         this.hasFocus = true;
-        if (this.multiple) {
-            this.searchInput.nativeElement.focus();
+        if (this.multiple && this.filterEnabled) {
+            this.filterInput.nativeElement.focus();
         } else {
             this.selectionSpan.nativeElement.focus();
         }
@@ -488,71 +499,20 @@ export class SelectComponent implements ControlValueAccessor, OnInit, OnChanges 
     }
 
     updateWidth() {
-        this.width = this.container.nativeElement.offsetWidth;
+        this.width = this.selectionSpan.nativeElement.offsetWidth;
     }
 
     updatePosition() {
-        let e = this.container.nativeElement;
+        let e = this.selectionSpan.nativeElement;
         this.left = e.offsetLeft;
         this.top = e.offsetTop + e.offsetHeight;
     }
 
-    getContainerClass(): any {
-        let result = {};
-
-        result[this.S2] = true;
-
-        let c = this.S2_CONTAINER;
-        result[c] = true;
-        result[c + '--open'] = this.isOpen;
-        result[c + '--focus'] = this.hasFocus;
-        result[c + '--' + this.theme] = true;
-        result[c + '--' + (this.isBelow ? 'below' : 'above')] = true;
-
-        return result;
-    }
-
-    getSelectionClass(): any {
-        let result = {};
-
-        let s = this.S2_SELECTION;
-        result[s] = true;
-        result[s + '--' + (this.multiple ? 'multiple' : 'single')] = true;
-
-        return result;
-    }
-
-    showPlaceholder(): boolean {
-        return typeof this.placeholder !== 'undefined' &&
-            this.selection.length === 0;
-    }
-
-    getPlaceholder(): string {
-        return this.showPlaceholder() ? this.placeholder : '';
-    }
-
-    getInputStyle(): any {
-
-        let width: number;
-
-        if (typeof this.searchInput === 'undefined') {
-            width = 200;
-        } else if (this.showPlaceholder() &&
-            this.searchInput.nativeElement.value.length === 0) {
-
-            width = 10 + 10 * this.placeholder.length;
-        } else {
-            width = 10 + 10 * this.searchInput.nativeElement.value.length;
+    updateFilterWidth() {
+        if (typeof this.filterInput !== 'undefined') {
+            let value: string = this.filterInput.nativeElement.value;
+            this.filterInputWidth = value.length === 0 ?
+                1 + this.placeholderView.length * 10 : 1 + value.length * 10;
         }
-
-        return {
-            'width': width + 'px'
-        };
-    }
-    search() {
-
-    }
-    resolveLable() {
-
     }
 }

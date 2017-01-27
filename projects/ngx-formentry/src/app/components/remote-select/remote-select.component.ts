@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ViewChild, Output, EventEmitter, Renderer } from '@angular/core';
+import { SelectComponent } from '../../components/select/select.component';
 import {
     ControlValueAccessor,
     NG_VALUE_ACCESSOR
@@ -18,27 +19,46 @@ import * as _ from 'lodash';
 export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     @Input() dataSource: DataSource;
     @Input() placeholder: string = 'Search...';
-    public items = [];
+    items = [];
     value = [];
     loading = false;
-    constructor() { }
+    searchText: string = '';
+    notFoundMsg = 'match no found';
+    @Output() done: EventEmitter<any> = new EventEmitter<any>();
+
+    characters = [];
+    @ViewChild(SelectComponent) private selectC: SelectComponent;
+
+    constructor(private renderer: Renderer) { }
 
     ngOnInit() {
 
     }
 
     public typed(value: any): void {
-        this.loading = true;
+        this.search(value);
+    }
+    search(value: string) {
         if (this.dataSource) {
-            this.dataSource.searchOptions(value).subscribe((result) => {
-                if (result.length > 0) {
-                    let existing = _.map(this.value, _.clone);
-                    let concat = existing.concat(result);
-                    this.items = _.uniqBy(concat, 'id');
-                }
-                this.loading = false;
-            });
+            this.searchText = value;
+            this.notFoundMsg = 'Loading.........';
+            this.dataSource.searchOptions(value)
+                .subscribe((result) => {
+                    if (result.length > 0) {
+                        let existing = _.map(this.value, _.clone);
+                        let concat = existing.concat(result);
+                        this.items = _.uniqBy(concat, 'value');
+                    }
+                    this.notFoundMsg = '';
+                }, (error) => {
+                    this.notFoundMsg = 'Errored';
+                });
         }
+    }
+
+    canSearch(searchText: string) {
+        return (searchText.length - this.searchText.length >= 3 ||
+            (searchText.length - this.searchText.length <= 3 && searchText !== '')) && this.loading === false;
     }
 
     // this is the initial value set to the component
@@ -47,10 +67,11 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
             if (this.dataSource) {
                 this.loading = true;
                 this.dataSource.resolveSelectedValue(value).subscribe((result: any) => {
-                    if (result instanceof Object && result.text && result.id) {
-                        this.items.push(result);
-                        this.value = [result];
-                    }
+                    this.items = [result];
+                    setTimeout(() => {
+                        this.selectC.select(result.value);
+                        this.selectC.value = result.value;
+                    });
                     this.loading = false;
                 }, (error) => {
                     this.loading = false;
@@ -58,7 +79,6 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
             }
         }
     }
-
     // registers 'fn' that will be fired when changes are made
     // this is how we emit the changes back to the form
     public registerOnChange(fn: any) {
@@ -75,10 +95,11 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
         // this.propagateChange(this.data);
     }
     removed(event) {
+        console.log('Removed');
         this.propagateChange('');
     }
-    data(event) {
-        this.propagateChange(event.id);
+    selected(event) {
+        this.propagateChange(event.value);
     }
 
     // the method set in registerOnChange, it is just 
