@@ -8,7 +8,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import '../../../style/app.css';
 
 import { DEFAULT_STYLES } from './form-renderer.component.css';
-import { PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import { DOCUMENT } from '@angular/platform-browser';
 import { DataSources } from '../data-sources/data-sources';
 import { NodeBase } from '../form-factory/form-node';
@@ -35,7 +34,7 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
 
     constructor(private validationFactory: ValidationFactory,
         private dataSources: DataSources, private formErrorsService: FormErrorsService,
-        private pageScrollService: PageScrollService, @Inject(DOCUMENT) private document: Document) {
+         @Inject(DOCUMENT) private document: Document) {
         this.activeTab = 0;
         formErrorsService.announceErrorField$.subscribe(
             error => {
@@ -47,6 +46,7 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
         this.setShowTimeAndWeeks();
         this.setUpRemoteSelect();
     }
+
     setUpRemoteSelect() {
         if (this.node && this.node.question.extras && this.node.question.renderingType === 'remote-select') {
             this.dataSource = this.dataSources.dataSources[this.node.question.dataSource];
@@ -113,7 +113,6 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
 
     clickTab(tabNumber) {
         this.activeTab = tabNumber;
-        // console.log(tabNumber);
     }
 
     loadPreviousTab() {
@@ -159,12 +158,12 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
 
     scrollToControl(error: string) {
         let tab: number = +error.split(',')[0];
-        let elSelector = '#' + error.split(',')[1] + 'id';
+        let elSelector = error.split(',')[1] + 'id';
         this.clickTab(tab);
 
         setTimeout(() => {
-            let pageScrollInstance: PageScrollInstance = PageScrollInstance.simpleInstance(this.document, elSelector);
-            this.pageScrollService.start(pageScrollInstance);
-        }, 200);
+          let element: any = this.document.getElementById(elSelector);
+          element.focus();
+        }, 300);
     }
 }
