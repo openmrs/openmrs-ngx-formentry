@@ -14,6 +14,8 @@ import { QuestionBase } from '../question-models/question-base';
 import { Messages } from '../utils/messages';
 import { ValidationModel } from '../question-models/validation.model';
 import { DateValidationModel } from '../question-models/date-validation.model';
+import { MaxValidationModel} from '../question-models/max-validation.model';
+import { MinValidationModel} from '../question-models/min-validation.model';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
 
 @Injectable()
@@ -42,6 +44,12 @@ export class ValidationFactory {
             break;
           case 'js_expression':
             list.push(this.jsExpressionValidator.validate(<JsExpressionValidationModel>validator));
+            break;
+          case 'max':
+            list.push(this.getMaxValueValidator((<MaxValidationModel>validator).max));
+            break;
+          case 'min':
+            list.push(this.getMinValueValidator((<MinValidationModel>validator).min));
             break;
         }
       });
@@ -85,13 +93,13 @@ export class ValidationFactory {
     return Validators.maxLength;
   }
 
-  get minValueValidator() {
-    return new MinValidator().validate;
+  getMinValueValidator(min: number) {
+    return new MinValidator().validate(min);
   }
 
-  get maxValueValidator() {
+  getMaxValueValidator(max: number) {
 
-    return new MaxValidator().validate;
+    return new MaxValidator().validate(max);
   }
 
   get jsExpressionValidator() {

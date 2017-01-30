@@ -14,6 +14,8 @@ import { AfeControlType } from '../../abstract-controls-extension/afe-control-ty
 
 import { ValidationModel } from '../question-models/validation.model';
 import { DateValidationModel } from '../question-models/date-validation.model';
+import { MaxValidationModel} from '../question-models/max-validation.model';
+import { MinValidationModel} from '../question-models/min-validation.model';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
 import { DummyDataSource } from '../data-sources/dummy-data-source';
 import { HistoricalHelperService } from '../helpers/historical-expression-helper-service';
@@ -93,7 +95,7 @@ export class QuestionFactory {
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'number';
-    question.validators = this.addValidators(schemaQuestion);
+
     question.extras = schemaQuestion;
 
     let mappings: any = {
@@ -103,6 +105,7 @@ export class QuestionFactory {
     };
 
     this.copyProperties(mappings, schemaQuestion, question);
+    question.validators = this.addValidators(schemaQuestion);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
@@ -655,6 +658,27 @@ export class QuestionFactory {
             break;
         }
       });
+    }
+
+    let questionOptions = schemaQuestion.questionOptions;
+    let renderingType = questionOptions ? questionOptions.rendering : '';
+    switch (renderingType) {
+      case 'number':
+
+        if (questionOptions.max && questionOptions.min) {
+          validators.push(new MaxValidationModel({
+            type: 'max',
+            max: questionOptions.max
+          }));
+          validators.push(new MinValidationModel({
+            type: 'min',
+            min: questionOptions.min
+          }));
+        }
+
+        break;
+      default:
+        break;
     }
 
     return validators;

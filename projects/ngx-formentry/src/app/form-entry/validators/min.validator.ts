@@ -10,7 +10,6 @@ export class MinValidator {
       if (control.hidden) {
         return null;
       }
-
       if (control.value && control.value.length !== 0) {
 
         let v: number = control.value;
