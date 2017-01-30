@@ -113,10 +113,15 @@ export class QuestionFactory {
   }
 
   toDateQuestion(schemaQuestion: any): DateQuestion {
+    if (schemaQuestion.type === 'encounterDatetime') {
+      return this.toEncounterDatetimeQuestion(schemaQuestion);
+    }
     let question = new DateQuestion({ type: '', key: '' });
     question.renderingType = 'date';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
+    question.showTime = schemaQuestion.questionOptions.showTime as boolean;
+    question.showWeeksAdder = schemaQuestion.questionOptions.weeksList ? true : false;
 
     let mappings: any = {
       label: 'label',
@@ -134,15 +139,18 @@ export class QuestionFactory {
   toEncounterDatetimeQuestion(schemaQuestion: any): DateQuestion {
     let question = new DateQuestion({ type: '', key: '' });
     question.label = schemaQuestion.label;
+    question.renderingType = 'date';
     question.key = schemaQuestion.id;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
+    question.showWeeksAdder = schemaQuestion.questionOptions.weeksList ? true : false;
 
     let mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
     };
+    question.showTime = true;
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
@@ -179,7 +187,10 @@ export class QuestionFactory {
   }
 
   toTextAreaQuestion(schemaQuestion: any): TextAreaInputQuestion {
-    let question = new TextAreaInputQuestion({ isExpanded: false, rows: 18, placeholder: '', type: '', key: '' });
+    let question = new TextAreaInputQuestion({
+      isExpanded: false, rows: 18,
+      placeholder: '', type: '', key: ''
+    });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.isExpanded = schemaQuestion.isExpanded;
@@ -395,6 +406,9 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
     return question;
   }
 
@@ -555,6 +569,8 @@ export class QuestionFactory {
         return this.toNumericQuestion(schema);
       case 'number':
         return this.toNumberQuestion(schema);
+      case 'encounterDatetime':
+        return this.toEncounterDatetimeQuestion(schema);
       case 'date':
         return this.toDateQuestion(schema);
       case 'multiCheckbox':
@@ -581,8 +597,6 @@ export class QuestionFactory {
         return this.toConceptAnswerSelect(schema);
       case 'encounterLocation':
         return this.toEncounterLocationQuestion(schema);
-      case 'encounterDatetime':
-        return this.toEncounterDatetimeQuestion(schema);
       case 'encounterProvider':
         return this.toEncounterProviderQuestion(schema);
 
@@ -688,11 +702,13 @@ export class QuestionFactory {
     if (schemaQuestion.historicalExpression && schemaQuestion.historicalExpression.length > 0) {
       question.setHistoricalValue(true);
       if (schemaQuestion.showHistoricalEncounterDate !== undefined) {
-        question.showHistoricalEncounterDate((schemaQuestion.showHistoricalEncounterDate === 'true'));
+        question.showHistoricalEncounterDate(
+          (schemaQuestion.showHistoricalEncounterDate === 'true'));
       } else {
         question.showHistoricalEncounterDate();
       }
-      let origValue = this.historicalHelperService.evaluate(schemaQuestion.historicalExpression, this.dataSources);
+      let origValue = this.historicalHelperService.evaluate(schemaQuestion.historicalExpression,
+        this.dataSources);
       question.historicalDataValue = origValue;
       if (schemaQuestion.historicalPrepopulate) {
         question.defaultValue = origValue;
@@ -702,7 +718,8 @@ export class QuestionFactory {
 
   addCalculatorProperty(schemaQuestion: any, question: QuestionBase): any {
 
-    if (schemaQuestion.questionOptions && typeof schemaQuestion.questionOptions.calculate === 'object') {
+    if (schemaQuestion.questionOptions &&
+      typeof schemaQuestion.questionOptions.calculate === 'object') {
       question.calculateExpression = schemaQuestion.questionOptions.calculate.calculateExpression;
     }
 
@@ -732,7 +749,8 @@ export class QuestionFactory {
     let s = '_';
     while (s.length < x && x > 0) {
       let r = Math.random();
-      s += (r < 0.1 ? Math.floor(r * 100) : String.fromCharCode(Math.floor(r * 26) + (r > 0.5 ? 97 : 65)));
+      s += (r < 0.1 ? Math.floor(r * 100) :
+        String.fromCharCode(Math.floor(r * 26) + (r > 0.5 ? 97 : 65)));
     }
     return '_' + s;
   }
