@@ -15,7 +15,7 @@ import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
 import { ValidationFactory } from '../form-factory/validation.factory';
 import { DataSource } from '../question-models/interfaces/data-source';
 import { FormErrorsService } from '../services';
-
+declare var $: any;
 @Component({
     selector: 'form-renderer',
     templateUrl: 'form-renderer.component.html',
@@ -35,7 +35,7 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
 
     constructor(private validationFactory: ValidationFactory,
         private dataSources: DataSources, private formErrorsService: FormErrorsService,
-         @Inject(DOCUMENT) private document: Document) {
+        @Inject(DOCUMENT) private document: Document) {
         this.activeTab = 0;
 
         if (!FormRendererComponent.errorFieldSubLocked) {
@@ -158,8 +158,8 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
         this.clickTab(tab);
 
         setTimeout(() => {
-          let element: any = this.document.getElementById(elSelector);
-          element.focus();
+            let element: any = this.document.getElementById(elSelector);
+            element.focus();
         }, 300);
     }
 }

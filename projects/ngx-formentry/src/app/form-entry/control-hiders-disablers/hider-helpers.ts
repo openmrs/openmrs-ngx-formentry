@@ -32,7 +32,7 @@ export class HiderHelper {
         });
 
         control.hidden = hiddenValue;
-        if (control.hidden === true && control.disable) {
+        if (control.hidden && control.disable) {
             control.disable();
             // control.setValue(null);
         }
