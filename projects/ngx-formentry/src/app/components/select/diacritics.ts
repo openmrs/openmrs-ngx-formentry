@@ -847,8 +847,12 @@ export class Diacritics {
         let match = (a: string): string => {
             return this.DIACRITICS[a] || a;
         };
+        if (text) {
+            return text.replace(/[^\u0000-\u007E]/g, match);
+        } else {
+            return '';
+        }
 
-        return text.replace(/[^\u0000-\u007E]/g, match);
     }
 }
 
