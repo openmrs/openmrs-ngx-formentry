@@ -1,5 +1,5 @@
 <div>
-    <ng-select [noFilter]="0" (selected)="selected($event)" (deselected)="removed($event)" [options]="items" [allowClear]="true"
+    <ng-select [id]="componentID" [noFilter]="0" (selected)="selected($event)" (deselected)="removed($event)" [options]="items" [allowClear]="true"
         [placeholder]="placeholder" [notFoundMsg]="notFoundMsg" (typed)="typed($event)">
     </ng-select>
     <div *ngIf="loading">

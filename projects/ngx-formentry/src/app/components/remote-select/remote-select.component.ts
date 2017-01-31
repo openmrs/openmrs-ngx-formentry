@@ -19,6 +19,7 @@ import * as _ from 'lodash';
 export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     @Input() dataSource: DataSource;
     @Input() placeholder: string = 'Search...';
+    @Input() componentID: string;
     items = [];
     value = [];
     loading = false;
@@ -102,8 +103,8 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
         this.propagateChange(event.value);
     }
 
-    // the method set in registerOnChange, it is just 
-    // a placeholder for a method that takes one parameter, 
+    // the method set in registerOnChange, it is just
+    // a placeholder for a method that takes one parameter,
     // we use it to emit changes back to the form
     private propagateChange = (_: any) => { };
 }

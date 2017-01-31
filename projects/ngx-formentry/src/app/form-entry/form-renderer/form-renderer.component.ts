@@ -23,6 +23,7 @@ import { FormErrorsService } from '../services';
 })
 export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestroy {
 
+    static errorFieldSubLocked: boolean = false;
     @Input() node: NodeBase;
     @Input() parentGroup: AfeFormGroup;
     showTime: boolean;
@@ -36,10 +37,15 @@ export class FormRendererComponent implements OnInit, AfterViewChecked, OnDestro
         private dataSources: DataSources, private formErrorsService: FormErrorsService,
          @Inject(DOCUMENT) private document: Document) {
         this.activeTab = 0;
-        formErrorsService.announceErrorField$.subscribe(
-            error => {
-                this.scrollToControl(error);
-            });
+
+        if (!FormRendererComponent.errorFieldSubLocked) {
+          FormRendererComponent.errorFieldSubLocked = true;
+          formErrorsService.announceErrorField$.subscribe(
+              error => {
+                    this.scrollToControl(error);
+              });
+        }
+
     }
 
     ngOnInit() {
