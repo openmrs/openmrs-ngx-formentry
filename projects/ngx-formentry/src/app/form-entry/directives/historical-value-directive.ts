@@ -1,7 +1,7 @@
 import { Directive, HostListener, Input, Output, EventEmitter } from '@angular/core';
 
 import { HistoricalFieldHelperService } from '../helpers/historical-field-helper-service';
-import  *  as _  from 'lodash';
+import *  as _ from 'lodash';
 import { NodeBase } from '../form-factory/form-node';
 
 @Directive({
@@ -23,7 +23,8 @@ export class HistoricalValueDirective {
 
     if (target.name === 'historyValue') {
 
-      if (this._node && (this._node.question.renderingType !== 'page' || this._node.question.renderingType !== 'section')) {
+      if (this._node && (!this.compareString(this._node.question.renderingType, 'page')
+        || !this.compareString(this._node.question.renderingType, 'section'))) {
 
         this._node.control.setValue(this._node.question.historicalDataValue.value);
 
@@ -34,7 +35,13 @@ export class HistoricalValueDirective {
 
     }
   }
-
+  private compareString(a, b) {
+    if (a === b) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   @Input()
   set node(node: NodeBase) {
 
@@ -43,8 +50,8 @@ export class HistoricalValueDirective {
       if (node.question.enableHistoricalValue) {
         this._node = node;
         if ((this._node.question.renderingType === 'select'
-            || this._node.question.renderingType === 'multi-select')
-            && !_.isUndefined(this._node.question.historicalDataValue)) {
+          || this._node.question.renderingType === 'multi-select')
+          && !_.isUndefined(this._node.question.historicalDataValue)) {
           let display = {
             text: this.historicalFieldHelper.getDisplayTextFromOptions(
               this._node.question,
