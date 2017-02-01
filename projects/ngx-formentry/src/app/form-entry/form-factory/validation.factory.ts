@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import { Validators } from '@angular/forms';
 import * as _ from 'lodash';
 
+import { ConditionalRequiredValidator } from '../validators/conditional-required.validator';
 import { RequiredValidator } from '../validators/required.validator';
 import { DateValidator } from '../validators/date.validator';
 import { MinValidator } from '../validators/min.validator';
@@ -17,6 +18,7 @@ import { DateValidationModel } from '../question-models/date-validation.model';
 import { MaxValidationModel} from '../question-models/max-validation.model';
 import { MinValidationModel} from '../question-models/min-validation.model';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
+import { ConditionalRequiredValidationModel } from '../question-models/conditional-required-validation.model';
 
 @Injectable()
 export class ValidationFactory {
@@ -33,14 +35,12 @@ export class ValidationFactory {
 
         switch (validator.type) {
           case 'date':
-
             list.push(this.dateValidator);
             let allowFutureDates: boolean = ( <DateValidationModel>validator ).allowFutureDates;
 
             if (!allowFutureDates) {
               list.push(this.futureDateRestrictionValidator);
             }
-
             break;
           case 'js_expression':
             list.push(this.jsExpressionValidator.validate(<JsExpressionValidationModel>validator));
@@ -50,6 +50,9 @@ export class ValidationFactory {
             break;
           case 'min':
             list.push(this.getMinValueValidator((<MinValidationModel>validator).min));
+            break;
+          case 'conditionalRequired':
+            list.push(this.conditionalRequiredValidator.validate(<ConditionalRequiredValidationModel>validator));
             break;
         }
       });
@@ -63,6 +66,10 @@ export class ValidationFactory {
     }
 
     return list;
+  }
+
+  get conditionalRequiredValidator() {
+    return new ConditionalRequiredValidator();
   }
 
   get requiredValidator() {
@@ -144,6 +151,9 @@ export class ValidationFactory {
                 break;
               case 'js_expression':
                 messages.push(errors['js_expression'].message);
+                break;
+              case 'conditional_required':
+                messages.push(errors['conditional_required'].message);
                 break;
             }
         }

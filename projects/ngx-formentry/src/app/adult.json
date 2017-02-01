@@ -2510,7 +2510,7 @@
             {
               "label": "If you are assigning a new WHO stage to patient today, select new WHO stage:",
               "type": "obs",
-              "id": "adultWhoStage",
+              "id": "adultWHOStage",
               "questionOptions": {
                 "concept": "a8a8331e-1350-11df-a1f1-0026b9348838",
                 "answers": [

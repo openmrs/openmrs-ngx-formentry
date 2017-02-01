@@ -18,9 +18,9 @@ export class ControlRelationsFactory {
      let controlsStore: any = this.mapControlIds(rootNode, {});
 
     for ( let key in controlsStore ) {
-
       if ( controlsStore.hasOwnProperty(key) ) {
         let nodeBase: NodeBase = controlsStore[key];
+
         this.setRelations(controlsStore, nodeBase);
       }
     }
@@ -207,6 +207,20 @@ export class ControlRelationsFactory {
           if ( this.hasRelation(id, question) ) {
             this.addRelationToControl( node.control as AfeFormControl | AfeFormArray, nodeBase.control as AfeFormControl | AfeFormArray );
           }
+
+          // add conditional required and conditional answered relations
+          if (typeof question.required === 'object') {
+
+            let required: any = question.required;
+
+            if (required.type === 'conditionalRequired') {
+
+              if (required.referenceQuestionId === id) {
+                this.addRelationToControl( node.control as AfeFormControl | AfeFormArray,
+                  nodeBase.control as AfeFormControl | AfeFormArray );
+              }
+            }
+          }
         }
     }
   }
@@ -231,6 +245,7 @@ export class ControlRelationsFactory {
       });
     }
 
+    // add hiders and disablers relations
     if ( !hasRelation ) {
 
       if ( typeof questionBase.hide === 'string' ) {
@@ -257,11 +272,12 @@ export class ControlRelationsFactory {
           hasRelation = true;
         }
       }
+    }
 
-      if (questionBase.calculateExpression && questionBase.calculateExpression.length > 0
-        && questionBase.calculateExpression.indexOf(id) !== -1) {
-        hasRelation = true;
-      }
+    // add calculate expressions relations
+    if (!hasRelation && questionBase.calculateExpression && questionBase.calculateExpression.length > 0
+      && questionBase.calculateExpression.indexOf(id) !== -1) {
+      hasRelation = true;
     }
 
     return hasRelation;
