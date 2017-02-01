@@ -2,6 +2,9 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
+import { MdTabsModule } from '@angular/material';
+
+
 import { FormErrorsService } from './services';
 import { FormControlService } from './form-factory/form-control.service';
 import { ValidationFactory } from './form-factory/validation.factory';
@@ -30,7 +33,8 @@ import { DataSources } from './data-sources/data-sources';
         ReactiveFormsModule,
         SelectModule,
         DateTimePickerModule,
-        RemoteSelectModule
+        RemoteSelectModule,
+        MdTabsModule.forRoot()
     ],
     declarations: [
         FormRendererComponent,
