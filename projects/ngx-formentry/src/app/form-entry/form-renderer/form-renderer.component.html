@@ -1,12 +1,14 @@
 <!--CONTAINERS-->
 <div *ngIf="node.question.renderingType === 'form'">
-  <md-tab-group [selectedIndex]="activeTab">
-    <md-tab [label]="question.label" *ngFor="let question of node.question.questions; let i = index;">
-      <div (swipeRight)="loadPreviousTab($event)" (swipeLeft)="loadNextTab($event)">
-        <form-renderer [node]="node.children[question.key]" [parentGroup]="node.control"></form-renderer>
-      </div>
-    </md-tab>
-  </md-tab-group>
+  <div #slick class="slider swipe-tabs">
+    <div role="presentation" (click)="clickTab(i)" class="swipe-tab" [class.active-tab]="activeTab === i" *ngFor="let page of node.question.questions; let i = index;">{{page.label}}
+    </div>
+  </div>
+  <div *ngFor="let question of node.question.questions; let i = index;">
+    <div [class.active]="activeTab === i" *ngIf="activeTab === i">
+      <form-renderer [node]="node.children[question.key]" [parentGroup]="node.control"></form-renderer>
+    </div>
+  </div>
   <div style="text-align: center;">
 <button type="button" class="btn btn-default" (click)="loadPreviousTab()" [ngClass]="{disabled: isCurrentTabFirst()}">&lt;&lt;</button>
 <button type="button" class="btn btn-default" (click)="loadNextTab()" [ngClass]="{disabled: isCurrentTabLast()}">
