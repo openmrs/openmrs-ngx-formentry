@@ -1,5 +1,19 @@
 <div class='row'>
-    <div class='col-xs-8 col-md-8' [ngClass]="{'col-xs-12 col-md-12': !showTime }">
+    <div *ngIf="!showTime" class='col-xs-12 col-md-12'>
+        <input *ngIf="!showWeeks" type="text" class="form-control" [value]="value | date: 'mediumDate'" (focus)="toggleDatePicker(true)"
+            readonly placeholder="Select Date" />
+        <div *ngIf="showWeeks" class="input-group">
+            <input type="text" class="form-control" class="form-control" [value]="value | date: 'mediumDate'" (focus)="toggleDatePicker(true)"
+                readonly placeholder="Select Date">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Weeks <span class="caret"></span></button>
+                <ul class="dropdown-menu up">
+                    <li (click)="weeksSelected(count)" *ngFor="let count of weeks"><span> {{count}} Weeks</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="showTime" class='col-xs-8 col-md-8'>
         <input *ngIf="!showWeeks" type="text" class="form-control" [value]="value | date: 'mediumDate'" (focus)="toggleDatePicker(true)"
             readonly placeholder="Select Date" />
         <div *ngIf="showWeeks" class="input-group">
