@@ -17,7 +17,7 @@ import { DateValidationModel } from '../question-models/date-validation.model';
 import { MaxValidationModel} from '../question-models/max-validation.model';
 import { MinValidationModel} from '../question-models/min-validation.model';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
-import { ConditionalRequiredValidationModel } from '../question-models/conditional-required-validation.model';
+import { ConditionalValidationModel } from '../question-models/conditional-validation.model';
 import { DummyDataSource } from '../data-sources/dummy-data-source';
 import { HistoricalHelperService } from '../helpers/historical-expression-helper-service';
 import { Form } from './form';
@@ -670,6 +670,9 @@ export class QuestionFactory {
           case 'js_expression':
             validators.push(new JsExpressionValidationModel(validator));
             break;
+          case 'conditionalAnswered':
+            validators.push(new ConditionalValidationModel(validator));
+            break;
           default:
             validators.push(new ValidationModel(validator));
             break;
@@ -705,7 +708,7 @@ export class QuestionFactory {
 
       if (required.type === 'conditionalRequired') {
 
-        validators.push(new ConditionalRequiredValidationModel({
+        validators.push(new ConditionalValidationModel({
           referenceQuestionId: required.referenceQuestionId,
           referenceQuestionAnswers: required.referenceQuestionAnswers,
           type: required.type,

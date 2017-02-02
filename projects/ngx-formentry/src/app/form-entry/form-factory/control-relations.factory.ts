@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 // import { ControlRelation } from  '../../change-tracking/control-relation';
 import { QuestionBase} from '../question-models/question-base';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
+import { ConditionalValidationModel } from  '../question-models/conditional-validation.model';
 import { NodeBase, GroupNode, LeafNode, ArrayNode } from './form-node';
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { AfeFormArray } from '../../abstract-controls-extension/afe-form-array';
@@ -204,7 +205,7 @@ export class ControlRelationsFactory {
           let node: NodeBase = controlsStore[key];
           let question: QuestionBase = node.question;
 
-          if ( this.hasRelation(id, question) ) {
+          if ( this.hasRelation(id, question, nodeBase) ) {
             this.addRelationToControl( node.control as AfeFormControl | AfeFormArray, nodeBase.control as AfeFormControl | AfeFormArray );
           }
 
@@ -225,7 +226,7 @@ export class ControlRelationsFactory {
     }
   }
 
-  hasRelation(id: string, questionBase: QuestionBase) {
+  hasRelation(id: string, questionBase: QuestionBase, nodeBase?: NodeBase) {
 
     let hasRelation = false;
 
@@ -241,6 +242,9 @@ export class ControlRelationsFactory {
           if (failsWhenExpression && failsWhenExpression.indexOf(id) !== -1) {
             hasRelation = true;
           }
+        } else if (element instanceof ConditionalValidationModel && element.type === 'conditionalAnswered'
+          && element.referenceQuestionId === id) {
+          hasRelation = true;
         }
       });
     }

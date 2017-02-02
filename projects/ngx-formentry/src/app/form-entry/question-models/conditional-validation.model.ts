@@ -1,6 +1,6 @@
 import { ValidationModel } from './validation.model';
 
-export class ConditionalRequiredValidationModel extends ValidationModel {
+export class ConditionalValidationModel extends ValidationModel {
 
   referenceQuestionId: string;
   referenceQuestionAnswers: any;

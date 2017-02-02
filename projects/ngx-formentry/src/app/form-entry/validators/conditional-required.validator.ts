@@ -1,11 +1,11 @@
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
-import { ConditionalRequiredValidationModel } from '../question-models/conditional-required-validation.model';
+import { ConditionalValidationModel } from '../question-models/conditional-validation.model';
 
 export class ConditionalRequiredValidator {
 
   constructor() {}
 
-  validate(model: ConditionalRequiredValidationModel) {
+  validate(model: ConditionalValidationModel) {
 
     // convert helper functions to string
     return (control: AfeFormControl): { [key: string]: any } => {
