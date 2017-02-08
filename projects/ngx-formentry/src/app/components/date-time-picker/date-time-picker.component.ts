@@ -21,7 +21,7 @@ export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
     @Input() showDate: boolean = true;
     @Input() showTime: boolean = false;
     @Input() showWeeks: boolean = false;
-    @Input() weeks: number[] = [1, 2, 4, 6, 8, 12, 16, 24];
+    @Input() weeks: number[] = [2, 4, 6, 8, 12, 16, 24];
     private showDatePicker: boolean = false;
     private showTimePicker: boolean = false;
     onChange: any = () => { };
