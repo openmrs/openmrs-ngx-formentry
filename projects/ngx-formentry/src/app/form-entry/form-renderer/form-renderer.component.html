@@ -52,10 +52,9 @@
             [options]="node.question.options" [multiple]="true">
             </ng-select>
             <input class="form-control" *ngSwitchCase="'number'" [formControlName]="node.question.key " [attr.placeholder]="node.question.placeholder "
-              [type]="'number'" [id]="node.question.key + 'id' " [step]="'any'" [min]="node.question.extras.questionOptions.min"
-                   [max]="node.question.extras.questionOptions.max">
+              [type]="'number'" [id]="node.question.key + 'id' " [min]="node.question.extras.questionOptions.min" [max]="node.question.extras.questionOptions.max">
               <input class="form-control" *ngSwitchDefault [formControlName]="node.question.key " [attr.placeholder]="node.question.placeholder "
-                [type]="node.question.renderingType" [id]="node.question.key + 'id' ">
+                [type]="node.question.key === 'bmi' ? 'text' : node.question.renderingType" [id]="node.question.key + 'id' ">
                 <div *ngIf="node.question.enableHistoricalValue && node.question.historicalDisplay">
                   <div class="container-fluid">
                     <div class="row">

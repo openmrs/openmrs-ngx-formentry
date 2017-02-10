@@ -6,13 +6,31 @@
 *::after {
   box-sizing: border-box; }
 
+.x-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll; }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3); }
 
 .modal-main {
   position: absolute;
-  left: 19.6%;
+  top: 38%;
   right: auto;
-  top:auto;
+  bottom: auto;
+  left: 50%;
   z-index: 111;
   background-color: #fff;
   border: 1px solid #d7dad7;
