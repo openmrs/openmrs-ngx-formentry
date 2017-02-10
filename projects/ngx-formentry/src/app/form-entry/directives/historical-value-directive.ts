@@ -18,10 +18,10 @@ export class HistoricalValueDirective {
   constructor(private historicalFieldHelper: HistoricalFieldHelperService) {
   }
 
-  @HostListener('click', ['$event.target'])
-  setValue(target: HTMLButtonElement) {
+  @HostListener('click', ['$event'])
+  setValue(e) {
 
-    if (target.name === 'historyValue') {
+    if (e.target.name === 'historyValue') {
 
       if (this._node && (!this.compareString(this._node.question.renderingType, 'page')
         || !this.compareString(this._node.question.renderingType, 'section'))) {
@@ -29,8 +29,9 @@ export class HistoricalValueDirective {
         this._node.control.setValue(this._node.question.historicalDataValue.value);
 
         this._node.question['historicalValue'] = this._node.question.historicalDataValue;
-
+        e.stopPropagation();
         this._nodeChange.emit(this._node);
+
       }
 
     }
