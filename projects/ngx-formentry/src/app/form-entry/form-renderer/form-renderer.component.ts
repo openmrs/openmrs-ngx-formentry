@@ -106,6 +106,6 @@ export class FormRendererComponent implements OnInit {
         setTimeout(() => {
             let element: any = this.document.getElementById(elSelector);
             element.focus();
-        }, 300);
+        }, 500);
     }
 }
