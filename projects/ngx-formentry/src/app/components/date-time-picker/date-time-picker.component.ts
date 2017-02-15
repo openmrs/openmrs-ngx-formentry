@@ -58,12 +58,12 @@ export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
     toggleDatePicker(status: boolean): void {
       this.showDatePicker = status;
       setTimeout(function() {
-        let _body = document.getElementsByClassName('md-tab-body-active')[0].getBoundingClientRect(),
+        let _body = document.getElementById('section-box-body').getBoundingClientRect(),
           elem = document.getElementById('section-modal-main');
         if (elem) {
           let elemBox = elem.getBoundingClientRect();
           if (elemBox.bottom > _body.bottom) {
-            elem.style.bottom = '130px';
+            elem.style.bottom = '36px';
           }
         }
       }, 0);
