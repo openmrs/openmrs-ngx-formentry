@@ -312,12 +312,17 @@ export class ObsValueAdapter implements ValueAdapter {
         return deletedObs;
     }
 
+    getExactTime(datetime: string) {
+      return datetime.substring(0, 19).replace('T', ' ');
+    }
+
     processObs(obs, obsPayload) {
         if (obs.control && obs.question.extras) {
-            let obsValue = {
-                concept: obs.question.extras.questionOptions.concept,
-                value: obs.control.value
-            };
+          let obsValue = {
+            concept: obs.question.extras.questionOptions.concept,
+            value: (obs.question.extras.questionOptions.rendering === 'date' && !this.isEmpty(obs.control.value)) ?
+              this.getExactTime(obs.control.value) : obs.control.value
+          };
 
             if (obs.question.extras.questionOptions.rendering === 'multiCheckbox') {
                 let multis = this.processMultiSelect(obs.question.extras.questionOptions.concept, obs.control.value);
