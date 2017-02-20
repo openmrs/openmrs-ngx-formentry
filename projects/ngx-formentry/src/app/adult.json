@@ -2260,6 +2260,7 @@
             {
               "label": "Height(CM):",
               "id": "height",
+              "historicalExpression": "HD.getObject('prevEnc').getValue('a8a6619c-1350-11df-a1f1-0026b9348838')",
               "questionOptions": {
                 "rendering": "number",
                 "concept": "a8a6619c-1350-11df-a1f1-0026b9348838",
