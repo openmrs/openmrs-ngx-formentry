@@ -87,7 +87,7 @@ export class FormControlService {
     generateFormControl(question: QuestionBase, parentControl?: AfeFormGroup, form?: Form): AfeFormControl {
 
         let value = question.defaultValue || '';
-        let validators = this.validationFactory.getValidators(question);
+        let validators = this.validationFactory.getValidators(question, form);
 
         let control = new AfeFormControl(value, validators);
         control.uuid = question.key;

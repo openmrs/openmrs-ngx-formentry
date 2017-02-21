@@ -8,7 +8,7 @@ export class JsExpressionValidator {
 
   constructor() {}
 
-  validate(model: JsExpressionValidationModel) {
+  validate(model: JsExpressionValidationModel, form?: any) {
 
     // convert helper functions to string
     return (control: AfeFormControl): { [key: string]: any } => {
@@ -22,7 +22,7 @@ export class JsExpressionValidator {
       let dataDependencies = {};
 
       let helperFunctions = helper.helperFunctions;
-      let runnable = new ExpressionRunner().getRunnable(expression, control, helperFunctions, dataDependencies);
+      let runnable = new ExpressionRunner().getRunnable(expression, control, helperFunctions, dataDependencies, form);
 
       if (runnable.run()) {
 

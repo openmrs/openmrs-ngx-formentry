@@ -26,7 +26,7 @@ export class ValidationFactory {
 
   constructor() {}
 
-  getValidators(question: QuestionBase) {
+  getValidators(question: QuestionBase, form?: any) {
 
     let list: Array<any> = [];
 
@@ -44,7 +44,7 @@ export class ValidationFactory {
             }
             break;
           case 'js_expression':
-            list.push(this.jsExpressionValidator.validate(<JsExpressionValidationModel>validator));
+            list.push(this.jsExpressionValidator.validate(<JsExpressionValidationModel>validator, form));
             break;
           case 'max':
             list.push(this.getMaxValueValidator((<MaxValidationModel>validator).max));
