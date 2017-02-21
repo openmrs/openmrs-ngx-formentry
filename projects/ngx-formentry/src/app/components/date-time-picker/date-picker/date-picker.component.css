@@ -70,7 +70,7 @@
     text-align: left;
     color: #999;
     width: calc(100% / 7); }
-  .picker-calendar .picker-day {
+  .picker-calendar .picker-day, .picker-calendar .picker-month, .picker-calendar .picker-year {
     font-size: 1.333rem;
     line-height: 2.5rem;
     position: relative;
@@ -78,7 +78,7 @@
     text-align: center;
     cursor: pointer;
     width: calc(100% / 7); }
-    .picker-calendar .picker-day:hover {
+    .picker-calendar .picker-day:hover, .picker-calendar .picker-month:hover, .picker-calendar .picker-year:hover {
       background: #b1dcfb; }
   .picker-calendar .out-focus {
     color: #ddd; }
