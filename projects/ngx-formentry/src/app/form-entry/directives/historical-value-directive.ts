@@ -47,23 +47,27 @@ export class HistoricalValueDirective {
   set node(node: NodeBase) {
 
     if (node) {
-
-      if (node.question.enableHistoricalValue) {
-        this._node = node;
+      this._node = node;
+      if (this._node.question.enableHistoricalValue && !_.isUndefined(this._node.question.historicalDataValue)) {
+        let display: any = { text: '', _date: '' };
         if ((this._node.question.renderingType === 'select'
-          || this._node.question.renderingType === 'multi-select')
-          && !_.isUndefined(this._node.question.historicalDataValue)) {
-          let display = {
-            text: this.historicalFieldHelper.getDisplayTextFromOptions(
-              this._node.question,
-              'value',
-              'label'
-            ),
-            _date: this._node.question.historicalDataValue.valueDate
-          };
+          || this._node.question.renderingType === 'multi-select')) {
+
+          display.text = this.historicalFieldHelper.getDisplayTextFromOptions(
+            this._node.question,
+            'value',
+            'label'
+          );
+          display._date = this._node.question.historicalDataValue.valueDate;
 
           this._node.question['historicalDisplay'] = display;
 
+        } else if (!_.isUndefined(this._node.question.historicalDataValue)) {
+
+          display.text = this._node.question.historicalDataValue.value;
+          display._date = this._node.question.historicalDataValue.valueDate;
+
+          this._node.question['historicalDisplay'] = display;
         }
       }
     }
