@@ -33,13 +33,13 @@ export class DatePickerComponent implements OnInit {
   calendarDate: Moment;
   selectedDate: Moment;
   today: Moment;
-  currentMonth: Moment;
-  currentYear: Moment;
+  currentMonth: string;
+  currentYear: number;
   onDisplayMonths: boolean = false;
   onDisplayYears: boolean = false;
   displayYearsIndex: number = 0;
   displayYearRange: Array<number>;
-  fullYearRange: Array<number>;
+  fullYearRange: Array<any>;
   monthsShort: Array<string> = moment.monthsShort();
   calendarDays: Array<Moment>;
 
@@ -110,7 +110,7 @@ export class DatePickerComponent implements OnInit {
     this.generateCalendar();
   }
 
-  selectYear(year: string) {
+  selectYear(year: number) {
     this.calendarDate = this.calendarDate.clone().year(year);
     this.onDisplayYears = false;
     this.generateCalendar();
@@ -134,9 +134,9 @@ export class DatePickerComponent implements OnInit {
     return;
   }
 
-  protected generateYears(): Array<any> {
-    const startYr = this.calendarDate.clone().subtract(100, 'Y').year();
-    const endYr = this.calendarDate.clone().add(10, 'Y').year();
+  protected generateYears(): void {
+    const startYr = this.calendarDate.clone().subtract(100, 'y').year();
+    const endYr = this.calendarDate.clone().add(10, 'y').year();
     let years = [];
     for (let year = startYr; year < endYr; year++) {
       years.push(year);
