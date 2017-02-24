@@ -1,5 +1,13 @@
 <!--CONTAINERS-->
 <div *ngIf="node.question.renderingType === 'form'">
+  <div class="dropdown dropdown-tabs">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-angle-double-down"></i></a>
+    <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
+      <li *ngFor="let question of node.question.questions; let i = index;" (click)="clickTab(i)">
+        {{question.label}}
+      </li>
+    </ul>
+  </div>
   <md-tab-group (selectChange)='tabSelected($event)' [selectedIndex]='activeTab'>
     <md-tab [label]='question.label' *ngFor="let question of node.question.questions; let i = index;">
       <div (swipeLeft)='loadNextTab()' (swipeRight)='loadPreviousTab()'>

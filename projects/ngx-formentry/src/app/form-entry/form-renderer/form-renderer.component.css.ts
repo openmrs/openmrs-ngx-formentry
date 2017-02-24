@@ -8,12 +8,11 @@ export const DEFAULT_STYLES = `a {
     ul {
       list-style-type: none;
       margin: 2px auto;
-      background: #353434;
       position: relative;
     }
 
     li {
-      display: inline-block;
+      display: block;
       padding: 10px 20px;
       white-space: nowrap;
       transition: all 0.3s ease-in;
