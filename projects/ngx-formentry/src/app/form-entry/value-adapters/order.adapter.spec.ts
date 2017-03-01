@@ -62,7 +62,6 @@ describe('Orders Value Adapter', () => {
         it('should populate form with additional orders and generate payload', inject([OrderValueAdapter, FormFactory],
             (s: OrderValueAdapter, f: FormFactory) => {
                 let form = f.createForm(adultForm);
-
                 s.formOrderNodes = [];
                 s.populateForm(form, adultFormOrders);
 

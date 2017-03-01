@@ -11,6 +11,7 @@ import { AfeFormArray } from '../../abstract-controls-extension/afe-form-array';
 export class Form {
   public rootNode: GroupNode;
   public valueProcessingInfo: any = {};
+    public existingOrders: any = {};
   private _dataSourcesContainer: DataSources;
   private _showErrors: boolean = false;
   constructor(public schema: any, public FormFactory: FormFactory, public questionFactory: QuestionFactory) {

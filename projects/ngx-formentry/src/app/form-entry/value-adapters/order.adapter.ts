@@ -4,21 +4,21 @@ import { ValueAdapter } from './value.adapter';
 import * as _ from 'lodash';
 @Injectable()
 export class OrderValueAdapter implements ValueAdapter {
-    formOrderNodes = [];
-    existingOrders = [];
+    private formOrderNodes = [];
     private provider = '';
 
     generateFormPayload(form: Form) {
         this.formOrderNodes = [];
         this._setOrderProvider(form);
         this._findTestOrderQuestionNodes(form.rootNode);
-        return this._createOrdersPayload(this.formOrderNodes);
+        return this._createOrdersPayload(this.formOrderNodes, form);
     }
 
     populateForm(form: Form, payload) {
+        form.existingOrders = payload;
         this.formOrderNodes = [];
         this._findTestOrderQuestionNodes(form.rootNode);
-        let existingOrders = this._getExistingOrders(payload);
+        let existingOrders = this._getExistingOrders(form);
         this._setOrderValues(this.formOrderNodes, existingOrders);
     }
 
@@ -28,17 +28,20 @@ export class OrderValueAdapter implements ValueAdapter {
         }
     }
 
-    private _createOrdersPayload(orderNodes) {
+    private _createOrdersPayload(orderNodes, form: Form) {
         let payload = [];
         let selectedOrders = [];
         let deletedOrders = [];
-
+        let existingOrders = this._getExistingOrders(form);
         for (let orderNode of orderNodes) {
             let orderNodeValues = orderNode.control.value;
             let orders = [];
-            this.existingOrders.map(function (obj) {
-                orders[obj.concept] = obj.concept;
-            });
+            if (existingOrders) {
+                existingOrders.map(function (obj) {
+                    orders[obj.concept] = obj.concept;
+                });
+            }
+
 
             for (let order in orderNodeValues) {
                 if (orderNodeValues.hasOwnProperty(order)) {
@@ -63,7 +66,7 @@ export class OrderValueAdapter implements ValueAdapter {
 
         }
 
-        deletedOrders = this._getDeletedOrders(selectedOrders);
+        deletedOrders = this._getDeletedOrders(selectedOrders, existingOrders);
         this._addDeletedOrdersToPayload(deletedOrders, payload);
 
         return _.uniqBy(payload, function (order) {
@@ -71,24 +74,27 @@ export class OrderValueAdapter implements ValueAdapter {
         });
     }
 
-    private _getExistingOrders(encounterPayload) {
+    private _getExistingOrders(form: Form) {
+        if (form.existingOrders && form.existingOrders.orders) {
+            let existingOrders = form.existingOrders.orders.map((o) => {
+                return {
+                    concept: o.concept.uuid,
+                    orderNumber: o.orderNumber,
+                    orderUuid: o.uuid,
+                    voided: o.voided,
+                };
+            });
 
-        let existingOrders = encounterPayload.orders.map((o) => {
-            return {
-                concept: o.concept.uuid,
-                orderNumber: o.orderNumber,
-                orderUuid: o.uuid,
-                voided: o.voided,
-            };
-        });
-
-        return this.existingOrders = _.filter(existingOrders, (order: any) => {
-            if (order.voided === true) {
-                return false;
-            } else {
-                return true;
-            }
-        });
+            return existingOrders = _.filter(existingOrders, (order: any) => {
+                if (order.voided === true) {
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+        } else {
+            return;
+        }
 
     }
 
@@ -130,15 +136,15 @@ export class OrderValueAdapter implements ValueAdapter {
         return order;
     }
 
-    private _getDeletedOrders(selectedOrders): any {
+    private _getDeletedOrders(selectedOrders, existingOrders): any {
         let deleteOrders = [];
         if (selectedOrders) {
-            for (let order in this.existingOrders) {
-                if (this.existingOrders.hasOwnProperty(order)) {
-                    let existingOrderConcept = this.existingOrders[order].concept;
+            for (let order in existingOrders) {
+                if (existingOrders.hasOwnProperty(order)) {
+                    let existingOrderConcept = existingOrders[order].concept;
                     let selectedOrder = selectedOrders[existingOrderConcept];
                     if (selectedOrder !== existingOrderConcept) {
-                        deleteOrders.push(this.existingOrders[order].orderUuid);
+                        deleteOrders.push(existingOrders[order].orderUuid);
                     }
                 }
             }
