@@ -120,7 +120,10 @@ export class FormControlService {
         if (question.calculateExpression && question.calculateExpression !== '') {
             let helper: JsExpressionHelper = new JsExpressionHelper();
             let runner: ExpressionRunner = new ExpressionRunner();
-            let runnable: Runnable = runner.getRunnable(question.calculateExpression, control, helper.helperFunctions, {});
+            let runnable: Runnable = runner.getRunnable(question.calculateExpression
+              , control,
+              helper.helperFunctions,
+              dataSource);
             // this functionality strictly assumes the calculateExpression function has been defined in the JsExpressionHelper class
             control.setCalculatorFn(runnable.run);
         }
