@@ -65,10 +65,41 @@ export class Form {
     return found;
   }
 
-  searchNodeByQuestionId(questionId: string): Array<NodeBase> {
+  searchNodeByQuestionId(questionId: string, questionType?: string): Array<NodeBase> {
     let found = [];
-    this.findNodesByQuestionId(this.rootNode, questionId, found);
+    if (questionType) {
+      this.searchNodeByQuestionType(this.rootNode, questionType, found);
+    } else {
+      this.findNodesByQuestionId(this.rootNode, questionId, found);
+    }
     return found;
+  }
+
+  searchNodeByQuestionType(rootNode: any, questionType: string , found: Array<NodeBase>) {
+
+    if (rootNode instanceof GroupNode) {
+      let nodeAsGroup = rootNode as GroupNode;
+      // tslint:disable-next-line:forin
+      for (let o in nodeAsGroup.children) {
+        this.searchNodeByQuestionType(nodeAsGroup.children[o], questionType, found);
+      }
+    }
+
+    if (rootNode instanceof ArrayNode) {
+      let nodeAsArray = rootNode as ArrayNode;
+
+      nodeAsArray.children.forEach(node => {
+        this.searchNodeByQuestionType(node, questionType, found);
+      });
+    }
+
+    if (rootNode instanceof LeafNode) {
+      let questionBase: QuestionBase = rootNode.question;
+
+      if (questionBase.extras && questionBase.extras.type && questionBase.extras.type === questionType) {
+        found.push(rootNode);
+      }
+    }
   }
 
   private findNodesByQuestionId(rootNode: NodeBase, questionId: string,
