@@ -381,6 +381,7 @@ export class QuestionFactory {
     question.key = schemaQuestion.label;
     question.renderingType = 'section';
     question.controlType = AfeControlType.None;
+    question.isExpanded = schemaQuestion.isExpanded === 'true' ? true : false;
     question.questions = this.getSchemaQuestions(schemaQuestion.questions);
     return question;
   }
