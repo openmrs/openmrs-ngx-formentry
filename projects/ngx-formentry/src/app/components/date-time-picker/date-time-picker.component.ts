@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as Moment from 'moment';
+import { Output } from '@angular/core/src/metadata/directives';
 
 const myDpTpl: string = require('./date-time-picker.component.html');
 const myDpStyles: string = require('./date-time-picker.component.css');
@@ -22,6 +23,7 @@ export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
     @Input() showTime: boolean = false;
     @Input() showWeeks: boolean = false;
     @Input() weeks: number[] = [2, 4, 6, 8, 12, 16, 24];
+    @Output() onDateChange = new EventEmitter<any>();
     private showDatePicker: boolean = false;
     private showTimePicker: boolean = false;
     onChange: any = () => { };
@@ -80,6 +82,7 @@ export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
 
     set value(val) {
         this.modelValue = val;
+        this.onDateChange.emit(val);
         this.onChange(val);
         this.onTouched();
     }
@@ -95,7 +98,6 @@ export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
     writeValue(value) {
         if (value instanceof Date) {
             this.value = Moment(value).format();
-            console.log('Date', this.value);
         } else {
             this.value = value;
         }
