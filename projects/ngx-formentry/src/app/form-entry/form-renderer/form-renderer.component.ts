@@ -11,6 +11,8 @@ import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
 import { ValidationFactory } from '../form-factory/validation.factory';
 import { DataSource } from '../question-models/interfaces/data-source';
 import { FormErrorsService } from '../services';
+import { QuestionGroup } from '../question-models/group-question';
+
 @Component({
   selector: 'form-renderer',
   templateUrl: 'form-renderer.component.html',
@@ -18,12 +20,15 @@ import { FormErrorsService } from '../services';
 })
 export class FormRendererComponent implements OnInit {
 
+  @Input() parentComponent: FormRendererComponent;
   @Input() node: NodeBase;
   @Input() parentGroup: AfeFormGroup;
+  childComponents: FormRendererComponent[] = [];
   showTime: boolean;
   showWeeks: boolean;
   activeTab: number;
   dataSource: DataSource;
+  public isCollapsed: boolean = false;
 
   constructor(private validationFactory: ValidationFactory,
               private dataSources: DataSources, private formErrorsService: FormErrorsService,
@@ -39,12 +44,24 @@ export class FormRendererComponent implements OnInit {
         this.activeTab = tab;
       }
     }
-    if (this.node.question.renderingType === 'form') {
+    if (this.node && this.node.question.renderingType === 'form') {
       this.formErrorsService.announceErrorField$.subscribe(
         error => {
           this.scrollToControl(error);
         });
     }
+
+    if (this.node && this.node.question.renderingType === 'section') {
+       this.isCollapsed = !(this.node.question as QuestionGroup).isExpanded;
+    }
+
+    if (this.parentComponent) {
+      this.parentComponent.addChildComponent(this);
+    }
+  }
+
+  addChildComponent(child: FormRendererComponent) {
+    this.childComponents.push(child);
   }
 
   setUpRemoteSelect() {
@@ -112,13 +129,27 @@ export class FormRendererComponent implements OnInit {
   }
 
   scrollToControl(error: string) {
+
     let tab: number = +error.split(',')[0];
     let elSelector = error.split(',')[1] + 'id';
+
+    // the tab components
+    let tabComponent: FormRendererComponent = this.childComponents[tab];
+
     this.clickTab(tab);
 
     setTimeout(() => {
-      let element: any = this.document.getElementById(elSelector);
-      element.focus();
-    }, 800);
+
+      // expand all sections
+      tabComponent.childComponents.forEach(section => {
+        section.isCollapsed = false;
+
+        setTimeout(() => {
+          let element: any = this.document.getElementById(elSelector);
+          element.focus();
+        }, 200);
+      });
+
+    }, 200);
   }
 }

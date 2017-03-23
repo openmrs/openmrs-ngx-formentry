@@ -11,7 +11,7 @@
   <md-tab-group (selectChange)='tabSelected($event)' [selectedIndex]='activeTab'>
     <md-tab [label]='question.label' *ngFor="let question of node.question.questions; let i = index;">
       <div (swipeLeft)='loadNextTab()' (swipeRight)='loadPreviousTab()'>
-        <form-renderer [node]="node.children[question.key]" [parentGroup]="node.control"></form-renderer>
+        <form-renderer [node]="node.children[question.key]" [parentComponent]="this" [parentGroup]="node.control"></form-renderer>
       </div>
     </md-tab>
   </md-tab-group>
@@ -24,13 +24,18 @@
 </div>
 <div *ngIf="node.question.renderingType === 'page'">
   <!--<h2>{{node.question.label}}</h2>-->
-  <form-renderer *ngFor="let question of node.question.questions" [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
+  <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this" [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
 </div>
 <div *ngIf="node.question.renderingType === 'section'">
   <div class="panel  panel-primary">
-    <div class="panel-heading">{{node.question.label}}</div>
-    <div class="panel-body">
-      <form-renderer *ngFor="let question of node.question.questions" [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
+    <div class="panel-heading">
+      <button type="button" class="btn btn-primary pull-right" (click)="isCollapsed = !isCollapsed">
+        {{isCollapsed ? 'Show' : 'Hide'}}
+      </button>
+      {{node.question.label}}
+    </div>
+    <div class="panel-body" [collapse]="isCollapsed">
+      <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this" [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
     </div>
   </div>
 </div>
@@ -100,7 +105,7 @@
         <div [ngSwitch]="node.question.extras.type">
           <div *ngSwitchCase="'testOrder'">
             <div *ngFor="let child of node.children; let i=index ">
-              <form-renderer *ngFor="let question of child.question.questions " [node]="child.children[question.key]
+              <form-renderer *ngFor="let question of child.question.questions " [parentComponent]="this" [node]="child.children[question.key]
             " [parentGroup]="child.control "></form-renderer>
                 <div>{{child.orderNumber}}</div>
                 <button type="button " class='btn btn-sm btn-danger' (click)="node.removeAt(i) ">Remove</button>
@@ -111,7 +116,7 @@
 
           <div *ngSwitchCase="'obsGroup'" style="margin-bottom:20px;">
             <div *ngFor="let child of node.children; let i=index ">
-              <form-renderer *ngFor="let question of child.question.questions " [node]="child.children[question.key]
+              <form-renderer *ngFor="let question of child.question.questions " [parentComponent]="this" [node]="child.children[question.key]
             " [parentGroup]="child.control "></form-renderer>
                 <button type="button " class='btn btn-sm btn-danger' (click)="node.removeAt(i) ">Remove</button>
                 <br/>
@@ -129,11 +134,11 @@
     <!--GROUP-->
     <div [ngSwitch]="node.question.renderingType ">
       <div *ngSwitchCase=" 'group' ">
-        <form-renderer *ngFor="let question of node.question.questions " [node]="node.children[question.key]
+        <form-renderer *ngFor="let question of node.question.questions " [parentComponent]="this" [node]="node.children[question.key]
             " [parentGroup]="node.control "></form-renderer>
       </div>
       <div *ngSwitchCase=" 'field-set' " style="border: 1px solid #eeeeee; padding: 2px; margin: 2px;">
-        <form-renderer *ngFor="let question of node.question.questions " [node]="node.children[question.key]
+        <form-renderer *ngFor="let question of node.question.questions " [parentComponent]="this" [node]="node.children[question.key]
             " [parentGroup]="node.control "></form-renderer>
       </div>
     </div>

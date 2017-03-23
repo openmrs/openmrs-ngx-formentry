@@ -5,6 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { MdTabsModule } from '@angular/material';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
+import { CollapseModule } from 'ng2-bootstrap';
 import { FormErrorsService } from './services';
 import { HammerConfig } from './helpers/hammer-config';
 import { FormControlService } from './form-factory/form-control.service';
@@ -36,7 +37,8 @@ import { DataSources } from './data-sources/data-sources';
         SelectModule,
         DateTimePickerModule,
         RemoteSelectModule,
-        MdTabsModule.forRoot()
+        MdTabsModule.forRoot(),
+        CollapseModule.forRoot()
     ],
     declarations: [
         FormRendererComponent,
