@@ -138,8 +138,9 @@ describe('Obs Value Adapter: ', () => {
             }));
         it('should return new obs given a mapped obs group payload', inject([ObsValueAdapter],
             (s: ObsValueAdapter) => {
-                let obsPayload = s.createGroupNewObs([{ value: { 'uuid:value1': 'value1', 'uuid2:value2': 'value2' } }]);
-                expect(obsPayload).toEqual([{ concept: 'uuid', value: 'value1' }, { concept: 'uuid2', value: 'value2' }]);
+                let obsPayload = s.createGroupNewObs([{ value: { 'uuid:value1': 'value1', 'uuid2:value2': 'value2' } }], 'uuid');
+                expect(obsPayload).toEqual([{ 'concept': 'uuid', 'groupMembers':
+                [{ 'concept': 'uuid', 'value': 'value1' }, { 'concept': 'uuid2', 'value': 'value2' }]}]);
             }));
     });
 

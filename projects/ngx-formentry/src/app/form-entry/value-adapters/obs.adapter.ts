@@ -263,6 +263,7 @@ export class ObsValueAdapter implements ValueAdapter {
         }
         let deleted = this.leftOuterJoinArrays(initialValues, repeatingModel);
         let newObs = this.leftOuterJoinArrays(repeatingModel, initialValues);
+        let groupConcept = node.question.extras.questionOptions.concept;
         let newObsPayload = [];
         if (deleted.length > 0) {
             let deletedObs = this.createGroupDeletedObs(deleted);
@@ -270,14 +271,16 @@ export class ObsValueAdapter implements ValueAdapter {
                 obsPayload.push(d);
             }
             if (newObs.length > 0) {
-                newObsPayload = this.createGroupNewObs(newObs);
+                newObsPayload = this.createGroupNewObs(newObs, groupConcept);
             }
         } else {
-            newObsPayload = this.createGroupNewObs(newObs);
+            newObsPayload = this.createGroupNewObs(newObs, groupConcept);
         }
 
         if (newObsPayload.length > 0) {
-            obsPayload.push({ concept: node.question.extras.questionOptions.concept, groupMembers: newObsPayload });
+            for (let p of newObsPayload) {
+                obsPayload.push(p);
+            }
         }
     }
 
@@ -290,15 +293,17 @@ export class ObsValueAdapter implements ValueAdapter {
         return unique;
     }
 
-    createGroupNewObs(payload) {
+    createGroupNewObs(payload, groupConcept) {
         let newPayload = [];
         for (let obs of payload) {
+            let groupPayload = [];
             /* tslint:disable */
             for (let key in obs.value) {
                 let concept = key.split(':')[0];
                 let value = key.split(':')[1];
-                newPayload.push({ concept: concept, value: value });
+                groupPayload.push({ concept: concept, value: value });
             }
+            newPayload.push({ concept: groupConcept, groupMembers: groupPayload })
             /* tslint:enable */
         }
         return newPayload;
@@ -313,16 +318,16 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     getExactTime(datetime: string) {
-      return datetime.substring(0, 19).replace('T', ' ');
+        return datetime.substring(0, 19).replace('T', ' ');
     }
 
     processObs(obs, obsPayload) {
         if (obs.control && obs.question.extras) {
-          let obsValue = {
-            concept: obs.question.extras.questionOptions.concept,
-            value: (obs.question.extras.questionOptions.rendering === 'date' && !this.isEmpty(obs.control.value)) ?
-              this.getExactTime(obs.control.value) : obs.control.value
-          };
+            let obsValue = {
+                concept: obs.question.extras.questionOptions.concept,
+                value: (obs.question.extras.questionOptions.rendering === 'date' && !this.isEmpty(obs.control.value)) ?
+                    this.getExactTime(obs.control.value) : obs.control.value
+            };
 
             if (obs.question.extras.questionOptions.rendering === 'multiCheckbox') {
                 let multis = this.processMultiSelect(obs.question.extras.questionOptions.concept, obs.control.value);
