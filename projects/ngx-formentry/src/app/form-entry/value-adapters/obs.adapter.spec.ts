@@ -14,6 +14,7 @@ import { JsExpressionHelper } from '../../form-entry/helpers/js-expression-helpe
 import { ControlRelationsFactory } from '../../form-entry/form-factory/control-relations.factory';
 import { Form } from '../form-factory/form';
 import { ObsValueAdapter } from '.';
+import { ObsAdapterHelper } from './obs-adapter-helper';
 
 
 describe('Obs Value Adapter: ', () => {
@@ -29,7 +30,8 @@ describe('Obs Value Adapter: ', () => {
                 ExpressionRunner,
                 JsExpressionHelper,
                 ControlRelationsFactory,
-                ObsValueAdapter
+                ObsValueAdapter,
+                ObsAdapterHelper
             ]
         });
     });

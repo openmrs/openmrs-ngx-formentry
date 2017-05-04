@@ -1541,6 +1541,7 @@
             {
               "type": "obsGroup",
               "label": "Start date of TB treatment",
+              "id": "groupStartDateTbTreatment",
               "questionOptions": {
                 "concept": "a8afdb8c-1350-11df-a1f1-0026b9348838",
                 "rendering": "group"
@@ -1613,6 +1614,7 @@
             {
               "type": "obsGroup",
               "label": "Current TB regimen",
+              "id": "tb_current_regimen_group",
               "questionOptions": {
                 "concept": "a8afdb8c-1350-11df-a1f1-0026b9348838",
                 "rendering": "repeating"
@@ -1687,6 +1689,7 @@
                 },
                 {
                   "label": "tabs/day",
+                  "id": "regimenTabsDay",
                   "questionOptions": {
                     "concept": "a8a07386-1350-11df-a1f1-0026b9348838",
                     "max": "30",
@@ -1723,6 +1726,7 @@
                 },
                 {
                   "label": "mg/day",
+                  "id": "regimenMgDay",
                   "questionOptions": {
                     "concept": "a8a0744e-1350-11df-a1f1-0026b9348838",
                     "max": "2000",

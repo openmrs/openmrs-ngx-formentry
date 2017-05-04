@@ -11,7 +11,7 @@ import { QuestionFactory } from '../form-factory/question.factory';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
 import { NodeBase, ArrayNode, LeafNode } from '../form-factory/form-node';
 
-import { OrderValueAdapter, ObsValueAdapter } from '.';
+import { OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper } from '.';
 
 const adultForm = require('../../adult');
 const adultFormOrders = require('../../mock/orders');
@@ -35,7 +35,7 @@ describe('Encounter Value Adapter:', () => {
                 JsExpressionHelper,
                 QuestionFactory,
                 ControlRelationsFactory,
-
+                ObsAdapterHelper
             ]
         });
     });

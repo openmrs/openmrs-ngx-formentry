@@ -5,11 +5,12 @@ import * as _ from 'lodash';
 import { LeafNode, GroupNode } from '../form-factory/form-node';
 import { Form } from '../form-factory/form';
 import { ValueAdapter } from './value.adapter';
+import { ObsAdapterHelper } from './obs-adapter-helper';
 
 @Injectable()
 export class ObsValueAdapter implements ValueAdapter {
 
-    constructor() { }
+    constructor(private helper: ObsAdapterHelper) { }
 
     generateFormPayload(form: Form) {
         // Traverse  to get all nodes
@@ -21,13 +22,19 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     populateForm(form: Form, payload) {
-        // Traverse  to get all nodes
-        let pages = this.traverse(form.rootNode);
-        // Extract actual question nodes
-        let questionNodes = this.getQuestionNodes(pages);
-        // Extract set obs
-        this.setValues(questionNodes, payload);
+        this.helper.setNodeValue(form.rootNode, payload);
+
+        // TODO: Get rid of the section below when the helper is stable.
+        // // Traverse  to get all nodes
+        // let pages = this.traverse(form.rootNode);
+        // // Extract actual question nodes
+        // let questionNodes = this.getQuestionNodes(pages);
+        // // Extract set obs
+        // this.setValues(questionNodes, payload);
     }
+
+    // TODO: Get rid of all the functions below as they will not be needed
+    // once the helper is stable
 
     setValues(nodes, payload?, forcegroup?) {
         if (nodes) {
