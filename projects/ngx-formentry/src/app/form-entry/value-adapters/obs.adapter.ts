@@ -13,12 +13,14 @@ export class ObsValueAdapter implements ValueAdapter {
     constructor(private helper: ObsAdapterHelper) { }
 
     generateFormPayload(form: Form) {
-        // Traverse  to get all nodes
-        let pages = this.traverse(form.rootNode);
-        // Extract actual question nodes
-        let questionNodes = this.getQuestionNodes(pages);
-        // Get obs Payload
-        return this.getObsPayload(questionNodes);
+        return this.helper.getObsNodePayload(form.rootNode);
+        // TODO: Get rid of the section below when the helper is stable.
+        // // Traverse  to get all nodes
+        // let pages = this.traverse(form.rootNode);
+        // // Extract actual question nodes
+        // let questionNodes = this.getQuestionNodes(pages);
+        // // Get obs Payload
+        // return this.getObsPayload(questionNodes);
     }
 
     populateForm(form: Form, payload) {

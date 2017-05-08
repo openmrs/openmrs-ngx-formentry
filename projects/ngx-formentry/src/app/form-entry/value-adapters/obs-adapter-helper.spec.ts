@@ -377,7 +377,7 @@ describe('Obs Value Adapter Helper: ', () => {
             concept: {
                 uuid: 'a897e450-1350-11df-a1f1-0026b9348838'
             },
-            value: 1000,
+            value: 0,
             groupMembers: null
         }];
 
@@ -537,7 +537,7 @@ describe('Obs Value Adapter Helper: ', () => {
 
             let repeatingObsNode = form.searchNodeByQuestionId('tb_current_regimen_group')[0];
 
-            let repeatingGroupObs = [
+            let repeatingGroupObs: any = [
                 {
                     uuid: 'some uuid 1',
                     obsDatetime: '2016-01-21T16:17:46.000+0300',
@@ -679,6 +679,604 @@ describe('Obs Value Adapter Helper: ', () => {
         let nodeInArray = ((arrayNode.children[0] as GroupNode).children['tb_current']) as NodeBase;
         expect(nodeInArray.control.value).toEqual('a899f51a-1350-11df-a1f1-0026b9348838');
 
+    });
+
+
+    // REGION: Payload Generation
+    it('should generate payload obs for a simple obs node', () => {
+        let helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
+        let ff: FormFactory = TestBed.get(FormFactory);
+        expect(ff).toBeDefined();
+        let form: Form = ff.createForm(adultForm);
+        expect(form).toBeDefined();
+
+        // CASE 1: NEW FORM
+        // In this case the generated obs have no uuids
+        // Also none is being modified
+
+        // SUB-CASE 1: numbers, free text, single selects
+        let simpleField = form.searchNodeByQuestionId('syst')[0];
+
+        // null or empty values are ignored for new case.
+        // no obs is created.
+        let simplePayload = helper.getSimpleObsPayload(simpleField);
+        expect(simplePayload).toBeNull();
+
+        // simulate user input
+        simpleField.control.setValue(200);
+
+        simplePayload = helper.getSimpleObsPayload(simpleField);
+        expect(simplePayload).toEqual(
+            {
+                concept: 'a8a65d5a-1350-11df-a1f1-0026b9348838',
+                value: 200
+            }
+        );
+
+        // SUB-CASE 2: Date fields
+        let dateField = form.searchNodeByQuestionId('returnToClinic')[0];
+
+        // simulate user input
+        dateField.control.setValue('2016-01-21T16:17:46.000+0300');
+        let datePayload = helper.getSimpleObsPayload(dateField);
+        expect(datePayload).toEqual(
+            {
+                concept: 'a8a666ba-1350-11df-a1f1-0026b9348838',
+                value: '2016-01-21 16:17:46'
+            }
+        );
+
+
+        // CASE 2: EDITING AN EXISTING ENCOUNTER
+        form = ff.createForm(adultForm);
+        expect(form).toBeDefined();
+
+        let existingObs = [
+            {   // This value will be cleared
+                uuid: 'uuid 1',
+                concept: {
+                    uuid: 'a8a65d5a-1350-11df-a1f1-0026b9348838'
+                },
+                value: 190
+            },
+            {  // This value will be untouched
+                uuid: 'uuid 2',
+                concept: {
+                    uuid: 'a8a65e36-1350-11df-a1f1-0026b9348838'
+                },
+                value: 80
+            },
+            {
+                // This value will be changed
+                uuid: 'uuid 3',
+                concept: {
+                    uuid: 'a8a666ba-1350-11df-a1f1-0026b9348838'
+                },
+                value: '2016-01-21T16:17:46.000+0300'
+            },
+            {
+                // represents a single select case(or concept answer cases). value will be changed.
+                uuid: 'uuid 4',
+                concept: {
+                    uuid: 'a89ff9a6-1350-11df-a1f1-0026b9348838'
+                },
+                value: {
+                    uuid: 'a89b6440-1350-11df-a1f1-0026b9348838'
+                }
+            }
+        ];
+
+        // populate form with values
+        helper.setNodeValue(form.rootNode, existingObs);
+
+        // simulate user changes as described above in the payload
+
+        let field1 = form.searchNodeByQuestionId('syst')[0];
+        field1.control.setValue(undefined); // clear it
+
+        let field2 = form.searchNodeByQuestionId('diastolic')[0];
+        // field 2 remains unchanged
+
+        let field3 = form.searchNodeByQuestionId('returnToClinic')[0];
+        field3.control.setValue('2016-02-28T16:17:46.000+0300'); // change the value
+
+        let field4 = form.searchNodeByQuestionId('scheduledVisit')[0];
+        field4.control.setValue('a89ff816-1350-11df-a1f1-0026b9348838');
+
+        // Sub-Case 1: cleared fields are voided
+        let payload = helper.getSimpleObsPayload(field1);
+        expect(payload).toEqual({
+            uuid: 'uuid 1',
+            voided: true
+        });
+
+        // Sub-case 2: unchanged values
+        payload = helper.getSimpleObsPayload(field2);
+        expect(payload).toBeNull();
+
+        // Sub-case 3: value changed
+        payload = helper.getSimpleObsPayload(field3);
+        expect(payload).toEqual({
+            uuid: 'uuid 3',
+            value: '2016-02-28 16:17:46'
+        });
+
+        // Sub-case 4: single selects and concept answers cases
+        payload = helper.getSimpleObsPayload(field4);
+        expect(payload).toEqual({
+            uuid: 'uuid 4',
+            value: 'a89ff816-1350-11df-a1f1-0026b9348838'
+        });
+    });
+
+    it('should generate payload obs for a complex obs node', () => {
+        let helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
+        let ff: FormFactory = TestBed.get(FormFactory);
+        expect(ff).toBeDefined();
+        let form: Form = ff.createForm(adultForm);
+        expect(form).toBeDefined();
+
+        let existingObs: Array<any> = [
+            {
+                uuid: 'other uuid',
+                concept: {
+                    uuid: 'a8982474-1350-11df-a1f1-0026b9348838',
+                    display: 'viral load'
+                },
+                obsDatetime: '2016-01-21T16:17:46.000+0300',
+                value: 10
+            }
+        ];
+
+        // populate form with values
+        helper.setNodeValue(form.rootNode, existingObs);
+
+        let complexObsNode = form.searchNodeByQuestionId('complex_viralLoad_test')[0];
+
+        // CASE 1: No change
+        let payload: any = helper.getComplexObsPayload(complexObsNode);
+        expect(payload).toBeNull();
+
+        // CASE 2: Value changes and/or date changes
+        let valueNode = form.searchNodeByQuestionId('viralLoad_test')[0];
+        valueNode.control.setValue(20);
+        payload = helper.getComplexObsPayload(complexObsNode);
+        expect(payload).toEqual({
+            uuid: 'other uuid',
+            obsDatetime: '2016-01-21 16:17:46',
+            value: 20
+        });
+
+        // CASE 3: date changes only
+        // reset value node
+        valueNode.control.setValue(10);
+
+        let dateNode = form.searchNodeByQuestionId('date_viralLoad_test')[0];
+        dateNode.control.setValue('2016-04-21T16:17:46.000+0300');
+        payload = helper.getComplexObsPayload(complexObsNode);
+
+        expect(payload).toEqual({
+            uuid: 'other uuid',
+            obsDatetime: '2016-04-21 16:17:46'
+        });
+
+        // CASE 4: New form
+        form = ff.createForm(adultForm);
+        expect(form).toBeDefined();
+        complexObsNode = form.searchNodeByQuestionId('complex_viralLoad_test')[0];
+
+        // set inputs
+        valueNode = form.searchNodeByQuestionId('viralLoad_test')[0];
+        valueNode.control.setValue(10);
+        dateNode = form.searchNodeByQuestionId('date_viralLoad_test')[0];
+        dateNode.control.setValue('2016-04-21T16:17:46.000+0300');
+
+        payload = helper.getComplexObsPayload(complexObsNode);
+        expect(payload).toEqual({
+            concept: 'a8982474-1350-11df-a1f1-0026b9348838',
+            obsDatetime: '2016-04-21 16:17:46',
+            value: 10
+        });
+
+    });
+
+    it('should generate payload obs for a multiselect obs node', () => {
+        let helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
+        let ff: FormFactory = TestBed.get(FormFactory);
+        expect(ff).toBeDefined();
+        let form: Form = ff.createForm(adultForm);
+        expect(form).toBeDefined();
+
+        let existingObs: Array<any> = [
+            { // this will be deleted
+                uuid: 'uuid 1',
+                concept: {
+                    uuid: 'a899cf5e-1350-11df-a1f1-0026b9348838'
+                },
+                value: {
+                    uuid: '6a73f32d-1870-4527-af6e-74443251ded2'
+                }
+            },
+            { // this will be unchanged
+                uuid: 'uuid 2',
+                concept: {
+                    uuid: 'a899cf5e-1350-11df-a1f1-0026b9348838'
+                },
+                value: {
+                    uuid: '1c4a75d0-cc91-4752-b0a5-4b833326ff7a'
+                }
+            },
+
+        ];
+
+        // populate form with values
+        helper.setNodeValue(form.rootNode, existingObs);
+
+        let multiSelectNode = form.searchNodeByQuestionId('current_art_regimen_adult')[0];
+        expect(multiSelectNode.control.value).toEqual(
+            [
+                '6a73f32d-1870-4527-af6e-74443251ded2',
+                '1c4a75d0-cc91-4752-b0a5-4b833326ff7a'
+            ]
+        );
+
+        // simulate user input i.e removing 1st item, adding another item
+        multiSelectNode.control.setValue([
+            '1c4a75d0-cc91-4752-b0a5-4b833326ff7a',
+            'a89cc876-1350-11df-a1f1-0026b9348838'
+        ]);
+
+        let payload = helper.getMultiselectObsPayload(multiSelectNode);
+        expect(payload).toEqual(
+            [
+                {
+                    uuid: 'uuid 1',
+                    voided: true
+                },
+                {
+                    concept: 'a899cf5e-1350-11df-a1f1-0026b9348838',
+                    value: 'a89cc876-1350-11df-a1f1-0026b9348838'
+                }
+            ]
+        );
+
+        // CASE 2: completely clearing the field
+        existingObs = [
+            { // this will be deleted
+                uuid: 'uuid 6',
+                concept: {
+                    uuid: 'a8afcafc-1350-11df-a1f1-0026b9348838'
+                },
+                value: {
+                    uuid: 'a899e0ac-1350-11df-a1f1-0026b9348838'
+                }
+            }
+
+        ];
+
+        // populate form with values
+        helper.setNodeValue(form.rootNode, existingObs);
+        let clearedMultiSelectNode = form.searchNodeByQuestionId('tbSymptoms')[0];
+        expect(clearedMultiSelectNode.control.value).toEqual(
+            [
+                'a899e0ac-1350-11df-a1f1-0026b9348838'
+            ]
+        );
+
+        // simulate user input
+        clearedMultiSelectNode.control.setValue('');
+
+        payload = helper.getMultiselectObsPayload(clearedMultiSelectNode);
+        expect(payload).toEqual(
+            [
+                {
+                    uuid: 'uuid 6',
+                    voided: true
+                }
+            ]
+        );
+
+    });
+
+    it('should generate payload obs for a group obs node', () => {
+        let helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
+        let ff: FormFactory = TestBed.get(FormFactory);
+        expect(ff).toBeDefined();
+        let form: Form = ff.createForm(adultForm);
+        expect(form).toBeDefined();
+
+
+        let groupObs: any = [
+            {
+                uuid: 'some uuid',
+                obsDatetime: '2016-01-21T16:17:46.000+0300',
+                concept: {
+                    uuid: 'a8afdb8c-1350-11df-a1f1-0026b9348838'
+                },
+                groupMembers: [
+                    {
+                        uuid: 'some inner uuid',
+                        obsDatetime: '2016-01-21T16:17:46.000+0300',
+                        concept: {
+                            uuid: 'a899e5f2-1350-11df-a1f1-0026b9348838'
+                        },
+                        value: '2016-01-21T16:17:46.000+0300'
+                    }
+                ],
+                value: null
+            }
+        ];
+
+        // populate form with values
+        helper.setNodeValue(form.rootNode, groupObs);
+
+        let groupObsNode = form.searchNodeByQuestionId('groupStartDateTbTreatment')[0];
+
+        // CASE 1: Nothing changed
+        let payload: any = helper.getGroupPayload(groupObsNode);
+        expect(payload).toEqual(null);
+
+        // CASE 2: Something changed
+        // simulate user input
+        let childNode = form.searchNodeByQuestionId('startDateOfTbTreatment')[0];
+        childNode.control.setValue('2016-04-21T16:17:46.000+0300');
+
+        payload = helper.getGroupPayload(groupObsNode);
+
+        expect(payload).toEqual({
+            uuid: 'some uuid',
+            groupMembers: [
+                {
+                    uuid: 'some inner uuid',
+                    value: '2016-04-21 16:17:46'
+                }
+            ]
+        });
+
+        // CASE 3: New group
+        form = ff.createForm(adultForm);
+        expect(form).toBeDefined();
+
+        groupObsNode = form.searchNodeByQuestionId('groupStartDateTbTreatment')[0];
+        childNode = form.searchNodeByQuestionId('startDateOfTbTreatment')[0];
+
+        // simulate user input
+        childNode.control.setValue('2016-04-21T16:17:46.000+0300');
+        payload = helper.getGroupPayload(groupObsNode);
+        expect(payload).toEqual({
+            concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
+            groupMembers: [
+                {
+                    concept: 'a899e5f2-1350-11df-a1f1-0026b9348838',
+                    value: '2016-04-21 16:17:46'
+                }
+            ]
+        });
+
+    });
+
+    it('should generate payload obs for a repeating group obs node', () => {
+        let helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
+        let ff: FormFactory = TestBed.get(FormFactory);
+        expect(ff).toBeDefined();
+        let form: Form = ff.createForm(adultForm);
+        expect(form).toBeDefined();
+
+        let obs: Array<any> = [
+            { // members will change
+                uuid: 'some uuid 1',
+                concept: {
+                    uuid: 'a8afdb8c-1350-11df-a1f1-0026b9348838'
+                },
+                groupMembers: [
+                    {
+                        uuid: 'uuid 1',
+                        concept: {
+                            uuid: 'a899e444-1350-11df-a1f1-0026b9348838'
+                        },
+                        value: {
+                            uuid: 'a899f51a-1350-11df-a1f1-0026b9348838'
+                        }
+                    },
+                    {
+                        uuid: 'uuid 2',
+                        concept: {
+                            uuid: 'a8a07386-1350-11df-a1f1-0026b9348838'
+                        },
+                        value: 25
+                    }
+                ]
+            },
+            { // remains unchanged
+                uuid: 'some uuid 2',
+                concept: {
+                    uuid: 'a8afdb8c-1350-11df-a1f1-0026b9348838'
+                },
+                groupMembers: [
+                    {
+                        uuid: 'uuid 3',
+                        concept: {
+                            uuid: 'a899e444-1350-11df-a1f1-0026b9348838'
+                        },
+                        value: {
+                            uuid: 'a899f51a-1350-11df-a1f1-0026b9348838'
+                        }
+                    },
+                    {
+                        uuid: 'uuid 4',
+                        concept: {
+                            uuid: 'a8a07386-1350-11df-a1f1-0026b9348838'
+                        },
+                        value: 29
+                    }
+                ]
+            },
+            { // will be removed
+                uuid: 'some uuid 3',
+                concept: {
+                    uuid: 'a8afdb8c-1350-11df-a1f1-0026b9348838'
+                },
+                groupMembers: [
+                    {
+                        uuid: 'uuid 3',
+                        concept: {
+                            uuid: 'a899e444-1350-11df-a1f1-0026b9348838'
+                        },
+                        value: {
+                            uuid: 'a899f51a-1350-11df-a1f1-0026b9348838'
+                        }
+                    },
+                    {
+                        uuid: 'uuid 4',
+                        concept: {
+                            uuid: 'a8a07386-1350-11df-a1f1-0026b9348838'
+                        },
+                        value: 29
+                    }
+                ]
+            }
+        ];
+
+        // populate form with values
+        helper.setNodeValue(form.rootNode, obs);
+
+        let groupObsNode: ArrayNode = form.searchNodeByQuestionId('tb_current_regimen_group')[0] as ArrayNode;
+
+        // CASE 1: Nothing changed
+        let payload: any = helper.getRepeatingGroupPayload(groupObsNode);
+        expect(payload).toEqual(null);
+
+        // CASE 2: Something changed
+        // simulate user input
+        groupObsNode.removeAt(2);
+
+        let newNode = groupObsNode.createChildNode();
+        let newChild = newNode.children['tb_current'] as NodeBase;
+        newChild.control.setValue('a8aaf3e2-1350-11df-a1f1-0026b9348838');
+
+        let childGroupNode = groupObsNode.children[0] as GroupNode;
+        let childMember = childGroupNode.children['regimenTabsDay'] as NodeBase;
+        childMember.control.setValue(21);
+
+        payload = helper.getRepeatingGroupPayload(groupObsNode);
+
+        expect(payload).toEqual(
+            [
+                {
+                    uuid: 'some uuid 1',
+                    groupMembers: [
+                        {
+                            uuid: 'uuid 2',
+                            value: 21
+                        }
+                    ]
+                },
+                {
+                    groupMembers: [
+                        {
+                            concept: 'a899e444-1350-11df-a1f1-0026b9348838',
+                            value: 'a8aaf3e2-1350-11df-a1f1-0026b9348838'
+                        }
+                    ],
+                    concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838'
+                },
+                {
+                    uuid: 'some uuid 3',
+                    voided: true
+                }
+            ]
+        );
+
+        // CASE 3: New form case
+        form = ff.createForm(adultForm);
+        groupObsNode = form.searchNodeByQuestionId('tb_current_regimen_group')[0] as ArrayNode;
+        newNode = groupObsNode.createChildNode();
+        newChild = newNode.children['tb_current'] as NodeBase;
+        newChild.control.setValue('a8aaf3e2-1350-11df-a1f1-0026b9348838');
+
+        payload = helper.getRepeatingGroupPayload(groupObsNode);
+
+        expect(payload).toEqual(
+            [
+                {
+                    groupMembers: [
+                        {
+                            concept: 'a899e444-1350-11df-a1f1-0026b9348838',
+                            value: 'a8aaf3e2-1350-11df-a1f1-0026b9348838'
+                        }
+                    ],
+                    concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838'
+                }
+            ]
+        );
+
+    });
+
+    it('should generate the obs payload for a rootnode given the form', () => {
+        let helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
+        let ff: FormFactory = TestBed.get(FormFactory);
+        expect(ff).toBeDefined();
+        let form: Form = ff.createForm(adultForm);
+        expect(form).toBeDefined();
+
+        // simulate user input
+
+        // repeating group and simple obs case
+        let groupObsNode: ArrayNode = form.searchNodeByQuestionId('tb_current_regimen_group')[0] as ArrayNode;
+        let newNode = groupObsNode.createChildNode();
+        let newChild = newNode.children['tb_current'] as NodeBase;
+        newChild.control.setValue('a8aaf3e2-1350-11df-a1f1-0026b9348838');
+
+
+        // group and simple case
+        let childNode = form.searchNodeByQuestionId('startDateOfTbTreatment')[0];
+        childNode.control.setValue('2016-04-21T16:17:46.000+0300');
+
+        // complex case
+        let valueNode = form.searchNodeByQuestionId('viralLoad_test')[0];
+        valueNode.control.setValue(10);
+        let dateNode = form.searchNodeByQuestionId('date_viralLoad_test')[0];
+        dateNode.control.setValue('2016-04-21T16:17:46.000+0300');
+
+        // multiselect case
+        let multiSelectNode = form.searchNodeByQuestionId('current_art_regimen_adult')[0];
+        multiSelectNode.control.setValue([
+            '1c4a75d0-cc91-4752-b0a5-4b833326ff7a'
+        ]);
+
+        let payload = helper.getObsNodePayload(form.rootNode);
+
+        expect(payload).toEqual(
+            [
+                {
+                    concept: 'a899cf5e-1350-11df-a1f1-0026b9348838',
+                    value: '1c4a75d0-cc91-4752-b0a5-4b833326ff7a'
+                },
+                {
+                    concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
+                    groupMembers: [
+                        {
+                            concept: 'a899e5f2-1350-11df-a1f1-0026b9348838',
+                            value: '2016-04-21 16:17:46'
+                        }
+                    ]
+                },
+                {
+                    groupMembers: [
+                        {
+                            concept: 'a899e444-1350-11df-a1f1-0026b9348838',
+                            value: 'a8aaf3e2-1350-11df-a1f1-0026b9348838'
+                        }
+                    ],
+                    concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838'
+                },
+                {
+                    concept: 'a8982474-1350-11df-a1f1-0026b9348838',
+                    value: 10,
+                    obsDatetime: '2016-04-21 16:17:46'
+                }
+            ]
+        );
     });
 
 });

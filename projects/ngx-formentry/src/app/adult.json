@@ -2217,7 +2217,7 @@
             },
             {
               "label": "BP:Diastolic:",
-              "id": "syst",
+              "id": "diastolic",
               "questionOptions": {
                 "rendering": "number",
                 "concept": "a8a65e36-1350-11df-a1f1-0026b9348838",
@@ -2391,7 +2391,8 @@
           "questions": [
             {
               "label": "TB Symptoms:",
-              "required": "true",
+              "required": "false",
+              "id": "tbSymptoms",
               "questionOptions": {
                 "concept": "a8afcafc-1350-11df-a1f1-0026b9348838",
                 "answers": [
@@ -5066,6 +5067,7 @@
             {
               "label": "Return to clinic Date:",
               "type": "obs",
+              "id": "returnToClinic",
               "required": "true",
               "questionOptions": {
                 "concept": "a8a666ba-1350-11df-a1f1-0026b9348838",
