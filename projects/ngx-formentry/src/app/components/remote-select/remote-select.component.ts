@@ -17,7 +17,7 @@ import * as _ from 'lodash';
         }]
 })
 export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
-    @Input() dataSource: DataSource;
+    // @Input() dataSource: DataSource;
     @Input() placeholder: string = 'Search...';
     @Input() componentID: string;
     items = [];
@@ -30,10 +30,38 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     characters = [];
     @ViewChild(SelectComponent) private selectC: SelectComponent;
 
+
+    private _dataSource: DataSource;
+    @Input()
+    public get dataSource(): DataSource {
+        return this._dataSource;
+    }
+    public set dataSource(v: DataSource) {
+        this._dataSource = v;
+        if (this._dataSource && this._dataSource.dataFromSourceChanged) {
+            this.subscribeToDataSourceDataChanges();
+        }
+    }
+
+
     constructor(private renderer: Renderer) { }
 
     ngOnInit() {
 
+    }
+
+    subscribeToDataSourceDataChanges() {
+        this._dataSource.dataFromSourceChanged.subscribe((results) => {
+            if (results.length > 0) {
+                this.items = results;
+                this.notFoundMsg = '';
+                // console.log('updating items', results, this.selectC.value);
+                this.restoreSelectedValue(this.selectC.value, results);
+            } else {
+                this.notFoundMsg = 'Not found';
+                this.items = [];
+            }
+        });
     }
 
     public typed(value: any): void {
@@ -54,6 +82,26 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
                 }, (error) => {
                     this.notFoundMsg = 'Errored';
                 });
+        }
+    }
+
+    restoreSelectedValue(value, results) {
+        let found = false;
+        _.each(results, (item) => {
+            if (item.value === value) {
+                setTimeout(() => {
+                    this.selectC.select(value);
+                    this.selectC.value = value;
+                });
+                found = true;
+            }
+        });
+        if (!found) {
+            // console.log('not found after loading items', value, results);
+            setTimeout(() => {
+                this.selectC.select('');
+                this.selectC.value = '';
+            });
         }
     }
 

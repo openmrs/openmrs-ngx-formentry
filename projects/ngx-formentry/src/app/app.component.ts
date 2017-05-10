@@ -84,11 +84,12 @@ export class AppComponent implements OnInit {
         // Create form
         this.createForm();
 
-
         // Set encounter, obs, orders
 
         adultFormObs.orders = formOrdersPayload.orders;
         this.encAdapter.populateForm(this.form, adultFormObs);
+
+        this.setUpCascadeSelectForWHOStaging();
 
         // Alternative is to set individually for obs and orders as show below
         // // Set obs
@@ -97,6 +98,24 @@ export class AppComponent implements OnInit {
         // // Set orders
         // this.orderAdaptor.populateForm(this.form, formOrdersPayload);
 
+    }
+
+    setUpCascadeSelectForWHOStaging() {
+        let subject = new Subject();
+        let source = this.dataSources.dataSources['conceptAnswers'];
+        source.dataFromSourceChanged = subject.asObservable();
+
+        let whoStageQuestion = this.form.searchNodeByQuestionId('adultWHOStage')[0];
+        whoStageQuestion.control.valueChanges.subscribe((val) => {
+            if (source.dataFromSourceChanged) {
+                console.log('changing value for WHO', val);
+                if (val === 'a89b2606-1350-11df-a1f1-0026b9348838') {
+                    subject.next([{ value: 3, label: 'Stage 3 Symptom' }, { value: 4, label: 'Stage 4 Symptom' }]);
+                } else {
+                    subject.next([{ value: 5, label: 'Stage 5 Symptom' }, { value: 6, label: 'Stage 6 Symptom' }]);
+                }
+            }
+        });
     }
 
 

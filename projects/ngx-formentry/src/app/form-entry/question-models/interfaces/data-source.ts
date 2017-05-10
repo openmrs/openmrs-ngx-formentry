@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 
 export interface DataSource {
   dataSourceOptions?: any;
+  dataFromSourceChanged?: Observable<SelectOption[]>;
   resolveSelectedValue(value): Observable<SelectOption>;
   searchOptions(searchText): Observable<SelectOption[]>;
 }
