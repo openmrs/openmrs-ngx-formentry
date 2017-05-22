@@ -6,7 +6,7 @@ import 'hammerjs';
 import { DEFAULT_STYLES } from './form-renderer.component.css';
 import { DOCUMENT } from '@angular/platform-browser';
 import { DataSources } from '../data-sources/data-sources';
-import { NodeBase } from '../form-factory/form-node';
+import { NodeBase, LeafNode } from '../form-factory/form-node';
 import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
 import { ValidationFactory } from '../form-factory/validation.factory';
 import { DataSource } from '../question-models/interfaces/data-source';
@@ -151,5 +151,9 @@ export class FormRendererComponent implements OnInit {
       });
 
     }, 200);
+  }
+
+  onDateChanged(node: LeafNode) {
+    this.node = node;
   }
 }

@@ -28,6 +28,8 @@ import { ControlRelationsFactory } from './form-factory/control-relations.factor
 import { EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter } from './value-adapters';
 import { RemoteSelectModule } from '../components/remote-select/remote-select.module';
 import { DataSources } from './data-sources/data-sources';
+import { AppointmentsOverviewComponent
+} from '../components/appointments-overview/appointments-overview.component';
 
 
 @NgModule({
@@ -43,6 +45,7 @@ import { DataSources } from './data-sources/data-sources';
     declarations: [
         FormRendererComponent,
         AfeNgSelectComponent,
+        AppointmentsOverviewComponent,
         HistoricalValueDirective,
         ErrorRendererComponent
     ],
