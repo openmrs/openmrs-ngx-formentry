@@ -82,7 +82,9 @@
         {
             "uuid": "order-1-uuid",
             "orderNumber": "ORD-13737",
-            "voided": true,
+            "auditInfo": {
+                "dateVoided": "2017-01-01"
+            },
             "patient": {
                 "uuid": "b4ddd369-bec5-446e-b8f8-47fd5567b295",
                 "display": "234750205-2 - Robai Test Robai",
@@ -165,6 +167,9 @@
         {
             "uuid": "order-1-uuid",
             "orderNumber": "ORD-13738",
+            "auditInfo": {
+                "dateVoided": ""
+            },
             "patient": {
                 "uuid": "b4ddd369-bec5-446e-b8f8-47fd5567b295",
                 "display": "234750205-2 - Robai Test Robai",
@@ -247,6 +252,9 @@
         {
             "uuid": "order-2-uuid",
             "orderNumber": "ORD-13739",
+            "auditInfo": {
+                "dateVoided": ""
+            },
             "patient": {
                 "uuid": "b4ddd369-bec5-446e-b8f8-47fd5567b295",
                 "display": "234750205-2 - Robai Test Robai",

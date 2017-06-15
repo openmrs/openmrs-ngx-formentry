@@ -82,11 +82,12 @@ export class OrderValueAdapter implements ValueAdapter {
                     orderNumber: o.orderNumber,
                     orderUuid: o.uuid,
                     voided: o.voided,
+                    dateVoided: o.auditInfo.dateVoided
                 };
             });
 
             return existingOrders = _.filter(existingOrders, (order: any) => {
-                if (order.voided === true) {
+                if (order.voided === true || order.dateVoided) {
                     return false;
                 } else {
                     return true;
