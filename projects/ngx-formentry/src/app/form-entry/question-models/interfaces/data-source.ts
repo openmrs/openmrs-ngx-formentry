@@ -6,4 +6,6 @@ export interface DataSource {
   dataFromSourceChanged?: Observable<SelectOption[]>;
   resolveSelectedValue(value): Observable<SelectOption>;
   searchOptions(searchText): Observable<SelectOption[]>;
+  fileUpload(data): Observable<any>;
+  fetchFile(url): Observable<any>;
 }

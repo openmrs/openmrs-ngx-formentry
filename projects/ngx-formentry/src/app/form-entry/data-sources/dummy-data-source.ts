@@ -34,7 +34,12 @@ export class DummyDataSource implements DataSource {
 
     return test.asObservable();
   }
-
+ fileUpload(url) {
+return Observable.of({image: ''});
+  }
+  fetchFile(url) {
+  return Observable.of({image: ''});
+  }
   searchOptions(searchText): Observable<Option[]> {
     let selectOptions = this.sampleData();
 
@@ -114,5 +119,7 @@ export class DummyDataSource implements DataSource {
 
     ];
   }
+
+  
 
 }

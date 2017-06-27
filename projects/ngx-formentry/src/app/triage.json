@@ -25,6 +25,17 @@
                             ]
                         },
                         {
+                            "label": "File to upload",
+                            "type": "file",
+                            "required": "",
+                            "default": "",
+                            "id": "fileupload",
+                            "questionOptions": {
+                                "rendering": "file"
+                            },
+                            "validators": []
+                        },
+                        {
                             "type": "encounterProvider",
                             "label": "Provider",
                             "id": "provider",

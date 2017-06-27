@@ -1,0 +1,8 @@
+<div>
+    <file-uploader [(ngModel)]="innerValue" (onClear)="clearValue()" (fileChanged)="upload($event)">
+    </file-uploader>
+    <img *ngIf="innerValue" class="img-responsive" [src]="innerValue | secure:this.dataSource.fetchFile" alt="" />
+    <div *ngIf="loading">
+        resolving....
+    </div>
+</div>

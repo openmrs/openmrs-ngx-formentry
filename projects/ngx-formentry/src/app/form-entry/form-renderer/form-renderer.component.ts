@@ -31,13 +31,14 @@ export class FormRendererComponent implements OnInit {
   public isCollapsed: boolean = false;
 
   constructor(private validationFactory: ValidationFactory,
-              private dataSources: DataSources, private formErrorsService: FormErrorsService,
-              @Inject(DOCUMENT) private document: Document) {
+    private dataSources: DataSources, private formErrorsService: FormErrorsService,
+    @Inject(DOCUMENT) private document: Document) {
     this.activeTab = 0;
   }
 
   ngOnInit() {
     this.setUpRemoteSelect();
+    this.setUpFileUpload();
     if (this.node && this.node.form) {
       let tab = this.node.form.valueProcessingInfo.lastFormTab;
       if (tab && tab !== this.activeTab) {
@@ -52,12 +53,13 @@ export class FormRendererComponent implements OnInit {
     }
 
     if (this.node && this.node.question.renderingType === 'section') {
-       this.isCollapsed = !(this.node.question as QuestionGroup).isExpanded;
+      this.isCollapsed = !(this.node.question as QuestionGroup).isExpanded;
     }
 
     if (this.parentComponent) {
       this.parentComponent.addChildComponent(this);
     }
+
   }
 
   addChildComponent(child: FormRendererComponent) {
@@ -71,6 +73,15 @@ export class FormRendererComponent implements OnInit {
         this.dataSource.dataSourceOptions = this.node.question.dataSourceOptions;
       }
     }
+  }
+
+  setUpFileUpload() {
+    if (this.node && this.node.question.extras && this.node.question.renderingType === 'file') {
+      this.dataSource = this.dataSources.dataSources[this.node.question.dataSource];
+      console.log('Key', this.node.question);
+      console.log('Data source', this.dataSource);
+    }
+
   }
 
 
@@ -155,5 +166,10 @@ export class FormRendererComponent implements OnInit {
 
   onDateChanged(node: LeafNode) {
     this.node = node;
+  }
+
+  upload(event) {
+    console.log('Event', event);
+    console.log('Data', this.dataSource);
   }
 }

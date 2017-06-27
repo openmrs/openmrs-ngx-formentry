@@ -219,6 +219,18 @@
           "isExpanded": "true",
           "questions": [
             {
+              "label": "File to upload",
+              "type": "obs",
+              "required": "",
+              "default": "",
+              "id": "fileupload",
+              "questionOptions": {
+                "concept": "0f8b7f4e-1656-46b7-bc93-d1fe4f193f5d",
+                "rendering": "file"
+              },
+              "validators": []
+            },
+            {
               "type": "obsGroup",
               "label": "Transfer in from other centre, detailed",
               "questionOptions": {

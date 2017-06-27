@@ -16,6 +16,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { HistoricalValueDirective } from './directives/historical-value-directive';
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
 import { SelectModule } from '../components/select';
+import { RemoteFileUploadModule } from '../components/file-upload/file-upload.module';
 import { DateTimePickerModule } from '../components/date-time-picker';
 import { AfeNgSelectComponent } from '../components/afe-ng-select.component';
 import { HidersDisablersFactory } from './form-factory/hiders-disablers.factory';
@@ -28,7 +29,8 @@ import { ControlRelationsFactory } from './form-factory/control-relations.factor
 import { EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper } from './value-adapters';
 import { RemoteSelectModule } from '../components/remote-select/remote-select.module';
 import { DataSources } from './data-sources/data-sources';
-import { AppointmentsOverviewComponent
+import {
+    AppointmentsOverviewComponent
 } from '../components/appointments-overview/appointments-overview.component';
 
 
@@ -40,7 +42,8 @@ import { AppointmentsOverviewComponent
         DateTimePickerModule,
         RemoteSelectModule,
         MdTabsModule.forRoot(),
-        CollapseModule.forRoot()
+        CollapseModule.forRoot(),
+        RemoteFileUploadModule
     ],
     declarations: [
         FormRendererComponent,

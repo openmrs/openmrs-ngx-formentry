@@ -9,13 +9,14 @@ import { MultiSelectQuestion } from '../question-models/multi-select-question';
 import { QuestionGroup } from '../question-models/group-question';
 import { RepeatingQuestion } from '../question-models/repeating-question';
 import { QuestionBase } from '../question-models/question-base';
+import { FileUploadQuestion } from '../question-models/file-upload-question';
 import { TestOrderQuestion } from '../question-models/test-order-question';
 import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
 import { ValidationModel } from '../question-models/validation.model';
 import { DateValidationModel } from '../question-models/date-validation.model';
-import { MaxValidationModel} from '../question-models/max-validation.model';
-import { MinValidationModel} from '../question-models/min-validation.model';
+import { MaxValidationModel } from '../question-models/max-validation.model';
+import { MinValidationModel } from '../question-models/min-validation.model';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
 import { ConditionalValidationModel } from '../question-models/conditional-validation.model';
 import { DummyDataSource } from '../data-sources/dummy-data-source';
@@ -130,6 +131,7 @@ export class QuestionFactory {
       id: 'key'
     };
 
+
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
@@ -217,6 +219,28 @@ export class QuestionFactory {
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'text';
+    question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
+
+    let mappings: any = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
+    return question;
+  }
+
+  toFileUploadQuestion(schemaQuestion: any): FileUploadQuestion {
+    let question = new FileUploadQuestion({ type: '', key: '' });
+    question.label = schemaQuestion.label;
+    question.key = schemaQuestion.id;
+    question.renderingType = 'file';
+    question.dataSource = 'file';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
 
@@ -603,7 +627,8 @@ export class QuestionFactory {
         return this.toEncounterDatetimeQuestion(schema);
       case 'encounterProvider':
         return this.toEncounterProviderQuestion(schema);
-
+      case 'file':
+        return this.toFileUploadQuestion(schema);
       default:
         console.warn('New Schema Question Type found.........' + renderType);
         return this.toTextQuestion(schema);

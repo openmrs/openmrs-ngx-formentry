@@ -1,4 +1,7 @@
 import { Component, style, state, animate, transition, trigger, OnInit } from '@angular/core';
+import { Http, ResponseContentType, Headers } from '@angular/http';
+import { Subscriber } from 'rxjs/Subscriber';
+
 import { QuestionFactory } from './form-entry/form-factory/question.factory';
 import { FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs/Rx';
@@ -38,7 +41,7 @@ export class AppComponent implements OnInit {
     stack = [];
     constructor(private questionFactory: QuestionFactory, private formFactory: FormFactory, private obsValueAdapater: ObsValueAdapter,
         private orderAdaptor: OrderValueAdapter, private encAdapter: EncounterAdapter, private dataSources: DataSources,
-        private formErrorsService: FormErrorsService) {
+        private formErrorsService: FormErrorsService, private http: Http) {
         this.schema = adultForm;
 
     }
@@ -81,6 +84,34 @@ export class AppComponent implements OnInit {
 
         this.dataSources.registerDataSource('patient', { sex: 'M' }, true);
 
+        this.dataSources.registerDataSource('file', {
+            fileUpload: (data) => {
+                return Observable.of({ image: 'https://unsplash.it/1040/720' });
+            },
+            fetchFile: (url) => {
+                return new Observable((observer: Subscriber<any>) => {
+                    let objectUrl: string = null;
+                    let headers = new Headers({ 'Accept': 'image/png,image/jpeg,image/gif' });
+                    this.http
+                        .get(url, {
+                            headers,
+                            responseType: ResponseContentType.Blob
+                        })
+                        .subscribe(m => {
+                            objectUrl = URL.createObjectURL(m.blob());
+                            observer.next(objectUrl);
+                        });
+
+                    return () => {
+                        if (objectUrl) {
+                            URL.revokeObjectURL(objectUrl);
+                            objectUrl = null;
+                        }
+                    };
+                });
+            }
+        });
+
         // Create form
         this.createForm();
 
@@ -117,7 +148,6 @@ export class AppComponent implements OnInit {
             }
         });
     }
-
 
     getSectionData(sectionId) {
         let data = {};
