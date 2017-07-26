@@ -70,6 +70,7 @@ export class ControlRelationsFactory {
           let child: NodeBase = arrayControlStore[id];
           let control: AfeFormControl | AfeFormArray = child.control as AfeFormControl | AfeFormArray;
           control.updateHiddenState();
+          control.updateAlert();
       }
     }
   }
@@ -120,6 +121,10 @@ export class ControlRelationsFactory {
                     rootControl.updateValueAndValidity();
                     if ((rootControl as any).updateHiddenState) {
                       (rootControl as any).updateHiddenState();
+                    }
+
+                     if ((rootControl as any).updateAlert) {
+                      (rootControl as any).updateAlert();
                     }
 
                     if ((rootControl as any).updateDisabledState) {
@@ -264,6 +269,19 @@ export class ControlRelationsFactory {
         let hideObj: any = questionBase.hide;
 
         if (hideObj.field === id) {
+          hasRelation = true;
+        }
+      }
+
+      if ( typeof questionBase.message === 'string' ) {
+        let message: string = questionBase.message as string;
+        if ( message.length > 0 && message.indexOf('message') !== -1) {
+          hasRelation = true;
+        }
+      } else if ( typeof questionBase.message === 'object' ) {
+        let messageObj: any = questionBase.message;
+
+        if (messageObj.field === id) {
           hasRelation = true;
         }
       }

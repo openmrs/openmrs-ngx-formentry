@@ -9,6 +9,7 @@ import { SampleSchema } from './sample-schema';
 import { QuestionFactory } from './question.factory';
 import { ValidationFactory } from './validation.factory';
 import { HidersDisablersFactory } from './hiders-disablers.factory';
+import { AlertsFactory } from './show-messages.factory';
 import { ControlRelationsFactory } from './control-relations.factory';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
@@ -24,6 +25,7 @@ describe('Form Factory:', () => {
                 QuestionFactory,
                 ValidationFactory,
                 HidersDisablersFactory,
+                AlertsFactory,
                 ExpressionRunner,
                 JsExpressionHelper,
                 ControlRelationsFactory

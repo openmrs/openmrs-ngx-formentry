@@ -20,6 +20,7 @@ import { RemoteFileUploadModule } from '../components/file-upload/file-upload.mo
 import { DateTimePickerModule } from '../components/date-time-picker';
 import { AfeNgSelectComponent } from '../components/afe-ng-select.component';
 import { HidersDisablersFactory } from './form-factory/hiders-disablers.factory';
+import { AlertsFactory } from './form-factory/show-messages.factory';
 import { ExpressionRunner } from './expression-runner/expression-runner';
 import { JsExpressionHelper } from './helpers/js-expression-helper';
 import { FormSchemaCompiler } from './services/form-schema-compiler.service';
@@ -58,6 +59,7 @@ import {
         FormErrorsService,
         ValidationFactory,
         HidersDisablersFactory,
+        AlertsFactory,
         ExpressionRunner,
         JsExpressionHelper,
         HistoricalFieldHelperService,

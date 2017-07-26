@@ -42,7 +42,6 @@ export class ControlRelation {
             if ((this._control as any).updateDisabledState) {
                 (this._control as any).updateDisabledState();
             }
-
             return true;
         }
         return false;

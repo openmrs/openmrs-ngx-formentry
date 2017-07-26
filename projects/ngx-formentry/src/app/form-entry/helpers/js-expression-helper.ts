@@ -44,7 +44,12 @@ export class JsExpressionHelper {
       return array.indexOf(members) !== -1;
     }
   }
-
+  extractRepeatingGroupValues(key, array) {
+    let values = array.map(function(item) {
+    return item[key];
+    });
+  return values;
+  }
   formatDate(value, format, offset) {
 
     format = format || 'yyyy-MM-dd';
@@ -91,6 +96,7 @@ export class JsExpressionHelper {
       calcBMI: helper.calcBMI,
       isEmpty: helper.isEmpty,
       arrayContains: helper.arrayContains,
+      extractRepeatingGroupValues: helper.extractRepeatingGroupValues,
     };
   }
 }

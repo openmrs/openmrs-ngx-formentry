@@ -11,6 +11,7 @@ import { QuestionBase } from '../question-models/question-base';
 import { QuestionGroup } from '../question-models/group-question';
 import { ValidationFactory } from '../form-factory/validation.factory';
 import { HidersDisablersFactory } from './hiders-disablers.factory';
+import { AlertsFactory } from './show-messages.factory';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 
@@ -26,6 +27,7 @@ describe('Form Factory Control Service Tests', () => {
         FormControlService,
         ValidationFactory,
         HidersDisablersFactory,
+        AlertsFactory,
         ExpressionRunner,
         JsExpressionHelper
       ]

@@ -5,6 +5,7 @@ import { QuestionFactory } from './question.factory';
 import { FormControlService } from './form-control.service';
 import { ValidationFactory } from './validation.factory';
 import { HidersDisablersFactory } from './hiders-disablers.factory';
+import { AlertsFactory } from './show-messages.factory';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { ControlRelationsFactory } from './control-relations.factory';
@@ -24,6 +25,7 @@ describe('Form:', () => {
               FormControlService,
               ValidationFactory,
               HidersDisablersFactory,
+              AlertsFactory,
               ExpressionRunner,
               JsExpressionHelper,
               ControlRelationsFactory

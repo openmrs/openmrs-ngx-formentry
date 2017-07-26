@@ -3,12 +3,14 @@ import { FormArray, ValidatorFn, AsyncValidatorFn, AbstractControl } from '@angu
 import { ControlRelations } from '../change-tracking/control-relations';
 import { ValueChangeListener } from './value-change.listener';
 import { CanHide, Hider } from '../form-entry/control-hiders-disablers/can-hide';
+import { CanGenerateAlert, Alert } from '../form-entry/control-alerts/can-generate-alert';
 import { CanDisable, Disabler } from '../form-entry/control-hiders-disablers/can-disable';
 import { HiderHelper } from '../form-entry/control-hiders-disablers/hider-helpers';
+import { AlertHelper } from '../form-entry/control-alerts/alert-helpers';
 import { DisablerHelper } from '../form-entry/control-hiders-disablers/disabler-helper';
 
 
-export class AfeFormArray extends FormArray implements CanHide, CanDisable, ValueChangeListener {
+export class AfeFormArray extends FormArray implements CanHide, CanDisable, CanGenerateAlert, ValueChangeListener {
     private _controlRelations: ControlRelations;
     private _valueChangeListener: any;
     private _previousValue;
@@ -18,15 +20,20 @@ export class AfeFormArray extends FormArray implements CanHide, CanDisable, Valu
     hidden: false;
     hiders: Hider[];
 
+    alert: string;
+    alerts: Alert[];
+
     disablers: Disabler[];
 
     private hiderHelper: HiderHelper = new HiderHelper();
+    private AlertHelper: AlertHelper = new AlertHelper();
     private disablerHelper: DisablerHelper = new DisablerHelper();
 
     constructor(controls: AbstractControl[], validator?: ValidatorFn, asyncValidator?: AsyncValidatorFn) {
         super(controls, validator, asyncValidator);
         this._controlRelations = new ControlRelations(this);
         this.hiders = [];
+        this.alerts = [];
         this.disablers = [];
 
         this.valueChanges.subscribe((value) => {
@@ -85,11 +92,26 @@ export class AfeFormArray extends FormArray implements CanHide, CanDisable, Valu
         this.disablerHelper.evaluateControlDisablers(this);
     }
 
+    setAlertFn(newHider: Alert) {
+        this.AlertHelper.setAlertsForControl(this, newHider);
+    }
+
+    clearMessageFns() {
+        this.AlertHelper.clearAlertsForControl(this);
+    }
+
+     updateAlert() {
+        this.AlertHelper.evaluateControlAlerts(this);
+    }
+
     addValueChangeListener(func: any) {
       this._valueChangeListener = func;
     }
 
     fireValueChangeListener(value: any) {
+      if (this.alerts.length > 0) {
+        this.updateAlert();
+      }
       if (this._valueChangeListener && typeof this._valueChangeListener === 'function') {
         this._valueChangeListener(value);
       }

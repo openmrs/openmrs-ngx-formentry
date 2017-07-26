@@ -6,6 +6,7 @@ import { ValidationFactory } from '../form-factory/validation.factory';
 import { EncounterAdapter } from './encounter.adapter';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { HidersDisablersFactory } from '../form-factory/hiders-disablers.factory';
+import { AlertsFactory } from '../form-factory/show-messages.factory';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { QuestionFactory } from '../form-factory/question.factory';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
@@ -30,6 +31,7 @@ describe('Encounter Value Adapter:', () => {
                 FormControlService,
                 ValidationFactory,
                 HidersDisablersFactory,
+                AlertsFactory,
                 EncounterAdapter,
                 ExpressionRunner,
                 JsExpressionHelper,

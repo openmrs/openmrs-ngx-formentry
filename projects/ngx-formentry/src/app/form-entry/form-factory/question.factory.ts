@@ -66,6 +66,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -87,6 +88,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -109,6 +111,7 @@ export class QuestionFactory {
     this.copyProperties(mappings, schemaQuestion, question);
     question.validators = this.addValidators(schemaQuestion);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -134,6 +137,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -157,6 +161,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -184,6 +189,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -209,6 +215,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -230,6 +237,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -252,6 +260,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -273,6 +282,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -294,6 +304,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -318,6 +329,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -345,6 +357,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -366,6 +379,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -433,6 +447,7 @@ export class QuestionFactory {
     this.copyProperties(mappings, schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -460,6 +475,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -494,6 +510,7 @@ export class QuestionFactory {
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
@@ -771,6 +788,17 @@ export class QuestionFactory {
       question.calculateExpression = schemaQuestion.questionOptions.calculate.calculateExpression;
     }
 
+  }
+
+  addAlertProperty(schemaQuestion: any, question: QuestionBase): any {
+    if (schemaQuestion.alert) {
+      question.alert = schemaQuestion.alert;
+    }
+    // if (typeof schemaQuestion.message === 'object') {
+    //   if (schemaQuestion.message.alertWhenExpression) {
+    //     question.message = schemaQuestion.message.alertWhenExpression;
+    //   }
+    // }
   }
 
   addDisableOrHideProperty(schemaQuestion: any, question: QuestionBase): any {

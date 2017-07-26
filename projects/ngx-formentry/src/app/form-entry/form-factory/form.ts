@@ -190,6 +190,35 @@ export class Form {
     this._updateHiddenDisabledStateForAllControls(this.rootNode);
   }
 
+
+  updateAlertsForAllControls() {
+    this._updateAlertsForAllControls(this.rootNode);
+  }
+
+  private _updateAlertsForAllControls(rootNode: NodeBase) {
+    if (rootNode.control) {
+      if ((rootNode.control as any).updateAlert) {
+        (rootNode.control as any).updateAlert();
+      }
+    }
+
+    if (rootNode instanceof GroupNode) {
+      let nodeAsGroup = rootNode as GroupNode;
+      // tslint:disable-next-line:forin
+      for (let o in nodeAsGroup.children) {
+        this._updateAlertsForAllControls(nodeAsGroup.children[o]);
+      }
+    }
+
+    if (rootNode instanceof ArrayNode) {
+      let nodeAsArray = rootNode as ArrayNode;
+
+      nodeAsArray.children.forEach(node => {
+        this._updateAlertsForAllControls(node);
+      });
+    }
+
+  }
   private _updateHiddenDisabledStateForAllControls(rootNode: NodeBase) {
     if (rootNode.control) {
       if ((rootNode.control as any).updateDisabledState) {

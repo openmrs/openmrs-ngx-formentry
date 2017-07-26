@@ -51,7 +51,7 @@ export class ExpressionRunner {
                         console.warn('Missing reference found', expression, scope);
                         return false;
                     }
-                    // console.info('results: ', expression, eval(funcDeclarationCode + funcCallCode));
+                    //console.info('results: ', expression, eval(funcDeclarationCode + funcCallCode));
                     return eval(funcDeclarationCode + funcCallCode);
                 } catch (e) {
                     // if (window['error_count']) {

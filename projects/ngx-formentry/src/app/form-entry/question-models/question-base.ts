@@ -3,7 +3,8 @@ import { AfeControlType } from '../../abstract-controls-extension/afe-control-ty
 import { ValidationModel } from './validation.model';
 
 export class QuestionBase {
-    key: string;
+    key: string;    alert?: any;
+
     label?: string;
     renderingType: string;
 
@@ -36,6 +37,7 @@ export class QuestionBase {
         this.required = options.required;
         this.hide = options.hide;
         this.disable = options.disable;
+        this.alert = options.alert;
         this.historicalDataValue = options.historicalDataValue;
         this.calculateExpression = options.calculateExpression;
     }

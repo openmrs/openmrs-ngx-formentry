@@ -4706,6 +4706,10 @@
                   "label": "Tests Ordered",
                   "id": "order1",
                   "type": "testOrder",
+                  "alert":{
+                    "alertWhenExpression":"(isEmpty(order1) || !arrayContains(extractRepeatingGroupValues('order1',order1), 'a8982474-1350-11df-a1f1-0026b9348838')) && needsVl==true",
+                    "message": "Patient needs viral load"
+                  },
                   "questionOptions": {
                     "rendering": "repeating",
                     "orderSettingUuid": "6f0c9a92-6f24-11e3-af88-005056821db0",

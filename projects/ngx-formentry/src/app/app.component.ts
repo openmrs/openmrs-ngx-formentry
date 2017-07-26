@@ -83,6 +83,7 @@ export class AppComponent implements OnInit {
         this.dataSources.registerDataSource('rawPrevEnc', obs.getObs());
 
         this.dataSources.registerDataSource('patient', { sex: 'M' }, true);
+        this.dataSources.registerDataSource('messages', { needsVl: true }, true);
 
         this.dataSources.registerDataSource('file', {
             fileUpload: (data) => {
@@ -162,6 +163,7 @@ export class AppComponent implements OnInit {
 
     createForm() {
         this.form = this.formFactory.createForm(this.schema, this.dataSources.dataSources);
+        console.log('The Form', this.form);
 
     }
     sampleResolve(): Observable<any> {

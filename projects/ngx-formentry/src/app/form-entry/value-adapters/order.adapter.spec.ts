@@ -8,6 +8,7 @@ import { ValidationFactory } from '../../form-entry/form-factory/validation.fact
 import { QuestionFactory } from '../../form-entry/form-factory/question.factory';
 import { OrderValueAdapter } from './order.adapter';
 import { HidersDisablersFactory } from '../../form-entry/form-factory/hiders-disablers.factory';
+import { AlertsFactory } from '../form-factory/show-messages.factory';
 import { ExpressionRunner } from '../../form-entry/expression-runner/expression-runner';
 import { JsExpressionHelper } from '../../form-entry/helpers/js-expression-helper';
 import { ControlRelationsFactory } from '../../form-entry/form-factory/control-relations.factory';
@@ -24,6 +25,7 @@ describe('Orders Value Adapter', () => {
                 QuestionFactory,
                 OrderValueAdapter,
                 HidersDisablersFactory,
+                AlertsFactory,
                 ExpressionRunner,
                 JsExpressionHelper,
                 ControlRelationsFactory

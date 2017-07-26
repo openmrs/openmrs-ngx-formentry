@@ -40,8 +40,13 @@
     </div>
   </div>
 </div>
+<!-- MESSAGES -->
+<div *ngIf="node.control &&node.control.alert && node.control.alert !== ''" class="alert alert-warning">
+  <a href="#" class="close" data-dismiss="alert">&times;</a> {{node.control.alert}}
+</div>
 
 <!--CONTROLS-->
+
 <div *ngIf="node.question.controlType === 0" class="form-group" [formGroup]="parentGroup" [hidden]="node.control.hidden"
   [ngClass]="{disabled: node.control.disabled}">
   <!--LEAF CONTROL-->

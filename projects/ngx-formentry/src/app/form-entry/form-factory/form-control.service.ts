@@ -9,6 +9,7 @@ import { QuestionBase } from '../question-models/question-base';
 import { QuestionGroup } from '../question-models/group-question';
 import { ValidationFactory } from '../form-factory/validation.factory';
 import { HidersDisablersFactory } from './hiders-disablers.factory';
+import { AlertsFactory } from './show-messages.factory';
 import { Form } from './form';
 import { ExpressionRunner, Runnable } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
@@ -20,7 +21,7 @@ export class FormControlService {
     hidersDisablersFactory: HidersDisablersFactory;
 
     constructor(validationFactory: ValidationFactory,
-        hidersDisablersFactory: HidersDisablersFactory) {
+        hidersDisablersFactory: HidersDisablersFactory, private alertsFactory: AlertsFactory) {
         this.validationFactory = validationFactory;
         this.hidersDisablersFactory = hidersDisablersFactory;
     }
@@ -46,6 +47,7 @@ export class FormControlService {
         parentControl?: AfeFormGroup, form?: Form): AfeFormGroup {
         let formGroup = new AfeFormGroup({});
         this.wireHidersDisablers(question, formGroup, form);
+        this.wireAlerts(question, formGroup, form);
         if (parentControl instanceof AfeFormGroup) {
             parentControl.setControl(question.key, formGroup);
         }
@@ -74,9 +76,16 @@ export class FormControlService {
 
     generateFormArray(question: QuestionBase, parentControl?: AfeFormGroup, form?: Form): AfeFormArray {
 
-        let formArray = new AfeFormArray([]);
+        let validators = this.validationFactory.getValidators(question, form);
+         let formArray: AfeFormArray;
+         if (validators && validators.length > 0) {
+             formArray = new AfeFormArray([], validators[0]);
+         } else {
+            formArray = new AfeFormArray([]);
+         }
         formArray.uuid = question.key;
         this.wireHidersDisablers(question, formArray, form);
+        this.wireAlerts(question, formArray, form);
         if (parentControl instanceof AfeFormGroup) {
             parentControl.setControl(question.key, formArray);
         }
@@ -92,6 +101,7 @@ export class FormControlService {
         let control = new AfeFormControl(value, validators);
         control.uuid = question.key;
         this.wireHidersDisablers(question, control, form);
+        this.wireAlerts(question, control, form);
         this.wireCalculator(question, control, (form ? form.dataSourcesContainer.dataSources : null));
 
         if (parentControl instanceof AfeFormGroup) {
@@ -101,6 +111,13 @@ export class FormControlService {
         return control;
     }
 
+    private wireAlerts(question: QuestionBase,
+        control: AfeFormArray | AfeFormGroup | AfeFormControl, form?: Form) {
+        if (question.alert && question.alert !== '') {
+            let alert = this.alertsFactory.getJsExpressionshowAlert(question, control, form);
+            control.setAlertFn(alert);
+        }
+    }
     private wireHidersDisablers(question: QuestionBase,
         control: AfeFormArray | AfeFormGroup | AfeFormControl, form?: Form) {
         if (question.hide && question.hide !== '') {
@@ -121,9 +138,9 @@ export class FormControlService {
             let helper: JsExpressionHelper = new JsExpressionHelper();
             let runner: ExpressionRunner = new ExpressionRunner();
             let runnable: Runnable = runner.getRunnable(question.calculateExpression
-              , control,
-              helper.helperFunctions,
-              dataSource);
+                , control,
+                helper.helperFunctions,
+                dataSource);
             // this functionality strictly assumes the calculateExpression function has been defined in the JsExpressionHelper class
             control.setCalculatorFn(runnable.run);
         }

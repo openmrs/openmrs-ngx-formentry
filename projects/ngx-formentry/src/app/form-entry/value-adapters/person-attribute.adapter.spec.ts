@@ -6,6 +6,7 @@ import { ValidationFactory } from '../form-factory/validation.factory';
 import { PersonAttribuAdapter } from './person-attribute.adapter';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { HidersDisablersFactory } from '../form-factory/hiders-disablers.factory';
+import { AlertsFactory } from '../form-factory/show-messages.factory';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { QuestionFactory } from '../form-factory/question.factory';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
@@ -26,6 +27,7 @@ describe('Person Attribute Value Adapter:', () => {
                 PersonAttribuAdapter,
                 ExpressionRunner,
                 JsExpressionHelper,
+                AlertsFactory,
                 QuestionFactory,
                 ControlRelationsFactory
             ]

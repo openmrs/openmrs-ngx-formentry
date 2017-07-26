@@ -12,6 +12,7 @@ export interface BaseOptions {
     required?: boolean;
     questionOptions?: any;
     hide?: string | boolean;
+    alert?: any;
     disable?: string | boolean;
     enableHistoricalValue?: boolean;
     historicalDataValue?: any;

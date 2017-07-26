@@ -59,7 +59,6 @@ export class FormRendererComponent implements OnInit {
     if (this.parentComponent) {
       this.parentComponent.addChildComponent(this);
     }
-
   }
 
   addChildComponent(child: FormRendererComponent) {

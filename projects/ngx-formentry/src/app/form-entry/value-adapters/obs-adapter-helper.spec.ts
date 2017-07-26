@@ -10,6 +10,7 @@ import { FormFactory } from '../../form-entry/form-factory/form.factory';
 import { FormControlService } from '../../form-entry/form-factory/form-control.service';
 import { ValidationFactory } from '../../form-entry/form-factory/validation.factory';
 import { QuestionFactory } from '../../form-entry/form-factory/question.factory';
+import { AlertsFactory } from '../form-factory/show-messages.factory';
 import { HidersDisablersFactory } from '../../form-entry/form-factory/hiders-disablers.factory';
 import { ExpressionRunner } from '../../form-entry/expression-runner/expression-runner';
 import { JsExpressionHelper } from '../../form-entry/helpers/js-expression-helper';
@@ -26,6 +27,7 @@ describe('Obs Value Adapter Helper: ', () => {
                 FormControlService,
                 ValidationFactory,
                 HidersDisablersFactory,
+                AlertsFactory,
                 QuestionFactory,
                 ExpressionRunner,
                 JsExpressionHelper,
