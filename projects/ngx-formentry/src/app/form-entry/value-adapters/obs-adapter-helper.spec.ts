@@ -18,7 +18,10 @@ import { ControlRelationsFactory } from '../../form-entry/form-factory/control-r
 import { Form } from '../form-factory/form';
 
 describe('Obs Value Adapter Helper: ', () => {
-    beforeEach(() => {
+    beforeEach((done) => {
+        window.setTimeout(function () {
+            done();
+        }, 0);
         TestBed.configureTestingModule({
             declarations: [],
             providers: [

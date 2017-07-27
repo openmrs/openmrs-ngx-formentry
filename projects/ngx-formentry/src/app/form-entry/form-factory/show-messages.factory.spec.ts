@@ -46,8 +46,6 @@ describe('Show Messages Factory:', () => {
         let message: Alert = factory.getJsExpressionshowAlert(model, control);
         control.setAlertFn(message);
         control.updateAlert();
-        console.log(control.alert);
-        console.log(control.alerts);
         expect(control.alert).toEqual('Vl required');
     });
 
