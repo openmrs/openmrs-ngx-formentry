@@ -67,11 +67,8 @@ export class OrderValueAdapter implements ValueAdapter {
         }
 
         deletedOrders = this._getDeletedOrders(selectedOrders, existingOrders);
-        this._addDeletedOrdersToPayload(deletedOrders, payload);
+        return this._addDeletedOrdersToPayload(deletedOrders, payload);
 
-        return _.uniqBy(payload, function (order) {
-            return order.concept;
-        });
     }
 
     private _getExistingOrders(form: Form) {
