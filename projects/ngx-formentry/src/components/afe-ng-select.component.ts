@@ -90,7 +90,7 @@ export class AfeNgSelectComponent implements ControlValueAccessor, OnInit, OnCha
     return this.subject.asObservable();
   }
 
-
+  onValueChange(event) { }
   resolveSelectedOption(value: any): Observable<Option> {
 
     this.subjectOption = new BehaviorSubject<Option>(null);

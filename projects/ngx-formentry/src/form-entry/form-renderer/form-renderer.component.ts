@@ -1,7 +1,6 @@
 import {
   Component, OnInit, Input, Inject
 } from '@angular/core';
-import '../../../style/app.css';
 import 'hammerjs';
 import { DEFAULT_STYLES } from './form-renderer.component.css';
 import { DOCUMENT } from '@angular/platform-browser';
@@ -16,7 +15,7 @@ import { QuestionGroup } from '../question-models/group-question';
 @Component({
   selector: 'form-renderer',
   templateUrl: 'form-renderer.component.html',
-  styles: [DEFAULT_STYLES]
+  styles: ['../../style/app.css', DEFAULT_STYLES]
 })
 export class FormRendererComponent implements OnInit {
 
@@ -32,7 +31,7 @@ export class FormRendererComponent implements OnInit {
 
   constructor(private validationFactory: ValidationFactory,
     private dataSources: DataSources, private formErrorsService: FormErrorsService,
-    @Inject(DOCUMENT) private document: Document) {
+              @Inject(DOCUMENT) private document: any) {
     this.activeTab = 0;
   }
 

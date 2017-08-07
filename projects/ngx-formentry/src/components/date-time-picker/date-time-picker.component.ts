@@ -1,14 +1,11 @@
-import { Component, OnInit, Input, forwardRef, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, EventEmitter, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as Moment from 'moment';
-import { Output } from '@angular/core/src/metadata/directives';
 
-const myDpTpl: string = require('./date-time-picker.component.html');
-const myDpStyles: string = require('./date-time-picker.component.css');
 @Component({
     selector: 'date-time-picker',
-    template: myDpTpl,
-    styles: [myDpStyles],
+    templateUrl: './date-time-picker.component.html',
+    styleUrls: ['./date-time-picker.component.css'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -24,8 +21,8 @@ export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
     @Input() showWeeks: boolean = false;
     @Input() weeks: number[] = [2, 4, 6, 8, 12, 16, 24];
     @Output() onDateChange = new EventEmitter<any>();
-    private showDatePicker: boolean = false;
-    private showTimePicker: boolean = false;
+    public showDatePicker: boolean = false;
+    public showTimePicker: boolean = false;
     onChange: any = () => { };
     onTouched: any = () => { };
 

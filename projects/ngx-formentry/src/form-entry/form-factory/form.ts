@@ -167,7 +167,7 @@ export class Form {
                 invalidControlNodes.push(child);
               }
 
-              c.markAsTouched(true);
+              c.markAsTouched();
             }
           }
         } else if (child instanceof ArrayNode) {

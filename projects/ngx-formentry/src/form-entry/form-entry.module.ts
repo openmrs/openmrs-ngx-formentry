@@ -1,11 +1,11 @@
-import { NgModule, ApplicationRef } from '@angular/core';
+import { NgModule } from '@angular/core';
+import { MdTabsModule, MdIconModule, OVERLAY_PROVIDERS } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { MdTabsModule } from '@angular/material';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
-import { CollapseModule } from 'ng2-bootstrap';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { FormErrorsService } from './services';
 import { HammerConfig } from './helpers/hammer-config';
 import { FormControlService } from './form-factory/form-control.service';
@@ -27,24 +27,27 @@ import { FormSchemaCompiler } from './services/form-schema-compiler.service';
 import { FormFactory } from './form-factory/form.factory';
 import { QuestionFactory } from './form-factory/question.factory';
 import { ControlRelationsFactory } from './form-factory/control-relations.factory';
-import { EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper } from './value-adapters';
+import {
+    EncounterAdapter, PersonAttribuAdapter, OrderValueAdapter,
+    ObsValueAdapter, ObsAdapterHelper
+} from './value-adapters';
 import { RemoteSelectModule } from '../components/remote-select/remote-select.module';
 import { DataSources } from './data-sources/data-sources';
 import {
     AppointmentsOverviewComponent
 } from '../components/appointments-overview/appointments-overview.component';
 
-
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
+        CollapseModule.forRoot(),
         SelectModule,
         DateTimePickerModule,
         RemoteSelectModule,
-        MdTabsModule.forRoot(),
-        CollapseModule.forRoot(),
-        RemoteFileUploadModule
+        RemoteFileUploadModule,
+        MdIconModule,
+        MdTabsModule
     ],
     declarations: [
         FormRendererComponent,
@@ -54,6 +57,7 @@ import {
         ErrorRendererComponent
     ],
     providers: [
+        OVERLAY_PROVIDERS,
         FormBuilder,
         FormControlService,
         FormErrorsService,
@@ -79,26 +83,9 @@ import {
             useClass: HammerConfig
         }
     ],
-    exports: [FormRendererComponent, AfeNgSelectComponent, ErrorRendererComponent]
+    exports: [FormRendererComponent, AfeNgSelectComponent,
+        ErrorRendererComponent, DateTimePickerModule]
 })
 export class FormEntryModule {
 
-    constructor(public appRef: ApplicationRef) {
-
-    }
-    hmrOnInit(store) {
-        console.log('HMR store', store);
-    }
-    hmrOnDestroy(store) {
-        let cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
-        // recreate elements
-        store.disposeOldHosts = createNewHosts(cmpLocation);
-        // remove styles
-        removeNgStyles();
-    }
-    hmrAfterDestroy(store) {
-        // display new elements
-        store.disposeOldHosts();
-        delete store.disposeOldHosts;
-    }
 }

@@ -72,35 +72,35 @@ export class ValidationFactory {
     return list;
   }
 
-  get conditionalRequiredValidator() {
+  get conditionalRequiredValidator(): ConditionalRequiredValidator{
     return new ConditionalRequiredValidator();
   }
 
-  get conditionalAnsweredValidator() {
+  get conditionalAnsweredValidator(): ConditionalAnsweredValidator {
     return new ConditionalAnsweredValidator();
   }
 
-  get requiredValidator() {
+  get requiredValidator(): any {
     return new RequiredValidator().validate;
   }
 
-  get dateValidator() {
+  get dateValidator(): any {
     return new DateValidator().validate;
   }
 
-  get futureDateRestrictionValidator() {
+  get futureDateRestrictionValidator(): any {
     return new FutureDateRestrictionValidator().validate;
   }
 
-  get maxDateValidator() {
+  get maxDateValidator(): any {
     return new MaxDateValidator().validate;
   }
 
-  get minDateValidator() {
+  get minDateValidator(): any {
     return new MinDateValidator().validate;
   }
 
-  get minLengthValidator() {
+  get minLengthValidator(): any {
     return Validators.minLength;
   }
 
@@ -108,11 +108,11 @@ export class ValidationFactory {
     return Validators.maxLength;
   }
 
-  getMinValueValidator(min: number) {
+  public getMinValueValidator(min: number): any {
     return new MinValidator().validate(min);
   }
 
-  getMaxValueValidator(max: number) {
+  public getMaxValueValidator(max: number): any {
 
     return new MaxValidator().validate(max);
   }
@@ -122,7 +122,7 @@ export class ValidationFactory {
     return new JsExpressionValidator();
   }
 
-  errors(errors: any, question: QuestionBase): Array<string> {
+  public errors(errors: any, question: QuestionBase): Array<string> {
 
     let messages: Array<string> = [];
 
