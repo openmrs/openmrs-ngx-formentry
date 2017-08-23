@@ -2,7 +2,8 @@ import { Injector } from '@angular/core';
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
-import { AfeFormControl, AfeFormArray, AfeFormGroup } from '../../abstract-controls-extension/control-extensions';
+import { AfeFormControl, AfeFormArray, AfeFormGroup 
+} from '../../abstract-controls-extension/control-extensions';
 
 import { FormControlService } from './form-control.service';
 import { TextInputQuestion } from '../question-models/text-input-question';
@@ -14,6 +15,8 @@ import { HidersDisablersFactory } from './hiders-disablers.factory';
 import { AlertsFactory } from './show-messages.factory';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
+import { DebugModeService } from './../services/debug-mode.service';
+import { CookieService , CookieOptions } from 'angular2-cookie/core';
 
 describe('Form Factory Control Service Tests', () => {
   let injector: Injector;
@@ -29,7 +32,10 @@ describe('Form Factory Control Service Tests', () => {
         HidersDisablersFactory,
         AlertsFactory,
         ExpressionRunner,
-        JsExpressionHelper
+        JsExpressionHelper,
+        DebugModeService,
+        CookieService,
+        { provide: CookieOptions, useValue: {} }
       ]
     });
     injector = getTestBed();

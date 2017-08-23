@@ -12,6 +12,8 @@ import { AlertsFactory } from '../form-factory/show-messages.factory';
 import { ExpressionRunner } from '../../form-entry/expression-runner/expression-runner';
 import { JsExpressionHelper } from '../../form-entry/helpers/js-expression-helper';
 import { ControlRelationsFactory } from '../../form-entry/form-factory/control-relations.factory';
+import { DebugModeService } from './../services/debug-mode.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 
 describe('Orders Value Adapter', () => {
@@ -28,7 +30,9 @@ describe('Orders Value Adapter', () => {
                 AlertsFactory,
                 ExpressionRunner,
                 JsExpressionHelper,
-                ControlRelationsFactory
+                ControlRelationsFactory,
+                DebugModeService,
+                CookieService
 
             ]
         });

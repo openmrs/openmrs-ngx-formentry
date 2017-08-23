@@ -12,7 +12,9 @@ import { ControlRelationsFactory } from './control-relations.factory';
 
 import { SampleSchema } from './sample-schema';
 
-import { Form } from  './form';
+import { Form } from './form';
+import { DebugModeService } from './../services/debug-mode.service';
+import { CookieService , CookieOptions} from 'angular2-cookie/core';
 
 describe('Form:', () => {
 
@@ -28,7 +30,10 @@ describe('Form:', () => {
               AlertsFactory,
               ExpressionRunner,
               JsExpressionHelper,
-              ControlRelationsFactory
+              ControlRelationsFactory,
+              DebugModeService,
+              CookieService,
+              { provide: CookieOptions, useValue: {} }
           ]
       });
   });

@@ -120,6 +120,4 @@ return Observable.of({image: ''});
     ];
   }
 
-  
-
 }

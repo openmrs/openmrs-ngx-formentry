@@ -1,7 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { FormFactory } from './form.factory';
-import { QuestionBase, TextInputQuestion, QuestionGroup, RepeatingQuestion } from '../question-models/models';
-import { AfeFormGroup, AfeControlType, AfeFormControl, AfeFormArray } from '../../abstract-controls-extension/control-extensions';
+import { QuestionBase, TextInputQuestion, QuestionGroup, RepeatingQuestion
+} from '../question-models/models';
+import { AfeFormGroup, AfeControlType, AfeFormControl, AfeFormArray
+ } from '../../abstract-controls-extension/control-extensions';
 import { FormControlService } from './form-control.service';
 import { LeafNode, GroupNode, ArrayNode } from './form-node';
 import { SampleSchema } from './sample-schema';
@@ -13,6 +15,8 @@ import { AlertsFactory } from './show-messages.factory';
 import { ControlRelationsFactory } from './control-relations.factory';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
+import { DebugModeService } from './../services/debug-mode.service';
+import { CookieService, CookieOptions } from 'angular2-cookie/core';
 
 import { Form } from './form';
 
@@ -28,7 +32,10 @@ describe('Form Factory:', () => {
                 AlertsFactory,
                 ExpressionRunner,
                 JsExpressionHelper,
-                ControlRelationsFactory
+                ControlRelationsFactory,
+                DebugModeService,
+                CookieService,
+                { provide: CookieOptions, useValue: {} }
             ]
         });
     });

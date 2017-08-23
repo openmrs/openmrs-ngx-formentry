@@ -2,10 +2,10 @@ import { TestBed, inject } from '@angular/core/testing';
 // import { FormControl } from '@angular/forms';
 
 import { ObsAdapterHelper } from './obs-adapter-helper';
-import { NodeBase, ArrayNode, GroupNode, LeafNode } from '../form-factory/form-node';
+import { NodeBase, ArrayNode, GroupNode } from '../form-factory/form-node';
 const adultForm = require('../../adult');
 const adultFormObs = require('../../mock/obs');
-const generatedPayload = require('./generatedPayload');
+// const generatedPayload = require('./generatedPayload');
 import { FormFactory } from '../../form-entry/form-factory/form.factory';
 import { FormControlService } from '../../form-entry/form-factory/form-control.service';
 import { ValidationFactory } from '../../form-entry/form-factory/validation.factory';
@@ -16,6 +16,9 @@ import { ExpressionRunner } from '../../form-entry/expression-runner/expression-
 import { JsExpressionHelper } from '../../form-entry/helpers/js-expression-helper';
 import { ControlRelationsFactory } from '../../form-entry/form-factory/control-relations.factory';
 import { Form } from '../form-factory/form';
+import { DebugModeService } from './../services/debug-mode.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+
 
 describe('Obs Value Adapter Helper: ', () => {
     beforeEach((done) => {
@@ -34,7 +37,9 @@ describe('Obs Value Adapter Helper: ', () => {
                 QuestionFactory,
                 ExpressionRunner,
                 JsExpressionHelper,
-                ControlRelationsFactory
+                ControlRelationsFactory,
+                DebugModeService,
+                CookieService
             ]
         });
     });

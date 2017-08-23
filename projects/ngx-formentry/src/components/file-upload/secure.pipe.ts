@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer} from '@angular/platform-browser';
 // import { FileUploadResourceService } from '../../etl-api/file-upload-resource.service';
 
 // Using similarity from AsyncPipe to avoid having to pipe |secure|async in HTML.

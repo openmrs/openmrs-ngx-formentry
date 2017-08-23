@@ -4,14 +4,20 @@ import { Disabler } from '../control-hiders-disablers/can-disable';
 import { Hider } from '../control-hiders-disablers/can-hide';
 
 import { ExpressionRunner, Runnable } from '../expression-runner/expression-runner';
-import { AfeFormControl, AfeFormArray, AfeFormGroup } from '../../abstract-controls-extension/control-extensions';
+import { AfeFormControl, AfeFormArray, AfeFormGroup 
+} from '../../abstract-controls-extension/control-extensions';
 import { QuestionBase } from '../question-models/question-base';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
-import { Form} from './form';
+import { Form } from './form';
+// Add ability to display all fields for debugging
+import { DebugModeService } from './../services/debug-mode.service';
 
 @Injectable()
 export class HidersDisablersFactory {
-    constructor(private expressionRunner: ExpressionRunner, private expressionHelper: JsExpressionHelper) {
+
+    constructor(private expressionRunner: ExpressionRunner,
+     private expressionHelper: JsExpressionHelper,
+     private _debugModeService: DebugModeService) {
     }
 
     getJsExpressionDisabler(question: QuestionBase, control: AfeFormControl | AfeFormArray | AfeFormGroup,
@@ -36,15 +42,25 @@ export class HidersDisablersFactory {
         let hide: any = question.hide;
         let value: string = typeof hide === 'object' ? this.convertHideObjectToString(hide) : question.hide as string;
 
-        let runnable: Runnable =
-            this.expressionRunner.getRunnable(value, control,
-                this.expressionHelper.helperFunctions, {}, form);
+        // check if debugging has been enabled
+
+        let debugEnabled = this._debugModeService.debugEnabled();
+
+        let runnable: Runnable = this.expressionRunner.getRunnable(value, control,
+        this.expressionHelper.helperFunctions, {}, form);
+
         let hider: Hider = {
             toHide: false,
             hideWhenExpression: value,
             reEvaluateHidingExpression: () => {
-                let result = runnable.run();
-                hider.toHide = result;
+                 /* if debug is enabled then hiders to be false
+                 else run the normal eveluator i.e runnable.run()
+                 */
+                if (debugEnabled === true) {
+                      hider.toHide = false ;
+                  }else {
+                      hider.toHide =  runnable.run();
+                  }
             }
         };
         return hider;

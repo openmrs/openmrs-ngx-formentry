@@ -14,6 +14,9 @@ import { NodeBase, ArrayNode, LeafNode } from '../form-factory/form-node';
 
 import { OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper } from '.';
 
+import { DebugModeService } from './../services/debug-mode.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+
 const adultForm = require('../../adult');
 const adultFormOrders = require('../../mock/orders');
 const adultFormObs = require('../../mock/obs');
@@ -37,7 +40,9 @@ describe('Encounter Value Adapter:', () => {
                 JsExpressionHelper,
                 QuestionFactory,
                 ControlRelationsFactory,
-                ObsAdapterHelper
+                ObsAdapterHelper,
+                DebugModeService,
+                CookieService
             ]
         });
     });

@@ -16,6 +16,8 @@ import { ControlRelationsFactory } from '../../form-entry/form-factory/control-r
 import { Form } from '../form-factory/form';
 import { ObsValueAdapter } from '.';
 import { ObsAdapterHelper } from './obs-adapter-helper';
+import { DebugModeService } from './../services/debug-mode.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 
 describe('Obs Value Adapter: ', () => {
@@ -33,7 +35,9 @@ describe('Obs Value Adapter: ', () => {
                 ControlRelationsFactory,
                 ObsValueAdapter,
                 ObsAdapterHelper,
-                AlertsFactory
+                AlertsFactory,
+                DebugModeService,
+                CookieService
             ]
         });
     });

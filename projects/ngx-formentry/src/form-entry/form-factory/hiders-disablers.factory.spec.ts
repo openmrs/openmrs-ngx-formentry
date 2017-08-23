@@ -7,6 +7,8 @@ import { QuestionBase } from '../question-models/question-base';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { AfeFormControl } from '../../abstract-controls-extension/control-extensions';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
+import { DebugModeService } from './../services/debug-mode.service';
+import { CookieService, CookieOptions } from 'angular2-cookie/core';
 
 describe('Hiders Disablers Factory:', () => {
     beforeEach(() => {
@@ -14,7 +16,10 @@ describe('Hiders Disablers Factory:', () => {
             providers: [
                 HidersDisablersFactory,
                 ExpressionRunner,
-                JsExpressionHelper
+                JsExpressionHelper,
+                DebugModeService,
+                CookieService,
+                { provide: CookieOptions, useValue: {} }
             ]
         });
     });

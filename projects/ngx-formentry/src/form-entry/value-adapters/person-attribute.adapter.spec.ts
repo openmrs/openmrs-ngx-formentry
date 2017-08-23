@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { FormFactory } from '../form-factory/form.factory';
 import { FormControlService } from '../form-factory/form-control.service';
 import { ValidationFactory } from '../form-factory/validation.factory';
@@ -11,6 +10,8 @@ import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { QuestionFactory } from '../form-factory/question.factory';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
 import { NodeBase } from '../form-factory/form-node';
+import { DebugModeService } from './../services/debug-mode.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 const adultForm = require('../../adult');
 
@@ -29,7 +30,9 @@ describe('Person Attribute Value Adapter:', () => {
                 JsExpressionHelper,
                 AlertsFactory,
                 QuestionFactory,
-                ControlRelationsFactory
+                ControlRelationsFactory,
+                DebugModeService,
+                CookieService
             ]
         });
     });

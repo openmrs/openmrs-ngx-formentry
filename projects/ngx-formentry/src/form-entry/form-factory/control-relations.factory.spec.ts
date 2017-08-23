@@ -12,6 +12,9 @@ import { HidersDisablersFactory } from './hiders-disablers.factory';
 import { AlertsFactory } from './show-messages.factory';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
+import { DebugModeService } from './../services/debug-mode.service';
+import { CookieService, CookieOptions } from 'angular2-cookie/core';
+
 
 
 describe('Control Relations Factory:', () => {
@@ -26,7 +29,10 @@ describe('Control Relations Factory:', () => {
                 HidersDisablersFactory,
                 ExpressionRunner,
                 JsExpressionHelper,
-                AlertsFactory
+                AlertsFactory,
+                DebugModeService,
+                CookieService,
+                { provide: CookieOptions, useValue: {} }
             ]
         });
     });

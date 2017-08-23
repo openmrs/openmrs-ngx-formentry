@@ -14,9 +14,7 @@ import { DataSource } from '../../form-entry/question-models/interfaces/data-sou
             multi: true,
         }],
     styles: [`img {
-        margin-left: auto;
-	    margin-right: auto;
-	    display: block;
+        margin-left: auto;margin-right: auto;display: block;
     }`
     ]
 })

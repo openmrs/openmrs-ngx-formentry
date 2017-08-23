@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-
+import { DebugModeService } from '../form-entry/services/debug-mode.service';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { FormErrorsService } from './services';
 import { HammerConfig } from './helpers/hammer-config';
@@ -12,7 +12,6 @@ import { FormControlService } from './form-factory/form-control.service';
 import { ValidationFactory } from './form-factory/validation.factory';
 import { FormRendererComponent } from './form-renderer/form-renderer.component';
 import { ErrorRendererComponent } from './error-renderer/error-renderer.component';
-import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { HistoricalValueDirective } from './directives/historical-value-directive';
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
 import { SelectModule } from '../components/select';
@@ -36,6 +35,8 @@ import { DataSources } from './data-sources/data-sources';
 import {
     AppointmentsOverviewComponent
 } from '../components/appointments-overview/appointments-overview.component';
+import { CookieService, CookieOptions } from 'angular2-cookie/core';
+
 
 @NgModule({
     imports: [
@@ -77,6 +78,9 @@ import {
         EncounterAdapter,
         PersonAttribuAdapter,
         OrderValueAdapter,
+        CookieService,
+        { provide: CookieOptions, useValue: {} },
+        DebugModeService,
         DataSources,
         {
             provide: HAMMER_GESTURE_CONFIG,
