@@ -96,6 +96,41 @@ export const DEFAULT_STYLES = `a {
       padding: 0px 12px !important;
     }
 
+    .form-tooltip{
+      color:rgb(51, 122, 183);
+      display: inline-block;
+    }
+    .question-info{
+          opacity:0;
+          height:0px;
+          display: none;
+          transition-duration: opacity 1s ease-out;
+          transtion-delay: 0.5s;
+          color: #9f9f9f;
+    }
+    .hide-info{
+      display:none;
+      height:0px;
+    }
+    .form-tooltip:hover ~ .question-info {
+          display:block;
+          opacity:1;
+          height:auto;
+     }
+    .form-tooltip .tooltipcontent::after {
+          content: " ";
+          position: absolute;
+          bottom: 100%;  /* At the top of the tooltip */
+          right: 0%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-top-color: transparent;
+          border-right-color: transparent;
+          border-bottom-color: #337ab7;
+          border-left-color: transparent;
+ }
+
     ng-select.form-control {
       padding-top: 0;
       height: auto;
