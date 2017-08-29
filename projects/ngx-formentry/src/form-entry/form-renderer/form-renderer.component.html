@@ -51,7 +51,7 @@
   [ngClass]="{disabled: node.control.disabled}">
   <!--LEAF CONTROL-->
   <div class="question-area">
-  <a class="form-tooltip pull-right" (click)="toggleInformation(node.question.extras.id)" data-placement="right" *ngIf="node.question && node.question.extras.questionInfo!=''">
+  <a class="form-tooltip pull-right" (click)="toggleInformation(node.question.extras.id)" data-placement="right" *ngIf="node.question && node.question.extras.questionInfo  && node.question.extras.questionInfo !== ''  && node.question.extras.questionInfo !== ' '">
     <i class="glyphicon glyphicon-question-sign" aria-hidden="true"></i>
     </a>
   
@@ -109,7 +109,7 @@
     </div>
   </div>
   
-   <div class="question-info col-md-12 col-lg-12 col-sm-12" id="{{node.question.extras.id}}" *ngIf="node.question && node.question.extras.questionInfo!=''">
+   <div class="question-info col-md-12 col-lg-12 col-sm-12" id="{{node.question.extras.id}}" *ngIf="node.question && node.question.extras.questionInfo  && node.question.extras.questionInfo !== ''  && node.question.extras.questionInfo !== ' '">
     {{node.question.extras.questionInfo}}
     </div>
     
