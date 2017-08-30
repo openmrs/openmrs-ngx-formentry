@@ -106,7 +106,13 @@ export const DEFAULT_STYLES = `a {
           display: none;
           transition-duration: opacity 1s ease-out;
           transtion-delay: 0.5s;
-          color: #9f9f9f;
+          padding-top: 2px;
+          padding-bottom: 2px;
+          color: #696969;
+          border-style: ridge;
+          border-width: 1px;
+          border-color: #337ab7;
+          margin-top: 2px;
     }
     .hide-info{
       display:none;
