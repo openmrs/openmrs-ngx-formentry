@@ -1,8 +1,8 @@
 <!--CONTAINERS-->
 <div *ngIf="node.question.renderingType === 'form'">
-  <div class="dropdown dropdown-tabs">
+  <div class="dropdown dropdown-tabs forms-dropdown">
     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-angle-double-down"></i></a>
-    <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
+    <ul class="dropdown-menu dropdown-menu-right forms-dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
       <li *ngFor="let question of node.question.questions; let i = index;" (click)="clickTab(i)">
         {{question.label}}
       </li>

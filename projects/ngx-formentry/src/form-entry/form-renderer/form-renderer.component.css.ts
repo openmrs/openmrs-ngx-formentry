@@ -141,4 +141,11 @@ export const DEFAULT_STYLES = `a {
       padding-top: 0;
       height: auto;
       padding-bottom: 0;
-    }`;
+    }
+
+ .forms-dropdown-menu {
+     max-height: 450px;
+     overflow-y: scroll;
+ }
+
+    `;
