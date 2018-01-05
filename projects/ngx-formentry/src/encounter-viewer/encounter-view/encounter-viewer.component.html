@@ -1,0 +1,44 @@
+<div class="viewer">
+<div id="page0" *ngIf="enc">
+<encounter-details [encounter]="enc"></encounter-details>
+</div>
+
+<div *ngIf="rootNode.question.renderingType === 'form'" class="form">
+  <div *ngFor="let question of rootNode.question.questions; let i = index;">
+    <div *ngIf="questionsAnswered(rootNode.children[question.key]) && !isEncounterDetails(rootNode.children[question.key])">
+      <div [attr.id]="'page'+i" class="panel panel-default">
+        <p class="page-label panel-heading text-primary">{{question.label}}</p>
+        <div class="panel-body">
+          <encounter-viewer [node]="rootNode.children[question.key]" [schema]="schema" [parentComponent]="this"></encounter-viewer>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div *ngIf="rootNode.question.renderingType === 'page'" class="page">
+    <encounter-viewer *ngFor="let question of rootNode.question.questions" [parentComponent]="this"
+    [node]="rootNode.children[question.key]" [schema]="schema"></encounter-viewer>
+  </div>
+
+
+  <div *ngIf="rootNode.question.renderingType === 'section'&& questionsAnswered(rootNode) && !isEncounterDetails(rootNode)" class="section">
+    <div class="panel panel-primary">   
+    <p class="panel-heading section-label">{{ rootNode.question.label }}</p>
+    </div>
+    <div *ngFor="let question of rootNode.question.questions">
+      <encounter-viewer [node]="rootNode.children[question.key]" [parentComponent]="this"
+      [schema]="schema"></encounter-viewer>
+    </div>
+  </div>
+
+
+  <div *ngIf="questionAnswered(rootNode)">
+    <div class="question-answer">
+      {{ rootNode.question.label }}
+      <span *ngIf="checkForColon(rootNode.question.label)">:</span>
+      <span class="line-breaker">{{rootNode.initialValue}}</span>
+    </div>
+    <hr>
+  </div>
+</div>

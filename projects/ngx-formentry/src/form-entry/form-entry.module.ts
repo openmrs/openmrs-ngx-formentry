@@ -36,8 +36,7 @@ import {
     AppointmentsOverviewComponent
 } from '../components/appointments-overview/appointments-overview.component';
 import { CookieService, CookieOptions } from 'angular2-cookie/core';
-
-
+import {EncounterViewerModule } from '../encounter-viewer/encounter-viewer.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -48,7 +47,9 @@ import { CookieService, CookieOptions } from 'angular2-cookie/core';
         RemoteSelectModule,
         RemoteFileUploadModule,
         MdIconModule,
-        MdTabsModule
+        MdTabsModule,
+        EncounterViewerModule
+
     ],
     declarations: [
         FormRendererComponent,
@@ -88,7 +89,7 @@ import { CookieService, CookieOptions } from 'angular2-cookie/core';
         }
     ],
     exports: [FormRendererComponent, AfeNgSelectComponent,
-        ErrorRendererComponent, DateTimePickerModule]
+        ErrorRendererComponent, DateTimePickerModule, EncounterViewerModule]
 })
 export class FormEntryModule {
 
