@@ -43,9 +43,12 @@ export class EncounterAdapter implements ValueAdapter {
                     }
                     break;
                 case 'encounterProvider':
-                    if (payload['provider'] && payload['provider'].uuid) {
-                        node.control.setValue(payload['provider'].uuid);
-                        node.initialValue = payload['provider'].uuid;
+                    if (Array.isArray(payload['encounterProviders']) && payload['encounterProviders'].length > 0) {
+                        let firstProvider: any = payload['encounterProviders'][0].provider;
+                        if (firstProvider && firstProvider.uuid) {
+                            node.control.setValue(firstProvider.uuid);
+                            node.initialValue = firstProvider.uuid;
+                        }
                     }
                     break;
                 case 'encounterLocation':
@@ -87,7 +90,14 @@ export class EncounterAdapter implements ValueAdapter {
                         payload['encounterDatetime'] = dateValue.format('YYYY-MM-DD HH:mm:ss');
                         break;
                     case 'encounterProvider':
-                        payload['provider'] = node.control.value;
+                        if (node.control.value && node.control.value !== '') {
+                            let providers = [];
+                            providers.push({
+                                provider: node.control.value,
+                                encounterRole: 'a0b03050-c99b-11e0-9572-0800200c9a66' // unknown provider role in the encounter as default
+                            });
+                            payload['encounterProviders'] = providers;
+                        }
                         break;
                     case 'encounterLocation':
                         payload['location'] = node.control.value;

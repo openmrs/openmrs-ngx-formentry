@@ -100,10 +100,12 @@ describe('Encounter Value Adapter:', () => {
                 uuid: 'patient-uuid',
                 identifiers: []
             },
-            provider: {
-                uuid: 'ef59ac9d-9cca-46c5-ab04-b4d708584e13',
-                display: 'Florida Jepngetich Kiplagat'
-            },
+            encounterProviders: [{
+                provider: {
+                    uuid: 'ef59ac9d-9cca-46c5-ab04-b4d708584e13',
+                    display: 'Florida Jepngetich Kiplagat'
+                }
+            }],
             uuid: '3841e9e6-b6cb-4667-b495-89331c6a973a'
         };
 
@@ -158,10 +160,12 @@ describe('Encounter Value Adapter:', () => {
                 uuid: 'patient-uuid',
                 identifiers: []
             },
-            provider: {
-                uuid: 'ef59ac9d-9cca-46c5-ab04-b4d708584e13',
-                display: 'Florida Jepngetich Kiplagat'
-            },
+            encounterProviders: [{
+                provider: {
+                    uuid: 'ef59ac9d-9cca-46c5-ab04-b4d708584e13',
+                    display: 'Florida Jepngetich Kiplagat'
+                }
+            }],
             uuid: '3841e9e6-b6cb-4667-b495-89331c6a973a'
         };
 
@@ -207,7 +211,9 @@ describe('Encounter Value Adapter:', () => {
         let payload = adapter.generateFormPayload(form);
 
         expect(payload['encounterDatetime']).toEqual('2016-11-23 14:32:54');
-        expect(payload['provider']).toEqual('new-provider-uuid');
+        expect(payload['encounterProviders'].length).toEqual(1);
+        expect(payload['encounterProviders'][0].provider).toEqual('new-provider-uuid');
+        expect(payload['encounterProviders'][0].encounterRole).toEqual('a0b03050-c99b-11e0-9572-0800200c9a66');
         expect(payload['location']).toEqual('new-location-uuid');
 
         // check members not filled by the user
