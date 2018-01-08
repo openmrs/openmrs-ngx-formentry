@@ -77,6 +77,7 @@ export class QuestionFactory {
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'number';
+    question.placeholder = schemaQuestion.questionOptions.placeholder;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
 
@@ -99,7 +100,7 @@ export class QuestionFactory {
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'number';
-
+    question.placeholder = schemaQuestion.questionOptions.placeholder;
     question.extras = schemaQuestion;
 
     let mappings: any = {
@@ -202,6 +203,7 @@ export class QuestionFactory {
     });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
+    question.placeholder = schemaQuestion.questionOptions.placeholder;
     question.isExpanded = schemaQuestion.isExpanded;
     question.rows = schemaQuestion.questionOptions.rows;
     question.validators = this.addValidators(schemaQuestion);
@@ -226,6 +228,7 @@ export class QuestionFactory {
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'text';
+    question.placeholder = schemaQuestion.questionOptions.placeholder;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
 
