@@ -57,25 +57,6 @@ describe('Encounter Viewer Service:', () => {
         expect(service).toBeTruthy();
     });
 
-    it('should check if Node has Initial Value', () => {
-        let answer = service.hasAnswer(groupNodeWithChildrenValue);
-        expect(answer).toBeFalsy();
-        answer = service.hasAnswer(leafnodeWithValue);
-        expect(answer).toBeTruthy();
-    });
-
-    it('should check if node\'s children have answered questions', () => {
-        let answer = service.questionsAnswered(groupNodeWithChildrenValue);
-        expect(answer).toBeTruthy();
-        answer = service.questionsAnswered(groupNodeWithChildrenWithoutValue);
-        expect(answer).toBeFalsy();
-        answer = service.questionsAnswered(leafnodeWithValue);
-        expect(answer).toBeTruthy();
-        answer = service.questionsAnswered(leafnodeWithoutValue);
-        expect(answer).toBeFalsy();
-
-    });
-
     it('convert time to suitable format', () => {
         let date = Date.parse('Tue Dec 19 2017 09:24:10');
         expect(service.convertTime(date)).toEqual('19 Dec 2017 9:24AM (EAT)');
@@ -86,10 +67,10 @@ describe('Encounter Viewer Service:', () => {
     it('should find the answer label in the form schema', () => {
         const questionUuid = '35ed8aad-d6fa-429e-961a-c877e1ad4953';
         let answerUuid = 'a89c2f42-1350-11df-a1f1-0026b9348838';
-        let label = service.findFormAnswerLabel(questionUuid, answerUuid, schema);
+        let label = service.resolveSelectedValueFromSchema(answerUuid, schema);
         expect(label).toBe('Ampath');
         answerUuid = '0f8b7f4e-1656-46b7-bc93-d1fe4f193f5d';
-        label = service.findFormAnswerLabel(questionUuid, answerUuid, schema);
+        label = service.resolveSelectedValueFromSchema(answerUuid, schema);
         expect(label).toBeUndefined();
 
     });

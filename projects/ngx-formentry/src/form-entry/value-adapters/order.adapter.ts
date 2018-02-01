@@ -153,14 +153,16 @@ export class OrderValueAdapter implements ValueAdapter {
 
     private _setOrderNodeValues(node, orders) {
         let index = 0;
+        node['initialValue'] = orders;
         for (let order of orders) {
             node.createChildNode();
             let value = {};
             value[node.question.key] = order.concept;
             let childNode = node.children[index];
             childNode.control.setValue(value);
+            childNode['initialValue'] = value;
             childNode['orderNumber'] = order.orderNumber;
-            console.log('Set Value', node.children[index].control.value);
+            console.log('Set Value', node.children[index].control.value, node, childNode);
             index++;
         }
     }

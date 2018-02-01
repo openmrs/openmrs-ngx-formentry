@@ -80,7 +80,7 @@ export class QuestionFactory {
     question.placeholder = schemaQuestion.questionOptions.placeholder;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
-
+    question.placeholder = schemaQuestion.questionOptions.placeholder || '';
     let mappings: any = {
       label: 'label',
       required: 'required',
@@ -100,7 +100,7 @@ export class QuestionFactory {
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'number';
-    question.placeholder = schemaQuestion.questionOptions.placeholder;
+    question.placeholder = schemaQuestion.questionOptions.placeholder || '';
     question.extras = schemaQuestion;
 
     let mappings: any = {
@@ -208,6 +208,7 @@ export class QuestionFactory {
     question.rows = schemaQuestion.questionOptions.rows;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
+    question.placeholder = schemaQuestion.questionOptions.placeholder || '';
 
     let mappings: any = {
       label: 'label',
@@ -231,7 +232,7 @@ export class QuestionFactory {
     question.placeholder = schemaQuestion.questionOptions.placeholder;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
-
+    question.placeholder = schemaQuestion.questionOptions.placeholder || '';
     let mappings: any = {
       label: 'label',
       required: 'required',

@@ -1,44 +1,100 @@
 <div class="viewer">
-<div id="page0" *ngIf="enc">
-<encounter-details [encounter]="enc"></encounter-details>
-</div>
 
-<div *ngIf="rootNode.question.renderingType === 'form'" class="form">
-  <div *ngFor="let question of rootNode.question.questions; let i = index;">
-    <div *ngIf="questionsAnswered(rootNode.children[question.key]) && !isEncounterDetails(rootNode.children[question.key])">
-      <div [attr.id]="'page'+i" class="panel panel-default">
-        <p class="page-label panel-heading text-primary">{{question.label}}</p>
-        <div class="panel-body">
-          <encounter-viewer [node]="rootNode.children[question.key]" [schema]="schema" [parentComponent]="this"></encounter-viewer>
+
+  <div *ngIf="rootNode.question.renderingType === 'form'" class="form">
+    <div *ngFor="let question of rootNode.question.questions; let i = index;">
+      <div *ngIf="questionsAnswered(rootNode.children[question.key])">
+        <div [attr.id]="'page'+i" class="panel panel-default">
+          <p class="page-label panel-heading text-primary">{{question.label}}</p>
+          <div class="panel-body">
+            <encounter-viewer [node]="rootNode.children[question.key]" [schema]="_schema" [parentComponent]="this" [parentGroup]="rootNode.control"></encounter-viewer>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
   <div *ngIf="rootNode.question.renderingType === 'page'" class="page">
-    <encounter-viewer *ngFor="let question of rootNode.question.questions" [parentComponent]="this"
-    [node]="rootNode.children[question.key]" [schema]="schema"></encounter-viewer>
+    <encounter-viewer *ngFor="let question of rootNode.question.questions" [parentComponent]="this" [node]="rootNode.children[question.key]"
+      [schema]="_schema" [parentGroup]="parentGroup"></encounter-viewer>
   </div>
 
 
-  <div *ngIf="rootNode.question.renderingType === 'section'&& questionsAnswered(rootNode) && !isEncounterDetails(rootNode)" class="section">
-    <div class="panel panel-primary">   
-    <p class="panel-heading section-label">{{ rootNode.question.label }}</p>
+  <div *ngIf="rootNode.question.renderingType === 'section'&& questionsAnswered(rootNode)"
+    class="section">
+    <div class="panel panel-primary">
+      <p class="panel-heading section-label">{{ rootNode.question.label }}</p>
     </div>
     <div *ngFor="let question of rootNode.question.questions">
-      <encounter-viewer [node]="rootNode.children[question.key]" [parentComponent]="this"
-      [schema]="schema"></encounter-viewer>
+      <encounter-viewer [node]="rootNode.children[question.key]" [parentComponent]="this" [schema]="_schema" [parentGroup]="parentGroup"></encounter-viewer>
     </div>
   </div>
 
-
-  <div *ngIf="questionAnswered(rootNode)">
+  <!--Leaf Controls-->
+  <div class="container" style="margin-left:10px;">
+  <form *ngIf="rootNode.question.controlType === 0" [formGroup]="parentGroup">
+    <div *ngIf="rootNode.control.value">
     <div class="question-answer">
-      {{ rootNode.question.label }}
+      <label *ngIf="rootNode.question.label" [attr.for]="rootNode.question.key" style="font-weight:400;">
+          {{ rootNode.question.label }}
+      </label>
       <span *ngIf="checkForColon(rootNode.question.label)">:</span>
-      <span class="line-breaker">{{rootNode.initialValue}}</span>
+      <div [ngSwitch]="rootNode.question.renderingType" style="display:inline-block; font-weight:bold;">
+          <div *ngSwitchCase=" 'file' ">
+            <file-preview [formControlName]="rootNode.question.key" [id]="rootNode.question.key + 'id'" [dataSource]="fileDataSource"></file-preview>
+          </div>
+          <div *ngSwitchCase="'remote-select'">
+            <remote-answer [formControlName]="rootNode.question.key" [id]="rootNode.question.key + 'id'" [dataSource]="remoteDataSource"></remote-answer>
+          </div>
+          <div *ngSwitchDefault style="display:inline-block">
+              <question-control [schema]="_schema" [value]="rootNode.control.value" [dataSource]="customDataSource"></question-control>
+            </div>
+      </div>
+     
     </div>
-    <hr>
-  </div>
+    </div>
+  </form>
 </div>
+
+  <!--Array Controls-->
+  <div *ngIf="rootNode.question.controlType === 1 && questionsAnswered(rootNode)">
+    <div [ngSwitch]="rootNode.question.renderingType">
+      <div *ngSwitchCase=" 'repeating' ">
+        <div [ngSwitch]="rootNode.question.extras.type">
+          <div *ngSwitchCase="'testOrder'">
+            <label>{{rootNode.question.label}}:</label>
+            <div *ngFor="let child of rootNode.children; let i=index ">
+              <encounter-viewer *ngFor="let question of child.question.questions " [parentComponent]="this" [node]="child.children[question.key]
+                " [parentGroup]="child.control " [schema]="_schema"></encounter-viewer>
+            </div>
+          </div>
+          
+          <div *ngSwitchCase="'obsGroup'">
+            <div *ngFor="let child of rootNode.children; let i=index ">
+              <encounter-viewer *ngFor="let question of child.question.questions " [parentComponent]="this" [node]="child.children[question.key]
+                " [parentGroup]="child.control " [schema]="_schema"></encounter-viewer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="rootNode.question.controlType === 2">
+
+    <!--GROUP-->
+    <div [ngSwitch]="rootNode.question.renderingType ">
+      <div *ngSwitchCase=" 'group' ">
+        <encounter-viewer *ngFor="let question of rootNode.question.questions " [parentComponent]="this" [node]="rootNode.children[question.key]
+                  " [parentGroup]="rootNode.control " [schema]="_schema"></encounter-viewer>
+      </div>
+      <div *ngSwitchCase=" 'field-set' ">
+        <encounter-viewer *ngFor="let question of rootNode.question.questions " [parentComponent]="this" [node]="rootNode.children[question.key]
+                  " [parentGroup]="rootNode.control " [schema]="_schema"></encounter-viewer>
+      </div>
+    </div>
+  </div>
+
+
+
+  </div>

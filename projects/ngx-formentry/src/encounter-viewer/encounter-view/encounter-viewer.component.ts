@@ -1,22 +1,27 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { NodeBase, GroupNode, LeafNode } from '../../form-entry/form-factory/form-node';
 import { QuestionBase } from '../../form-entry/question-models/question-base';
 import * as _ from 'lodash';
 import { EncounterViewerService } from '../encounter-viewer.service';
+import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
+import { DataSources } from '../../index';
+import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
 
 @Component({
     selector: 'encounter-viewer',
     templateUrl: './encounter-viewer.component.html',
-    styleUrls: ['./encounter-viewer.component.css']
+    styleUrls: ['./encounter-viewer.component.css'],
 })
 export class EncounterViewerComponent implements OnInit {
     public rootNode: NodeBase;
     public enc;
+    public fileDataSource: DataSource;
+    public remoteDataSource: DataSource;
+    public customDataSource: DataSource;
     public _schema;
+    @Input() public parentGroup: AfeFormGroup;
     @Input() public parentComponent: EncounterViewerComponent;
-
     @Input() set node(rootNode: NodeBase) {
-
         this.rootNode = rootNode;
     }
 
@@ -30,23 +35,34 @@ export class EncounterViewerComponent implements OnInit {
      @Input() set form(form: any) {
          this.rootNode = form.rootNode;
          this._schema = form.schema;
-         this.encService.traverse(this.rootNode, this._schema);
+         console.log(this.rootNode);
     }
 
-
-
-    constructor(private encService: EncounterViewerService) {
+    constructor(private encounterViewerService: EncounterViewerService,
+                @Inject(DataSources) private dataSources: DataSources) {
     }
 
-    public ngOnInit() {}
+    public ngOnInit() {
+        if (this.rootNode && this.rootNode.question.extras
+            && this.rootNode.question.renderingType === 'file') {
+                this.fileDataSource = 
+                this.dataSources.dataSources[this.rootNode.question.dataSource];
+        } else if (this.rootNode && this.rootNode.question.extras
+            && this.rootNode.question.renderingType === 'remote-select') {
+                this.remoteDataSource = 
+                this.dataSources.dataSources[this.rootNode.question.dataSource];
+            } else {
+                this.customDataSource = this.encounterViewerService;
+            }
+    }
 
     public questionsAnswered(node: any) {
-        const $answered = this.encService.questionsAnswered(node);
+        const $answered = this.encounterViewerService.questionsAnswered(node);
         return $answered;
     }
 
     public questionAnswered(node: NodeBase) {
-        const answered = this.encService.hasAnswer(node);
+        const answered = this.encounterViewerService.hasAnswer(node);
         return answered;
     }
 
@@ -54,12 +70,4 @@ export class EncounterViewerComponent implements OnInit {
         if (questionLabel.indexOf(':') === -1) { return true; } else { return false; }
     }
 
-    public isEncounterDetails(node: NodeBase) {
-        if (node.question.label === 'Encounter Details'
-         || node.question.label.indexOf('Encounter') > -1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
