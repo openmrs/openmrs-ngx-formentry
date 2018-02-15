@@ -106,8 +106,8 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     }
 
     canSearch(searchText: string) {
-        return (searchText.length - this.searchText.length >= 3 ||
-            (searchText.length - this.searchText.length <= 3 && searchText !== '')) && this.loading === false;
+        return (searchText.length - this.searchText.length >= 2 ||
+            (searchText.length - this.searchText.length <= 2 && searchText !== '')) && this.loading === false;
     }
 
     // this is the initial value set to the component

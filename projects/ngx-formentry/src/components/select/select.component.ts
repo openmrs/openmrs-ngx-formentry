@@ -166,7 +166,7 @@ export class SelectComponent
 
     onSingleFilterInput(term: string) {
         setTimeout(() => {
-            if (term.length > 3) {
+            if (term.length > 2) {
                 this.typed.emit(term);
             }
         }, 500);
