@@ -13,4 +13,4 @@ export { QuestionGroup } from '../question-models/group-question';
 export { RepeatingQuestion } from '../question-models/repeating-question';
 
 export { TextQuestionOptions } from './interfaces/text-question-options';
-
+export { CheckBoxQuestion } from './checkbox.model';

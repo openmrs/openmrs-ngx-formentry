@@ -40,6 +40,7 @@
     </div>
   </div>
 </div>
+
 <!-- MESSAGES -->
 <div *ngIf="node.control && node.control.alert && node.control.alert !== ''" class="alert alert-warning">
   <a href="#" class="close" data-dismiss="alert">&times;</a> {{node.control.alert}}
@@ -64,7 +65,6 @@
               [ngValue]="o.value">{{o.label}}
       </option>
     </select>
-
     <remote-file-upload *ngSwitchCase="'file'" [dataSource]="dataSource" [formControlName]="node.question.key" [id]="node.question.key + 'id'"
       (fileChanged)="upload($event)">
     </remote-file-upload>
@@ -83,6 +83,20 @@
       [type]="'number'" [id]="node.question.key + 'id' " [step]="'any'" [min]="node.question.extras.questionOptions.min" [max]="node.question.extras.questionOptions.max">
     <input class="form-control" *ngSwitchDefault [formControlName]="node.question.key " [attr.placeholder]="node.question.placeholder "
       [type]="node.question.renderingType" [id]="node.question.key + 'id' ">
+    
+    <div *ngSwitchCase="'radio'">
+      <div *ngFor="let o of node.question.options">
+        <label class="form-control no-border">
+          <input type="radio" [formControlName]="node.question.key" [id]="node.question.key + 'id'" [value]="o.value">
+          {{ o.label }}
+        </label>
+      </div>
+    </div>
+    
+    <div *ngSwitchCase="'checkbox'">
+      <checkbox [id]="node.question.key + 'id'" [formControlName]="node.question.key" [options]="node.question.options"></checkbox>
+    </div>
+
     <div *ngIf="node.question.enableHistoricalValue && node.question.historicalDisplay">
       <div class="container-fluid">
         <div class="row">
@@ -163,5 +177,6 @@
             " [parentGroup]="node.control "></form-renderer>
     </div>
   </div>
+
 </div>
 

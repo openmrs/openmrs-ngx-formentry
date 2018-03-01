@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import 'rxjs/Rx';
 
 import * as _ from 'lodash';
 
@@ -78,9 +79,10 @@ export class ObsValueAdapter implements ValueAdapter {
     setObsValue(node, payload) {
         if (node.question && node.question.extras &&
             (node.question.extras.type === 'obs' ||
-                (node.question.extras.type === 'complex-obs-child' &&
-                    node.question.extras.questionOptions.obsField === 'value')) &&
-            node.question.extras.questionOptions.rendering !== 'multiCheckbox') {
+            (node.question.extras.type === 'complex-obs-child' &&
+            node.question.extras.questionOptions.obsField === 'value')) &&
+            node.question.extras.questionOptions.rendering !== 'multiCheckbox' ||
+            node.question.extras.questionOptions.rendering !== 'checkbox') {
             let obs = _.find(payload, (o: any) => {
                 return o.concept.uuid === node.question.extras.questionOptions.concept;
             });
@@ -338,7 +340,8 @@ export class ObsValueAdapter implements ValueAdapter {
                     this.getExactTime(obs.control.value) : obs.control.value
             };
 
-            if (obs.question.extras.questionOptions.rendering === 'multiCheckbox') {
+            if (obs.question.extras.questionOptions.rendering === 'multiCheckbox' ||
+            obs.question.extras.questionOptions.rendering === 'checkbox') {
                 let multis = this.processMultiSelect(obs.question.extras.questionOptions.concept, obs.control.value);
                 if (obs.initialValue) {
                     let mappedInitial = obs.initialValue.map((a) => {

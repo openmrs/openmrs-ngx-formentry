@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 
 import { FormFactory } from '../form-factory/form.factory';
 import { FormControlService } from '../form-factory/form-control.service';
@@ -24,7 +24,7 @@ const moment = require('moment');
 
 describe('Encounter Value Adapter:', () => {
     let adultFormSchema: any;
-    beforeEach(() => {
+    beforeEach(async(() => {
         adultFormSchema = JSON.parse(JSON.stringify(adultForm));
         TestBed.configureTestingModule({
             providers: [
@@ -45,7 +45,7 @@ describe('Encounter Value Adapter:', () => {
                 CookieService
             ]
         });
-    });
+    }));
 
 
     it('should be injectable', () => {

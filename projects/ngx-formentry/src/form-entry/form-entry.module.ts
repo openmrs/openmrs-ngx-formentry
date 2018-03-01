@@ -37,6 +37,7 @@ import {
 } from '../components/appointments-overview/appointments-overview.component';
 import { CookieService, CookieOptions } from 'angular2-cookie/core';
 import {EncounterViewerModule } from '../encounter-viewer/encounter-viewer.module';
+import { CheckboxModule } from '../components/check-box/checkbox.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -48,8 +49,8 @@ import {EncounterViewerModule } from '../encounter-viewer/encounter-viewer.modul
         RemoteFileUploadModule,
         MdIconModule,
         MdTabsModule,
-        EncounterViewerModule
-
+        EncounterViewerModule,
+        CheckboxModule
     ],
     declarations: [
         FormRendererComponent,

@@ -22,6 +22,7 @@ import { ConditionalValidationModel } from '../question-models/conditional-valid
 import { DummyDataSource } from '../data-sources/dummy-data-source';
 import { HistoricalHelperService } from '../helpers/historical-expression-helper-service';
 import { Form } from './form';
+import { CheckBoxQuestion } from '../question-models/models';
 
 export class QuestionFactory {
   dataSources: any = {};
@@ -166,6 +167,34 @@ export class QuestionFactory {
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     return question;
+  }
+
+  toCheckBoxQuestion(schemaQuestion: any): CheckBoxQuestion {
+    const question = new CheckBoxQuestion({ options: [], type: '', key: '' });
+    question.label = schemaQuestion.label;
+    question.key = schemaQuestion.id;
+    question.extras = schemaQuestion;
+    question.options = schemaQuestion.questionOptions.answers.map((obj) => {
+      return {
+        label: obj.label,
+        value: obj.concept
+      };
+    });
+    question.options.splice(0, 0);
+
+    question.renderingType = schemaQuestion.questionOptions.rendering;
+    const mappings: any = {
+      label: 'label',
+      id: 'key'
+    };
+
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
+    return question;
+
   }
 
   toMultiCheckboxQuestion(schemaQuestion: any): MultiSelectQuestion {
@@ -648,8 +677,12 @@ export class QuestionFactory {
         return this.toEncounterDatetimeQuestion(schema);
       case 'encounterProvider':
         return this.toEncounterProviderQuestion(schema);
-      case 'file':
-        return this.toFileUploadQuestion(schema);
+      case 'radio':
+        return this.toCheckBoxQuestion(schema);
+      case 'checkbox':
+        return this.toCheckBoxQuestion(schema);
+        case 'encounterProvider':
+        return this.toEncounterProviderQuestion(schema);
       default:
         console.warn('New Schema Question Type found.........' + renderType);
         return this.toTextQuestion(schema);

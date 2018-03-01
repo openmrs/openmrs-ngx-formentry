@@ -147,5 +147,9 @@ export const DEFAULT_STYLES = `a {
      max-height: 450px;
      overflow-y: scroll;
  }
+ .no-border {
+  border: 0;
+  box-shadow: none;
+}
 
     `;
