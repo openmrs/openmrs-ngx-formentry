@@ -21,32 +21,32 @@ declare let require: any;
 
 export class DatePickerComponent implements OnInit {
 
-  dayNames: Array<string>;
+  public dayNames: Array<string>;
 
-  @Input() initDate: any;
-  @Input() locale: string = 'en';
-  @Input() viewFormat: string = 'll';
-  @Input() returnObject: string = 'js';
-  @Output() onDatePickerCancel = new EventEmitter<boolean>();
-  @Output() onSelectDate = new EventEmitter<any>();
+  @Input() public initDate: any;
+  @Input() public locale: string = 'en';
+  @Input() public viewFormat: string = 'll';
+  @Input() public returnObject: string = 'js';
+  @Output() public onDatePickerCancel = new EventEmitter<boolean>();
+  @Output() public onSelectDate = new EventEmitter<any>();
 
-  calendarDate: Moment;
-  selectedDate: Moment;
-  today: Moment;
-  currentMonth: string;
-  currentYear: number;
-  onDisplayMonths: boolean = false;
-  onDisplayYears: boolean = false;
-  displayYearsIndex: number = 0;
-  displayYearRange: Array<number>;
-  fullYearRange: Array<any>;
-  monthsShort: Array<string> = moment.monthsShort();
-  calendarDays: Array<Moment>;
+  public calendarDate: Moment;
+  public selectedDate: Moment;
+  public today: Moment;
+  public currentMonth: string;
+  public currentYear: number;
+  public onDisplayMonths: boolean = false;
+  public onDisplayYears: boolean = false;
+  public displayYearsIndex: number = 0;
+  public displayYearRange: Array<number>;
+  public fullYearRange: Array<any>;
+  public monthsShort: Array<string> = moment.monthsShort();
+  public calendarDays: Array<Moment>;
 
   constructor() {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initValue();
     // default to current year range
     _.each(this.fullYearRange, (v, i) => {
@@ -59,7 +59,7 @@ export class DatePickerComponent implements OnInit {
     this.generateCalendar();
   }
 
-  prev(): void {
+  public prev(): void {
     if (this.onDisplayYears) {
       this.displayYearsIndex--;
       if (this.displayYearsIndex < 0) {
@@ -72,17 +72,17 @@ export class DatePickerComponent implements OnInit {
     this.generateCalendar();
   }
 
-  showMonthSelection(): void {
+  public showMonthSelection(): void {
     this.onDisplayMonths = true;
     this.onDisplayYears = false;
   }
 
-  showYearSelection(): void {
+  public showYearSelection(): void {
     this.onDisplayYears = true;
     this.onDisplayMonths = false;
   }
 
-  next(): void {
+  public next(): void {
     if (this.onDisplayYears) {
       this.displayYearsIndex++;
       if (this.displayYearsIndex >= this.fullYearRange.length) {
@@ -95,7 +95,7 @@ export class DatePickerComponent implements OnInit {
     this.generateCalendar();
   }
 
-  selectDay(day: Moment): void {
+  public selectDay(day: Moment): void {
     let daysDifference = day.diff(this.calendarDate.clone().startOf('date'), 'days');
     day = this.calendarDate.clone().add(daysDifference, 'd');
     let selectedDay = this.parseToReturnObjectType(day);
@@ -104,32 +104,32 @@ export class DatePickerComponent implements OnInit {
     return;
   }
 
-  selectMonth(month: string) {
+  public selectMonth(month: string) {
     this.calendarDate = this.calendarDate.clone().month(month);
     this.onDisplayMonths = false;
     this.generateCalendar();
   }
 
-  selectYear(year: number) {
+  public selectYear(year: number) {
     this.calendarDate = this.calendarDate.clone().year(year);
     this.onDisplayYears = false;
     this.generateCalendar();
   }
 
-  selectToday(): void {
+  public selectToday(): void {
     let today = this.parseToReturnObjectType(moment());
     this.onSelectDate.emit(today);
     this.cancelDatePicker();
     return;
   }
 
-  clearPickDate(): void {
+  public clearPickDate(): void {
     this.onSelectDate.emit(null);
     this.cancelDatePicker();
     return;
   }
 
-  cancelDatePicker(): void {
+  public cancelDatePicker(): void {
     this.onDatePickerCancel.emit(false);
     return;
   }
@@ -143,7 +143,7 @@ export class DatePickerComponent implements OnInit {
       years.push(year);
     }
 
-    this.fullYearRange = _.chunk(years, 10);
+    this.fullYearRange = _.chunk(years, 14);
   }
 
   protected initValue() {
@@ -171,7 +171,8 @@ export class DatePickerComponent implements OnInit {
 
   protected generateCalendar(): void {
     this.calendarDays = [];
-    let start = 0 - (this.calendarDate.clone().startOf('month').day() + (7 - moment.localeData().firstDayOfWeek())) % 7;
+    let start = 0 - (this.calendarDate.clone().startOf('month').day() +
+     (7 - moment.localeData().firstDayOfWeek())) % 7;
     let end = 41 + start; // iterator ending point
 
     for (let i = start; i <= end; i += 1) {
