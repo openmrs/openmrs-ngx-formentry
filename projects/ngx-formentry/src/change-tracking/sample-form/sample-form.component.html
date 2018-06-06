@@ -1,0 +1,51 @@
+<div>
+	<form (ngSubmit)="onSubmit()" [formGroup]="form">
+		<input formControlName="1" />
+		<span *ngIf="control1.valid === false" style="color:red;">Has error</span>
+		<div formGroupName="2">
+			<div formArrayName="3">
+				<input formControlName="0" />
+				<span *ngIf="control2.valid === false" style="color:red;">Has error</span>
+			</div>
+			<div formGroupName="4">
+				<input formControlName="6" />
+				<span *ngIf="control3.valid === false" style="color:red;">Has error</span>
+				<br/>
+				<input formControlName="7" />
+				<span *ngIf="control4.valid === false" style="color:red;">Has error</span>
+			</div>
+			<div>
+			<input formControlName="5" />
+			<span *ngIf="control5.valid === false" style="color:red;">Has error</span>
+			</div>
+		</div>
+		<div formArrayName="8">
+			<div formGroupName="0">
+				<input formControlName="9" *ngIf="!control9Removed" />
+				<span *ngIf="control6.valid === false" style="color:red;">Has error</span>
+				<br/>
+				<input formControlName="10" />
+				<span *ngIf="control7.valid === false" style="color:red;">Has error</span>
+			</div>
+            <input formControlName="1" />
+			<span *ngIf="control8.valid === false" style="color:red;">Has error</span>
+            <div formArrayName="2"> 
+                <input formControlName="0" />
+				<span *ngIf="control9.valid === false" style="color:red;">Has error</span>
+            </div>
+             <input formControlName="3" />
+			 <span *ngIf="control10.valid === false" style="color:red;">Has error</span>
+             <br/>
+             <input formControlName="4" />
+			 <span *ngIf="control11.valid === false" style="color:red;">Has error</span>
+		</div>
+		<div class="form-row">
+			<button type="submit" [disabled]="!form.valid">Save</button>
+			<button type="button" (click)="setControlOneValue()"> change value 1 </button>
+			<button type="button" (click)="removeControlNine()"> remove control 9 </button>
+		</div>
+	</form>
+	<div *ngIf="payLoad" class="form-row">
+		<strong>Saved the following values</strong><br>{{payLoad}}
+	</div>
+</div>

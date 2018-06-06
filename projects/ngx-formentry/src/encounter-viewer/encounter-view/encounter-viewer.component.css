@@ -1,0 +1,28 @@
+.page-label{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.section-label{
+    font-size: 18px;
+    font-weight: 500;
+}
+.panel-primary{
+    border: none !important;
+}
+
+.question-answer{
+    font-size: 16px;
+}
+.panel{
+    margin-bottom: 5px;
+}
+div.section{
+    margin-bottom: 15px !important;
+}
+.line-breaker{
+    white-space: pre-line;
+}
+hr{
+    margin: 10px;
+}

@@ -1,0 +1,21 @@
+:host {
+  z-index: 9999999999; }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box; }
+
+
+
+.modal-main {
+  position: absolute;
+  left: 19.6%;
+  right: auto;
+  top:auto;
+  z-index: 111;
+  background-color: #fff;
+  border: 1px solid #d7dad7;
+  border-radius: 6px;
+  transform: translate(-50%, 0);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }

@@ -1,0 +1,26 @@
+<div *ngIf="showAppointments" class="appointments">
+  <p *ngIf="loadingAppointments">
+    <span *ngIf="!appointmentsLoaded && errorLoadingAppointments">Error checking appointments</span>
+    <span *ngIf="loadingAppointments"><span
+      class="fa fa-spinner fa-spin"></span>Checking appointments...</span>
+  </p>
+  <div *ngIf="appointmentsLoaded && !errorLoadingAppointments">
+    <table *ngIf="appointments.length>0" class="table table-stripped table-bordered">
+      <thead>
+      <tr>
+        <th *ngFor="let appointment of appointments" [ngClass]="{'active': appointment.date === today}">
+          <span>{{appointment.date}}</span>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td *ngFor="let appointment of appointments"
+            [ngClass]="{'active': appointment.date === today}">
+          <span><strong><em>{{appointment.count}}</em></strong></span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

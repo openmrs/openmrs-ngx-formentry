@@ -1,0 +1,17 @@
+ul {
+  list-style: none;
+}
+
+.list-group-item {
+    padding: 2px 15px;
+    cursor: pointer;
+}
+
+ul li:hover {
+  background-color: white;
+}
+
+h4 {
+  margin-top: 7px;
+  margin-bottom: 7px;
+}

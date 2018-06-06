@@ -1,0 +1,10 @@
+<div *ngIf="showErrors()" class="container">
+<ul class="list-group">
+  <li class="list-group-item list-group-item-warning" *ngFor="let errorNode of errorNodes" (click)=announceErrorField(errorNode)>
+    <div class="error" *ngIf="errorNode.control.valid == false">
+      <h4>{{errorNode.question.label}}</h4>
+      <span class="text-danger"> {{getControlError(errorNode)}}</span>
+    </div>
+  </li>
+</ul>
+</div>
