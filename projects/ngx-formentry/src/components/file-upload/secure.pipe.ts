@@ -6,10 +6,11 @@ import {
     WrappedValue,
     ChangeDetectorRef
 } from '@angular/core';
+import { of } from 'rxjs';
 
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 
 import { DomSanitizer} from '@angular/platform-browser';

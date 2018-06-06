@@ -17,7 +17,7 @@ import { Form } from '../form-factory/form';
 import { ObsValueAdapter } from '.';
 import { ObsAdapterHelper } from './obs-adapter-helper';
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie/services/cookies.service';
 
 
 describe('Obs Value Adapter: ', () => {

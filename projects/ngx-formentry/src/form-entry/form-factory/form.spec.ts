@@ -14,7 +14,7 @@ import { SampleSchema } from './sample-schema';
 
 import { Form } from './form';
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService , CookieOptions} from 'angular2-cookie/core';
+import { CookieService , CookieOptions} from 'ngx-cookie/core';
 
 describe('Form:', () => {
 

@@ -8,13 +8,13 @@
       </li>
     </ul>
   </div>
-  <md-tab-group (selectChange)='tabSelected($event)' [selectedIndex]='activeTab'>
-    <md-tab [label]='question.label' *ngFor="let question of node.question.questions; let i = index;">
+  <!-- <mat-tab-group (selectChange)='tabSelected($event)' [selectedIndex]='activeTab'>
+    <mat-tab [label]='question.label' *ngFor="let question of node.question.questions; let i = index;">
       <div (swipeLeft)='loadNextTab()' (swipeRight)='loadPreviousTab()'>
         <form-renderer [node]="node.children[question.key]" [parentComponent]="this" [parentGroup]="node.control"></form-renderer>
       </div>
-    </md-tab>
-  </md-tab-group>
+    </mat-tab>
+  </mat-tab-group> -->
 
   <div style="text-align: center;">
     <button type="button" class="btn btn-default" (click)="loadPreviousTab()" [ngClass]="{disabled: isCurrentTabFirst()}">&lt;&lt;</button>

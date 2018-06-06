@@ -1,6 +1,6 @@
 import { DebugModeService } from './debug-mode.service';
 import { TestBed , async , inject} from '@angular/core/testing';
-import { CookieService, CookieOptions } from 'angular2-cookie/core';
+import { CookieService, CookieOptions, CookieOptionsProvider } from 'ngx-cookie';
 
 describe('Service : Debug Mode Service', () => {
 
@@ -9,8 +9,7 @@ describe('Service : Debug Mode Service', () => {
 
             providers: [
                 DebugModeService,
-                CookieService,
-                { provide: CookieOptions, useValue: {} }
+                CookieService
                 ]
 
            });

@@ -17,7 +17,7 @@ import { JsExpressionHelper } from '../../form-entry/helpers/js-expression-helpe
 import { ControlRelationsFactory } from '../../form-entry/form-factory/control-relations.factory';
 import { Form } from '../form-factory/form';
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie/services/cookies.service';
 
 
 describe('Obs Value Adapter Helper: ', () => {

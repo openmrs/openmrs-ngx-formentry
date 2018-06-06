@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs';
 
 import { DisablerHelper } from './disabler-helper';
 import { CanDisable, Disabler } from './can-disable';

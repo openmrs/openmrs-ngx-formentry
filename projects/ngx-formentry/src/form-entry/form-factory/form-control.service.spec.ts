@@ -16,7 +16,7 @@ import { AlertsFactory } from './show-messages.factory';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService , CookieOptions } from 'angular2-cookie/core';
+import { CookieService , CookieOptions } from 'ngx-cookie/core';
 
 describe('Form Factory Control Service Tests', () => {
   let injector: Injector;

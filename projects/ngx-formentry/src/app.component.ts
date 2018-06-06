@@ -1,10 +1,11 @@
-import { Component, style, state, animate, transition, trigger, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { style, state, animate, transition, trigger } from '@angular/animations';
 import { Http, ResponseContentType, Headers } from '@angular/http';
-import { Subscriber } from 'rxjs/Subscriber';
+import { Subscriber } from 'rxjs';
 
 import { QuestionFactory } from './form-entry/form-factory/question.factory';
 import { FormGroup } from '@angular/forms';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject, of } from 'rxjs';
 
 import { Form } from './form-entry/form-factory/form';
 import { FormFactory } from './form-entry/form-factory/form.factory';
@@ -87,7 +88,7 @@ export class AppComponent implements OnInit {
 
         this.dataSources.registerDataSource('file', {
             fileUpload: (data) => {
-                return Observable.of({ image: 'https://unsplash.it/1040/720' });
+                return of({ image: 'https://unsplash.it/1040/720' });
             },
             fetchFile: (url) => {
                 return new Observable((observer: Subscriber<any>) => {

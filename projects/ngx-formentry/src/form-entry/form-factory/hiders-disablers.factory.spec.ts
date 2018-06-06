@@ -8,7 +8,7 @@ import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { AfeFormControl } from '../../abstract-controls-extension/control-extensions';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService, CookieOptions } from 'angular2-cookie/core';
+import { CookieService, CookieOptions } from 'ngx-cookie';
 
 describe('Hiders Disablers Factory:', () => {
     beforeEach(() => {

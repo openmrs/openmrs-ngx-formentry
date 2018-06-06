@@ -15,7 +15,7 @@ import { NodeBase, ArrayNode, LeafNode } from '../form-factory/form-node';
 import { OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper } from '.';
 
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie/services/cookies.service';
 
 const adultForm = require('../../adult');
 const adultFormOrders = require('../../mock/orders');

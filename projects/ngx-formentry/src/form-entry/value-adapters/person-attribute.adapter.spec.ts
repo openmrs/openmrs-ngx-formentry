@@ -11,7 +11,7 @@ import { QuestionFactory } from '../form-factory/question.factory';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
 import { NodeBase } from '../form-factory/form-node';
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie/services/cookies.service';
 
 const adultForm = require('../../adult');
 

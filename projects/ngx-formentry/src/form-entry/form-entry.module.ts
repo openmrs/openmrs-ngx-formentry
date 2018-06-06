@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
-import { MdTabsModule, MdIconModule, OVERLAY_PROVIDERS } from '@angular/material';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -35,22 +38,24 @@ import { DataSources } from './data-sources/data-sources';
 import {
     AppointmentsOverviewComponent
 } from '../components/appointments-overview/appointments-overview.component';
-import { CookieService, CookieOptions } from 'angular2-cookie/core';
-import {EncounterViewerModule } from '../encounter-viewer/encounter-viewer.module';
+import { CookieModule, CookieService, CookieBackendService } from 'ngx-cookie';
+import { EncounterViewerModule } from '../encounter-viewer/encounter-viewer.module';
 import { CheckboxModule } from '../components/check-box/checkbox.module';
 @NgModule({
-    imports: [
-        CommonModule,
+    imports: [CommonModule,
         ReactiveFormsModule,
-        CollapseModule.forRoot(),
+        BrowserAnimationsModule,
+        CollapseModule,
         SelectModule,
         DateTimePickerModule,
         RemoteSelectModule,
         RemoteFileUploadModule,
-        MdIconModule,
-        MdTabsModule,
         EncounterViewerModule,
-        CheckboxModule
+        CheckboxModule,
+        MatIconModule,
+        MatTabsModule,
+        MatCardModule,
+        CookieModule
     ],
     declarations: [
         FormRendererComponent,
@@ -60,7 +65,6 @@ import { CheckboxModule } from '../components/check-box/checkbox.module';
         ErrorRendererComponent
     ],
     providers: [
-        OVERLAY_PROVIDERS,
         FormBuilder,
         FormControlService,
         FormErrorsService,
@@ -80,14 +84,9 @@ import { CheckboxModule } from '../components/check-box/checkbox.module';
         EncounterAdapter,
         PersonAttribuAdapter,
         OrderValueAdapter,
-        CookieService,
-        { provide: CookieOptions, useValue: {} },
         DebugModeService,
         DataSources,
-        {
-            provide: HAMMER_GESTURE_CONFIG,
-            useClass: HammerConfig
-        }
+        { provide: CookieService, useClass: CookieBackendService }
     ],
     exports: [FormRendererComponent, AfeNgSelectComponent,
         ErrorRendererComponent, DateTimePickerModule, EncounterViewerModule]

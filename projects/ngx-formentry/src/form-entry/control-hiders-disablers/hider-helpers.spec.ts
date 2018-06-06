@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs';
 
 import { HiderHelper } from './hider-helpers';
 import { CanHide, Hider } from './can-hide';

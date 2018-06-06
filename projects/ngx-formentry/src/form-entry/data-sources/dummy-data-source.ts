@@ -1,6 +1,7 @@
 import { Option } from '../question-models/select-option';
 import { DataSource } from '../question-models/interfaces/data-source';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+
 
 export class DummyDataSource implements DataSource {
   options: Observable<Option[]>;
@@ -34,11 +35,11 @@ export class DummyDataSource implements DataSource {
 
     return test.asObservable();
   }
- fileUpload(url) {
-return Observable.of({image: ''});
+  fileUpload(url) {
+    return of({ image: '' });
   }
   fetchFile(url) {
-  return Observable.of({image: ''});
+    return of({ image: '' });
   }
   searchOptions(searchText): Observable<Option[]> {
     let selectOptions = this.sampleData();

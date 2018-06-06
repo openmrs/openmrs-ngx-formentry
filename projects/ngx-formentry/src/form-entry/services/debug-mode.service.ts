@@ -7,7 +7,7 @@ for use by testers
 */
 
 import { Injectable } from '@angular/core';
-import { CookieService, CookieOptions } from 'angular2-cookie/core';
+import { CookieService, CookieOptions } from 'ngx-cookie';
 
 @Injectable()
 

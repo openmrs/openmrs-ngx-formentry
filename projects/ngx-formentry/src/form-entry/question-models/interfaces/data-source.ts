@@ -1,5 +1,5 @@
 import { SelectOption } from './select-option';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 export interface DataSource {
   dataSourceOptions?: any;
