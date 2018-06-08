@@ -16,11 +16,11 @@ export class ControlRelationsFactory {
 
   buildRelations(rootNode: GroupNode) {
 
-    let controlsStore: any = this.mapControlIds(rootNode, {});
+    const controlsStore: any = this.mapControlIds(rootNode, {});
 
-    for (let key in controlsStore) {
+    for (const key in controlsStore) {
       if (controlsStore.hasOwnProperty(key)) {
-        let nodeBase: NodeBase = controlsStore[key];
+        const nodeBase: NodeBase = controlsStore[key];
 
         this.setRelations(controlsStore, nodeBase);
       }
@@ -29,29 +29,29 @@ export class ControlRelationsFactory {
 
   buildArrayNodeRelations(node: GroupNode) {
 
-    let form: Form = node.form;
+    const form: Form = node.form;
 
     if (!form) {
       return;
     }
-    let rootNode: GroupNode = form.rootNode;
+    const rootNode: GroupNode = form.rootNode;
 
     // build relations for controls in the same array
     this.buildRelations(node);
 
     // build relations for control outside the array
-    let rootControlsStore: any = this.mapControlIds(rootNode, {});
-    let arrayControlStore: any = this.mapControlIds(node, {});
+    const rootControlsStore: any = this.mapControlIds(rootNode, {});
+    const arrayControlStore: any = this.mapControlIds(node, {});
 
-    for (let key in rootControlsStore) {
+    for (const key in rootControlsStore) {
 
       if (rootControlsStore.hasOwnProperty(key)) {
 
-        let child: NodeBase = rootControlsStore[key];
+        const child: NodeBase = rootControlsStore[key];
 
         if (child instanceof LeafNode) {
 
-          let questionBase: QuestionBase = (child as LeafNode).question;
+          const questionBase: QuestionBase = (child as LeafNode).question;
 
           if (questionBase.key && questionBase.key.length > 0) {
             this.setRelations(arrayControlStore, child);
@@ -64,11 +64,11 @@ export class ControlRelationsFactory {
     this.createRelationsToArrayControls(node);
 
     // fire relations
-    for (let id in arrayControlStore) {
+    for (const id in arrayControlStore) {
       if (arrayControlStore.hasOwnProperty(id)) {
 
-        let child: NodeBase = arrayControlStore[id];
-        let control: AfeFormControl | AfeFormArray = child.control as AfeFormControl | AfeFormArray;
+        const child: NodeBase = arrayControlStore[id];
+        const control: AfeFormControl | AfeFormArray = child.control as AfeFormControl | AfeFormArray;
         control.updateHiddenState();
         control.updateAlert();
       }
@@ -77,36 +77,36 @@ export class ControlRelationsFactory {
 
   createRelationsToArrayControls(node: GroupNode) {
 
-    let form: Form = node.form;
+    const form: Form = node.form;
 
-    let rootNode: GroupNode = form.rootNode;
+    const rootNode: GroupNode = form.rootNode;
 
     // build relations for control outside the array
-    let rootControlsStore: any = this.mapControlIds(rootNode, {});
-    let arrayControlStore: any = this.mapControlIds(node, {});
+    const rootControlsStore: any = this.mapControlIds(rootNode, {});
+    const arrayControlStore: any = this.mapControlIds(node, {});
 
     // loop through form controls
-    for (let key in rootControlsStore) {
+    for (const key in rootControlsStore) {
       if (rootControlsStore.hasOwnProperty(key)) {
 
-        let rChild: NodeBase = rootControlsStore[key];
+        const rChild: NodeBase = rootControlsStore[key];
 
-        let parentNodePath = node.path.substring(0, node.path.lastIndexOf('.'));
+        const parentNodePath = node.path.substring(0, node.path.lastIndexOf('.'));
 
         if (rChild.path.indexOf(parentNodePath + '.') === -1) {
 
           // loop through controls in the array group
-          for (let id in arrayControlStore) {
+          for (const id in arrayControlStore) {
             if (arrayControlStore.hasOwnProperty(id)) {
 
-              let aChild: NodeBase = arrayControlStore[id];
-              let aChildId = aChild.question.key;
+              const aChild: NodeBase = arrayControlStore[id];
+              const aChildId = aChild.question.key;
               if (this.hasRelation(aChildId, rChild.question)) {
 
-                let nodes: Array<NodeBase> = node.form.searchNodeByPath(rootNode, parentNodePath, []);
+                const nodes: Array<NodeBase> = node.form.searchNodeByPath(rootNode, parentNodePath, []);
                 if (nodes.length > 0) {
-                  let an = nodes[0] as ArrayNode;
-                  let rootControl = (rChild.control as AfeFormControl | AfeFormArray);
+                  const an = nodes[0] as ArrayNode;
+                  const rootControl = (rChild.control as AfeFormControl | AfeFormArray);
 
                   if (rootControl.controlRelations.otherRelations.indexOf(an) === -1) {
                     rootControl.controlRelations.otherRelations.push(an);
@@ -142,17 +142,17 @@ export class ControlRelationsFactory {
 
   getRelationsForControl(id, node: GroupNode): Array<AfeFormControl | AfeFormArray> {
 
-    let relations: Array<AfeFormControl | AfeFormArray> = new Array<AfeFormControl | AfeFormArray>();
+    const relations: Array<AfeFormControl | AfeFormArray> = new Array<AfeFormControl | AfeFormArray>();
 
-    let nodeBaseArray: Array<NodeBase> = node.form.searchNodeByQuestionId(id);
+    const nodeBaseArray: Array<NodeBase> = node.form.searchNodeByQuestionId(id);
 
     if (nodeBaseArray.length > 0) {
 
-      let nodeBase: NodeBase = nodeBaseArray[0];
+      const nodeBase: NodeBase = nodeBaseArray[0];
 
-      let controlList: any = this.mapControlIds(node, {});
+      const controlList: any = this.mapControlIds(node, {});
 
-      for (let key in controlList) {
+      for (const key in controlList) {
         if (controlList.hasOwnProperty(key)) {
 
           if (this.hasRelation(controlList[key].question.key, nodeBase.question)) {
@@ -166,27 +166,27 @@ export class ControlRelationsFactory {
 
   mapControlIds(node: GroupNode, controlsStore: any) {
 
-    let children: NodeBase = node.children;
+    const children: NodeBase = node.children;
 
-    for (let key in children) {
+    for (const key in children) {
 
       if (children.hasOwnProperty(key)) {
 
-        let child: NodeBase = children[key];
+        const child: NodeBase = children[key];
 
         if (child instanceof GroupNode) {
 
           this.mapControlIds(child, controlsStore);
         } else if (child instanceof LeafNode) {
 
-          let questionBase: QuestionBase = (child as LeafNode).question;
+          const questionBase: QuestionBase = (child as LeafNode).question;
 
           if (questionBase.key && questionBase.key.length > 0) {
             controlsStore[questionBase.key] = child;
           }
         } else if (child instanceof ArrayNode) {
 
-          let questionBase: QuestionBase = (child as ArrayNode).question;
+          const questionBase: QuestionBase = (child as ArrayNode).question;
 
           if (questionBase.key && questionBase.key.length > 0) {
             controlsStore[questionBase.key] = child;
@@ -200,15 +200,15 @@ export class ControlRelationsFactory {
 
   setRelations(controlsStore: any, nodeBase: NodeBase) {
 
-    let questionBase: QuestionBase = nodeBase.question;
+    const questionBase: QuestionBase = nodeBase.question;
 
-    let id = questionBase.key;
+    const id = questionBase.key;
 
-    for (let key in controlsStore) {
+    for (const key in controlsStore) {
       if (controlsStore.hasOwnProperty(key) && key !== id) {
 
-        let node: NodeBase = controlsStore[key];
-        let question: QuestionBase = node.question;
+        const node: NodeBase = controlsStore[key];
+        const question: QuestionBase = node.question;
 
         if (this.hasRelation(id, question, nodeBase)) {
           this.addRelationToControl(node.control as AfeFormControl | AfeFormArray, nodeBase.control as AfeFormControl | AfeFormArray);
@@ -217,7 +217,7 @@ export class ControlRelationsFactory {
         // add conditional required and conditional answered relations
         if (typeof question.required === 'object') {
 
-          let required: any = question.required;
+          const required: any = question.required;
 
           if (required.type === 'conditionalRequired') {
 
@@ -241,9 +241,9 @@ export class ControlRelationsFactory {
 
         if (element instanceof JsExpressionValidationModel) {
 
-          let model: JsExpressionValidationModel = element as JsExpressionValidationModel;
+          const model: JsExpressionValidationModel = element as JsExpressionValidationModel;
 
-          let failsWhenExpression: string = model.failsWhenExpression;
+          const failsWhenExpression: string = model.failsWhenExpression;
           if (failsWhenExpression && failsWhenExpression.indexOf(id) !== -1) {
             hasRelation = true;
           }
@@ -259,14 +259,14 @@ export class ControlRelationsFactory {
 
       if (typeof questionBase.hide === 'string') {
 
-        let hide: string = questionBase.hide as string;
+        const hide: string = questionBase.hide as string;
 
         if (hide.length > 0 && hide.indexOf(id) !== -1) {
           hasRelation = true;
         }
       } else if (typeof questionBase.hide === 'object') {
 
-        let hideObj: any = questionBase.hide;
+        const hideObj: any = questionBase.hide;
 
         if (hideObj.field === id) {
           hasRelation = true;
@@ -279,7 +279,7 @@ export class ControlRelationsFactory {
 
       if (typeof questionBase.disable === 'string') {
 
-        let disable: string = questionBase.disable as string;
+        const disable: string = questionBase.disable as string;
 
         if (disable.length > 0 && disable.indexOf(id) !== -1) {
           hasRelation = true;

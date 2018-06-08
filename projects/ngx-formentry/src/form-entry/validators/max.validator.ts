@@ -12,7 +12,7 @@ export class MaxValidator {
 
       if (control.value && control.value.length !== 0) {
 
-        let v: number = control.value;
+        const v: number = control.value;
         return v <= max ? null : { 'max': { requiredValue: max, actualValue: v } };
       }
 

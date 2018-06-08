@@ -11,9 +11,8 @@ import { QuestionFactory } from '../form-factory/question.factory';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
 import { NodeBase } from '../form-factory/form-node';
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService } from 'ngx-cookie/services/cookies.service';
 
-const adultForm = require('../../adult');
+const adultForm = require('../../adult.json');
 
 describe('Person Attribute Value Adapter:', () => {
     let adultFormSchema: any;
@@ -31,29 +30,28 @@ describe('Person Attribute Value Adapter:', () => {
                 AlertsFactory,
                 QuestionFactory,
                 ControlRelationsFactory,
-                DebugModeService,
-                CookieService
+                DebugModeService
             ]
         });
     });
 
 
     it('should be injectable', () => {
-        let adapter = TestBed.get(PersonAttribuAdapter);
-        let factory: FormFactory = TestBed.get(FormFactory);
+        const adapter = TestBed.get(PersonAttribuAdapter);
+        const factory: FormFactory = TestBed.get(FormFactory);
         expect(adapter).toBeTruthy();
         expect(factory).toBeTruthy();
         expect(adultForm).toBeTruthy();
-        let createdForm = factory.createForm(adultFormSchema);
+        const createdForm = factory.createForm(adultFormSchema);
         expect(createdForm).toBeTruthy();
     });
 
     it('should return all person attribute nodes', () => {
-        let adapter = TestBed.get(PersonAttribuAdapter);
-        let factory: FormFactory = TestBed.get(FormFactory);
-        let form = factory.createForm(adultFormSchema);
+        const adapter = TestBed.get(PersonAttribuAdapter);
+        const factory: FormFactory = TestBed.get(FormFactory);
+        const form = factory.createForm(adultFormSchema);
 
-        let nodes: Array<NodeBase> =
+        const nodes: Array<NodeBase> =
             adapter.getPersonAttributeNodes(form.rootNode);
         expect(nodes.length).toBe(2);
         expect(nodes[0].question.extras.questionOptions.attributeType)
@@ -63,11 +61,11 @@ describe('Person Attribute Value Adapter:', () => {
     });
 
     it('should populate form with existing person attribute', () => {
-        let adapter = TestBed.get(PersonAttribuAdapter);
-        let factory: FormFactory = TestBed.get(FormFactory);
-        let form = factory.createForm(adultFormSchema);
+        const adapter = TestBed.get(PersonAttribuAdapter);
+        const factory: FormFactory = TestBed.get(FormFactory);
+        const form = factory.createForm(adultFormSchema);
 
-        let personWithAttributes = {
+        const personWithAttributes = {
             attributes: [
                 {
                     'display': 'Health Center = 14',
@@ -107,7 +105,7 @@ describe('Person Attribute Value Adapter:', () => {
 
         adapter.populateForm(form, personWithAttributes.attributes);
 
-        let nodes: Array<NodeBase> =
+        const nodes: Array<NodeBase> =
             adapter.getPersonAttributeNodes(form.rootNode);
 
         expect(nodes[0].control.value).toBe('08fec144-1352-11df-a1f1-0026b9348838');
@@ -117,11 +115,11 @@ describe('Person Attribute Value Adapter:', () => {
     });
 
     it('should generate person attribute payload attachable to person object', () => {
-        let adapter = TestBed.get(PersonAttribuAdapter);
-        let factory: FormFactory = TestBed.get(FormFactory);
-        let form = factory.createForm(adultFormSchema);
+        const adapter = TestBed.get(PersonAttribuAdapter);
+        const factory: FormFactory = TestBed.get(FormFactory);
+        const form = factory.createForm(adultFormSchema);
 
-        let personWithAttributes = {
+        const personWithAttributes = {
             attributes: [
                 {
                     'display': 'Health Center = 14',
@@ -163,7 +161,7 @@ describe('Person Attribute Value Adapter:', () => {
 
         // simulate user input
 
-        let nodes: Array<NodeBase> =
+        const nodes: Array<NodeBase> =
             adapter.getPersonAttributeNodes(form.rootNode);
 
         nodes[0].control.setValue('new-value');

@@ -7,30 +7,18 @@ for use by testers
 */
 
 import { Injectable } from '@angular/core';
-import { CookieService, CookieOptions } from 'ngx-cookie';
 
 @Injectable()
 
 export class DebugModeService {
 
-    public cookieKey: string = 'formDebug';
+    public cookieKey = 'formDebug';
 
-    constructor(private _cookieservice: CookieService) {
+    constructor() {
     }
    public debugEnabled(): boolean {
 
              // check if the hidefield
-             const serviceCookie = this._cookieservice.get(this.cookieKey);
-             // console.log('Service Cookie', serviceCookie);
-
-             if (typeof serviceCookie === 'undefined') {
-                       return false;
-             } else {
-                    if (serviceCookie === 'true') {
-                           return true;
-                    } else {
-                           return false;
-                    }
-             }
+            return false;
      }
 }

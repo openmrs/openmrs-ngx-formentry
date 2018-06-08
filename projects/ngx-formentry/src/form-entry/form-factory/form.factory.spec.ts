@@ -3,7 +3,7 @@ import { FormFactory } from './form.factory';
 import { QuestionBase, TextInputQuestion, QuestionGroup, RepeatingQuestion
 } from '../question-models/models';
 import { AfeFormGroup, AfeControlType, AfeFormControl, AfeFormArray
- } from '../../abstract-controls-extension/control-extensions';
+ } from '../../abstract-controls-extension';
 import { FormControlService } from './form-control.service';
 import { LeafNode, GroupNode, ArrayNode } from './form-node';
 import { SampleSchema } from './sample-schema';
@@ -16,7 +16,6 @@ import { ControlRelationsFactory } from './control-relations.factory';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService, CookieOptions } from 'ngx-cookie/core';
 
 import { Form } from './form';
 
@@ -33,29 +32,27 @@ describe('Form Factory:', () => {
                 ExpressionRunner,
                 JsExpressionHelper,
                 ControlRelationsFactory,
-                DebugModeService,
-                CookieService,
-                { provide: CookieOptions, useValue: {} }
+                DebugModeService
             ]
         });
     });
     it('should be injected', () => {
-        let factory: FormFactory = TestBed.get(FormFactory);
+        const factory: FormFactory = TestBed.get(FormFactory);
         expect(factory).toBeTruthy();
         expect(factory.controlService).toBeTruthy();
     });
 
     it('should create leaf node', () => {
-        let factory: FormFactory = TestBed.get(FormFactory);
+        const factory: FormFactory = TestBed.get(FormFactory);
 
-        let testQuestion = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
+        const testQuestion = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
         testQuestion.controlType = AfeControlType.AfeFormControl;
 
         let parentControl = new AfeFormGroup({});
         let parentNode = new GroupNode(new QuestionBase({ key: 'key', label: 'label', type: 'type' }),
             null, null, null, 'path.to.parent');
 
-        let createdNode = factory.createNode(testQuestion, parentNode, parentControl);
+        const createdNode = factory.createNode(testQuestion, parentNode, parentControl);
 
         // case leaf with control
         expect(createdNode).toBeTruthy();
@@ -66,12 +63,12 @@ describe('Form Factory:', () => {
         expect(createdNode.path).toBe('path.to.parent.key.key1');
 
         // case leaf without control
-        let testQuestion2 = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
+        const testQuestion2 = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
         testQuestion2.controlType = AfeControlType.None;
 
         parentControl = new AfeFormGroup({});
         parentNode = new GroupNode(new QuestionBase({ key: 'key', label: 'label', type: 'type' }));
-        let createdNode2 = factory.createNode(testQuestion2, parentNode, parentControl);
+        const createdNode2 = factory.createNode(testQuestion2, parentNode, parentControl);
         expect(createdNode2).toBeTruthy();
         expect(createdNode2.control).toBeNull();
         expect(createdNode2.question).toBeTruthy();
@@ -81,20 +78,20 @@ describe('Form Factory:', () => {
     });
 
     it('should create a group node', () => {
-        let groupQuestion: QuestionGroup = new QuestionGroup({ key: 'g1', type: 'group', label: '', questions: [] });
-        let testQuestion = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
-        let testQuestion2 = new TextInputQuestion({ type: 'text', key: 'key2', placeholder: 'text' });
-        let groupQuestion2: QuestionGroup = new QuestionGroup({ key: 'g2', type: 'group', label: '', questions: [] });
-        let testQuestion3 = new TextInputQuestion({ type: 'text', key: 'key3', placeholder: 'text' });
+        const groupQuestion: QuestionGroup = new QuestionGroup({ key: 'g1', type: 'group', label: '', questions: [] });
+        const testQuestion = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
+        const testQuestion2 = new TextInputQuestion({ type: 'text', key: 'key2', placeholder: 'text' });
+        const groupQuestion2: QuestionGroup = new QuestionGroup({ key: 'g2', type: 'group', label: '', questions: [] });
+        const testQuestion3 = new TextInputQuestion({ type: 'text', key: 'key3', placeholder: 'text' });
 
         groupQuestion.questions.push(testQuestion);
         groupQuestion.questions.push(testQuestion2);
         groupQuestion.questions.push(groupQuestion2);
         groupQuestion2.questions.push(testQuestion3);
 
-        let factory: FormFactory = TestBed.get(FormFactory);
+        const factory: FormFactory = TestBed.get(FormFactory);
 
-        let createdNode = factory.createNode(groupQuestion) as GroupNode;
+        const createdNode = factory.createNode(groupQuestion) as GroupNode;
 
         expect(createdNode).toBeTruthy();
         expect(createdNode.control).toBeTruthy();
@@ -123,7 +120,7 @@ describe('Form Factory:', () => {
         expect(createdNode.children[groupQuestion2.key].path).toBe('g1.g2');
 
         // test recursive nature
-        let group2 = createdNode.children[groupQuestion2.key] as GroupNode;
+        const group2 = createdNode.children[groupQuestion2.key] as GroupNode;
         expect(group2).toBeTruthy();
         expect(group2.control).toBeTruthy();
         expect(group2.control instanceof AfeFormGroup).toBe(true);
@@ -132,7 +129,7 @@ describe('Form Factory:', () => {
         expect(group2.children[testQuestion3.key].path).toBe('g1.g2.key3');
 
         // test generated form model to be well generated
-        let createdFormModel = createdNode.control as AfeFormGroup;
+        const createdFormModel = createdNode.control as AfeFormGroup;
         expect(createdFormModel.get(testQuestion.key)).toBeTruthy();
         expect(createdFormModel.get(testQuestion.key) instanceof AfeFormControl).toBeTruthy();
         expect(createdFormModel.get(testQuestion2.key)).toBeTruthy();
@@ -146,25 +143,25 @@ describe('Form Factory:', () => {
 
     it('should create a group node used for presentation only e.g pages', () => {
         // These nodes have no form group or form arrays
-        let groupQuestion: QuestionGroup = new QuestionGroup({ key: 'g1', type: 'group', label: '', questions: [] });
+        const groupQuestion: QuestionGroup = new QuestionGroup({ key: 'g1', type: 'group', label: '', questions: [] });
 
         // To represent page
-        let groupQuestion1: QuestionGroup = new QuestionGroup({ key: 'g1', type: 'group', label: '', questions: [] });
+        const groupQuestion1: QuestionGroup = new QuestionGroup({ key: 'g1', type: 'group', label: '', questions: [] });
         groupQuestion1.controlType = AfeControlType.None;
         groupQuestion.questions.push(groupQuestion1);
 
         // To represent section
-        let groupQuestion2: QuestionGroup = new QuestionGroup({ key: 'g1', type: 'group', label: '', questions: [] });
+        const groupQuestion2: QuestionGroup = new QuestionGroup({ key: 'g1', type: 'group', label: '', questions: [] });
         groupQuestion2.controlType = AfeControlType.None;
         groupQuestion1.questions.push(groupQuestion2);
 
         // To represent top most obs
-        let testQuestion = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
+        const testQuestion = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
         groupQuestion2.questions.push(testQuestion);
 
-        let factory: FormFactory = TestBed.get(FormFactory);
+        const factory: FormFactory = TestBed.get(FormFactory);
 
-        let createdNode = factory.createNode(groupQuestion) as GroupNode;
+        const createdNode = factory.createNode(groupQuestion) as GroupNode;
 
 
         expect(createdNode).toBeTruthy();
@@ -177,34 +174,34 @@ describe('Form Factory:', () => {
         expect((createdNode.children['g1'] as GroupNode).control).toBeNull();
 
         // Section level
-        let secondLevel = createdNode.children['g1'] as GroupNode;
+        const secondLevel = createdNode.children['g1'] as GroupNode;
         expect(secondLevel.children['g1'] instanceof GroupNode).toBe(true);
         expect((secondLevel.children['g1'] as GroupNode).control).toBeNull();
 
         // Created control
-        let thirdLevel = secondLevel.children['g1'] as GroupNode;
+        const thirdLevel = secondLevel.children['g1'] as GroupNode;
         expect(thirdLevel.children['key1']).toBeTruthy();
         expect((thirdLevel.children['key1'] as LeafNode).control).toBeTruthy();
         expect((thirdLevel.children['key1'] as LeafNode).control instanceof AfeFormControl).toBe(true);
-        let control = (thirdLevel.children['key1'] as LeafNode).control as AfeFormControl;
+        const control = (thirdLevel.children['key1'] as LeafNode).control as AfeFormControl;
         expect(control.parent).toBe(createdNode.control);
     });
 
     it('should create array node', () => {
-        let repeatingQuestion: RepeatingQuestion =
+        const repeatingQuestion: RepeatingQuestion =
             new RepeatingQuestion({ key: 'r1', type: 'repeating', label: 'repeating', questions: [] });
 
-        let testQuestion = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
-        let groupQuestion: QuestionGroup = new QuestionGroup({ key: 'g1', type: 'group', label: '', questions: [] });
-        let testQuestion2 = new TextInputQuestion({ type: 'text', key: 'key2', placeholder: 'text' });
+        const testQuestion = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
+        const groupQuestion: QuestionGroup = new QuestionGroup({ key: 'g1', type: 'group', label: '', questions: [] });
+        const testQuestion2 = new TextInputQuestion({ type: 'text', key: 'key2', placeholder: 'text' });
 
         groupQuestion.questions.push(testQuestion2);
         repeatingQuestion.questions.push(testQuestion);
         repeatingQuestion.questions.push(groupQuestion);
 
-        let factory: FormFactory = TestBed.get(FormFactory);
+        const factory: FormFactory = TestBed.get(FormFactory);
 
-        let createdNode = factory.createArrayNode(repeatingQuestion, null, null);
+        const createdNode = factory.createArrayNode(repeatingQuestion, null, null);
 
         // check created node
         expect(createdNode).toBeTruthy();
@@ -214,7 +211,7 @@ describe('Form Factory:', () => {
         expect(createdNode.path).toBe('r1');
 
         // check functions
-        let childNode = createdNode.createChildNode();
+        const childNode = createdNode.createChildNode();
         expect(childNode).toBeTruthy();
         expect(createdNode.children.length).toBe(1);
 
@@ -224,22 +221,22 @@ describe('Form Factory:', () => {
     });
 
     it('should add and remove a child node to array node', () => {
-        let repeatingQuestion: RepeatingQuestion =
+        const repeatingQuestion: RepeatingQuestion =
             new RepeatingQuestion({ key: 'r1', type: 'repeating', label: 'repeating', questions: [] });
 
-        let testQuestion = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
-        let groupQuestion: QuestionGroup = new QuestionGroup({ key: 'g1', type: 'group', label: '', questions: [] });
-        let testQuestion2 = new TextInputQuestion({ type: 'text', key: 'key2', placeholder: 'text' });
+        const testQuestion = new TextInputQuestion({ type: 'text', key: 'key1', placeholder: 'text' });
+        const groupQuestion: QuestionGroup = new QuestionGroup({ key: 'g1', type: 'group', label: '', questions: [] });
+        const testQuestion2 = new TextInputQuestion({ type: 'text', key: 'key2', placeholder: 'text' });
 
         groupQuestion.questions.push(testQuestion2);
         repeatingQuestion.questions.push(testQuestion);
         repeatingQuestion.questions.push(groupQuestion);
 
-        let factory: FormFactory = TestBed.get(FormFactory);
+        const factory: FormFactory = TestBed.get(FormFactory);
 
-        let createdNode = factory.createArrayNode(repeatingQuestion, null, null);
+        const createdNode = factory.createArrayNode(repeatingQuestion, null, null);
 
-        let childNode = factory.createArrayNodeChild(repeatingQuestion, createdNode);
+        const childNode = factory.createArrayNodeChild(repeatingQuestion, createdNode);
 
         expect(childNode).toBeTruthy();
         expect(childNode.control).toBeTruthy();
@@ -254,14 +251,14 @@ describe('Form Factory:', () => {
         expect((childNode.children['g1'] as GroupNode).question).toBe(groupQuestion);
         expect((childNode.children['g1'] as GroupNode).path).toBe('r1.0.g1');
 
-        let childGroup = childNode.children['g1'] as GroupNode;
+        const childGroup = childNode.children['g1'] as GroupNode;
 
         expect(childGroup.children['key2'] as LeafNode).toBeTruthy();
         expect((childGroup.children['key2'] as LeafNode).question).toBe(testQuestion2);
         expect((childGroup.children['key2'] as LeafNode).path).toBe('r1.0.g1.key2');
 
         // examine the model of the repeating field after adding node
-        let model = createdNode.control as AfeFormArray;
+        const model = createdNode.control as AfeFormArray;
 
         expect(model.get('0')).toBeTruthy();
         expect(model.get('0') instanceof AfeFormGroup).toBe(true);
@@ -279,17 +276,17 @@ describe('Form Factory:', () => {
     });
 
     it('should create a form', () => {
-        let testSchema = new SampleSchema().getSchema();
+        const testSchema = new SampleSchema().getSchema();
 
-        let factory: FormFactory = TestBed.get(FormFactory);
+        const factory: FormFactory = TestBed.get(FormFactory);
 
-        let createdForm: Form = factory.createForm(testSchema);
+        const createdForm: Form = factory.createForm(testSchema);
 
         expect(createdForm).toBeTruthy();
         expect(createdForm.rootNode).toBeTruthy();
         expect(createdForm.rootNode instanceof GroupNode).toBeTruthy();
         expect(createdForm.schema).toBe(testSchema);
-        expect(createdForm.FormFactory).toBe(factory);
+        expect(createdForm.formFactory).toBe(factory);
         expect(createdForm.questionFactory).toBeTruthy();
 
         expect(createdForm.rootNode.control).toBeTruthy();
@@ -302,7 +299,7 @@ describe('Form Factory:', () => {
         // check pages
         expect(createdForm.rootNode.children['Triage v0.01']).toBeTruthy();
         expect(createdForm.rootNode.children['Triage v0.01'] instanceof GroupNode).toBeTruthy();
-        let page1 = createdForm.rootNode.children['Triage v0.01'] as GroupNode;
+        const page1 = createdForm.rootNode.children['Triage v0.01'] as GroupNode;
 
         expect(page1.control).toBeFalsy();
         expect(page1.children).toBeTruthy();
@@ -310,7 +307,7 @@ describe('Form Factory:', () => {
         expect(page1.question instanceof QuestionGroup).toBe(true);
 
         // check sections
-        let section1 = page1.children['Encounter Details'] as GroupNode;
+        const section1 = page1.children['Encounter Details'] as GroupNode;
 
         expect(section1).toBeTruthy();
         expect(section1.control).toBeFalsy();
@@ -319,7 +316,7 @@ describe('Form Factory:', () => {
 
         // check questions i.e visit date
 
-        let question1 = section1.children['encDate'] as LeafNode;
+        const question1 = section1.children['encDate'] as LeafNode;
 
         expect(question1).toBeTruthy();
         expect(question1.control).toBeTruthy();
@@ -330,7 +327,7 @@ describe('Form Factory:', () => {
         expect(section1.children['otherDrug']).toBeTruthy();
         expect(section1.children['otherDrug'] instanceof ArrayNode).toBeTruthy();
 
-        let repeating1 = section1.children['otherDrug'] as ArrayNode;
+        const repeating1 = section1.children['otherDrug'] as ArrayNode;
 
         repeating1.createChildNode();
 
@@ -343,7 +340,7 @@ describe('Form Factory:', () => {
 
 
         // check form control structure to be correct
-        let encDate = createdForm.rootNode.control.get('encDate');
+        const encDate = createdForm.rootNode.control.get('encDate');
 
         expect(encDate).toBeTruthy();
         expect(encDate).toBe(question1.control);
@@ -351,10 +348,10 @@ describe('Form Factory:', () => {
     });
 
     it('should create a form with searching-by-id functionality', () => {
-        let testSchema = new SampleSchema().getSchema();
-        let factory: FormFactory = TestBed.get(FormFactory);
+        const testSchema = new SampleSchema().getSchema();
+        const factory: FormFactory = TestBed.get(FormFactory);
 
-        let createdForm: Form = factory.createForm(testSchema);
+        const createdForm: Form = factory.createForm(testSchema);
 
         // CASE 1: top level nodes
         //  ID 'encDate': First field in the form, date field

@@ -30,12 +30,12 @@ describe('DatePickerComponent', () => {
 
     it('should display display 42 picker days', () => {
         fixture.detectChanges();
-        let pickerDayEls = fixture.debugElement.queryAll(By.css('.picker-day'));
+        const pickerDayEls = fixture.debugElement.queryAll(By.css('.picker-day'));
         expect(pickerDayEls.length).toBe(42);
     });
 
     it('should have a button named "Today"', () => {
-        let todayBtnEl = fixture.debugElement.query(By.css('.action-today'));
+        const todayBtnEl = fixture.debugElement.query(By.css('.action-today'));
         expect(todayBtnEl.nativeElement.textContent).toBe('Today');
     });
 
@@ -43,33 +43,33 @@ describe('DatePickerComponent', () => {
         let selectedDateValue: any;
         comp.onSelectDate.subscribe((date: any) => selectedDateValue = date);
         expect(selectedDateValue).toBeUndefined();
-        let todayBtnEl = fixture.debugElement.query(By.css('.action-today'));
+        const todayBtnEl = fixture.debugElement.query(By.css('.action-today'));
         todayBtnEl.triggerEventHandler('click', null);
         expect(selectedDateValue).toBeDefined();
     });
 
     it('should have a button named "Clear"', () => {
-        let clearBtnEl = fixture.debugElement.query(By.css('.action-clear'));
+        const clearBtnEl = fixture.debugElement.query(By.css('.action-clear'));
         expect(clearBtnEl.nativeElement.textContent).toBe('Clear');
     });
 
     it('should raise onSelectDate event when "Clear" button clicked', () => {
         let selectedDateValue: any;
         comp.onSelectDate.subscribe((date: any) => selectedDateValue = date);
-        let clearBtnEl = fixture.debugElement.query(By.css('.action-clear'));
+        const clearBtnEl = fixture.debugElement.query(By.css('.action-clear'));
         clearBtnEl.triggerEventHandler('click', null);
         expect(selectedDateValue).toBeNull();
     });
 
     it('should have a button named "Close"', () => {
-        let closeBtnEl = fixture.debugElement.query(By.css('.action-close'));
+        const closeBtnEl = fixture.debugElement.query(By.css('.action-close'));
         expect(closeBtnEl.nativeElement.textContent).toBe('Close');
     });
 
     it('should raise onDatePickerCancel event when "Close" button clicked', () => {
         let pickerStatus: boolean;
         comp.onDatePickerCancel.subscribe((status: boolean) => pickerStatus = status);
-        let closeBtnEl = fixture.debugElement.query(By.css('.action-close'));
+        const closeBtnEl = fixture.debugElement.query(By.css('.action-close'));
         closeBtnEl.triggerEventHandler('click', null);
         expect(pickerStatus).toBeFalsy();
     });
@@ -77,34 +77,34 @@ describe('DatePickerComponent', () => {
     it('should display current month if the initDate is not set', () => {
         fixture.detectChanges();
         expect(comp.initDate).toBeUndefined();
-        let monthEl = fixture.debugElement.query(By.css('.month'));
+        const monthEl = fixture.debugElement.query(By.css('.month'));
         expect(monthEl.nativeElement.textContent).toBe(moment().format('MMMM'));
     });
 
     it('should display initDate\'s month if the initDate is set', () => {
-        let displayMonthValue = moment().add(1, 'm').format('MMMM');
+        const displayMonthValue = moment().add(1, 'm').format('MMMM');
         comp.initDate = moment().add(1, 'm').format(comp.viewFormat);
         comp.returnObject = 'string';
         fixture.detectChanges();
         expect(comp.initDate).toBeDefined();
-        let monthEl = fixture.debugElement.query(By.css('.month'));
+        const monthEl = fixture.debugElement.query(By.css('.month'));
         expect(monthEl.nativeElement.textContent).toBe(displayMonthValue);
     });
 
     it('should display current year if the initDate is not set', () => {
         fixture.detectChanges();
         expect(comp.initDate).toBeUndefined();
-        let yearEl = fixture.debugElement.query(By.css('.year'));
+        const yearEl = fixture.debugElement.query(By.css('.year'));
         expect(yearEl.nativeElement.textContent).toBe(moment().format('YYYY'));
     });
 
     it('should display initDate\'s year if the initDate is set', () => {
-        let displayYearValue = moment().add(1, 'y').format('YYYY');
+        const displayYearValue = moment().add(1, 'y').format('YYYY');
         comp.initDate = moment().add(1, 'y').format(comp.viewFormat);
         comp.returnObject = 'string';
         fixture.detectChanges();
         expect(comp.initDate).toBeDefined();
-        let yearEl = fixture.debugElement.query(By.css('.year'));
+        const yearEl = fixture.debugElement.query(By.css('.year'));
         expect(yearEl.nativeElement.textContent).toBe(displayYearValue);
     });
 
@@ -113,10 +113,10 @@ describe('DatePickerComponent', () => {
         comp.returnObject = 'string';
         fixture.detectChanges();
 
-        let navNextEl = fixture.debugElement.query(By.css('.nav-next'));
+        const navNextEl = fixture.debugElement.query(By.css('.nav-next'));
         navNextEl.triggerEventHandler('click', null);
 
-        let monthEl = fixture.debugElement.query(By.css('.month'));
+        const monthEl = fixture.debugElement.query(By.css('.month'));
         expect(monthEl.nativeElement.textContent).toBe(moment().add(1, 'm').format('MMMM'));
     });
 
@@ -125,16 +125,16 @@ describe('DatePickerComponent', () => {
         comp.returnObject = 'string';
         fixture.detectChanges();
 
-        let navNextEl = fixture.debugElement.query(By.css('.nav-prev'));
+        const navNextEl = fixture.debugElement.query(By.css('.nav-prev'));
         navNextEl.triggerEventHandler('click', null);
 
-        let monthEl = fixture.debugElement.query(By.css('.month'));
+        const monthEl = fixture.debugElement.query(By.css('.month'));
         expect(monthEl.nativeElement.textContent).toBe(moment().subtract(1, 'm').format('MMMM'));
     });
 
     it('should set selected picker-day element to has "selected" class', () => {
         let selectedIndex: number;
-        let initMoment = moment().add(1, 'd');
+        const initMoment = moment().add(1, 'd');
         comp.initDate = initMoment.format(comp.viewFormat);
         comp.returnObject = 'string';
         fixture.detectChanges();
@@ -144,13 +144,13 @@ describe('DatePickerComponent', () => {
             }
         });
         expect(selectedIndex).toBeDefined();
-        let allPickerDayEl = fixture.debugElement.queryAll(By.css('.picker-day'));
+        const allPickerDayEl = fixture.debugElement.queryAll(By.css('.picker-day'));
         expect(allPickerDayEl[selectedIndex].nativeElement.className).toContain('selected');
     });
 
     it('should set today picker-day element to has "today" class', () => {
         let todayIndex: number;
-        let todayMoment = moment();
+        const todayMoment = moment();
         comp.initDate = todayMoment.format(comp.viewFormat);
         comp.returnObject = 'string';
         fixture.detectChanges();
@@ -160,13 +160,13 @@ describe('DatePickerComponent', () => {
             }
         });
         expect(todayIndex).toBeDefined();
-        let allPickerDayEl = fixture.debugElement.queryAll(By.css('.picker-day'));
+        const allPickerDayEl = fixture.debugElement.queryAll(By.css('.picker-day'));
         expect(allPickerDayEl[todayIndex].nativeElement.className).toContain('today');
     });
 
     it('should set not-current-month picker-day elements to has "out-focus" class', () => {
-        let notCurrentMonthDaysIndex: number[] = [];
-        let todayMoment = moment();
+        const notCurrentMonthDaysIndex: number[] = [];
+        const todayMoment = moment();
         comp.initDate = todayMoment.format(comp.viewFormat);
         comp.returnObject = 'string';
         fixture.detectChanges();
@@ -175,7 +175,7 @@ describe('DatePickerComponent', () => {
                 notCurrentMonthDaysIndex.push(index);
             }
         });
-        let allPickerDayEl = fixture.debugElement.queryAll(By.css('.picker-day'));
+        const allPickerDayEl = fixture.debugElement.queryAll(By.css('.picker-day'));
         notCurrentMonthDaysIndex.map((i: number) => {
             expect(allPickerDayEl[i].nativeElement.className).toContain('out-focus');
         });

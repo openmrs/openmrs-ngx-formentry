@@ -1,4 +1,4 @@
-import { FormControl, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
+import { FormControl, ValidatorFn, AsyncValidatorFn, AbstractControlOptions } from '@angular/forms';
 
 import { ControlRelations } from '../change-tracking/control-relations';
 import { ValueChangeListener } from './value-change.listener';
@@ -11,14 +11,14 @@ import { DisablerHelper } from '../form-entry/control-hiders-disablers/disabler-
 import { CanCalculate } from '../form-entry/control-calculators/can-calculate';
 import { ExpressionRunner } from '../form-entry/expression-runner/expression-runner';
 
-export class AfeFormControl extends FormControl implements CanHide, CanDisable, CanCalculate, CanGenerateAlert, ValueChangeListener {
+class AfeFormControl extends FormControl implements CanHide, CanDisable, CanCalculate, CanGenerateAlert, ValueChangeListener {
     private _controlRelations: ControlRelations;
     private _valueChangeListener: any;
     private _previousValue;
     public uuid: string;
     public pathFromRoot: string;
 
-    hidden: boolean = false;
+    hidden = false;
     hiders: Hider[];
     alert: string;
     alerts: Alert[];
@@ -28,7 +28,8 @@ export class AfeFormControl extends FormControl implements CanHide, CanDisable, 
     private hiderHelper: HiderHelper = new HiderHelper();
     private disablerHelper: DisablerHelper = new DisablerHelper();
     private AlertHelper: AlertHelper = new AlertHelper();
-    constructor(formState?: any, validator?: ValidatorFn | ValidatorFn[], asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[]) {
+    constructor(formState?: any, validator?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
+        asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null) {
         super(formState, validator, asyncValidator);
         this._controlRelations = new ControlRelations(this);
         this.hiders = [];
@@ -36,10 +37,10 @@ export class AfeFormControl extends FormControl implements CanHide, CanDisable, 
         this.alerts = [];
 
         this.valueChanges.subscribe((value) => {
-          if (this._previousValue !== value) {
-            this.fireValueChangeListener(value);
-            this._previousValue = value;
-          }
+            if (this._previousValue !== value) {
+                this.fireValueChangeListener(value);
+                this._previousValue = value;
+            }
         });
     }
 
@@ -70,7 +71,7 @@ export class AfeFormControl extends FormControl implements CanHide, CanDisable, 
 
     updateCalculatedValue() {
         if (this.calculator) {
-            let _val = this.calculator.call(ExpressionRunner, {});
+            const _val = this.calculator.call(ExpressionRunner, {});
             this.setValue(_val);
         }
     }
@@ -103,17 +104,22 @@ export class AfeFormControl extends FormControl implements CanHide, CanDisable, 
         this.AlertHelper.clearAlertsForControl(this);
     }
 
-     updateAlert() {
+    updateAlert() {
         this.AlertHelper.evaluateControlAlerts(this);
     }
 
     addValueChangeListener(func: any) {
-      this._valueChangeListener = func;
+        this._valueChangeListener = func;
     }
 
     fireValueChangeListener(value: any) {
-      if (this._valueChangeListener && typeof this._valueChangeListener === 'function') {
-        this._valueChangeListener(value);
-      }
+        if (this._valueChangeListener && typeof this._valueChangeListener === 'function') {
+            this._valueChangeListener(value);
+        }
+    }
+
+    setValue(value: any) {
+        super.setValue(value);
     }
 }
+export { AfeFormControl };

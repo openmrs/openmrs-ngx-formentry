@@ -10,7 +10,7 @@ const newLine = '\n';
 @Injectable()
 export class EncounterViewerService implements DataSource {
 
-    constructor(){}
+    constructor() {}
     public resolveSelectedValue(value: any): Observable<SelectOption> {
         return;
     }
@@ -61,7 +61,7 @@ export class EncounterViewerService implements DataSource {
             });
         }
         return label;
- 
+
 
     }
 

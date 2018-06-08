@@ -17,4 +17,12 @@ export interface BaseOptions {
     enableHistoricalValue?: boolean;
     historicalDataValue?: any;
     calculateExpression?: string;
+    questions?: any;
+    placeholder?: any;
+    hidden?: any;
+    showTime?: any;
+    showWeek?: any;
+    historicalDisplay?: any;
+    rows?: any;
+    showWeeksAdder?: any;
 }

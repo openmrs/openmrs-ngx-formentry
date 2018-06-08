@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import * as moment_ from 'moment';
+
+const moment = moment_;
 
 @Injectable()
 export class HistoricalEncounterDataService {
@@ -10,10 +12,10 @@ export class HistoricalEncounterDataService {
   }
 
   registerEncounters(name: string, encounters: any) {
-    let encStore: any = {
+    const encStore: any = {
       data: [],
       getValue: (key: string, index = 0): any => {
-        let pathArray = key.split('.');
+        const pathArray = key.split('.');
         if (pathArray.length > 0) {
           return this.getFirstValue(pathArray, encStore.data[index]);
         }
@@ -28,7 +30,7 @@ export class HistoricalEncounterDataService {
     };
 
     if (_.isArray(encounters)) {
-      let group: Array<any> = [];
+      const group: Array<any> = [];
       _.each(encounters, (encounter) => {
         group.push(this._transformEncounter(encounter));
       });
@@ -54,7 +56,7 @@ export class HistoricalEncounterDataService {
 
   getFirstValue(path: Array<string>, object: any): any {
 
-    let answers = [];
+    const answers = [];
 
     this.getAllValues(path, object, answers);
 
@@ -79,8 +81,8 @@ export class HistoricalEncounterDataService {
       return;
     }
 
-    let newpath = path.splice(1);
-    let key = path[0];
+    const newpath = path.splice(1);
+    const key = path[0];
 
     if (_.isArray(object[key]) && object[key].length > 0) {
       _.each(object[key], (childObject) => {
@@ -96,7 +98,7 @@ export class HistoricalEncounterDataService {
       return;
     }
     // Transform encounter Level details to key value pairs.
-    let prevEncounter: any = {
+    const prevEncounter: any = {
       encounterDatetime: encounter.encounterDatetime
     };
 
@@ -117,13 +119,13 @@ export class HistoricalEncounterDataService {
     }
 
     if (encounter.provider) {
-      let provider = encounter.provider;
+      const provider = encounter.provider;
       prevEncounter.provider = provider.uuid;
     }
 
     // Deal with obs.
     if (encounter.obs) {
-      let processedObs: any = this._transformObs(encounter.obs);
+      const processedObs: any = this._transformObs(encounter.obs);
 
       // add in individual processed obs to prevEncounter
       _.extend(prevEncounter, processedObs);
@@ -138,14 +140,14 @@ export class HistoricalEncounterDataService {
       return null;
     }
 
-    let obsRep: any = {};
+    const obsRep: any = {};
     if (_.isArray(obs)) {
       _.each(obs, (singleObs) => {
         this._augumentObs(obsRep, this._transformObs(singleObs));
       });
       return obsRep;
     } else if (obs.groupMembers) {
-      let group: any = {};
+      const group: any = {};
       _.each(obs.groupMembers, (member) => {
         this._augumentObs(group, this._transformObs(member));
       });
@@ -169,11 +171,11 @@ export class HistoricalEncounterDataService {
   }
 
   private _augumentObs(existing: any, toAdd: any): any {
-    for (let key in toAdd) {
+    for (const key in toAdd) {
       if (_.has(existing, key)) {
         // check if not an array yet
         if (!_.isArray(existing[key])) {
-          let temp = existing[key];
+          const temp = existing[key];
           existing[key] = [temp];
         }
 

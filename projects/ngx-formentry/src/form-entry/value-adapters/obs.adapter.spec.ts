@@ -1,9 +1,9 @@
 
 import { TestBed, inject } from '@angular/core/testing';
 
-const adultForm = require('../../adult');
-const adultFormObs = require('../../mock/obs');
-const generatedPayload = require('./generatedPayload');
+const adultForm = require('../../adult.json');
+const adultFormObs = require('../../mock/obs.json');
+const generatedPayload = require('./generatedPayload.json');
 import { FormFactory } from '../../form-entry/form-factory/form.factory';
 import { FormControlService } from '../../form-entry/form-factory/form-control.service';
 import { ValidationFactory } from '../../form-entry/form-factory/validation.factory';
@@ -17,7 +17,6 @@ import { Form } from '../form-factory/form';
 import { ObsValueAdapter } from '.';
 import { ObsAdapterHelper } from './obs-adapter-helper';
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService } from 'ngx-cookie/services/cookies.service';
 
 
 describe('Obs Value Adapter: ', () => {
@@ -36,8 +35,7 @@ describe('Obs Value Adapter: ', () => {
                 ObsValueAdapter,
                 ObsAdapterHelper,
                 AlertsFactory,
-                DebugModeService,
-                CookieService
+                DebugModeService
             ]
         });
     });
@@ -62,12 +60,12 @@ describe('Obs Value Adapter: ', () => {
     describe('processMultiSelect', () => {
         it('should exist',
             inject([ObsValueAdapter], (s: ObsValueAdapter) => {
-                let processMultiSelectSpy = spyOn(s, 'processMultiSelect');
+                const processMultiSelectSpy = spyOn(s, 'processMultiSelect');
                 expect(processMultiSelectSpy).toBeTruthy();
             }));
         it('should return payload for multi select given a concept and values', inject([ObsValueAdapter],
             (s: ObsValueAdapter) => {
-                let payload = s.processMultiSelect('concept', ['value1', 'value2']);
+                const payload = s.processMultiSelect('concept', ['value1', 'value2']);
                 expect(payload).toEqual([{ concept: 'concept', value: 'value1' }, { concept: 'concept', value: 'value2' }]);
             }));
 
@@ -75,18 +73,18 @@ describe('Obs Value Adapter: ', () => {
     describe('updateOrVoidObs', () => {
         it('should exist',
             inject([ObsValueAdapter], (s: ObsValueAdapter) => {
-                let updateOrVoidObs = spyOn(s, 'updateOrVoidObs');
+                const updateOrVoidObs = spyOn(s, 'updateOrVoidObs');
                 expect(updateOrVoidObs).toBeTruthy();
             }));
         it('should insert updated obs into payload', inject([ObsValueAdapter],
             (s: ObsValueAdapter) => {
-                let obsPayload = [];
+                const obsPayload = [];
                 s.updateOrVoidObs({ value: 'value1' }, { obsUuid: 'uuid', value: 'value2' }, obsPayload);
                 expect(obsPayload).toEqual([{ uuid: 'uuid', value: 'value1' }]);
             }));
         it('should insert voided obs into payload', inject([ObsValueAdapter],
             (s: ObsValueAdapter) => {
-                let obsPayload = [];
+                const obsPayload = [];
                 s.updateOrVoidObs({ value: '' }, { obsUuid: 'uuid', value: 'value2' }, obsPayload);
                 expect(obsPayload).toEqual([{ uuid: 'uuid', voided: true }]);
             }));
@@ -96,12 +94,12 @@ describe('Obs Value Adapter: ', () => {
     describe('processNewMultiSelectObs', () => {
         it('should exist',
             inject([ObsValueAdapter], (s: ObsValueAdapter) => {
-                let processNewMultiSelectObs = spyOn(s, 'processNewMultiSelectObs');
+                const processNewMultiSelectObs = spyOn(s, 'processNewMultiSelectObs');
                 expect(processNewMultiSelectObs).toBeTruthy();
             }));
         it('should insert new multiselect obs into payload', inject([ObsValueAdapter],
             (s: ObsValueAdapter) => {
-                let obsPayload = [];
+                const obsPayload = [];
                 s.processNewMultiSelectObs([{ value: { concept: 'concept1', value: 'value1' } },
                 { value: { concept: 'concept1', value: 'value2' } }], obsPayload);
                 console.log(JSON.stringify(obsPayload));
@@ -112,12 +110,12 @@ describe('Obs Value Adapter: ', () => {
     describe('processDeletedMultiSelectObs', () => {
         it('should exist',
             inject([ObsValueAdapter], (s: ObsValueAdapter) => {
-                let processDeletedMultiSelectObs = spyOn(s, 'processDeletedMultiSelectObs');
+                const processDeletedMultiSelectObs = spyOn(s, 'processDeletedMultiSelectObs');
                 expect(processDeletedMultiSelectObs).toBeTruthy();
             }));
         it('should insert deleted multiselect obs into payload', inject([ObsValueAdapter],
             (s: ObsValueAdapter) => {
-                let obsPayload = [];
+                const obsPayload = [];
                 s.processDeletedMultiSelectObs([{ uuid: 'uuid', value: { concept: 'concept1', value: 'value1' } },
                 { uuid: 'uuid2', value: { concept: 'concept1', value: 'value2' } }], obsPayload);
                 expect(obsPayload).toEqual([{ uuid: 'uuid', voided: true }, { uuid: 'uuid2', voided: true }]);
@@ -127,7 +125,7 @@ describe('Obs Value Adapter: ', () => {
     describe('createGroupDeletedObs', () => {
         it('should exist',
             inject([ObsValueAdapter], (s: ObsValueAdapter) => {
-                let createGroupDeletedObs = spyOn(s, 'createGroupDeletedObs');
+                const createGroupDeletedObs = spyOn(s, 'createGroupDeletedObs');
                 expect(createGroupDeletedObs).toBeTruthy();
             }));
         it('should return deleted obs given a payload of existing groups', inject([ObsValueAdapter],
@@ -141,12 +139,12 @@ describe('Obs Value Adapter: ', () => {
     describe('createGroupNewObs', () => {
         it('should exist',
             inject([ObsValueAdapter], (s: ObsValueAdapter) => {
-                let createGroupNewObs = spyOn(s, 'createGroupNewObs');
+                const createGroupNewObs = spyOn(s, 'createGroupNewObs');
                 expect(createGroupNewObs).toBeTruthy();
             }));
         it('should return new obs given a mapped obs group payload', inject([ObsValueAdapter],
             (s: ObsValueAdapter) => {
-                let obsPayload = s.createGroupNewObs([{ value: { 'uuid:value1': 'value1', 'uuid2:value2': 'value2' } }], 'uuid');
+                const obsPayload = s.createGroupNewObs([{ value: { 'uuid:value1': 'value1', 'uuid2:value2': 'value2' } }], 'uuid');
                 expect(obsPayload).toEqual([{ 'concept': 'uuid', 'groupMembers':
                 [{ 'concept': 'uuid', 'value': 'value1' }, { 'concept': 'uuid2', 'value': 'value2' }]}]);
             }));
@@ -155,12 +153,12 @@ describe('Obs Value Adapter: ', () => {
     describe('leftOuterJoinArrays', () => {
         it('should exist',
             inject([ObsValueAdapter], (s: ObsValueAdapter) => {
-                let leftOuterJoinArrays = spyOn(s, 'leftOuterJoinArrays');
+                const leftOuterJoinArrays = spyOn(s, 'leftOuterJoinArrays');
                 expect(leftOuterJoinArrays).toBeTruthy();
             }));
         it('should return the objects in the first array that are not in the second', inject([ObsValueAdapter],
             (s: ObsValueAdapter) => {
-                let joined = s.leftOuterJoinArrays([{ value: { concept: 'uuid1', value: 'value1' } },
+                const joined = s.leftOuterJoinArrays([{ value: { concept: 'uuid1', value: 'value1' } },
                 { value: { concept: 'uuid2', value: 'value2' } }], [{ value: { concept: 'uuid2', value: 'value2' } }]);
                 expect(joined).toEqual([{ value: { concept: 'uuid1', value: 'value1' } }]);
             }));
@@ -169,12 +167,12 @@ describe('Obs Value Adapter: ', () => {
     describe('mapInitialGroup', () => {
         it('should exist',
             inject([ObsValueAdapter], (s: ObsValueAdapter) => {
-                let mapInitialGroup = spyOn(s, 'mapInitialGroup');
+                const mapInitialGroup = spyOn(s, 'mapInitialGroup');
                 expect(mapInitialGroup).toBeTruthy();
             }));
         it('should properly map group payload', inject([ObsValueAdapter],
             (s: ObsValueAdapter) => {
-                let payload = {
+                const payload = {
                     'uuid': '7e5d7b85-075a-4d5e-aa0c-678196b40a18',
                     'obsDatetime': '2016-12-01T11:33:57.000+0300',
                     'concept': {
@@ -286,7 +284,7 @@ describe('Obs Value Adapter: ', () => {
                         }
                     ]
                 };
-                let mapped = s.mapInitialGroup(payload);
+                const mapped = s.mapInitialGroup(payload);
                 expect(mapped).toEqual({
                     'a8a060c6-1350-11df-a1f1-0026b9348838:a890c3aa-1350-11df-a1f1-0026b9348838': 'a890c3aa-1350-11df-a1f1-0026b9348838'
                 });
@@ -296,12 +294,12 @@ describe('Obs Value Adapter: ', () => {
     describe('getMultiselectValues', () => {
         it('should exist',
             inject([ObsValueAdapter], (s: ObsValueAdapter) => {
-                let getMultiselectValues = spyOn(s, 'getMultiselectValues');
+                const getMultiselectValues = spyOn(s, 'getMultiselectValues');
                 expect(getMultiselectValues).toBeTruthy();
             }));
         it('it should return an array of concept uuids given multiselect payload', inject([ObsValueAdapter],
             (s: ObsValueAdapter) => {
-                let joined = s.getMultiselectValues([{ value: { uuid: 'uuid1' } }, { value: { uuid: 'uuid2' } }]);
+                const joined = s.getMultiselectValues([{ value: { uuid: 'uuid1' } }, { value: { uuid: 'uuid2' } }]);
                 expect(joined).toEqual(['uuid1', 'uuid2']);
             }));
     });
@@ -309,23 +307,23 @@ describe('Obs Value Adapter: ', () => {
     describe('getObsPayload', () => {
         it('should exist',
             inject([ObsValueAdapter], (s: ObsValueAdapter) => {
-                let getObsPayload = spyOn(s, 'getObsPayload');
+                const getObsPayload = spyOn(s, 'getObsPayload');
                 expect(getObsPayload).toBeTruthy();
             }));
         it('should return correct payload given an array of nodes with and without values set',
             inject([ObsValueAdapter, FormFactory],
                 (s: ObsValueAdapter, f: FormFactory) => {
                     // Traverse  to get all nodes
-                    let form = f.createForm(adultForm);
-                    let pages = s.traverse(form.rootNode);
+                    const form = f.createForm(adultForm);
+                    const pages = s.traverse(form.rootNode);
                     // Extract actual question nodes
-                    let questionNodes = s.getQuestionNodes(pages);
+                    const questionNodes = s.getQuestionNodes(pages);
                     // Extract set obs
                     s.setValues(questionNodes, adultFormObs.obs);
 
                     // simulate user changing complex obs values
-                    let creatineValue = form.searchNodeByQuestionId('creatinine_test')[0];
-                    let creatineDate = form.searchNodeByQuestionId('date_creatinine_test')[0];
+                    const creatineValue = form.searchNodeByQuestionId('creatinine_test')[0];
+                    const creatineDate = form.searchNodeByQuestionId('date_creatinine_test')[0];
                     creatineValue.control.setValue(2000);
                     creatineDate.control.setValue('2016-01-22T16:17:46.000+0300');
 
@@ -339,21 +337,21 @@ describe('Obs Value Adapter: ', () => {
     describe('Set Values', () => {
         it('should exist',
             inject([ObsValueAdapter], (s: ObsValueAdapter) => {
-                let setValues = spyOn(s, 'setValues');
+                const setValues = spyOn(s, 'setValues');
                 expect(setValues).toBeTruthy();
             }));
         it('should correctly set the values given question nodes and obs payload',
             inject([ObsValueAdapter, FormFactory],
                 (s: ObsValueAdapter, f: FormFactory) => {
-                    let form: Form = f.createForm(adultForm);
+                    const form: Form = f.createForm(adultForm);
 
-                    let pages = s.traverse(form.rootNode);
+                    const pages = s.traverse(form.rootNode);
 
-                    let questionNodes = s.getQuestionNodes(pages);
+                    const questionNodes = s.getQuestionNodes(pages);
 
                     s.setValues(questionNodes, adultFormObs.obs);
 
-                    let value = form.rootNode.control.value;
+                    const value = form.rootNode.control.value;
                     expect(value['onArt']).toEqual('a899b35c-1350-11df-a1f1-0026b9348838');
                     expect(value['tbadhere']).toEqual({
                         tb_adherence: 'a8b0f882-1350-11df-a1f1-0026b9348838',
@@ -362,8 +360,8 @@ describe('Obs Value Adapter: ', () => {
                     });
 
                     // check complex values
-                    let creatineValue = form.searchNodeByQuestionId('creatinine_test')[0];
-                    let creatineDate = form.searchNodeByQuestionId('date_creatinine_test')[0];
+                    const creatineValue = form.searchNodeByQuestionId('creatinine_test')[0];
+                    const creatineDate = form.searchNodeByQuestionId('date_creatinine_test')[0];
 
                     expect(creatineValue.control.value).toEqual(1000);
                     expect(creatineDate.control.value).toEqual('2016-01-21T16:17:46.000+0300');

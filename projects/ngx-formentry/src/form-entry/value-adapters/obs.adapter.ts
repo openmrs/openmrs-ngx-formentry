@@ -41,7 +41,7 @@ export class ObsValueAdapter implements ValueAdapter {
 
     setValues(nodes, payload?, forcegroup?) {
         if (nodes) {
-            for (let node of nodes) {
+            for (const node of nodes) {
                 if (node instanceof LeafNode) {
                     this.setObsValue(node, payload);
                     if (node.question.enableHistoricalValue && node.initialValue !== undefined) {
@@ -49,7 +49,7 @@ export class ObsValueAdapter implements ValueAdapter {
                     }
 
                 } else if (node.question && node.question.extras && node.question.renderingType === 'group' || forcegroup) {
-                    let groupObs = _.find(payload, (o: any) => {
+                    const groupObs = _.find(payload, (o: any) => {
                         return o.concept.uuid === node.question.extras.questionOptions.concept && o.groupMembers;
                     });
                     if (groupObs) {
@@ -83,7 +83,7 @@ export class ObsValueAdapter implements ValueAdapter {
             node.question.extras.questionOptions.obsField === 'value')) &&
             node.question.extras.questionOptions.rendering !== 'multiCheckbox' ||
             node.question.extras.questionOptions.rendering !== 'checkbox') {
-            let obs = _.find(payload, (o: any) => {
+            const obs = _.find(payload, (o: any) => {
                 return o.concept.uuid === node.question.extras.questionOptions.concept;
             });
             if (obs) {
@@ -97,7 +97,7 @@ export class ObsValueAdapter implements ValueAdapter {
                 node['initialValue'] = { obsUuid: obs.uuid, value: obs.value };
             }
         } else {
-            let multiObs = _.filter(payload, (o: any) => {
+            const multiObs = _.filter(payload, (o: any) => {
                 return o.concept.uuid === node.question.extras.questionOptions.concept;
             });
             if (multiObs && multiObs.length > 0) {
@@ -113,7 +113,7 @@ export class ObsValueAdapter implements ValueAdapter {
         let dateField: any;
 
         // tslint:disable-next-line:forin
-        for (let o in node.children) {
+        for (const o in node.children) {
             if ((node.children[o] as LeafNode).question.extras.questionOptions.obsField === 'value') {
                 valueField = node.children[o];
             }
@@ -126,7 +126,7 @@ export class ObsValueAdapter implements ValueAdapter {
         this.setObsValue(valueField, payload);
 
         // set the obs date
-        let obs = _.find(payload, (o: any) => {
+        const obs = _.find(payload, (o: any) => {
             return o.concept.uuid === node.question.extras.questionOptions.concept;
         });
 
@@ -138,23 +138,23 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     getMultiselectValues(multiObs) {
-        let values = [];
-        for (let m of multiObs) {
+        const values = [];
+        for (const m of multiObs) {
             values.push(m.value.uuid);
         }
         return values;
     }
 
     setRepeatingGroupValues(node, payload) {
-        let groupRepeatingObs = _.filter(payload, (o: any) => {
-            let found = o.concept.uuid === node.question.extras.questionOptions.concept;
+        const groupRepeatingObs = _.filter(payload, (o: any) => {
+            const found = o.concept.uuid === node.question.extras.questionOptions.concept;
             let intersect = false;
             if (found && o.groupMembers) {
-                let obs = o.groupMembers.map((a) => {
+                const obs = o.groupMembers.map((a) => {
                     return a.concept.uuid;
                 });
 
-                let schemaQuestions = node.question.questions.map((a) => {
+                const schemaQuestions = node.question.questions.map((a) => {
                     return a.extras.questionOptions.concept;
                 });
 
@@ -168,11 +168,11 @@ export class ObsValueAdapter implements ValueAdapter {
                 node.node.createChildNode();
             }
         }
-        let groups = [];
+        const groups = [];
         let index = 0;
-        for (let child of node.node.children) {
-            let children = Object.keys(child.children).map(function (key) { return child.children[key]; });
-            let groupPayload = groupRepeatingObs[index];
+        for (const child of node.node.children) {
+            const children = Object.keys(child.children).map(function (key) { return child.children[key]; });
+            const groupPayload = groupRepeatingObs[index];
             groups.push({ question: node.question, groupMembers: children, payload: groupPayload });
             index++;
         }
@@ -180,10 +180,10 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     getQuestionNodes(pages) {
-        let merged = [];
-        let arrays = [];
-        for (let page of pages) {
-            for (let section of page.page) {
+        const merged = [];
+        const arrays = [];
+        for (const page of pages) {
+            for (const section of page.page) {
                 arrays.push(section.section);
             }
         }
@@ -191,8 +191,8 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     repeatingGroup(nodes) {
-        let toReturn = [];
-        for (let node of nodes) {
+        const toReturn = [];
+        for (const node of nodes) {
             toReturn.push({ question: node.question, groupMembers: this.traverse(node) });
         }
         return toReturn;
@@ -200,11 +200,11 @@ export class ObsValueAdapter implements ValueAdapter {
 
     processGroup(obs, obsPayload) {
         if (obs.question && obs.question.extras && obs.question.extras.questionOptions.rendering === 'group') {
-            let members = _.filter(this.getObsPayload(obs.groupMembers), (o: any) => {
+            const members = _.filter(this.getObsPayload(obs.groupMembers), (o: any) => {
                 return o.value !== '';
             });
 
-            let mappedMembers = members.map((a) => {
+            const mappedMembers = members.map((a) => {
                 return a.voided;
             });
             if (members.length > 0 && mappedMembers.every(Boolean)) {
@@ -230,7 +230,7 @@ export class ObsValueAdapter implements ValueAdapter {
 
     mapInitialGroup(group) {
         let current = {};
-        for (let member of group.groupMembers) {
+        for (const member of group.groupMembers) {
             let value: any = '';
             if (member.value instanceof Object) {
                 value = member.value.uuid;
@@ -245,11 +245,11 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     mapModelGroup(node, value) {
-        let current = {};
-        for (let key in value) {
+        const current = {};
+        for (const key in value) {
             if (value.hasOwnProperty(key)) {
-                let groupQuestion: any = _.find(node.question.questions, { key: key });
-                let modelValue = value[key];
+                const groupQuestion: any = _.find(node.question.questions, { key: key });
+                const modelValue = value[key];
                 if (modelValue instanceof Object) {
                 } else if (modelValue !== '') {
                     current[groupQuestion.extras.questionOptions.concept + ':'
@@ -262,23 +262,23 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     processRepeatingGroups(node, obsPayload) {
-        let initialValues = [];
+        const initialValues = [];
         if (node.node.initialValue) {
-            for (let group of node.node.initialValue) {
+            for (const group of node.node.initialValue) {
                 initialValues.push({ uuid: group.uuid, value: this.mapInitialGroup(group) });
             }
         }
-        let repeatingModel = [];
-        for (let value of node.node.control.value) {
+        const repeatingModel = [];
+        for (const value of node.node.control.value) {
             repeatingModel.push({ value: this.mapModelGroup(node, value) });
         }
-        let deleted = this.leftOuterJoinArrays(initialValues, repeatingModel);
-        let newObs = this.leftOuterJoinArrays(repeatingModel, initialValues);
-        let groupConcept = node.question.extras.questionOptions.concept;
+        const deleted = this.leftOuterJoinArrays(initialValues, repeatingModel);
+        const newObs = this.leftOuterJoinArrays(repeatingModel, initialValues);
+        const groupConcept = node.question.extras.questionOptions.concept;
         let newObsPayload = [];
         if (deleted.length > 0) {
-            let deletedObs = this.createGroupDeletedObs(deleted);
-            for (let d of deletedObs) {
+            const deletedObs = this.createGroupDeletedObs(deleted);
+            for (const d of deletedObs) {
                 obsPayload.push(d);
             }
             if (newObs.length > 0) {
@@ -289,14 +289,14 @@ export class ObsValueAdapter implements ValueAdapter {
         }
 
         if (newObsPayload.length > 0) {
-            for (let p of newObsPayload) {
+            for (const p of newObsPayload) {
                 obsPayload.push(p);
             }
         }
     }
 
     leftOuterJoinArrays(first, second) {
-        let unique = first.filter(function (obj) {
+        const unique = first.filter(function (obj) {
             return !second.some(function (obj2) {
                 return _.isEqual(obj.value, obj2.value);
             });
@@ -305,9 +305,9 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     createGroupNewObs(payload, groupConcept) {
-        let newPayload = [];
-        for (let obs of payload) {
-            let groupPayload = [];
+        const newPayload = [];
+        for (const obs of payload) {
+            const groupPayload = [];
             /* tslint:disable */
             for (let key in obs.value) {
                 let concept = key.split(':')[0];
@@ -321,8 +321,8 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     createGroupDeletedObs(payload) {
-        let deletedObs = [];
-        for (let d of payload) {
+        const deletedObs = [];
+        for (const d of payload) {
             deletedObs.push({ uuid: d.uuid, voided: true });
         }
         return deletedObs;
@@ -334,7 +334,7 @@ export class ObsValueAdapter implements ValueAdapter {
 
     processObs(obs, obsPayload) {
         if (obs.control && obs.question.extras) {
-            let obsValue = {
+            const obsValue = {
                 concept: obs.question.extras.questionOptions.concept,
                 value: (obs.question.extras.questionOptions.rendering === 'date' && !this.isEmpty(obs.control.value)) ?
                     this.getExactTime(obs.control.value) : obs.control.value
@@ -342,16 +342,16 @@ export class ObsValueAdapter implements ValueAdapter {
 
             if (obs.question.extras.questionOptions.rendering === 'multiCheckbox' ||
             obs.question.extras.questionOptions.rendering === 'checkbox') {
-                let multis = this.processMultiSelect(obs.question.extras.questionOptions.concept, obs.control.value);
+                const multis = this.processMultiSelect(obs.question.extras.questionOptions.concept, obs.control.value);
                 if (obs.initialValue) {
-                    let mappedInitial = obs.initialValue.map((a) => {
+                    const mappedInitial = obs.initialValue.map((a) => {
                         return { uuid: a.uuid, value: { concept: a.concept.uuid, value: a.value.uuid } };
                     });
-                    let mappedCurrent = multis.map((a) => {
+                    const mappedCurrent = multis.map((a) => {
                         return { value: a };
                     });
-                    let deletedObs = this.leftOuterJoinArrays(mappedInitial, mappedCurrent);
-                    let newObs = this.leftOuterJoinArrays(mappedCurrent, mappedInitial);
+                    const deletedObs = this.leftOuterJoinArrays(mappedInitial, mappedCurrent);
+                    const newObs = this.leftOuterJoinArrays(mappedCurrent, mappedInitial);
                     this.processDeletedMultiSelectObs(deletedObs, obsPayload);
                     this.processNewMultiSelectObs(newObs, obsPayload);
                 } else {
@@ -372,7 +372,7 @@ export class ObsValueAdapter implements ValueAdapter {
         let dateField: any;
 
         // tslint:disable-next-line:forin
-        for (let o in node.children) {
+        for (const o in node.children) {
             if ((node.children[o] as LeafNode).question.extras.questionOptions.obsField === 'value') {
                 valueField = node.children[o];
             }
@@ -387,7 +387,7 @@ export class ObsValueAdapter implements ValueAdapter {
             this.processObs(valueField, obsPayload);
 
             // obtain the last inserted obs and set the obsDatetime
-            let createdPayload = obsPayload.length > 0 ? obsPayload[obsPayload.length - 1] : undefined;
+            const createdPayload = obsPayload.length > 0 ? obsPayload[obsPayload.length - 1] : undefined;
             if (createdPayload &&
                 ((createdPayload.concept && createdPayload.concept === node.question.extras.questionOptions.concept) ||
                     (valueField.initialValue && createdPayload.uuid === valueField.initialValue.obsUuid))) {
@@ -399,13 +399,13 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     processDeletedMultiSelectObs(values, obsPayload) {
-        for (let value of values) {
+        for (const value of values) {
             obsPayload.push({ uuid: value.uuid, voided: true });
         }
     }
 
     processNewMultiSelectObs(values, obsPayload) {
-        for (let multi of values) {
+        for (const multi of values) {
             if (multi.value instanceof Object) {
                 obsPayload.push(multi.value);
             } else {
@@ -435,30 +435,30 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     traverse(o, type?) {
-        let questions = [];
+        const questions = [];
         if (o.children) {
             if (o.children instanceof Array) {
-                let returned = this.repeatingGroup(o.children);
+                const returned = this.repeatingGroup(o.children);
                 return returned;
             }
             if (o.children instanceof Object) {
-                for (let key in o.children) {
+                for (const key in o.children) {
                     if (o.children.hasOwnProperty(key)) {
                         switch (o.children[key].question.renderingType) {
                             case 'page':
-                                let page = this.traverse(o.children[key]);
+                                const page = this.traverse(o.children[key]);
                                 questions.push({ page: page });
                                 break;
                             case 'section':
-                                let section = this.traverse(o.children[key]);
+                                const section = this.traverse(o.children[key]);
                                 questions.push({ section: section });
                                 break;
                             case 'group':
-                                let qs = this.traverse(o.children[key]);
+                                const qs = this.traverse(o.children[key]);
                                 questions.push({ node: o.children[key], question: o.children[key].question, groupMembers: qs });
                                 break;
                             case 'repeating':
-                                let rep = this.repeatingGroup(o.children[key].children);
+                                const rep = this.repeatingGroup(o.children[key].children);
                                 questions.push({ node: o.children[key], question: o.children[key].question, groupMembers: rep });
                                 break;
                             default:
@@ -475,10 +475,10 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     processMultiSelect(concept, values) {
-        let multiSelectObs = [];
+        const multiSelectObs = [];
         if (values && values !== null) {
-            for (let value of values) {
-                let obs = {
+            for (const value of values) {
+                const obs = {
                     concept: concept,
                     value: value
                 };
@@ -496,8 +496,8 @@ export class ObsValueAdapter implements ValueAdapter {
     }
 
     getObsPayload(nodes) {
-        let obsPayload = [];
-        for (let node of nodes) {
+        const obsPayload = [];
+        for (const node of nodes) {
             if (this.isObs(node)) {
                 if (node.groupMembers, node.question.extras.questionOptions.rendering === 'group') {
 

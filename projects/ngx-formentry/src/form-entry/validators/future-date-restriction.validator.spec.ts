@@ -5,20 +5,20 @@ describe('FutureDateRestrictionValidator Unit Tests', () => {
 
   it('should return null when a past date is provided', () => {
 
-    let validator: FutureDateRestrictionValidator = new FutureDateRestrictionValidator();
-    let date = '2016-11-01';
+    const validator: FutureDateRestrictionValidator = new FutureDateRestrictionValidator();
+    const date = '2016-11-01';
 
-    let formControl = new AfeFormControl(date, [validator.validate]);
+    const formControl = new AfeFormControl(date, [validator.validate]);
 
     expect(formControl.errors).toBe(null);
   });
 
   it('should return an error when the wrong date format is provided', () => {
 
-    let validator: FutureDateRestrictionValidator = new FutureDateRestrictionValidator();
-    let date = '2300-11-11';
+    const validator: FutureDateRestrictionValidator = new FutureDateRestrictionValidator();
+    const date = '2300-11-11';
 
-    let formControl = new AfeFormControl(date, [validator.validate]);
+    const formControl = new AfeFormControl(date, [validator.validate]);
 
     expect(formControl.errors['futureDateRestriction']).toBe(true);
   });

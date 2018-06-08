@@ -38,7 +38,6 @@ import { DataSources } from './data-sources/data-sources';
 import {
     AppointmentsOverviewComponent
 } from '../components/appointments-overview/appointments-overview.component';
-import { CookieModule, CookieService, CookieBackendService } from 'ngx-cookie';
 import { EncounterViewerModule } from '../encounter-viewer/encounter-viewer.module';
 import { CheckboxModule } from '../components/check-box/checkbox.module';
 @NgModule({
@@ -54,8 +53,7 @@ import { CheckboxModule } from '../components/check-box/checkbox.module';
         CheckboxModule,
         MatIconModule,
         MatTabsModule,
-        MatCardModule,
-        CookieModule
+        MatCardModule
     ],
     declarations: [
         FormRendererComponent,
@@ -85,8 +83,7 @@ import { CheckboxModule } from '../components/check-box/checkbox.module';
         PersonAttribuAdapter,
         OrderValueAdapter,
         DebugModeService,
-        DataSources,
-        { provide: CookieService, useClass: CookieBackendService }
+        DataSources
     ],
     exports: [FormRendererComponent, AfeNgSelectComponent,
         ErrorRendererComponent, DateTimePickerModule, EncounterViewerModule]

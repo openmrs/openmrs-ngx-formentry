@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AfeFormControl } from '../../abstract-controls-extension/control-extensions';
+import { AfeFormControl } from '../../abstract-controls-extension';
 import { ConditionalRequiredValidator } from './conditional-required.validator';
 import { ConditionalValidationModel } from '../question-models/conditional-validation.model';
 
@@ -14,23 +14,23 @@ describe('Conditional Required Validator:', () => {
     });
 
     it('should be defined', () => {
-        let validator: ConditionalRequiredValidator = TestBed.get(ConditionalRequiredValidator);
+        const validator: ConditionalRequiredValidator = TestBed.get(ConditionalRequiredValidator);
         expect(validator).toBeTruthy();
     });
 
     it('should return an error when control is invalid', () => {
 
-      let validator: ConditionalRequiredValidator = TestBed.get(ConditionalRequiredValidator);
-      let model = new ConditionalValidationModel({
+      const validator: ConditionalRequiredValidator = TestBed.get(ConditionalRequiredValidator);
+      const model = new ConditionalValidationModel({
         type: 'conditionalRequired',
         message: 'test message',
         referenceQuestionId: 'control2',
         referenceQuestionAnswers: ['a', 'd']
       });
 
-      let control = new AfeFormControl();
+      const control = new AfeFormControl();
       control.uuid = 'control1';
-      let control2 = new AfeFormControl();
+      const control2 = new AfeFormControl();
       control2.uuid = 'control2';
       control2.setValue(null);
       control2.setValue({
@@ -39,24 +39,24 @@ describe('Conditional Required Validator:', () => {
 
       control.controlRelations.addRelatedControls(control2);
 
-      let result = validator.validate(model)(control);
+      const result = validator.validate(model)(control);
       expect(result['conditional_required']).toBeTruthy();
     });
 
     it('should return null when control is valid', () => {
 
-      let validator: ConditionalRequiredValidator = TestBed.get(ConditionalRequiredValidator);
-      let model = new ConditionalValidationModel({
+      const validator: ConditionalRequiredValidator = TestBed.get(ConditionalRequiredValidator);
+      const model = new ConditionalValidationModel({
         type: 'conditionalRequired',
         message: 'test message',
         referenceQuestionId: 'control2',
         referenceQuestionAnswers: ['a', 'd']
       });
 
-      let control = new AfeFormControl();
+      const control = new AfeFormControl();
       control.uuid = 'control1';
       control.setValue('valid');
-      let control2 = new AfeFormControl();
+      const control2 = new AfeFormControl();
       control2.uuid = 'control2';
       control2.setValue(null);
       control2.setValue({
@@ -65,7 +65,7 @@ describe('Conditional Required Validator:', () => {
 
       control.controlRelations.addRelatedControls(control2);
 
-      let result = validator.validate(model)(control);
+      const result = validator.validate(model)(control);
       expect(result).toBe(null);
     });
   });

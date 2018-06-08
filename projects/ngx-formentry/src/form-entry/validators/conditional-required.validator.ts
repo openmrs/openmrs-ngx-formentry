@@ -10,16 +10,16 @@ export class ConditionalRequiredValidator {
     // convert helper functions to string
     return (control: AfeFormControl): { [key: string]: any } => {
 
-      let value = control.value;
+      const value = control.value;
       let relationValue = null;
-      let referenceQuestionId: string = model.referenceQuestionId;
-      let referenceQuestionAnswers: any = model.referenceQuestionAnswers;
+      const referenceQuestionId: string = model.referenceQuestionId;
+      const referenceQuestionAnswers: any = model.referenceQuestionAnswers;
       let isRequired: boolean;
 
       if (control && control.controlRelations && control.controlRelations.relations) {
           control.controlRelations.relations.forEach(relation => {
 
-            let relatedAsControl = relation.relatedTo as any;
+            const relatedAsControl = relation.relatedTo as any;
             if (relatedAsControl.uuid === referenceQuestionId) {
               if (relatedAsControl && Array.isArray(relatedAsControl.value)) {
                   relationValue = relation.relatedTo.value;

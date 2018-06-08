@@ -1,7 +1,7 @@
 
 import { TestBed, inject } from '@angular/core/testing';
-const adultForm = require('../../adult');
-const adultFormOrders = require('../../mock/orders');
+const adultForm = require('../../adult.json');
+const adultFormOrders = require('../../mock/orders.json');
 import { FormFactory } from '../../form-entry/form-factory/form.factory';
 import { FormControlService } from '../../form-entry/form-factory/form-control.service';
 import { ValidationFactory } from '../../form-entry/form-factory/validation.factory';
@@ -13,8 +13,6 @@ import { ExpressionRunner } from '../../form-entry/expression-runner/expression-
 import { JsExpressionHelper } from '../../form-entry/helpers/js-expression-helper';
 import { ControlRelationsFactory } from '../../form-entry/form-factory/control-relations.factory';
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService } from 'ngx-cookie/services/cookies.service';
-
 
 describe('Orders Value Adapter', () => {
     beforeEach(() => {
@@ -31,8 +29,7 @@ describe('Orders Value Adapter', () => {
                 ExpressionRunner,
                 JsExpressionHelper,
                 ControlRelationsFactory,
-                DebugModeService,
-                CookieService
+                DebugModeService
 
             ]
         });
@@ -42,7 +39,7 @@ describe('Orders Value Adapter', () => {
         TestBed.resetTestingModule();
     });
 
-    let newOrders = [
+    const newOrders = [
         {
             uuid: 'order-1-uuid4',
             orderNumber: 'ORD-13738',
@@ -67,21 +64,21 @@ describe('Orders Value Adapter', () => {
     describe('generateFormPayload', () => {
         it('should populate form with additional orders and generate payload', inject([OrderValueAdapter, FormFactory],
             (s: OrderValueAdapter, f: FormFactory) => {
-                let form = f.createForm(adultForm);
+                const form = f.createForm(adultForm);
                 s.formOrderNodes = [];
                 s.populateForm(form, adultFormOrders);
 
                 // setting order provider
-                let valueProcessingInfo = { providerUuid: 'provider-uuid' };
+                const valueProcessingInfo = { providerUuid: 'provider-uuid' };
                 form.valueProcessingInfo = valueProcessingInfo;
 
                 let index = 0;
-                for (let order of newOrders) {
-                    let node = s.formOrderNodes[0];
+                for (const order of newOrders) {
+                    const node = s.formOrderNodes[0];
                     node.createChildNode();
-                    let value = {};
+                    const value = {};
                     value[node.question.key] = order.concept;
-                    let childNode = node.children[index];
+                    const childNode = node.children[index];
                     childNode.control.setValue(value);
                     childNode['orderNumber'] = order.orderNumber;
                     index++;
@@ -92,7 +89,7 @@ describe('Orders Value Adapter', () => {
                 expect(s.formOrderNodes[0].control.value[1]).toEqual({ order1: 'a89dda72-1350-11df-a1f1-0026b9348838' });
 
                 // Confirm payload was generated;
-                let payload = s.generateFormPayload(form);
+                const payload = s.generateFormPayload(form);
 
                 expect(payload[0].concept).toEqual('a89dda72-1350-11df-a1f1-0026b9348838');
                 expect(payload[0].type).toEqual('testorder');
@@ -109,7 +106,7 @@ describe('Orders Value Adapter', () => {
     describe('populateForm', () => {
         it('should populate form with orders from existing payload', inject([OrderValueAdapter, FormFactory],
             (s: OrderValueAdapter, f: FormFactory) => {
-                let form = f.createForm(adultForm);
+                const form = f.createForm(adultForm);
                 s.populateForm(form, adultFormOrders);
                 expect(s.formOrderNodes[0].control.value[0]).toEqual({ order1: 'a8982474-1350-11df-a1f1-0026b9348838' });
                 expect(s.formOrderNodes[0].control.value[1]).toEqual({ order1: 'a898fe80-1350-11df-a1f1-0026b9348838' });

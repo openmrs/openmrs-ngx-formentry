@@ -3,18 +3,32 @@ import { AbstractControl } from '@angular/forms';
 import { FormFactory } from './form.factory';
 import { Form } from './form';
 
-// import { AfeControlType, AfeFormArray, AfeFormGroup, AfeFormControl } from '../../abstract-controls-extension/control-extensions';
+// import { AfeControlType, AfeFormArray, AfeFormGroup, AfeFormControl } from '../../abstract-controls-extension';
 import { QuestionBase, RepeatingQuestion } from '../question-models/models';
+import { AfeFormControl, AfeFormArray, AfeFormGroup } from '../../abstract-controls-extension';
+export interface ChildNodeCreatedListener {
+
+    addChildNodeCreatedListener(func: any);
+
+    fireChildNodeCreatedListener(node: GroupNode);
+}
+
+export type CreateArrayChildNodeFunction = (question: RepeatingQuestion, node: ArrayNode, factory?: FormFactory) => GroupNode;
+
+export interface RemoveArrayChildNodeFunction {
+    (index: number, node: ArrayNode);
+}
 
 export class NodeBase {
-    private _control: AbstractControl;
+    public children?: any;
+    private _control: AfeFormControl | AfeFormArray | AfeFormGroup;
     private _questionModel: QuestionBase;
     private _form: Form;
     private _path: string;
 
     public initialValue: any;
 
-    constructor(question: QuestionBase, control?: AbstractControl, form?: Form, parentPath?: string) {
+    constructor(question: QuestionBase, control?: AfeFormControl | AfeFormArray | AfeFormGroup, form?: Form, parentPath?: string) {
         this._control = control;
         this._questionModel = question;
         this._form = form;
@@ -25,7 +39,7 @@ export class NodeBase {
         return this._questionModel;
     }
 
-    public get control(): AbstractControl {
+    public get control(): AfeFormControl | AfeFormArray | AfeFormGroup {
         return this._control;
     }
 
@@ -36,18 +50,24 @@ export class NodeBase {
     public get path(): string {
         return this._path;
     }
+    removeAt(index: number) {}
+
+    createChildNode() {}
+    removeChildNode() {}
 
 }
 
 export class LeafNode extends NodeBase {
-    constructor(question: QuestionBase, control?: AbstractControl, parentControl?: AbstractControl, form?: Form, parentPath?: string) {
+    constructor(question: QuestionBase, control?: AfeFormControl | AfeFormArray | AfeFormGroup,
+         parentControl?: AfeFormControl | AfeFormArray | AfeFormGroup, form?: Form, parentPath?: string) {
         super(question, control, form, parentPath);
     }
 }
 
 export class GroupNode extends NodeBase {
     private _children: any;
-    constructor(question: QuestionBase, control?: AbstractControl, parentControl?: AbstractControl, form?: Form, parentPath?: string) {
+    constructor(question: QuestionBase, control?: AfeFormControl | AfeFormArray | AfeFormGroup,
+        parentControl?: AfeFormControl | AfeFormArray | AfeFormGroup, form?: Form, parentPath?: string) {
         super(question, control, form, parentPath);
         this._children = {};
     }
@@ -69,8 +89,8 @@ export class ArrayNode extends NodeBase implements ChildNodeCreatedListener {
     public createChildFunc: CreateArrayChildNodeFunction;
     public removeChildFunc: RemoveArrayChildNodeFunction;
 
-    constructor(question: QuestionBase, control?: AbstractControl,
-        parentControl?: AbstractControl, private formFactory?: FormFactory,
+    constructor(question: QuestionBase, control?: AfeFormControl | AfeFormArray | AfeFormGroup,
+        parentControl?: AfeFormControl | AfeFormArray | AfeFormGroup, private formFactory?: FormFactory,
         form?: Form, parentPath?: string) {
         super(question, control, form, parentPath);
         this._children = [];
@@ -83,8 +103,8 @@ export class ArrayNode extends NodeBase implements ChildNodeCreatedListener {
 
     public createChildNode(): GroupNode {
         if (this.createChildFunc) {
-          let g: GroupNode = this.createChildFunc(this.question as RepeatingQuestion, this, this.formFactory);
-          this.fireChildNodeCreatedListener(g);
+            const g: GroupNode = this.createChildFunc(this.question as RepeatingQuestion, this, this.formFactory);
+            this.fireChildNodeCreatedListener(g);
             return g;
         }
         return null;
@@ -97,30 +117,16 @@ export class ArrayNode extends NodeBase implements ChildNodeCreatedListener {
     }
 
     addChildNodeCreatedListener(func: any) {
-      this.childNodeCreatedEvents.push(func);
+        this.childNodeCreatedEvents.push(func);
     }
 
     fireChildNodeCreatedListener(node: GroupNode) {
-      for (let i = 0; i < this.childNodeCreatedEvents.length; i++) {
+        for (let i = 0; i < this.childNodeCreatedEvents.length; i++) {
 
-        let func: any = this.childNodeCreatedEvents[i];
-        func(node);
-      }
+            const func: any = this.childNodeCreatedEvents[i];
+            func(node);
+        }
     }
-
 }
 
-export interface ChildNodeCreatedListener {
 
-  addChildNodeCreatedListener(func: any);
-
-  fireChildNodeCreatedListener(node: GroupNode);
-}
-
-export interface CreateArrayChildNodeFunction {
-    (question: RepeatingQuestion, node: ArrayNode, factory?: FormFactory): GroupNode;
-}
-
-export interface RemoveArrayChildNodeFunction {
-    (index: number, node: ArrayNode);
-}

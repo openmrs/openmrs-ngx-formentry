@@ -15,15 +15,15 @@ describe('Control Hider Helper Service:', () => {
     });
 
     it('should be defined', () => {
-        let helper: HiderHelper = TestBed.get(HiderHelper);
+        const helper: HiderHelper = TestBed.get(HiderHelper);
         expect(helper).toBeTruthy();
         // expect(factory.controlService).toBeTruthy();
     });
 
     it('should hide a control', () => {
-        let helper: HiderHelper = TestBed.get(HiderHelper);
+        const helper: HiderHelper = TestBed.get(HiderHelper);
 
-        let control: CanHide = {
+        const control: CanHide = {
             hidden: false,
             disabled: false,
             clearHidingFns: () => { },
@@ -42,9 +42,9 @@ describe('Control Hider Helper Service:', () => {
     });
 
     it('should show a control', () => {
-        let helper: HiderHelper = TestBed.get(HiderHelper);
+        const helper: HiderHelper = TestBed.get(HiderHelper);
 
-        let control: CanHide = {
+        const control: CanHide = {
             hidden: true,
             clearHidingFns: () => { },
             hide: () => { helper.hideControl(control); },
@@ -61,9 +61,9 @@ describe('Control Hider Helper Service:', () => {
     });
 
     it('should set a hider for a control', () => {
-        let helper: HiderHelper = TestBed.get(HiderHelper);
+        const helper: HiderHelper = TestBed.get(HiderHelper);
 
-        let control: CanHide = {
+        const control: CanHide = {
             hidden: true,
             clearHidingFns: () => { },
             hide: () => { },
@@ -73,7 +73,7 @@ describe('Control Hider Helper Service:', () => {
             setHidingFn: (newHider: Hider) => { helper.setHiderForControl(control, newHider); }
         };
 
-        let hider: Hider = {
+        const hider: Hider = {
             toHide: false,
             hideWhenExpression: 'true',
             reEvaluateHidingExpression: () => { }
@@ -87,9 +87,9 @@ describe('Control Hider Helper Service:', () => {
     });
 
     it('should clear hiders for a control', () => {
-        let helper: HiderHelper = TestBed.get(HiderHelper);
+        const helper: HiderHelper = TestBed.get(HiderHelper);
 
-        let control: CanHide = {
+        const control: CanHide = {
             hidden: true,
             clearHidingFns: () => { helper.clearHidersForControl(control); },
             hide: () => { },
@@ -99,7 +99,7 @@ describe('Control Hider Helper Service:', () => {
             setHidingFn: (newHider: Hider) => { }
         };
 
-        let hider: Hider = {
+        const hider: Hider = {
             toHide: false,
             hideWhenExpression: 'true',
             reEvaluateHidingExpression: () => { }
@@ -120,10 +120,10 @@ describe('Control Hider Helper Service:', () => {
     });
 
     it('should evaluate all controls hiders to determine whether to hide the control', () => {
-        let helper: HiderHelper = TestBed.get(HiderHelper);
+        const helper: HiderHelper = TestBed.get(HiderHelper);
 
         // test case 1: should be hidden if one of the hiders is true
-        let control: CanHide = {
+        const control: CanHide = {
             hidden: false,
             clearHidingFns: () => { },
             hide: () => { },
@@ -133,19 +133,19 @@ describe('Control Hider Helper Service:', () => {
             setHidingFn: (newHider: Hider) => { }
         };
 
-        let hider1: Hider = {
+        const hider1: Hider = {
             toHide: false,
             hideWhenExpression: 'true',
             reEvaluateHidingExpression: () => { hider1.toHide = true; }
         };
 
-        let hider2: Hider = {
+        const hider2: Hider = {
             toHide: true,
             hideWhenExpression: 'true',
             reEvaluateHidingExpression: () => { hider2.toHide = false; }
         };
 
-        let hider3: Hider = {
+        const hider3: Hider = {
             toHide: false,
             hideWhenExpression: 'true',
             reEvaluateHidingExpression: () => { hider3.toHide = true; }
@@ -164,7 +164,7 @@ describe('Control Hider Helper Service:', () => {
 
 
         // test case 2: should not be hidden if none of the hiders is false
-        let control2: CanHide = {
+        const control2: CanHide = {
             hidden: true,
             clearHidingFns: () => { },
             hide: () => { },
@@ -174,13 +174,13 @@ describe('Control Hider Helper Service:', () => {
             setHidingFn: (newHider: Hider) => { }
         };
 
-        let hider4: Hider = {
+        const hider4: Hider = {
             toHide: true,
             hideWhenExpression: 'true',
             reEvaluateHidingExpression: () => { hider4.toHide = false; }
         };
 
-        let hider5: Hider = {
+        const hider5: Hider = {
             toHide: true,
             hideWhenExpression: 'true',
             reEvaluateHidingExpression: () => { hider5.toHide = false; }
@@ -198,11 +198,11 @@ describe('Control Hider Helper Service:', () => {
     });
 
     it('should trigger reEvaluation of a controls hidden status when control value changes', () => {
-        let helper: HiderHelper = TestBed.get(HiderHelper);
+        const helper: HiderHelper = TestBed.get(HiderHelper);
 
-        let subject: Subject<any> = new Subject<any>();
+        const subject: Subject<any> = new Subject<any>();
 
-        let control: CanHide = {
+        const control: CanHide = {
             hidden: false,
             clearHidingFns: () => { },
             hide: () => { },
@@ -213,19 +213,19 @@ describe('Control Hider Helper Service:', () => {
             valueChanges: subject.asObservable()
         };
 
-        let hider1: Hider = {
+        const hider1: Hider = {
             toHide: false,
             hideWhenExpression: 'true',
             reEvaluateHidingExpression: () => { hider1.toHide = true; }
         };
 
-        let hider2: Hider = {
+        const hider2: Hider = {
             toHide: true,
             hideWhenExpression: 'true',
             reEvaluateHidingExpression: () => { hider2.toHide = false; }
         };
 
-        let hider3: Hider = {
+        const hider3: Hider = {
             toHide: false,
             hideWhenExpression: 'true',
             reEvaluateHidingExpression: () => { hider3.toHide = true; }

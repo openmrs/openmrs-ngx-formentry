@@ -117,4 +117,8 @@ export class AfeFormArray extends FormArray implements CanHide, CanDisable, CanG
       }
     }
 
+    setValue(value: any) {
+        super.setValue(value);
+    }
+
 }

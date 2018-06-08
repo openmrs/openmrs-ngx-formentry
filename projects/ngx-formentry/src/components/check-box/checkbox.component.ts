@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, OnInit, AfterViewInit } from '@angular/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
@@ -19,7 +19,7 @@ import * as _ from 'lodash';
     box-shadow: none;
   }`]
 })
-export class CheckboxControlComponent {
+export class CheckboxControlComponent implements OnInit, AfterViewInit {
 
   @Input() public options;
 
@@ -73,7 +73,7 @@ export class CheckboxControlComponent {
     this.onChange(this.value);
   }
 
-  private onChange = (_: any) => { };
+  private onChange = ( change: any) => { };
   private onTouched = () => { };
 
 }

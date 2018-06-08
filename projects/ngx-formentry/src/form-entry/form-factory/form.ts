@@ -13,8 +13,8 @@ export class Form {
   public valueProcessingInfo: any = {};
     public existingOrders: any = {};
   private _dataSourcesContainer: DataSources;
-  private _showErrors: boolean = false;
-  constructor(public schema: any, public FormFactory: FormFactory, public questionFactory: QuestionFactory) {
+  private _showErrors = false;
+  constructor(public schema: any, public formFactory: FormFactory, public questionFactory: QuestionFactory) {
     this._dataSourcesContainer = new DataSources();
   }
 
@@ -24,13 +24,13 @@ export class Form {
 
   searchNodeByPath(node: GroupNode, path, found: Array<NodeBase>) {
 
-    let children: NodeBase = node.children;
+    const children: NodeBase = node.children;
 
-    for (let key in children) {
+    for (const key in children) {
 
       if (children.hasOwnProperty(key)) {
 
-        let child: NodeBase = children[key];
+        const child: NodeBase = children[key];
 
         if (child instanceof GroupNode) {
 
@@ -53,7 +53,7 @@ export class Form {
             return found;
           }
 
-          let aChild: ArrayNode = child as ArrayNode;
+          const aChild: ArrayNode = child as ArrayNode;
 
           aChild.children.forEach(aChildNode => {
             this.searchNodeByPath(aChildNode, path, found);
@@ -66,7 +66,7 @@ export class Form {
   }
 
   searchNodeByQuestionId(questionId: string, questionType?: string): Array<NodeBase> {
-    let found = [];
+    const found = [];
     if (questionType) {
       this.searchNodeByQuestionType(this.rootNode, questionType, found);
     } else {
@@ -78,15 +78,15 @@ export class Form {
   searchNodeByQuestionType(rootNode: any, questionType: string , found: Array<NodeBase>) {
 
     if (rootNode instanceof GroupNode) {
-      let nodeAsGroup = rootNode as GroupNode;
+      const nodeAsGroup = rootNode as GroupNode;
       // tslint:disable-next-line:forin
-      for (let o in nodeAsGroup.children) {
+      for (const o in nodeAsGroup.children) {
         this.searchNodeByQuestionType(nodeAsGroup.children[o], questionType, found);
       }
     }
 
     if (rootNode instanceof ArrayNode) {
-      let nodeAsArray = rootNode as ArrayNode;
+      const nodeAsArray = rootNode as ArrayNode;
 
       nodeAsArray.children.forEach(node => {
         this.searchNodeByQuestionType(node, questionType, found);
@@ -94,7 +94,7 @@ export class Form {
     }
 
     if (rootNode instanceof LeafNode) {
-      let questionBase: QuestionBase = rootNode.question;
+      const questionBase: QuestionBase = rootNode.question;
 
       if (questionBase.extras && questionBase.extras.type && questionBase.extras.type === questionType) {
         found.push(rootNode);
@@ -109,15 +109,15 @@ export class Form {
     }
 
     if (rootNode instanceof GroupNode) {
-      let nodeAsGroup = rootNode as GroupNode;
+      const nodeAsGroup = rootNode as GroupNode;
       // tslint:disable-next-line:forin
-      for (let o in nodeAsGroup.children) {
+      for (const o in nodeAsGroup.children) {
         this.findNodesByQuestionId(nodeAsGroup.children[o], questionId, results);
       }
     }
 
     if (rootNode instanceof ArrayNode) {
-      let nodeAsArray = rootNode as ArrayNode;
+      const nodeAsArray = rootNode as ArrayNode;
 
       nodeAsArray.children.forEach(node => {
         this.findNodesByQuestionId(node, questionId, results);
@@ -143,24 +143,24 @@ export class Form {
   markInvalidControls(node: GroupNode, invalidControlNodes?: any) {
 
 
-    let children: NodeBase = node.children;
+    const children: NodeBase = node.children;
 
-    for (let key in children) {
+    for (const key in children) {
 
       if (children.hasOwnProperty(key)) {
 
-        let child: NodeBase = children[key];
+        const child: NodeBase = children[key];
 
         if (child instanceof GroupNode) {
 
           this.markInvalidControls(child, invalidControlNodes);
         } else if (child instanceof LeafNode) {
 
-          let questionBase: QuestionBase = (child as LeafNode).question;
+          const questionBase: QuestionBase = (child as LeafNode).question;
 
           if (questionBase.key && questionBase.key.length > 0) {
 
-            let c: AfeFormControl | AfeFormArray = child.control as AfeFormControl | AfeFormArray;
+            const c: AfeFormControl | AfeFormArray = child.control as AfeFormControl | AfeFormArray;
 
             if (!c.valid && !c.disabled) {
               if (invalidControlNodes) {
@@ -171,7 +171,7 @@ export class Form {
             }
           }
         } else if (child instanceof ArrayNode) {
-          let arrayNode: ArrayNode = child as ArrayNode;
+          const arrayNode: ArrayNode = child as ArrayNode;
 
           if (arrayNode && arrayNode.children && arrayNode.children.length > 0) {
 
@@ -203,15 +203,15 @@ export class Form {
     }
 
     if (rootNode instanceof GroupNode) {
-      let nodeAsGroup = rootNode as GroupNode;
+      const nodeAsGroup = rootNode as GroupNode;
       // tslint:disable-next-line:forin
-      for (let o in nodeAsGroup.children) {
+      for (const o in nodeAsGroup.children) {
         this._updateAlertsForAllControls(nodeAsGroup.children[o]);
       }
     }
 
     if (rootNode instanceof ArrayNode) {
-      let nodeAsArray = rootNode as ArrayNode;
+      const nodeAsArray = rootNode as ArrayNode;
 
       nodeAsArray.children.forEach(node => {
         this._updateAlertsForAllControls(node);
@@ -231,18 +231,18 @@ export class Form {
     }
 
     if (rootNode instanceof GroupNode) {
-      let nodeAsGroup = rootNode as GroupNode;
+      const nodeAsGroup = rootNode as GroupNode;
       // tslint:disable-next-line:forin
-      for (let o in nodeAsGroup.children) {
+      for (const o in nodeAsGroup.children) {
         this._updateHiddenDisabledStateForAllControls(nodeAsGroup.children[o]);
       }
     }
 
     if (rootNode instanceof ArrayNode) {
-      let nodeAsArray = rootNode as ArrayNode;
+      const nodeAsArray = rootNode as ArrayNode;
 
       nodeAsArray.children.forEach(node => {
-        this._updateHiddenDisabledStateForAllControls(node, );
+        this._updateHiddenDisabledStateForAllControls(node);
       });
     }
   }

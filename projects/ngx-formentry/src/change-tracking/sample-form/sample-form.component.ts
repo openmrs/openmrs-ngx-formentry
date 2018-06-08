@@ -34,7 +34,7 @@ export class SampleFormComponent implements OnInit {
     control10: AfeFormControl;
     control11: AfeFormControl;
 
-    control9Removed: boolean = false;
+    control9Removed = false;
 
     // control5LastUpdate: any;
     // control4LastUpdate: any;

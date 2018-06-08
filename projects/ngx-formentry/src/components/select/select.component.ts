@@ -47,14 +47,14 @@ export class SelectComponent
 
     @Input() options: Array<any>;
 
-    @Input() allowClear: boolean = false;
-    @Input() disabled: boolean = false;
-    @Input() highlightColor: string = '#2196f3';
-    @Input() highlightTextColor: string = '#fff';
-    @Input() multiple: boolean = false;
-    @Input() noFilter: number = 0;
-    @Input() notFoundMsg: string = 'No results found';
-    @Input() placeholder: string = '';
+    @Input() allowClear = false;
+    @Input() disabled = false;
+    @Input() highlightColor = '#2196f3';
+    @Input() highlightTextColor = '#fff';
+    @Input() multiple = false;
+    @Input() noFilter = 0;
+    @Input() notFoundMsg = 'No results found';
+    @Input() placeholder = '';
 
     @Output() opened: EventEmitter<null> = new EventEmitter<null>();
     @Output() closed: EventEmitter<null> = new EventEmitter<null>();
@@ -71,19 +71,19 @@ export class SelectComponent
     optionList: OptionList;
 
     // Selection state variables.
-    hasSelected: boolean = false;
+    hasSelected = false;
 
     // View state variables.
-    filterEnabled: boolean = true;
-    filterInputWidth: number = 1;
-    hasFocus: boolean = false;
-    isBelow: boolean = true;
-    isDisabled: boolean = false;
-    isOpen: boolean = false;
-    placeholderView: string = '';
+    filterEnabled = true;
+    filterInputWidth = 1;
+    hasFocus = false;
+    isBelow = true;
+    isDisabled = false;
+    isOpen = false;
+    placeholderView = '';
 
-    clearClicked: boolean = false;
-    selectContainerClicked: boolean = false;
+    clearClicked = false;
+    selectContainerClicked = false;
 
     // Width and position for the dropdown container.
     width: number;
@@ -110,8 +110,8 @@ export class SelectComponent
             this.updateOptionsList(changes['options'].isFirstChange());
         }
         if (changes.hasOwnProperty('noFilter')) {
-            let numOptions: number = this.optionList.options.length;
-            let minNumOptions: number = changes['noFilter'].currentValue;
+            const numOptions: number = this.optionList.options.length;
+            const minNumOptions: number = changes['noFilter'].currentValue;
             this.filterEnabled = numOptions >= minNumOptions;
         }
     }
@@ -366,7 +366,7 @@ export class SelectComponent
     }
 
     private clearSelection() {
-        let selection: Array<Option> = this.optionList.selection;
+        const selection: Array<Option> = this.optionList.selection;
         if (selection.length > 0) {
             this.optionList.clearSelection();
             this.valueChanged();
@@ -387,7 +387,7 @@ export class SelectComponent
     }
 
     private selectHighlightedOption() {
-        let option: Option = this.optionList.highlightedOption;
+        const option: Option = this.optionList.highlightedOption;
         if (option !== null) {
             this.selectOption(option);
             this.closeDropdown(true);
@@ -395,10 +395,10 @@ export class SelectComponent
     }
 
     private deselectLast() {
-        let sel: Array<Option> = this.optionList.selection;
+        const sel: Array<Option> = this.optionList.selection;
 
         if (sel.length > 0) {
-            let option: Option = sel[sel.length - 1];
+            const option: Option = sel[sel.length - 1];
             this.deselectOption(option);
             this.setMultipleFilterInput(option.label + ' ');
         }
@@ -422,7 +422,7 @@ export class SelectComponent
 
 
     private handleSelectContainerKeydown(event: any) {
-        let key = event.which;
+        const key = event.which;
 
         if (this.isOpen) {
             if (key === this.KEYS.ESC ||
@@ -462,7 +462,7 @@ export class SelectComponent
     }
 
     private handleMultipleFilterKeydown(event: any) {
-        let key = event.which;
+        const key = event.which;
 
         if (key === this.KEYS.BACKSPACE) {
             if (this.hasSelected && this.filterEnabled &&
@@ -473,7 +473,7 @@ export class SelectComponent
     }
 
     private handleSingleFilterKeydown(event: any) {
-        let key = event.which;
+        const key = event.which;
 
         if (key === this.KEYS.ESC || key === this.KEYS.TAB
             || key === this.KEYS.UP || key === this.KEYS.DOWN
@@ -503,14 +503,14 @@ export class SelectComponent
     }
 
     updatePosition() {
-        let e = this.selectionSpan.nativeElement;
+        const e = this.selectionSpan.nativeElement;
         this.left = e.offsetLeft;
         this.top = e.offsetTop + e.offsetHeight;
     }
 
     updateFilterWidth() {
         if (typeof this.filterInput !== 'undefined') {
-            let value: string = this.filterInput.nativeElement.value;
+            const value: string = this.filterInput.nativeElement.value;
             this.filterInputWidth = value.length === 0 ?
                 1 + this.placeholderView.length * 10 : 1 + value.length * 10;
         }

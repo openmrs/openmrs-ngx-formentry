@@ -14,7 +14,6 @@ import { SampleSchema } from './sample-schema';
 
 import { Form } from './form';
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService , CookieOptions} from 'ngx-cookie/core';
 
 describe('Form:', () => {
 
@@ -31,19 +30,17 @@ describe('Form:', () => {
               ExpressionRunner,
               JsExpressionHelper,
               ControlRelationsFactory,
-              DebugModeService,
-              CookieService,
-              { provide: CookieOptions, useValue: {} }
+              DebugModeService
           ]
       });
   });
 
   it('should be injected', () => {
 
-    let formFactory = TestBed.get(FormFactory);
-    let questionFactory = TestBed.get(QuestionFactory);
-    let schema = new SampleSchema().getSchema();
-    let form: Form = new Form(schema, formFactory, questionFactory);
+    const formFactory = TestBed.get(FormFactory);
+    const questionFactory = TestBed.get(QuestionFactory);
+    const schema = new SampleSchema().getSchema();
+    const form: Form = new Form(schema, formFactory, questionFactory);
 
     expect(form).toBeTruthy();
   });

@@ -24,7 +24,7 @@ export class AlertHelper {
             message.reEvaluateAlertExpression();
             if (message.shown === true) {
                 messageValue = message.alertMessage;
-            }else {
+            } else {
                 messageValue = '';
             }
         });

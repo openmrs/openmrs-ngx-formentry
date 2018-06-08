@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import 'hammerjs';
 import { DEFAULT_STYLES } from './form-renderer.component.css';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import { DataSources } from '../data-sources/data-sources';
 import { NodeBase, LeafNode } from '../form-factory/form-node';
 import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
@@ -27,7 +27,8 @@ export class FormRendererComponent implements OnInit {
   public showWeeks: boolean;
   public activeTab: number;
   public dataSource: DataSource;
-  public isCollapsed: boolean = false;
+  public isCollapsed = false;
+  public auto: any;
 
   constructor(
   private validationFactory: ValidationFactory,
@@ -167,12 +168,12 @@ export class FormRendererComponent implements OnInit {
   public toggleInformation(infoId) {
     const e = document.getElementById(infoId);
 
-    if (e.style.display == 'block') {
+    if (e.style.display === 'block') {
         e.style.display = 'none';
      } else {
         e.style.display = 'block';
      }
- 
+
 
     console.log('InfoId', infoId);
   }

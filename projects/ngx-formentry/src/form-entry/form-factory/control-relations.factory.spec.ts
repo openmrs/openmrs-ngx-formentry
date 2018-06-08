@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ControlRelationsFactory } from './control-relations.factory';
 import { FormFactory } from './form.factory';
 import { NodeBase } from './form-node';
-import { AfeFormControl, AfeFormArray } from '../../abstract-controls-extension/control-extensions';
+import { AfeFormControl, AfeFormArray } from '../../abstract-controls-extension';
 import { FormControlService } from './form-control.service';
 import { SampleSchema } from './sample-schema';
 
@@ -13,7 +13,6 @@ import { AlertsFactory } from './show-messages.factory';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService, CookieOptions } from 'ngx-cookie/core';
 
 
 
@@ -30,24 +29,22 @@ describe('Control Relations Factory:', () => {
                 ExpressionRunner,
                 JsExpressionHelper,
                 AlertsFactory,
-                DebugModeService,
-                CookieService,
-                { provide: CookieOptions, useValue: {} }
+                DebugModeService
             ]
         });
     });
 
     it('should be defined', () => {
-        let factory: ControlRelationsFactory = TestBed.get(ControlRelationsFactory);
+        const factory: ControlRelationsFactory = TestBed.get(ControlRelationsFactory);
         expect(factory).toBeTruthy();
     });
 
     it('should add relations to control', () => {
 
-      let factory: ControlRelationsFactory = TestBed.get(ControlRelationsFactory);
+      const factory: ControlRelationsFactory = TestBed.get(ControlRelationsFactory);
 
-      let control = new AfeFormControl();
-      let related = new AfeFormControl();
+      const control = new AfeFormControl();
+      const related = new AfeFormControl();
 
       expect(control.controlRelations.relations.length).toBe(0);
       factory.addRelationToControl(control, related);
@@ -57,25 +54,25 @@ describe('Control Relations Factory:', () => {
 
     it('should build control relations', () => {
 
-      let factory: ControlRelationsFactory = TestBed.get(ControlRelationsFactory);
+      const factory: ControlRelationsFactory = TestBed.get(ControlRelationsFactory);
 
-      let testSchema = new SampleSchema().getSchema();
+      const testSchema = new SampleSchema().getSchema();
 
-      let formFactory: FormFactory = TestBed.get(FormFactory);
+      const formFactory: FormFactory = TestBed.get(FormFactory);
 
-      let createdForm = formFactory.createForm(testSchema);
+      const createdForm = formFactory.createForm(testSchema);
 
       factory.buildRelations(createdForm.rootNode);
 
-      let controlStore: any = factory.mapControlIds(createdForm.rootNode, {});
+      const controlStore: any = factory.mapControlIds(createdForm.rootNode, {});
 
       expect(Object.keys(controlStore).length > 0).toBe(true);
 
       let hasRelations = false;
 
-      let keys = Object.keys(controlStore);
+      const keys = Object.keys(controlStore);
        keys.forEach(key => {
-         let nodeBase: NodeBase = controlStore[key];
+         const nodeBase: NodeBase = controlStore[key];
          if ( (nodeBase.control as AfeFormControl | AfeFormArray).controlRelations.relations.length > 0 ) {
            hasRelations = true;
          }

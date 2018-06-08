@@ -6,7 +6,7 @@ import { Messages } from '../utils/messages';
 
 describe('ValidationFactory Unit Tests', () => {
 
-    let dateSchemaQuestion: any = {
+    const dateSchemaQuestion: any = {
         label: 'Date patient first became medically eligible for ART:',
         id: 'eligibility',
         type: 'obs',
@@ -22,7 +22,7 @@ describe('ValidationFactory Unit Tests', () => {
         ]
     };
 
-    let numberSchemaQuestion: any = {
+    const numberSchemaQuestion: any = {
       label: 'Height(CM):',
       id: 'height',
       questionOptions: {
@@ -35,25 +35,25 @@ describe('ValidationFactory Unit Tests', () => {
       validators: []
     };
 
-    let questionFactory = new QuestionFactory();
-    let validationFactory = new ValidationFactory();
+    const questionFactory = new QuestionFactory();
+    const validationFactory = new ValidationFactory();
 
     it('should return validators when a question model is provided', () => {
 
-        let converted = questionFactory.toDateQuestion(dateSchemaQuestion);
-        let validations = validationFactory.getValidators(converted);
+        const converted = questionFactory.toDateQuestion(dateSchemaQuestion);
+        const validations = validationFactory.getValidators(converted);
         expect(validations.length).toBeGreaterThan(0);
     });
 
     it('should return the correct date error message when date is invalid', () => {
 
-        let date = 'fake date';
-        let converted = questionFactory.toDateQuestion(dateSchemaQuestion);
-        let validations = validationFactory.getValidators(converted);
+        const date = 'fake date';
+        const converted = questionFactory.toDateQuestion(dateSchemaQuestion);
+        const validations = validationFactory.getValidators(converted);
 
-        let formControl = new AfeFormControl(date, validations);
+        const formControl = new AfeFormControl(date, validations);
 
-        let errorMessages = validationFactory.errors(formControl.errors, converted);
+        const errorMessages = validationFactory.errors(formControl.errors, converted);
 
         expect(errorMessages.indexOf(Messages.INVALID_DATE_MSG)).not.toBe(-1);
         expect(formControl.errors['date']).toBe(true);
@@ -61,29 +61,29 @@ describe('ValidationFactory Unit Tests', () => {
 
     it('should return the correct error message when min value is invalid', () => {
 
-       let value: any = -50;
-      let converted = questionFactory.toNumberQuestion(numberSchemaQuestion);
-      let validations = validationFactory.getValidators(converted);
+       const value: any = -50;
+      const converted = questionFactory.toNumberQuestion(numberSchemaQuestion);
+      const validations = validationFactory.getValidators(converted);
 
-      let formControl = new AfeFormControl(value, validations);
+      const formControl = new AfeFormControl(value, validations);
 
-      let errorMessages = validationFactory.errors(formControl.errors, converted);
+      const errorMessages = validationFactory.errors(formControl.errors, converted);
       expect(errorMessages.length).not.toBe(0);
-      let expectedMsg = Messages.MIN_MSG.replace('{min}', numberSchemaQuestion.questionOptions.min);
+      const expectedMsg = Messages.MIN_MSG.replace('{min}', numberSchemaQuestion.questionOptions.min);
       expect(errorMessages.indexOf(expectedMsg)).not.toBe(-1);
     });
 
     it('should return the correct error message when max value is invalid', () => {
 
-       let value: any = 450;
-      let converted = questionFactory.toNumberQuestion(numberSchemaQuestion);
-      let validations = validationFactory.getValidators(converted);
+       const value: any = 450;
+      const converted = questionFactory.toNumberQuestion(numberSchemaQuestion);
+      const validations = validationFactory.getValidators(converted);
 
-      let formControl = new AfeFormControl(value, validations);
+      const formControl = new AfeFormControl(value, validations);
 
-      let errorMessages = validationFactory.errors(formControl.errors, converted);
+      const errorMessages = validationFactory.errors(formControl.errors, converted);
       expect(errorMessages.length).not.toBe(0);
-      let expectedMsg = Messages.MAX_MSG.replace('{max}', numberSchemaQuestion.questionOptions.max);
+      const expectedMsg = Messages.MAX_MSG.replace('{max}', numberSchemaQuestion.questionOptions.max);
       expect(errorMessages.indexOf(expectedMsg)).not.toBe(-1);
     });
 

@@ -29,12 +29,12 @@ export class ErrorRendererComponent implements OnInit {
 
   get errorNodes() {
 
-    let invalidControls = this.form.markInvalidControls(this.form.rootNode, []);
+    const invalidControls = this.form.markInvalidControls(this.form.rootNode, []);
     return invalidControls;
   }
 
   getControlError(node: LeafNode) {
-      let errors: any = node.control.errors;
+      const errors: any = node.control.errors;
 
       if (errors) {
 
@@ -46,19 +46,19 @@ export class ErrorRendererComponent implements OnInit {
 
   announceErrorField(errorNode: LeafNode) {
 
-    let nodes: Array<NodeBase> = this.form.searchNodeByQuestionId(errorNode.path.substring(0, errorNode.path.indexOf('.')));
+    const nodes: Array<NodeBase> = this.form.searchNodeByQuestionId(errorNode.path.substring(0, errorNode.path.indexOf('.')));
 
     _.forEach(nodes, (node: NodeBase) => {
 
       if (node.question.renderingType === 'page') {
-        let pageIndex: number = this.getPageIndex(node);
+        const pageIndex: number = this.getPageIndex(node);
         this.formErrorsService.announceErrorField(pageIndex + ',' + errorNode.question.key);
       }
     });
   }
 
   getPageIndex(node: NodeBase) {
-     let questionGroup: QuestionGroup = this.form.rootNode.question as QuestionGroup;
+     const questionGroup: QuestionGroup = this.form.rootNode.question as QuestionGroup;
      return questionGroup.questions.indexOf(node.question);
   }
 }

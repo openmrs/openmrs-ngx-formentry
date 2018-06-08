@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef, Renderer } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Renderer2 } from '@angular/core';
 import {
     ControlValueAccessor,
     NG_VALUE_ACCESSOR
@@ -31,7 +31,7 @@ export class RemoteFileUploadComponent implements OnInit, ControlValueAccessor {
     }
 
 
-    constructor(private renderer: Renderer) { }
+    constructor(private renderer: Renderer2) { }
 
     ngOnInit() {
 

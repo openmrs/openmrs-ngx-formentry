@@ -6,7 +6,7 @@ export class MaxValidationModel extends ValidationModel {
 
   constructor(validations: any) {
     super(validations);
-    let max: any = validations.max;
+    const max: any = validations.max;
     this.max = +max;
   }
 }

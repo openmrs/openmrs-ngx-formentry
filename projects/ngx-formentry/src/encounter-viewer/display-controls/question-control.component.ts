@@ -7,7 +7,7 @@ import * as _ from 'lodash';
     styleUrls: ['./question-control.component.css'],
     templateUrl: './question-control.component.html',
   })
-export class QuestionControlComponent {
+export class QuestionControlComponent implements OnInit {
     @Input() public set schema(schema: any) {
       this._schema = schema;
     }

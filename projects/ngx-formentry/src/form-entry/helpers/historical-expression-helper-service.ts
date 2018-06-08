@@ -12,16 +12,16 @@ export class HistoricalHelperService {
   }
 
   public evaluate(expr: string, dataSources: any): any {
-    let HD = new HistoricalEncounterDataService();
+    const HD = new HistoricalEncounterDataService();
     HD.registerEncounters('prevEnc', dataSources['rawPrevEnc']);
-    let deps: any = {
+    const deps: any = {
       HD: HD
     };
 
-    let helper = new JsExpressionHelper();
-    let control: AfeFormControl = new AfeFormControl();
-    let runner: ExpressionRunner = new ExpressionRunner();
-    let runnable: Runnable = runner.getRunnable(expr, control, helper.helperFunctions, deps);
+    const helper = new JsExpressionHelper();
+    const control: AfeFormControl = new AfeFormControl();
+    const runner: ExpressionRunner = new ExpressionRunner();
+    const runnable: Runnable = runner.getRunnable(expr, control, helper.helperFunctions, deps);
 
     return runnable.run();
   }

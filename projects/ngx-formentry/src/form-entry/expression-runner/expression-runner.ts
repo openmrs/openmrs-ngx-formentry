@@ -3,14 +3,15 @@ import { AfeFormControl, AfeFormArray, AfeFormGroup } from '../../abstract-contr
 import { ArrayNode } from '../form-factory/form-node';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
 import { Form } from '../form-factory/form';
+import * as moment_ from 'moment';
 
-const moment = require('moment');
+const moment = moment_;
 export class ExpressionRunner {
     getRunnable(expression: string, control: AfeFormArray | AfeFormGroup | AfeFormControl,
         helper: any, dataDependencies: any, form?: Form):
         Runnable {
-        let runner = this;
-        let runnable: Runnable = {
+        const runner = this;
+        const runnable: Runnable = {
             run: () => {
 
                 /* tslint:disable */
@@ -76,14 +77,11 @@ export class ExpressionRunner {
     }
 
     private getControlRelationValueString(control: AfeFormArray | AfeFormGroup | AfeFormControl, scope: any) {
-
         if (control && control.controlRelations && control.controlRelations.relations) {
             control.controlRelations.relations.forEach(relation => {
-                if (relation.relatedTo instanceof AfeFormArray ||
-                    relation.relatedTo instanceof AfeFormControl ||
-                    relation.relatedTo instanceof AfeFormGroup) {
-                    let related = relation.relatedTo as any;
-                    let relatedAsControl = relation.relatedTo as AbstractControl;
+                if (relation.relatedTo) {
+                    const related = relation.relatedTo as any;
+                    const relatedAsControl = relation.relatedTo as AbstractControl;
                     if (relatedAsControl && Array.isArray(relatedAsControl.value)) {
                         scope[related.uuid] = relation.relatedTo.value;
                     } else {
@@ -99,15 +97,15 @@ export class ExpressionRunner {
 
             control.controlRelations.otherRelations.forEach(node => {
                 if (node instanceof ArrayNode) {
-                    let arrayNode: ArrayNode = node as ArrayNode;
-                    let uuid = control.uuid;
+                    const arrayNode: ArrayNode = node as ArrayNode;
+                    const uuid = control.uuid;
 
-                    let controlRelationsFactory: ControlRelationsFactory = new ControlRelationsFactory();
+                    const controlRelationsFactory: ControlRelationsFactory = new ControlRelationsFactory();
                     let relationsForControl: Array<AfeFormControl | AfeFormArray> = [];
                     // get all related controls
                     arrayNode.children.forEach(child => {
                         relationsForControl = relationsForControl.concat(controlRelationsFactory.getRelationsForControl(uuid, child));
-                        ;
+
                     });
 
                     this.setControlArrayValues(control as AfeFormControl | AfeFormArray, relationsForControl, scope);
@@ -118,17 +116,17 @@ export class ExpressionRunner {
 
     private setControlArrayValues(control: AfeFormControl | AfeFormArray,
         relationsForControl: Array<AfeFormControl | AfeFormArray>, scope: any) {
-        let keys: Array<string> = this._getFormControlKeys(relationsForControl);
+        const keys: Array<string> = this._getFormControlKeys(relationsForControl);
 
         keys.forEach(key => {
-            let values: any = this._getValuesForKey(key, relationsForControl);
+            const values: any = this._getValuesForKey(key, relationsForControl);
             scope[key] = values;
         });
     }
 
     private _getFormControlKeys(array: Array<AfeFormControl | AfeFormArray>): Array<string> {
 
-        let keys: Array<string> = [];
+        const keys: Array<string> = [];
         array.forEach(control => {
 
             if (keys.indexOf(control.uuid) === -1) {
@@ -140,7 +138,7 @@ export class ExpressionRunner {
     }
 
     private _getValuesForKey(key: string, array: Array<AfeFormControl | AfeFormArray>): any {
-        let values: any = [];
+        const values: any = [];
 
         array.forEach(control => {
 
@@ -153,7 +151,7 @@ export class ExpressionRunner {
     }
 
     private getHelperMethods(obj: any, scope?: any) {
-        for (let key in obj) {
+        for (const key in obj) {
             if (obj.hasOwnProperty(key)) {
                 scope[key] = obj[key];
             }
@@ -161,7 +159,7 @@ export class ExpressionRunner {
     }
 
     private getDataDependencies(obj: any, scope?: any) {
-        for (let key in obj) {
+        for (const key in obj) {
             if (obj.hasOwnProperty(key)) {
                 scope[key] = obj[key];
             }

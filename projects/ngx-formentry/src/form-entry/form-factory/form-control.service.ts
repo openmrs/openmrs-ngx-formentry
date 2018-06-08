@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
-import { AfeFormControl, AfeFormArray, AfeFormGroup, AfeControlType 
-} from '../../abstract-controls-extension/control-extensions';
+import { AfeFormControl, AfeFormArray, AfeFormGroup, AfeControlType
+} from '../../abstract-controls-extension';
 
 import { NestedQuestion } from '../question-models/interfaces/nested-questions';
 
@@ -29,7 +29,7 @@ export class FormControlService {
     }
 
     generateControlModel(questionModel: QuestionBase | NestedQuestion, parentControl: AfeFormGroup,
-        generateChildren: boolean, form?: Form): AbstractControl {
+        generateChildren: boolean, form?: Form): AfeFormControl | AfeFormArray | AfeFormGroup {
         if (questionModel instanceof QuestionBase) {
             if (questionModel.controlType === AfeControlType.AfeFormArray) {
                 return this.generateFormArray(questionModel, parentControl, form);
@@ -47,14 +47,14 @@ export class FormControlService {
 
     generateFormGroupModel(question: QuestionBase, generateChildren: boolean,
         parentControl?: AfeFormGroup, form?: Form): AfeFormGroup {
-        let formGroup = new AfeFormGroup({});
+        const formGroup = new AfeFormGroup({});
         this.wireHidersDisablers(question, formGroup, form);
         this.wireAlerts(question, formGroup, form);
         if (parentControl instanceof AfeFormGroup) {
             parentControl.setControl(question.key, formGroup);
         }
 
-        let asGroup = question as QuestionGroup;
+        const asGroup = question as QuestionGroup;
 
         if (generateChildren && asGroup && asGroup.questions.length > 0) {
             this._generateFormGroupChildrenModel(asGroup.questions, formGroup, form);
@@ -67,7 +67,7 @@ export class FormControlService {
 
         if (questions.length > 0) {
             questions.forEach(element => {
-                let generated = this.generateControlModel(element, parentControl, true, form);
+                const generated = this.generateControlModel(element, parentControl, true, form);
                 if (generated !== null) {
                     parentControl.addControl(element.key, generated);
                 }
@@ -78,7 +78,7 @@ export class FormControlService {
 
     generateFormArray(question: QuestionBase, parentControl?: AfeFormGroup, form?: Form): AfeFormArray {
 
-        let validators = this.validationFactory.getValidators(question, form);
+        const validators = this.validationFactory.getValidators(question, form);
          let formArray: AfeFormArray;
          if (validators && validators.length > 0) {
              formArray = new AfeFormArray([], validators[0]);
@@ -97,10 +97,10 @@ export class FormControlService {
 
     generateFormControl(question: QuestionBase, parentControl?: AfeFormGroup, form?: Form): AfeFormControl {
 
-        let value = question.defaultValue || '';
-        let validators = this.validationFactory.getValidators(question, form);
+        const value = question.defaultValue || '';
+        const validators = this.validationFactory.getValidators(question, form);
 
-        let control = new AfeFormControl(value, validators);
+        const control = new AfeFormControl(value, validators);
         control.uuid = question.key;
         this.wireHidersDisablers(question, control, form);
         this.wireAlerts(question, control, form);
@@ -116,19 +116,19 @@ export class FormControlService {
     private wireAlerts(question: QuestionBase,
         control: AfeFormArray | AfeFormGroup | AfeFormControl, form?: Form) {
         if (question.alert && question.alert !== '') {
-            let alert = this.alertsFactory.getJsExpressionshowAlert(question, control, form);
+            const alert = this.alertsFactory.getJsExpressionshowAlert(question, control, form);
             control.setAlertFn(alert);
         }
     }
     private wireHidersDisablers(question: QuestionBase,
         control: AfeFormArray | AfeFormGroup | AfeFormControl, form?: Form) {
         if (question.hide && question.hide !== '') {
-            let hider = this.hidersDisablersFactory.getJsExpressionHider(question, control, form);
+            const hider = this.hidersDisablersFactory.getJsExpressionHider(question, control, form);
             control.setHidingFn(hider);
         }
 
         if (question.disable && question.disable !== '') {
-            let disable =
+            const disable =
                 this.hidersDisablersFactory.getJsExpressionDisabler(question, control, form);
             control.setDisablingFn(disable);
         }
@@ -137,9 +137,9 @@ export class FormControlService {
     private wireCalculator(question: QuestionBase,
         control: AfeFormControl, dataSource?: any) {
         if (question.calculateExpression && question.calculateExpression !== '') {
-            let helper: JsExpressionHelper = new JsExpressionHelper();
-            let runner: ExpressionRunner = new ExpressionRunner();
-            let runnable: Runnable = runner.getRunnable(question.calculateExpression
+            const helper: JsExpressionHelper = new JsExpressionHelper();
+            const runner: ExpressionRunner = new ExpressionRunner();
+            const runnable: Runnable = runner.getRunnable(question.calculateExpression
                 , control,
                 helper.helperFunctions,
                 dataSource);

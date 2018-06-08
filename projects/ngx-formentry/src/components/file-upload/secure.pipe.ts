@@ -46,7 +46,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
 
     transform(url: string, getfile): any {
         this.getfile = getfile;
-        let obj = this.internalTransform(url);
+        const obj = this.internalTransform(url);
         return this.asyncTrasnform(obj);
     }
 
@@ -59,7 +59,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
             this.previousUrl = url;
             this._internalSubscription = this.getfile(url)
                 .subscribe(m => {
-                    let sanitized = this.sanitizer.bypassSecurityTrustUrl(m);
+                    const sanitized = this.sanitizer.bypassSecurityTrustUrl(m);
                     this._result.next(sanitized);
                 });
         }
@@ -87,7 +87,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
     }
 
     private _subscribe(obj: Observable<any>) {
-        let _this = this;
+        const _this = this;
         this._obj = obj;
 
         this._subscription = obj.subscribe({

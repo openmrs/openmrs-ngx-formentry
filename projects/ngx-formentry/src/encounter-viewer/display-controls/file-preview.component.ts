@@ -25,7 +25,7 @@ const noop = () => {};
 export class FilePreviewComponent implements ControlValueAccessor {
     @Input() public source: any;
     public innerValue = null;
-    private _dataSource: DataSource;
+    public _dataSource: DataSource;
     @Input()
     public get dataSource(): DataSource {
         return this._dataSource;

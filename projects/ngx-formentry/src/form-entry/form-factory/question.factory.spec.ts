@@ -5,7 +5,7 @@ import { QuestionFactory } from './question.factory';
 
 describe('Question Factory', () => {
 
-    let selectSchemaQuestion: any = {
+    const selectSchemaQuestion: any = {
         label: 'Patient previous ART use',
         type: 'obs',
         id: 'pastArtUse',
@@ -28,7 +28,7 @@ describe('Question Factory', () => {
 
     };
 
-    let numericSchemaQuestion: any = {
+    const numericSchemaQuestion: any = {
         label: 'Number of weeks on treatment:',
         id: 'ArvDays',
         type: 'obs',
@@ -41,7 +41,7 @@ describe('Question Factory', () => {
         hide: true
     };
 
-    let numberSchemaQuestion: any = {
+    const numberSchemaQuestion: any = {
         label: 'mg',
         questionOptions: {
             concept: 'a8a063c8-1350-11df-a1f1-0026b9348838',
@@ -54,7 +54,7 @@ describe('Question Factory', () => {
     };
 
 
-    let dateSchemaQuestion: any = {
+    const dateSchemaQuestion: any = {
         label: 'Date patient first became medically eligible for ART:',
         id: 'eligibility',
         type: 'obs',
@@ -77,7 +77,7 @@ describe('Question Factory', () => {
         hide: 'NewbornProhpArv !== "a899b35c-1350 - 11df-a1f1 - 0026b9348838"'
     };
 
-    let multiCheckboxSchemaQuestion: any = {
+    const multiCheckboxSchemaQuestion: any = {
         label: 'Patient current ART regimen, peds: ',
         id: 'current_art_regimen_ped',
         questionOptions: {
@@ -100,7 +100,7 @@ describe('Question Factory', () => {
 
 
 
-    let textAreaSchemaQuestion: any = {
+    const textAreaSchemaQuestion: any = {
         label: 'Assessment Notes',
         isExpanded: 'true',
         questionOptions: [
@@ -119,7 +119,7 @@ describe('Question Factory', () => {
         ]
     };
 
-    let drugSchemaQuestion: any = {
+    const drugSchemaQuestion: any = {
         type: 'encounterLocation',
         label: 'Facility name (site/satellite clinic required):',
         id: 'location',
@@ -129,7 +129,7 @@ describe('Question Factory', () => {
         }
     };
 
-    let problemSchemaQuestion: any = {
+    const problemSchemaQuestion: any = {
         type: 'obs',
         label: 'Problem',
         id: 'problem',
@@ -139,7 +139,7 @@ describe('Question Factory', () => {
         }
     };
 
-    let repeatingGroupSchemaQuestion: any = {
+    const repeatingGroupSchemaQuestion: any = {
         label: 'Other Medications',
         questions: [
             {
@@ -163,7 +163,7 @@ describe('Question Factory', () => {
             }
         ]
     };
-    let groupSchemaQuestion: any = {
+    const groupSchemaQuestion: any = {
         type: 'obsGroup',
         label: 'Eligible for ART',
         questionOptions: {
@@ -210,7 +210,7 @@ describe('Question Factory', () => {
         ]
     };
 
-    let personAttributeSchemaQuestion: any = {
+    const personAttributeSchemaQuestion: any = {
         type: 'personAttribute',
         label: 'Specify name of clinic to which patient is being referred:',
         id: 'transfered_out_to_ampath',
@@ -222,7 +222,7 @@ describe('Question Factory', () => {
         }
     };
 
-    let encounterProviderSchemaQuestion: any = {
+    const encounterProviderSchemaQuestion: any = {
         type: 'encounterProvider',
         label: 'Provider',
         id: 'provider',
@@ -233,7 +233,7 @@ describe('Question Factory', () => {
         }
     };
 
-    let encounterLocationSchemaQuestion: any = {
+    const encounterLocationSchemaQuestion: any = {
         type: 'encounterLocation',
         label: 'Facility name (site/satellite clinic required):',
         id: 'location',
@@ -243,7 +243,7 @@ describe('Question Factory', () => {
         }
     };
 
-    let formSchema: any = {
+    const formSchema: any = {
         name: 'triage',
         uuid: 'xxxx',
         processor: 'EncounterFormProcessor',
@@ -547,10 +547,10 @@ describe('Question Factory', () => {
         }]
     };
 
-    let factory = new QuestionFactory();
+    const factory = new QuestionFactory();
 
     it('should convert schema select question to select question model', () => {
-        let converted = factory.toSelectQuestion(selectSchemaQuestion);
+        const converted = factory.toSelectQuestion(selectSchemaQuestion);
 
         selectSchemaQuestion.questionOptions.answers.splice(0, 0, {
             label: '',
@@ -576,7 +576,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert schema numeric question to Numeric question model', () => {
-        let converted = factory.toNumericQuestion(numericSchemaQuestion);
+        const converted = factory.toNumericQuestion(numericSchemaQuestion);
         expect(converted.label).toEqual(numericSchemaQuestion.label);
         expect(converted.key).toEqual(numericSchemaQuestion.id);
         expect(converted.renderingType).toEqual('number');
@@ -585,7 +585,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert schema number question to Number question model', () => {
-        let converted = factory.toNumberQuestion(numberSchemaQuestion);
+        const converted = factory.toNumberQuestion(numberSchemaQuestion);
         expect(converted.label).toEqual(numberSchemaQuestion.label);
         expect(converted.key).toEqual(numberSchemaQuestion.id);
         expect(converted.renderingType).toEqual('number');
@@ -594,7 +594,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert schema date question to Date question model', () => {
-        let converted = factory.toDateQuestion(dateSchemaQuestion);
+        const converted = factory.toDateQuestion(dateSchemaQuestion);
         expect(converted.label).toEqual(dateSchemaQuestion.label);
         expect(converted.key).toEqual(dateSchemaQuestion.id);
         expect(converted.renderingType).toEqual('date');
@@ -603,7 +603,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert schema multiCheckbox question to MultiCheckbox question model', () => {
-        let converted = factory.toMultiCheckboxQuestion(multiCheckboxSchemaQuestion);
+        const converted = factory.toMultiCheckboxQuestion(multiCheckboxSchemaQuestion);
         expect(converted.label).toEqual(multiCheckboxSchemaQuestion.label);
         expect(converted.key).toEqual(multiCheckboxSchemaQuestion.id);
         expect(converted.options).toEqual(multiCheckboxSchemaQuestion.questionOptions.answers.map(function (obj) {
@@ -617,7 +617,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert schema text-area question to Text Area question model', () => {
-        let converted = factory.toTextAreaQuestion(textAreaSchemaQuestion);
+        const converted = factory.toTextAreaQuestion(textAreaSchemaQuestion);
         expect(converted.label).toEqual(textAreaSchemaQuestion.label);
         expect(converted.key).toEqual(textAreaSchemaQuestion.id);
         expect(converted.isExpanded).toEqual(textAreaSchemaQuestion.isExpanded);
@@ -626,7 +626,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert schema drug question to Drug question model', () => {
-        let converted = factory.toDrugQuestion(drugSchemaQuestion);
+        const converted = factory.toDrugQuestion(drugSchemaQuestion);
         expect(converted.label).toEqual(drugSchemaQuestion.label);
         expect(converted.key).toEqual(drugSchemaQuestion.id);
         expect(converted.renderingType).toEqual('remote-select');
@@ -634,7 +634,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert schema problem question to Problem question model', () => {
-        let converted = factory.toProblemQuestion(problemSchemaQuestion);
+        const converted = factory.toProblemQuestion(problemSchemaQuestion);
         expect(converted.label).toEqual(problemSchemaQuestion.label);
         expect(converted.key).toEqual(problemSchemaQuestion.id);
         expect(converted.renderingType).toEqual('remote-select');
@@ -642,20 +642,20 @@ describe('Question Factory', () => {
     });
 
     it('should convert schema group question to Group question model', () => {
-        let converted = factory.toGroupQuestion(groupSchemaQuestion);
+        const converted = factory.toGroupQuestion(groupSchemaQuestion);
         expect(converted.label).toEqual(groupSchemaQuestion.label);
         // expect(converted.questions).toEqual(groupSchemaQuestion.questions);
     });
 
     it('should convert schema repeating question to Repeating question model', () => {
-        let converted = factory.toRepeatingQuestion(repeatingGroupSchemaQuestion);
+        const converted = factory.toRepeatingQuestion(repeatingGroupSchemaQuestion);
         expect(converted.label).toEqual(repeatingGroupSchemaQuestion.label);
         // expect(converted.questions).toEqual(repeatingGroupSchemaQuestion.questions);
 
     });
 
     it('should convert schema Person Attribute question to Person Attribute question model', () => {
-        let converted = factory.toPersonAttributeQuestion(personAttributeSchemaQuestion);
+        const converted = factory.toPersonAttributeQuestion(personAttributeSchemaQuestion);
         expect(converted.label).toEqual(personAttributeSchemaQuestion.label);
         expect(converted.key).toEqual(personAttributeSchemaQuestion.id);
         expect(converted.renderingType).toEqual('remote-select');
@@ -663,7 +663,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert schema encounter Provider question to Encounter Provider question model', () => {
-        let converted = factory.toEncounterProviderQuestion(encounterProviderSchemaQuestion);
+        const converted = factory.toEncounterProviderQuestion(encounterProviderSchemaQuestion);
         expect(converted.label).toEqual(encounterProviderSchemaQuestion.label);
         expect(converted.key).toEqual(encounterProviderSchemaQuestion.id);
         expect(converted.renderingType).toEqual('remote-select');
@@ -671,7 +671,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert schema encounter Location question to Encounter Location question model', () => {
-        let converted = factory.toEncounterLocationQuestion(encounterLocationSchemaQuestion);
+        const converted = factory.toEncounterLocationQuestion(encounterLocationSchemaQuestion);
         expect(converted.label).toEqual(encounterLocationSchemaQuestion.label);
         expect(converted.key).toEqual(encounterLocationSchemaQuestion.id);
         expect(converted.renderingType).toEqual('remote-select');
@@ -679,7 +679,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert select-concept-answers to remote select question', () => {
-        let conceptAnswerSchema = {
+        const conceptAnswerSchema = {
             'label': 'Select criteria for new WHO stage:',
             'type': 'obs',
             'id': 'criteriaLabel',
@@ -698,7 +698,7 @@ describe('Question Factory', () => {
             'validators': []
         };
 
-        let converted: SelectQuestion = factory.toConceptAnswerSelect(conceptAnswerSchema);
+        const converted: SelectQuestion = factory.toConceptAnswerSelect(conceptAnswerSchema);
 
         expect(converted).toBeDefined();
         expect(converted.label).toEqual(conceptAnswerSchema.label);
@@ -714,10 +714,10 @@ describe('Question Factory', () => {
     });
 
     it('should convert form schema to a list of question models, without pages', () => {
-        let converted = factory.getSchemaQuestions(formSchema);
-        let convertedSample1: QuestionBase = converted[1];
-        let convertedSample2: QuestionGroup = converted[12];
-        let convertedSample3: SelectQuestion = converted[14];
+        const converted = factory.getSchemaQuestions(formSchema);
+        const convertedSample1: QuestionBase = converted[1];
+        const convertedSample2: QuestionGroup = converted[12];
+        const convertedSample3: SelectQuestion = converted[14];
         expect(converted.length).toEqual(18);
         expect(convertedSample1.renderingType).toEqual('remote-select');
         expect(convertedSample1.key).toEqual('provider');
@@ -731,7 +731,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert form schema to question model', () => {
-        let converted = factory.createQuestionModel(formSchema);
+        const converted = factory.createQuestionModel(formSchema);
         expect(converted instanceof QuestionGroup).toBe(true);
         let asGroup = converted as QuestionGroup;
 
@@ -753,7 +753,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert complex obs schema question to field set question model', () => {
-        let schemaQuestion = {
+        const schemaQuestion = {
             'type': 'complex-obs',
             'label': 'Creatinine:',
             'id': 'complex_creatinine',
@@ -800,8 +800,8 @@ describe('Question Factory', () => {
             'validators': []
         };
 
-        let converted = factory.toModel(schemaQuestion, 'field-set');
-        let result: QuestionGroup = converted as QuestionGroup;
+        const converted = factory.toModel(schemaQuestion, 'field-set');
+        const result: QuestionGroup = converted as QuestionGroup;
 
         expect(result).toBeTruthy();
         expect(result.extras).toBe(schemaQuestion);
@@ -823,7 +823,7 @@ describe('Question Factory', () => {
     });
 
     it('should convert old schema version complex obs schema question to field set question model', () => {
-        let schemaQuestion = {
+        const schemaQuestion = {
             'type': 'obs',
             'label': 'Creatinine mmol/L:',
             'id': 'creatinine_test',
@@ -852,7 +852,7 @@ describe('Question Factory', () => {
             'validators': []
         };
 
-        let expectedConvertedSchema = {
+        const expectedConvertedSchema = {
             'type': 'complex-obs',
             'label': 'Creatinine mmol/L:',
             'id': 'complex_creatinine_test',
@@ -901,8 +901,8 @@ describe('Question Factory', () => {
             'validators': []
         };
 
-        let converted = factory.toModel(schemaQuestion, 'field-set');
-        let result: QuestionGroup = converted as QuestionGroup;
+        const converted = factory.toModel(schemaQuestion, 'field-set');
+        const result: QuestionGroup = converted as QuestionGroup;
 
         console.log('result :', result.extras.questions[1]);
         console.log('expected', expectedConvertedSchema.questions[1]);

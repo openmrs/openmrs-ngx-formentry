@@ -3,7 +3,9 @@
  */
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import * as moment from 'moment/moment';
+import * as moment_ from 'moment';
+
+const moment = moment_;
 import { Moment } from 'moment/moment';
 
 // webpack1_
@@ -21,14 +23,14 @@ declare let require: any;
 export class TimePickerComponent implements OnInit {
 
     @Input() initTime: any;
-    @Input() showSecond: boolean = true;
-    @Input() viewFormat: string = 'hh:mm A';
-    @Input() use12Hour: boolean = false;
-    @Input() returnObject: string = 'js';
+    @Input() showSecond = true;
+    @Input() viewFormat = 'hh:mm A';
+    @Input() use12Hour = false;
+    @Input() returnObject = 'js';
     @Output() onSelectTime = new EventEmitter<any>();
     @Output() onTimePickerCancel = new EventEmitter<boolean>();
     hourFormat = 'HH';
-    private time: Moment;
+    public time: Moment;
 
     constructor() {
     }
@@ -73,14 +75,14 @@ export class TimePickerComponent implements OnInit {
     }
 
     selectTime(): void {
-        let selectTime = this.parseToReturnObjectType(this.time);
+        const selectTime = this.parseToReturnObjectType(this.time);
         this.onSelectTime.emit(selectTime);
         this.cancelTimePicker();
         return;
     }
 
     selectNow(): void {
-        let selectTime = this.parseToReturnObjectType(moment());
+        const selectTime = this.parseToReturnObjectType(moment());
         this.onSelectTime.emit(selectTime);
         this.cancelTimePicker();
         return;

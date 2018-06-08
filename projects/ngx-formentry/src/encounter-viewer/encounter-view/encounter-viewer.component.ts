@@ -4,7 +4,7 @@ import { QuestionBase } from '../../form-entry/question-models/question-base';
 import * as _ from 'lodash';
 import { EncounterViewerService } from '../encounter-viewer.service';
 import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
-import { DataSources } from '../../index';
+import { DataSources } from '../../form-entry/data-sources';
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
 
 @Component({
@@ -14,7 +14,7 @@ import { DataSource } from '../../form-entry/question-models/interfaces/data-sou
 })
 export class EncounterViewerComponent implements OnInit {
     public rootNode: NodeBase;
-    public enc;
+    public enc: any;
     public fileDataSource: DataSource;
     public remoteDataSource: DataSource;
     public customDataSource: DataSource;
@@ -39,17 +39,17 @@ export class EncounterViewerComponent implements OnInit {
     }
 
     constructor(private encounterViewerService: EncounterViewerService,
-                @Inject(DataSources) private dataSources: DataSources) {
+               private dataSources: DataSources) {
     }
 
     public ngOnInit() {
         if (this.rootNode && this.rootNode.question.extras
             && this.rootNode.question.renderingType === 'file') {
-                this.fileDataSource = 
+                this.fileDataSource =
                 this.dataSources.dataSources[this.rootNode.question.dataSource];
         } else if (this.rootNode && this.rootNode.question.extras
             && this.rootNode.question.renderingType === 'remote-select') {
-                this.remoteDataSource = 
+                this.remoteDataSource =
                 this.dataSources.dataSources[this.rootNode.question.dataSource];
             } else {
                 this.customDataSource = this.encounterViewerService;

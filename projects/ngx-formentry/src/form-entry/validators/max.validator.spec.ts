@@ -5,22 +5,22 @@ describe('MaxValidator Unit Tests', () => {
 
   it('should return null when value is less than the max value set', () => {
 
-    let validator: MaxValidator = new MaxValidator();
-    let max = 10;
-    let value = 2;
+    const validator: MaxValidator = new MaxValidator();
+    const max = 10;
+    const value = 2;
 
-    let formControl = new AfeFormControl(value, [validator.validate(max)]);
+    const formControl = new AfeFormControl(value, [validator.validate(max)]);
 
     expect(formControl.errors).toBe(null);
   });
 
   it('should return an error when value is greater than the max value set', () => {
 
-    let validator: MaxValidator = new MaxValidator();
-    let max = 10;
-    let value = 11;
+    const validator: MaxValidator = new MaxValidator();
+    const max = 10;
+    const value = 11;
 
-    let formControl = new AfeFormControl(value, [validator.validate(max)]);
+    const formControl = new AfeFormControl(value, [validator.validate(max)]);
 
     expect(formControl.errors['max']).not.toBe(null);
   });

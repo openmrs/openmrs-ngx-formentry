@@ -70,12 +70,12 @@ export class AfeNgSelectComponent implements ControlValueAccessor, OnInit, OnCha
 
     this.subject = new BehaviorSubject<Option[]>([]);
 
-    let OptionsObservable = this.dataSource.searchOptions(searchText);
+    const OptionsObservable = this.dataSource.searchOptions(searchText);
 
     OptionsObservable.subscribe(
       (options) => {
         console.log('options', options);
-        let mappedOptions: Option[] = new Array<Option>();
+        const mappedOptions: Option[] = new Array<Option>();
 
         for (let i = 0; i < options.length; i++) {
           mappedOptions.push(new Option(options[i]));
@@ -94,7 +94,7 @@ export class AfeNgSelectComponent implements ControlValueAccessor, OnInit, OnCha
   resolveSelectedOption(value: any): Observable<Option> {
 
     this.subjectOption = new BehaviorSubject<Option>(null);
-    let OptionObservable = this.dataSource.resolveSelectedValue(value);
+    const OptionObservable = this.dataSource.resolveSelectedValue(value);
 
     OptionObservable.subscribe(
       (option) => {

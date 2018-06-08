@@ -1,12 +1,13 @@
 /* tslint:disable:no-unused-variable */
+ /* tslint:disable:no-unused-expression */
 
 import { TestBed, async } from '@angular/core/testing';
 import { AfeNgSelectComponent } from './afe-ng-select.component';
 import { DummyDataSource } from '../form-entry/data-sources/dummy-data-source';
 
 describe('Component: AFE-select-component Unit Tests', () => {
-    let dummyDataSource = new DummyDataSource();
-    let component = new AfeNgSelectComponent();
+    const dummyDataSource = new DummyDataSource();
+    const component = new AfeNgSelectComponent();
 
     afterEach(() => {
         TestBed.resetTestingModule();
@@ -36,7 +37,7 @@ describe('Component: AFE-select-component Unit Tests', () => {
         expect(component.ngOnInit).toHaveBeenCalled();
         component.dataSource = dummyDataSource;
         spyOn(component, 'getData').and.callThrough();
-        let foundResults = component.getData('k');
+        const foundResults = component.getData('k');
         expect(component.getData).toHaveBeenCalled();
         spyOn(component, 'resolveSelectedOption').and.callThrough();
         component.resolveSelectedOption('a8afc8b8-1350-11df-a1f1-0026b9348838');

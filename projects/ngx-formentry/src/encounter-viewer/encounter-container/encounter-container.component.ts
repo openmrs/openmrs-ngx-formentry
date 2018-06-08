@@ -17,7 +17,7 @@ export class EncounterContainerComponent implements OnInit {
     @Input() public set encounter(enc) {
         this.$enc = enc;
     }
-  
+
     constructor(private encAdapter: EncounterAdapter) { }
 
     ngOnInit() {

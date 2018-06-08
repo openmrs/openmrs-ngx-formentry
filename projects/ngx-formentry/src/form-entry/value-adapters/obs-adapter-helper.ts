@@ -1,5 +1,7 @@
 import * as _ from 'lodash';
-const moment = require('moment');
+import * as moment_ from 'moment';
+
+const moment = moment_;
 
 import { NodeBase, ArrayNode, GroupNode, LeafNode } from '../form-factory/form-node';
 
@@ -9,7 +11,7 @@ export class ObsAdapterHelper {
     }
 
     findObsAnswerToQuestion(node: NodeBase, obsArray: Array<any>): Array<any> {
-        let found = [];
+        const found = [];
 
         if (!this.isObsNode(node)) {
             return found;
@@ -30,7 +32,7 @@ export class ObsAdapterHelper {
 
         // At this point the node is either a group or a repeating node
 
-        let childQuestionsUuids = this.getChildQuestionsConceptUuids(node);
+        const childQuestionsUuids = this.getChildQuestionsConceptUuids(node);
         if (childQuestionsUuids.length > 0) {
             _.each(obsArray, (obs) => {
                 if (obs.concept &&
@@ -47,7 +49,7 @@ export class ObsAdapterHelper {
     }
 
     getChildQuestionsConceptUuids(node: NodeBase): Array<string> {
-        let found = [];
+        const found = [];
 
         if (node.question.extras && node.question.extras.questions) {
             _.each(node.question.extras.questions, (question) => {
@@ -62,7 +64,7 @@ export class ObsAdapterHelper {
     }
 
     getGroupMembersConceptUuids(obsWithGroupMembers): Array<string> {
-        let found = [];
+        const found = [];
 
         if (Array.isArray(obsWithGroupMembers.groupMembers)) {
             _.each(obsWithGroupMembers.groupMembers,
@@ -93,7 +95,7 @@ export class ObsAdapterHelper {
 
     setSimpleObsNodeValue(node: NodeBase, obs: Array<any>) {
         if (node && obs.length > 0) {
-            let obsToUse = obs[0];
+            const obsToUse = obs[0];
 
             // set initial value
             node.initialValue = obsToUse;
@@ -111,8 +113,8 @@ export class ObsAdapterHelper {
         if (node && obs.length > 0) {
             node.initialValue = obs;
 
-            let obsUuids = [];
-            for (let m of obs) {
+            const obsUuids = [];
+            for (const m of obs) {
                 obsUuids.push(m.value.uuid);
             }
 
@@ -125,9 +127,9 @@ export class ObsAdapterHelper {
             let valueField: LeafNode; // essential memmber
             let dateField: LeafNode; // other member to be manipulated by user
 
-            let nodeAsGroup = (node as GroupNode);
+            const nodeAsGroup = (node as GroupNode);
             // tslint:disable-next-line:forin
-            for (let o in nodeAsGroup.children) {
+            for (const o in nodeAsGroup.children) {
                 if ((nodeAsGroup.children[o] as LeafNode).question.extras.questionOptions.obsField === 'value') {
                     valueField = nodeAsGroup.children[o];
                 }
@@ -149,10 +151,10 @@ export class ObsAdapterHelper {
 
     setGroupObsNodeValue(node: NodeBase, obs: Array<any>) {
         if (node && obs.length > 0) {
-            let groupNode = node as GroupNode;
+            const groupNode = node as GroupNode;
             groupNode.initialValue = obs[0];
             // tslint:disable-next-line:forin
-            for (let o in groupNode.children) {
+            for (const o in groupNode.children) {
                 this.setNodeValue(groupNode.children[o], obs[0].groupMembers);
             }
         }
@@ -160,11 +162,11 @@ export class ObsAdapterHelper {
 
     setRepeatingGroupObsNodeValue(node: NodeBase, obs: Array<any>) {
         if (node && obs.length > 0) {
-            let arrayNode = node as ArrayNode;
+            const arrayNode = node as ArrayNode;
             arrayNode.initialValue = obs;
 
             for (let i = 0; i < obs.length; i++) {
-                let createdNode = arrayNode.createChildNode();
+                const createdNode = arrayNode.createChildNode();
                 this.setGroupObsNodeValue(createdNode, [obs[i]]);
             }
         }
@@ -174,15 +176,15 @@ export class ObsAdapterHelper {
         switch (this.getObsNodeType(node)) {
             case 'unknown':
                 if (node instanceof GroupNode) {
-                    let groupNode = node as GroupNode;
+                    const groupNode = node as GroupNode;
                     // tslint:disable-next-line:forin
-                    for (let o in groupNode.children) {
+                    for (const o in groupNode.children) {
                         this.setNodeValue(groupNode.children[o], obs);
                     }
                     break;
                 }
                 if (node instanceof ArrayNode) {
-                    let arrayNode = node as ArrayNode;
+                    const arrayNode = node as ArrayNode;
                     for (let i = 0; i < arrayNode.children.length; i++) {
                         this.setNodeValue(arrayNode.children[i], obs);
                     }
@@ -191,7 +193,7 @@ export class ObsAdapterHelper {
                 break;
             case 'simple':
                 // search asnwering obs at this point
-                let answeringObs = this.findObsAnswerToQuestion(node, obs);
+                const answeringObs = this.findObsAnswerToQuestion(node, obs);
 
                 // set answer here
                 this.setSimpleObsNodeValue(node, answeringObs);
@@ -199,7 +201,7 @@ export class ObsAdapterHelper {
 
             case 'multiselect':
                 // search asnwering obs at this point
-                let multiselectObs = this.findObsAnswerToQuestion(node, obs);
+                const multiselectObs = this.findObsAnswerToQuestion(node, obs);
 
                 // set answer here
                 this.setMultiselectObsNodeValue(node, multiselectObs);
@@ -208,14 +210,14 @@ export class ObsAdapterHelper {
 
             case 'complex':
                 // search asnwering obs at this point
-                let complexObs = this.findObsAnswerToQuestion(node, obs);
+                const complexObs = this.findObsAnswerToQuestion(node, obs);
 
                 // set answer here
                 this.setComplexObsNodeValue(node, complexObs);
                 break;
 
             case 'group':
-                let groupObs = this.findObsAnswerToQuestion(node, obs);
+                const groupObs = this.findObsAnswerToQuestion(node, obs);
 
                 if (groupObs.length > 0) {
                     this.setGroupObsNodeValue(node, groupObs);
@@ -223,7 +225,7 @@ export class ObsAdapterHelper {
 
                 break;
             case 'repeatingGroup':
-                let repeatingGroupObs = this.findObsAnswerToQuestion(node, obs);
+                const repeatingGroupObs = this.findObsAnswerToQuestion(node, obs);
 
                 if (repeatingGroupObs.length > 0) {
                     this.setRepeatingGroupObsNodeValue(node, repeatingGroupObs);
@@ -301,7 +303,7 @@ export class ObsAdapterHelper {
 
         // all numbers, text, concepts answers are handled in the same way
         // no need for further formatting in this case
-        let obs: any = {
+        const obs: any = {
             concept: node.question.extras.questionOptions.concept,
             value: node.control.value
         };
@@ -324,9 +326,9 @@ export class ObsAdapterHelper {
         let valueField: LeafNode; // essential memmber
         let dateField: LeafNode; // other member to be manipulated by user
 
-        let nodeAsGroup = (node as GroupNode);
+        const nodeAsGroup = (node as GroupNode);
         // tslint:disable-next-line:forin
-        for (let o in nodeAsGroup.children) {
+        for (const o in nodeAsGroup.children) {
             if ((nodeAsGroup.children[o] as LeafNode).question.extras.questionOptions.obsField === 'value') {
                 valueField = nodeAsGroup.children[o];
             }
@@ -336,7 +338,7 @@ export class ObsAdapterHelper {
             }
         }
 
-        let valuePayload = this.getObsNodePayload(valueField);
+        const valuePayload = this.getObsNodePayload(valueField);
 
         // set obs datetime for the generated payload
         if (valuePayload.length > 0) {
@@ -345,7 +347,7 @@ export class ObsAdapterHelper {
         } else if (valuePayload.length === 0 && node.initialValue) {
             // determine if date changed
             if (!this.areDatesEqual(node.initialValue.obsDatetime, dateField.control.value)) {
-                let payload: any = {
+                const payload: any = {
                     uuid: node.initialValue.uuid,
                 };
                 payload.obsDatetime = this.toOpenMrsDateTimeString(dateField.control.value);
@@ -356,9 +358,9 @@ export class ObsAdapterHelper {
     }
 
     getMultiselectObsPayload(node: NodeBase): Array<any> {
-        let payload: Array<any> = [];
+        const payload: Array<any> = [];
 
-        let existingUuids = [];
+        const existingUuids = [];
 
         // add voided obs i.e. deleted options
         if (Array.isArray(node.initialValue)) {
@@ -397,11 +399,11 @@ export class ObsAdapterHelper {
     }
 
     getGroupPayload(node: NodeBase) {
-        let nodeAsGroup: GroupNode = node as GroupNode;
+        const nodeAsGroup: GroupNode = node as GroupNode;
 
         let childrenPayload = [];
         _.each(nodeAsGroup.children, (child) => {
-            let payload = this.getObsNodePayload(child);
+            const payload = this.getObsNodePayload(child);
             if (payload.length > 0) {
                 childrenPayload = childrenPayload.concat(payload);
             }
@@ -411,7 +413,7 @@ export class ObsAdapterHelper {
             return null;
         }
 
-        let groupPayload: any = {
+        const groupPayload: any = {
             groupMembers: childrenPayload
         };
 
@@ -426,13 +428,13 @@ export class ObsAdapterHelper {
     }
 
     getRepeatingGroupPayload(node: NodeBase) {
-        let nodeAsArray: ArrayNode = node as ArrayNode;
+        const nodeAsArray: ArrayNode = node as ArrayNode;
 
         let childrenPayload = [];
 
-        let groupsUuidsAfterEditting = [];
+        const groupsUuidsAfterEditting = [];
         _.each(nodeAsArray.children, (child) => {
-            let payload = this.getObsNodePayload(child);
+            const payload = this.getObsNodePayload(child);
             if (payload.length > 0) {
                 childrenPayload = childrenPayload.concat(payload);
             }
@@ -446,7 +448,7 @@ export class ObsAdapterHelper {
         if (nodeAsArray.initialValue && Array.isArray(nodeAsArray.initialValue)) {
             _.each(nodeAsArray.initialValue, (obs) => {
                 if (groupsUuidsAfterEditting.indexOf(obs.uuid) < 0) {
-                    let voidedGroup = {
+                    const voidedGroup = {
                         uuid: obs.uuid,
                         voided: true
                     };
@@ -468,10 +470,10 @@ export class ObsAdapterHelper {
         switch (this.getObsNodeType(node)) {
             case 'unknown':
                 if (node instanceof GroupNode) {
-                    let groupNode = node as GroupNode;
+                    const groupNode = node as GroupNode;
                     // tslint:disable-next-line:forin
-                    for (let o in groupNode.children) {
-                        let groupNodePayoad = this.getObsNodePayload(groupNode.children[o]);
+                    for (const o in groupNode.children) {
+                        const groupNodePayoad = this.getObsNodePayload(groupNode.children[o]);
                         if (Array.isArray(groupNodePayoad) && groupNodePayoad.length > 0) {
                             payload = payload.concat(groupNodePayoad);
                         }
@@ -479,9 +481,9 @@ export class ObsAdapterHelper {
                     break;
                 }
                 if (node instanceof ArrayNode) {
-                    let arrayNode = node as ArrayNode;
+                    const arrayNode = node as ArrayNode;
                     for (let i = 0; i < arrayNode.children.length; i++) {
-                        let arrayNodePayload = this.getObsNodePayload(arrayNode.children[i]);
+                        const arrayNodePayload = this.getObsNodePayload(arrayNode.children[i]);
                         if (Array.isArray(arrayNodePayload) && arrayNodePayload.length > 0) {
                             payload = payload.concat(arrayNodePayload);
                         }
@@ -490,14 +492,14 @@ export class ObsAdapterHelper {
                 }
                 break;
             case 'simple':
-                let simpleObs = this.getSimpleObsPayload(node);
+                const simpleObs = this.getSimpleObsPayload(node);
                 if (simpleObs !== null) {
                     payload.push(simpleObs);
                 }
                 break;
 
             case 'multiselect':
-                let multiselectObs = this.getMultiselectObsPayload(node);
+                const multiselectObs = this.getMultiselectObsPayload(node);
 
                 if (Array.isArray(multiselectObs) && multiselectObs.length > 0) {
                     payload = payload.concat(multiselectObs);
@@ -505,20 +507,20 @@ export class ObsAdapterHelper {
                 break;
 
             case 'complex':
-                let complexObs = this.getComplexObsPayload(node);
+                const complexObs = this.getComplexObsPayload(node);
                 if (complexObs !== null) {
                     payload.push(complexObs);
                 }
                 break;
 
             case 'group':
-                let groupedObs = this.getGroupPayload(node);
+                const groupedObs = this.getGroupPayload(node);
                 if (groupedObs && groupedObs !== null) {
                     payload.push(groupedObs);
                 }
                 break;
             case 'repeatingGroup':
-                let repeatingGroupedObs = this.getRepeatingGroupPayload(node);
+                const repeatingGroupedObs = this.getRepeatingGroupPayload(node);
                 if (Array.isArray(repeatingGroupedObs) && repeatingGroupedObs.length > 0) {
                     payload = payload.concat(repeatingGroupedObs);
                 }
@@ -565,7 +567,7 @@ export class ObsAdapterHelper {
         if (this.isEmpty(datetime)) {
             return undefined;
         }
-        let val = datetime.substring(0, 19).replace('T', ' ');
+        const val = datetime.substring(0, 19).replace('T', ' ');
         return this.isEmpty(val) ? undefined : val;
     }
 

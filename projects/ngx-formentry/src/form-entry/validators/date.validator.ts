@@ -11,12 +11,12 @@ export class DateValidator {
       return null;
     }
 
-    let value = control.value;
+    const value = control.value;
 
     if (value && value.length !== 0) {
 
       // YYYY-MM-DD or DD-MM-YYYY
-      let test: boolean = !/Invalid|NaN/.test(new Date(value).toString());
+      const test: boolean = !/Invalid|NaN/.test(new Date(value).toString());
 
       return test ? null : { 'date': true };
     } else {

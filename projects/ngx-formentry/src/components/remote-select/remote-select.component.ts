@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef, ViewChild, Output, EventEmitter, Renderer } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ViewChild, Output, EventEmitter, Renderer2 } from '@angular/core';
 import { SelectComponent } from '../../components/select/select.component';
 import {
     ControlValueAccessor,
@@ -18,12 +18,12 @@ import * as _ from 'lodash';
 })
 export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     // @Input() dataSource: DataSource;
-    @Input() placeholder: string = 'Search...';
+    @Input() placeholder = 'Search...';
     @Input() componentID: string;
     items = [];
     value = [];
     loading = false;
-    searchText: string = '';
+    searchText = '';
     notFoundMsg = 'match no found';
     @Output() done: EventEmitter<any> = new EventEmitter<any>();
 
@@ -44,7 +44,7 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     }
 
 
-    constructor(private renderer: Renderer) { }
+    constructor(private renderer: Renderer2) { }
 
     ngOnInit() {
 
@@ -74,8 +74,8 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
             this.dataSource.searchOptions(value)
                 .subscribe((result) => {
                     if (result.length > 0) {
-                        let existing = _.map(this.value, _.clone);
-                        let concat = existing.concat(result);
+                        const existing = _.map(this.value, _.clone);
+                        const concat = existing.concat(result);
                         this.items = _.uniqBy(concat, 'value');
                     }
                     this.notFoundMsg = '';
@@ -154,5 +154,5 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     // the method set in registerOnChange, it is just
     // a placeholder for a method that takes one parameter,
     // we use it to emit changes back to the form
-    private propagateChange = (_: any) => { };
+    private propagateChange = (change: any) => { };
 }

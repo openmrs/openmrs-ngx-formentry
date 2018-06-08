@@ -17,12 +17,12 @@ export class JsExpressionValidator {
         return null;
       }
 
-      let expression = model.failsWhenExpression;
-      let helper = new JsExpressionHelper();
-      let dataDependencies = {};
+      const expression = model.failsWhenExpression;
+      const helper = new JsExpressionHelper();
+      const dataDependencies = {};
 
-      let helperFunctions = helper.helperFunctions;
-      let runnable = new ExpressionRunner().getRunnable(expression, control, helperFunctions, dataDependencies, form);
+      const helperFunctions = helper.helperFunctions;
+      const runnable = new ExpressionRunner().getRunnable(expression, control, helperFunctions, dataDependencies, form);
 
       if (runnable.run()) {
 

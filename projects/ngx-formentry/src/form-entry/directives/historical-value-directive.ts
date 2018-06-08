@@ -1,7 +1,7 @@
 import { Directive, HostListener, Input, Output, EventEmitter } from '@angular/core';
 
 import { HistoricalFieldHelperService } from '../helpers/historical-field-helper-service';
-import *  as _ from 'lodash';
+import * as _ from 'lodash';
 import { NodeBase } from '../form-factory/form-node';
 
 @Directive({
@@ -49,7 +49,7 @@ export class HistoricalValueDirective {
     if (node) {
       this._node = node;
       if (this._node.question.enableHistoricalValue && !_.isUndefined(this._node.question.historicalDataValue)) {
-        let display: any = { text: '', _date: '' };
+        const display: any = { text: '', _date: '' };
         if ((this._node.question.renderingType === 'select'
           || this._node.question.renderingType === 'multi-select')) {
 

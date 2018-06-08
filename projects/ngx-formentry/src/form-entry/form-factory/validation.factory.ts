@@ -28,7 +28,7 @@ export class ValidationFactory {
 
   getValidators(question: QuestionBase, form?: any) {
 
-    let list: Array<any> = [];
+    const list: Array<any> = [];
 
     if (question.validators) {
 
@@ -37,7 +37,7 @@ export class ValidationFactory {
         switch (validator.type) {
           case 'date':
             list.push(this.dateValidator);
-            let allowFutureDates: boolean = ( <DateValidationModel>validator ).allowFutureDates;
+            const allowFutureDates: boolean = ( <DateValidationModel>validator ).allowFutureDates;
 
             if (!allowFutureDates) {
               list.push(this.futureDateRestrictionValidator);
@@ -72,7 +72,7 @@ export class ValidationFactory {
     return list;
   }
 
-  get conditionalRequiredValidator(): ConditionalRequiredValidator{
+  get conditionalRequiredValidator(): ConditionalRequiredValidator {
     return new ConditionalRequiredValidator();
   }
 
@@ -124,9 +124,9 @@ export class ValidationFactory {
 
   public errors(errors: any, question: QuestionBase): Array<string> {
 
-    let messages: Array<string> = [];
+    const messages: Array<string> = [];
 
-    for (let property in errors) {
+    for (const property in errors) {
         if (errors.hasOwnProperty(property)) {
 
             switch (property) {

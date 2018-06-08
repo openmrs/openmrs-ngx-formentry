@@ -15,7 +15,7 @@ export class MaxDateValidator {
 
         if (!new DateValidator().validate(control.value)) {
 
-          let newDate: Date = new Date(control.value);
+          const newDate: Date = new Date(control.value);
 
           return newDate.getTime() > max.getTime() ? { 'maxdate': { 'requiredDate': max, actualDate: newDate } } : null;
         } else {

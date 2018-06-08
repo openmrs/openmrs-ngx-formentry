@@ -844,7 +844,7 @@ export class Diacritics {
 
     static strip(text: string): string {
 
-        let match = (a: string): string => {
+        const match = (a: string): string => {
             return this.DIACRITICS[a] || a;
         };
         if (text) {

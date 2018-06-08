@@ -4,7 +4,7 @@ import { ValueAdapter } from './value.adapter';
 import * as _ from 'lodash';
 @Injectable()
 export class OrderValueAdapter implements ValueAdapter {
-    private formOrderNodes = [];
+    formOrderNodes = [];
     private provider = '';
 
     generateFormPayload(form: Form) {
@@ -18,7 +18,7 @@ export class OrderValueAdapter implements ValueAdapter {
         form.existingOrders = payload;
         this.formOrderNodes = [];
         this._findTestOrderQuestionNodes(form.rootNode);
-        let existingOrders = this._getExistingOrders(form);
+        const existingOrders = this._getExistingOrders(form);
         this._setOrderValues(this.formOrderNodes, existingOrders);
     }
 
@@ -29,13 +29,13 @@ export class OrderValueAdapter implements ValueAdapter {
     }
 
     private _createOrdersPayload(orderNodes, form: Form) {
-        let payload = [];
-        let selectedOrders = [];
+        const payload = [];
+        const selectedOrders = [];
         let deletedOrders = [];
-        let existingOrders = this._getExistingOrders(form);
-        for (let orderNode of orderNodes) {
-            let orderNodeValues = orderNode.control.value;
-            let orders = [];
+        const existingOrders = this._getExistingOrders(form);
+        for (const orderNode of orderNodes) {
+            const orderNodeValues = orderNode.control.value;
+            const orders = [];
             if (existingOrders) {
                 existingOrders.map(function (obj) {
                     orders[obj.concept] = obj.concept;
@@ -43,12 +43,12 @@ export class OrderValueAdapter implements ValueAdapter {
             }
 
 
-            for (let order in orderNodeValues) {
+            for (const order in orderNodeValues) {
                 if (orderNodeValues.hasOwnProperty(order)) {
 
-                    let orderValue = orderNodeValues[order][orderNode.question.key];
+                    const orderValue = orderNodeValues[order][orderNode.question.key];
 
-                    let payloadOrder = this._createPayloadOrder(orderValue, orderNode.question.extras);
+                    const payloadOrder = this._createPayloadOrder(orderValue, orderNode.question.extras);
 
                     if (orders[orderValue] !== orderValue && payloadOrder.concept !== '') {
 
@@ -99,14 +99,14 @@ export class OrderValueAdapter implements ValueAdapter {
     private _setOrderValues(node, existingOrders) {
         this._findTestOrderQuestionNodes(node);
 
-        let orderNodes = this.formOrderNodes;
-        for (let orderNode of orderNodes) {
+        const orderNodes = this.formOrderNodes;
+        for (const orderNode of orderNodes) {
             this._setOrderNodeValues(orderNode, existingOrders);
         }
     }
 
     private _addDeletedOrdersToPayload(deletedOrders, payload): any {
-        for (let order in deletedOrders) {
+        for (const order in deletedOrders) {
             if (deletedOrders.hasOwnProperty(order)) {
                 payload.push({ uuid: deletedOrders[order], voided: true });
             }
@@ -115,7 +115,7 @@ export class OrderValueAdapter implements ValueAdapter {
     }
 
     private _createPayloadOrder(orderConcept, quesitonExtras): any {
-        let order = {
+        const order = {
             concept: '',
             type: '',
             orderer: '',
@@ -135,12 +135,12 @@ export class OrderValueAdapter implements ValueAdapter {
     }
 
     private _getDeletedOrders(selectedOrders, existingOrders): any {
-        let deleteOrders = [];
+        const deleteOrders = [];
         if (selectedOrders) {
-            for (let order in existingOrders) {
+            for (const order in existingOrders) {
                 if (existingOrders.hasOwnProperty(order)) {
-                    let existingOrderConcept = existingOrders[order].concept;
-                    let selectedOrder = selectedOrders[existingOrderConcept];
+                    const existingOrderConcept = existingOrders[order].concept;
+                    const selectedOrder = selectedOrders[existingOrderConcept];
                     if (selectedOrder !== existingOrderConcept) {
                         deleteOrders.push(existingOrders[order].orderUuid);
                     }
@@ -154,11 +154,11 @@ export class OrderValueAdapter implements ValueAdapter {
     private _setOrderNodeValues(node, orders) {
         let index = 0;
         node['initialValue'] = orders;
-        for (let order of orders) {
+        for (const order of orders) {
             node.createChildNode();
-            let value = {};
+            const value = {};
             value[node.question.key] = order.concept;
-            let childNode = node.children[index];
+            const childNode = node.children[index];
             childNode.control.setValue(value);
             childNode['initialValue'] = value;
             childNode['orderNumber'] = order.orderNumber;
@@ -171,7 +171,7 @@ export class OrderValueAdapter implements ValueAdapter {
 
         if (formNode.children) {
             if (formNode.children instanceof Object) {
-                for (let key in formNode.children) {
+                for (const key in formNode.children) {
                     if (formNode.children.hasOwnProperty(key)) {
                         switch (formNode.children[key].question.renderingType) {
                             case 'page':
@@ -187,8 +187,8 @@ export class OrderValueAdapter implements ValueAdapter {
                             case 'repeating':
                                 if (formNode.children) {
                                     // tslint:disable-next-line:forin
-                                    for (let node in formNode.children) {
-                                        let question = formNode.children[node].question;
+                                    for (const node in formNode.children) {
+                                        const question = formNode.children[node].question;
                                         if (question.extras && question.extras.type === 'testOrder') {
                                             this.formOrderNodes.push(formNode.children[node]);
                                         }

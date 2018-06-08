@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HistoricalEncounterDataService } from './historical-encounter-data.service';
 import { MockObs } from '../../mock/mock-obs';
 
-let obs = new MockObs();
+const obs = new MockObs();
 
 
 describe('Historical Encounter Data Service', () => {
@@ -12,7 +12,7 @@ describe('Historical Encounter Data Service', () => {
         {
           provide: HistoricalEncounterDataService,
           useFactory: () => {
-            let HD = new HistoricalEncounterDataService();
+            const HD = new HistoricalEncounterDataService();
             HD.registerEncounters('prevEnc', obs.getObs());
             return HD;
           },
@@ -23,18 +23,18 @@ describe('Historical Encounter Data Service', () => {
   });
 
   it('should be defined', () => {
-    let service: HistoricalEncounterDataService = TestBed.get(HistoricalEncounterDataService);
+    const service: HistoricalEncounterDataService = TestBed.get(HistoricalEncounterDataService);
     expect(service).toBeTruthy();
   });
 
   it('should have "prevEnc" registered as key', () => {
-    let service: HistoricalEncounterDataService = TestBed.get(HistoricalEncounterDataService);
+    const service: HistoricalEncounterDataService = TestBed.get(HistoricalEncounterDataService);
     expect(service.getObject('prevEnc').getSingleObject()).toEqual(obs.getExpected());
   });
 
   it('should register in reverse chronological order and utilise getAllObjects() correctly', () => {
 
-    let encArray = [{
+    const encArray = [{
       'uuid': 'encounter-uuid-kasa',
       'encounterDatetime': '2016-01-01T16:17:46.000+0300',
       'provider': {
@@ -84,9 +84,9 @@ describe('Historical Encounter Data Service', () => {
       }]
     }];
 
-    let service: HistoricalEncounterDataService = new HistoricalEncounterDataService();
+    const service: HistoricalEncounterDataService = new HistoricalEncounterDataService();
     service.registerEncounters('prevEncs', encArray);
-    let store: Array<any> = service.getObject('prevEncs').getAllObjects();
+    const store: Array<any> = service.getObject('prevEncs').getAllObjects();
     expect(store.length).toEqual(encArray.length);
     expect(store[0].encounterDatetime).toEqual(encArray[1].encounterDatetime);
     expect(store[1].encounterDatetime).toEqual(encArray[2].encounterDatetime);
@@ -94,13 +94,13 @@ describe('Historical Encounter Data Service', () => {
   });
 
   it('should have getObject() and getSingleObject() working', () => {
-    let service: HistoricalEncounterDataService = TestBed.get(HistoricalEncounterDataService);
+    const service: HistoricalEncounterDataService = TestBed.get(HistoricalEncounterDataService);
     expect(service.getObject('prevEnc').getSingleObject()).toEqual(obs.getExpected());
   });
 
   it('getValue() should get the correct value', () => {
-    let service: HistoricalEncounterDataService = TestBed.get(HistoricalEncounterDataService);
-    let _obs: any = obs.getObs();
+    const service: HistoricalEncounterDataService = TestBed.get(HistoricalEncounterDataService);
+    const _obs: any = obs.getObs();
     expect(service.getObject('prevEnc').getValue('encounterDatetime').value).toEqual(_obs.encounterDatetime);
     expect(service.getObject('prevEnc').getValue('location').value).toEqual(_obs.location.uuid);
     expect(service.getObject('prevEnc').getValue('patient').value).toEqual(_obs.patient.uuid);

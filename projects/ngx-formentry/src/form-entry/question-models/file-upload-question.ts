@@ -3,8 +3,8 @@ import { FileUploadQuestionOptions } from './interfaces/file-upload-question-opt
 import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
 export class FileUploadQuestion extends QuestionBase {
-    showTime: boolean = true;
-    showWeeksAdder: boolean = false;
+    showTime = true;
+    showWeeksAdder = false;
     dataSource?: any;
     constructor(options: FileUploadQuestionOptions) {
         super(options);

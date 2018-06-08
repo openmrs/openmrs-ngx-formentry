@@ -6,7 +6,7 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 export class DummyDataSource implements DataSource {
   options: Observable<Option[]>;
   option: Observable<Option>;
-  returnErrorOnNext: boolean = false;
+  returnErrorOnNext = false;
 
   constructor() { }
 
@@ -14,7 +14,7 @@ export class DummyDataSource implements DataSource {
     let selectOptions = this.sampleData();
 
     selectOptions = selectOptions.map(function (obj) {
-      let option = new Option({
+      const option = new Option({
         label: obj.label,
         value: obj.concept
       });
@@ -23,10 +23,10 @@ export class DummyDataSource implements DataSource {
 
 
     selectOptions = selectOptions.filter(
-      option => { return option.value === value; }
+      option => option.value === value
     );
 
-    let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     if (!this.returnErrorOnNext) {
       test.next(selectOptions[0]);
     } else {
@@ -45,7 +45,7 @@ export class DummyDataSource implements DataSource {
     let selectOptions = this.sampleData();
 
     selectOptions = selectOptions.map(function (obj) {
-      let option = new Option({
+      const option = new Option({
         label: obj.label,
         value: obj.concept
       });
@@ -54,10 +54,10 @@ export class DummyDataSource implements DataSource {
 
 
     selectOptions = selectOptions.filter(
-      option => { return option.label.indexOf(searchText) !== -1; }
+      option => option.label.indexOf(searchText) !== -1
     );
 
-    let test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     if (!this.returnErrorOnNext) {
       test.next(selectOptions);
     } else {

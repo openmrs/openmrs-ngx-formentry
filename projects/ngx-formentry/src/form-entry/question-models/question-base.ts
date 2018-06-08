@@ -2,7 +2,18 @@ import { BaseOptions } from './interfaces/base-options';
 import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 import { ValidationModel } from './validation.model';
 
-export class QuestionBase {
+export class QuestionBase implements BaseOptions {
+    type: string;
+    order?: number;
+    questionOptions?: any;
+    questions?: any;
+    placeholder?: any;
+    hidden?: any;
+    showTime?: any;
+    showWeek?: any;
+    historicalDisplay?: any;
+    rows?: any;
+    showWeeksAdder?: any;
     key: string;    alert?: any;
 
     label?: string;
@@ -42,11 +53,10 @@ export class QuestionBase {
         this.calculateExpression = options.calculateExpression;
     }
 
-    setHistoricalValue?(v: boolean) {
+    setHistoricalValue(v: boolean) {
         this.enableHistoricalValue = v;
     }
-    // show by default
-    showHistoricalEncounterDate?(v?: boolean) {
+    showHistoricalEncounterDate(v?: boolean) {
       this.showHistoricalValueDate = v === undefined ? true : v;
     }
 }

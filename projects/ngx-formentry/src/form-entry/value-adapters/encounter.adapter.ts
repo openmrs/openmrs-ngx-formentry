@@ -7,7 +7,9 @@ import { ValueAdapter } from '.';
 import { ObsValueAdapter } from './obs.adapter';
 import { OrderValueAdapter } from './order.adapter';
 
-const moment = require('moment');
+import * as moment_ from 'moment';
+
+const moment = moment_;
 
 @Injectable()
 export class EncounterAdapter implements ValueAdapter {
@@ -28,10 +30,10 @@ export class EncounterAdapter implements ValueAdapter {
     populateNode(rootNode: NodeBase, payload) {
 
         if (payload === undefined || payload === null) {
-            throw 'Expected payload';
+            throw new Error('Expected payload');
         }
 
-        let nodes = this.getEncounterNodes(rootNode);
+        const nodes = this.getEncounterNodes(rootNode);
 
         nodes.forEach(node => {
             switch (node.question.extras.type) {
@@ -44,7 +46,7 @@ export class EncounterAdapter implements ValueAdapter {
                     break;
                 case 'encounterProvider':
                     if (Array.isArray(payload['encounterProviders']) && payload['encounterProviders'].length > 0) {
-                        let firstProvider: any = payload['encounterProviders'][0].provider;
+                        const firstProvider: any = payload['encounterProviders'][0].provider;
                         if (firstProvider && firstProvider.uuid) {
                             node.control.setValue(firstProvider.uuid);
                             node.initialValue = firstProvider.uuid;
@@ -64,7 +66,7 @@ export class EncounterAdapter implements ValueAdapter {
     }
 
     generateFormPayload(form: Form) {
-        let payload = this.generateNodePayload(form.rootNode);
+        const payload = this.generateNodePayload(form.rootNode);
 
         this.setNonFilledPayloadMembers(form, payload);
 
@@ -76,8 +78,8 @@ export class EncounterAdapter implements ValueAdapter {
     }
 
     generateNodePayload(rootNode: NodeBase) {
-        let nodes = this.getEncounterNodes(rootNode);
-        let payload = {};
+        const nodes = this.getEncounterNodes(rootNode);
+        const payload = {};
 
         nodes.forEach(node => {
             if (node.control.value !== null &&
@@ -85,13 +87,13 @@ export class EncounterAdapter implements ValueAdapter {
                 node.control.value !== '') {
                 switch (node.question.extras.type) {
                     case 'encounterDatetime':
-                        let dateValue = moment(node.control.value)
+                        const dateValue = moment(node.control.value)
                             .utcOffset(rootNode.form.valueProcessingInfo.utcOffset || '+0300');
                         payload['encounterDatetime'] = dateValue.format('YYYY-MM-DD HH:mm:ss');
                         break;
                     case 'encounterProvider':
                         if (node.control.value && node.control.value !== '') {
-                            let providers = [];
+                            const providers = [];
                             providers.push({
                                 provider: node.control.value,
                                 encounterRole: 'a0b03050-c99b-11e0-9572-0800200c9a66' // unknown provider role in the encounter as default
@@ -112,7 +114,7 @@ export class EncounterAdapter implements ValueAdapter {
     }
 
     getEncounterNodes(rootNode: NodeBase): Array<NodeBase> {
-        let results: Array<NodeBase> = [];
+        const results: Array<NodeBase> = [];
         this._getEncounterNodes(rootNode, results);
         return results;
     }
@@ -165,9 +167,9 @@ export class EncounterAdapter implements ValueAdapter {
         }
 
         if (rootNode instanceof GroupNode) {
-            let node = rootNode as GroupNode;
+            const node = rootNode as GroupNode;
             // tslint:disable-next-line:forin
-            for (let o in node.children) {
+            for (const o in node.children) {
                 if (node.children[o] instanceof NodeBase) {
                     this._getEncounterNodes(node.children[o], array);
                 }
@@ -175,7 +177,7 @@ export class EncounterAdapter implements ValueAdapter {
         }
 
         if (rootNode instanceof ArrayNode) {
-            let node = rootNode as ArrayNode;
+            const node = rootNode as ArrayNode;
             node.children.forEach(child => {
                 this._getEncounterNodes(child, array);
             });

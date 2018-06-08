@@ -4,8 +4,8 @@ import { Disabler } from '../control-hiders-disablers/can-disable';
 import { Hider } from '../control-hiders-disablers/can-hide';
 
 import { ExpressionRunner, Runnable } from '../expression-runner/expression-runner';
-import { AfeFormControl, AfeFormArray, AfeFormGroup 
-} from '../../abstract-controls-extension/control-extensions';
+import { AfeFormControl, AfeFormArray, AfeFormGroup
+} from '../../abstract-controls-extension';
 import { QuestionBase } from '../question-models/question-base';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { Form } from './form';
@@ -22,14 +22,14 @@ export class HidersDisablersFactory {
 
     getJsExpressionDisabler(question: QuestionBase, control: AfeFormControl | AfeFormArray | AfeFormGroup,
         form?: Form): Disabler {
-        let runnable: Runnable =
+        const runnable: Runnable =
             this.expressionRunner.getRunnable(question.disable as string, control,
                 this.expressionHelper.helperFunctions, {}, form);
-        let disabler: Disabler = {
+        const disabler: Disabler = {
             toDisable: false,
             disableWhenExpression: question.disable as string,
             reEvaluateDisablingExpression: () => {
-                let result = runnable.run();
+                const result = runnable.run();
                 disabler.toDisable = result;
             }
         };
@@ -39,17 +39,17 @@ export class HidersDisablersFactory {
     getJsExpressionHider(question: QuestionBase, control: AfeFormControl | AfeFormArray | AfeFormGroup,
         form?: Form): Hider {
 
-        let hide: any = question.hide;
-        let value: string = typeof hide === 'object' ? this.convertHideObjectToString(hide) : question.hide as string;
+        const hide: any = question.hide;
+        const value: string = typeof hide === 'object' ? this.convertHideObjectToString(hide) : question.hide as string;
 
         // check if debugging has been enabled
 
-        let debugEnabled = this._debugModeService.debugEnabled();
+        const debugEnabled = this._debugModeService.debugEnabled();
 
-        let runnable: Runnable = this.expressionRunner.getRunnable(value, control,
+        const runnable: Runnable = this.expressionRunner.getRunnable(value, control,
         this.expressionHelper.helperFunctions, {}, form);
 
-        let hider: Hider = {
+        const hider: Hider = {
             toHide: false,
             hideWhenExpression: value,
             reEvaluateHidingExpression: () => {
@@ -58,7 +58,7 @@ export class HidersDisablersFactory {
                  */
                 if (debugEnabled === true) {
                       hider.toHide = false ;
-                  }else {
+                  } else {
                       hider.toHide =  runnable.run();
                   }
             }
@@ -70,8 +70,8 @@ export class HidersDisablersFactory {
 
       if (hide.value instanceof Array) {
 
-        let arrayStr: string = "'" + hide.value.join("','") + "'";
-        let exp = '!arrayContains([' + arrayStr + '],' + hide.field + ')';
+        const arrayStr: string = '\'' + hide.value.join('\',\'') + '\'';
+        const exp = '!arrayContains([' + arrayStr + '],' + hide.field + ')';
         return exp;
       }
 

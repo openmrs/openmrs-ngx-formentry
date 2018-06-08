@@ -33,11 +33,11 @@ export class JsExpressionHelper {
       let contains = true;
 
       for (let i = 0; i < members.length; i++) {
-        let val = members[i];
+        const val = members[i];
         if (array.indexOf(val) === -1) {
           contains = false;
         }
-      };
+      }
 
       return contains;
     } else {
@@ -45,7 +45,7 @@ export class JsExpressionHelper {
     }
   }
   extractRepeatingGroupValues(key, array) {
-    let values = array.map(function(item) {
+    const values = array.map(function(item) {
     return item[key];
     });
   return values;
@@ -78,7 +78,7 @@ export class JsExpressionHelper {
 
       for (let i = 0; i < members.length; i++) {
 
-        let val = members[i];
+        const val = members[i];
         if (array.indexOf(val) !== -1) {
           contains = true;
         }
@@ -90,7 +90,7 @@ export class JsExpressionHelper {
   }
 
   get helperFunctions() {
-    let helper = this;
+    const helper = this;
     return {
       arrayContainsAny: helper.arrayContainsAny,
       calcBMI: helper.calcBMI,

@@ -15,7 +15,7 @@ export class MinDateValidator {
 
         if (!new DateValidator().validate(control.value)) {
 
-          let newDate: Date = new Date(control.value);
+          const newDate: Date = new Date(control.value);
 
           return newDate.getTime() < min.getTime() ? { 'mindate': { 'requiredDate': min, actualDate: newDate } } : null;
         } else {

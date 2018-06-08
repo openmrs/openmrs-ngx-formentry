@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { Runnable, ExpressionRunner } from './expression-runner';
-import { AfeFormControl } from '../../abstract-controls-extension/control-extensions';
+import { AfeFormControl } from '../../abstract-controls-extension';
 
 
 describe('Control Hider Helper Service:', () => {
@@ -14,26 +14,26 @@ describe('Control Hider Helper Service:', () => {
     });
 
     it('should be defined', () => {
-        let runner: ExpressionRunner = TestBed.get(ExpressionRunner);
+        const runner: ExpressionRunner = TestBed.get(ExpressionRunner);
         expect(runner).toBeTruthy();
     });
 
     it('should run basic js epxression wihtout references, data dependencies and helpers', () => {
-        let runner: ExpressionRunner = TestBed.get(ExpressionRunner);
-        let control = new AfeFormControl();
-        let expresion = '1===1';
-        let runnable: Runnable = runner.getRunnable(expresion, control, {}, {});
+        const runner: ExpressionRunner = TestBed.get(ExpressionRunner);
+        const control = new AfeFormControl();
+        const expresion = '1===1';
+        const runnable: Runnable = runner.getRunnable(expresion, control, {}, {});
         expect(runnable.run()).toBe(true);
     });
 
     it('should run js epxression wth references', () => {
-        let runner: ExpressionRunner = TestBed.get(ExpressionRunner);
-        let control = new AfeFormControl();
+        const runner: ExpressionRunner = TestBed.get(ExpressionRunner);
+        const control = new AfeFormControl();
         control.uuid = 'a';
-        let control2 = new AfeFormControl();
+        const control2 = new AfeFormControl();
         control2.uuid = 'b';
         control2.setValue(20);
-        let control3 = new AfeFormControl();
+        const control3 = new AfeFormControl();
         control3.uuid = 'c';
         control3.setValue(30);
 
@@ -41,19 +41,19 @@ describe('Control Hider Helper Service:', () => {
         control.controlRelations.addRelatedControls(control3);
 
 
-        let expresion = 'b + c';
-        let runnable: Runnable = runner.getRunnable(expresion, control, {}, {});
+        const expresion = 'b + c';
+        const runnable: Runnable = runner.getRunnable(expresion, control, {}, {});
         expect(runnable.run()).toBe(50);
     });
 
     it('should run js epxression wth helper functions', () => {
-        let runner: ExpressionRunner = TestBed.get(ExpressionRunner);
-        let control = new AfeFormControl();
+        const runner: ExpressionRunner = TestBed.get(ExpressionRunner);
+        const control = new AfeFormControl();
         control.uuid = 'a';
-        let control2 = new AfeFormControl();
+        const control2 = new AfeFormControl();
         control2.uuid = 'b';
         control2.setValue(20);
-        let control3 = new AfeFormControl();
+        const control3 = new AfeFormControl();
         control3.uuid = 'c';
         control3.setValue(30);
 
@@ -63,7 +63,7 @@ describe('Control Hider Helper Service:', () => {
 
         let expresion = 'sum(b, c)';
 
-        let helper = {
+        const helper = {
             sum: (a, b) => {
                 return a + b;
             }
@@ -75,7 +75,7 @@ describe('Control Hider Helper Service:', () => {
 
         expresion = 'sum(b, c)';
         let increment;
-        let helper2 = {
+        const helper2 = {
             tenth: 2,
             sum: (a, b) => {
                 return increment(a) + b;
@@ -92,13 +92,13 @@ describe('Control Hider Helper Service:', () => {
     });
 
     it('should run js epxression wth data deps', () => {
-        let runner: ExpressionRunner = TestBed.get(ExpressionRunner);
-        let control = new AfeFormControl();
+        const runner: ExpressionRunner = TestBed.get(ExpressionRunner);
+        const control = new AfeFormControl();
         control.uuid = 'a';
-        let control2 = new AfeFormControl();
+        const control2 = new AfeFormControl();
         control2.uuid = 'b';
         control2.setValue(20);
-        let control3 = new AfeFormControl();
+        const control3 = new AfeFormControl();
         control3.uuid = 'c';
         control3.setValue(30);
 
@@ -106,9 +106,9 @@ describe('Control Hider Helper Service:', () => {
         control.controlRelations.addRelatedControls(control3);
 
 
-        let expresion = 'b + c + HD.first';
+        const expresion = 'b + c + HD.first';
 
-        let deps = {
+        const deps = {
             HD: {
                 first: 1,
                 second: {
@@ -120,7 +120,7 @@ describe('Control Hider Helper Service:', () => {
                 dummy: () => { }
             }
         };
-        let runnable: Runnable = runner.getRunnable(expresion, control, {}, deps);
+        const runnable: Runnable = runner.getRunnable(expresion, control, {}, deps);
         expect(runnable.run()).toBe(51);
 
     });

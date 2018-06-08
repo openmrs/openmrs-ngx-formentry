@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AfeFormControl } from '../../abstract-controls-extension/control-extensions';
+import { AfeFormControl } from '../../abstract-controls-extension';
 import { ConditionalAnsweredValidator } from './conditional-answered.validator';
 import { ConditionalValidationModel } from '../question-models/conditional-validation.model';
 
@@ -14,24 +14,24 @@ describe('Conditional Answered Validator:', () => {
     });
 
     it('should be defined', () => {
-        let validator: ConditionalAnsweredValidator = TestBed.get(ConditionalAnsweredValidator);
+        const validator: ConditionalAnsweredValidator = TestBed.get(ConditionalAnsweredValidator);
         expect(validator).toBeTruthy();
     });
 
     it('should return an error when control is invalid', () => {
 
-      let validator: ConditionalAnsweredValidator = TestBed.get(ConditionalAnsweredValidator);
-      let model = new ConditionalValidationModel({
+      const validator: ConditionalAnsweredValidator = TestBed.get(ConditionalAnsweredValidator);
+      const model = new ConditionalValidationModel({
         type: 'conditionalAnswered',
         message: 'test message',
         referenceQuestionId: 'control2',
         referenceQuestionAnswers: ['a']
       });
 
-      let control = new AfeFormControl();
+      const control = new AfeFormControl();
       control.uuid = 'control1';
       control.setValue('b');
-      let control2 = new AfeFormControl();
+      const control2 = new AfeFormControl();
       control2.uuid = 'control2';
       control2.setValue('');
 
@@ -49,18 +49,18 @@ describe('Conditional Answered Validator:', () => {
 
     it('should return null when control is valid', () => {
 
-      let validator: ConditionalAnsweredValidator = TestBed.get(ConditionalAnsweredValidator);
-      let model = new ConditionalValidationModel({
+      const validator: ConditionalAnsweredValidator = TestBed.get(ConditionalAnsweredValidator);
+      const model = new ConditionalValidationModel({
         type: 'conditionalAnswered',
         message: 'test message',
         referenceQuestionId: 'control2',
         referenceQuestionAnswers: ['a']
       });
 
-      let control = new AfeFormControl();
+      const control = new AfeFormControl();
       control.uuid = 'control1';
       control.setValue('valid');
-      let control2 = new AfeFormControl();
+      const control2 = new AfeFormControl();
       control2.uuid = 'control2';
       control2.setValue(null);
       control2.setValue({

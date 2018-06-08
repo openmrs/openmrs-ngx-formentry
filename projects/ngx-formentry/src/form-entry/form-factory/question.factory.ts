@@ -32,14 +32,14 @@ export class QuestionFactory {
 
   createQuestionModel(formSchema: any, form?: Form): QuestionBase {
     if (form) {
-      let dataSources = form.dataSourcesContainer.dataSources;
+      const dataSources = form.dataSourcesContainer.dataSources;
       this.dataSources = dataSources;
     }
     return this.toFormQuestionModel(formSchema);
   }
 
   toSelectQuestion(schemaQuestion: any): SelectQuestion {
-    let question = new SelectQuestion({ options: [], type: '', key: '' });
+    const question = new SelectQuestion({ options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.options = schemaQuestion.questionOptions.answers.map(function (obj) {
@@ -49,7 +49,7 @@ export class QuestionFactory {
       };
     });
 
-    let options: any = question.options;
+    const options: any = question.options;
     options.splice(0, 0, {
       label: '',
       value: ''
@@ -59,7 +59,7 @@ export class QuestionFactory {
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -74,7 +74,7 @@ export class QuestionFactory {
   }
 
   toNumericQuestion(schemaQuestion: any): TextInputQuestion {
-    let question = new TextInputQuestion({ placeholder: '', type: '', key: '' });
+    const question = new TextInputQuestion({ placeholder: '', type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'number';
@@ -82,7 +82,7 @@ export class QuestionFactory {
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
     question.placeholder = schemaQuestion.questionOptions.placeholder || '';
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -97,14 +97,14 @@ export class QuestionFactory {
   }
 
   toNumberQuestion(schemaQuestion: any): TextInputQuestion {
-    let question = new TextInputQuestion({ placeholder: '', type: '', key: '' });
+    const question = new TextInputQuestion({ placeholder: '', type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'number';
     question.placeholder = schemaQuestion.questionOptions.placeholder || '';
     question.extras = schemaQuestion;
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -123,14 +123,14 @@ export class QuestionFactory {
     if (schemaQuestion.type === 'encounterDatetime') {
       return this.toEncounterDatetimeQuestion(schemaQuestion);
     }
-    let question = new DateQuestion({ type: '', key: '' });
+    const question = new DateQuestion({ type: '', key: '' });
     question.renderingType = 'date';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
     question.showTime = schemaQuestion.questionOptions.showTime as boolean;
     question.showWeeksAdder = schemaQuestion.questionOptions.weeksList ? true : false;
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -146,7 +146,7 @@ export class QuestionFactory {
   }
 
   toEncounterDatetimeQuestion(schemaQuestion: any): DateQuestion {
-    let question = new DateQuestion({ type: '', key: '' });
+    const question = new DateQuestion({ type: '', key: '' });
     question.label = schemaQuestion.label;
     question.renderingType = 'date';
     question.key = schemaQuestion.id;
@@ -154,7 +154,7 @@ export class QuestionFactory {
     question.extras = schemaQuestion;
     question.showWeeksAdder = schemaQuestion.questionOptions.weeksList ? true : false;
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -198,7 +198,7 @@ export class QuestionFactory {
   }
 
   toMultiCheckboxQuestion(schemaQuestion: any): MultiSelectQuestion {
-    let question = new MultiSelectQuestion({ renderType: '', options: [], type: '', key: '' });
+    const question = new MultiSelectQuestion({ renderType: '', options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.options = schemaQuestion.questionOptions.answers.map(function (obj) {
@@ -211,7 +211,7 @@ export class QuestionFactory {
     question.dataSource = new DummyDataSource();
     question.extras = schemaQuestion;
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -226,7 +226,7 @@ export class QuestionFactory {
   }
 
   toTextAreaQuestion(schemaQuestion: any): TextAreaInputQuestion {
-    let question = new TextAreaInputQuestion({
+    const question = new TextAreaInputQuestion({
       isExpanded: false, rows: 18,
       placeholder: '', type: '', key: ''
     });
@@ -239,7 +239,7 @@ export class QuestionFactory {
     question.extras = schemaQuestion;
     question.placeholder = schemaQuestion.questionOptions.placeholder || '';
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -254,7 +254,7 @@ export class QuestionFactory {
   }
 
   toTextQuestion(schemaQuestion: any): TextInputQuestion {
-    let question = new TextInputQuestion({ placeholder: '', type: '', key: '' });
+    const question = new TextInputQuestion({ placeholder: '', type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'text';
@@ -262,7 +262,7 @@ export class QuestionFactory {
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
     question.placeholder = schemaQuestion.questionOptions.placeholder || '';
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -277,7 +277,7 @@ export class QuestionFactory {
   }
 
   toFileUploadQuestion(schemaQuestion: any): FileUploadQuestion {
-    let question = new FileUploadQuestion({ type: '', key: '' });
+    const question = new FileUploadQuestion({ type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'file';
@@ -285,7 +285,7 @@ export class QuestionFactory {
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -300,14 +300,14 @@ export class QuestionFactory {
   }
 
   toDrugQuestion(schemaQuestion: any): SelectQuestion {
-    let question = new SelectQuestion({ options: [], type: '', key: '' });
+    const question = new SelectQuestion({ options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
     question.dataSource = 'drug';
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -322,14 +322,14 @@ export class QuestionFactory {
   }
 
   toProblemQuestion(schemaQuestion: any): SelectQuestion {
-    let question = new SelectQuestion({ options: [], type: '', key: '' });
+    const question = new SelectQuestion({ options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
     question.dataSource = 'problem';
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -344,7 +344,7 @@ export class QuestionFactory {
   }
 
   toConceptAnswerSelect(schemaQuestion: any): SelectQuestion {
-    let question = new SelectQuestion({ options: [], type: '', key: '' });
+    const question = new SelectQuestion({ options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.renderingType = 'remote-select';
@@ -354,7 +354,7 @@ export class QuestionFactory {
     question.dataSourceOptions = {
       concept: schemaQuestion.questionOptions.concept
     };
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -369,7 +369,7 @@ export class QuestionFactory {
   }
 
   toRepeatingQuestion(schemaQuestion: any): RepeatingQuestion {
-    let question = new RepeatingQuestion({ questions: [], type: '', key: '' });
+    const question = new RepeatingQuestion({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.questions = this.getChildrenQuestionModels(schemaQuestion.questions);
     question.key = schemaQuestion.id;
@@ -377,12 +377,12 @@ export class QuestionFactory {
     question.extras = schemaQuestion;
 
     if (schemaQuestion.type === 'testOrder') {
-      let testOrder = this.toTestOrderQuestion(schemaQuestion);
-      let orders = []; orders.push(testOrder);
+      const testOrder = this.toTestOrderQuestion(schemaQuestion);
+      const orders = []; orders.push(testOrder);
       question.questions = orders;
     }
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -397,14 +397,14 @@ export class QuestionFactory {
   }
 
   toGroupQuestion(schemaQuestion: any): QuestionGroup {
-    let question = new QuestionGroup({ questions: [], type: '', key: '' });
+    const question = new QuestionGroup({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.questions = this.getChildrenQuestionModels(schemaQuestion.questions);
     question.key = schemaQuestion.id;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -419,7 +419,7 @@ export class QuestionFactory {
   }
 
   toPageQuestion(schemaQuestion: any): QuestionGroup {
-    let question = new QuestionGroup({ questions: [], type: '', key: '' });
+    const question = new QuestionGroup({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.label;
     question.renderingType = 'page';
@@ -432,7 +432,7 @@ export class QuestionFactory {
   }
 
   toFormQuestionModel(schemaQuestion: any): QuestionGroup {
-    let question = new QuestionGroup({ questions: [], type: '', key: '' });
+    const question = new QuestionGroup({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.label;
     question.renderingType = 'form';
@@ -447,7 +447,7 @@ export class QuestionFactory {
   }
 
   toSectionQuestion(schemaQuestion: any): QuestionGroup {
-    let question = new QuestionGroup({ questions: [], type: '', key: '' });
+    const question = new QuestionGroup({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.label;
     question.renderingType = 'section';
@@ -458,7 +458,7 @@ export class QuestionFactory {
   }
 
   toPersonAttributeQuestion(schemaQuestion: any): UiSelectQuestion {
-    let question = new UiSelectQuestion({
+    const question = new UiSelectQuestion({
       options: [], type: '', key: '', searchFunction: function () { },
       resolveFunction: function () {
 
@@ -471,7 +471,7 @@ export class QuestionFactory {
     question.extras = schemaQuestion;
     question.dataSource = 'personAttribute';
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -487,7 +487,7 @@ export class QuestionFactory {
   }
 
   toEncounterProviderQuestion(schemaQuestion: any): UiSelectQuestion {
-    let question = new UiSelectQuestion({
+    const question = new UiSelectQuestion({
       options: [], type: '', key: '', searchFunction: function () { },
       resolveFunction: function () {
 
@@ -500,7 +500,7 @@ export class QuestionFactory {
     question.extras = schemaQuestion;
     question.dataSource = 'provider';
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -515,13 +515,13 @@ export class QuestionFactory {
   }
 
   toFieldSetQuestion(schemaQuestion: any): QuestionGroup {
-    let toReturn = this.toGroupQuestion(schemaQuestion);
+    const toReturn = this.toGroupQuestion(schemaQuestion);
     toReturn.renderingType = 'field-set';
     return toReturn;
   }
 
   toEncounterLocationQuestion(schemaQuestion: any): UiSelectQuestion {
-    let question = new UiSelectQuestion({
+    const question = new UiSelectQuestion({
       options: [], type: '', key: '', searchFunction: function () { },
       resolveFunction: function () {
 
@@ -535,7 +535,7 @@ export class QuestionFactory {
     question.extras = schemaQuestion;
     question.dataSource = 'location';
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -551,7 +551,7 @@ export class QuestionFactory {
 
   toTestOrderQuestion(schemaQuestion: any): TestOrderQuestion {
 
-    let question = new TestOrderQuestion({
+    const question = new TestOrderQuestion({
       type: '', key: '', orderType: '', selectableOrders: [],
       orderSettingUuid: '', label: '', rendering: ''
     });
@@ -567,7 +567,7 @@ export class QuestionFactory {
       };
     });
 
-    let mappings: any = {
+    const mappings: any = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -577,7 +577,7 @@ export class QuestionFactory {
   }
 
   getSchemaQuestions(schema: any): any {
-    let listQuestions = new Array();
+    const listQuestions = new Array();
     this.getQuestions(schema, listQuestions);
     return listQuestions;
   }
@@ -588,11 +588,11 @@ export class QuestionFactory {
     }
     if (Array.isArray(schema)) {
 
-      for (let property in schema) {
+      for (const property in schema) {
         if (schema.hasOwnProperty(property)) {
           this.getQuestions(schema[property], foundArray);
         }
-      };
+      }
     }
 
     if (schema && !Array.isArray(schema) && typeof schema === 'object') {
@@ -606,7 +606,7 @@ export class QuestionFactory {
           foundArray.push(this.toModel(schema, schema.questionOptions.rendering));
         }
       } else {
-        for (let o in schema) {
+        for (const o in schema) {
           if (schema.hasOwnProperty(o)) {
             this.getQuestions(schema[o], foundArray);
           }
@@ -617,7 +617,7 @@ export class QuestionFactory {
   }
 
   getChildrenQuestionModels(schema: any): any {
-    let children = [];
+    const children = [];
     this.getQuestions(schema, children);
     return children;
 
@@ -691,7 +691,7 @@ export class QuestionFactory {
   }
 
   convertOldVersionComplexObsQuestionToNewVersion(schemaQuestion: any) {
-    let converted: any = {};
+    const converted: any = {};
     converted.type = 'complex-obs';
     converted.label = schemaQuestion.label;
     converted.id = 'complex_' + schemaQuestion.id;
@@ -701,13 +701,13 @@ export class QuestionFactory {
     converted.questions = [];
     converted.validators = [];
 
-    let mainField: any = JSON.parse(JSON.stringify(schemaQuestion));
+    const mainField: any = JSON.parse(JSON.stringify(schemaQuestion));
     mainField.type = 'complex-obs-child';
     delete mainField.questionOptions.showDate;
     delete mainField.questionOptions.shownDateOptions;
     mainField.questionOptions.obsField = 'value';
 
-    let dateField: any = {};
+    const dateField: any = {};
     dateField.type = 'complex-obs-child';
     dateField.label = 'Date of ' + mainField.label;
     dateField.id = 'date_' + mainField.id;
@@ -715,7 +715,7 @@ export class QuestionFactory {
     dateField.questionOptions.concept = schemaQuestion.questionOptions.concept;
     dateField.questionOptions.rendering = 'date';
     dateField.questionOptions.obsField = 'obsDatetime';
-    let dateOptions: any = (Object as any).assign({},
+    const dateOptions: any = (Object as any).assign({},
     schemaQuestion.questionOptions.shownDateOptions);
     dateField.validators = dateOptions.validators;
     dateField.hide = dateOptions.hide;
@@ -729,16 +729,16 @@ export class QuestionFactory {
 
   copyProperties(mappings: any, source: any, destination: QuestionBase) {
 
-    for (let property in source) {
+    for (const property in source) {
       if (mappings.hasOwnProperty(property) && destination.hasOwnProperty(mappings[property])) {
         destination[mappings[property]] = source[property];
       }
-    };
+    }
   }
 
   addValidators(schemaQuestion: any): Array<ValidationModel> {
 
-    let validators: Array<ValidationModel> = [];
+    const validators: Array<ValidationModel> = [];
 
     if (schemaQuestion.validators) {
 
@@ -761,8 +761,8 @@ export class QuestionFactory {
       });
     }
 
-    let questionOptions = schemaQuestion.questionOptions;
-    let renderingType = questionOptions ? questionOptions.rendering : '';
+    const questionOptions = schemaQuestion.questionOptions;
+    const renderingType = questionOptions ? questionOptions.rendering : '';
     switch (renderingType) {
       case 'number':
 
@@ -785,7 +785,7 @@ export class QuestionFactory {
     // add conditional required validators
     if (typeof schemaQuestion.required === 'object') {
 
-      let required: any = schemaQuestion.required;
+      const required: any = schemaQuestion.required;
 
       if (required.type === 'conditionalRequired') {
 
@@ -810,7 +810,7 @@ export class QuestionFactory {
       } else {
         question.showHistoricalEncounterDate();
       }
-      let origValue = this.historicalHelperService.evaluate(schemaQuestion.historicalExpression,
+      const origValue = this.historicalHelperService.evaluate(schemaQuestion.historicalExpression,
         this.dataSources);
       question.historicalDataValue = origValue;
       if (schemaQuestion.historicalPrepopulate) {
@@ -862,7 +862,7 @@ export class QuestionFactory {
   private generateId(x) {
     let s = '_';
     while (s.length < x && x > 0) {
-      let r = Math.random();
+      const r = Math.random();
       s += (r < 0.1 ? Math.floor(r * 100) :
         String.fromCharCode(Math.floor(r * 26) + (r > 0.5 ? 97 : 65)));
     }

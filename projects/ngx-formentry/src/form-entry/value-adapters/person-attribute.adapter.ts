@@ -13,8 +13,8 @@ export class PersonAttribuAdapter implements ValueAdapter {
     }
 
     generateNodePayload(rootNode: NodeBase) {
-        let nodes = this.getPersonAttributeNodes(rootNode);
-        let payload = [];
+        const nodes = this.getPersonAttributeNodes(rootNode);
+        const payload = [];
         nodes.forEach(node => {
             if (node.control.value !== null &&
                 node.control.value !== undefined &&
@@ -44,10 +44,10 @@ export class PersonAttribuAdapter implements ValueAdapter {
 
     populateNode(rootNode: NodeBase, payload) {
         if (!Array.isArray(payload)) {
-            throw 'Expected an array of attributes';
+            throw new Error('Expected an array of attributes');
         }
 
-        let nodes = this.getPersonAttributeNodes(rootNode);
+        const nodes = this.getPersonAttributeNodes(rootNode);
 
         nodes.forEach(node => {
             payload.forEach(element => {
@@ -66,7 +66,7 @@ export class PersonAttribuAdapter implements ValueAdapter {
     }
 
     getPersonAttributeNodes(rootNode: NodeBase): Array<NodeBase> {
-        let results: Array<NodeBase> = [];
+        const results: Array<NodeBase> = [];
         this._getPersonAttributesNodes(rootNode, results);
         return results;
     }
@@ -78,9 +78,9 @@ export class PersonAttribuAdapter implements ValueAdapter {
         }
 
         if (rootNode instanceof GroupNode) {
-            let node = rootNode as GroupNode;
+            const node = rootNode as GroupNode;
             // tslint:disable-next-line:forin
-            for (let o in node.children) {
+            for (const o in node.children) {
                 if (node.children[o] instanceof NodeBase) {
                     this._getPersonAttributesNodes(node.children[o], array);
                 }
@@ -88,7 +88,7 @@ export class PersonAttribuAdapter implements ValueAdapter {
         }
 
         if (rootNode instanceof ArrayNode) {
-            let node = rootNode as ArrayNode;
+            const node = rootNode as ArrayNode;
             node.children.forEach(child => {
                 this._getPersonAttributesNodes(child, array);
             });

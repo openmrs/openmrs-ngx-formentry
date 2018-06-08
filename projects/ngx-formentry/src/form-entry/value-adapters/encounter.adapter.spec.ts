@@ -15,11 +15,10 @@ import { NodeBase, ArrayNode, LeafNode } from '../form-factory/form-node';
 import { OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper } from '.';
 
 import { DebugModeService } from './../services/debug-mode.service';
-import { CookieService } from 'ngx-cookie/services/cookies.service';
 
-const adultForm = require('../../adult');
-const adultFormOrders = require('../../mock/orders');
-const adultFormObs = require('../../mock/obs');
+const adultForm = require('../../adult.json');
+const adultFormOrders = require('../../mock/orders.json');
+const adultFormObs = require('../../mock/obs.json');
 const moment = require('moment');
 
 describe('Encounter Value Adapter:', () => {
@@ -41,29 +40,28 @@ describe('Encounter Value Adapter:', () => {
                 QuestionFactory,
                 ControlRelationsFactory,
                 ObsAdapterHelper,
-                DebugModeService,
-                CookieService
+                DebugModeService
             ]
         });
     }));
 
 
     it('should be injectable', () => {
-        let adapter = TestBed.get(EncounterAdapter);
-        let factory: FormFactory = TestBed.get(FormFactory);
+        const adapter = TestBed.get(EncounterAdapter);
+        const factory: FormFactory = TestBed.get(FormFactory);
         expect(adapter).toBeTruthy();
         expect(factory).toBeTruthy();
         expect(adultForm).toBeTruthy();
-        let createdForm = factory.createForm(adultFormSchema);
+        const createdForm = factory.createForm(adultFormSchema);
         expect(createdForm).toBeTruthy();
     });
 
     it('should return all encounter nodes', () => {
-        let adapter = TestBed.get(EncounterAdapter);
-        let factory: FormFactory = TestBed.get(FormFactory);
-        let form = factory.createForm(adultFormSchema);
+        const adapter = TestBed.get(EncounterAdapter);
+        const factory: FormFactory = TestBed.get(FormFactory);
+        const form = factory.createForm(adultFormSchema);
 
-        let nodes: Array<NodeBase> =
+        const nodes: Array<NodeBase> =
             adapter.getEncounterNodes(form.rootNode);
 
         expect(nodes.length).toBe(3);
@@ -76,11 +74,11 @@ describe('Encounter Value Adapter:', () => {
     });
 
     it('should populate form with existing encounter', () => {
-        let adapter = TestBed.get(EncounterAdapter);
-        let factory: FormFactory = TestBed.get(FormFactory);
-        let form = factory.createForm(adultFormSchema);
+        const adapter = TestBed.get(EncounterAdapter);
+        const factory: FormFactory = TestBed.get(FormFactory);
+        const form = factory.createForm(adultFormSchema);
 
-        let encounter = {
+        const encounter = {
             encounterDatetime: '2016-12-14T11:26:23.000+0300',
             encounterType: {
                 uuid: '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f',
@@ -111,7 +109,7 @@ describe('Encounter Value Adapter:', () => {
 
         adapter.populateForm(form, encounter);
 
-        let nodes: Array<NodeBase> =
+        const nodes: Array<NodeBase> =
             adapter.getEncounterNodes(form.rootNode);
 
         // Encounter Date
@@ -127,7 +125,7 @@ describe('Encounter Value Adapter:', () => {
         expect(nodes[2].initialValue).toBe('18c343eb-b353-462a-9139-b16606e6b6c2');
 
         // Check that it populated obs
-        let node = form.searchNodeByQuestionId('onArt');
+        const node = form.searchNodeByQuestionId('onArt');
         expect(node[0].control.value !== '').toBe(true);
 
         // Check that it populated orders
@@ -136,11 +134,11 @@ describe('Encounter Value Adapter:', () => {
     });
 
     it('should generate encounter payload', () => {
-        let adapter = TestBed.get(EncounterAdapter);
-        let factory: FormFactory = TestBed.get(FormFactory);
-        let form = factory.createForm(adultFormSchema);
+        const adapter = TestBed.get(EncounterAdapter);
+        const factory: FormFactory = TestBed.get(FormFactory);
+        const form = factory.createForm(adultFormSchema);
 
-        let encounter = {
+        const encounter = {
             encounterDatetime: '2016-12-14T11:26:23.000+0300',
             encounterType: {
                 uuid: '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f',
@@ -183,12 +181,12 @@ describe('Encounter Value Adapter:', () => {
         };
 
 
-        let nodes: Array<NodeBase> =
+        const nodes: Array<NodeBase> =
             adapter.getEncounterNodes(form.rootNode);
 
         // Simulate user input
         // change date
-        let setDate = moment.parseZone('2016-11-23T11:32:54+0000').toDate();
+        const setDate = moment.parseZone('2016-11-23T11:32:54+0000').toDate();
         nodes[0].control.setValue(setDate);
 
         // change provider
@@ -203,12 +201,12 @@ describe('Encounter Value Adapter:', () => {
 
         // change orders
         node = form.searchNodeByQuestionId('order1');
-        let createdNode = (node[0] as ArrayNode).createChildNode();
+        const createdNode = (node[0] as ArrayNode).createChildNode();
         (createdNode.children['order1'] as LeafNode).control.setValue('new-order');
 
 
         // generate payload
-        let payload = adapter.generateFormPayload(form);
+        const payload = adapter.generateFormPayload(form);
 
         expect(payload['encounterDatetime']).toEqual('2016-11-23 14:32:54');
         expect(payload['encounterProviders'].length).toEqual(1);

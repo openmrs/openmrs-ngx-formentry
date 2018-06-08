@@ -86,5 +86,8 @@ export class AfeFormGroup extends FormGroup implements CanHide, CanDisable , Can
      updateAlert() {
         this.AlertHelper.evaluateControlAlerts(this);
     }
+    setValue(value: any) {
+        super.setValue(value);
+    }
 
 }

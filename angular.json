@@ -116,6 +116,46 @@
           }
         }
       }
+    },
+    "ngx-formentry": {
+      "root": "projects/ngx-formentry",
+      "sourceRoot": "projects/ngx-formentry/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngx-formentry/tsconfig.lib.json",
+            "project": "projects/ngx-formentry/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/ngx-formentry/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-formentry/src/test.ts",
+            "tsConfig": "projects/ngx-formentry/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-formentry/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-formentry/tsconfig.lib.json",
+              "projects/ngx-formentry/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-openmrs-formentry"

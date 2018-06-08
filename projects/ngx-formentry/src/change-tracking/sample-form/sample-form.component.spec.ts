@@ -13,7 +13,7 @@ describe('Change tracking extensions:', () => {
     });
 
     it('Should have sample form component should be defined', () => {
-        let fixture = TestBed.createComponent(SampleFormComponent);
+        const fixture = TestBed.createComponent(SampleFormComponent);
         fixture.detectChanges();
         expect(fixture.componentInstance).toBeTruthy();
     });
@@ -48,9 +48,9 @@ describe('Change tracking extensions:', () => {
         });
 
         it('Should detect form changes: CASE 2: child listens to ancestor', () => {
-            let fixture = TestBed.createComponent(SampleFormComponent);
+            const fixture = TestBed.createComponent(SampleFormComponent);
             fixture.detectChanges();
-            let component = fixture.componentInstance;
+            const component = fixture.componentInstance;
 
             expect(component.control3.valid).toEqual(true);
             expect(component.form.valid).toEqual(true);
@@ -63,9 +63,9 @@ describe('Change tracking extensions:', () => {
 
         it('Should detect form changes: CASE 3:  Deep contols: one leaf in one branch listens ' +
             'to another leaf in a separate branch', () => {
-                let fixture = TestBed.createComponent(SampleFormComponent);
+                const fixture = TestBed.createComponent(SampleFormComponent);
                 fixture.detectChanges();
-                let component = fixture.componentInstance;
+                const component = fixture.componentInstance;
 
                 expect(component.control2.valid).toEqual(true);
                 expect(component.form.valid).toEqual(true);
@@ -77,9 +77,9 @@ describe('Change tracking extensions:', () => {
             });
 
         it('Should detect form changes: CASE 4: controls in the same group listening to each other', () => {
-            let fixture = TestBed.createComponent(SampleFormComponent);
+            const fixture = TestBed.createComponent(SampleFormComponent);
             fixture.detectChanges();
-            let component = fixture.componentInstance;
+            const component = fixture.componentInstance;
 
             expect(component.control6.valid).toEqual(true);
             expect(component.form.valid).toEqual(true);
@@ -91,9 +91,9 @@ describe('Change tracking extensions:', () => {
         });
 
         it('Should detect form changes: CASE 5: controls in the same array listening to each other', () => {
-            let fixture = TestBed.createComponent(SampleFormComponent);
+            const fixture = TestBed.createComponent(SampleFormComponent);
             fixture.detectChanges();
-            let component = fixture.componentInstance;
+            const component = fixture.componentInstance;
 
             expect(component.control10.valid).toEqual(true);
             expect(component.form.valid).toEqual(true);
@@ -105,9 +105,9 @@ describe('Change tracking extensions:', () => {
         });
 
         it('Should detect form changes: CASE 6: controls in the same array listening to each other', () => {
-            let fixture = TestBed.createComponent(SampleFormComponent);
+            const fixture = TestBed.createComponent(SampleFormComponent);
             fixture.detectChanges();
-            let component = fixture.componentInstance;
+            const component = fixture.componentInstance;
 
             expect(component.control1.valid).toEqual(true);
             expect(component.form.valid).toEqual(true);

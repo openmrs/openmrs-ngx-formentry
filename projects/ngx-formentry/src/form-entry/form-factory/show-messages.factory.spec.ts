@@ -4,7 +4,7 @@ import { Alert } from '../control-alerts/can-generate-alert';
 import { AlertsFactory } from './show-messages.factory';
 import { QuestionBase } from '../question-models/question-base';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
-import { AfeFormArray , AfeFormControl } from '../../abstract-controls-extension/control-extensions';
+import { AfeFormArray , AfeFormControl } from '../../abstract-controls-extension';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 
 describe('Show Messages Factory:', () => {
@@ -19,12 +19,12 @@ describe('Show Messages Factory:', () => {
     });
 
     it('should be injected', () => {
-        let factory: AlertsFactory = TestBed.get(AlertsFactory);
+        const factory: AlertsFactory = TestBed.get(AlertsFactory);
         expect(factory).toBeTruthy();
     });
 
     it('should return a message when the alertWhenExpression returns true', () => {
-        let factory: AlertsFactory = TestBed.get(AlertsFactory);
+        const factory: AlertsFactory = TestBed.get(AlertsFactory);
 
         /* tslint:disable */
         let model: QuestionBase = new QuestionBase({
@@ -36,14 +36,14 @@ describe('Show Messages Factory:', () => {
             }
         });
         /* tslint:enable */
-        let control2: AfeFormControl = new AfeFormControl();
+        const control2: AfeFormControl = new AfeFormControl();
         control2.uuid = 'control2';
         control2.setValue('hello');
 
-        let control: AfeFormArray = new AfeFormArray([control2]);
+        const control: AfeFormArray = new AfeFormArray([control2]);
 
         control.uuid = 'control1';
-        let message: Alert = factory.getJsExpressionshowAlert(model, control);
+        const message: Alert = factory.getJsExpressionshowAlert(model, control);
         control.setAlertFn(message);
         control.updateAlert();
         expect(control.alert).toEqual('Vl required');
@@ -51,7 +51,7 @@ describe('Show Messages Factory:', () => {
 
 
     it('should return an empty message when the alertWhenExpression returns false', () => {
-        let factory: AlertsFactory = TestBed.get(AlertsFactory);
+        const factory: AlertsFactory = TestBed.get(AlertsFactory);
 
         /* tslint:disable */
         let model: QuestionBase = new QuestionBase({
@@ -63,14 +63,14 @@ describe('Show Messages Factory:', () => {
             }
         });
         /* tslint:enable */
-        let control2: AfeFormControl = new AfeFormControl();
+        const control2: AfeFormControl = new AfeFormControl();
         control2.uuid = 'control2';
         control2.setValue('');
 
-        let control: AfeFormArray = new AfeFormArray([control2]);
+        const control: AfeFormArray = new AfeFormArray([control2]);
 
         control.uuid = 'control1';
-        let message: Alert = factory.getJsExpressionshowAlert(model, control);
+        const message: Alert = factory.getJsExpressionshowAlert(model, control);
         control.setAlertFn(message);
         control.updateAlert();
         expect(control.alert).toEqual('');

@@ -6,7 +6,7 @@ export class HistoricalFieldHelperService {
   public getDisplayTextFromOptions(question: QuestionBase , valueProperty: string, displayProperty: string): string {
 
     let displayText = '';
-    let historicalValue = question.historicalDataValue;
+    const historicalValue = question.historicalDataValue;
     if (_.isArray(historicalValue.value)) {
       let valueConverted = 0;
       _.each(historicalValue.value, (val) => {

@@ -2,7 +2,7 @@ import { ValidationModel } from './validation.model';
 
 export class DateValidationModel extends ValidationModel {
 
-  allowFutureDates: boolean = false;
+  allowFutureDates = false;
 
   constructor(validations: any) {
     super(validations);

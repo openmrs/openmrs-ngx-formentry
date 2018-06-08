@@ -10,8 +10,8 @@ describe('Data sources object:', () => {
     });
 
     it('should register data source ', () => {
-        let ds = new DataSources();
-        let encData: any = {
+        const ds = new DataSources();
+        const encData: any = {
             encounterDate: new Date()
         };
         ds.registerDataSource('encData', encData);
@@ -19,8 +19,8 @@ describe('Data sources object:', () => {
     });
 
     it('should register data source by unwrapping source ', () => {
-        let ds = new DataSources();
-        let encData: any = {
+        const ds = new DataSources();
+        const encData: any = {
             encounterDate: '01-01-0000',
             getArvRegimen: () => {
                 return 20;
@@ -32,8 +32,8 @@ describe('Data sources object:', () => {
     });
 
     it('should clear data source ', () => {
-        let ds = new DataSources();
-        let encData: any = {
+        const ds = new DataSources();
+        const encData: any = {
             encounterDate: new Date()
         };
         ds.registerDataSource('encData', encData);

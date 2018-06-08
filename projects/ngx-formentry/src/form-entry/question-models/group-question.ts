@@ -6,7 +6,7 @@ import { NestedQuestion } from './interfaces/nested-questions';
 
 export class QuestionGroup extends NestedQuestion {
     questions: QuestionBase[];
-    isExpanded: boolean = true;
+    isExpanded = true;
 
     constructor(options: GroupQuestionOptions) {
         super(options);

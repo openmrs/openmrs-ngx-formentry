@@ -8,8 +8,8 @@ export class RequiredValidator {
       return null;
     }
 
-    let value: any = control.value;
-    let isEmpty: boolean = value == null || typeof value === 'string' && value.length === 0;
+    const value: any = control.value;
+    const isEmpty: boolean = value == null || typeof value === 'string' && value.length === 0;
 
     return isEmpty ? { 'required': true } : null;
   }
