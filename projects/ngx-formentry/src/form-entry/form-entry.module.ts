@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -43,7 +42,6 @@ import { CheckboxModule } from '../components/check-box/checkbox.module';
 @NgModule({
     imports: [CommonModule,
         ReactiveFormsModule,
-        BrowserAnimationsModule,
         CollapseModule,
         SelectModule,
         DateTimePickerModule,
