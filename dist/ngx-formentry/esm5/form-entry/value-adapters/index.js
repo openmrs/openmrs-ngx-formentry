@@ -1,0 +1,11 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+export { EncounterAdapter } from './encounter.adapter';
+export { PersonAttribuAdapter } from './person-attribute.adapter';
+export { OrderValueAdapter } from './order.adapter';
+export { ObsValueAdapter } from './obs.adapter';
+export { ObsAdapterHelper } from './obs-adapter-helper';
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290Ijoibmc6Ly9uZ3gtb3Blbm1ycy1mb3JtZW50cnkvIiwic291cmNlcyI6WyJmb3JtLWVudHJ5L3ZhbHVlLWFkYXB0ZXJzL2luZGV4LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7QUFBQSxpQ0FBYyxxQkFBcUIsQ0FBQztBQUNwQyxxQ0FBYyw0QkFBNEIsQ0FBQztBQUMzQyxrQ0FBYyxpQkFBaUIsQ0FBQztBQUNoQyxnQ0FBYyxlQUFlLENBQUM7QUFDOUIsaUNBQWMsc0JBQXNCLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgKiBmcm9tICcuL2VuY291bnRlci5hZGFwdGVyJztcbmV4cG9ydCAqIGZyb20gJy4vcGVyc29uLWF0dHJpYnV0ZS5hZGFwdGVyJztcbmV4cG9ydCAqIGZyb20gJy4vb3JkZXIuYWRhcHRlcic7XG5leHBvcnQgKiBmcm9tICcuL29icy5hZGFwdGVyJztcbmV4cG9ydCAqIGZyb20gJy4vb2JzLWFkYXB0ZXItaGVscGVyJztcbmV4cG9ydCAqIGZyb20gJy4vdmFsdWUuYWRhcHRlcic7XG4iXX0=

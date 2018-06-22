@@ -157,6 +157,7 @@ export class FormRendererComponent implements OnInit {
   }
 
   public onDateChanged(node: LeafNode) {
+    console.log('Node', node);
     this.node = node;
   }
 
