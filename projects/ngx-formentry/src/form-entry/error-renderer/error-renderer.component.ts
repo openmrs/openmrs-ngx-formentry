@@ -7,7 +7,7 @@ import { Form } from '../form-factory/form';
 import { ValidationFactory } from '../form-factory/validation.factory';
 import { NodeBase, LeafNode } from '../form-factory/form-node';
 import { QuestionGroup } from '../question-models/group-question';
-import { FormErrorsService } from '../services';
+import { FormErrorsService } from '../services/form-errors.service';
 
 @Component({
     selector: 'error-renderer',

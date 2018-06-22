@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { NodeBase, GroupNode, ArrayNode } from '../form-factory/form-node';
 import { Form } from '../form-factory/form';
 
-import { ValueAdapter } from '.';
+import { ValueAdapter } from './value.adapter';
 import { ObsValueAdapter } from './obs.adapter';
 import { OrderValueAdapter } from './order.adapter';
 

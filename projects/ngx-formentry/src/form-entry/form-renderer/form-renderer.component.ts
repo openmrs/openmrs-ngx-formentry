@@ -9,7 +9,7 @@ import { NodeBase, LeafNode } from '../form-factory/form-node';
 import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
 import { ValidationFactory } from '../form-factory/validation.factory';
 import { DataSource } from '../question-models/interfaces/data-source';
-import { FormErrorsService } from '../services';
+import { FormErrorsService } from '../services/form-errors.service';
 import { QuestionGroup } from '../question-models/group-question';
 
 @Component({
