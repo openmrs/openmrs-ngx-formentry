@@ -5,7 +5,7 @@ import { Subscriber } from 'rxjs';
 import {
   QuestionFactory, Form, FormFactory, ObsValueAdapter, OrderValueAdapter,
   EncounterAdapter, DataSources, FormErrorsService
-} from '../../dist/ngx-formentry';
+} from 'projects/ngx-formentry/src/public_api';
 import { FormGroup } from '@angular/forms';
 import { Observable, Subject , of} from 'rxjs';
 
