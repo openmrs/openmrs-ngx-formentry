@@ -1,0 +1,137 @@
+
+import { Component, OnInit, Input, forwardRef, EventEmitter, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR , FormControl } from '@angular/forms';
+import * as moment from 'moment';
+import { DateAdapter , MAT_DATE_FORMATS } from '@angular/material/core';
+import { MomentDateAdapter} from '@angular/material-moment-adapter';
+
+
+export const MY_FORMATS = {
+    parse: {
+      dateInput: 'LL',
+    },
+    display: {
+      dateInput: 'LL',
+      monthYearLabel: 'MMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'MMMM YYYY',
+    },
+  };
+
+@Component({
+    selector: 'ngx-date-time-picker',
+    templateUrl: './ngx-date-time-picker.component.html',
+    styleUrls: ['./ngx-date-time-picker.component.css'],
+    providers: [
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+        { provide: DateAdapter, useClass: MomentDateAdapter },
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => NgxDateTimePickerComponent),
+            multi: true
+        }
+    ]
+})
+export class NgxDateTimePickerComponent implements OnInit, ControlValueAccessor {
+
+    // public date = new FormControl(moment());
+    public selectedTime = moment().format('HH:mm');
+    public selectedDate = moment().format();
+    public loadInitial = false;
+    @Input() weeks: number[] = [0 , 2 , 4, 6, 8, 12, 16, 24];
+    @Input() modelValue: any;
+    @Input() showTime = false;
+    @Input() showWeeks = true;
+    @Output() onDateChange = new EventEmitter<any>();
+    public onChange: any = () => { };
+    public onTouched: any = () => { };
+    public ngOnInit() {
+
+    }
+
+    public get value() {
+        return this.modelValue;
+    }
+
+    public set value(val) {
+        setTimeout(() => {
+            this.onDateChange.emit(val);
+        }, 100);
+        this.onChange(val);
+        this.onTouched();
+    }
+
+    public writeValue(value) {
+        if (!this.loadInitial) {
+            this.setFormValues(value);
+        }
+    }
+
+    public setFormValues(val) {
+
+        this.loadInitial = true;
+
+        this.selectedDate = moment(val).format();
+        this.selectedTime = moment(val).format('HH:mm');
+        if (val instanceof Date) {
+            this.value = moment(val).format();
+        } else {
+            this.value = val;
+        }
+        this.modelValue = this.value;
+
+    }
+
+    public registerOnChange(fn) {
+        this.onChange = fn;
+    }
+
+    public registerOnTouched(fn) {
+        this.onTouched = fn;
+    }
+
+    public onDateSelect($event) {
+        const setDate = moment($event);
+        const setTime = this.selectedTime;
+        this.setDateTime(setDate, setTime);
+
+    }
+    public onTimeSelect($event) {
+        const setDate = moment(this.selectedDate);
+        const setTime = $event;
+        this.setDateTime(setDate, setTime);
+    }
+
+    public setCurrentTime() {
+        const setDate = moment(this.selectedDate);
+        const currentTime = moment().format('HH:mm');
+        this.setDateTime(setDate, currentTime);
+    }
+
+    public weekSelect($event) {
+        const nextWeekDate = moment(this.selectedDate).add($event , 'weeks');
+        const nextWeekTime = this.selectedTime;
+        this.setDateTime(nextWeekDate, nextWeekTime);
+    }
+
+    public setCurrentDate() {
+        const currentDay = moment();
+        const currentTime = moment().format('HH:mm');
+        this.setDateTime(currentDay, currentTime);
+
+
+    }
+
+    public setDateTime(setDate, setTime) {
+        const newDate = moment(setDate).format('DD-MM-YYYY');
+        const newTime = setTime;
+        const newDateTime = moment(newDate + '' + newTime , 'DD-MM-YYYY HH:mm');
+        const dateTimeString = moment(newDateTime).format();
+        this.selectedDate = dateTimeString;
+        this.selectedTime = newTime;
+        this.modelValue = dateTimeString;
+        this.value = dateTimeString;
+
+
+    }
+}

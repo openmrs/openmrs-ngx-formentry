@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-sm-8 col-md-8 col-lg-8 col-xs-12">
+    <div class="row">
+        <div class="col-sm-10 col-md-10 col-lg-10 col-xs-12">
+            <div class="input-group">
+                    <input matInput [matDatepicker]="picker" class="form-control" [(ngModel)]="selectedDate" placeholder="Choose a date" 
+                    (ngModelChange)="onDateSelect($event)">
+                    <div class="input-group-btn">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker touchUi="true"></mat-datepicker>
+                        <button class="btn btn-default time-btn" (click)="setCurrentDate()">
+                          Set Current Date
+                        </button>
+                    </div>
+            </div>
+          </div>
+          <div class="col-sm-2 col-md-2 col-lg-2 col-xs-12" *ngIf="showWeeks">
+          
+              <div class="form-group">
+                  <mat-select placeholder="Select Weeks" class="form-control" [(ngModel)]="selectedValue" name="weeks" (ngModelChange)="weekSelect($event)">
+                    <mat-option *ngFor="let count of weeks" [value]="count">
+                      {{count}} Weeks
+                    </mat-option>
+                  </mat-select>
+              </div>
+          </div>
+    </div>
+    
+  </div>
+  <div class="col-sm-4 col-md-4 col-lg-4 col-xs-12" id="time-section">
+   
+        <div class="input-group">
+            <input type="time" class="form-control" atp-time-picker [(ngModel)] = "selectedTime" (ngModelChange)="onTimeSelect($event)" id="ngx-atp-time-picker"/>
+            <div class="input-group-btn">
+              <button class="btn btn-default" (click)="setCurrentTime()">
+                  Set Current Time
+              </button>
+            </div>
+         </div>
+    
+      
+  </div>
+
+</div>

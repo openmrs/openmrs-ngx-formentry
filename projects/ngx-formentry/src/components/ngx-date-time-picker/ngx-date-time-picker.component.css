@@ -1,0 +1,15 @@
+#time-section{
+    display: inline-block;
+}
+#ngx-atp-time-picker{
+    width: 100%;
+}
+#ngx-mat-form-field{
+    width:100%;
+}
+
+.up { bottom:100% !important; top:auto !important; }
+
+.time-btn{
+    margin-top: -20px;
+}
