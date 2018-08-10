@@ -5,7 +5,7 @@
       <i class="fa fa-angle-double-down"></i>
     </a>
     <ul class="dropdown-menu dropdown-menu-right forms-dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-      <li *ngFor="let question of node.question.questions; let i = index;" (click)="clickTab(i)">
+      <li *ngFor="let question of node.question.questions; let i = index;" (click)="clickTab(i)" >
         {{question.label}}
       </li>
     </ul>
@@ -14,7 +14,7 @@
     <mat-tab [label]='question.label' *ngFor="let question of node.question.questions; let i = index;">
       <ng-template matTabContent>
         <div (swipeLeft)='loadNextTab()' (swipeRight)='loadPreviousTab()'>
-          <form-renderer [node]="node.children[question.key]" [parentComponent]="this" [parentGroup]="node.control"></form-renderer>
+          <form-renderer [name]="question.label" [node]="node.children[question.key]" [parentComponent]="this" [parentGroup]="node.control"></form-renderer>
         </div>
       </ng-template>
     </mat-tab>
@@ -29,7 +29,7 @@
 <div *ngIf="node.question.renderingType === 'page'">
   <!--<h2>{{node.question.label}}</h2>-->
   <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this" [node]="node.children[question.key]"
-    [parentGroup]="parentGroup"></form-renderer>
+    [parentGroup]="parentGroup" [name]="node.question.label"></form-renderer>
 </div>
 <div *ngIf="node.question.renderingType === 'section'">
   <div class="panel  panel-primary">
@@ -40,7 +40,7 @@
     </div>
     <div class="panel-body" [collapse]="isCollapsed">
       <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this" [node]="node.children[question.key]"
-        [parentGroup]="parentGroup"></form-renderer>
+        [parentGroup]="parentGroup" [name]="node.question.label + ' section'"></form-renderer>
     </div>
   </div>
 </div>
