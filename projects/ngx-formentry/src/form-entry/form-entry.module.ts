@@ -3,12 +3,9 @@ import { MatTabsModule , MatIconModule , MatCardModule} from '@angular/material'
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-
 import { DebugModeService } from '../form-entry/services/debug-mode.service';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { FormErrorsService } from './services/form-errors.service';
-import { HammerConfig } from './helpers/hammer-config';
 import { FormControlService } from './form-factory/form-control.service';
 import { ValidationFactory } from './form-factory/validation.factory';
 import { FormRendererComponent } from './form-renderer/form-renderer.component';
@@ -17,7 +14,7 @@ import { HistoricalValueDirective } from './directives/historical-value-directiv
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
 import { SelectModule } from '../components/select/select.module';
 import { RemoteFileUploadModule } from '../components/file-upload/file-upload.module';
-import { DateTimePickerModule } from '../components/date-time-picker';
+import { DateTimePickerModule } from '../components/date-time-picker/date-time-picker.module';
 import { NgxDateTimePickerModule } from '../components/ngx-date-time-picker/ngx-date-time-picker.module';
 import { AfeNgSelectComponent } from '../components/afe-ng-select.component';
 import { HidersDisablersFactory } from './form-factory/hiders-disablers.factory';
@@ -34,12 +31,10 @@ import { OrderValueAdapter } from './value-adapters/order.adapter';
 import { ObsAdapterHelper } from './value-adapters/obs-adapter-helper';
 import { ObsValueAdapter } from './value-adapters/obs.adapter';
 import { RemoteSelectModule } from '../components/remote-select/remote-select.module';
-import { DataSources } from './data-sources/data-sources';
-import {
-    AppointmentsOverviewComponent
-} from '../components/appointments-overview/appointments-overview.component';
+import { AppointmentsOverviewComponent} from '../components/appointments-overview/appointments-overview.component';
 import { EncounterViewerModule } from '../encounter-viewer/encounter-viewer.module';
 import { CheckboxModule } from '../components/check-box/checkbox.module';
+import { SharedModule } from '../shared.module';
 
 
 @NgModule({
@@ -55,7 +50,8 @@ import { CheckboxModule } from '../components/check-box/checkbox.module';
         MatIconModule,
         MatTabsModule,
         MatCardModule,
-        NgxDateTimePickerModule
+        NgxDateTimePickerModule,
+        SharedModule
     ],
     declarations: [
         FormRendererComponent,
@@ -84,8 +80,7 @@ import { CheckboxModule } from '../components/check-box/checkbox.module';
         EncounterAdapter,
         PersonAttribuAdapter,
         OrderValueAdapter,
-        DebugModeService,
-        DataSources
+        DebugModeService
     ],
     exports: [FormRendererComponent, AfeNgSelectComponent,
         ErrorRendererComponent, DateTimePickerModule, EncounterViewerModule , NgxDateTimePickerModule]

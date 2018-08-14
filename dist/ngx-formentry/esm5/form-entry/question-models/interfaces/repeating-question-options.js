@@ -1,0 +1,14 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * @record
+ */
+export function RepeatingQuestionOptions() { }
+function RepeatingQuestionOptions_tsickle_Closure_declarations() {
+    /** @type {?} */
+    RepeatingQuestionOptions.prototype.questions;
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVwZWF0aW5nLXF1ZXN0aW9uLW9wdGlvbnMuanMiLCJzb3VyY2VSb290Ijoibmc6Ly9uZ3gtb3Blbm1ycy1mb3JtZW50cnkvIiwic291cmNlcyI6WyJmb3JtLWVudHJ5L3F1ZXN0aW9uLW1vZGVscy9pbnRlcmZhY2VzL3JlcGVhdGluZy1xdWVzdGlvbi1vcHRpb25zLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiIiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBRdWVzdGlvbkJhc2UgfSBmcm9tICcuLi9xdWVzdGlvbi1iYXNlJztcbmltcG9ydCB7IEJhc2VPcHRpb25zIH0gZnJvbSAnLi4vaW50ZXJmYWNlcy9iYXNlLW9wdGlvbnMnO1xuXG5leHBvcnQgaW50ZXJmYWNlIFJlcGVhdGluZ1F1ZXN0aW9uT3B0aW9ucyBleHRlbmRzIEJhc2VPcHRpb25zIHtcbiAgICBxdWVzdGlvbnM6IFF1ZXN0aW9uQmFzZVtdO1xufVxuIl19

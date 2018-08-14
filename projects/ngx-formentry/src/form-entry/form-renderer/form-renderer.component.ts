@@ -18,17 +18,11 @@ import { QuestionGroup } from '../question-models/group-question';
   styles: ['../../style/app.css', DEFAULT_STYLES]
 })
 export class FormRendererComponent implements OnInit {
-  private _parentComponent: FormRendererComponent;
-  private _name: string;
+
+  @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
   @Input() public parentGroup: AfeFormGroup;
   public childComponents: FormRendererComponent[] = [];
-  @Input() public set name(name: string) {
-    this._name = name;
-  }
-  @Input() public set parentComponent(parent: FormRendererComponent) {
-    this._parentComponent = parent;
-  }
   public showTime: boolean;
   public showWeeks: boolean;
   public activeTab: number;
@@ -43,8 +37,8 @@ export class FormRendererComponent implements OnInit {
   @Inject(DOCUMENT) private document: any) {
     this.activeTab = 0;
   }
- public ngOnInit() {
 
+  public ngOnInit() {
     this.setUpRemoteSelect();
     this.setUpFileUpload();
     if (this.node && this.node.form) {
@@ -64,6 +58,9 @@ export class FormRendererComponent implements OnInit {
       this.isCollapsed = !(this.node.question as QuestionGroup).isExpanded;
     }
 
+    if (this.parentComponent) {
+      this.parentComponent.addChildComponent(this);
+    }
   }
 
   public addChildComponent(child: FormRendererComponent) {
@@ -135,16 +132,21 @@ export class FormRendererComponent implements OnInit {
 
 
   public scrollToControl(error: string) {
+
     const tab: number = +error.split(',')[0];
     const elSelector = error.split(',')[1] + 'id';
+
     // the tab components
     const tabComponent: FormRendererComponent = this.childComponents[tab];
 
     this.clickTab(tab);
+
     setTimeout(() => {
+
       // expand all sections
       tabComponent.childComponents.forEach((section) => {
         section.isCollapsed = false;
+
         setTimeout(() => {
           const element: any = this.document.getElementById(elSelector);
           element.focus();

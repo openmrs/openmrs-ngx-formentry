@@ -1,0 +1,31 @@
+{
+  "name": "ngx-openmrs-formentry",
+  "version": "2.9.3",
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "hammerjs": "^2.0.8",
+    "jquery": "^3.1.1",
+    "lodash": "^4.17.4",
+    "moment": "^2.17.1",
+    "ngx-bootstrap": "next",
+    "ngx-file-uploader": "git+https://github.com/enyachoke/ngx-file-uploader.git#0.0.8",
+    "reflect-metadata": "^0.1.9",
+    "shelljs": "^0.7.0",
+    "slick-carousel": "^1.6.0",
+    "tree-model": "^1.0.5"
+  },
+  "main": "bundles/ngx-openmrs-formentry.umd.js",
+  "module": "fesm5/ngx-openmrs-formentry.js",
+  "es2015": "fesm2015/ngx-openmrs-formentry.js",
+  "esm5": "esm5/ngx-openmrs-formentry.js",
+  "esm2015": "esm2015/ngx-openmrs-formentry.js",
+  "fesm5": "fesm5/ngx-openmrs-formentry.js",
+  "fesm2015": "fesm2015/ngx-openmrs-formentry.js",
+  "typings": "ngx-openmrs-formentry.d.ts",
+  "metadata": "ngx-openmrs-formentry.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

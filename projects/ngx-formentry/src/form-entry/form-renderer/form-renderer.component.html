@@ -5,7 +5,7 @@
       <i class="fa fa-angle-double-down"></i>
     </a>
     <ul class="dropdown-menu dropdown-menu-right forms-dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-      <li *ngFor="let question of node.question.questions; let i = index;" (click)="clickTab(i)" >
+      <li *ngFor="let question of node.question.questions; let i = index;" (click)="clickTab(i)">
         {{question.label}}
       </li>
     </ul>
@@ -14,7 +14,7 @@
     <mat-tab [label]='question.label' *ngFor="let question of node.question.questions; let i = index;">
       <ng-template matTabContent>
         <div (swipeLeft)='loadNextTab()' (swipeRight)='loadPreviousTab()'>
-          <form-renderer [name]="question.label" [node]="node.children[question.key]" [parentComponent]="this" [parentGroup]="node.control"></form-renderer>
+          <form-renderer [node]="node.children[question.key]" [parentComponent]="this" [parentGroup]="node.control"></form-renderer>
         </div>
       </ng-template>
     </mat-tab>
@@ -29,7 +29,7 @@
 <div *ngIf="node.question.renderingType === 'page'">
   <!--<h2>{{node.question.label}}</h2>-->
   <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this" [node]="node.children[question.key]"
-    [parentGroup]="parentGroup" [name]="node.question.label"></form-renderer>
+    [parentGroup]="parentGroup"></form-renderer>
 </div>
 <div *ngIf="node.question.renderingType === 'section'">
   <div class="panel  panel-primary">
@@ -40,7 +40,7 @@
     </div>
     <div class="panel-body" [collapse]="isCollapsed">
       <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this" [node]="node.children[question.key]"
-        [parentGroup]="parentGroup" [name]="node.question.label + ' section'"></form-renderer>
+        [parentGroup]="parentGroup"></form-renderer>
     </div>
   </div>
 </div>
@@ -76,16 +76,9 @@
       </textarea>
       <remote-select *ngSwitchCase="'remote-select'" [placeholder]="node.question.placeholder" tabindex="0" [dataSource]="dataSource"
         [componentID]="node.question.key + 'id'" [formControlName]="node.question.key" [id]="node.question.key + 'id'"></remote-select>
-        
-    <!--
       <date-time-picker *ngSwitchCase="'date'" [showTime]="node.question.showTime" tabindex="0" [weeks]='node.question.extras.questionOptions.weeksList'
         (onDateChange)="onDateChanged(node)" [showWeeks]="node.question.showWeeksAdder" [formControlName]="node.question.key"
         [id]="node.question.key + 'id'"></date-time-picker>
-    -->
-    
-      <ngx-date-time-picker *ngSwitchCase="'date'" [showTime]="node.question.showTime" [id]="node.question.key + 'id'" [formControlName]="node.question.key"
-            (onDateChange)="onDateChanged(node)" [showWeeks]="node.question.showWeeksAdder" ></ngx-date-time-picker>
-
       <ng-select *ngSwitchCase="'multi-select'" [noFilter]="50" [style.height]='auto' tabindex="0" [formControlName]="node.question.key"
         [id]="node.question.key + 'id'" [options]="node.question.options" [multiple]="true">
       </ng-select>
