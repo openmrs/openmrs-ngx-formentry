@@ -184,7 +184,8 @@ describe('Form Factory:', () => {
         expect((thirdLevel.children['key1'] as LeafNode).control).toBeTruthy();
         expect((thirdLevel.children['key1'] as LeafNode).control instanceof AfeFormControl).toBe(true);
         const control = (thirdLevel.children['key1'] as LeafNode).control as AfeFormControl;
-        expect(control.parent).toBe(createdNode.control);
+        const parentControl = control.parent as AfeFormGroup;
+        expect(parentControl).toBe(createdNode.control);
     });
 
     it('should create array node', () => {

@@ -12,11 +12,9 @@
   </div>
   <mat-tab-group (selectChange)='tabSelected($event)' [selectedIndex]='activeTab'>
     <mat-tab [label]='question.label' *ngFor="let question of node.question.questions; let i = index;">
-      <ng-template matTabContent>
         <div (swipeLeft)='loadNextTab()' (swipeRight)='loadPreviousTab()'>
           <form-renderer [node]="node.children[question.key]" [parentComponent]="this" [parentGroup]="node.control"></form-renderer>
         </div>
-      </ng-template>
     </mat-tab>
   </mat-tab-group>
 
