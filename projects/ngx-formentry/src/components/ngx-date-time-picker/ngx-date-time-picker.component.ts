@@ -1,9 +1,9 @@
 
 import { Component, OnInit, Input, forwardRef, EventEmitter, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR , FormControl } from '@angular/forms';
-import * as moment_ from 'moment';
 import { DateAdapter , MAT_DATE_FORMATS } from '@angular/material/core';
 import { MomentDateAdapter} from '@angular/material-moment-adapter';
+import * as moment_ from 'moment';
 const moment = moment_;
 
 export const MY_FORMATS = {
