@@ -1,3 +1,4 @@
+import { JsExpressionHelper } from '../../../dist/ngx-formentry/esm2015/ngx-openmrs-formentry';
 /*
  * Public API Surface of ngx-formentry
  */
@@ -51,3 +52,5 @@ export { GroupQuestionOptions } from './form-entry/question-models/interfaces/gr
 export { NestedQuestion } from './form-entry/question-models/interfaces/nested-questions';
 export { DateTimePickerModule } from './components/date-time-picker/date-time-picker.module';
 export { NgxDateTimePickerModule } from './components/ngx-date-time-picker/ngx-date-time-picker.module';
+export { JsExpressionHelper } from './form-entry/helpers/js-expression-helper';
+
