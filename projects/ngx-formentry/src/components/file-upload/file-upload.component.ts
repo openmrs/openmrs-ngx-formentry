@@ -40,7 +40,7 @@ export class RemoteFileUploadComponent implements OnInit, ControlValueAccessor {
         if (this.dataSource) {
             this.uploading = true;
             this.dataSource.fileUpload(data).subscribe((result) => {
-                console.log('Result', result);
+                // console.log('Result', result);
                 this.innerValue = result.image;
                 this.propagateChange(this.innerValue);
                 this.uploading = false;

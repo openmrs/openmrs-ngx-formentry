@@ -39,7 +39,7 @@ export class EncounterAdapter implements ValueAdapter {
             switch (node.question.extras.type) {
                 case 'encounterDatetime':
                     if (payload['encounterDatetime']) {
-                        console.log('date', payload['encounterDatetime']);
+                        // console.log('date', payload['encounterDatetime']);
                         node.control.setValue(moment(payload['encounterDatetime']).toDate());
                         node.initialValue = moment(payload['encounterDatetime']).toDate();
                     }

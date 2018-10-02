@@ -80,8 +80,8 @@ export class FormRendererComponent implements OnInit {
   public setUpFileUpload() {
     if (this.node && this.node.question.extras && this.node.question.renderingType === 'file') {
       this.dataSource = this.dataSources.dataSources[this.node.question.dataSource];
-      console.log('Key', this.node.question);
-      console.log('Data source', this.dataSource);
+      // console.log('Key', this.node.question);
+      // console.log('Data source', this.dataSource);
     }
 
   }
@@ -149,21 +149,24 @@ export class FormRendererComponent implements OnInit {
 
         setTimeout(() => {
           const element: any = this.document.getElementById(elSelector);
-          element.focus();
-        }, 200);
+          if (element !== null && element.focus) {
+            element.focus();
+            element.scrollIntoView(true);
+          }
+        }, 100);
       });
 
     }, 200);
   }
 
   public onDateChanged(node: LeafNode) {
-    console.log('Node', node);
+    // console.log('Node', node);
     this.node = node;
   }
 
   public upload(event) {
-    console.log('Event', event);
-    console.log('Data', this.dataSource);
+    // console.log('Event', event);
+    // console.log('Data', this.dataSource);
   }
 
   public toggleInformation(infoId) {

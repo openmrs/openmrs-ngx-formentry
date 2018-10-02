@@ -1,7 +1,7 @@
 <!--CONTAINERS-->
 <div *ngIf="node.question.renderingType === 'form'">
   <div class="dropdown dropdown-tabs forms-dropdown">
-    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    <a class="btn dropdown-toggle" data-toggle="dropdown">
       <i class="fa fa-angle-double-down"></i>
     </a>
     <ul class="dropdown-menu dropdown-menu-right forms-dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
@@ -45,7 +45,7 @@
 
 <!-- MESSAGES -->
 <div *ngIf="node.control && node.control.alert && node.control.alert !== ''" class="alert alert-warning">
-  <a href="#" class="close" data-dismiss="alert">&times;</a> {{node.control.alert}}
+  <a class="close" data-dismiss="alert">&times;</a> {{node.control.alert}}
 </div>
 
 <!--CONTROLS-->
@@ -81,10 +81,11 @@
         [id]="node.question.key + 'id'"></date-time-picker>
     -->
     
-      <ngx-date-time-picker *ngSwitchCase="'date'" [showTime]="node.question.showTime" [id]="node.question.key + 'id'" [formControlName]="node.question.key"
+      <ngx-date-time-picker *ngSwitchCase="'date'" [showTime]="node.question.showTime" [id]="node.question.key + 'id'" 
+            [formControlName]="node.question.key" [weeks]='node.question.extras.questionOptions.weeksList'
             (onDateChange)="onDateChanged(node)" [showWeeks]="node.question.showWeeksAdder" ></ngx-date-time-picker>
 
-      <ng-select *ngSwitchCase="'multi-select'" [noFilter]="50" [style.height]='auto' tabindex="0" [formControlName]="node.question.key"
+      <ng-select *ngSwitchCase="'multi-select'" [noFilter]="50" [style.height]="'auto'"  [style.overflow-x]="'hidden'" tabindex="0" [formControlName]="node.question.key"
         [id]="node.question.key + 'id'" [options]="node.question.options" [multiple]="true">
       </ng-select>
       <input class="form-control" *ngSwitchCase="'number'" [formControlName]="node.question.key " [attr.placeholder]="node.question.placeholder "

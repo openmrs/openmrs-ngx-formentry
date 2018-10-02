@@ -4,7 +4,7 @@ import { QuestionBase } from '../../form-entry/question-models/question-base';
 import * as _ from 'lodash';
 import { EncounterViewerService } from '../encounter-viewer.service';
 import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
-import { DataSources } from '../../form-entry/data-sources';
+import { DataSources } from '../../form-entry/data-sources/data-sources';
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
 
 @Component({

@@ -74,7 +74,7 @@ export class AfeNgSelectComponent implements ControlValueAccessor, OnInit, OnCha
 
     OptionsObservable.subscribe(
       (options) => {
-        console.log('options', options);
+        // console.log('options', options);
         const mappedOptions: Option[] = new Array<Option>();
 
         for (let i = 0; i < options.length; i++) {
@@ -98,7 +98,7 @@ export class AfeNgSelectComponent implements ControlValueAccessor, OnInit, OnCha
 
     OptionObservable.subscribe(
       (option) => {
-        console.log('option', option);
+        // console.log('option', option);
         this.subjectOption.next(option);
       },
       (error) => {

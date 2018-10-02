@@ -1,22 +1,22 @@
 
 import { Component, OnInit, Input, forwardRef, EventEmitter, Output } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR , FormControl } from '@angular/forms';
-import { DateAdapter , MAT_DATE_FORMATS } from '@angular/material/core';
-import { MomentDateAdapter} from '@angular/material-moment-adapter';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment_ from 'moment';
 const moment = moment_;
 
 export const MY_FORMATS = {
     parse: {
-      dateInput: 'LL',
+        dateInput: 'LL',
     },
     display: {
-      dateInput: 'LL',
-      monthYearLabel: 'MMM YYYY',
-      dateA11yLabel: 'LL',
-      monthYearA11yLabel: 'MMMM YYYY',
+        dateInput: 'LL',
+        monthYearLabel: 'MMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MMMM YYYY',
     },
-  };
+};
 
 @Component({
     selector: 'ngx-date-time-picker',
@@ -38,7 +38,7 @@ export class NgxDateTimePickerComponent implements OnInit, ControlValueAccessor 
     public selectedTime = moment().format('HH:mm');
     public selectedDate = moment().format();
     public loadInitial = false;
-    @Input() weeks: number[] = [0 , 2 , 4, 6, 8, 12, 16, 24];
+    @Input() weeks: number[] = [0, 2, 4, 6, 8, 12, 16, 24];
     @Input() modelValue: any;
     @Input() showTime = false;
     @Input() showWeeks = true;
@@ -82,6 +82,39 @@ export class NgxDateTimePickerComponent implements OnInit, ControlValueAccessor 
 
     }
 
+    public getWeekPickerCssClass() {
+        if (this.showTime) {
+            return 'col-sm-2 form-group';
+        }
+        return 'col-sm-3 form-group';
+    }
+
+    public getDatePickerCssClass() {
+        if (this.showTime && this.showWeeks) {
+            return 'col-sm-5 form-group';
+        }
+
+        if (this.showWeeks === true) {
+            return 'col-sm-9 form-group';
+        }
+
+        if (this.showTime === true) {
+            return 'col-sm-8 form-group';
+        }
+        return 'col-sm-12 form-group';
+    }
+
+    public getTimePickerCssClass() {
+        if (this.showTime && this.showWeeks) {
+            return 'col-sm-5 form-group';
+        }
+
+        if (this.showWeeks === true) {
+            return 'col-sm-9 form-group';
+        }
+        return 'col-sm-4 form-group';
+    }
+
     public registerOnChange(fn) {
         this.onChange = fn;
     }
@@ -109,8 +142,9 @@ export class NgxDateTimePickerComponent implements OnInit, ControlValueAccessor 
     }
 
     public weekSelect($event) {
-        const nextWeekDate = moment(this.selectedDate).add($event , 'weeks');
-        const nextWeekTime = this.selectedTime;
+        const dateToUse = moment().format();
+        const nextWeekDate = moment(dateToUse).add($event, 'weeks');
+        const nextWeekTime = dateToUse;
         this.setDateTime(nextWeekDate, nextWeekTime);
     }
 
@@ -125,7 +159,7 @@ export class NgxDateTimePickerComponent implements OnInit, ControlValueAccessor 
     public setDateTime(setDate, setTime) {
         const newDate = moment(setDate).format('DD-MM-YYYY');
         const newTime = setTime;
-        const newDateTime = moment(newDate + '' + newTime , 'DD-MM-YYYY HH:mm');
+        const newDateTime = moment(newDate + '' + newTime, 'DD-MM-YYYY HH:mm');
         const dateTimeString = moment(newDateTime).format();
         this.selectedDate = dateTimeString;
         this.selectedTime = newTime;
