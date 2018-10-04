@@ -202,7 +202,7 @@ export class SampleFormComponent implements OnInit {
         this.control1.controlRelations.addRelatedControls(this.array4);
 
         this.form.statusChanges.subscribe(() => {
-            console.log('Form Status Change: ', this.form.status);
+            // console.log('Form Status Change: ', this.form.status);
         });
 
         this.form.valueChanges.subscribe(() => {

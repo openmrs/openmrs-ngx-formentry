@@ -31,7 +31,7 @@ export class AppointmentsOverviewComponent implements OnInit, OnChanges {
       if (node.question.extras.questionOptions.concept
         && (node.question.extras.questionOptions.concept === 'a8a666ba-1350-11df-a1f1-0026b9348838'
         || node.question.extras.questionOptions.concept === 'a89d2398-1350-11df-a1f1-0026b9348838')) {
-        console.log('what change is here', this.showAppointments);
+        // console.log('what change is here', this.showAppointments);
         if (!this.showAppointments) {
           this.loadingAppointments = true;
           this.showAppointments = true;
