@@ -2,16 +2,18 @@
   <div class="row">
     <div [class]="getDatePickerCssClass()">
       <div class="input-group">
-        <input matInput [matDatepicker]="picker" class="form-control" [(ngModel)]="selectedDate" placeholder="Choose a date" (ngModelChange)="onDateSelect($event)">
-        <mat-datepicker #picker touchUi="true" disabled="false"></mat-datepicker>
-        <div class="input-group-btn">
-          <button class="btn btn-default" (click)="picker.open()">
-            <i class="glyphicon glyphicon-calendar"></i>
-          </button>
-          <button class="btn btn-default" (click)="setCurrentDate()">
-            Set Current Date
-          </button>
-        </div>
+        <input matInput 
+              [matDatepicker]="picker" 
+              class="form-control" 
+              [(ngModel)]="selectedDate" 
+              placeholder="Choose a date" 
+              (dateChange)="onDateSelect($event)"
+              (click)="picker.open()"
+              readonly
+        >
+        
+        <mat-datepicker #picker disabled="false"></mat-datepicker>
+        <mat-datepicker-toggle matSuffix [for]="picker" class="input-group-btn"></mat-datepicker-toggle>
       </div>
     </div>
     <div [class]="getWeekPickerCssClass()" *ngIf="showWeeks">
