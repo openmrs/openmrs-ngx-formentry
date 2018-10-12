@@ -62,9 +62,11 @@ export class NgxDateTimePickerComponent implements OnInit, ControlValueAccessor 
     }
 
     public writeValue(value) {
-        if (!this.loadInitial) {
-            this.setFormValues(value);
-        }
+
+                if (typeof value !== 'undefined' || value !== null) {
+                    this.setFormValues(value);
+
+                }
     }
 
     public setFormValues(val) {
@@ -123,8 +125,8 @@ export class NgxDateTimePickerComponent implements OnInit, ControlValueAccessor 
         this.onTouched = fn;
     }
 
-    public onDateSelect($event) {
-        const setDate = moment($event);
+    public onDateSelect(event) {
+        const setDate = moment(event.value);
         const setTime = this.selectedTime;
         this.setDateTime(setDate, setTime);
 
