@@ -1,8 +1,6 @@
-import { JsExpressionHelper } from '../../../dist/ngx-formentry/esm2015/ngx-openmrs-formentry';
 /*
  * Public API Surface of ngx-formentry
  */
-
 export { FormEntryModule } from './form-entry/form-entry.module';
 // export { DateTimePickerModule } from './components/date-time-picker/date-time-picker.module';
 export { AfeFormControl } from './abstract-controls-extension/afe-form-control';
