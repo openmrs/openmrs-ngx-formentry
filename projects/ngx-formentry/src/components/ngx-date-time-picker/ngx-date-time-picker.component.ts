@@ -38,6 +38,7 @@ export class NgxDateTimePickerComponent implements OnInit, ControlValueAccessor 
     public selectedTime = moment().format('HH:mm');
     public selectedDate = moment().format();
     public loadInitial = false;
+    public value;
     @Input() weeks: number[] = [0, 2, 4, 6, 8, 12, 16, 24];
     @Input() modelValue: any;
     @Input() showTime = false;
@@ -49,40 +50,51 @@ export class NgxDateTimePickerComponent implements OnInit, ControlValueAccessor 
 
     }
 
-    public get value() {
-        return this.modelValue;
-    }
-
-    public set value(val) {
-        setTimeout(() => {
-            this.onDateChange.emit(val);
-        }, 100);
-        this.onChange(val);
-        this.onTouched();
-    }
 
     public writeValue(value) {
-
-                if (typeof value !== 'undefined' || value !== null) {
-                    this.setFormValues(value);
-
-                }
+        this.value = value;
     }
 
-    public setFormValues(val) {
+    public registerOnChange(fn) {
+        this.onChange = fn;
+    }
 
-        this.loadInitial = true;
-
-        this.selectedDate = moment(val).format();
-        this.selectedTime = moment(val).format('HH:mm');
-        if (val instanceof Date) {
-            this.value = moment(val).format();
-        } else {
-            this.value = val;
-        }
-        this.modelValue = this.value;
+    public registerOnTouched(fn) {
 
     }
+
+    public onTimeSelect($event) {
+        const setDate = moment(this.selectedDate);
+        const setTime = $event;
+        this.setDateTime(setDate, setTime);
+    }
+
+    public onDateSelect($event) {
+
+        const setDate = moment($event.value);
+        const setTime = this.selectedTime;
+        const dateString = this.setDateTime(setDate, setTime);
+
+        const selectedDate = $event.value;
+        this.value = dateString;
+
+    }
+
+
+    public setCurrentTime() {
+
+        const setDate = moment(this.selectedDate);
+        const currentTime = moment().format('HH:mm:ss');
+        this.setDateTime(setDate, currentTime);
+    }
+
+    public weekSelect($event) {
+        const dateToUse = moment().format();
+        const nextWeekDate = moment(dateToUse).add($event, 'weeks');
+        const nextWeekTime = dateToUse;
+        this.setDateTime(nextWeekDate, nextWeekTime);
+    }
+
 
     public getWeekPickerCssClass() {
         if (this.showTime) {
@@ -117,56 +129,22 @@ export class NgxDateTimePickerComponent implements OnInit, ControlValueAccessor 
         return 'col-sm-4 form-group';
     }
 
-    public registerOnChange(fn) {
-        this.onChange = fn;
-    }
-
-    public registerOnTouched(fn) {
-        this.onTouched = fn;
-    }
-
-    public onDateSelect(event) {
-        const setDate = moment(event.value);
-        const setTime = this.selectedTime;
-        this.setDateTime(setDate, setTime);
-
-    }
-    public onTimeSelect($event) {
-        const setDate = moment(this.selectedDate);
-        const setTime = $event;
-        this.setDateTime(setDate, setTime);
-    }
-
-    public setCurrentTime() {
-        const setDate = moment(this.selectedDate);
-        const currentTime = moment().format('HH:mm');
-        this.setDateTime(setDate, currentTime);
-    }
-
-    public weekSelect($event) {
-        const dateToUse = moment().format();
-        const nextWeekDate = moment(dateToUse).add($event, 'weeks');
-        const nextWeekTime = dateToUse;
-        this.setDateTime(nextWeekDate, nextWeekTime);
-    }
-
-    public setCurrentDate() {
-        const currentDay = moment();
-        const currentTime = moment().format('HH:mm');
-        this.setDateTime(currentDay, currentTime);
-
-
-    }
-
     public setDateTime(setDate, setTime) {
         const newDate = moment(setDate).format('DD-MM-YYYY');
-        const newTime = setTime;
-        const newDateTime = moment(newDate + '' + newTime, 'DD-MM-YYYY HH:mm');
+        let newTime;
+        if (this.showTime) {
+            newTime = setTime;
+        } else {
+            newTime = '00:00:00';
+        }
+        const newDateTime = moment(newDate + '' + newTime, 'DD-MM-YYYY HH:mm:ss');
         const dateTimeString = moment(newDateTime).format();
         this.selectedDate = dateTimeString;
         this.selectedTime = newTime;
-        this.modelValue = dateTimeString;
         this.value = dateTimeString;
+        this.onChange(this.value);
+
+        return dateTimeString;
 
 
     }
