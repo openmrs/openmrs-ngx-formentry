@@ -309,7 +309,7 @@
                                         "label": "Atazanavir "
                                     }
                                 ],
-                                "rendering": "multiCheckbox"
+                                "rendering": "single-select"
                             }
                         },
                         {
@@ -400,7 +400,7 @@
                                         "label": "Other"
                                     }
                                 ],
-                                "rendering": "multiCheckbox"
+                                "rendering": "multi-select"
                             }
                         }
                     ]

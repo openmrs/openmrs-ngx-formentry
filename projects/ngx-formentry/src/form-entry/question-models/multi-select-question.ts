@@ -8,7 +8,7 @@ export class MultiSelectQuestion extends SelectQuestion {
 
     constructor(options: MultiSelectQuestionOptions) {
         super(options);
-        this.renderingType = 'multi-select';
+        this.renderingType = 'multi-select'  || 'single-select';
         this.options = options.options || [];
         this.controlType = AfeControlType.AfeFormControl;
     }
