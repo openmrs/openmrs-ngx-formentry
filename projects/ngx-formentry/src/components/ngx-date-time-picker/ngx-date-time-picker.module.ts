@@ -9,8 +9,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule , MatInputModule } from '@angular/material';
 import { NgxDateTimePickerComponent } from './ngx-date-time-picker.component';
-import { AmazingTimePickerModule } from 'amazing-time-picker';
+// import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { MatSelectModule } from '@angular/material/select';
+import { DateTimePickerModule } from '../date-time-picker/date-time-picker.module';
 
 
 
@@ -23,7 +24,8 @@ import { MatSelectModule } from '@angular/material/select';
         MatFormFieldModule,
         MatNativeDateModule,
         MatInputModule,
-        AmazingTimePickerModule,
+        DateTimePickerModule,
+        // AmazingTimePickerModule,
         MatSelectModule
     ],
     declarations: [
