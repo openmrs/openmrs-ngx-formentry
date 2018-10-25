@@ -16,22 +16,17 @@
       </div>
     </div>
     <div [class]="getWeekPickerCssClass()" *ngIf="showWeeks">
-      <mat-select placeholder="Select Weeks" class="form-control" name="weeks" [value]="modelValue" (ngModelChange)="weekSelect($event)">
+      <mat-select placeholder="Select Weeks"  class="form-control" name="weeks" (selectionChange) ="weekSelect($event)">
         <mat-option *ngFor="let count of weeks" [value]="count">
           {{count}} Weeks
         </mat-option>
       </mat-select>
     </div>
     <div [class]="getTimePickerCssClass()" *ngIf="showTime">
-      <div class="input-group">
-        <input type="time" class="form-control" atp-time-picker [value]="selectedTime" (ngModelChange)="onTimeSelect($event)"
-          id="ngx-atp-time-picker" />
-        <div class="input-group-btn">
-          <button mat-raised-button class="btn btn-default" (click)="setCurrentTime()">
-            Set Current Time
-          </button>
-        </div>
-      </div>
+          <input type="text" class="form-control" [value]="value | date: 'shortTime'" (focus)="toggleTimePicker(true)" readonly placeholder="Select Time"
+          />
+          <time-picker *ngIf="showTimePicker" [initTime]="value" [use12Hour]="true" (onSelectTime)="onTimeSelect($event)" (onTimePickerCancel)="toggleTimePicker($event)"></time-picker>
     </div>
   </div>
 </div>
+
