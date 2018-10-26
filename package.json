@@ -1,7 +1,11 @@
 {
   "name": "ngx-openmrs-formentry",
   "main": "ngx-openmrs-formentry/dist/ngx-formentry",
+<<<<<<< HEAD
   "version": "2.11.3-SNAPSHOT",
+=======
+  "version": "2.10.0-SNAPSHOT",
+>>>>>>> Bump 2.10.0-SNAPSHOT
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
