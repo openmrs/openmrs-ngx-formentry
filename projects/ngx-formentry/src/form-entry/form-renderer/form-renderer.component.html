@@ -83,8 +83,11 @@
       <ngx-date-time-picker *ngSwitchCase="'date'" [showTime]="node.question.showTime" [id]="node.question.key + 'id'" 
             [formControlName]="node.question.key" [weeks]='node.question.extras.questionOptions.weeksList'
             (onDateChange)="onDateChanged(node)" [showWeeks]="node.question.showWeeksAdder" ></ngx-date-time-picker>
-      <ng-select *ngSwitchCase="'multi-select'" [noFilter]="50" [style.height]="'auto'"  [style.overflow-x]="'hidden'" tabindex="0" [formControlName]="node.question.key"
+      <ng-select *ngSwitchCase="'multi-select'" [style.height]="'auto'"  [style.overflow-x]="'hidden'" tabindex="0" [formControlName]="node.question.key"
         [id]="node.question.key + 'id'" [options]="node.question.options" [multiple]="true">
+      </ng-select>
+      <ng-select *ngSwitchCase="'single-select'" [style.height]='auto' tabindex="0" [formControlName]="node.question.key"
+      [id]="node.question.key + 'id'" [options]="node.question.options" [multiple]="false">
       </ng-select>
       <input class="form-control" *ngSwitchCase="'number'" [formControlName]="node.question.key " [attr.placeholder]="node.question.placeholder "
         [type]="'number'" [id]="node.question.key + 'id' " [step]="'any'" [min]="node.question.extras.questionOptions.min"

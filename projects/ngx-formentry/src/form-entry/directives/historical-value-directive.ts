@@ -51,7 +51,8 @@ export class HistoricalValueDirective {
       if (this._node.question.enableHistoricalValue && !_.isUndefined(this._node.question.historicalDataValue)) {
         const display: any = { text: '', _date: '' };
         if ((this._node.question.renderingType === 'select'
-          || this._node.question.renderingType === 'multi-select')) {
+          || this._node.question.renderingType === 'multi-select'
+          || this._node.question.renderingType === 'single-select')) {
 
           display.text = this.historicalFieldHelper.getDisplayTextFromOptions(
             this._node.question,

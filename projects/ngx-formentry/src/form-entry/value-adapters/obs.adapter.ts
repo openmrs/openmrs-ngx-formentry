@@ -82,7 +82,8 @@ export class ObsValueAdapter implements ValueAdapter {
             (node.question.extras.type === 'complex-obs-child' &&
             node.question.extras.questionOptions.obsField === 'value')) &&
             node.question.extras.questionOptions.rendering !== 'multiCheckbox' ||
-            node.question.extras.questionOptions.rendering !== 'checkbox') {
+            node.question.extras.questionOptions.rendering !== 'checkbox' ||
+            node.question.extras.questionOptions.rendering !== 'multi-select') {
             const obs = _.find(payload, (o: any) => {
                 return o.concept.uuid === node.question.extras.questionOptions.concept;
             });
@@ -341,7 +342,8 @@ export class ObsValueAdapter implements ValueAdapter {
             };
 
             if (obs.question.extras.questionOptions.rendering === 'multiCheckbox' ||
-            obs.question.extras.questionOptions.rendering === 'checkbox') {
+            obs.question.extras.questionOptions.rendering === 'checkbox' ||
+            obs.question.extras.questionOptions.rendering === 'multi-select') {
                 const multis = this.processMultiSelect(obs.question.extras.questionOptions.concept, obs.control.value);
                 if (obs.initialValue) {
                     const mappedInitial = obs.initialValue.map((a) => {

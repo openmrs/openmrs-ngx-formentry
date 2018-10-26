@@ -641,6 +641,10 @@ export class QuestionFactory {
     switch (renderType) {
       case 'select':
         return this.toSelectQuestion(schema);
+      case 'single-select':
+        return this.toSelectQuestion(schema);
+      case 'multi-select':
+        return this.toSelectQuestion(schema);
       case 'numeric':
         return this.toNumericQuestion(schema);
       case 'number':
