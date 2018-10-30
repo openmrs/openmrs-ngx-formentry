@@ -340,6 +340,7 @@ export class ObsAdapterHelper {
         }
 
         const valuePayload = this.getObsNodePayload(valueField);
+        console.log('valuePayload', valuePayload);
 
         // set obs datetime for the generated payload
         if (valuePayload.length > 0) {
@@ -567,9 +568,13 @@ export class ObsAdapterHelper {
     toOpenMrsDateTimeString(datetime: string): string {
         if (this.isEmpty(datetime)) {
             return undefined;
+        } else {
+            // transform value to memoent value to avoid error
+            const formattedVal = moment(datetime).format();
+            const val = formattedVal.substring(0, 19).replace('T', ' ');
+            return this.isEmpty(val) ? undefined : val;
+
         }
-        const val = datetime.substring(0, 19).replace('T', ' ');
-        return this.isEmpty(val) ? undefined : val;
     }
 
 }
