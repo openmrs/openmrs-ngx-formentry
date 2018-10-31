@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { MatTabsModule , MatIconModule , MatCardModule} from '@angular/material';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -45,7 +44,6 @@ import { SharedModule } from '../shared.module';
         SelectModule,
         DateTimePickerModule,
         RemoteSelectModule,
-        NoopAnimationsModule,
         RemoteFileUploadModule,
         EncounterViewerModule,
         CheckboxModule,
