@@ -78,7 +78,7 @@ export class AppComponent {
 
         this.dataSources.registerDataSource('file', {
             fileUpload: (data) => {
-                of({ image: 'https://unsplash.it/1040/720' });
+                return of({ image: 'https://unsplash.it/1040/720' });
             },
             fetchFile: (url) => {
                 console.log(url, 'APP COMPONENT');

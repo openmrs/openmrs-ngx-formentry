@@ -9,7 +9,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "ngx-bootstrap": "next",
-    "ngx-file-uploader": "git+https://github.com/enyachoke/ngx-file-uploader.git#0.0.9",
+    "ngx-file-uploader-ampath": "0.0.10",
     "reflect-metadata": "^0.1.9",
     "shelljs": "^0.7.0",
     "slick-carousel": "^1.6.0",

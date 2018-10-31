@@ -33,7 +33,7 @@
     "moment": "^2.17.1",
     "ngx-bootstrap": "next",
     "ngx-cookie": "^4.0.2",
-    "ngx-file-uploader": "git+https://github.com/Ampath/ngx-file-uploader.git#0.0.9",
+    "ngx-file-uploader-ampath": "0.0.10",
     "reflect-metadata": "^0.1.9",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.1",

@@ -685,8 +685,10 @@ export class QuestionFactory {
         return this.toCheckBoxQuestion(schema);
       case 'checkbox':
         return this.toCheckBoxQuestion(schema);
-        case 'encounterProvider':
+      case 'encounterProvider':
         return this.toEncounterProviderQuestion(schema);
+      case 'file':
+        return this.toFileUploadQuestion(schema);
       default:
         console.warn('New Schema Question Type found.........' + renderType);
         return this.toTextQuestion(schema);
@@ -720,7 +722,7 @@ export class QuestionFactory {
     dateField.questionOptions.rendering = 'date';
     dateField.questionOptions.obsField = 'obsDatetime';
     const dateOptions: any = (Object as any).assign({},
-    schemaQuestion.questionOptions.shownDateOptions);
+      schemaQuestion.questionOptions.shownDateOptions);
     dateField.validators = dateOptions.validators;
     dateField.hide = dateOptions.hide;
 
