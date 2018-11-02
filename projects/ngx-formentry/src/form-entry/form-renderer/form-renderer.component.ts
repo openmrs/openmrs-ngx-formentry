@@ -151,7 +151,7 @@ export class FormRendererComponent implements OnInit {
           const element: any = this.document.getElementById(elSelector);
           if (element !== null && element.focus) {
             element.focus();
-            element.scrollIntoView(true);
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
           }
         }, 100);
       });
