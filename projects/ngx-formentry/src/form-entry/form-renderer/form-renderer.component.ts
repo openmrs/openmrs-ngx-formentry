@@ -11,6 +11,10 @@ import { ValidationFactory } from '../form-factory/validation.factory';
 import { DataSource } from '../question-models/interfaces/data-source';
 import { FormErrorsService } from '../services/form-errors.service';
 import { QuestionGroup } from '../question-models/group-question';
+import { concat, of, Observable, Subject, BehaviorSubject } from 'rxjs';
+import * as _ from 'lodash';
+
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'form-renderer',
@@ -30,11 +34,15 @@ export class FormRendererComponent implements OnInit {
   public isCollapsed = false;
   public auto: any;
 
+  items$: Observable<any[]>;
+  itemsLoading = false;
+  itemsInput$ = new Subject<string>();
+
   constructor(
-  private validationFactory: ValidationFactory,
-  private dataSources: DataSources,
-  private formErrorsService: FormErrorsService,
-  @Inject(DOCUMENT) private document: any) {
+    private validationFactory: ValidationFactory,
+    private dataSources: DataSources,
+    private formErrorsService: FormErrorsService,
+    @Inject(DOCUMENT) private document: any) {
     this.activeTab = 0;
   }
 
@@ -69,8 +77,30 @@ export class FormRendererComponent implements OnInit {
 
   public setUpRemoteSelect() {
     if (this.node && this.node.question.extras &&
-    this.node.question.renderingType === 'remote-select') {
+      this.node.question.renderingType === 'remote-select') {
+      let selectQuestion = this.node.form.searchNodeByQuestionId(this.node.question.key)[0];
       this.dataSource = this.dataSources.dataSources[this.node.question.dataSource];
+      let defaltValues = of([]);
+      if (this.dataSource.resolveSelectedValue(selectQuestion.control.value)) {
+        defaltValues = this.dataSource.resolveSelectedValue(selectQuestion.control.value).pipe(
+           catchError(() => of([])), // empty list on error
+        );
+      }
+
+      this.items$ = concat(
+        defaltValues,
+        this.itemsInput$.pipe(
+          debounceTime(200),
+          distinctUntilChanged(),
+          tap(() => this.itemsLoading = true),
+          switchMap(term => this.dataSource.searchOptions(term).pipe(
+            catchError(() => of([])), // empty list on error
+            tap(() => {
+              this.itemsLoading = false
+            })
+          ))
+        )
+      );
       if (this.dataSource && this.node.question.dataSourceOptions) {
         this.dataSource.dataSourceOptions = this.node.question.dataSourceOptions;
       }
@@ -87,7 +117,7 @@ export class FormRendererComponent implements OnInit {
   }
 
 
- public clickTab(tabNumber) {
+  public clickTab(tabNumber) {
     this.activeTab = tabNumber;
   }
 
@@ -98,35 +128,35 @@ export class FormRendererComponent implements OnInit {
     }
   }
 
-  public  isCurrentTabFirst() {
+  public isCurrentTabFirst() {
     return this.activeTab === 0;
   }
 
-  public  isCurrentTabLast() {
+  public isCurrentTabLast() {
     return this.activeTab === this.node.question['questions'].length - 1;
   }
 
-  public  loadNextTab() {
+  public loadNextTab() {
     if (!this.isCurrentTabLast()) {
       this.clickTab(this.activeTab + 1);
       document.body.scrollTop = 0;
     }
   }
-  public  tabSelected($event) {
-    this.activeTab = $event;
+  public tabSelected($event) {
+    this.activeTab = $event.index;
     this.setPreviousTab();
   }
-  public  setPreviousTab() {
+  public setPreviousTab() {
     if (this.node && this.node.form) {
       this.node.form.valueProcessingInfo['lastFormTab'] = this.activeTab;
     }
 
   }
- public   hasErrors() {
+  public hasErrors() {
     return this.node.control.touched && !this.node.control.valid;
   }
 
-  public  errors() {
+  public errors() {
     return this.getErrors(this.node);
   }
 
@@ -173,17 +203,17 @@ export class FormRendererComponent implements OnInit {
     const e = document.getElementById(infoId);
 
     if (e.style.display === 'block') {
-        e.style.display = 'none';
-     } else {
-        e.style.display = 'block';
-     }
+      e.style.display = 'none';
+    } else {
+      e.style.display = 'block';
+    }
 
 
     console.log('InfoId', infoId);
   }
 
 
-   private getErrors(node: NodeBase) {
+  private getErrors(node: NodeBase) {
     const errors: any = node.control.errors;
 
     if (errors) {

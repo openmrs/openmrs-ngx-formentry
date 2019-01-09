@@ -3,11 +3,11 @@ import { Http, ResponseContentType, Headers } from '@angular/http';
 import { Subscriber } from 'rxjs';
 
 import {
-  QuestionFactory, Form, FormFactory, ObsValueAdapter, OrderValueAdapter,
-  EncounterAdapter, DataSources, FormErrorsService
+    QuestionFactory, Form, FormFactory, ObsValueAdapter, OrderValueAdapter,
+    EncounterAdapter, DataSources, FormErrorsService
 } from '../../dist/ngx-formentry';
 import { FormGroup } from '@angular/forms';
-import { Observable, Subject , of} from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 
 import { MockObs } from './mock/mock-obs';
 
@@ -15,30 +15,30 @@ const adultForm = require('./adult.json');
 const adultFormObs = require('./mock/obs.json');
 const formOrdersPayload = require('./mock/orders.json');
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  data: any;
-  schema: any;
-  sections: {} = {};
-  formGroup: FormGroup;
-  activeTab = 0;
-  form: Form;
-  stack = [];
-  encounterObject = adultFormObs;
-  showingEncounterViewer = false;
-   public header: string = 'UMD Demo';
-  constructor(private questionFactory: QuestionFactory,
-              private formFactory: FormFactory, private obsValueAdapater: ObsValueAdapter,
-              private orderAdaptor: OrderValueAdapter,
-              private encAdapter: EncounterAdapter, private dataSources: DataSources,
-              private formErrorsService: FormErrorsService, private http: Http) {
-    this.schema = adultForm;
+    data: any;
+    schema: any;
+    sections: {} = {};
+    formGroup: FormGroup;
+    activeTab = 0;
+    form: Form;
+    stack = [];
+    encounterObject = adultFormObs;
+    showingEncounterViewer = false;
+    public header: string = 'UMD Demo';
+    constructor(private questionFactory: QuestionFactory,
+        private formFactory: FormFactory, private obsValueAdapater: ObsValueAdapter,
+        private orderAdaptor: OrderValueAdapter,
+        private encAdapter: EncounterAdapter, private dataSources: DataSources,
+        private formErrorsService: FormErrorsService, private http: Http) {
+        this.schema = adultForm;
 
-  }
-  ngOnInit() {
+    }
+    ngOnInit() {
         this.dataSources.registerDataSource('drug', { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
         this.dataSources.registerDataSource('personAttribute',
             { searchOptions: this.sampleSearch, resolveSelectedValue: this.sampleResolve });
@@ -122,7 +122,7 @@ export class AppComponent {
 
         // // Set orders
         // this.orderAdaptor.populateForm(this.form, formOrdersPayload);
-
+        this.loadDefaultValues();
     }
 
     setUpCascadeSelectForWHOStaging() {
@@ -131,7 +131,7 @@ export class AppComponent {
         source.dataFromSourceChanged = subject.asObservable();
 
         let whoStageQuestion = this.form.searchNodeByQuestionId('adultWHOStage')[0];
-        if(whoStageQuestion){
+        if (whoStageQuestion) {
             whoStageQuestion.control.valueChanges.subscribe((val) => {
                 if (source.dataFromSourceChanged) {
                     console.log('changing value for WHO', val);
@@ -143,7 +143,21 @@ export class AppComponent {
                 }
             });
         }
-       
+
+    }
+
+    public loadDefaultValues(): void {
+
+        let encounterLocation = this.form.searchNodeByQuestionId('location', 'encounterLocation');
+        encounterLocation[0].control.setValue('5b6e58ea-1359-11df-a1f1-0026b9348838');
+
+
+        let encounterProvider = this.form.searchNodeByQuestionId('provider',
+            'encounterProvider');
+
+        if (encounterProvider.length > 0) {
+            encounterProvider[0].control.setValue('5b6e58ea-1359-11df-a1f1-0026b9348838');
+        }
     }
 
     getSectionData(sectionId) {
@@ -161,13 +175,8 @@ export class AppComponent {
         this.form = this.formFactory.createForm(this.schema, this.dataSources.dataSources);
     }
     sampleResolve(): Observable<any> {
-        let item = { value: '1', label: 'Art3mis' };
-        return Observable.create((observer: Subject<any>) => {
-            setTimeout(() => {
-                observer.next(item);
-            }, 1000);
-
-        });
+        let items = [{ value: '5b6e58ea-1359-11df-a1f1-0026b9348838', label: 'Art3mis' }];
+        return of(items);
     }
     sampleSearch(): Observable<any> {
         let items: Array<any> = [{ value: '0', label: 'Aech' },
@@ -175,12 +184,7 @@ export class AppComponent {
         { value: '2', label: 'Daito' },
         { value: '3', label: 'Parzival' },
         { value: '4', label: 'Shoto' }];
-        return Observable.create((observer: Subject<any>) => {
-            setTimeout(() => {
-                observer.next(items);
-            }, 1000);
-
-        });
+        return of(items);
     }
 
     onSubmit($event) {
@@ -221,6 +225,6 @@ export class AppComponent {
 
     public toggleEncounterViewer() {
         this.showingEncounterViewer === true ?
-        this.showingEncounterViewer = false : this.showingEncounterViewer = true;
+            this.showingEncounterViewer = false : this.showingEncounterViewer = true;
     }
 }

@@ -12,8 +12,9 @@ import { QuestionFactory } from '../form-factory/question.factory';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
 import { NodeBase, ArrayNode, LeafNode } from '../form-factory/form-node';
 
-import { OrderValueAdapter, ObsValueAdapter, ObsAdapterHelper } from '.';
-
+import { ObsAdapterHelper } from './obs-adapter-helper';
+import { ObsValueAdapter } from './obs.adapter';
+import { OrderValueAdapter } from './order.adapter';
 import { DebugModeService } from './../services/debug-mode.service';
 
 const adultForm = require('../../adult.json');

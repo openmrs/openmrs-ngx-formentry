@@ -96,7 +96,12 @@ export class NgxDateTimePickerComponent implements OnInit, ControlValueAccessor 
     }
 
     public weekSelect($event) {
-        const dateToUse = moment().format();
+        let dateToUse;
+        if (this.value === '' || typeof this.value === 'undefined') {
+            dateToUse = moment().format();
+        } else {
+            dateToUse = moment(this.value).format();
+        }
         const nextWeekDate = moment(dateToUse).add($event.value, 'weeks');
         const nextWeekTime = dateToUse;
         this.setDateTime(nextWeekDate, nextWeekTime);

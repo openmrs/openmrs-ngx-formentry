@@ -14,7 +14,7 @@ import { ExpressionRunner } from '../../form-entry/expression-runner/expression-
 import { JsExpressionHelper } from '../../form-entry/helpers/js-expression-helper';
 import { ControlRelationsFactory } from '../../form-entry/form-factory/control-relations.factory';
 import { Form } from '../form-factory/form';
-import { ObsValueAdapter } from '.';
+import { ObsValueAdapter } from './obs.adapter';
 import { ObsAdapterHelper } from './obs-adapter-helper';
 import { DebugModeService } from './../services/debug-mode.service';
 
