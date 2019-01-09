@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatTabsModule , MatIconModule , MatCardModule} from '@angular/material';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -12,7 +13,8 @@ import { FormRendererComponent } from './form-renderer/form-renderer.component';
 import { ErrorRendererComponent } from './error-renderer/error-renderer.component';
 import { HistoricalValueDirective } from './directives/historical-value-directive';
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
-import { SelectModule } from '../components/select/select.module';
+// import { SelectModule } from '../components/select/select.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { RemoteFileUploadModule } from '../components/file-upload/file-upload.module';
 import { DateTimePickerModule } from '../components/date-time-picker/date-time-picker.module';
 import { NgxDateTimePickerModule } from '../components/ngx-date-time-picker/ngx-date-time-picker.module';
@@ -41,9 +43,10 @@ import { SharedModule } from '../shared.module';
     imports: [CommonModule,
         ReactiveFormsModule,
         CollapseModule,
-        SelectModule,
+        NgSelectModule,
         DateTimePickerModule,
         RemoteSelectModule,
+        NoopAnimationsModule,
         RemoteFileUploadModule,
         EncounterViewerModule,
         CheckboxModule,

@@ -35,14 +35,26 @@ export class EncounterViewerComponent implements OnInit {
      @Input() set form(form: any) {
          this.rootNode = form.rootNode;
          this._schema = form.schema;
-         console.log(this.rootNode);
+         console.log(this.getQuestionNodes(this.traverse(this.rootNode)));
     }
 
     constructor(private encounterViewerService: EncounterViewerService,
                private dataSources: DataSources) {
     }
 
+    
+    getQuestionNodes(pages) {
+        const merged = [];
+        const arrays = [];
+        for (const page of pages) {
+            arrays.push(page.page);
+        }
+        return merged.concat.apply([], arrays);
+    }
     public ngOnInit() {
+        if(this.rootNode){
+            
+        }
         if (this.rootNode && this.rootNode.question.extras
             && this.rootNode.question.renderingType === 'file') {
                 this.fileDataSource =
@@ -68,6 +80,56 @@ export class EncounterViewerComponent implements OnInit {
 
     public checkForColon(questionLabel: string) {
         if (questionLabel.indexOf(':') === -1) { return true; } else { return false; }
+    }
+
+    traverse(o, type?) {
+        const questions = [];
+        if (o.children) {
+            if (o.children instanceof Array) {
+                const returned = this.repeatingGroup(o.children);
+                return returned;
+            }
+            if (o.children instanceof Object) {
+                for (const key in o.children) {
+                    if (o.children.hasOwnProperty(key)) {
+                        switch (o.children[key].question.renderingType) {
+                            case 'page':
+                                const page = this.traverse(o.children[key]);
+                                questions.push({ page: page });
+                                break;
+                            case 'section':
+                                const section = this.traverse(o.children[key]);
+                                questions.push({ section: section });
+                                break;
+                            case 'group':
+                                const qs = this.traverse(o.children[key]);
+                                questions.push({ node: o.children[key], question: o.children[key].question, groupMembers: qs });
+                                break;
+                            case 'repeating':
+                                const rep = this.repeatingGroup(o.children[key].children);
+                                questions.push({ node: o.children[key], question: o.children[key].question, groupMembers: rep });
+                                break;
+                            default:
+                                questions.push(o.children[key]);
+                                break;
+
+                        }
+                    }
+                }
+            }else{
+                console.log('Console.log',o);
+            }
+
+        }
+        return questions;
+    }
+
+    repeatingGroup(nodes) {
+        const toReturn = [];
+        for (const node of nodes) {
+            toReturn.push({ question: node.question, groupMembers: this.traverse(node) });
+        }
+        return toReturn;
     }
 
 }
