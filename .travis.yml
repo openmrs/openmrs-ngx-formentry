@@ -9,4 +9,4 @@ script:
 addons:
   apt:
     packages:
-    - google-chrome-stabl
+    - google-chrome-stable
