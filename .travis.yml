@@ -6,3 +6,7 @@ install:
 script:
   - npm run build:lib
   - npm run test
+addons:
+  apt:
+    packages:
+    - google-chrome-stabl
