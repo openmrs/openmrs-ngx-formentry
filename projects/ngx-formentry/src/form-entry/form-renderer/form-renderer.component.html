@@ -29,7 +29,7 @@
   <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this" [node]="node.children[question.key]"
     [parentGroup]="parentGroup"></form-renderer>
 </div>
-<div *ngIf="node.question.renderingType === 'section'">
+<div *ngIf="node.question.renderingType === 'section' && checkSection(node)"> 
   <div class="panel  panel-primary">
     <div class="panel-heading">
       <button type="button" class="btn btn-primary pull-right" (click)="isCollapsed = !isCollapsed">
