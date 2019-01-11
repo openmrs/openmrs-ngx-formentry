@@ -1,11 +1,11 @@
 import {
-  Component, OnInit, Input, Inject
+  Component, OnInit, Input, Inject, OnChanges, SimpleChanges
 } from '@angular/core';
 import 'hammerjs';
 import { DEFAULT_STYLES } from './form-renderer.component.css';
 import { DOCUMENT } from '@angular/common';
 import { DataSources } from '../data-sources/data-sources';
-import { NodeBase, LeafNode } from '../form-factory/form-node';
+import { NodeBase, LeafNode, GroupNode } from '../form-factory/form-node';
 import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
 import { ValidationFactory } from '../form-factory/validation.factory';
 import { DataSource } from '../question-models/interfaces/data-source';
@@ -15,6 +15,7 @@ import { concat, of, Observable, Subject, BehaviorSubject } from 'rxjs';
 import * as _ from 'lodash';
 
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+import { QuestionBase } from '../question-models';
 
 @Component({
   selector: 'form-renderer',
@@ -22,6 +23,7 @@ import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } f
   styles: ['../../style/app.css', DEFAULT_STYLES]
 })
 export class FormRendererComponent implements OnInit {
+
 
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
@@ -71,6 +73,8 @@ export class FormRendererComponent implements OnInit {
     }
   }
 
+
+
   public addChildComponent(child: FormRendererComponent) {
     this.childComponents.push(child);
   }
@@ -83,7 +87,7 @@ export class FormRendererComponent implements OnInit {
       let defaltValues = of([]);
       if (this.dataSource.resolveSelectedValue(selectQuestion.control.value)) {
         defaltValues = this.dataSource.resolveSelectedValue(selectQuestion.control.value).pipe(
-           catchError(() => of([])), // empty list on error
+          catchError(() => of([])), // empty list on error
         );
       }
 
@@ -116,6 +120,20 @@ export class FormRendererComponent implements OnInit {
 
   }
 
+  checkSection(node: NodeBase) {
+    if (node.question.renderingType === 'section') {
+      let groupChildrenHidden = false;
+      let allSectionControlsHidden = Object.keys(node.children).every((k) => {
+        let innerNode = node.children[k];
+        if (innerNode instanceof GroupNode) {
+          groupChildrenHidden = Object.keys(innerNode.children).every((i) => innerNode.children[i].control.hidden)
+        }
+        return node.children[k].control.hidden || groupChildrenHidden;
+      });
+      return !allSectionControlsHidden;
+    }
+    return true;
+  }
 
   public clickTab(tabNumber) {
     this.activeTab = tabNumber;
