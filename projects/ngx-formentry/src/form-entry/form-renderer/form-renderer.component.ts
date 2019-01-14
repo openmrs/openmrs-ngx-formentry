@@ -11,11 +11,11 @@ import { ValidationFactory } from '../form-factory/validation.factory';
 import { DataSource } from '../question-models/interfaces/data-source';
 import { FormErrorsService } from '../services/form-errors.service';
 import { QuestionGroup } from '../question-models/group-question';
-import { concat, of, Observable, Subject, BehaviorSubject } from 'rxjs';
-import * as _ from 'lodash';
+// import { concat, of, Observable, Subject, BehaviorSubject } from 'rxjs';
+// import * as _ from 'lodash';
 
-import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
-import { QuestionBase } from '../question-models';
+// import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
+// import { QuestionBase } from '../question-models';
 
 @Component({
   selector: 'form-renderer',
@@ -36,9 +36,9 @@ export class FormRendererComponent implements OnInit {
   public isCollapsed = false;
   public auto: any;
 
-  items$: Observable<any[]>;
-  itemsLoading = false;
-  itemsInput$ = new Subject<string>();
+  // items$: Observable<any[]>;
+  // itemsLoading = false;
+  // itemsInput$ = new Subject<string>();
 
   constructor(
     private validationFactory: ValidationFactory,
@@ -82,15 +82,15 @@ export class FormRendererComponent implements OnInit {
   public setUpRemoteSelect() {
     if (this.node && this.node.question.extras &&
       this.node.question.renderingType === 'remote-select') {
-      let selectQuestion = this.node.form.searchNodeByQuestionId(this.node.question.key)[0];
+      // let selectQuestion = this.node.form.searchNodeByQuestionId(this.node.question.key)[0];
       this.dataSource = this.dataSources.dataSources[this.node.question.dataSource];
+     /*
       let defaltValues = of([]);
       if (this.dataSource.resolveSelectedValue(selectQuestion.control.value)) {
         defaltValues = this.dataSource.resolveSelectedValue(selectQuestion.control.value).pipe(
           catchError(() => of([])), // empty list on error
         );
       }
-
       this.items$ = concat(
         defaltValues,
         this.itemsInput$.pipe(
@@ -105,6 +105,7 @@ export class FormRendererComponent implements OnInit {
           ))
         )
       );
+      */
       if (this.dataSource && this.node.question.dataSourceOptions) {
         this.dataSource.dataSourceOptions = this.node.question.dataSourceOptions;
       }

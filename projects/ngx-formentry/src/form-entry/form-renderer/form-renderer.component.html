@@ -74,12 +74,13 @@
       <textarea [placeholder]="node.question.placeholder" [rows]="node.question.rows" class="form-control"
         *ngSwitchCase="'textarea'" [formControlName]="node.question.key" [id]="node.question.key + 'id'">
       </textarea>
-
+      <!--
       <ng-select *ngSwitchCase="'remote-select'" [items]="items$ | async" bindLabel="label" bindValue="value" placeholder="{{node.question.placeholder}}"
         [hideSelected]="true" [loading]="itemsLoading"  [typeahead]="itemsInput$" [formControlName]="node.question.key" [id]="node.question.key + 'id'">
       </ng-select>
-      <!-- <remote-select *ngSwitchCase="'remote-select'" [placeholder]="node.question.placeholder" tabindex="0"
-        [dataSource]="dataSource" [componentID]="node.question.key + 'id'" [formControlName]="node.question.key" [id]="node.question.key + 'id'"></remote-select> -->
+    -->
+      <remote-select *ngSwitchCase="'remote-select'" [placeholder]="node.question.placeholder" tabindex="0"
+        [dataSource]="dataSource" [componentID]="node.question.key + 'id'" [formControlName]="node.question.key" [id]="node.question.key + 'id'"></remote-select>
       <!--  
       <date-time-picker *ngSwitchCase="'date'" [showTime]="node.question.showTime" tabindex="0" [weeks]='node.question.extras.questionOptions.weeksList'
         (onDateChange)="onDateChanged(node)" [showWeeks]="node.question.showWeeksAdder" [formControlName]="node.question.key"
@@ -89,11 +90,11 @@
       <ngx-date-time-picker *ngSwitchCase="'date'" [showTime]="node.question.showTime" [id]="node.question.key + 'id'"
         [formControlName]="node.question.key" [weeks]='node.question.extras.questionOptions.weeksList' (onDateChange)="onDateChanged(node)"
         [showWeeks]="node.question.showWeeksAdder"></ngx-date-time-picker>
-      <ng-select *ngSwitchCase="'multi-select'" tabindex="0" [formControlName]="node.question.key" [id]="node.question.key + 'id'"
-        bindLabel="label" bindValue="value" [items]="node.question.options" [multiple]="true" placeholder="{{node.question.placeholder}}">
+      <ng-select *ngSwitchCase="'multi-select'" [style.height]="'auto'"  [style.overflow-x]="'hidden'" tabindex="0" [formControlName]="node.question.key" [id]="node.question.key + 'id'"
+          [options]="node.question.options" [multiple]="true">
       </ng-select>
-      <ng-select *ngSwitchCase="'single-select'" bindLabel="label" bindValue="value" tabindex="0" [formControlName]="node.question.key"
-        [id]="node.question.key + 'id'" [items]="node.question.options" [multiple]="false" placeholder="{{node.question.placeholder}}">
+      <ng-select *ngSwitchCase="'single-select'" [style.height]='auto'  tabindex="0" [formControlName]="node.question.key"
+        [id]="node.question.key + 'id'" [options]="node.question.options" [multiple]="false">
       </ng-select>
       <input class="form-control" *ngSwitchCase="'number'" [formControlName]="node.question.key " [attr.placeholder]="node.question.placeholder "
         [type]="'number'" [id]="node.question.key + 'id' " [step]="'any'" [min]="node.question.extras.questionOptions.min"

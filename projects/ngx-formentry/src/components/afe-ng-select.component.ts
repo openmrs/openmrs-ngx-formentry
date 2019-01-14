@@ -10,7 +10,12 @@ import { DataSource } from '../form-entry/question-models/interfaces/data-source
 
 @Component({
   selector: 'afe-ng-select',
-  template: `
+  template: `<ng-select
+                   (searchInputText)="getChangingText($event)"
+                    (ngModelChange)="onValueChange($event)"
+                    [options]="question_options"
+                    [multiple]="multiple" >
+            </ng-select>
   `,
   providers: [
     {
