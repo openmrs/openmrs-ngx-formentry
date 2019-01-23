@@ -449,11 +449,11 @@ export class ObsValueAdapter implements ValueAdapter {
                         switch (o.children[key].question.renderingType) {
                             case 'page':
                                 const page = this.traverse(o.children[key]);
-                                questions.push({ page: page });
+                                questions.push({ page: page, label: o.children[key].question.label });
                                 break;
                             case 'section':
                                 const section = this.traverse(o.children[key]);
-                                questions.push({ section: section });
+                                questions.push({ section: section, node: o.children[key], label: o.children[key].question.label });
                                 break;
                             case 'group':
                                 const qs = this.traverse(o.children[key]);

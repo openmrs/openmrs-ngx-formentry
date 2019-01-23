@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Form } from '../../form-entry/form-factory/form';
 import { NodeBase } from '../../form-entry/form-factory/form-node';
 import { EncounterAdapter } from '../../form-entry/value-adapters/encounter.adapter';
+
+import { EncounterPdfViewerService } from '../encounter-pdf-viewer.service';
+
 @Component({
     selector: 'encounter-renderer',
     templateUrl: './encounter-container.component.html',
@@ -18,8 +21,14 @@ export class EncounterContainerComponent implements OnInit {
         this.$enc = enc;
     }
 
-    constructor(private encAdapter: EncounterAdapter) { }
+    constructor(
+        private encAdapter: EncounterAdapter,
+        private encounterPdfViewerService: EncounterPdfViewerService) { }
 
     ngOnInit() {
+    }
+
+    displayPdf() {
+        this.encounterPdfViewerService.displayPdf(this.$form);
     }
 }
