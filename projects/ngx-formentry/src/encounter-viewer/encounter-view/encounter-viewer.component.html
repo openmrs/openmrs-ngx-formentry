@@ -1,6 +1,5 @@
 <div class="viewer">
 
-
   <div *ngIf="rootNode.question.renderingType === 'form'" class="form">
     <div *ngFor="let question of rootNode.question.questions; let i = index;">
       <div *ngIf="questionsAnswered(rootNode.children[question.key])">

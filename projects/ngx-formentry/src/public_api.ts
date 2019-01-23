@@ -7,6 +7,7 @@ export { AfeFormControl } from './abstract-controls-extension/afe-form-control';
 export { AfeFormGroup } from './abstract-controls-extension/afe-form-group';
 export { AfeFormArray } from './abstract-controls-extension/afe-form-array';
 export { AfeControlType } from './abstract-controls-extension/afe-control-type';
+export { EncounterPdfViewerService } from './encounter-viewer/encounter-pdf-viewer.service';
 export { ControlRelationsFactory } from './form-entry/form-factory/control-relations.factory';
 export { FormControlService } from './form-entry/form-factory/form-control.service';
 export { FormFactory } from './form-entry/form-factory/form.factory';

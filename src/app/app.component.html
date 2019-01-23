@@ -3,18 +3,18 @@
 			<button class="btn btn-success btn-lg" (click)="toggleEncounterViewer()">{{!showingEncounterViewer ? 'Show Encounter Viewer' : 'Show Form Renderer'}}</button>	
 	</div>
 
-<div *ngIf="!showingEncounterViewer">
-	<error-renderer [form]="form"></error-renderer>
-	<form [formGroup]="form.rootNode.control">
-		<form-renderer [node]="form.rootNode"></form-renderer>
-		<div class="form-row">
-			<button type="submit" (click)="onSubmit($event)">Save</button>
-		</div>
-	</form>
-</div>
+	<div *ngIf="!showingEncounterViewer">
+		<error-renderer [form]="form"></error-renderer>
+		<form [formGroup]="form.rootNode.control">
+			<form-renderer [node]="form.rootNode"></form-renderer>
+			<div class="form-row">
+				<button type="submit" (click)="onSubmit($event)">Save</button>
+			</div>
+		</form>
+	</div>
 
-<div *ngIf="showingEncounterViewer && form">
-	<encounter-renderer [form]="form" [encounter]="encounterObject"></encounter-renderer>
-</div>
+	<div *ngIf="showingEncounterViewer && form">
+		<encounter-renderer [form]="form" [encounter]="encounterObject"></encounter-renderer>
+	</div>
 </div>
 
