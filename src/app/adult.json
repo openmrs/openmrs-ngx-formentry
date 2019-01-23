@@ -1256,6 +1256,9 @@
             "required": "true",
             "id": "onArt",
             "historicalExpression": "arrayContainsAny(['a89b7c50-1350-11df-a1f1-0026b9348838','a89b7ae8-1350-11df-a1f1-0026b9348838','a8a00220-1350-11df-a1f1-0026b9348838','a89b77aa-1350-11df-a1f1-0026b9348838'], HD.getObject('prevEnc').getValue('a89b75d4-1350-11df-a1f1-0026b9348838')) ? 'a899b35c-1350-11df-a1f1-0026b9348838' : HD.getObject('prevEnc').getValue('a89ae254-1350-11df-a1f1-0026b9348838')",
+            "historicalPrepopulateCondition":"moment().diff(histValue.valueDate, 'days') < 4000",
+            "historicalPrepopulate":true,
+            "allowedHistoricalValueAgeInDays": 40000,
             "questionOptions": {
               "concept": "a89ae254-1350-11df-a1f1-0026b9348838",
               "answers": [{

@@ -112,7 +112,7 @@ export class AppComponent {
         // Set encounter, obs, orders
 
         adultFormObs.orders = formOrdersPayload.orders;
-        this.encAdapter.populateForm(this.form, adultFormObs);
+        //this.encAdapter.populateForm(this.form, adultFormObs);
 
         this.setUpCascadeSelectForWHOStaging();
 

@@ -1,4 +1,7 @@
 import * as _ from 'lodash';
+import * as moment_ from 'moment';
+
+const moment = moment_;
 
 import { TextInputQuestion } from '../question-models/text-input-question';
 import { TextAreaInputQuestion } from '../question-models/text-area-input-question';
@@ -817,10 +820,35 @@ export class QuestionFactory {
         question.showHistoricalEncounterDate();
       }
       const origValue = this.historicalHelperService.evaluate(schemaQuestion.historicalExpression,
-        this.dataSources);
+        this.dataSources, undefined);
       question.historicalDataValue = origValue;
-      if (schemaQuestion.historicalPrepopulate) {
-        question.defaultValue = origValue;
+      // console.info('historical value', origValue);
+      // console.info('historical data question :::', question);
+      // console.info('schema data question :::', schemaQuestion);
+
+      if (schemaQuestion.historicalPrepopulateCondition && origValue) {
+        const toPopulate = this.historicalHelperService.evaluatePrecondition(schemaQuestion.historicalPrepopulateCondition,
+          this.dataSources, origValue);
+
+        if (toPopulate) {
+          question.defaultValue = origValue.value;
+        }
+        return; // don't try to evaluate the other option
+      }
+
+      if (schemaQuestion.historicalPrepopulate && origValue) {
+        // sample schema options for this branch
+        // "historicalPrepopulate":true,
+        // "allowedHistoricalValueAgeInDays": 40000,
+        const valDate = moment(origValue.valueDate);
+        const differenceInDays = moment().diff(valDate, 'days');
+        if (Number.isInteger(schemaQuestion.allowedHistoricalValueAgeInDays)) {
+          if (differenceInDays <= schemaQuestion.allowedHistoricalValueAgeInDays) {
+            question.defaultValue = origValue.value;
+          }
+        } else {
+          question.defaultValue = origValue.value;
+        }
       }
     }
   }
