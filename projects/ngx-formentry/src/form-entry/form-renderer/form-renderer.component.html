@@ -115,7 +115,7 @@
         <checkbox [id]="node.question.key + 'id'" [formControlName]="node.question.key" [options]="node.question.options"></checkbox>
       </div>
 
-      <div *ngIf="node.question.enableHistoricalValue && node.question.historicalDisplay">
+      <div *ngIf="node.question.enableHistoricalValue && node.question.historicalDisplay" style="margin-top: 2px;">
         <div class="container-fluid">
           <div class="row">
             <div class="col-xs-9">
@@ -123,7 +123,8 @@
               <strong>{{node.question.historicalDisplay?.text}}</strong>
               <span *ngIf="node.question.showHistoricalValueDate">
                 <span> | </span>
-                <strong class="text-primary">{{node.question.historicalDisplay?._date}}</strong>
+                <strong class="text-primary">{{node.question.historicalDisplay?._date}} </strong>
+                <span class="text-primary" *ngIf="node.question.historicalDisplay && node.question.historicalDisplay._date "> ({{node.question.historicalDisplay._date | timeAgo}})</span>
               </span>
 
             </div>

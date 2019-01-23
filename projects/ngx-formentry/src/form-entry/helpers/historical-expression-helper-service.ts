@@ -11,12 +11,20 @@ export class HistoricalHelperService {
   constructor() {
   }
 
-  public evaluate(expr: string, dataSources: any): any {
+  public evaluate(expr: string, dataSources: any, additionalScopevalues: any): any {
     const HD = new HistoricalEncounterDataService();
     HD.registerEncounters('prevEnc', dataSources['rawPrevEnc']);
     const deps: any = {
       HD: HD
     };
+
+    if (additionalScopevalues) {
+      for (const o in additionalScopevalues) {
+        if (additionalScopevalues[o]) {
+          deps[o] = additionalScopevalues[o];
+        }
+      }
+    }
 
     const helper = new JsExpressionHelper();
     const control: AfeFormControl = new AfeFormControl();
@@ -24,6 +32,14 @@ export class HistoricalHelperService {
     const runnable: Runnable = runner.getRunnable(expr, control, helper.helperFunctions, deps);
 
     return runnable.run();
+  }
+
+  public evaluatePrecondition(expr: string, dataSources: any, historicalValue: any): any {
+    const additionalScope = {
+      histValue: historicalValue
+    };
+
+    return this.evaluate(expr, dataSources, additionalScope);
   }
 
 }

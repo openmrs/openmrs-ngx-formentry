@@ -37,6 +37,7 @@ import { AppointmentsOverviewComponent} from '../components/appointments-overvie
 import { EncounterViewerModule } from '../encounter-viewer/encounter-viewer.module';
 import { CheckboxModule } from '../components/check-box/checkbox.module';
 import { SharedModule } from '../shared.module';
+import { TimeAgoPipe } from 'time-ago-pipe';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { SharedModule } from '../shared.module';
         AfeNgSelectComponent,
         AppointmentsOverviewComponent,
         HistoricalValueDirective,
-        ErrorRendererComponent
+        ErrorRendererComponent,
+        TimeAgoPipe
     ],
     providers: [
         FormBuilder,
