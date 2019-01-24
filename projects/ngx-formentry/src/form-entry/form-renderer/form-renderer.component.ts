@@ -162,7 +162,7 @@ export class FormRendererComponent implements OnInit {
     }
   }
   public tabSelected($event) {
-    this.activeTab = $event.index;
+    this.activeTab = $event;
     this.setPreviousTab();
   }
   public setPreviousTab() {
