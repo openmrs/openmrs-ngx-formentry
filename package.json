@@ -36,7 +36,7 @@
     "ngx-file-uploader-ampath": "0.0.10",
     "pdfmake": "^0.1.40",
     "reflect-metadata": "^0.1.9",
-    "rxjs": "^6.0.0",
+    "rxjs": "~6.3.3",
     "rxjs-compat": "^6.2.1",
     "shelljs": "^0.7.0",
     "slick-carousel": "^1.6.0",
