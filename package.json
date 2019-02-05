@@ -34,7 +34,7 @@
     "ngx-bootstrap": "next",
     "ngx-cookie": "^4.0.2",
     "ngx-file-uploader-ampath": "0.0.10",
-    "pdfmake": "^0.1.40",
+    "pdfmake": "0.1.40",
     "reflect-metadata": "^0.1.9",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.2.1",
