@@ -1,5 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
-import { NgxFormentryModule, FormEntryModule } from 'projects/ngx-formentry/src/public_api';
+import { FormEntryModule } from 'projects/ngx-formentry/src/public_api';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ describe('AppComponent', () => {
         AppComponent
       ],
       imports: [
-        BrowserModule, NgxFormentryModule, FormEntryModule, ReactiveFormsModule
+        BrowserModule, FormEntryModule, ReactiveFormsModule
       ],
     }).compileComponents();
   }));
