@@ -129,7 +129,7 @@ export class EncounterPdfViewerService {
     }
   }
 
-  appendResolvedAnswer(resolvedAnswer: any, questions: any, node?: any) {
+  private appendResolvedAnswer(resolvedAnswer: any, questions: any, node?: any) {
     if (resolvedAnswer) {
       questions.stack.push({
         text: [
@@ -205,8 +205,10 @@ export class EncounterPdfViewerService {
 
         default:
           const answer = node.control.value;
-          resolvedAnswer = this.resolveValue(answer, form);
-          this.appendResolvedAnswer(resolvedAnswer, questions, node);
+          if (answer) {
+            resolvedAnswer = this.resolveValue(answer, form);
+            this.appendResolvedAnswer(resolvedAnswer, questions, node);
+          }
       }
     }
 
@@ -257,10 +259,22 @@ export class EncounterPdfViewerService {
     combineLatest(remoteSelects).subscribe(remoteAns => {
       if (remoteAns) {
         const docDefinition = {
+          pageSize: 'A4',
           content: this.getPages(this.obsValueAdapter.traverse(form.rootNode), form, false, remoteAns),
           styles: {
             answers: {
               fontSize: 8
+            },
+            banner: {
+              fontSize: 9,
+              bold: true,
+              margin: [50, 15, 30, 0]
+            },
+            bannerItem: {
+              margin: [2, 2, 2, 2]
+            },
+            bannerLabel: {
+              color: '#2f4f4f'
             },
             confidential: {
               color: 'red',
@@ -268,10 +282,19 @@ export class EncounterPdfViewerService {
               bold: true,
               margin: [60, 0, 0, 0]
             },
+            footer: {
+              alignment: 'center',
+              fontSize: 8,
+              bold: true
+            },
             header: {
               fontSize: 9,
               bold: true,
               margin: [5, 5, 5, 5]
+            },
+            pageNumber: {
+              color: '#2f4f4f',
+              fontSize: 6
             },
             tableExample: {
               fontSize: 10,
@@ -292,25 +315,9 @@ export class EncounterPdfViewerService {
               color: 'white',
               margin: [5, 0, 5, 0]
             },
-            banner: {
-              fillColor: '#d9edf7',
-              fontSize: 9,
-              bold: true,
-              margin: [45, 20, 20, 20]
-            },
-            bannerLabel: {
-              color: '#a9a9a9'
-            },
-            bannerItem: {
-              margin: [20, 0, 10, 0]
-            },
             timestamp: {
-              alignment: 'center',
-              bold: true
-            },
-            pageNumber: {
-              alignment: 'right',
-              margin: [0, 0, 5, 5]
+              bold: true,
+              color: '#2f4f4f'
             }
           },
           defaultStyle: {
@@ -328,7 +335,7 @@ export class EncounterPdfViewerService {
     const pdf = pdfMake;
     let patient;
     pdf.vfs = pdfFonts.pdfMake.vfs;
-    
+
     if (form.dataSourcesContainer.dataSources._dataSources) {
       patient = form.dataSourcesContainer.dataSources._dataSources['patientInfo'];
     }
@@ -347,17 +354,27 @@ export class EncounterPdfViewerService {
               style: 'bannerItem'
             });
           }
-  
+
           if (patient.nid) {
             banner.push({
               text: [
-                { text: 'NID: ', style: 'bannerLabel' },
+                { text: 'ID: ', style: 'bannerLabel' },
                 { text: `${patient.nid}` }
               ],
               style: 'bannerItem'
             });
           }
-  
+
+          if (patient.birthdate) {
+            banner.push({
+              text: [
+                { text: 'DOB: ', style: 'bannerLabel' },
+                { text: `${moment(patient.birthdate).format('l')} (${patient.age} yo)` }
+              ],
+              style: 'bannerItem'
+            });
+          }
+
           if (patient.mui) {
             banner.push({
               text: [
@@ -367,17 +384,17 @@ export class EncounterPdfViewerService {
               style: 'bannerItem'
             });
           }
-  
-          if (patient.birthdate) {
+
+          if (patient.mhn) {
             banner.push({
-            text: [
-              { text: 'YOB: ', style: 'bannerLabel' },
-              { text: `${moment(patient.birthdate).format('l')} (${patient.age} yo)` }
-            ],
-            style: 'bannerItem'
+              text: [
+                { text: 'MTRH No: ', style: 'bannerLabel' },
+                { text: `${patient.mhn}` }
+              ],
+              style: 'bannerItem'
             });
           }
-  
+
           docDefinition.header = {
             style: 'banner',
             table: {
@@ -388,26 +405,24 @@ export class EncounterPdfViewerService {
         }
 
         docDefinition.footer = (currentPage, pageCount) => {
-          return {
-            columns: [
-              {
-                widths: ['*', '*', '*'],
-                stack: [
+          return 	{
+            style: 'footer',
+            widths: ['*', 'auto'],
+            table: {
+              body: [
+                [
                   {
-                    text:
-                      // tslint:disable-next-line:max-line-length
-                      `Note: Confidentiality is one of the core duties of all medical practitioners. Patients' personal health information should be kept private.`,
-                    style: 'confidential'
-                  }, {
-                    text: currentPage.toString() + ' of ' + pageCount,
-                    style: 'pageNumber'
-                  }, {
-                    text: `Generated on ` + new Date(),
-                    style: 'timestamp'
-                  }
-                ]
-              }
-            ]
+                    text: 'Note: Confidentiality is one of the core duties of all medical practitioners. '
+                      + 'Patients\' personal health information should be kept private.', style: 'confidential'
+                  }, ''
+                ],
+                [
+                  { text: `Generated on ${new Date().toUTCString()}`, style: 'timestamp' },
+                  { text: `${currentPage.toString()} of ${pageCount}`, style: 'pageNumber' }
+                ],
+              ]
+            },
+            layout: 'noBorders'
           };
         };
 
