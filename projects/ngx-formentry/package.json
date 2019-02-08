@@ -1,6 +1,6 @@
 {
   "name": "ngx-openmrs-formentry",
-  "version": "2.12.2-SNAPSHOT",
+  "version": "2.12.3-SNAPSHOT",
   "peerDependencies": {
     "@angular/common": "^6.1.0",
     "@angular/core": "^6.1.0",
