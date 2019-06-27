@@ -60,7 +60,7 @@ export class FilePreviewComponent implements ControlValueAccessor, OnInit {
     public writeValue(v: any) {
       if (v !== this.fileUuid) {
           this.fileUuid = v;
-         this.checkFileType;
+         this.checkFileType();
       }
     }
     public checkFileType() {
