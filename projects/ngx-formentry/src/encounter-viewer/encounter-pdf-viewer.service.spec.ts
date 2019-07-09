@@ -175,14 +175,14 @@ describe('EncounterPdfViewerService: ', () => {
       const pageLabel7 = result[6].table.body[0][0].text;
 
       expect(result).toEqual(jasmine.any(Array));
-      expect(result.length).toEqual(7);
+      expect(result.length).toEqual(8);
       expect(pageLabel1).toEqual('Encounter Details');
-      expect(pageLabel2).toEqual('Medication History');
-      expect(pageLabel3).toEqual('Med Side Effects');
-      expect(pageLabel4).toEqual('Current Symptoms');
-      expect(pageLabel5).toEqual('Test Results');
-      expect(pageLabel6).toEqual('Medication Plan');
-      expect(pageLabel7).toEqual('Plan');
+      expect(pageLabel2).toEqual('Pre-Clinic Review');
+      expect(pageLabel3).toEqual('Medication History');
+      expect(pageLabel4).toEqual('Med Side Effects');
+      expect(pageLabel5).toEqual('Current Symptoms');
+      expect(pageLabel6).toEqual('Test Results');
+      expect(pageLabel7).toEqual('Medication Plan');
     });
   });
 
@@ -229,23 +229,23 @@ describe('EncounterPdfViewerService: ', () => {
       const sectionLabel15 = result[14][0].table.body[0][0].text;
 
       expect(result).toEqual(jasmine.any(Array));
-      expect(result.length).toEqual(15);
+      expect(result.length).toEqual(16);
 
       expect(sectionLabel1).toEqual('Encounter Details');
-      expect(sectionLabel2).toEqual('ART History');
-      expect(sectionLabel3).toEqual('PCP Prophylaxis History');
-      expect(sectionLabel4).toEqual('TB Prophylaxis History');
-      expect(sectionLabel5).toEqual('Tuberculosis History');
-      expect(sectionLabel6).toEqual('Other Medications');
-      expect(sectionLabel7).toEqual('Side Effects/Toxicity');
-      expect(sectionLabel8).toEqual('TB Screening Questions');
-      expect(sectionLabel9).toEqual('Chemistry Lab Tests');
-      expect(sectionLabel10).toEqual('ART Plan');
-      expect(sectionLabel11).toEqual('PCP Prophylaxis Plan');
-      expect(sectionLabel12).toEqual('TB Prophylaxis Plan');
-      expect(sectionLabel13).toEqual('TB Treatment Plan');
-      expect(sectionLabel14).toEqual('Test Orders');
-      expect(sectionLabel15).toEqual('Next Appointment');
+      expect(sectionLabel2).toEqual('Pre-clinic Review');
+      expect(sectionLabel3).toEqual('ART History');
+      expect(sectionLabel4).toEqual('PCP Prophylaxis History');
+      expect(sectionLabel5).toEqual('TB Prophylaxis History');
+      expect(sectionLabel6).toEqual('Tuberculosis History');
+      expect(sectionLabel7).toEqual('Other Medications');
+      expect(sectionLabel8).toEqual('Side Effects/Toxicity');
+      expect(sectionLabel9).toEqual('TB Screening Questions');
+      expect(sectionLabel10).toEqual('Chemistry Lab Tests');
+      expect(sectionLabel11).toEqual('ART Plan');
+      expect(sectionLabel12).toEqual('PCP Prophylaxis Plan');
+      expect(sectionLabel13).toEqual('TB Prophylaxis Plan');
+      expect(sectionLabel14).toEqual('TB Treatment Plan');
+      expect(sectionLabel15).toEqual('Test Orders');
     });
   });
 

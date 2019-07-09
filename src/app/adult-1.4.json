@@ -265,6 +265,45 @@
                             "hide": {
                                 "hideWhenExpression": "nhif !== 'a899e0ac-1350-11df-a1f1-0026b9348838'"
                             }
+                        },
+                        {
+                          "label": "Do referral and networking as guided by the session:",
+                          "type": "obs",
+                          "id": "refnet",
+                          "questionOptions": {
+                            "concept": "a89c2344-1350-11df-a1f1-0026b9348838",
+                            "rendering": "checkbox",
+                            "answers": [
+                              {
+                                "label": "Social work",
+                                "concept": "a89e2d1a-1350-11df-a1f1-0026b9348838"
+                              },
+                              {
+                                "label": "Nutrition",
+                                "concept": "a8a8afd8-1350-11df-a1f1-0026b9348838"
+                              },
+                              {
+                                "label": "Support group",
+                                "concept": "a89e2df6-1350-11df-a1f1-0026b9348838"
+                              },
+                              {
+                                "label": "Psychological counseling",
+                                "concept": "a8a8b42e-1350-11df-a1f1-0026b9348838"
+                              },
+                              {
+                                "label": "Medical clinics",
+                                "concept": "a89526f2-1350-11df-a1f1-0026b9348838"
+                              },
+                              {
+                                "label": "LACE",
+                                "concept": "355b199f-c9c7-4e91-831f-2be17d2c67bd"
+                              },
+                              {
+                                "label": "Other",
+                                "concept": "a8aaf3e2-1350-11df-a1f1-0026b9348838"
+                              }
+                            ]
+                          }
                         }
                     ]
                 },

@@ -1,6 +1,6 @@
 import { Component, Input, forwardRef, OnInit, AfterViewInit } from '@angular/core';
 
-import { ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
 import * as _ from 'lodash';
 
@@ -9,23 +9,30 @@ import * as _ from 'lodash';
   templateUrl: './checkbox.component.html',
   providers: [
     {
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => CheckboxControlComponent),
-        multi: true,
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CheckboxControlComponent),
+      multi: true,
     }],
   styles: [`
-  .no-border {
-    border: 0;
-    box-shadow: none;
-  }`]
+    .no-border {
+      border: 0;
+      box-shadow: none;
+    }`]
 })
 export class CheckboxControlComponent implements OnInit, AfterViewInit {
 
-  @Input() public options;
-
+  @Input() public options: Array<any>;
+  @Input() public selected: Array<any>;
   public _value: Array<any> = [];
 
-  public ngOnInit() {}
+  public ngOnInit() {
+    this.options = this.options.map((option) => {
+      if (this.selected.indexOf(option.value) !== -1) {
+        Object.assign(option, {checked: true});
+      }
+      return option;
+    });
+  }
 
   public ngAfterViewInit() {}
 
@@ -43,19 +50,19 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
 
   get value(): any {
     if (this._value.length === 0) {
-        return '';
+      return '';
     } else {
-        return this._value || this._value[0];
+      return this._value || this._value[0];
     }
   }
 
   set value(v: any) {
     if (typeof v === 'undefined' || v === null || v === '') {
-        v = [];
+      v = [];
     } else if (typeof v === 'string') {
-        v = [v];
+      v = [v];
     } else if (!Array.isArray(v)) {
-        throw new TypeError('Value must be a string or an array.');
+      throw new TypeError('Value must be a string or an array.');
     }
   }
 
@@ -73,7 +80,7 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
     this.onChange(this.value);
   }
 
-  private onChange = ( change: any) => { };
+  private onChange = (change: any) => { };
   private onTouched = () => { };
 
 }
