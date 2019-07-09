@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build ngx-formentry",
     "build:lib": "./scripts/build.sh",
     "test": "ng test ngx-formentry --watch=false",
     "lint": "ng lint",

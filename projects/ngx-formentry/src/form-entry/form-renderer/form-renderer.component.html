@@ -112,7 +112,7 @@
       </div>
 
       <div *ngSwitchCase="'checkbox'">
-        <checkbox [id]="node.question.key + 'id'" [formControlName]="node.question.key" [options]="node.question.options"></checkbox>
+        <checkbox [id]="node.question.key + 'id'" [formControlName]="node.question.key" [options]="node.question.options" [selected]="node.control.value"></checkbox>
       </div>
 
       <div *ngIf="node.question.enableHistoricalValue && node.question.historicalDisplay" style="margin-top: 2px;">
