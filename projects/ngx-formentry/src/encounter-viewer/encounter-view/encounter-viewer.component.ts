@@ -34,16 +34,16 @@ export class EncounterViewerComponent implements OnInit {
     @Input() public set encounter(enc: any) {
         this.enc = enc;
     }
-     @Input() set form(form: any) {
-         this.rootNode = form.rootNode;
-         this._schema = form.schema;
-         console.log(this.getQuestionNodes(this.traverse(this.rootNode)));
+    @Input() set form(form: any) {
+        this.rootNode = form.rootNode;
+        this._schema = form.schema;
+        console.log(this.getQuestionNodes(this.traverse(this.rootNode)));
     }
 
     constructor(
         private encounterViewerService: EncounterViewerService,
-        private dataSources: DataSources) {}
-    
+        private dataSources: DataSources) { }
+
     getQuestionNodes(pages) {
         const merged = [];
         const arrays = [];
@@ -53,20 +53,20 @@ export class EncounterViewerComponent implements OnInit {
         return merged.concat.apply([], arrays);
     }
     public ngOnInit() {
-        if(this.rootNode){
-            
+        if (this.rootNode) {
+
         }
         if (this.rootNode && this.rootNode.question.extras
             && this.rootNode.question.renderingType === 'file') {
-                this.fileDataSource =
+            this.fileDataSource =
                 this.dataSources.dataSources[this.rootNode.question.dataSource];
         } else if (this.rootNode && this.rootNode.question.extras
             && this.rootNode.question.renderingType === 'remote-select') {
-                this.remoteDataSource =
+            this.remoteDataSource =
                 this.dataSources.dataSources[this.rootNode.question.dataSource];
-            } else {
-                this.customDataSource = this.encounterViewerService;
-            }
+        } else {
+            this.customDataSource = this.encounterViewerService;
+        }
     }
 
     public questionsAnswered(node: any) {
@@ -117,8 +117,8 @@ export class EncounterViewerComponent implements OnInit {
                         }
                     }
                 }
-            }else{
-                console.log('Console.log',o);
+            } else {
+                console.log('Console.log', o);
             }
 
         }

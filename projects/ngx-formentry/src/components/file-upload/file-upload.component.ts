@@ -1,16 +1,18 @@
-import { Component, OnInit, Input, forwardRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Renderer2, ChangeDetectorRef } from '@angular/core';
 import {
     ControlValueAccessor,
     NG_VALUE_ACCESSOR
 } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
+import { SecurePipe } from './secure.pipe';
 @Component({
-    selector: 'remote-file-upload',
+    selector: 'app-file-upload',
     templateUrl: 'file-upload.component.html',
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => RemoteFileUploadComponent),
+            useExisting: forwardRef(() => FileUploadComponent),
             multi: true,
         }],
     styles: [`img {
@@ -18,9 +20,12 @@ import { DataSource } from '../../form-entry/question-models/interfaces/data-sou
     }`
     ]
 })
-export class RemoteFileUploadComponent implements OnInit, ControlValueAccessor {
+export class FileUploadComponent implements OnInit, ControlValueAccessor {
     uploading = false;
-    innerValue = null;
+    fileUuid = null;
+    pdfUploaded = false;
+    formEntryMode = true;
+    pdfUrl: string;
     private _dataSource: DataSource;
     @Input()
     public get dataSource(): DataSource {
@@ -34,15 +39,23 @@ export class RemoteFileUploadComponent implements OnInit, ControlValueAccessor {
     constructor(private renderer: Renderer2) { }
 
     ngOnInit() {
+        if (this.fileUuid) {
+            this.checkFileType();
+        }
 
+    }
+    public onFileChange(fileList) {
+        for (const file of fileList) {
+            this.upload(file);
+        }
     }
     upload(data) {
         if (this.dataSource) {
             this.uploading = true;
             this.dataSource.fileUpload(data).subscribe((result) => {
-                // console.log('Result', result);
-                this.innerValue = result.image;
-                this.propagateChange(this.innerValue);
+                this.fileUuid = result.image;
+                this.checkFileType();
+                this.propagateChange(this.fileUuid);
                 this.uploading = false;
             }, (error) => {
                 this.uploading = false;
@@ -52,8 +65,9 @@ export class RemoteFileUploadComponent implements OnInit, ControlValueAccessor {
 
     // this is the initial value set to the component
     public writeValue(value: any) {
-        if (value !== this.innerValue) {
-            this.innerValue = value;
+        if (value !== this.fileUuid) {
+            this.fileUuid = value;
+            this.checkFileType();
         }
     }
     // registers 'fn' that will be fired when changes are made
@@ -79,7 +93,22 @@ export class RemoteFileUploadComponent implements OnInit, ControlValueAccessor {
     private propagateChange = (_: any) => { };
 
     public clearValue() {
-        this.innerValue = null;
-        this.propagateChange(this.innerValue);
+        this.fileUuid = null;
+        this.pdfUploaded = false;
+        this.pdfUrl = null;
+        this.propagateChange(this.fileUuid);
+    }
+
+    public getPdfUrl(fileUuid: string) {
+        this.dataSource.fetchFile(fileUuid, 'pdf').subscribe((file) => {
+            this.pdfUploaded = true;
+            this.pdfUrl = file.changingThisBreaksApplicationSecurity;
+        });
+    }
+    public checkFileType() {
+        const re = /pdf/gi;
+        if (this.fileUuid.search(re) !== -1) {
+            this.getPdfUrl(this.fileUuid);
+        }
     }
 }

@@ -1,6 +1,6 @@
 {
   "name": "ngx-openmrs-formentry",
-  "version": "2.12.3-SNAPSHOT",
+  "version": "2.12.4-SNAPSHOT",
   "peerDependencies": {
     "@angular/common": "^6.1.0",
     "@angular/core": "^6.1.0",
@@ -10,7 +10,10 @@
     "moment": "^2.17.1",
     "@ng-select/ng-select": "^2.13.1",
     "ngx-bootstrap": "next",
-    "ngx-file-uploader-ampath": "0.0.10",
+    "pdfmake": "0.1.40",
+    "jspdf": "^1.5.3",
+    "ngx-file-uploader": "0.0.14",
+    "ngx-webcam": "^0.2.2",
     "reflect-metadata": "^0.1.9",
     "shelljs": "^0.7.0",
     "slick-carousel": "^1.6.0",

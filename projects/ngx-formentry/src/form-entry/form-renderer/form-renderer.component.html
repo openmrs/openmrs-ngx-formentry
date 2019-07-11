@@ -68,9 +68,9 @@
         </option>
       </select>
 
-      <remote-file-upload *ngSwitchCase="'file'" [dataSource]="dataSource" [formControlName]="node.question.key" [id]="node.question.key + 'id'"
+      <app-file-upload *ngSwitchCase="'file'" [dataSource]="dataSource" [formControlName]="node.question.key" [id]="node.question.key + 'id'"
         (fileChanged)="upload($event)">
-      </remote-file-upload>
+      </app-file-upload>
       <textarea [placeholder]="node.question.placeholder" [rows]="node.question.rows" class="form-control"
         *ngSwitchCase="'textarea'" [formControlName]="node.question.key" [id]="node.question.key + 'id'">
       </textarea>

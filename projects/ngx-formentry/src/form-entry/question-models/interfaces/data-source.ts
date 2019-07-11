@@ -7,5 +7,5 @@ export interface DataSource {
   resolveSelectedValue(value): Observable<SelectOption>;
   searchOptions(searchText): Observable<SelectOption[]>;
   fileUpload(data): Observable<any>;
-  fetchFile(url): Observable<any>;
+  fetchFile(url: string, fileType?: string): Observable<any>;
 }

@@ -93,7 +93,7 @@ export class AppComponent {
 					console.log(url, 'APP COMPONENT');
 					return new Observable((observer: Subscriber<any>) => {
 						let objectUrl: string = null;
-							const headers = new Headers({ Accept: 'image/png,image/jpeg,image/gif' });
+							const headers = new Headers({ Accept: 'image/png,image/jpeg,image/gif,application/pdf' });
 							this.http
 								.get('https://unsplash.it/1040/720', {
 									headers,
