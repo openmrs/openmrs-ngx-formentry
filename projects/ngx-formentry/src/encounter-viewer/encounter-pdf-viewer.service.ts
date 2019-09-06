@@ -334,7 +334,7 @@ export class EncounterPdfViewerService {
   displayPdf(form) {
     const pdf = pdfMake;
     let patient;
-    pdf.vfs = pdfFonts.pdfMake.vfs;
+    pdf.vfs = pdfMake.vfs;
 
     if (form.dataSourcesContainer.dataSources._dataSources) {
       patient = form.dataSourcesContainer.dataSources._dataSources['patientInfo'];
