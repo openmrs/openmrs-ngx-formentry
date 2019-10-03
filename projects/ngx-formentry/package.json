@@ -1,6 +1,6 @@
 {
   "name": "ngx-openmrs-formentry",
-  "version": "2.12.4-SNAPSHOT",
+  "version": "2.12.9",
   "peerDependencies": {
     "@angular/common": "^6.1.0",
     "@angular/core": "^6.1.0",
@@ -12,7 +12,7 @@
     "ngx-bootstrap": "next",
     "pdfmake": "0.1.40",
     "jspdf": "^1.5.3",
-    "ngx-file-uploader": "0.0.14",
+    "ngx-file-uploader": "0.0.18",
     "ngx-webcam": "^0.2.2",
     "reflect-metadata": "^0.1.9",
     "shelljs": "^0.7.0",
