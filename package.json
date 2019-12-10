@@ -1,7 +1,7 @@
 {
   "name": "ngx-openmrs-formentry",
   "main": "ngx-openmrs-formentry/dist/ngx-formentry",
-  "version": "2.12.4-SNAPSHOT",
+  "version": "2.12.9",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -34,7 +34,7 @@
     "moment": "^2.17.1",
     "ngx-bootstrap": "next",
     "ngx-cookie": "^4.0.2",
-    "ngx-file-uploader": "0.0.14",
+    "ngx-file-uploader": "0.0.18",
     "ngx-webcam": "^0.2.2",
     "pdfmake": "0.1.40",
     "reflect-metadata": "^0.1.9",
