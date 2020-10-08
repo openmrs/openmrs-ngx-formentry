@@ -9,16 +9,12 @@ for use by testers
 import { Injectable } from '@angular/core';
 
 @Injectable()
-
 export class DebugModeService {
+  public cookieKey = 'formDebug';
 
-    public cookieKey = 'formDebug';
-
-    constructor() {
-    }
-   public debugEnabled(): boolean {
-
-             // check if the hidefield
-            return false;
-     }
+  constructor() {}
+  public debugEnabled(): boolean {
+    // check if the hidefield
+    return false;
+  }
 }

@@ -16,27 +16,24 @@ import { Form } from './form';
 import { DebugModeService } from './../services/debug-mode.service';
 
 describe('Form:', () => {
-
   beforeEach(() => {
-
-      TestBed.configureTestingModule({
-          providers: [
-              FormFactory,
-              QuestionFactory,
-              FormControlService,
-              ValidationFactory,
-              HidersDisablersFactory,
-              AlertsFactory,
-              ExpressionRunner,
-              JsExpressionHelper,
-              ControlRelationsFactory,
-              DebugModeService
-          ]
-      });
+    TestBed.configureTestingModule({
+      providers: [
+        FormFactory,
+        QuestionFactory,
+        FormControlService,
+        ValidationFactory,
+        HidersDisablersFactory,
+        AlertsFactory,
+        ExpressionRunner,
+        JsExpressionHelper,
+        ControlRelationsFactory,
+        DebugModeService
+      ]
+    });
   });
 
   it('should be injected', () => {
-
     const formFactory = TestBed.get(FormFactory);
     const questionFactory = TestBed.get(QuestionFactory);
     const schema = new SampleSchema().getSchema();

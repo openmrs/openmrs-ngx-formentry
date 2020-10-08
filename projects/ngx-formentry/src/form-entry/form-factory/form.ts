@@ -11,10 +11,14 @@ import { AfeFormArray } from '../../abstract-controls-extension/afe-form-array';
 export class Form {
   public rootNode: GroupNode;
   public valueProcessingInfo: any = {};
-    public existingOrders: any = {};
+  public existingOrders: any = {};
   private _dataSourcesContainer: DataSources;
   private _showErrors = false;
-  constructor(public schema: any, public formFactory: FormFactory, public questionFactory: QuestionFactory) {
+  constructor(
+    public schema: any,
+    public formFactory: FormFactory,
+    public questionFactory: QuestionFactory
+  ) {
     this._dataSourcesContainer = new DataSources();
   }
 
@@ -23,17 +27,13 @@ export class Form {
   }
 
   searchNodeByPath(node: GroupNode, path, found: Array<NodeBase>) {
-
     const children: NodeBase = node.children;
 
     for (const key in children) {
-
       if (children.hasOwnProperty(key)) {
-
         const child: NodeBase = children[key];
 
         if (child instanceof GroupNode) {
-
           if (path === child.path) {
             found.push(child);
             return found;
@@ -41,13 +41,11 @@ export class Form {
 
           this.searchNodeByPath(child, path, found);
         } else if (child instanceof LeafNode) {
-
           if (path === child.path) {
             found.push(child);
             return found;
           }
         } else if (child instanceof ArrayNode) {
-
           if (path === child.path) {
             found.push(child);
             return found;
@@ -55,7 +53,7 @@ export class Form {
 
           const aChild: ArrayNode = child as ArrayNode;
 
-          aChild.children.forEach(aChildNode => {
+          aChild.children.forEach((aChildNode) => {
             this.searchNodeByPath(aChildNode, path, found);
           });
         }
@@ -65,7 +63,10 @@ export class Form {
     return found;
   }
 
-  searchNodeByQuestionId(questionId: string, questionType?: string): Array<NodeBase> {
+  searchNodeByQuestionId(
+    questionId: string,
+    questionType?: string
+  ): Array<NodeBase> {
     const found = [];
     if (questionType) {
       this.searchNodeByQuestionType(this.rootNode, questionType, found);
@@ -75,20 +76,27 @@ export class Form {
     return found;
   }
 
-  searchNodeByQuestionType(rootNode: any, questionType: string , found: Array<NodeBase>) {
-
+  searchNodeByQuestionType(
+    rootNode: any,
+    questionType: string,
+    found: Array<NodeBase>
+  ) {
     if (rootNode instanceof GroupNode) {
       const nodeAsGroup = rootNode as GroupNode;
       // tslint:disable-next-line:forin
       for (const o in nodeAsGroup.children) {
-        this.searchNodeByQuestionType(nodeAsGroup.children[o], questionType, found);
+        this.searchNodeByQuestionType(
+          nodeAsGroup.children[o],
+          questionType,
+          found
+        );
       }
     }
 
     if (rootNode instanceof ArrayNode) {
       const nodeAsArray = rootNode as ArrayNode;
 
-      nodeAsArray.children.forEach(node => {
+      nodeAsArray.children.forEach((node) => {
         this.searchNodeByQuestionType(node, questionType, found);
       });
     }
@@ -96,14 +104,21 @@ export class Form {
     if (rootNode instanceof LeafNode) {
       const questionBase: QuestionBase = rootNode.question;
 
-      if (questionBase.extras && questionBase.extras.type && questionBase.extras.type === questionType) {
+      if (
+        questionBase.extras &&
+        questionBase.extras.type &&
+        questionBase.extras.type === questionType
+      ) {
         found.push(rootNode);
       }
     }
   }
 
-  private findNodesByQuestionId(rootNode: NodeBase, questionId: string,
-    results: Array<NodeBase>) {
+  private findNodesByQuestionId(
+    rootNode: NodeBase,
+    questionId: string,
+    results: Array<NodeBase>
+  ) {
     if (rootNode.question.key === questionId) {
       results.push(rootNode);
     }
@@ -112,23 +127,24 @@ export class Form {
       const nodeAsGroup = rootNode as GroupNode;
       // tslint:disable-next-line:forin
       for (const o in nodeAsGroup.children) {
-        this.findNodesByQuestionId(nodeAsGroup.children[o], questionId, results);
+        this.findNodesByQuestionId(
+          nodeAsGroup.children[o],
+          questionId,
+          results
+        );
       }
     }
 
     if (rootNode instanceof ArrayNode) {
       const nodeAsArray = rootNode as ArrayNode;
 
-      nodeAsArray.children.forEach(node => {
+      nodeAsArray.children.forEach((node) => {
         this.findNodesByQuestionId(node, questionId, results);
       });
     }
   }
 
-
-
   get valid() {
-
     return this.rootNode.control.valid;
   }
 
@@ -141,26 +157,21 @@ export class Form {
   }
 
   markInvalidControls(node: GroupNode, invalidControlNodes?: any) {
-
-
     const children: NodeBase = node.children;
 
     for (const key in children) {
-
       if (children.hasOwnProperty(key)) {
-
         const child: NodeBase = children[key];
 
         if (child instanceof GroupNode) {
-
           this.markInvalidControls(child, invalidControlNodes);
         } else if (child instanceof LeafNode) {
-
           const questionBase: QuestionBase = (child as LeafNode).question;
 
           if (questionBase.key && questionBase.key.length > 0) {
-
-            const c: AfeFormControl | AfeFormArray = child.control as AfeFormControl | AfeFormArray;
+            const c: AfeFormControl | AfeFormArray = child.control as
+              | AfeFormControl
+              | AfeFormArray;
 
             if (!c.valid && !c.disabled) {
               if (invalidControlNodes) {
@@ -173,8 +184,11 @@ export class Form {
         } else if (child instanceof ArrayNode) {
           const arrayNode: ArrayNode = child as ArrayNode;
 
-          if (arrayNode && arrayNode.children && arrayNode.children.length > 0) {
-
+          if (
+            arrayNode &&
+            arrayNode.children &&
+            arrayNode.children.length > 0
+          ) {
             _.forEach(arrayNode.children, (groupNode: any) => {
               this.markInvalidControls(groupNode, invalidControlNodes);
             });
@@ -189,7 +203,6 @@ export class Form {
   updateHiddenDisabledStateForAllControls() {
     this._updateHiddenDisabledStateForAllControls(this.rootNode);
   }
-
 
   updateAlertsForAllControls() {
     this._updateAlertsForAllControls(this.rootNode);
@@ -213,11 +226,10 @@ export class Form {
     if (rootNode instanceof ArrayNode) {
       const nodeAsArray = rootNode as ArrayNode;
 
-      nodeAsArray.children.forEach(node => {
+      nodeAsArray.children.forEach((node) => {
         this._updateAlertsForAllControls(node);
       });
     }
-
   }
   private _updateHiddenDisabledStateForAllControls(rootNode: NodeBase) {
     if (rootNode.control) {
@@ -241,7 +253,7 @@ export class Form {
     if (rootNode instanceof ArrayNode) {
       const nodeAsArray = rootNode as ArrayNode;
 
-      nodeAsArray.children.forEach(node => {
+      nodeAsArray.children.forEach((node) => {
         this._updateHiddenDisabledStateForAllControls(node);
       });
     }

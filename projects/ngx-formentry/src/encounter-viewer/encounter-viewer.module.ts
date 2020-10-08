@@ -11,27 +11,21 @@ import { RemoteAnswerComponent } from './display-controls/remote-answer.componen
 import { HttpModule } from '@angular/http';
 import { SharedModule } from '../shared.module';
 @NgModule({
-    declarations: [
-        EncounterViewerComponent,
-        EncounterContainerComponent,
-        QuestionControlComponent,
-        FilePreviewComponent,
-        RemoteAnswerComponent
-    ],
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        HttpModule,
-        SharedModule
-    ],
-    providers: [
-        EncounterViewerService,
-        EncounterPdfViewerService
-    ],
-    exports: [
-        EncounterContainerComponent,
-        HttpModule
-    ],
+  declarations: [
+    EncounterViewerComponent,
+    EncounterContainerComponent,
+    QuestionControlComponent,
+    FilePreviewComponent,
+    RemoteAnswerComponent
+  ],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    HttpModule,
+    SharedModule
+  ],
+  providers: [EncounterViewerService, EncounterPdfViewerService],
+  exports: [EncounterContainerComponent, HttpModule]
 })
 export class EncounterViewerModule {}

@@ -7,9 +7,9 @@ import { SelectModule } from '../../components/select/select.module';
 import { RemoteSelectComponent } from './remote-select.component';
 
 @NgModule({
-    imports: [CommonModule, SelectModule, FormsModule],
-    exports: [RemoteSelectComponent],
-    declarations: [RemoteSelectComponent],
-    providers: [],
+  imports: [CommonModule, SelectModule, FormsModule],
+  exports: [RemoteSelectComponent],
+  declarations: [RemoteSelectComponent],
+  providers: []
 })
-export class RemoteSelectModule { }
+export class RemoteSelectModule {}

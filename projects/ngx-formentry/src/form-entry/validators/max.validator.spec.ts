@@ -2,9 +2,7 @@ import { AfeFormControl } from '../../abstract-controls-extension/afe-form-contr
 import { MaxValidator } from './max.validator';
 
 describe('MaxValidator Unit Tests', () => {
-
   it('should return null when value is less than the max value set', () => {
-
     const validator: MaxValidator = new MaxValidator();
     const max = 10;
     const value = 2;
@@ -15,7 +13,6 @@ describe('MaxValidator Unit Tests', () => {
   });
 
   it('should return an error when value is greater than the max value set', () => {
-
     const validator: MaxValidator = new MaxValidator();
     const max = 10;
     const value = 11;

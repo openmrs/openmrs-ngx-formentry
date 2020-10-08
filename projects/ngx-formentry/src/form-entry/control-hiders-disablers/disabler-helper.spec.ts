@@ -4,210 +4,241 @@ import { Subject } from 'rxjs';
 import { DisablerHelper } from './disabler-helper';
 import { CanDisable, Disabler } from './can-disable';
 
-
 describe('Control Disabler Helper Service:', () => {
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [
-                DisablerHelper
-            ]
-        });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [DisablerHelper]
     });
+  });
 
-    it('should be defined', () => {
-        const helper: DisablerHelper = TestBed.get(DisablerHelper);
-        expect(helper).toBeTruthy();
-    });
+  it('should be defined', () => {
+    const helper: DisablerHelper = TestBed.get(DisablerHelper);
+    expect(helper).toBeTruthy();
+  });
 
-    it('should set a disabler for a control', () => {
-        const helper: DisablerHelper = TestBed.get(DisablerHelper);
+  it('should set a disabler for a control', () => {
+    const helper: DisablerHelper = TestBed.get(DisablerHelper);
 
-        const control: CanDisable = {
-            disabled: true,
-            clearDisablingFns: () => { },
-            disable: () => { },
-            enable: () => { },
-            disablers: [],
-            updateDisabledState: () => { },
-            setDisablingFn: (newHider: Disabler) => { helper.setDisablerForControl(control, newHider); }
-        };
+    const control: CanDisable = {
+      disabled: true,
+      clearDisablingFns: () => {},
+      disable: () => {},
+      enable: () => {},
+      disablers: [],
+      updateDisabledState: () => {},
+      setDisablingFn: (newHider: Disabler) => {
+        helper.setDisablerForControl(control, newHider);
+      }
+    };
 
-        const disabler: Disabler = {
-            toDisable: false,
-            disableWhenExpression: 'true',
-            reEvaluateDisablingExpression: () => { }
-        };
+    const disabler: Disabler = {
+      toDisable: false,
+      disableWhenExpression: 'true',
+      reEvaluateDisablingExpression: () => {}
+    };
 
+    control.setDisablingFn(disabler);
 
-        control.setDisablingFn(disabler);
+    expect(control.disablers.length).toBe(1);
+    expect(control.disablers[0]).toBe(disabler);
+  });
 
-        expect(control.disablers.length).toBe(1);
-        expect(control.disablers[0]).toBe(disabler);
-    });
+  it('should clear disablers for a control', () => {
+    const helper: DisablerHelper = TestBed.get(DisablerHelper);
 
-    it('should clear disablers for a control', () => {
-        const helper: DisablerHelper = TestBed.get(DisablerHelper);
+    const control: CanDisable = {
+      disabled: true,
+      clearDisablingFns: () => {
+        helper.clearDisablersForControl(control);
+      },
+      disable: () => {
+        control.disabled = false;
+      },
+      enable: () => {},
+      disablers: [],
+      updateDisabledState: () => {},
+      setDisablingFn: (newHider: Disabler) => {}
+    };
 
-        const control: CanDisable = {
-            disabled: true,
-            clearDisablingFns: () => { helper.clearDisablersForControl(control); },
-            disable: () => { control.disabled = false; },
-            enable: () => { },
-            disablers: [],
-            updateDisabledState: () => { },
-            setDisablingFn: (newHider: Disabler) => { }
-        };
+    const disabler: Disabler = {
+      toDisable: false,
+      disableWhenExpression: 'true',
+      reEvaluateDisablingExpression: () => {}
+    };
 
-        const disabler: Disabler = {
-            toDisable: false,
-            disableWhenExpression: 'true',
-            reEvaluateDisablingExpression: () => { }
-        };
+    helper.setDisablerForControl(control, disabler);
 
+    expect(control.disablers.length).toBe(1);
+    expect(control.disablers[0]).toBe(disabler);
 
-        helper.setDisablerForControl(control, disabler);
+    control.clearDisablingFns();
 
-        expect(control.disablers.length).toBe(1);
-        expect(control.disablers[0]).toBe(disabler);
+    expect(control.disablers.length).toBe(0);
 
-        control.clearDisablingFns();
+    // should have set disabled to false after clearing
+    expect(control.disabled).toBe(false);
+  });
 
-        expect(control.disablers.length).toBe(0);
+  it('should evaluate all controls disablers to determine whether to disable the control', () => {
+    const helper: DisablerHelper = TestBed.get(DisablerHelper);
 
-        // should have set disabled to false after clearing
-        expect(control.disabled).toBe(false);
-    });
+    // test case 1: should be disabled if one of the disablers is true
+    const control: CanDisable = {
+      disabled: false,
+      clearDisablingFns: () => {},
+      disable: () => {
+        control.disabled = true;
+      },
+      enable: () => {
+        control.disabled = false;
+      },
+      disablers: [],
+      updateDisabledState: () => {
+        helper.evaluateControlDisablers(control);
+      },
+      setDisablingFn: (newHider: Disabler) => {}
+    };
 
-    it('should evaluate all controls disablers to determine whether to disable the control', () => {
-        const helper: DisablerHelper = TestBed.get(DisablerHelper);
+    const hider1: Disabler = {
+      toDisable: false,
+      disableWhenExpression: 'true',
+      reEvaluateDisablingExpression: () => {
+        hider1.toDisable = true;
+      }
+    };
 
-        // test case 1: should be disabled if one of the disablers is true
-        const control: CanDisable = {
-            disabled: false,
-            clearDisablingFns: () => { },
-            disable: () => { control.disabled = true; },
-            enable: () => { control.disabled = false; },
-            disablers: [],
-            updateDisabledState: () => { helper.evaluateControlDisablers(control); },
-            setDisablingFn: (newHider: Disabler) => { }
-        };
+    const hider2: Disabler = {
+      toDisable: true,
+      disableWhenExpression: 'true',
+      reEvaluateDisablingExpression: () => {
+        hider2.toDisable = false;
+      }
+    };
 
-        const hider1: Disabler = {
-            toDisable: false,
-            disableWhenExpression: 'true',
-            reEvaluateDisablingExpression: () => { hider1.toDisable = true; }
-        };
+    const hider3: Disabler = {
+      toDisable: false,
+      disableWhenExpression: 'true',
+      reEvaluateDisablingExpression: () => {
+        hider3.toDisable = true;
+      }
+    };
 
-        const hider2: Disabler = {
-            toDisable: true,
-            disableWhenExpression: 'true',
-            reEvaluateDisablingExpression: () => { hider2.toDisable = false; }
-        };
+    control.disablers.push(hider1);
+    control.disablers.push(hider2);
+    control.disablers.push(hider3);
 
-        const hider3: Disabler = {
-            toDisable: false,
-            disableWhenExpression: 'true',
-            reEvaluateDisablingExpression: () => { hider3.toDisable = true; }
-        };
+    control.updateDisabledState();
 
-        control.disablers.push(hider1);
-        control.disablers.push(hider2);
-        control.disablers.push(hider3);
+    expect(control.disablers[0].toDisable).toBe(true);
+    expect(control.disablers[1].toDisable).toBe(false);
+    expect(control.disablers[2].toDisable).toBe(true);
+    expect(control.disabled).toBe(true);
 
-        control.updateDisabledState();
+    // test case 2: should not be disabled if none of the disablers is false
+    const control2: CanDisable = {
+      disabled: true,
+      clearDisablingFns: () => {},
+      disable: () => {
+        control2.disabled = true;
+      },
+      enable: () => {
+        control2.disabled = false;
+      },
+      disablers: [],
+      updateDisabledState: () => {
+        helper.evaluateControlDisablers(control2);
+      },
+      setDisablingFn: (newHider: Disabler) => {}
+    };
 
-        expect(control.disablers[0].toDisable).toBe(true);
-        expect(control.disablers[1].toDisable).toBe(false);
-        expect(control.disablers[2].toDisable).toBe(true);
-        expect(control.disabled).toBe(true);
+    const hider4: Disabler = {
+      toDisable: true,
+      disableWhenExpression: 'true',
+      reEvaluateDisablingExpression: () => {
+        hider4.toDisable = false;
+      }
+    };
 
+    const hider5: Disabler = {
+      toDisable: true,
+      disableWhenExpression: 'true',
+      reEvaluateDisablingExpression: () => {
+        hider5.toDisable = false;
+      }
+    };
 
-        // test case 2: should not be disabled if none of the disablers is false
-        const control2: CanDisable = {
-            disabled: true,
-            clearDisablingFns: () => { },
-            disable: () => { control2.disabled = true; },
-            enable: () => { control2.disabled = false; },
-            disablers: [],
-            updateDisabledState: () => { helper.evaluateControlDisablers(control2); },
-            setDisablingFn: (newHider: Disabler) => { }
-        };
+    control2.disablers.push(hider4);
+    control2.disablers.push(hider5);
 
-        const hider4: Disabler = {
-            toDisable: true,
-            disableWhenExpression: 'true',
-            reEvaluateDisablingExpression: () => { hider4.toDisable = false; }
-        };
+    control2.updateDisabledState();
 
-        const hider5: Disabler = {
-            toDisable: true,
-            disableWhenExpression: 'true',
-            reEvaluateDisablingExpression: () => { hider5.toDisable = false; }
-        };
+    expect(control2.disablers[0].toDisable).toBe(false);
+    expect(control2.disablers[1].toDisable).toBe(false);
+    expect(control2.disabled).toBe(false);
+  });
 
-        control2.disablers.push(hider4);
-        control2.disablers.push(hider5);
+  it('should trigger reEvaluation of a controls disabled status when control value changes', () => {
+    const helper: DisablerHelper = TestBed.get(DisablerHelper);
 
-        control2.updateDisabledState();
+    const subject: Subject<any> = new Subject<any>();
 
-        expect(control2.disablers[0].toDisable).toBe(false);
-        expect(control2.disablers[1].toDisable).toBe(false);
-        expect(control2.disabled).toBe(false);
+    const control: CanDisable = {
+      disabled: false,
+      clearDisablingFns: () => {},
+      disable: () => {
+        control.disabled = true;
+      },
+      enable: () => {
+        control.disabled = false;
+      },
+      disablers: [],
+      updateDisabledState: () => {
+        helper.evaluateControlDisablers(control);
+      },
+      setDisablingFn: (newHider: Disabler) => {},
+      valueChanges: subject.asObservable()
+    };
 
-    });
+    const hider1: Disabler = {
+      toDisable: false,
+      disableWhenExpression: 'true',
+      reEvaluateDisablingExpression: () => {
+        hider1.toDisable = true;
+      }
+    };
 
-    it('should trigger reEvaluation of a controls disabled status when control value changes', () => {
-        const helper: DisablerHelper = TestBed.get(DisablerHelper);
+    const hider2: Disabler = {
+      toDisable: true,
+      disableWhenExpression: 'true',
+      reEvaluateDisablingExpression: () => {
+        hider2.toDisable = false;
+      }
+    };
 
-        const subject: Subject<any> = new Subject<any>();
+    const hider3: Disabler = {
+      toDisable: false,
+      disableWhenExpression: 'true',
+      reEvaluateDisablingExpression: () => {
+        hider3.toDisable = true;
+      }
+    };
 
-        const control: CanDisable = {
-            disabled: false,
-            clearDisablingFns: () => { },
-            disable: () => { control.disabled = true; },
-            enable: () => { control.disabled = false; },
-            disablers: [],
-            updateDisabledState: () => { helper.evaluateControlDisablers(control); },
-            setDisablingFn: (newHider: Disabler) => { },
-            valueChanges: subject.asObservable()
-        };
+    control.disablers.push(hider1);
+    control.disablers.push(hider2);
+    control.disablers.push(hider3);
 
-        const hider1: Disabler = {
-            toDisable: false,
-            disableWhenExpression: 'true',
-            reEvaluateDisablingExpression: () => { hider1.toDisable = true; }
-        };
+    helper.setUpReEvaluationWhenValueChanges(control);
 
-        const hider2: Disabler = {
-            toDisable: true,
-            disableWhenExpression: 'true',
-            reEvaluateDisablingExpression: () => { hider2.toDisable = false; }
-        };
+    expect(control.disablers[0].toDisable).toBe(false);
+    expect(control.disablers[1].toDisable).toBe(true);
+    expect(control.disablers[2].toDisable).toBe(false);
+    expect(control.disabled).toBe(false);
 
-        const hider3: Disabler = {
-            toDisable: false,
-            disableWhenExpression: 'true',
-            reEvaluateDisablingExpression: () => { hider3.toDisable = true; }
-        };
+    subject.next(30);
 
-        control.disablers.push(hider1);
-        control.disablers.push(hider2);
-        control.disablers.push(hider3);
-
-
-        helper.setUpReEvaluationWhenValueChanges(control);
-
-        expect(control.disablers[0].toDisable).toBe(false);
-        expect(control.disablers[1].toDisable).toBe(true);
-        expect(control.disablers[2].toDisable).toBe(false);
-        expect(control.disabled).toBe(false);
-
-        subject.next(30);
-
-        expect(control.disablers[0].toDisable).toBe(true);
-        expect(control.disablers[1].toDisable).toBe(false);
-        expect(control.disablers[2].toDisable).toBe(true);
-        expect(control.disabled).toBe(true);
-    });
-
+    expect(control.disablers[0].toDisable).toBe(true);
+    expect(control.disablers[1].toDisable).toBe(false);
+    expect(control.disablers[2].toDisable).toBe(true);
+    expect(control.disabled).toBe(true);
+  });
 });

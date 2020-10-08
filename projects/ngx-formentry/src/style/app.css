@@ -1,17 +1,17 @@
 .slider {
-    width: auto;
-    margin: 30px;
+  width: auto;
+  margin: 30px;
 }
 
 .slick-prev:before,
 .slick-next:before {
-    color:#337AB7;
+  color: #337ab7;
 }
 
 .slick-dots {
-    bottom: -40px;
+  bottom: -40px;
 }
 .slick-slide {
-    outline: none
+  outline: none;
 }
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';

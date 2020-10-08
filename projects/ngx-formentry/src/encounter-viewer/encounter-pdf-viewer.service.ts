@@ -20,7 +20,6 @@ const moment = moment_;
 @Injectable({
   providedIn: 'root'
 })
-
 export class EncounterPdfViewerService {
   private remoteDataSource: DataSource;
   public error: boolean;
@@ -39,17 +38,29 @@ export class EncounterPdfViewerService {
     private dataSources: DataSources
   ) {}
 
-  getPages(pages: any, form: Form, remoteSelectsOnly?: boolean, remoteAns?: any): any[] {
+  getPages(
+    pages: any,
+    form: Form,
+    remoteSelectsOnly?: boolean,
+    remoteAns?: any
+  ): any[] {
     const content = [];
     let remoteQuestions = [];
 
     for (const page of pages) {
       if (remoteSelectsOnly) {
-        remoteQuestions = remoteQuestions.concat(this.getSections(page.page, form, false, remoteAns));
+        remoteQuestions = remoteQuestions.concat(
+          this.getSections(page.page, form, false, remoteAns)
+        );
       } else {
         for (const question of form.rootNode.question.questions) {
-          if (page.label === form.rootNode.children[question.key].question.label &&
-            this.encounterViewerService.questionsAnswered(form.rootNode.children[question.key])) {
+          if (
+            page.label ===
+              form.rootNode.children[question.key].question.label &&
+            this.encounterViewerService.questionsAnswered(
+              form.rootNode.children[question.key]
+            )
+          ) {
             content.push({
               style: 'tableExample',
               table: {
@@ -72,17 +83,21 @@ export class EncounterPdfViewerService {
                 ]
               },
               layout: {
-                hLineWidth: function(i, node) {
-                  return (i === 0 || i === node.table.body.length) ? 0.5 : 0.5;
+                hLineWidth: function (i, node) {
+                  return i === 0 || i === node.table.body.length ? 0.5 : 0.5;
                 },
-                vLineWidth: function(i, node) {
-                  return (i === 0 || i === node.table.widths.length) ? 0.5 : 0.5;
+                vLineWidth: function (i, node) {
+                  return i === 0 || i === node.table.widths.length ? 0.5 : 0.5;
                 },
-                hLineColor: function(i, node) {
-                  return (i === 0 || i === node.table.body.length) ? '#ddd' : '#ddd';
+                hLineColor: function (i, node) {
+                  return i === 0 || i === node.table.body.length
+                    ? '#ddd'
+                    : '#ddd';
                 },
-                vLineColor: function(i, node) {
-                  return (i === 0 || i === node.table.body.length) ? '#ddd' : '#ddd';
+                vLineColor: function (i, node) {
+                  return i === 0 || i === node.table.body.length
+                    ? '#ddd'
+                    : '#ddd';
                 }
               }
             });
@@ -98,7 +113,7 @@ export class EncounterPdfViewerService {
     const answeredSections = [];
     let questions: Array<Observable<any>> = [];
 
-    sections.map(s => {
+    sections.map((s) => {
       if (this.encounterViewerService.questionsAnswered(s.node)) {
         answeredSections.push(s);
       }
@@ -116,7 +131,7 @@ export class EncounterPdfViewerService {
               widths: ['*'],
               body: [
                 [{ text: section.label, style: 'tableSubheader' }],
-                [ this.getSectionData(section.section, remoteAns, form) ]
+                [this.getSectionData(section.section, remoteAns, form)]
               ]
             },
             layout: 'noBorders'
@@ -129,15 +144,20 @@ export class EncounterPdfViewerService {
     }
   }
 
-  private appendResolvedAnswer(resolvedAnswer: any, questions: any, node?: any) {
+  private appendResolvedAnswer(
+    resolvedAnswer: any,
+    questions: any,
+    node?: any
+  ) {
     if (resolvedAnswer) {
       questions.stack.push({
         text: [
-          `${(node) ? node.question.label : 'Question label' }${
-            (node) ? (node.question.label.indexOf(':') > 1 ? '' : ':') : ''
+          `${node ? node.question.label : 'Question label'}${
+            node ? (node.question.label.indexOf(':') > 1 ? '' : ':') : ''
           } `,
           { text: `${resolvedAnswer}`, bold: true }
-        ], style: 'answers'
+        ],
+        style: 'answers'
       });
     }
   }
@@ -149,10 +169,14 @@ export class EncounterPdfViewerService {
 
     for (const node of section) {
       if (node.question.renderingType === 'remote-select') {
-        this.remoteDataSource = this.dataSources.dataSources[node.question.dataSource];
+        this.remoteDataSource = this.dataSources.dataSources[
+          node.question.dataSource
+        ];
         if (node.control.value !== '') {
           if (this.remoteDataSource) {
-            questions.push(this.remoteDataSource.resolveSelectedValue(node.control.value));
+            questions.push(
+              this.remoteDataSource.resolveSelectedValue(node.control.value)
+            );
           }
         }
       }
@@ -172,30 +196,40 @@ export class EncounterPdfViewerService {
       switch (node.question.renderingType) {
         case 'group':
           if (node.groupMembers) {
-            questions.stack.push(this.getSectionData(node.groupMembers, remoteAns, form));
+            questions.stack.push(
+              this.getSectionData(node.groupMembers, remoteAns, form)
+            );
           }
           break;
 
         case 'field-set':
           if (node.children) {
             const groupMembers = [];
-            const result = Object.keys(node.children).map((key) => node.children[key]);
+            const result = Object.keys(node.children).map(
+              (key) => node.children[key]
+            );
 
             if (result) {
               groupMembers.push(result);
-              questions.stack.push(this.getSectionData(groupMembers[0], remoteAns, form));
+              questions.stack.push(
+                this.getSectionData(groupMembers[0], remoteAns, form)
+              );
             }
           }
           break;
 
         case 'repeating':
           if (node.groupMembers) {
-            questions.stack.push(this.getSectionData(node.groupMembers, remoteAns, form));
+            questions.stack.push(
+              this.getSectionData(node.groupMembers, remoteAns, form)
+            );
           }
           break;
 
         case 'remote-select':
-          this.remoteDataSource = this.dataSources.dataSources[node.question.dataSource];
+          this.remoteDataSource = this.dataSources.dataSources[
+            node.question.dataSource
+          ];
           for (const ans of remoteAns) {
             if (ans.value === node.control.value) {
               this.appendResolvedAnswer(ans.label, questions, node);
@@ -218,7 +252,10 @@ export class EncounterPdfViewerService {
   resolveValue(answer: any, form: Form, arrayElement?: boolean): any {
     if (answer !== '') {
       if (this.isUuid(answer)) {
-        const val = this.encounterViewerService.resolveSelectedValueFromSchema(answer, form.schema);
+        const val = this.encounterViewerService.resolveSelectedValueFromSchema(
+          answer,
+          form.schema
+        );
         if (!arrayElement) {
           if (val) {
             return val.toUpperCase();
@@ -230,7 +267,7 @@ export class EncounterPdfViewerService {
         }
       } else if (_.isArray(answer)) {
         const arr = [];
-        _.forEach(answer, elem => {
+        _.forEach(answer, (elem) => {
           arr.push(this.resolveValue(elem, form, true));
         });
         return arr.toString();
@@ -247,20 +284,29 @@ export class EncounterPdfViewerService {
         values.push(result);
         return values;
       } else {
-       return answer;
+        return answer;
       }
     }
   }
 
   generatePdfDefinition(form: Form): any {
     const docDefinition$ = new BehaviorSubject<any>({});
-    const remoteSelects = this.getPages((this.obsValueAdapter.traverse(form.rootNode)), form, true);
+    const remoteSelects = this.getPages(
+      this.obsValueAdapter.traverse(form.rootNode),
+      form,
+      true
+    );
 
-    combineLatest(remoteSelects).subscribe(remoteAns => {
+    combineLatest(remoteSelects).subscribe((remoteAns) => {
       if (remoteAns) {
         const docDefinition = {
           pageSize: 'A4',
-          content: this.getPages(this.obsValueAdapter.traverse(form.rootNode), form, false, remoteAns),
+          content: this.getPages(
+            this.obsValueAdapter.traverse(form.rootNode),
+            form,
+            false,
+            remoteAns
+          ),
           styles: {
             answers: {
               fontSize: 8
@@ -337,101 +383,118 @@ export class EncounterPdfViewerService {
     pdf.vfs = pdfMake.vfs;
 
     if (form.dataSourcesContainer.dataSources._dataSources) {
-      patient = form.dataSourcesContainer.dataSources._dataSources['patientInfo'];
+      patient =
+        form.dataSourcesContainer.dataSources._dataSources['patientInfo'];
     }
 
-    this.generatePdfDefinition(form).subscribe(docDefinition => {
-      if (!(_.isEmpty(docDefinition))) {
-        if (typeof patient !== 'undefined') {
-          const banner = [];
+    this.generatePdfDefinition(form).subscribe(
+      (docDefinition) => {
+        if (!_.isEmpty(docDefinition)) {
+          if (typeof patient !== 'undefined') {
+            const banner = [];
 
-          if (patient.name) {
-            banner.push({
-              text: [
-                { text: 'Name: ', style: 'bannerLabel' },
-                { text: `${this.titleize(patient.name)}` }
-              ],
-              style: 'bannerItem'
-            });
-          }
+            if (patient.name) {
+              banner.push({
+                text: [
+                  { text: 'Name: ', style: 'bannerLabel' },
+                  { text: `${this.titleize(patient.name)}` }
+                ],
+                style: 'bannerItem'
+              });
+            }
 
-          if (patient.nid) {
-            banner.push({
-              text: [
-                { text: 'ID: ', style: 'bannerLabel' },
-                { text: `${patient.nid}` }
-              ],
-              style: 'bannerItem'
-            });
-          }
+            if (patient.nid) {
+              banner.push({
+                text: [
+                  { text: 'ID: ', style: 'bannerLabel' },
+                  { text: `${patient.nid}` }
+                ],
+                style: 'bannerItem'
+              });
+            }
 
-          if (patient.birthdate) {
-            banner.push({
-              text: [
-                { text: 'DOB: ', style: 'bannerLabel' },
-                { text: `${moment(patient.birthdate).format('l')} (${patient.age} yo)` }
-              ],
-              style: 'bannerItem'
-            });
-          }
-
-          if (patient.mui) {
-            banner.push({
-              text: [
-                { text: 'MUI: ', style: 'bannerLabel' },
-                { text: `${patient.mui}` }
-              ],
-              style: 'bannerItem'
-            });
-          }
-
-          if (patient.mhn) {
-            banner.push({
-              text: [
-                { text: 'MTRH No: ', style: 'bannerLabel' },
-                { text: `${patient.mhn}` }
-              ],
-              style: 'bannerItem'
-            });
-          }
-
-          docDefinition.header = {
-            style: 'banner',
-            table: {
-              body: [ banner ]
-            },
-            layout: 'noBorders'
-          };
-        }
-
-        docDefinition.footer = (currentPage, pageCount) => {
-          return 	{
-            style: 'footer',
-            widths: ['*', 'auto'],
-            table: {
-              body: [
-                [
+            if (patient.birthdate) {
+              banner.push({
+                text: [
+                  { text: 'DOB: ', style: 'bannerLabel' },
                   {
-                    text: 'Note: Confidentiality is one of the core duties of all medical practitioners. '
-                      + 'Patients\' personal health information should be kept private.', style: 'confidential'
-                  }, ''
+                    text: `${moment(patient.birthdate).format('l')} (${
+                      patient.age
+                    } yo)`
+                  }
                 ],
-                [
-                  { text: `Generated on ${new Date().toUTCString()}`, style: 'timestamp' },
-                  { text: `${currentPage.toString()} of ${pageCount}`, style: 'pageNumber' }
-                ],
-              ]
-            },
-            layout: 'noBorders'
-          };
-        };
+                style: 'bannerItem'
+              });
+            }
 
-        const win = window.open('', '_blank');
-        pdf.createPdf(docDefinition).open({}, win);
+            if (patient.mui) {
+              banner.push({
+                text: [
+                  { text: 'MUI: ', style: 'bannerLabel' },
+                  { text: `${patient.mui}` }
+                ],
+                style: 'bannerItem'
+              });
+            }
+
+            if (patient.mhn) {
+              banner.push({
+                text: [
+                  { text: 'MTRH No: ', style: 'bannerLabel' },
+                  { text: `${patient.mhn}` }
+                ],
+                style: 'bannerItem'
+              });
+            }
+
+            docDefinition.header = {
+              style: 'banner',
+              table: {
+                body: [banner]
+              },
+              layout: 'noBorders'
+            };
+          }
+
+          docDefinition.footer = (currentPage, pageCount) => {
+            return {
+              style: 'footer',
+              widths: ['*', 'auto'],
+              table: {
+                body: [
+                  [
+                    {
+                      text:
+                        'Note: Confidentiality is one of the core duties of all medical practitioners. ' +
+                        "Patients' personal health information should be kept private.",
+                      style: 'confidential'
+                    },
+                    ''
+                  ],
+                  [
+                    {
+                      text: `Generated on ${new Date().toUTCString()}`,
+                      style: 'timestamp'
+                    },
+                    {
+                      text: `${currentPage.toString()} of ${pageCount}`,
+                      style: 'pageNumber'
+                    }
+                  ]
+                ]
+              },
+              layout: 'noBorders'
+            };
+          };
+
+          const win = window.open('', '_blank');
+          pdf.createPdf(docDefinition).open({}, win);
+        }
+      },
+      (error) => {
+        console.log('Error: ', error);
       }
-    }, (error) => {
-      console.log('Error: ', error);
-    });
+    );
   }
 
   isDate(val: any) {
@@ -439,10 +502,17 @@ export class EncounterPdfViewerService {
   }
 
   isUuid(value: string) {
-    return (value.length === 36 && value.indexOf(' ') === -1 && value.indexOf('.') === -1);
+    return (
+      value.length === 36 &&
+      value.indexOf(' ') === -1 &&
+      value.indexOf('.') === -1
+    );
   }
 
   titleize(str) {
-    return str.replace(/\w\S*/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
+    return str.replace(
+      /\w\S*/g,
+      (s) => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()
+    );
   }
 }

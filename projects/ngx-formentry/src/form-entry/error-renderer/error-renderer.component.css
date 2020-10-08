@@ -3,8 +3,8 @@ ul {
 }
 
 .list-group-item {
-    padding: 2px 15px;
-    cursor: pointer;
+  padding: 2px 15px;
+  cursor: pointer;
 }
 
 ul li:hover {

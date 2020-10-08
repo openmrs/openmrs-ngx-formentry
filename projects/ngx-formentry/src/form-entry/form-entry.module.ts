@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatTabsModule , MatIconModule , MatCardModule} from '@angular/material';
+import { MatTabsModule, MatIconModule, MatCardModule } from '@angular/material';
 // import { NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -33,64 +33,68 @@ import { OrderValueAdapter } from './value-adapters/order.adapter';
 import { ObsAdapterHelper } from './value-adapters/obs-adapter-helper';
 import { ObsValueAdapter } from './value-adapters/obs.adapter';
 import { RemoteSelectModule } from '../components/remote-select/remote-select.module';
-import { AppointmentsOverviewComponent} from '../components/appointments-overview/appointments-overview.component';
+import { AppointmentsOverviewComponent } from '../components/appointments-overview/appointments-overview.component';
 import { EncounterViewerModule } from '../encounter-viewer/encounter-viewer.module';
 import { CheckboxModule } from '../components/check-box/checkbox.module';
 import { SharedModule } from '../shared.module';
 import { TimeAgoPipe } from 'time-ago-pipe';
 
-
 @NgModule({
-    imports: [CommonModule,
-        ReactiveFormsModule,
-        CollapseModule,
-        // NgSelectModule,
-        SelectModule,
-        DateTimePickerModule,
-        RemoteSelectModule,
-        // NoopAnimationsModule,
-        RemoteFileUploadModule,
-        EncounterViewerModule,
-        CheckboxModule,
-        MatIconModule,
-        MatTabsModule,
-        MatCardModule,
-        NgxDateTimePickerModule,
-        SharedModule
-    ],
-    declarations: [
-        FormRendererComponent,
-        AfeNgSelectComponent,
-        AppointmentsOverviewComponent,
-        HistoricalValueDirective,
-        ErrorRendererComponent,
-        TimeAgoPipe
-    ],
-    providers: [
-        FormBuilder,
-        FormControlService,
-        FormErrorsService,
-        ValidationFactory,
-        HidersDisablersFactory,
-        AlertsFactory,
-        ExpressionRunner,
-        JsExpressionHelper,
-        HistoricalFieldHelperService,
-        FormSchemaCompiler,
-        FormFactory,
-        QuestionFactory,
-        ValidationFactory,
-        ControlRelationsFactory,
-        ObsAdapterHelper,
-        ObsValueAdapter,
-        EncounterAdapter,
-        PersonAttribuAdapter,
-        OrderValueAdapter,
-        DebugModeService
-    ],
-    exports: [FormRendererComponent, AfeNgSelectComponent,
-        ErrorRendererComponent, DateTimePickerModule, EncounterViewerModule , NgxDateTimePickerModule]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    CollapseModule,
+    // NgSelectModule,
+    SelectModule,
+    DateTimePickerModule,
+    RemoteSelectModule,
+    // NoopAnimationsModule,
+    RemoteFileUploadModule,
+    EncounterViewerModule,
+    CheckboxModule,
+    MatIconModule,
+    MatTabsModule,
+    MatCardModule,
+    NgxDateTimePickerModule,
+    SharedModule
+  ],
+  declarations: [
+    FormRendererComponent,
+    AfeNgSelectComponent,
+    AppointmentsOverviewComponent,
+    HistoricalValueDirective,
+    ErrorRendererComponent,
+    TimeAgoPipe
+  ],
+  providers: [
+    FormBuilder,
+    FormControlService,
+    FormErrorsService,
+    ValidationFactory,
+    HidersDisablersFactory,
+    AlertsFactory,
+    ExpressionRunner,
+    JsExpressionHelper,
+    HistoricalFieldHelperService,
+    FormSchemaCompiler,
+    FormFactory,
+    QuestionFactory,
+    ValidationFactory,
+    ControlRelationsFactory,
+    ObsAdapterHelper,
+    ObsValueAdapter,
+    EncounterAdapter,
+    PersonAttribuAdapter,
+    OrderValueAdapter,
+    DebugModeService
+  ],
+  exports: [
+    FormRendererComponent,
+    AfeNgSelectComponent,
+    ErrorRendererComponent,
+    DateTimePickerModule,
+    EncounterViewerModule,
+    NgxDateTimePickerModule
+  ]
 })
-export class FormEntryModule {
-
-}
+export class FormEntryModule {}

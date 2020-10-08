@@ -1,4 +1,10 @@
-import { Component, Input, forwardRef, OnInit, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  forwardRef,
+  OnInit,
+  AfterViewInit
+} from '@angular/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
@@ -11,16 +17,19 @@ import * as _ from 'lodash';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CheckboxControlComponent),
-      multi: true,
-    }],
-  styles: [`
-    .no-border {
-      border: 0;
-      box-shadow: none;
-    }`]
+      multi: true
+    }
+  ],
+  styles: [
+    `
+      .no-border {
+        border: 0;
+        box-shadow: none;
+      }
+    `
+  ]
 })
 export class CheckboxControlComponent implements OnInit, AfterViewInit {
-
   @Input() public options: Array<any>;
   @Input() public selected: Array<any>;
   public _value: Array<any> = [];
@@ -28,7 +37,7 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
   public ngOnInit() {
     this.options = this.options.map((option) => {
       if (this.selected.indexOf(option.value) !== -1) {
-        Object.assign(option, {checked: true});
+        Object.assign(option, { checked: true });
       }
       return option;
     });
@@ -80,7 +89,6 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
     this.onChange(this.value);
   }
 
-  private onChange = (change: any) => { };
-  private onTouched = () => { };
-
+  private onChange = (change: any) => {};
+  private onTouched = () => {};
 }

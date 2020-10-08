@@ -4,251 +4,275 @@ import { Subject } from 'rxjs';
 import { HiderHelper } from './hider-helpers';
 import { CanHide, Hider } from './can-hide';
 
-
 describe('Control Hider Helper Service:', () => {
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [
-                HiderHelper
-            ]
-        });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [HiderHelper]
     });
+  });
 
-    it('should be defined', () => {
-        const helper: HiderHelper = TestBed.get(HiderHelper);
-        expect(helper).toBeTruthy();
-        // expect(factory.controlService).toBeTruthy();
-    });
+  it('should be defined', () => {
+    const helper: HiderHelper = TestBed.get(HiderHelper);
+    expect(helper).toBeTruthy();
+    // expect(factory.controlService).toBeTruthy();
+  });
 
-    it('should hide a control', () => {
-        const helper: HiderHelper = TestBed.get(HiderHelper);
+  it('should hide a control', () => {
+    const helper: HiderHelper = TestBed.get(HiderHelper);
 
-        const control: CanHide = {
-            hidden: false,
-            disabled: false,
-            clearHidingFns: () => { },
-            hide: () => { helper.hideControl(control); },
-            disable: () => { control.disabled = true; },
-            show: () => { },
-            hiders: [],
-            updateHiddenState: () => { },
-            setHidingFn: (newHider: Hider) => { }
-        };
+    const control: CanHide = {
+      hidden: false,
+      disabled: false,
+      clearHidingFns: () => {},
+      hide: () => {
+        helper.hideControl(control);
+      },
+      disable: () => {
+        control.disabled = true;
+      },
+      show: () => {},
+      hiders: [],
+      updateHiddenState: () => {},
+      setHidingFn: (newHider: Hider) => {}
+    };
 
-        control.hide();
+    control.hide();
 
-        expect(control.hidden).toBe(true);
-        expect(control.disabled).toBe(true);
-    });
+    expect(control.hidden).toBe(true);
+    expect(control.disabled).toBe(true);
+  });
 
-    it('should show a control', () => {
-        const helper: HiderHelper = TestBed.get(HiderHelper);
+  it('should show a control', () => {
+    const helper: HiderHelper = TestBed.get(HiderHelper);
 
-        const control: CanHide = {
-            hidden: true,
-            clearHidingFns: () => { },
-            hide: () => { helper.hideControl(control); },
-            show: () => { helper.showControl(control); },
-            hiders: [],
-            updateHiddenState: () => { },
-            setHidingFn: (newHider: Hider) => { }
-        };
+    const control: CanHide = {
+      hidden: true,
+      clearHidingFns: () => {},
+      hide: () => {
+        helper.hideControl(control);
+      },
+      show: () => {
+        helper.showControl(control);
+      },
+      hiders: [],
+      updateHiddenState: () => {},
+      setHidingFn: (newHider: Hider) => {}
+    };
 
-        control.show();
+    control.show();
 
-        expect(control.hidden).toBe(false);
+    expect(control.hidden).toBe(false);
+  });
 
-    });
+  it('should set a hider for a control', () => {
+    const helper: HiderHelper = TestBed.get(HiderHelper);
 
-    it('should set a hider for a control', () => {
-        const helper: HiderHelper = TestBed.get(HiderHelper);
+    const control: CanHide = {
+      hidden: true,
+      clearHidingFns: () => {},
+      hide: () => {},
+      show: () => {},
+      hiders: [],
+      updateHiddenState: () => {},
+      setHidingFn: (newHider: Hider) => {
+        helper.setHiderForControl(control, newHider);
+      }
+    };
 
-        const control: CanHide = {
-            hidden: true,
-            clearHidingFns: () => { },
-            hide: () => { },
-            show: () => { },
-            hiders: [],
-            updateHiddenState: () => { },
-            setHidingFn: (newHider: Hider) => { helper.setHiderForControl(control, newHider); }
-        };
+    const hider: Hider = {
+      toHide: false,
+      hideWhenExpression: 'true',
+      reEvaluateHidingExpression: () => {}
+    };
 
-        const hider: Hider = {
-            toHide: false,
-            hideWhenExpression: 'true',
-            reEvaluateHidingExpression: () => { }
-        };
+    control.setHidingFn(hider);
 
+    expect(control.hiders.length).toBe(1);
+    expect(control.hiders[0]).toBe(hider);
+  });
 
-        control.setHidingFn(hider);
+  it('should clear hiders for a control', () => {
+    const helper: HiderHelper = TestBed.get(HiderHelper);
 
-        expect(control.hiders.length).toBe(1);
-        expect(control.hiders[0]).toBe(hider);
-    });
+    const control: CanHide = {
+      hidden: true,
+      clearHidingFns: () => {
+        helper.clearHidersForControl(control);
+      },
+      hide: () => {},
+      show: () => {},
+      hiders: [],
+      updateHiddenState: () => {},
+      setHidingFn: (newHider: Hider) => {}
+    };
 
-    it('should clear hiders for a control', () => {
-        const helper: HiderHelper = TestBed.get(HiderHelper);
+    const hider: Hider = {
+      toHide: false,
+      hideWhenExpression: 'true',
+      reEvaluateHidingExpression: () => {}
+    };
 
-        const control: CanHide = {
-            hidden: true,
-            clearHidingFns: () => { helper.clearHidersForControl(control); },
-            hide: () => { },
-            show: () => { },
-            hiders: [],
-            updateHiddenState: () => { },
-            setHidingFn: (newHider: Hider) => { }
-        };
+    helper.setHiderForControl(control, hider);
 
-        const hider: Hider = {
-            toHide: false,
-            hideWhenExpression: 'true',
-            reEvaluateHidingExpression: () => { }
-        };
+    expect(control.hiders.length).toBe(1);
+    expect(control.hiders[0]).toBe(hider);
 
+    control.clearHidingFns();
 
-        helper.setHiderForControl(control, hider);
+    expect(control.hiders.length).toBe(0);
 
-        expect(control.hiders.length).toBe(1);
-        expect(control.hiders[0]).toBe(hider);
+    // should have set hidden to false after clearing
+    expect(control.hidden).toBe(false);
+  });
 
-        control.clearHidingFns();
+  it('should evaluate all controls hiders to determine whether to hide the control', () => {
+    const helper: HiderHelper = TestBed.get(HiderHelper);
 
-        expect(control.hiders.length).toBe(0);
+    // test case 1: should be hidden if one of the hiders is true
+    const control: CanHide = {
+      hidden: false,
+      clearHidingFns: () => {},
+      hide: () => {},
+      show: () => {},
+      hiders: [],
+      updateHiddenState: () => {
+        helper.evaluateControlHiders(control);
+      },
+      setHidingFn: (newHider: Hider) => {}
+    };
 
-        // should have set hidden to false after clearing
-        expect(control.hidden).toBe(false);
-    });
+    const hider1: Hider = {
+      toHide: false,
+      hideWhenExpression: 'true',
+      reEvaluateHidingExpression: () => {
+        hider1.toHide = true;
+      }
+    };
 
-    it('should evaluate all controls hiders to determine whether to hide the control', () => {
-        const helper: HiderHelper = TestBed.get(HiderHelper);
+    const hider2: Hider = {
+      toHide: true,
+      hideWhenExpression: 'true',
+      reEvaluateHidingExpression: () => {
+        hider2.toHide = false;
+      }
+    };
 
-        // test case 1: should be hidden if one of the hiders is true
-        const control: CanHide = {
-            hidden: false,
-            clearHidingFns: () => { },
-            hide: () => { },
-            show: () => { },
-            hiders: [],
-            updateHiddenState: () => { helper.evaluateControlHiders(control); },
-            setHidingFn: (newHider: Hider) => { }
-        };
+    const hider3: Hider = {
+      toHide: false,
+      hideWhenExpression: 'true',
+      reEvaluateHidingExpression: () => {
+        hider3.toHide = true;
+      }
+    };
 
-        const hider1: Hider = {
-            toHide: false,
-            hideWhenExpression: 'true',
-            reEvaluateHidingExpression: () => { hider1.toHide = true; }
-        };
+    control.hiders.push(hider1);
+    control.hiders.push(hider2);
+    control.hiders.push(hider3);
 
-        const hider2: Hider = {
-            toHide: true,
-            hideWhenExpression: 'true',
-            reEvaluateHidingExpression: () => { hider2.toHide = false; }
-        };
+    control.updateHiddenState();
 
-        const hider3: Hider = {
-            toHide: false,
-            hideWhenExpression: 'true',
-            reEvaluateHidingExpression: () => { hider3.toHide = true; }
-        };
+    expect(control.hiders[0].toHide).toBe(true);
+    expect(control.hiders[1].toHide).toBe(false);
+    expect(control.hiders[2].toHide).toBe(true);
+    expect(control.hidden).toBe(true);
 
-        control.hiders.push(hider1);
-        control.hiders.push(hider2);
-        control.hiders.push(hider3);
+    // test case 2: should not be hidden if none of the hiders is false
+    const control2: CanHide = {
+      hidden: true,
+      clearHidingFns: () => {},
+      hide: () => {},
+      show: () => {},
+      hiders: [],
+      updateHiddenState: () => {
+        helper.evaluateControlHiders(control2);
+      },
+      setHidingFn: (newHider: Hider) => {}
+    };
 
-        control.updateHiddenState();
+    const hider4: Hider = {
+      toHide: true,
+      hideWhenExpression: 'true',
+      reEvaluateHidingExpression: () => {
+        hider4.toHide = false;
+      }
+    };
 
-        expect(control.hiders[0].toHide).toBe(true);
-        expect(control.hiders[1].toHide).toBe(false);
-        expect(control.hiders[2].toHide).toBe(true);
-        expect(control.hidden).toBe(true);
+    const hider5: Hider = {
+      toHide: true,
+      hideWhenExpression: 'true',
+      reEvaluateHidingExpression: () => {
+        hider5.toHide = false;
+      }
+    };
 
+    control2.hiders.push(hider4);
+    control2.hiders.push(hider5);
 
-        // test case 2: should not be hidden if none of the hiders is false
-        const control2: CanHide = {
-            hidden: true,
-            clearHidingFns: () => { },
-            hide: () => { },
-            show: () => { },
-            hiders: [],
-            updateHiddenState: () => { helper.evaluateControlHiders(control2); },
-            setHidingFn: (newHider: Hider) => { }
-        };
+    control2.updateHiddenState();
 
-        const hider4: Hider = {
-            toHide: true,
-            hideWhenExpression: 'true',
-            reEvaluateHidingExpression: () => { hider4.toHide = false; }
-        };
+    expect(control2.hiders[0].toHide).toBe(false);
+    expect(control2.hiders[1].toHide).toBe(false);
+    expect(control2.hidden).toBe(false);
+  });
 
-        const hider5: Hider = {
-            toHide: true,
-            hideWhenExpression: 'true',
-            reEvaluateHidingExpression: () => { hider5.toHide = false; }
-        };
+  it('should trigger reEvaluation of a controls hidden status when control value changes', () => {
+    const helper: HiderHelper = TestBed.get(HiderHelper);
 
-        control2.hiders.push(hider4);
-        control2.hiders.push(hider5);
+    const subject: Subject<any> = new Subject<any>();
 
-        control2.updateHiddenState();
+    const control: CanHide = {
+      hidden: false,
+      clearHidingFns: () => {},
+      hide: () => {},
+      show: () => {},
+      hiders: [],
+      updateHiddenState: () => {
+        helper.evaluateControlHiders(control);
+      },
+      setHidingFn: (newHider: Hider) => {},
+      valueChanges: subject.asObservable()
+    };
 
-        expect(control2.hiders[0].toHide).toBe(false);
-        expect(control2.hiders[1].toHide).toBe(false);
-        expect(control2.hidden).toBe(false);
+    const hider1: Hider = {
+      toHide: false,
+      hideWhenExpression: 'true',
+      reEvaluateHidingExpression: () => {
+        hider1.toHide = true;
+      }
+    };
 
-    });
+    const hider2: Hider = {
+      toHide: true,
+      hideWhenExpression: 'true',
+      reEvaluateHidingExpression: () => {
+        hider2.toHide = false;
+      }
+    };
 
-    it('should trigger reEvaluation of a controls hidden status when control value changes', () => {
-        const helper: HiderHelper = TestBed.get(HiderHelper);
+    const hider3: Hider = {
+      toHide: false,
+      hideWhenExpression: 'true',
+      reEvaluateHidingExpression: () => {
+        hider3.toHide = true;
+      }
+    };
 
-        const subject: Subject<any> = new Subject<any>();
+    control.hiders.push(hider1);
+    control.hiders.push(hider2);
+    control.hiders.push(hider3);
 
-        const control: CanHide = {
-            hidden: false,
-            clearHidingFns: () => { },
-            hide: () => { },
-            show: () => { },
-            hiders: [],
-            updateHiddenState: () => { helper.evaluateControlHiders(control); },
-            setHidingFn: (newHider: Hider) => { },
-            valueChanges: subject.asObservable()
-        };
+    helper.setUpReEvaluationWhenValueChanges(control);
 
-        const hider1: Hider = {
-            toHide: false,
-            hideWhenExpression: 'true',
-            reEvaluateHidingExpression: () => { hider1.toHide = true; }
-        };
+    expect(control.hiders[0].toHide).toBe(false);
+    expect(control.hiders[1].toHide).toBe(true);
+    expect(control.hiders[2].toHide).toBe(false);
+    expect(control.hidden).toBe(false);
 
-        const hider2: Hider = {
-            toHide: true,
-            hideWhenExpression: 'true',
-            reEvaluateHidingExpression: () => { hider2.toHide = false; }
-        };
+    subject.next(30);
 
-        const hider3: Hider = {
-            toHide: false,
-            hideWhenExpression: 'true',
-            reEvaluateHidingExpression: () => { hider3.toHide = true; }
-        };
-
-        control.hiders.push(hider1);
-        control.hiders.push(hider2);
-        control.hiders.push(hider3);
-
-
-        helper.setUpReEvaluationWhenValueChanges(control);
-
-        expect(control.hiders[0].toHide).toBe(false);
-        expect(control.hiders[1].toHide).toBe(true);
-        expect(control.hiders[2].toHide).toBe(false);
-        expect(control.hidden).toBe(false);
-
-        subject.next(30);
-
-        expect(control.hiders[0].toHide).toBe(true);
-        expect(control.hiders[1].toHide).toBe(false);
-        expect(control.hiders[2].toHide).toBe(true);
-        expect(control.hidden).toBe(true);
-    });
-
+    expect(control.hiders[0].toHide).toBe(true);
+    expect(control.hiders[1].toHide).toBe(false);
+    expect(control.hiders[2].toHide).toBe(true);
+    expect(control.hidden).toBe(true);
+  });
 });

@@ -23,210 +23,213 @@ const adultFormObs = require('../../mock/obs.json');
 const moment = require('moment');
 
 describe('Encounter Value Adapter:', () => {
-    let adultFormSchema: any;
-    beforeEach(async(() => {
-        adultFormSchema = JSON.parse(JSON.stringify(adultForm));
-        TestBed.configureTestingModule({
-            providers: [
-                OrderValueAdapter,
-                ObsValueAdapter,
-                FormFactory,
-                FormControlService,
-                ValidationFactory,
-                HidersDisablersFactory,
-                AlertsFactory,
-                EncounterAdapter,
-                ExpressionRunner,
-                JsExpressionHelper,
-                QuestionFactory,
-                ControlRelationsFactory,
-                ObsAdapterHelper,
-                DebugModeService
-            ]
-        });
-    }));
-
-
-    it('should be injectable', () => {
-        const adapter = TestBed.get(EncounterAdapter);
-        const factory: FormFactory = TestBed.get(FormFactory);
-        expect(adapter).toBeTruthy();
-        expect(factory).toBeTruthy();
-        expect(adultForm).toBeTruthy();
-        const createdForm = factory.createForm(adultFormSchema);
-        expect(createdForm).toBeTruthy();
+  let adultFormSchema: any;
+  beforeEach(async(() => {
+    adultFormSchema = JSON.parse(JSON.stringify(adultForm));
+    TestBed.configureTestingModule({
+      providers: [
+        OrderValueAdapter,
+        ObsValueAdapter,
+        FormFactory,
+        FormControlService,
+        ValidationFactory,
+        HidersDisablersFactory,
+        AlertsFactory,
+        EncounterAdapter,
+        ExpressionRunner,
+        JsExpressionHelper,
+        QuestionFactory,
+        ControlRelationsFactory,
+        ObsAdapterHelper,
+        DebugModeService
+      ]
     });
+  }));
 
-    it('should return all encounter nodes', () => {
-        const adapter = TestBed.get(EncounterAdapter);
-        const factory: FormFactory = TestBed.get(FormFactory);
-        const form = factory.createForm(adultFormSchema);
+  it('should be injectable', () => {
+    const adapter = TestBed.get(EncounterAdapter);
+    const factory: FormFactory = TestBed.get(FormFactory);
+    expect(adapter).toBeTruthy();
+    expect(factory).toBeTruthy();
+    expect(adultForm).toBeTruthy();
+    const createdForm = factory.createForm(adultFormSchema);
+    expect(createdForm).toBeTruthy();
+  });
 
-        const nodes: Array<NodeBase> =
-            adapter.getEncounterNodes(form.rootNode);
+  it('should return all encounter nodes', () => {
+    const adapter = TestBed.get(EncounterAdapter);
+    const factory: FormFactory = TestBed.get(FormFactory);
+    const form = factory.createForm(adultFormSchema);
 
-        expect(nodes.length).toBe(3);
-        expect(nodes[0].question.extras.type)
-            .toBe('encounterDatetime');
-        expect(nodes[1].question.extras.type)
-            .toBe('encounterProvider');
-        expect(nodes[2].question.extras.type)
-            .toBe('encounterLocation');
+    const nodes: Array<NodeBase> = adapter.getEncounterNodes(form.rootNode);
+
+    expect(nodes.length).toBe(3);
+    expect(nodes[0].question.extras.type).toBe('encounterDatetime');
+    expect(nodes[1].question.extras.type).toBe('encounterProvider');
+    expect(nodes[2].question.extras.type).toBe('encounterLocation');
+  });
+
+  it('should populate form with existing encounter', () => {
+    const adapter = TestBed.get(EncounterAdapter);
+    const factory: FormFactory = TestBed.get(FormFactory);
+    const form = factory.createForm(adultFormSchema);
+
+    const encounter = {
+      encounterDatetime: '2016-12-14T11:26:23.000+0300',
+      encounterType: {
+        uuid: '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f',
+        display: 'ADULTRETURN'
+      },
+      form: {
+        uuid: '81f92a8a-ff5c-415d-a34c-b5bdca2406be',
+        name: 'AMPATH POC Adult Return Visit Form v1.0'
+      },
+      location: {
+        uuid: '18c343eb-b353-462a-9139-b16606e6b6c2',
+        display: 'Location Test'
+      },
+      obs: adultFormObs.obs,
+      orders: adultFormOrders.orders,
+      patient: {
+        uuid: 'patient-uuid',
+        identifiers: []
+      },
+      encounterProviders: [
+        {
+          provider: {
+            uuid: 'ef59ac9d-9cca-46c5-ab04-b4d708584e13',
+            display: 'Florida Jepngetich Kiplagat'
+          }
+        }
+      ],
+      uuid: '3841e9e6-b6cb-4667-b495-89331c6a973a'
+    };
+
+    adapter.populateForm(form, encounter);
+
+    const nodes: Array<NodeBase> = adapter.getEncounterNodes(form.rootNode);
+
+    // Encounter Date
+    expect(nodes[0].control.value).toEqual(
+      moment('2016-12-14T11:26:23.000+0300').toDate()
+    );
+    expect(nodes[0].initialValue).toEqual(
+      moment('2016-12-14T11:26:23.000+0300').toDate()
+    );
+
+    // Encounter Provider
+    expect(nodes[1].control.value).toBe('ef59ac9d-9cca-46c5-ab04-b4d708584e13');
+    expect(nodes[1].initialValue).toBe('ef59ac9d-9cca-46c5-ab04-b4d708584e13');
+
+    // Encounter Location
+    expect(nodes[2].control.value).toBe('18c343eb-b353-462a-9139-b16606e6b6c2');
+    expect(nodes[2].initialValue).toBe('18c343eb-b353-462a-9139-b16606e6b6c2');
+
+    // Check that it populated obs
+    const node = form.searchNodeByQuestionId('onArt');
+    expect(node[0].control.value !== '').toBe(true);
+
+    // Check that it populated orders
+    expect(adapter.ordersAdapter.formOrderNodes[0].control.value[0]).toEqual({
+      order1: 'a8982474-1350-11df-a1f1-0026b9348838'
     });
+  });
 
-    it('should populate form with existing encounter', () => {
-        const adapter = TestBed.get(EncounterAdapter);
-        const factory: FormFactory = TestBed.get(FormFactory);
-        const form = factory.createForm(adultFormSchema);
+  it('should generate encounter payload', () => {
+    const adapter = TestBed.get(EncounterAdapter);
+    const factory: FormFactory = TestBed.get(FormFactory);
+    const form = factory.createForm(adultFormSchema);
 
-        const encounter = {
-            encounterDatetime: '2016-12-14T11:26:23.000+0300',
-            encounterType: {
-                uuid: '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f',
-                display: 'ADULTRETURN'
-            },
-            form: {
-                uuid: '81f92a8a-ff5c-415d-a34c-b5bdca2406be',
-                name: 'AMPATH POC Adult Return Visit Form v1.0'
-            },
-            location: {
-                uuid: '18c343eb-b353-462a-9139-b16606e6b6c2',
-                display: 'Location Test'
-            },
-            obs: adultFormObs.obs,
-            orders: adultFormOrders.orders,
-            patient: {
-                uuid: 'patient-uuid',
-                identifiers: []
-            },
-            encounterProviders: [{
-                provider: {
-                    uuid: 'ef59ac9d-9cca-46c5-ab04-b4d708584e13',
-                    display: 'Florida Jepngetich Kiplagat'
-                }
-            }],
-            uuid: '3841e9e6-b6cb-4667-b495-89331c6a973a'
-        };
+    const encounter = {
+      encounterDatetime: '2016-12-14T11:26:23.000+0300',
+      encounterType: {
+        uuid: '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f',
+        display: 'ADULTRETURN'
+      },
+      form: {
+        uuid: '81f92a8a-ff5c-415d-a34c-b5bdca2406be',
+        name: 'AMPATH POC Adult Return Visit Form v1.0'
+      },
+      location: {
+        uuid: '18c343eb-b353-462a-9139-b16606e6b6c2',
+        display: 'Location Test'
+      },
+      obs: adultFormObs.obs,
+      orders: adultFormOrders.orders,
+      patient: {
+        uuid: 'patient-uuid',
+        identifiers: []
+      },
+      encounterProviders: [
+        {
+          provider: {
+            uuid: 'ef59ac9d-9cca-46c5-ab04-b4d708584e13',
+            display: 'Florida Jepngetich Kiplagat'
+          }
+        }
+      ],
+      uuid: '3841e9e6-b6cb-4667-b495-89331c6a973a'
+    };
 
-        adapter.populateForm(form, encounter);
+    adapter.populateForm(form, encounter);
 
-        const nodes: Array<NodeBase> =
-            adapter.getEncounterNodes(form.rootNode);
+    // Set valueProcessingInfo
+    form.valueProcessingInfo = {
+      patientUuid: 'patientUuid',
+      visitUuid: 'visitUuid',
+      encounterTypeUuid: 'encounterTypeUuid',
+      formUuid: 'formUuid',
+      encounterUuid: 'encounterUuid',
+      providerUuid: 'providerUuid',
+      utcOffset: '+0300'
+    };
 
-        // Encounter Date
-        expect(nodes[0].control.value).toEqual(moment('2016-12-14T11:26:23.000+0300').toDate());
-        expect(nodes[0].initialValue).toEqual(moment('2016-12-14T11:26:23.000+0300').toDate());
+    const nodes: Array<NodeBase> = adapter.getEncounterNodes(form.rootNode);
 
-        // Encounter Provider
-        expect(nodes[1].control.value).toBe('ef59ac9d-9cca-46c5-ab04-b4d708584e13');
-        expect(nodes[1].initialValue).toBe('ef59ac9d-9cca-46c5-ab04-b4d708584e13');
+    // Simulate user input
+    // change date
+    const setDate = moment.parseZone('2016-11-23T11:32:54+0000').toDate();
+    nodes[0].control.setValue(setDate);
 
-        // Encounter Location
-        expect(nodes[2].control.value).toBe('18c343eb-b353-462a-9139-b16606e6b6c2');
-        expect(nodes[2].initialValue).toBe('18c343eb-b353-462a-9139-b16606e6b6c2');
+    // change provider
+    nodes[1].control.setValue('new-provider-uuid');
 
-        // Check that it populated obs
-        const node = form.searchNodeByQuestionId('onArt');
-        expect(node[0].control.value !== '').toBe(true);
+    // change location
+    nodes[2].control.setValue('new-location-uuid');
 
-        // Check that it populated orders
-        expect(adapter.ordersAdapter.formOrderNodes[0].control.value[0]).toEqual({ order1: 'a8982474-1350-11df-a1f1-0026b9348838' });
+    // change obs
+    let node = form.searchNodeByQuestionId('onArt');
+    node[0].control.setValue('changed-obs');
 
-    });
+    // change orders
+    node = form.searchNodeByQuestionId('order1');
+    const createdNode = (node[0] as ArrayNode).createChildNode();
+    (createdNode.children['order1'] as LeafNode).control.setValue('new-order');
 
-    it('should generate encounter payload', () => {
-        const adapter = TestBed.get(EncounterAdapter);
-        const factory: FormFactory = TestBed.get(FormFactory);
-        const form = factory.createForm(adultFormSchema);
+    // generate payload
+    const payload = adapter.generateFormPayload(form);
 
-        const encounter = {
-            encounterDatetime: '2016-12-14T11:26:23.000+0300',
-            encounterType: {
-                uuid: '8d5b2be0-c2cc-11de-8d13-0010c6dffd0f',
-                display: 'ADULTRETURN'
-            },
-            form: {
-                uuid: '81f92a8a-ff5c-415d-a34c-b5bdca2406be',
-                name: 'AMPATH POC Adult Return Visit Form v1.0'
-            },
-            location: {
-                uuid: '18c343eb-b353-462a-9139-b16606e6b6c2',
-                display: 'Location Test'
-            },
-            obs: adultFormObs.obs,
-            orders: adultFormOrders.orders,
-            patient: {
-                uuid: 'patient-uuid',
-                identifiers: []
-            },
-            encounterProviders: [{
-                provider: {
-                    uuid: 'ef59ac9d-9cca-46c5-ab04-b4d708584e13',
-                    display: 'Florida Jepngetich Kiplagat'
-                }
-            }],
-            uuid: '3841e9e6-b6cb-4667-b495-89331c6a973a'
-        };
+    expect(payload['encounterDatetime']).toEqual('2016-11-23 14:32:54');
+    expect(payload['encounterProviders'].length).toEqual(1);
+    expect(payload['encounterProviders'][0].provider).toEqual(
+      'new-provider-uuid'
+    );
+    expect(payload['encounterProviders'][0].encounterRole).toEqual(
+      'a0b03050-c99b-11e0-9572-0800200c9a66'
+    );
+    expect(payload['location']).toEqual('new-location-uuid');
 
-        adapter.populateForm(form, encounter);
+    // check members not filled by the user
+    expect(payload['patient']).toEqual('patientUuid');
+    expect(payload['visit']).toEqual('visitUuid');
+    expect(payload['encounterType']).toEqual('encounterTypeUuid');
+    expect(payload['form']).toEqual('formUuid');
+    expect(payload['uuid']).toEqual('encounterUuid');
 
-        // Set valueProcessingInfo
-        form.valueProcessingInfo = {
-            patientUuid: 'patientUuid',
-            visitUuid: 'visitUuid',
-            encounterTypeUuid: 'encounterTypeUuid',
-            formUuid: 'formUuid',
-            encounterUuid: 'encounterUuid',
-            providerUuid: 'providerUuid',
-            utcOffset: '+0300'
-        };
+    // check that it generated obs payload
+    expect(payload['obs'].length > 0).toBe(true);
 
-
-        const nodes: Array<NodeBase> =
-            adapter.getEncounterNodes(form.rootNode);
-
-        // Simulate user input
-        // change date
-        const setDate = moment.parseZone('2016-11-23T11:32:54+0000').toDate();
-        nodes[0].control.setValue(setDate);
-
-        // change provider
-        nodes[1].control.setValue('new-provider-uuid');
-
-        // change location
-        nodes[2].control.setValue('new-location-uuid');
-
-        // change obs
-        let node = form.searchNodeByQuestionId('onArt');
-        node[0].control.setValue('changed-obs');
-
-        // change orders
-        node = form.searchNodeByQuestionId('order1');
-        const createdNode = (node[0] as ArrayNode).createChildNode();
-        (createdNode.children['order1'] as LeafNode).control.setValue('new-order');
-
-
-        // generate payload
-        const payload = adapter.generateFormPayload(form);
-
-        expect(payload['encounterDatetime']).toEqual('2016-11-23 14:32:54');
-        expect(payload['encounterProviders'].length).toEqual(1);
-        expect(payload['encounterProviders'][0].provider).toEqual('new-provider-uuid');
-        expect(payload['encounterProviders'][0].encounterRole).toEqual('a0b03050-c99b-11e0-9572-0800200c9a66');
-        expect(payload['location']).toEqual('new-location-uuid');
-
-        // check members not filled by the user
-        expect(payload['patient']).toEqual('patientUuid');
-        expect(payload['visit']).toEqual('visitUuid');
-        expect(payload['encounterType']).toEqual('encounterTypeUuid');
-        expect(payload['form']).toEqual('formUuid');
-        expect(payload['uuid']).toEqual('encounterUuid');
-
-        // check that it generated obs payload
-        expect(payload['obs'].length > 0).toBe(true);
-
-        // check that it generated orders payload
-        expect(payload['orders'].length > 0).toBe(true);
-    });
-
+    // check that it generated orders payload
+    expect(payload['orders'].length > 0).toBe(true);
+  });
 });

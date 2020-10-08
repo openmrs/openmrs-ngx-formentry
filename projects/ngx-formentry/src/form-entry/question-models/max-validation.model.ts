@@ -1,7 +1,6 @@
 import { ValidationModel } from './validation.model';
 
 export class MaxValidationModel extends ValidationModel {
-
   max: number;
 
   constructor(validations: any) {

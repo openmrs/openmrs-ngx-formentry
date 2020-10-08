@@ -1,5 +1,5 @@
 .appointments {
-  margin-top:12px;
+  margin-top: 12px;
   font-size: 12px;
   color: #999;
 }
@@ -13,18 +13,21 @@
   color: #333;
 }
 
-.appointments td span, .appointments th span {
+.appointments td span,
+.appointments th span {
   display: block;
 }
 
-.appointments td.active, .appointments th.active {
+.appointments td.active,
+.appointments th.active {
   background-color: #3c8dbc;
-  color:#fff !important;
-  padding:0;
+  color: #fff !important;
+  padding: 0;
 }
 
-.appointments td.active span, .appointments th.active span {
-  padding:4px;
+.appointments td.active span,
+.appointments th.active span {
+  padding: 4px;
 }
 
 .appointments span.fa {

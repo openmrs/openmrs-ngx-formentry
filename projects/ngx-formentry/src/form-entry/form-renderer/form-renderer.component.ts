@@ -1,5 +1,10 @@
 import {
-  Component, OnInit, Input, Inject, OnChanges, SimpleChanges
+  Component,
+  OnInit,
+  Input,
+  Inject,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import 'hammerjs';
 import { DEFAULT_STYLES } from './form-renderer.component.css';
@@ -23,8 +28,6 @@ import { QuestionGroup } from '../question-models/group-question';
   styles: ['../../style/app.css', DEFAULT_STYLES]
 })
 export class FormRendererComponent implements OnInit {
-
-
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
   @Input() public parentGroup: AfeFormGroup;
@@ -44,7 +47,8 @@ export class FormRendererComponent implements OnInit {
     private validationFactory: ValidationFactory,
     private dataSources: DataSources,
     private formErrorsService: FormErrorsService,
-    @Inject(DOCUMENT) private document: any) {
+    @Inject(DOCUMENT) private document: any
+  ) {
     this.activeTab = 0;
   }
 
@@ -58,10 +62,9 @@ export class FormRendererComponent implements OnInit {
       }
     }
     if (this.node && this.node.question.renderingType === 'form') {
-      this.formErrorsService.announceErrorField$.subscribe(
-        (error) => {
-          this.scrollToControl(error);
-        });
+      this.formErrorsService.announceErrorField$.subscribe((error) => {
+        this.scrollToControl(error);
+      });
     }
 
     if (this.node && this.node.question.renderingType === 'section') {
@@ -73,18 +76,21 @@ export class FormRendererComponent implements OnInit {
     }
   }
 
-
-
   public addChildComponent(child: FormRendererComponent) {
     this.childComponents.push(child);
   }
 
   public setUpRemoteSelect() {
-    if (this.node && this.node.question.extras &&
-      this.node.question.renderingType === 'remote-select') {
+    if (
+      this.node &&
+      this.node.question.extras &&
+      this.node.question.renderingType === 'remote-select'
+    ) {
       // let selectQuestion = this.node.form.searchNodeByQuestionId(this.node.question.key)[0];
-      this.dataSource = this.dataSources.dataSources[this.node.question.dataSource];
-     /*
+      this.dataSource = this.dataSources.dataSources[
+        this.node.question.dataSource
+      ];
+      /*
       let defaltValues = of([]);
       if (this.dataSource.resolveSelectedValue(selectQuestion.control.value)) {
         defaltValues = this.dataSource.resolveSelectedValue(selectQuestion.control.value).pipe(
@@ -113,12 +119,17 @@ export class FormRendererComponent implements OnInit {
   }
 
   public setUpFileUpload() {
-    if (this.node && this.node.question.extras && this.node.question.renderingType === 'file') {
-      this.dataSource = this.dataSources.dataSources[this.node.question.dataSource];
+    if (
+      this.node &&
+      this.node.question.extras &&
+      this.node.question.renderingType === 'file'
+    ) {
+      this.dataSource = this.dataSources.dataSources[
+        this.node.question.dataSource
+      ];
       // console.log('Key', this.node.question);
       // console.log('Data source', this.dataSource);
     }
-
   }
 
   checkSection(node: NodeBase) {
@@ -127,7 +138,9 @@ export class FormRendererComponent implements OnInit {
       let allSectionControlsHidden = Object.keys(node.children).every((k) => {
         let innerNode = node.children[k];
         if (innerNode instanceof GroupNode) {
-          groupChildrenHidden = Object.keys(innerNode.children).every((i) => innerNode.children[i].control.hidden)
+          groupChildrenHidden = Object.keys(innerNode.children).every(
+            (i) => innerNode.children[i].control.hidden
+          );
         }
         return node.children[k].control.hidden || groupChildrenHidden;
       });
@@ -169,7 +182,6 @@ export class FormRendererComponent implements OnInit {
     if (this.node && this.node.form) {
       this.node.form.valueProcessingInfo['lastFormTab'] = this.activeTab;
     }
-
   }
   public hasErrors() {
     return this.node.control.touched && !this.node.control.valid;
@@ -179,9 +191,7 @@ export class FormRendererComponent implements OnInit {
     return this.getErrors(this.node);
   }
 
-
   public scrollToControl(error: string) {
-
     const tab: number = +error.split(',')[0];
     const elSelector = error.split(',')[1] + 'id';
 
@@ -191,7 +201,6 @@ export class FormRendererComponent implements OnInit {
     this.clickTab(tab);
 
     setTimeout(() => {
-
       // expand all sections
       tabComponent.childComponents.forEach((section) => {
         section.isCollapsed = false;
@@ -204,7 +213,6 @@ export class FormRendererComponent implements OnInit {
           }
         }, 100);
       });
-
     }, 200);
   }
 
@@ -227,16 +235,13 @@ export class FormRendererComponent implements OnInit {
       e.style.display = 'block';
     }
 
-
     console.log('InfoId', infoId);
   }
-
 
   private getErrors(node: NodeBase) {
     const errors: any = node.control.errors;
 
     if (errors) {
-
       return this.validationFactory.errors(errors, node.question);
     }
 

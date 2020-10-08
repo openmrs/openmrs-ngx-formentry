@@ -6,7 +6,6 @@ import 'ts-helpers';
 
 if (process.env.ENV === 'build') {
   // Production
-
 } else {
   // Development
 

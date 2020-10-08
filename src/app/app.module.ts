@@ -7,13 +7,14 @@ import { FormEntryModule } from '../../dist/ngx-formentry';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
-    BrowserModule, BrowserAnimationsModule, FormEntryModule, ReactiveFormsModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormEntryModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

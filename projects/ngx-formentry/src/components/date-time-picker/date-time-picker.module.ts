@@ -12,22 +12,21 @@ import { MomentPipe } from './pipes/moment.pipe';
 import { DateTimePickerComponent } from './date-time-picker.component';
 
 @NgModule({
-    imports: [CommonModule, FormsModule],
-    declarations: [
-        DatePickerComponent,
-        TimePickerComponent,
-        ModalComponent,
-        MomentPipe,
-        DateTimePickerComponent
-    ],
-    exports: [
-        DatePickerComponent,
-        TimePickerComponent,
-        ModalComponent,
-        MomentPipe,
-        DateTimePickerComponent
-    ],
-    providers: []
+  imports: [CommonModule, FormsModule],
+  declarations: [
+    DatePickerComponent,
+    TimePickerComponent,
+    ModalComponent,
+    MomentPipe,
+    DateTimePickerComponent
+  ],
+  exports: [
+    DatePickerComponent,
+    TimePickerComponent,
+    ModalComponent,
+    MomentPipe,
+    DateTimePickerComponent
+  ],
+  providers: []
 })
-export class DateTimePickerModule {
-}
+export class DateTimePickerModule {}

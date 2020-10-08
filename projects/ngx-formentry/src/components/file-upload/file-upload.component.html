@@ -1,5 +1,16 @@
-<lib-file-uploader [srcUrl]="pdfUrl" [formEntry]="formEntryMode" [(ngModel)]="fileUuid" (_onClear)="clearValue()" (uploadData)="onFileChange($event)">
+<lib-file-uploader
+  [srcUrl]="pdfUrl"
+  [formEntry]="formEntryMode"
+  [(ngModel)]="fileUuid"
+  (_onClear)="clearValue()"
+  (uploadData)="onFileChange($event)"
+>
 </lib-file-uploader>
 <div *ngIf="fileUuid">
-    <img *ngIf="!pdfUploaded" class="img-responsive" [src]="fileUuid | secure:this.dataSource.fetchFile" alt="" />
+  <img
+    *ngIf="!pdfUploaded"
+    class="img-responsive"
+    [src]="fileUuid | secure: this.dataSource.fetchFile"
+    alt=""
+  />
 </div>

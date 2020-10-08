@@ -2,7 +2,10 @@ import { Injector } from '@angular/core';
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
-import { AfeFormControl, AfeFormArray, AfeFormGroup
+import {
+  AfeFormControl,
+  AfeFormArray,
+  AfeFormGroup
 } from '../../abstract-controls-extension';
 
 import { FormControlService } from './form-control.service';
@@ -22,9 +25,7 @@ describe('Form Factory Control Service Tests', () => {
   let formControlService: FormControlService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule
-      ],
+      imports: [FormsModule],
       providers: [
         FormControlService,
         ValidationFactory,
@@ -37,7 +38,6 @@ describe('Form Factory Control Service Tests', () => {
     });
     injector = getTestBed();
     formControlService = injector.get(FormControlService);
-
   });
 
   afterEach(() => {
@@ -51,37 +51,41 @@ describe('Form Factory Control Service Tests', () => {
   });
 
   it('Should have a generateFormArray function that returns a form array', () => {
-    const formArray = formControlService.generateFormArray(new RepeatingQuestion({
-      type: 'repeating',
-      key: 'repeating1',
-      label: 'Repeated',
-      questions: [
-        new TextInputQuestion({
-          type: 'text',
-          key: 'reatingPrvi2',
-          label: 'Am Repeated',
-          placeholder: 'Am Repeated'
-        }),
-        new TextInputQuestion({
-          type: 'text',
-          key: 'reatingPrvi1',
-          label: 'Am Repeated Second',
-          placeholder: 'Am Repeated Second'
-        })
-      ]
-    }));
+    const formArray = formControlService.generateFormArray(
+      new RepeatingQuestion({
+        type: 'repeating',
+        key: 'repeating1',
+        label: 'Repeated',
+        questions: [
+          new TextInputQuestion({
+            type: 'text',
+            key: 'reatingPrvi2',
+            label: 'Am Repeated',
+            placeholder: 'Am Repeated'
+          }),
+          new TextInputQuestion({
+            type: 'text',
+            key: 'reatingPrvi1',
+            label: 'Am Repeated Second',
+            placeholder: 'Am Repeated Second'
+          })
+        ]
+      })
+    );
 
     expect(formArray instanceof AfeFormArray).toBeTruthy();
   });
 
   it('Should have a generateControl function that returns a form control', () => {
-    const control = formControlService.generateFormControl(new TextInputQuestion({
-      type: 'text',
-      key: 'things',
-      label: 'Things You Like',
-      defaultValue: 'Hello',
-      placeholder: ''
-    }));
+    const control = formControlService.generateFormControl(
+      new TextInputQuestion({
+        type: 'text',
+        key: 'things',
+        label: 'Things You Like',
+        defaultValue: 'Hello',
+        placeholder: ''
+      })
+    );
 
     expect(control.value).toEqual('Hello');
     expect(control instanceof AfeFormControl).toBeTruthy();
@@ -97,7 +101,10 @@ describe('Form Factory Control Service Tests', () => {
     });
 
     const parentControl = new AfeFormGroup({});
-    const createdControl = formControlService.generateFormControl(testQuestion, parentControl);
+    const createdControl = formControlService.generateFormControl(
+      testQuestion,
+      parentControl
+    );
 
     // examine the created control
     expect(createdControl).toBeTruthy();
@@ -106,7 +113,6 @@ describe('Form Factory Control Service Tests', () => {
 
     // examine the parent control
     expect(parentControl.get(testQuestion.key)).toBe(createdControl);
-
   });
 
   it('should generate control model for a form-array type question', () => {
@@ -128,7 +134,10 @@ describe('Form Factory Control Service Tests', () => {
     testQuestion.questions.push(childQuestion);
 
     const parentControl = new AfeFormGroup({});
-    const createdControl = formControlService.generateFormArray(testQuestion, parentControl);
+    const createdControl = formControlService.generateFormArray(
+      testQuestion,
+      parentControl
+    );
 
     // examine the created control
     expect(createdControl).toBeTruthy();
@@ -137,7 +146,6 @@ describe('Form Factory Control Service Tests', () => {
 
     // examine the parent control
     expect(parentControl.get(testQuestion.key)).toBe(createdControl);
-
   });
 
   it('should generate control model for a form-group type question', () => {
@@ -159,7 +167,11 @@ describe('Form Factory Control Service Tests', () => {
     testQuestion.questions.push(childQuestion);
 
     const parentControl = new AfeFormGroup({});
-    const createdControl = formControlService.generateFormGroupModel(testQuestion, true, parentControl);
+    const createdControl = formControlService.generateFormGroupModel(
+      testQuestion,
+      true,
+      parentControl
+    );
 
     // examine the created control
     expect(createdControl).toBeTruthy();
@@ -173,7 +185,6 @@ describe('Form Factory Control Service Tests', () => {
 
     // examine the parent control
     expect(createdControl.get(testQuestion.questions[0].key)).toBeTruthy();
-
   });
 
   it('should wire disabling and hiding expressions', () => {
@@ -189,7 +200,10 @@ describe('Form Factory Control Service Tests', () => {
     });
 
     const parentControl = new AfeFormGroup({});
-    const createdControl = formControlService.generateFormControl(testQuestion, parentControl);
+    const createdControl = formControlService.generateFormControl(
+      testQuestion,
+      parentControl
+    );
 
     // examine the created control
     expect(createdControl).toBeTruthy();
@@ -211,18 +225,23 @@ describe('Form Factory Control Service Tests', () => {
       disable: '3 === 4'
     });
 
-    const createdGroupControl = formControlService.generateFormGroupModel(testGroup, false);
+    const createdGroupControl = formControlService.generateFormGroupModel(
+      testGroup,
+      false
+    );
     // examine the created control
     expect(createdGroupControl).toBeTruthy();
     expect(createdGroupControl.disablers).toBeTruthy();
     expect(createdGroupControl.disablers.length).toBe(1);
-    expect(createdGroupControl.disablers[0].disableWhenExpression).toBe('3 === 4');
+    expect(createdGroupControl.disablers[0].disableWhenExpression).toBe(
+      '3 === 4'
+    );
 
     expect(createdGroupControl.hiders).toBeTruthy();
     expect(createdGroupControl.hiders.length).toBe(1);
     expect(createdGroupControl.hiders[0].hideWhenExpression).toBe('1 === 2');
 
-     // CASE: Arrays
+    // CASE: Arrays
     const testArray: RepeatingQuestion = new RepeatingQuestion({
       type: 'group',
       key: 'things',
@@ -237,16 +256,16 @@ describe('Form Factory Control Service Tests', () => {
     expect(createdArrayControl).toBeTruthy();
     expect(createdArrayControl.disablers).toBeTruthy();
     expect(createdArrayControl.disablers.length).toBe(1);
-    expect(createdArrayControl.disablers[0].disableWhenExpression).toBe('3 === 4');
+    expect(createdArrayControl.disablers[0].disableWhenExpression).toBe(
+      '3 === 4'
+    );
 
     expect(createdArrayControl.hiders).toBeTruthy();
     expect(createdArrayControl.hiders.length).toBe(1);
     expect(createdArrayControl.hiders[0].hideWhenExpression).toBe('1 === 2');
-
   });
 
   it('should wire calculator expressions functions and evaluate correctly', () => {
-
     const heightQuestion: QuestionBase = new TextInputQuestion({
       type: 'text',
       key: 'height',
@@ -284,7 +303,5 @@ describe('Form Factory Control Service Tests', () => {
     expect(control3).toBeTruthy();
     expect(control3.calculator).toBeTruthy();
     expect(control3.value).toEqual(21.6);
-
   });
-
 });

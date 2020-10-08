@@ -1,3 +1,3 @@
 export class Constants {
-    static disableHiders = false;
+  static disableHiders = false;
 }

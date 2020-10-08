@@ -11,9 +11,16 @@ import { FileUploadComponent } from './file-upload.component';
 import { WebcamModule } from 'ngx-webcam';
 
 @NgModule({
-    imports: [CommonModule, SelectModule, FormsModule, SharedModule, WebcamModule, NgxFileUploaderModule],
-    exports: [FileUploadComponent],
-    declarations: [FileUploadComponent],
-    providers: [],
+  imports: [
+    CommonModule,
+    SelectModule,
+    FormsModule,
+    SharedModule,
+    WebcamModule,
+    NgxFileUploaderModule
+  ],
+  exports: [FileUploadComponent],
+  declarations: [FileUploadComponent],
+  providers: []
 })
-export class RemoteFileUploadModule { }
+export class RemoteFileUploadModule {}

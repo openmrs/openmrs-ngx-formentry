@@ -7,9 +7,13 @@
         </div>
         <div class="picker-header-content">
           <div class="content">
-            <span (click)="showMonthSelection()" class="month">{{calendarDate | moment: "MMMM"}}</span>
+            <span (click)="showMonthSelection()" class="month">{{
+              calendarDate | moment: 'MMMM'
+            }}</span>
             <span class="seperator">|</span>
-            <span (click)="showYearSelection()" class="year">{{calendarDate | moment: "YYYY"}}</span>
+            <span (click)="showYearSelection()" class="year">{{
+              calendarDate | moment: 'YYYY'
+            }}</span>
           </div>
         </div>
         <div class="picker-header-nav">
@@ -17,41 +21,66 @@
         </div>
       </div>
       <div class="picker-calendar">
-        <div class="picker-calendar-row" *ngIf="!onDisplayMonths && !onDisplayYears">
-          <span class="picker-weekday" *ngFor="let day of dayNames">{{ day }}</span>
+        <div
+          class="picker-calendar-row"
+          *ngIf="!onDisplayMonths && !onDisplayYears"
+        >
+          <span class="picker-weekday" *ngFor="let day of dayNames">{{
+            day
+          }}</span>
         </div>
-        <div class="picker-calendar-row" *ngIf="!onDisplayMonths && !onDisplayYears">
-                    <span class="picker-day" (click)="selectDay(day)" [ngClass]="{
-                       'out-focus': day.month() != calendarDate.month(),
-                       'today': day.isSame(today),
-                       'selected': day.isSame(selectedDate)
-                      }" *ngFor="let day of calendarDays">
-                    {{ day | moment: 'D'}}
-                </span>
+        <div
+          class="picker-calendar-row"
+          *ngIf="!onDisplayMonths && !onDisplayYears"
+        >
+          <span
+            class="picker-day"
+            (click)="selectDay(day)"
+            [ngClass]="{
+              'out-focus': day.month() != calendarDate.month(),
+              today: day.isSame(today),
+              selected: day.isSame(selectedDate)
+            }"
+            *ngFor="let day of calendarDays"
+          >
+            {{ day | moment: 'D' }}
+          </span>
         </div>
         <div class="picker-calendar-row" *ngIf="onDisplayMonths">
-                    <span class="picker-month" *ngFor="let month of monthsShort"
-                          (click)="selectMonth(month)"
-                          [ngClass]="{
-                       'selected': month === currentMonth
-                      }">
-                    {{ month }}
-                </span>
+          <span
+            class="picker-month"
+            *ngFor="let month of monthsShort"
+            (click)="selectMonth(month)"
+            [ngClass]="{
+              selected: month === currentMonth
+            }"
+          >
+            {{ month }}
+          </span>
         </div>
         <div class="picker-calendar-row" *ngIf="onDisplayYears">
-                    <span class="picker-year" *ngFor="let year of displayYearRange"
-                          (click)="selectYear(year)"
-                          [ngClass]="{
-                       'selected': year === currentYear
-                      }">
-                    {{ year }}
-                </span>
+          <span
+            class="picker-year"
+            *ngFor="let year of displayYearRange"
+            (click)="selectYear(year)"
+            [ngClass]="{
+              selected: year === currentYear
+            }"
+          >
+            {{ year }}
+          </span>
         </div>
       </div>
       <div class="picker-footer">
-        <div class="picker-action action-today" (click)="selectToday()"><span class="text">Today</span></div>
-        <div class="picker-action action-clear" (click)="clearPickDate()"><span class="text">Clear</span></div>
-        <div class="picker-action action-close" (click)="cancelDatePicker()"><span class="text">Close</span></div>
+        <div class="picker-action action-today" (click)="selectToday()">
+          <span class="text">Today</span>
+        </div>
+        <div class="picker-action action-clear" (click)="clearPickDate()">
+          <span class="text">Clear</span>
+        </div>
+        <div class="picker-action action-close" (click)="cancelDatePicker()">
+          <span class="text">Close</span>
+        </div>
       </div>
     </div>
   </div>

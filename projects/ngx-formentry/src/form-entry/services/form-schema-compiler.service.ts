@@ -3,27 +3,39 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class FormSchemaCompiler {
-  constructor() {
+  constructor() {}
 
-  }
-
-  public compileFormSchema(formSchema: Object, referencedComponents: Array<any>): Object {
+  public compileFormSchema(
+    formSchema: Object,
+    referencedComponents: Array<any>
+  ): Object {
     // get all referenced forms
-    const refForms: Object = this.getReferencedForms(formSchema, referencedComponents);
-    if (_.isEmpty(refForms)) { return formSchema; }
+    const refForms: Object = this.getReferencedForms(
+      formSchema,
+      referencedComponents
+    );
+    if (_.isEmpty(refForms)) {
+      return formSchema;
+    }
 
     // get all place-holders from the form schema
     const placeHolders = this.getAllPlaceholderObjects(formSchema);
-    if (_.isEmpty(placeHolders)) { return formSchema; }
+    if (_.isEmpty(placeHolders)) {
+      return formSchema;
+    }
 
     // replace all placeHolders
     this.replaceAllPlaceholdersWithActualObjects(refForms, placeHolders);
     return formSchema;
   }
 
-
-  private findSchemaByName(schemaArray: Array<any>, nameOfSchema: string): Object {
-    if (_.isEmpty(schemaArray) || _.isEmpty(nameOfSchema)) { return; }
+  private findSchemaByName(
+    schemaArray: Array<any>,
+    nameOfSchema: string
+  ): Object {
+    if (_.isEmpty(schemaArray) || _.isEmpty(nameOfSchema)) {
+      return;
+    }
     let foundSchema: any = {};
     _.each(schemaArray, (schema: any) => {
       if (schema.name === nameOfSchema) {
@@ -34,34 +46,43 @@ export class FormSchemaCompiler {
   }
 
   private getPageInSchemaByLabel(schema: any, pageLabel: string): Object {
-    if (_.isEmpty(schema) || _.isEmpty(pageLabel)) { return; }
+    if (_.isEmpty(schema) || _.isEmpty(pageLabel)) {
+      return;
+    }
     let foundPage: Object = {};
     _.each(schema.pages, (page) => {
       if (page.label === pageLabel) {
         foundPage = page;
       }
-    }
-    );
+    });
     return foundPage;
   }
 
-  private getSectionInSchemaByPageLabelBySectionLabel
-    (schema: Object, pageLabel: string, sectionLabel: string): Object {
-    if (_.isEmpty(schema) || _.isEmpty(pageLabel) || _.isEmpty(sectionLabel)) { return; }
+  private getSectionInSchemaByPageLabelBySectionLabel(
+    schema: Object,
+    pageLabel: string,
+    sectionLabel: string
+  ): Object {
+    if (_.isEmpty(schema) || _.isEmpty(pageLabel) || _.isEmpty(sectionLabel)) {
+      return;
+    }
     const foundPage: any = this.getPageInSchemaByLabel(schema, pageLabel);
-    if (_.isEmpty(foundPage)) { return; }
+    if (_.isEmpty(foundPage)) {
+      return;
+    }
     let foundSection: Object = {};
     _.each(foundPage.sections, (section) => {
       if (section.label === sectionLabel) {
         foundSection = section;
       }
-    }
-    );
+    });
     return foundSection;
   }
 
   private getQuestionByIdInSchema(schema: any, questionId: string): Array<any> {
-    if (_.isEmpty(schema) || _.isEmpty(questionId)) { return; }
+    if (_.isEmpty(schema) || _.isEmpty(questionId)) {
+      return;
+    }
     if (Array.isArray(schema)) {
       let question: Array<any>;
       for (let i = 0; i < schema.length; i++) {
@@ -77,7 +98,7 @@ export class FormSchemaCompiler {
       if (this.isQuestionObjectWithId(schema, questionId)) {
         return schema;
       } else if (this.isSchemaSubObjectExpandable(schema)) {
-        const toExpand = (schema.pages || schema.sections || schema.questions);
+        const toExpand = schema.pages || schema.sections || schema.questions;
         return this.getQuestionByIdInSchema(toExpand, questionId);
       } else {
         return;
@@ -87,18 +108,30 @@ export class FormSchemaCompiler {
     }
   }
 
-  private getQuestionsArrayByQuestionIdInSchema(schema: any, questionId: string): Array<any> {
-    if (_.isEmpty(schema) || _.isEmpty(questionId)) { return; }
+  private getQuestionsArrayByQuestionIdInSchema(
+    schema: any,
+    questionId: string
+  ): Array<any> {
+    if (_.isEmpty(schema) || _.isEmpty(questionId)) {
+      return;
+    }
     return this.getQuestionsArrayByQuestionId(schema, schema, questionId);
   }
 
-
-  private getQuestionsArrayByQuestionId(parent: any, object: any, questionId: string): Array<any> {
+  private getQuestionsArrayByQuestionId(
+    parent: any,
+    object: any,
+    questionId: string
+  ): Array<any> {
     if (Array.isArray(object)) {
       let returnedValue: Array<any>;
       for (let i = 0; i < object.length; i++) {
         if (!_.isEmpty(object[i])) {
-          returnedValue = this.getQuestionsArrayByQuestionId(object, object[i], questionId);
+          returnedValue = this.getQuestionsArrayByQuestionId(
+            object,
+            object[i],
+            questionId
+          );
         }
         if (!_.isEmpty(returnedValue)) {
           break;
@@ -110,8 +143,12 @@ export class FormSchemaCompiler {
       if (this.isQuestionObjectWithId(object, questionId)) {
         return parent;
       } else if (this.isSchemaSubObjectExpandable(object)) {
-        const toExpand = (object.pages || object.sections || object.questions);
-        return this.getQuestionsArrayByQuestionId(toExpand, toExpand, questionId);
+        const toExpand = object.pages || object.sections || object.questions;
+        return this.getQuestionsArrayByQuestionId(
+          toExpand,
+          toExpand,
+          questionId
+        );
       } else {
         return;
       }
@@ -124,9 +161,11 @@ export class FormSchemaCompiler {
   private isSchemaSubObjectExpandable(object: Object): Boolean {
     if (typeof object === 'object') {
       const objectKeys = Object.keys(object);
-      if (_.includes(objectKeys, 'pages') ||
+      if (
+        _.includes(objectKeys, 'pages') ||
         _.includes(objectKeys, 'sections') ||
-        _.includes(objectKeys, 'questions')) {
+        _.includes(objectKeys, 'questions')
+      ) {
         return true;
       }
     }
@@ -135,7 +174,6 @@ export class FormSchemaCompiler {
 
   private isQuestionObjectWithId(object: Object, id: any): Boolean {
     return object['id'] === id;
-
   }
 
   private getAllPlaceholderObjects(schema: Object): Array<any> {
@@ -144,8 +182,13 @@ export class FormSchemaCompiler {
     return referencedObjects;
   }
 
-  private extractPlaceholderObjects(subSchema: any, objectsArray: Array<Object>): void {
-    if (_.isEmpty(subSchema)) { return; }
+  private extractPlaceholderObjects(
+    subSchema: any,
+    objectsArray: Array<Object>
+  ): void {
+    if (_.isEmpty(subSchema)) {
+      return;
+    }
     if (Array.isArray(subSchema)) {
       for (let i = 0; i < subSchema.length; i++) {
         if (!_.isEmpty(subSchema[i])) {
@@ -156,13 +199,17 @@ export class FormSchemaCompiler {
       if (!_.isEmpty(subSchema.reference)) {
         objectsArray.push(subSchema);
       } else if (this.isSchemaSubObjectExpandable(subSchema)) {
-        const toExpand = (subSchema.pages || subSchema.sections || subSchema.questions);
+        const toExpand =
+          subSchema.pages || subSchema.sections || subSchema.questions;
         this.extractPlaceholderObjects(toExpand, objectsArray);
       }
     }
   }
 
-  private fillPlaceholderObject(placeHolderObject: Object, referenceObject: Object): Object {
+  private fillPlaceholderObject(
+    placeHolderObject: Object,
+    referenceObject: Object
+  ): Object {
     for (const member in referenceObject) {
       if (_.isEmpty(placeHolderObject[member])) {
         placeHolderObject[member] = referenceObject[member];
@@ -171,14 +218,21 @@ export class FormSchemaCompiler {
     return placeHolderObject;
   }
 
-  private replaceAllPlaceholdersWithActualObjects
-    (keyValReferencedForms: Object, placeHoldersArray: Array<any>): Array<any> {
+  private replaceAllPlaceholdersWithActualObjects(
+    keyValReferencedForms: Object,
+    placeHoldersArray: Array<any>
+  ): Array<any> {
     _.each(placeHoldersArray, (placeHolder) => {
-      const referencedObject: Object =
-        this.getReferencedObject(placeHolder.reference, keyValReferencedForms);
+      const referencedObject: Object = this.getReferencedObject(
+        placeHolder.reference,
+        keyValReferencedForms
+      );
 
       if (_.isEmpty(referencedObject)) {
-        console.error('Form compile: Error finding referenced object', placeHolder.reference);
+        console.error(
+          'Form compile: Error finding referenced object',
+          placeHolder.reference
+        );
       } else {
         placeHolder = this.fillPlaceholderObject(placeHolder, referencedObject);
         placeHolder = this.removeExcludedQuestionsFromPlaceholder(placeHolder);
@@ -190,7 +244,9 @@ export class FormSchemaCompiler {
 
   private removeObjectFromArray(array: Array<any>, object: Object): void {
     const indexOfObject = array.indexOf(object);
-    if (indexOfObject === -1) { return; }
+    if (indexOfObject === -1) {
+      return;
+    }
 
     array.splice(indexOfObject, 1);
   }
@@ -199,10 +255,17 @@ export class FormSchemaCompiler {
     if (Array.isArray(placeHolder.reference.excludeQuestions)) {
       _.each(placeHolder.reference.excludeQuestions, (excludedQuestionId) => {
         const questionsArray: Array<any> = this.getQuestionsArrayByQuestionIdInSchema(
-          placeHolder, excludedQuestionId);
+          placeHolder,
+          excludedQuestionId
+        );
 
-        if (!Array.isArray(questionsArray)) { return; }
-        const question = this.getQuestionByIdInSchema(questionsArray, excludedQuestionId);
+        if (!Array.isArray(questionsArray)) {
+          return;
+        }
+        const question = this.getQuestionByIdInSchema(
+          questionsArray,
+          excludedQuestionId
+        );
 
         this.removeObjectFromArray(questionsArray, question);
       });
@@ -210,19 +273,29 @@ export class FormSchemaCompiler {
     return placeHolder;
   }
 
-  private getReferencedObject(referenceData: any, keyValReferencedForms: Object): Object {
+  private getReferencedObject(
+    referenceData: any,
+    keyValReferencedForms: Object
+  ): Object {
     if (_.isEmpty(referenceData.form)) {
-      console.error('Form compile: reference missing form attribute', referenceData);
+      console.error(
+        'Form compile: reference missing form attribute',
+        referenceData
+      );
       return;
     }
     if (_.isEmpty(keyValReferencedForms[referenceData.form])) {
-      console.error('Form compile: referenced form alias not found', referenceData);
+      console.error(
+        'Form compile: referenced form alias not found',
+        referenceData
+      );
       return;
     }
     if (!_.isEmpty(referenceData.questionId)) {
       return this.getQuestionByIdInSchema(
         keyValReferencedForms[referenceData.form],
-        referenceData.questionId);
+        referenceData.questionId
+      );
     }
 
     if (!_.isEmpty(referenceData.page) && !_.isEmpty(referenceData.section)) {
@@ -238,19 +311,29 @@ export class FormSchemaCompiler {
         referenceData.page
       );
     }
-    console.error('Form compile: Unsupported reference type', referenceData.reference);
+    console.error(
+      'Form compile: Unsupported reference type',
+      referenceData.reference
+    );
   }
 
-  private getReferencedForms(formSchema: any, formSchemasLookupArray: Array<any>): Object {
+  private getReferencedForms(
+    formSchema: any,
+    formSchemasLookupArray: Array<any>
+  ): Object {
     const referencedForms: Array<any> = formSchema.referencedForms;
 
-    if (_.isEmpty(referencedForms)) { return; }
+    if (_.isEmpty(referencedForms)) {
+      return;
+    }
 
     const keyValReferencedForms: Object = {};
 
     _.each(referencedForms, (reference: any) => {
-      keyValReferencedForms[reference.alias] =
-        this.findSchemaByName(formSchemasLookupArray, reference.formName);
+      keyValReferencedForms[reference.alias] = this.findSchemaByName(
+        formSchemasLookupArray,
+        reference.formName
+      );
     });
     return keyValReferencedForms;
   }

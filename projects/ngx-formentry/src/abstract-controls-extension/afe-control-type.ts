@@ -1,6 +1,6 @@
 export enum AfeControlType {
-    AfeFormControl,
-    AfeFormArray,
-    AfeFormGroup,
-    None
+  AfeFormControl,
+  AfeFormArray,
+  AfeFormGroup,
+  None
 }

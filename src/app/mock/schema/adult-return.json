@@ -1,76 +1,72 @@
 {
-    "name": "ampath_poc_adult_return_visit_form_v1.0",
-    "uuid": "xxxx",
-    "processor": "EncounterFormProcessor",
-    "referencedForms": [
+  "name": "ampath_poc_adult_return_visit_form_v1.0",
+  "uuid": "xxxx",
+  "processor": "EncounterFormProcessor",
+  "referencedForms": [
+    {
+      "formName": "component_preclinic-review",
+      "alias": "pcr"
+    },
+    {
+      "formName": "component_hospitalization",
+      "alias": "hosp"
+    },
+    {
+      "formName": "component_art",
+      "alias": "art"
+    }
+  ],
+  "pages": [
+    {
+      "label": "Pre-Clinic Review",
+      "sections": [
         {
-            "formName": "component_preclinic-review",
-            "alias": "pcr"
-        },
-        {
-            "formName": "component_hospitalization",
-            "alias": "hosp"
-        },
-        {
-            "formName": "component_art",
-            "alias": "art"
+          "reference": {
+            "form": "pcr",
+            "page": "Pre-clinic Review",
+            "section": "Pre-clinic Review"
+          }
         }
-
-    ],
-    "pages": [
+      ]
+    },
+    {
+      "label": "Medical History",
+      "sections": [
         {
-            "label": "Pre-Clinic Review",
-            "sections": [
-                {
-                    "reference": {
-                        "form": "pcr",
-                        "page": "Pre-clinic Review",
-                        "section": "Pre-clinic Review"
-                    }
-                }
-            ]
+          "reference": {
+            "form": "pcr",
+            "page": "Pre-clinic Review",
+            "section": "Social History"
+          }
         },
         {
-            "label": "Medical History",
-            "sections": [
-                {
-                    "reference": {
-                        "form": "pcr",
-                        "page": "Pre-clinic Review",
-                        "section": "Social History"
-                    }
-                },
-                {
-                    "reference": {
-                        "form": "pcr",
-                        "page": "Pre-clinic Review",
-                        "section": "Prevention With Positives"
-                    }
-                },
-                {
-                    "reference": {
-                        "form": "hosp",
-                        "page": "Hospitalization",
-                        "section": "Hospitalization History"
-                    }
-                }
-            ]
+          "reference": {
+            "form": "pcr",
+            "page": "Pre-clinic Review",
+            "section": "Prevention With Positives"
+          }
         },
         {
-            "label": "ART History",
-            "sections": [
-                {
-                    "reference": {
-                        "form": "art",
-                        "page": "ART ",
-                        "section": "ART History",
-                        "excludeQuestions": [
-                            "current_art_regimen_ped"
-                        ]
-                    }
-                }
-            ]
+          "reference": {
+            "form": "hosp",
+            "page": "Hospitalization",
+            "section": "Hospitalization History"
+          }
         }
-
-    ]
+      ]
+    },
+    {
+      "label": "ART History",
+      "sections": [
+        {
+          "reference": {
+            "form": "art",
+            "page": "ART ",
+            "section": "ART History",
+            "excludeQuestions": ["current_art_regimen_ped"]
+          }
+        }
+      ]
+    }
+  ]
 }

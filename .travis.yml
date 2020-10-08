@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "8"
+  - '8'
 before_install:
   - export TZ=Africa/Nairobi
   - date
@@ -14,4 +14,4 @@ script:
 addons:
   apt:
     packages:
-    - google-chrome-stable
+      - google-chrome-stable

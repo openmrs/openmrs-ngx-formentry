@@ -3,8 +3,11 @@
  */
 
 import {
-    Component, Output, OnInit, EventEmitter,
-    ChangeDetectionStrategy
+  Component,
+  Output,
+  OnInit,
+  EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 // webpack1_
@@ -14,25 +17,20 @@ declare let require: any;
 // webpack2_
 
 @Component({
-    selector: 'picker-modal',
-    templateUrl: './modal.component.html',
-    styleUrls: ['./modal.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [
-    ],
+  selector: 'picker-modal',
+  templateUrl: './modal.component.html',
+  styleUrls: ['./modal.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: []
 })
-
 export class ModalComponent implements OnInit {
+  @Output() onOverlayClick = new EventEmitter<boolean>();
 
-    @Output() onOverlayClick = new EventEmitter<boolean>();
+  constructor() {}
 
-    constructor() {
-    }
+  ngOnInit() {}
 
-    ngOnInit() {
-    }
-
-    closeModal() {
-        this.onOverlayClick.emit(false);
-    }
+  closeModal() {
+    this.onOverlayClick.emit(false);
+  }
 }

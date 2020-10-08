@@ -1,11 +1,10 @@
-
 export class Messages {
-
   public static readonly REQUIRED_FIELD_MSG = 'This field is required!';
 
   public static readonly INVALID_DATE_MSG = 'Provided date is invalid!';
 
-  public static readonly FUTURE_DATE_RESTRICTION_MSG = 'Future date is not allowed!';
+  public static readonly FUTURE_DATE_RESTRICTION_MSG =
+    'Future date is not allowed!';
 
   public static readonly MIN_LENGTH_MSG = 'Min Length should be {minLength}';
 

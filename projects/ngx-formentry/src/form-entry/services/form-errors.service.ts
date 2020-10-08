@@ -7,12 +7,13 @@ import { AfeFormArray, AfeFormGroup } from '../../abstract-controls-extension';
 
 @Injectable()
 export class FormErrorsService {
-
   // Observable string sources
-  public static control: AfeFormControl | AfeFormArray | AfeFormGroup  = null;
+  public static control: AfeFormControl | AfeFormArray | AfeFormGroup = null;
   public static tab: number = null;
   public announceErrorFieldSource = new Subject<string>();
-  public announceErrorField$: Observable<any> = this.announceErrorFieldSource.asObservable();
+  public announceErrorField$: Observable<
+    any
+  > = this.announceErrorFieldSource.asObservable();
   public announceErrorField(error: string) {
     this.announceErrorFieldSource.next(error);
   }

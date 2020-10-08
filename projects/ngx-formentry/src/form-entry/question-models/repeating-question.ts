@@ -5,12 +5,12 @@ import { AfeControlType } from '../../abstract-controls-extension/afe-control-ty
 import { NestedQuestion } from './interfaces/nested-questions';
 
 export class RepeatingQuestion extends NestedQuestion {
-    questions: QuestionBase[];
+  questions: QuestionBase[];
 
-    constructor(options: RepeatingQuestionOptions) {
-        super(options);
-        this.renderingType = 'repeating';
-        this.questions = options.questions || [];
-        this.controlType = AfeControlType.AfeFormArray;
-    }
+  constructor(options: RepeatingQuestionOptions) {
+    super(options);
+    this.renderingType = 'repeating';
+    this.questions = options.questions || [];
+    this.controlType = AfeControlType.AfeFormArray;
+  }
 }

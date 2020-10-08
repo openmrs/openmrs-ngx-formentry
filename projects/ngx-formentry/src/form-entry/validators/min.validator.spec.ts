@@ -2,9 +2,7 @@ import { AfeFormControl } from '../../abstract-controls-extension/afe-form-contr
 import { MinValidator } from './min.validator';
 
 describe('MinValidator Unit Tests', () => {
-
   it('should return null when value is greater than the min value set', () => {
-
     const validator: MinValidator = new MinValidator();
     const min = 1;
     const value = 2;
@@ -15,7 +13,6 @@ describe('MinValidator Unit Tests', () => {
   });
 
   it('should return an error when value is less than the min value set', () => {
-
     const validator: MinValidator = new MinValidator();
     const min = 1;
     const value = -1;

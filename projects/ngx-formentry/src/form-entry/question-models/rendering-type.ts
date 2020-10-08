@@ -1,7 +1,7 @@
 export enum RenderingType {
-    Form,
-    Page,
-    Section,
-    Select,
-    DropDown
+  Form,
+  Page,
+  Section,
+  Select,
+  DropDown
 }

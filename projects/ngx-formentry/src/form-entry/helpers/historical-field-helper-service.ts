@@ -2,16 +2,17 @@ import * as _ from 'lodash';
 import { QuestionBase } from '../question-models/question-base';
 
 export class HistoricalFieldHelperService {
-
-  public getDisplayTextFromOptions(question: QuestionBase , valueProperty: string, displayProperty: string): string {
-
+  public getDisplayTextFromOptions(
+    question: QuestionBase,
+    valueProperty: string,
+    displayProperty: string
+  ): string {
     let displayText = '';
     const historicalValue = question.historicalDataValue;
     if (_.isArray(historicalValue.value)) {
       let valueConverted = 0;
       _.each(historicalValue.value, (val) => {
         _.each(question.options, (option) => {
-
           if (option[valueProperty] === val) {
             if (valueConverted === 0) {
               displayText = displayText + option[displayProperty];
@@ -22,7 +23,6 @@ export class HistoricalFieldHelperService {
           }
         });
       });
-
     } else {
       _.each(question.options, (option) => {
         if (option[valueProperty] === historicalValue.value) {
@@ -30,8 +30,6 @@ export class HistoricalFieldHelperService {
         }
       });
     }
-    return displayText ;
+    return displayText;
   }
-
-
 }

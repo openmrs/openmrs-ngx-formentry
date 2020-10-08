@@ -6,10 +6,8 @@ const moment = moment_;
 
 @Injectable()
 export class HistoricalEncounterDataService {
-
   dataSources: any = {};
-  constructor() {
-  }
+  constructor() {}
 
   registerEncounters(name: string, encounters: any) {
     const encStore: any = {
@@ -43,7 +41,6 @@ export class HistoricalEncounterDataService {
     }
 
     this.putObject(name, encStore);
-
   }
 
   putObject(name, object): void {
@@ -55,7 +52,6 @@ export class HistoricalEncounterDataService {
   }
 
   getFirstValue(path: Array<string>, object: any): any {
-
     const answers = [];
 
     this.getAllValues(path, object, answers);
@@ -66,7 +62,6 @@ export class HistoricalEncounterDataService {
         valueDate: moment(object.encounterDatetime).format('ll')
       };
     }
-
   }
 
   getAllValues(path, object, answers) {
@@ -135,7 +130,6 @@ export class HistoricalEncounterDataService {
   }
 
   private _transformObs(obs: any): any {
-
     if (!obs) {
       return null;
     }
@@ -167,7 +161,6 @@ export class HistoricalEncounterDataService {
       }
       return obsRep;
     }
-
   }
 
   private _augumentObs(existing: any, toAdd: any): any {
@@ -191,6 +184,4 @@ export class HistoricalEncounterDataService {
     }
     return existing;
   }
-
-
 }

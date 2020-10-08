@@ -18,11 +18,9 @@ declare let require: any;
 @Component({
   selector: 'date-picker',
   templateUrl: './date-picker.component.html',
-  styleUrls: ['./date-picker.component.css'],
+  styleUrls: ['./date-picker.component.css']
 })
-
 export class DatePickerComponent implements OnInit {
-
   public dayNames: Array<string>;
 
   @Input() public initDate: any;
@@ -34,7 +32,7 @@ export class DatePickerComponent implements OnInit {
 
   public calendarDate: Moment;
   public selectedDate: Moment;
-  public currentMonth: any ;
+  public currentMonth: any;
   public today: Moment;
   public currentYear: number;
   public onDisplayMonths = false;
@@ -45,8 +43,7 @@ export class DatePickerComponent implements OnInit {
   public monthsShort: Array<string> = moment.monthsShort();
   public calendarDays: Array<Moment>;
 
-  constructor() {
-  }
+  constructor() {}
 
   public ngOnInit(): void {
     this.initValue();
@@ -98,7 +95,10 @@ export class DatePickerComponent implements OnInit {
   }
 
   public selectDay(day: Moment): void {
-    const daysDifference = day.diff(this.calendarDate.clone().startOf('date'), 'days');
+    const daysDifference = day.diff(
+      this.calendarDate.clone().startOf('date'),
+      'days'
+    );
     day = this.calendarDate.clone().add(daysDifference, 'd');
     const selectedDay = this.parseToReturnObjectType(day);
     this.onSelectDate.emit(selectedDay);
@@ -149,7 +149,6 @@ export class DatePickerComponent implements OnInit {
   }
 
   protected initValue() {
-
     // set moment locale (default is en)
     moment.locale(this.locale);
     // set today value
@@ -162,8 +161,10 @@ export class DatePickerComponent implements OnInit {
 
     // check if the input initDate has value
     if (this.initDate) {
-      this.calendarDate = this.returnObject === 'string' ? moment(this.initDate, this.viewFormat) :
-        moment(this.initDate);
+      this.calendarDate =
+        this.returnObject === 'string'
+          ? moment(this.initDate, this.viewFormat)
+          : moment(this.initDate);
       this.selectedDate = this.calendarDate.clone().startOf('date');
     } else {
       this.calendarDate = moment();
@@ -173,8 +174,11 @@ export class DatePickerComponent implements OnInit {
 
   protected generateCalendar(): void {
     this.calendarDays = [];
-    const start = 0 - (this.calendarDate.clone().startOf('month').day() +
-     (7 - moment.localeData().firstDayOfWeek())) % 7;
+    const start =
+      0 -
+      ((this.calendarDate.clone().startOf('month').day() +
+        (7 - moment.localeData().firstDayOfWeek())) %
+        7);
     const end = 41 + start; // iterator ending point
 
     for (let i = start; i <= end; i += 1) {

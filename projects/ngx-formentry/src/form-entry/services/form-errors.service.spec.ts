@@ -9,7 +9,7 @@ describe('Form Errors Service', () => {
           provide: FormErrorsService,
           useFactory: () => {
             return new FormErrorsService();
-          },
+          }
         }
       ]
     });
@@ -22,14 +22,13 @@ describe('Form Errors Service', () => {
 
   it('should announce error field', () => {
     const service: FormErrorsService = TestBed.get(FormErrorsService);
-    service.announceErrorField$.subscribe(
-      error => {
-        const tab: number = +error.split(',')[0];
-        const el = error.split(',')[1];
-        expect(tab).toBe(0);
-        expect(el).toBe('test');
-      });
+    service.announceErrorField$.subscribe((error) => {
+      const tab: number = +error.split(',')[0];
+      const el = error.split(',')[1];
+      expect(tab).toBe(0);
+      expect(el).toBe('test');
+    });
 
-      service.announceErrorField('0,test');
+    service.announceErrorField('0,test');
   });
 });

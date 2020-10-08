@@ -1,30 +1,29 @@
-import {
-  Component, Input, forwardRef, OnInit, OnChanges
-} from '@angular/core';
+import { Component, Input, forwardRef, OnInit, OnChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Option } from '../form-entry/question-models/select-option';
 
 import { DataSource } from '../form-entry/question-models/interfaces/data-source';
 
-
 @Component({
   selector: 'afe-ng-select',
   template: `<ng-select
-                   (searchInputText)="getChangingText($event)"
-                    (ngModelChange)="onValueChange($event)"
-                    [options]="question_options"
-                    [multiple]="multiple" >
-            </ng-select>
-  `,
+    (searchInputText)="getChangingText($event)"
+    (ngModelChange)="onValueChange($event)"
+    [options]="question_options"
+    [multiple]="multiple"
+  >
+  </ng-select> `,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => AfeNgSelectComponent),
       multi: true
-    }]
+    }
+  ]
 })
-export class AfeNgSelectComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class AfeNgSelectComponent
+  implements ControlValueAccessor, OnInit, OnChanges {
   subject: BehaviorSubject<Option[]>;
   subjectOption: BehaviorSubject<Option>;
   @Input() dataSource: DataSource;
@@ -33,7 +32,7 @@ export class AfeNgSelectComponent implements ControlValueAccessor, OnInit, OnCha
   question_options: any = [];
   selected_question_option: any;
   errors: any = [];
-  propagateChange = (_: any) => { };
+  propagateChange = (_: any) => {};
 
   getChangingText(event) {
     // console.log(event);
@@ -42,32 +41,28 @@ export class AfeNgSelectComponent implements ControlValueAccessor, OnInit, OnCha
     });
   }
 
-  writeValue(obj: any): void {
-
-  }
+  writeValue(obj: any): void {}
   registerOnChange(fn: any): void {
     this.propagateChange = fn;
-
   }
 
-  registerOnTouched(fn: any): void { }
+  registerOnTouched(fn: any): void {}
 
-  ngOnChanges(changes: any) { }
+  ngOnChanges(changes: any) {}
 
   ngOnInit() {
     if (this.extras) {
       if (this.extras.originalValue) {
-        this.resolveSelectedOption(this.extras.originalValue).subscribe((option) => {
-          this.selected_question_option = option;
-        });
+        this.resolveSelectedOption(this.extras.originalValue).subscribe(
+          (option) => {
+            this.selected_question_option = option;
+          }
+        );
       }
-
     }
-
   }
 
   getData(searchText: string): Observable<Option[]> {
-
     this.subject = new BehaviorSubject<Option[]>([]);
 
     const OptionsObservable = this.dataSource.searchOptions(searchText);
@@ -90,9 +85,8 @@ export class AfeNgSelectComponent implements ControlValueAccessor, OnInit, OnCha
     return this.subject.asObservable();
   }
 
-  onValueChange(event) { }
+  onValueChange(event) {}
   resolveSelectedOption(value: any): Observable<Option> {
-
     this.subjectOption = new BehaviorSubject<Option>(null);
     const OptionObservable = this.dataSource.resolveSelectedValue(value);
 
@@ -111,7 +105,5 @@ export class AfeNgSelectComponent implements ControlValueAccessor, OnInit, OnCha
 
   resetOptions() {
     this.subject.next(new Array<Option>());
-
   }
-
 }

@@ -5,14 +5,11 @@ import { JsExpressionValidationModel } from '../question-models/js-expression-va
 import { Validations } from './validations';
 
 export class JsExpressionValidator {
-
   constructor() {}
 
   validate(model: JsExpressionValidationModel, form?: any) {
-
     // convert helper functions to string
     return (control: AfeFormControl): { [key: string]: any } => {
-
       if (!Validations.JSExpressionValidatorsEnabled) {
         return null;
       }
@@ -22,11 +19,18 @@ export class JsExpressionValidator {
       const dataDependencies = {};
 
       const helperFunctions = helper.helperFunctions;
-      const runnable = new ExpressionRunner().getRunnable(expression, control, helperFunctions, dataDependencies, form);
+      const runnable = new ExpressionRunner().getRunnable(
+        expression,
+        control,
+        helperFunctions,
+        dataDependencies,
+        form
+      );
 
       if (runnable.run()) {
-
-        return { 'js_expression': { 'expression': expression, message:  model.message } };
+        return {
+          js_expression: { expression: expression, message: model.message }
+        };
       }
 
       return null;

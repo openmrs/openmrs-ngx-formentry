@@ -5,13 +5,13 @@ import { AfeControlType } from '../../abstract-controls-extension/afe-control-ty
 import { NestedQuestion } from './interfaces/nested-questions';
 
 export class QuestionGroup extends NestedQuestion {
-    questions: QuestionBase[];
-    isExpanded = true;
+  questions: QuestionBase[];
+  isExpanded = true;
 
-    constructor(options: GroupQuestionOptions) {
-        super(options);
-        this.renderingType = 'group';
-        this.questions = options.questions || [];
-        this.controlType = AfeControlType.AfeFormGroup;
-    }
+  constructor(options: GroupQuestionOptions) {
+    super(options);
+    this.renderingType = 'group';
+    this.questions = options.questions || [];
+    this.controlType = AfeControlType.AfeFormGroup;
+  }
 }

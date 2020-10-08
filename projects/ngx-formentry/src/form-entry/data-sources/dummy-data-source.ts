@@ -2,13 +2,12 @@ import { Option } from '../question-models/select-option';
 import { DataSource } from '../question-models/interfaces/data-source';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 
-
 export class DummyDataSource implements DataSource {
   options: Observable<Option[]>;
   option: Observable<Option>;
   returnErrorOnNext = false;
 
-  constructor() { }
+  constructor() {}
 
   resolveSelectedValue(value): Observable<Option> {
     let selectOptions = this.sampleData();
@@ -21,10 +20,7 @@ export class DummyDataSource implements DataSource {
       return option;
     });
 
-
-    selectOptions = selectOptions.filter(
-      option => option.value === value
-    );
+    selectOptions = selectOptions.filter((option) => option.value === value);
 
     const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     if (!this.returnErrorOnNext) {
@@ -52,9 +48,8 @@ export class DummyDataSource implements DataSource {
       return option;
     });
 
-
     selectOptions = selectOptions.filter(
-      option => option.label.indexOf(searchText) !== -1
+      (option) => option.label.indexOf(searchText) !== -1
     );
 
     const test: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -117,8 +112,6 @@ export class DummyDataSource implements DataSource {
         concept: '4639388c-ee31-4dcf-abb4-ad71253493bb',
         label: 'Neck Kw'
       }
-
     ];
   }
-
 }

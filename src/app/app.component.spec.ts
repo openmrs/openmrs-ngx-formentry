@@ -6,12 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
-      imports: [
-        BrowserModule, FormEntryModule, ReactiveFormsModule
-      ],
+      declarations: [AppComponent],
+      imports: [BrowserModule, FormEntryModule, ReactiveFormsModule]
     }).compileComponents();
   }));
   it('should create the app', async(() => {

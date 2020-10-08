@@ -259,7 +259,7 @@ describe('EncounterPdfViewerService: ', () => {
     for (const page of pages) {
       for (const section of page.page) {
         if (section.section) {
-          result.push((service.getSectionData(section.section, remoteAns, form)));
+          result.push(service.getSectionData(section.section, remoteAns, form));
         }
       }
     }
@@ -283,7 +283,7 @@ describe('EncounterPdfViewerService: ', () => {
     );
     expect(artHistoryResults[3].text[1].text).toEqual('FIRST LINE REGIMEN');
     expect(artHistoryResults[4].text[0]).toEqual(
-      'Patient\'s ART regimen, adults: '
+      "Patient's ART regimen, adults: "
     );
     expect(artHistoryResults[4].text[1].text).toEqual(
       '3TC300mg/TDF300mg,NVP200/ZDV300/3TC150,TDF300mg/3TC300mg/EFV600mg'
