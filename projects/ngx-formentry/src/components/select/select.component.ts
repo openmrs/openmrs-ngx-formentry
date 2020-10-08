@@ -19,6 +19,7 @@ import { OptionList } from './option-list';
 
 export const SELECT_VALUE_ACCESSOR: ExistingProvider = {
   provide: NG_VALUE_ACCESSOR,
+  // tslint:disable:no-use-before-declare
   useExisting: forwardRef(() => SelectComponent),
   multi: true
 };
