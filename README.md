@@ -1,26 +1,34 @@
 [![Build Status](https://travis-ci.org/AMPATH/ngx-openmrs-formentry.svg?branch=master)](https://travis-ci.org/AMPATH/ngx-openmrs-formentry)
 
-# NgxOpenmrsFormentry
+# AMPATH POC Formentry
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.3.
+This a formentry module for use with AMPATH's medical records system, [AMPATH POC](https://github.com/ampath/ng2-amrs).
 
-## Build the library by running
+# Development
 
-`npm run build:lib `
+## Build the library by running:
 
-## The run the demo with
+`npm run build:lib`
+
+## Then run the demo with:
 
 `npm start`
 
-## To publish
+## To publish:
 
-Update the version in all the package.jsons
+Update the version in both of the `package.json` files
 
-`git add -f dist `
+`git add -f dist`
 
-`git commit -m 'Bump <Version>' `
+`git commit -m 'Bump <Version>'`
 
-`git tag <Version> `
+`git tag <Version>`
+
 Reset branch so you don't commit the dist to the src repository
 
-` git reset HEAD~1 --hard``  `git checkout <version tag> ` `npm login ` `npm publish ```
+```
+git reset HEAD~1 --hard
+git checkout <version tag>
+npm login
+npm publish
+```
