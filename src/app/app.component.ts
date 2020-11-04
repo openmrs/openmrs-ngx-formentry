@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormGroup } from '@angular/forms';
 
-import { Http, ResponseContentType, Headers } from '@angular/http';
 import { Subscriber } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 
 import {
   QuestionFactory,
@@ -15,9 +16,6 @@ import {
   FormErrorsService,
   EncounterPdfViewerService
 } from '../../dist/ngx-formentry';
-import { FormGroup } from '@angular/forms';
-import { Observable, Subject, of } from 'rxjs';
-
 import { MockObs } from './mock/mock-obs';
 
 const adultForm = require('./adult-1.4.json');
@@ -124,7 +122,6 @@ export class AppComponent implements OnInit {
         return of({ image: 'https://unsplash.it/1040/720' });
       },
       fetchFile: (url) => {
-        console.log(url, 'APP COMPONENT');
         return new Observable((observer: Subscriber<any>) => {
           let objectUrl: string = null;
           const headers = new HttpHeaders({
@@ -138,7 +135,6 @@ export class AppComponent implements OnInit {
             .subscribe((res: any) => {
               const blob = new Blob(res.body);
               objectUrl = URL.createObjectURL(blob);
-              console.log(objectUrl);
               observer.next(objectUrl);
             });
 
@@ -180,7 +176,6 @@ export class AppComponent implements OnInit {
     if (whoStageQuestion) {
       whoStageQuestion.control.valueChanges.subscribe((val) => {
         if (source.dataFromSourceChanged) {
-          console.log('changing value for WHO', val);
           if (val === 'a89b2606-1350-11df-a1f1-0026b9348838') {
             subject.next([
               { value: 3, label: 'Stage 3 Symptom' },
@@ -256,16 +251,13 @@ export class AppComponent implements OnInit {
     if (this.form.valid) {
       this.form.showErrors = false;
       const payload = this.encAdapter.generateFormPayload(this.form);
-      console.log('encounter payload', payload);
 
       // Alternative is to populate for each as shown below
       // // generate obs payload
       // let payload = this.obsValueAdapater.generateFormPayload(this.form);
-      // console.log('obs payload', payload);
 
       // // generate orders payload
       // let ordersPayload = this.orderAdaptor.generateFormPayload(this.form);
-      // console.log('orders Payload', ordersPayload);
     } else {
       this.form.showErrors = true;
       this.form.markInvalidControls(this.form.rootNode);
