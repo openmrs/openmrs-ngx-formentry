@@ -55,7 +55,7 @@ export class EncounterAdapter implements ValueAdapter {
             const firstProvider: any =
               payload['encounterProviders'][0].provider;
             if (firstProvider && firstProvider.uuid) {
-              //Very weird work around for an issue with setting the value
+              // Very weird work around for an issue with setting the value
               node.control.setValue(firstProvider.uuid);
               setTimeout(() => {
                 node.control.setValue(firstProvider.uuid);

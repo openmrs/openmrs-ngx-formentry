@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
-import { Http, ResponseContentType, Headers } from '@angular/http';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormGroup } from '@angular/forms';
+
 import { Subscriber } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 
 import {
   QuestionFactory,
@@ -13,9 +16,6 @@ import {
   FormErrorsService,
   EncounterPdfViewerService
 } from '../../dist/ngx-formentry';
-import { FormGroup } from '@angular/forms';
-import { Observable, Subject, of } from 'rxjs';
-
 import { MockObs } from './mock/mock-obs';
 
 const adultForm = require('./adult-1.4.json');
@@ -26,7 +26,7 @@ const formOrdersPayload = require('./mock/orders.json');
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   data: any;
   schema: any;
   sections: {} = {};
@@ -36,7 +36,7 @@ export class AppComponent {
   stack = [];
   encounterObject = adultFormObs;
   showingEncounterViewer = false;
-  public header: string = 'UMD Demo';
+  public header = 'UMD Demo';
 
   constructor(
     private questionFactory: QuestionFactory,
@@ -47,7 +47,7 @@ export class AppComponent {
     private dataSources: DataSources,
     private encounterPdfViewerService: EncounterPdfViewerService,
     private formErrorsService: FormErrorsService,
-    private http: Http
+    private http: HttpClient
   ) {
     this.schema = adultForm;
   }
@@ -74,11 +74,11 @@ export class AppComponent {
       resolveSelectedValue: this.sampleResolve
     });
 
-    let ds = {
+    const ds = {
       dataSourceOptions: { concept: undefined },
       searchOptions: (text?: string) => {
         if (ds.dataSourceOptions && ds.dataSourceOptions.concept) {
-          let items: Array<any> = [
+          const items: Array<any> = [
             { id: 1, text: 'Stage 1 Symptom' },
             { id: 2, text: 'Stage 2 Symptom' }
           ];
@@ -92,7 +92,7 @@ export class AppComponent {
 
       resolveSelectedValue: (key: string) => {
         if (ds.dataSourceOptions && ds.dataSourceOptions.concept) {
-          let item = { id: 1, text: 'Stage 1 Symptom' };
+          const item = { id: 1, text: 'Stage 1 Symptom' };
           return Observable.create((observer: Subject<any>) => {
             setTimeout(() => {
               observer.next(item);
@@ -104,7 +104,7 @@ export class AppComponent {
 
     this.dataSources.registerDataSource('conceptAnswers', ds);
 
-    let obs = new MockObs();
+    const obs = new MockObs();
     this.dataSources.registerDataSource('rawPrevEnc', obs.getObs());
 
     this.dataSources.registerDataSource('patient', { sex: 'M' }, true);
@@ -122,20 +122,19 @@ export class AppComponent {
         return of({ image: 'https://unsplash.it/1040/720' });
       },
       fetchFile: (url) => {
-        console.log(url, 'APP COMPONENT');
         return new Observable((observer: Subscriber<any>) => {
           let objectUrl: string = null;
-          const headers = new Headers({
+          const headers = new HttpHeaders({
             Accept: 'image/png,image/jpeg,image/gif,application/pdf'
           });
           this.http
             .get('https://unsplash.it/1040/720', {
               headers,
-              responseType: ResponseContentType.Blob
+              responseType: 'json'
             })
-            .subscribe((m) => {
-              objectUrl = URL.createObjectURL(m.blob());
-              console.log(objectUrl);
+            .subscribe((res: any) => {
+              const blob = new Blob(res.body);
+              objectUrl = URL.createObjectURL(blob);
               observer.next(objectUrl);
             });
 
@@ -167,15 +166,16 @@ export class AppComponent {
   }
 
   public setUpCascadeSelectForWHOStaging() {
-    let subject = new Subject();
-    let source = this.dataSources.dataSources['conceptAnswers'];
+    const subject = new Subject();
+    const source = this.dataSources.dataSources['conceptAnswers'];
     source.dataFromSourceChanged = subject.asObservable();
 
-    let whoStageQuestion = this.form.searchNodeByQuestionId('adultWHOStage')[0];
+    const whoStageQuestion = this.form.searchNodeByQuestionId(
+      'adultWHOStage'
+    )[0];
     if (whoStageQuestion) {
       whoStageQuestion.control.valueChanges.subscribe((val) => {
         if (source.dataFromSourceChanged) {
-          console.log('changing value for WHO', val);
           if (val === 'a89b2606-1350-11df-a1f1-0026b9348838') {
             subject.next([
               { value: 3, label: 'Stage 3 Symptom' },
@@ -210,7 +210,7 @@ export class AppComponent {
   }
 
   public sampleResolve(): Observable<any> {
-    let item = { value: '1', label: 'Art3mis' };
+    const item = { value: '1', label: 'Art3mis' };
     return Observable.create((observer: Subject<any>) => {
       setTimeout(() => {
         observer.next(item);
@@ -219,7 +219,7 @@ export class AppComponent {
   }
 
   public sampleSearch(): Observable<any> {
-    let items: Array<any> = [
+    const items: Array<any> = [
       { value: '0', label: 'Aech' },
       { value: '5b6e58ea-1359-11df-a1f1-0026b9348838', label: 'Art3mis' },
       { value: '2', label: 'Daito' },
@@ -250,17 +250,14 @@ export class AppComponent {
 
     if (this.form.valid) {
       this.form.showErrors = false;
-      let payload = this.encAdapter.generateFormPayload(this.form);
-      console.log('encounter payload', payload);
+      const payload = this.encAdapter.generateFormPayload(this.form);
 
       // Alternative is to populate for each as shown below
       // // generate obs payload
       // let payload = this.obsValueAdapater.generateFormPayload(this.form);
-      // console.log('obs payload', payload);
 
       // // generate orders payload
       // let ordersPayload = this.orderAdaptor.generateFormPayload(this.form);
-      // console.log('orders Payload', ordersPayload);
     } else {
       this.form.showErrors = true;
       this.form.markInvalidControls(this.form.rootNode);
