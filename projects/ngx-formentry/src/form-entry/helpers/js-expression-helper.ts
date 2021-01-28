@@ -8,6 +8,14 @@ export class JsExpressionHelper {
     return height && weight ? parseFloat(r) : null;
   }
 
+  calcBSA(height: number, weight: number) {
+    let result;
+    if (height && weight) {
+      result = Math.sqrt((height * weight) / 3600).toFixed(2);
+    }
+    return height && weight ? parseFloat(result) : null;
+  }
+
   calcBMIForAgeZscore(bmiForAgeRef, height, weight) {
     let bmi;
     const maxAgeInDays = 1856;
