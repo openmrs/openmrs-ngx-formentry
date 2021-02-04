@@ -24,6 +24,21 @@ describe('JS Expression Helper Service:', () => {
     expect(bmi).toBe(21.6);
   });
 
+  it('should compute the correct bsa value when height and weight are provided', () => {
+    const helper: JsExpressionHelper = TestBed.get(JsExpressionHelper);
+
+    let bsa, height, weight;
+
+    bsa = helper.calcBSA(height, weight);
+    expect(bsa).toBeNull();
+
+    height = 190.5; // cm
+    weight = 95; // kg
+
+    bsa = helper.calcBSA(height, weight);
+    expect(bsa).toBe(2.24);
+  });
+
   it('should return true if value is empty, null or undefined', () => {
     const helper: JsExpressionHelper = TestBed.get(JsExpressionHelper);
     let val = '';
