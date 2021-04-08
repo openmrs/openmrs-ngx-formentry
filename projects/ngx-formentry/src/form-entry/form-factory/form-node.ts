@@ -139,8 +139,11 @@ export class ArrayNode extends NodeBase implements ChildNodeCreatedListener {
   }
 
   public removeAt(index: number) {
-    if (this.removeChildFunc) {
-      this.removeChildFunc(index, this);
+    const removePrompt = confirm('Are you sure you want to remove?');
+    if (removePrompt) {
+      if (this.removeChildFunc) {
+        this.removeChildFunc(index, this);
+      }
     }
   }
 
