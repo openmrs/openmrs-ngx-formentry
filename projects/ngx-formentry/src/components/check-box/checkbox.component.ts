@@ -18,14 +18,6 @@ import * as _ from 'lodash';
       useExisting: forwardRef(() => CheckboxControlComponent),
       multi: true
     }
-  ],
-  styles: [
-    `
-      .no-border {
-        border: 0;
-        box-shadow: none;
-      }
-    `
   ]
 })
 export class CheckboxControlComponent implements OnInit, AfterViewInit {
