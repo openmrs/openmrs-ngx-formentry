@@ -14,6 +14,7 @@ import { ErrorRendererComponent } from './error-renderer/error-renderer.componen
 import { HistoricalValueDirective } from './directives/historical-value-directive';
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
 import { SelectModule } from '../components/select/select.module';
+import { NumberInputModule } from '../components/number-input/number-input.module';
 // import { NgSelectModule } from '@ng-select/ng-select';
 import { RemoteFileUploadModule } from '../components/file-upload/file-upload.module';
 import { DateTimePickerModule } from '../components/date-time-picker/date-time-picker.module';
@@ -46,6 +47,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
     CollapseModule,
     // NgSelectModule,
     SelectModule,
+    NumberInputModule,
     DateTimePickerModule,
     RemoteSelectModule,
     // NoopAnimationsModule,

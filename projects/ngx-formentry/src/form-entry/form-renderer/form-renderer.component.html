@@ -64,9 +64,29 @@
   ></form-renderer>
 </div>
 <div *ngIf="node.question.renderingType === 'section' && checkSection(node)">
-  <div class="bx--accordion__item" [ngClass]="{ 'bx--accordion__item--active': !isCollapsed }">
-    <button class="bx--accordion__heading" type="button" [attr.aria-expanded]="isCollapsed ? 'false' : 'true'" aria-controls="accordion-item-0" (click)="isCollapsed = !isCollapsed">
-      <svg class="bx--accordion__arrow" ibmIcon="chevron--right" size="16" xmlns="http://www.w3.org/2000/svg" focusable="false" preserveAspectRatio="xMidYMid meet" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16">
+  <div
+    class="bx--accordion__item"
+    [ngClass]="{ 'bx--accordion__item--active': !isCollapsed }"
+  >
+    <button
+      class="bx--accordion__heading"
+      type="button"
+      [attr.aria-expanded]="isCollapsed ? 'false' : 'true'"
+      aria-controls="accordion-item-0"
+      (click)="isCollapsed = !isCollapsed"
+    >
+      <svg
+        class="bx--accordion__arrow"
+        ibmIcon="chevron--right"
+        size="16"
+        xmlns="http://www.w3.org/2000/svg"
+        focusable="false"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+      >
         <path d="M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
       </svg>
       <p class="bx--accordion__title">
@@ -204,17 +224,17 @@
         [multiple]="false"
       >
       </ng-select>
-      <input
-        class="form-control"
+
+      <number-input
         *ngSwitchCase="'number'"
-        [formControlName]="node.question.key"
-        [attr.placeholder]="node.question.placeholder"
-        [type]="'number'"
         [id]="node.question.key + 'id'"
-        [step]="'any'"
         [min]="node.question.extras.questionOptions.min"
         [max]="node.question.extras.questionOptions.max"
-      />
+        [formControlName]="node.question.key"
+        [attr.placeholder]="node.question.placeholder"
+      >
+      </number-input>
+
       <input
         class="form-control"
         *ngSwitchDefault
