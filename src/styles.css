@@ -2,4 +2,5 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~font-awesome/css/font-awesome.min.css';
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~carbon-components/css/carbon-components.css';
 /* @import "~@ng-select/ng-select/themes/default.theme.css"; */

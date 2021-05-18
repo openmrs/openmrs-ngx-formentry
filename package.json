@@ -11,6 +11,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "peerDependencies": {
+    "carbon-components": "10.x"
+  },
   "dependencies": {
     "@angular/animations": "^6.1.0",
     "@angular/cdk": "^6.1.0",
@@ -55,6 +58,7 @@
     "@types/jasmine": "2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^8.9.5",
+    "carbon-components": "^10.35.0",
     "codelyzer": "~4.2.1",
     "husky": "^4.3.0",
     "jasmine-core": "~2.99.1",

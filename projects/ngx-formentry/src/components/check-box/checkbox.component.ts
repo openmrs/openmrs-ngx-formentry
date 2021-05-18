@@ -6,8 +6,7 @@ import {
   AfterViewInit
 } from '@angular/core';
 
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
