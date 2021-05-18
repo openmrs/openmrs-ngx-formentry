@@ -1,12 +1,8 @@
-<div *ngFor="let option of options; let i = index">
-  <label class="form-control no-border">
-    <input
-      type="checkbox"
-      id="i + 'id'"
-      (change)="selectOpt(option, $event)"
-      value="option.value"
-      [checked]="option.checked"
-    />
-    {{ option.label }}
-  </label>
-</div>
+<fieldset class="bx--fieldset">
+  <div class="bx--form-item bx--checkbox-wrapper" *ngFor="let option of options; let i = index">
+    <input type="checkbox" class="bx--checkbox" [id]="i + 'id'" [checked]="option.checked" (change)="selectOpt(option, $event)" [value]="option.value">
+    <label [for]="i + 'id'" class="bx--checkbox-label">
+      <span class="bx--checkbox-label-text">{{ option.label }}</span>
+    </label>
+  </div>
+</fieldset>
