@@ -38,7 +38,7 @@
   <div style="text-align: center">
     <button
       type="button"
-      class="btn btn-default"
+      class="bx--btn bx--btn--secondary"
       (click)="loadPreviousTab()"
       [ngClass]="{ disabled: isCurrentTabFirst() }"
     >
@@ -46,7 +46,7 @@
     </button>
     <button
       type="button"
-      class="btn btn-default"
+      class="bx--btn bx--btn--primary"
       (click)="loadNextTab()"
       [ngClass]="{ disabled: isCurrentTabLast() }"
     >
@@ -64,18 +64,16 @@
   ></form-renderer>
 </div>
 <div *ngIf="node.question.renderingType === 'section' && checkSection(node)">
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <button
-        type="button"
-        class="btn btn-primary pull-right"
-        (click)="isCollapsed = !isCollapsed"
-      >
-        {{ isCollapsed ? 'Show' : 'Hide' }}
-      </button>
-      {{ node.question.label }}
-    </div>
-    <div class="panel-body" [collapse]="isCollapsed">
+  <div class="bx--accordion__item" [ngClass]="{ 'bx--accordion__item--active': !isCollapsed }">
+    <button class="bx--accordion__heading" type="button" [attr.aria-expanded]="isCollapsed ? 'false' : 'true'" aria-controls="accordion-item-0" (click)="isCollapsed = !isCollapsed">
+      <svg class="bx--accordion__arrow" ibmIcon="chevron--right" size="16" xmlns="http://www.w3.org/2000/svg" focusable="false" preserveAspectRatio="xMidYMid meet" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16">
+        <path d="M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
+      </svg>
+      <p class="bx--accordion__title">
+        {{ node.question.label }}
+      </p>
+    </button>
+    <div class="bx--accordion__content" [collapse]="isCollapsed">
       <form-renderer
         *ngFor="let question of node.question.questions"
         [parentComponent]="this"
@@ -170,7 +168,7 @@
         [formControlName]="node.question.key"
         [id]="node.question.key + 'id'"
       ></remote-select>
-      <!--  
+      <!--
       <date-time-picker *ngSwitchCase="'date'" [showTime]="node.question.showTime" tabindex="0" [weeks]='node.question.extras.questionOptions.weeksList'
         (onDateChange)="onDateChanged(node)" [showWeeks]="node.question.showWeeksAdder" [formControlName]="node.question.key"
         [id]="node.question.key + 'id'"></date-time-picker>
@@ -280,7 +278,7 @@
               type="button"
               [node]="node"
               [name]="'historyValue'"
-              class="btn btn-primary btn-small col-xs-3"
+              class="bx--btn bx--btn--primary bx--btn--sm col-xs-3"
             >
               Use Value
             </button>
@@ -339,7 +337,7 @@
             <div>{{ child.orderNumber }}</div>
             <button
               type="button "
-              class="btn btn-sm btn-danger"
+              class="bx--btn bx--btn--danger bx--btn--sm"
               (click)="node.removeAt(i)"
             >
               Remove
@@ -367,7 +365,7 @@
             ></form-renderer>
             <button
               type="button "
-              class="btn btn-sm btn-danger"
+              class="bx--btn bx--btn--danger bx--btn--sm"
               (click)="node.removeAt(i)"
             >
               Remove
@@ -386,8 +384,8 @@
         </div>
       </div>
       <button
-        type="button "
-        class="btn btn-primary"
+        type="button"
+        class="bx--btn bx--btn--primary"
         (click)="node.createChildNode()"
       >
         Add
