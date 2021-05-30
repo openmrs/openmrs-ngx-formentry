@@ -146,16 +146,13 @@
       {{ node.question.required ? '*' : '' }} {{ node.question.label }}
     </label>
     <div [ngSwitch]="node.question.renderingType">
-      <select
-        class="form-control"
-        *ngSwitchCase="'select'"
-        [formControlName]="node.question.key"
-        [id]="node.question.key + 'id'"
-      >
-        <option *ngFor="let o of node.question.options" [ngValue]="o.value">
+      <ibm-select   *ngSwitchCase="'select'"
+      [formControlName]="node.question.key"
+      [id]="node.question.key + 'id'">
+				<option *ngFor="let o of node.question.options" [ngValue]="o.value">
           {{ o.label }}
         </option>
-      </select>
+			</ibm-select>
 
       <app-file-upload
         *ngSwitchCase="'file'"

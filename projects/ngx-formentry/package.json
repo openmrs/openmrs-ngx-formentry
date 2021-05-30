@@ -17,6 +17,8 @@
     "reflect-metadata": "^0.1.9",
     "shelljs": "^0.7.0",
     "slick-carousel": "^1.6.0",
-    "tree-model": "^1.0.5"
+    "tree-model": "^1.0.5",
+    "@carbon/icons-angular": "^11.2.2",
+    "carbon-components-angular": "^4.52.0"
   }
 }

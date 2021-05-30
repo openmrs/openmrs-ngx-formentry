@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { DebugModeService } from '../form-entry/services/debug-mode.service';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { SelectModule as SelectModuleCarbon } from 'carbon-components-angular';
 import { FormErrorsService } from './services/form-errors.service';
 import { FormControlService } from './form-factory/form-control.service';
 import { ValidationFactory } from './form-factory/validation.factory';
@@ -44,6 +45,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    SelectModuleCarbon,
     CollapseModule,
     // NgSelectModule,
     SelectModule,
