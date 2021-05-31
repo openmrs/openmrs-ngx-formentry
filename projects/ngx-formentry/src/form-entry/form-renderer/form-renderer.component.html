@@ -17,12 +17,14 @@
       </li>
     </ul>
   </div>
-  <mat-tab-group
+  <!-- <mat-tab-group
     (selectedIndexChange)="tabSelected($event)"
     [selectedIndex]="activeTab"
-  >
-    <mat-tab
-      [label]="question.label"
+  > -->
+  <ibm-tabs #tabsComponent>
+    <ibm-tab #tab
+      (selected)="tabSelected(tab)"
+      [heading]="question.label"
       *ngFor="let question of node.question.questions; let i = index"
     >
       <div (swipeLeft)="loadNextTab()" (swipeRight)="loadPreviousTab()">
@@ -32,8 +34,9 @@
           [parentGroup]="node.control"
         ></form-renderer>
       </div>
-    </mat-tab>
-  </mat-tab-group>
+    </ibm-tab>
+  </ibm-tabs>
+  <!-- </mat-tab-group> -->
 
   <div style="text-align: center">
     <button
