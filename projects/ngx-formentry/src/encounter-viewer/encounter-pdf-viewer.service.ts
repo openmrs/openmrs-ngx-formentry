@@ -6,8 +6,7 @@ import { EncounterViewerService } from './encounter-viewer.service';
 import { DataSources } from '../form-entry/data-sources/data-sources';
 import { DataSource } from '../form-entry/question-models/interfaces/data-source';
 
-import { combineLatest, BehaviorSubject } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
+import { combineLatest, BehaviorSubject ,  Observable } from 'rxjs';
 
 import * as moment_ from 'moment';
 import * as _ from 'lodash';

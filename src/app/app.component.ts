@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 
-import { Subscriber } from 'rxjs';
-import { Observable, Subject, of } from 'rxjs';
+import { Subscriber ,  Observable, Subject, of } from 'rxjs';
 
 import {
   QuestionFactory,
