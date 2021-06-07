@@ -1,53 +1,34 @@
 <div>
-  <div class="row">
-    <div [class]="getDatePickerCssClass()">
-      <div class="input-group">
-        <input
-          matInput
-          [matDatepicker]="picker"
-          class="form-control"
-          [value]="value"
-          placeholder="Choose a date"
-          (dateChange)="onDateSelect($event)"
-          (click)="picker.open()"
-          readonly
-        />
-        <mat-datepicker #picker disabled="false"></mat-datepicker>
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="picker"
-          class="input-group-btn"
-        ></mat-datepicker-toggle>
-      </div>
+
+  <div class="grid">
+    <div class="col">
+      <bx-date-picker [value]="value" (bx-date-picker-changed)="onDateSelect($event)">
+        <bx-date-picker-input [value]="value" kind="single">
+        </bx-date-picker-input>
+      </bx-date-picker>
     </div>
-    <div [class]="getWeekPickerCssClass()" *ngIf="showWeeks">
-      <mat-select
-        placeholder="Select Weeks"
-        class="form-control"
-        name="weeks"
-        (selectionChange)="weekSelect($event)"
-      >
+
+    <div class="col" *ngIf="showWeeks">
+      <mat-select placeholder="Select Weeks" name="weeks" (selectionChange)="weekSelect($event)">
         <mat-option *ngFor="let count of weeks" [value]="count">
           {{ count }} Weeks
         </mat-option>
       </mat-select>
     </div>
-    <div [class]="getTimePickerCssClass()" *ngIf="showTime">
-      <input
-        type="text"
-        class="form-control"
-        [value]="value | date: 'shortTime'"
-        (focus)="toggleTimePicker(true)"
-        readonly
-        placeholder="Select Time"
-      />
-      <!-- <time-picker
-        *ngIf="showTimePicker"
-        [initTime]="value"
-        [use12Hour]="true"
-        (onSelectTime)="onTimeSelect($event)"
-        (onTimePickerCancel)="toggleTimePicker($event)"
-      ></time-picker> -->
+    <div class="col">
+      <div class="bottom_aligner"></div>
+      <div  *ngIf="showTime">
+        <!-- <ngx-time-picker  [initTime]="value" [use12Hour]="true"
+          (onSelectTime)="onTimeSelect($event)"></ngx-time-picker> -->
+
+        <!-- <time-picker
+          *ngIf="showTimePicker"
+          [initTime]="value"
+          [use12Hour]="true"
+          (onSelectTime)="onTimeSelect($event)"
+          (onTimePickerCancel)="toggleTimePicker($event)"
+        ></time-picker> -->
+      </div>
     </div>
   </div>
 </div>

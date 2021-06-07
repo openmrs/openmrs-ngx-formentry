@@ -74,3 +74,5 @@ import 'reflect-metadata';
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+// @ts-ignore
+ window.__importDefault = mod => (mod?.__esModule ? mod : { default: mod })

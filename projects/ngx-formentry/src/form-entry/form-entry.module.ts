@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { MatTabsModule, MatIconModule, MatCardModule } from '@angular/material';
 // import { NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
@@ -17,12 +17,10 @@ import { FormRendererComponent } from './form-renderer/form-renderer.component';
 import { ErrorRendererComponent } from './error-renderer/error-renderer.component';
 import { HistoricalValueDirective } from './directives/historical-value-directive';
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
-import { SelectModule } from '../components/select/select.module';
 import { NumberInputModule } from '../components/number-input/number-input.module';
-// import { NgSelectModule } from '@ng-select/ng-select';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { RemoteFileUploadModule } from '../components/file-upload/file-upload.module';
 import { DateTimePickerModule } from '../components/date-time-picker/date-time-picker.module';
-import { NgxDateTimePickerModule } from '../components/ngx-date-time-picker/ngx-date-time-picker.module';
 import { AfeNgSelectComponent } from '../components/afe-ng-select.component';
 import { HidersDisablersFactory } from './form-factory/hiders-disablers.factory';
 import { AlertsFactory } from './form-factory/show-messages.factory';
@@ -38,24 +36,28 @@ import { OrderValueAdapter } from './value-adapters/order.adapter';
 import { ObsAdapterHelper } from './value-adapters/obs-adapter-helper';
 import { ObsValueAdapter } from './value-adapters/obs.adapter';
 import { RemoteSelectModule } from '../components/remote-select/remote-select.module';
+import { NgxRemoteSelectModule } from '../components/ngx-remote-select/ngx-remote-select.module';
 import { AppointmentsOverviewComponent } from '../components/appointments-overview/appointments-overview.component';
 import { EncounterViewerModule } from '../encounter-viewer/encounter-viewer.module';
 import { CheckboxModule } from '../components/check-box/checkbox.module';
 import { SharedModule } from '../shared.module';
-import { TimeAgoPipe } from './pipes/time-ago.pipe'
+import { TimeAgoPipe } from 'time-ago-pipe';
+import { NgxDateTimePickerModule } from '../components/ngx-datetime-picker/ngx-datetime-picker.module';
 
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     SelectModuleCarbon,
     TabsModule,
     CollapseModule,
-    // NgSelectModule,
-    SelectModule,
+    NgSelectModule,
+    //SelectModule,
     NumberInputModule,
     DateTimePickerModule,
     RemoteSelectModule,
+    NgxRemoteSelectModule,
     // NoopAnimationsModule,
     RemoteFileUploadModule,
     EncounterViewerModule,

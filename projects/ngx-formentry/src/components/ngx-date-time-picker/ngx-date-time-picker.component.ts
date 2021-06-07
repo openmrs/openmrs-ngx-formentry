@@ -15,6 +15,11 @@ import {
 } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import 'carbon-web-components/es/components/dropdown/dropdown';
+import 'carbon-web-components/es/components/dropdown/dropdown-item';
+import 'carbon-web-components/es/components/date-picker/date-picker';
+import 'carbon-web-components/es/components/date-picker/date-picker-input';
+import 'carbon-web-components/es/components/date-picker/date-picker-input-skeleton';
 import * as moment_ from 'moment';
 const moment = moment_;
 
@@ -56,13 +61,25 @@ export class NgxDateTimePickerComponent
   @Input() modelValue: any;
   @Input() showTime = false;
   @Input() showWeeks = true;
+  @Input() nodeId = true;
   @Output() onDateChange = new EventEmitter<any>();
   public onChange: any = () => {};
-  public onTouched: any = () => {};
+  public onTouched: any = () => {
+
+  };
   public ngOnInit() {}
 
   public writeValue(value) {
-    this.value = value;
+    if(value instanceof Date){
+      console.log('Date', value)
+      this.value = value;
+    }else if(value !=='' && typeof value === 'string'){
+      console.log('String', value)
+      this.value = moment(value).toDate();
+    }else{
+      this.value = value;
+    }
+
   }
 
   public registerOnChange(fn) {
