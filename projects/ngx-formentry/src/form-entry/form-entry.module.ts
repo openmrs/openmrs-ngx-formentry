@@ -21,6 +21,7 @@ import { NumberInputModule } from '../components/number-input/number-input.modul
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RemoteFileUploadModule } from '../components/file-upload/file-upload.module';
 import { DateTimePickerModule } from '../components/date-time-picker/date-time-picker.module';
+import { NgxDateTimePickerModule } from '../components/ngx-datetime-picker/ngx-datetime-picker.module';
 import { AfeNgSelectComponent } from '../components/afe-ng-select.component';
 import { HidersDisablersFactory } from './form-factory/hiders-disablers.factory';
 import { AlertsFactory } from './form-factory/show-messages.factory';
@@ -35,14 +36,13 @@ import { PersonAttribuAdapter } from './value-adapters/person-attribute.adapter'
 import { OrderValueAdapter } from './value-adapters/order.adapter';
 import { ObsAdapterHelper } from './value-adapters/obs-adapter-helper';
 import { ObsValueAdapter } from './value-adapters/obs.adapter';
-import { RemoteSelectModule } from '../components/remote-select/remote-select.module';
 import { NgxRemoteSelectModule } from '../components/ngx-remote-select/ngx-remote-select.module';
 import { AppointmentsOverviewComponent } from '../components/appointments-overview/appointments-overview.component';
 import { EncounterViewerModule } from '../encounter-viewer/encounter-viewer.module';
 import { CheckboxModule } from '../components/check-box/checkbox.module';
 import { SharedModule } from '../shared.module';
 import { TimeAgoPipe } from 'time-ago-pipe';
-import { NgxDateTimePickerModule } from '../components/ngx-datetime-picker/ngx-datetime-picker.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -53,10 +53,8 @@ import { NgxDateTimePickerModule } from '../components/ngx-datetime-picker/ngx-d
     TabsModule,
     CollapseModule,
     NgSelectModule,
-    //SelectModule,
     NumberInputModule,
     DateTimePickerModule,
-    RemoteSelectModule,
     NgxRemoteSelectModule,
     // NoopAnimationsModule,
     RemoteFileUploadModule,
@@ -66,6 +64,7 @@ import { NgxDateTimePickerModule } from '../components/ngx-datetime-picker/ngx-d
     MatTabsModule,
     MatCardModule,
     NgxDateTimePickerModule,
+    OwlDateTimeModule, OwlNativeDateTimeModule,
     SharedModule
   ],
   declarations: [

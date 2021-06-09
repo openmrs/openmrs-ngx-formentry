@@ -8,11 +8,10 @@ import {
   EventEmitter,
   Renderer2
 } from '@angular/core';
-import { SelectComponent } from '../../components/select/select.component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { concat, Observable, of, Subject } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
-import { SelectOption } from '../../form-entry/question-models/interfaces/select-option'
+import { SelectOption } from '../../form-entry/question-models/interfaces/select-option';
 
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
 import * as _ from 'lodash';
@@ -42,8 +41,6 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
   notFoundMsg = 'match no found';
   @Output() done: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild(SelectComponent, { static: true }) private selectC: SelectComponent;
-
   private _dataSource: DataSource;
   @Input()
   public get dataSource(): DataSource {
@@ -67,66 +64,11 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
       if (results.length > 0) {
         this.items = results;
         this.notFoundMsg = '';
-        // console.log('updating items', results, this.selectC.value);
-        console.log('Results Changed', results)
-        //this.restoreSelectedValue(this.selectC.value, results);
       } else {
         this.notFoundMsg = 'Not found';
         this.items = [];
       }
     });
-  }
-
-  public typed(value: any): void {
-    this.search(value);
-  }
-  search(value: string) {
-    if (this.dataSource) {
-      this.searchText = value;
-      this.notFoundMsg = 'Loading.........';
-      this.dataSource.searchOptions(value).subscribe(
-        (result) => {
-          if (result.length > 0) {
-            const existing = _.map(this.value, _.clone);
-            const concat = existing.concat(result);
-            this.items = _.uniqBy(concat, 'value');
-          }
-          this.notFoundMsg = '';
-        },
-        (error) => {
-          this.notFoundMsg = 'Errored';
-        }
-      );
-    }
-  }
-
-  restoreSelectedValue(value, results) {
-    let found = false;
-    _.each(results, (item) => {
-      if (item.value === value) {
-        setTimeout(() => {
-          this.selectC.select(value);
-          this.selectC.value = value;
-        });
-        found = true;
-      }
-    });
-    if (!found) {
-      // console.log('not found after loading items', value, results);
-      setTimeout(() => {
-        this.selectC.select('');
-        this.selectC.value = '';
-      });
-    }
-  }
-
-  canSearch(searchText: string) {
-    return (
-      (searchText.length - this.searchText.length >= 2 ||
-        (searchText.length - this.searchText.length <= 2 &&
-          searchText !== '')) &&
-      this.loading === false
-    );
   }
 
   // this is the initial value set to the component
@@ -162,12 +104,7 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     // update the form
     // this.propagateChange(this.data);
   }
-  removed(event) {
-    console.log('Removed');
-    this.propagateChange('');
-  }
   selected(event) {
-    console.log('Removed',event)
     this.propagateChange(event);
   }
 
@@ -176,7 +113,7 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
       return item.value === selected.value;
     }
     return false;
-  };
+  }
 
   // the method set in registerOnChange, it is just
   // a placeholder for a method that takes one parameter,

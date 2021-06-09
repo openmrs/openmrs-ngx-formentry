@@ -48,7 +48,7 @@
 
 .ng-select .ng-select-container {
 	align-items: baseline;
-	min-height: 51.5px
+	min-height: 40px;
 }
 
 .ng-select .ng-select-container:after {

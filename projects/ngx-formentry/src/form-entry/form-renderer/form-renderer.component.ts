@@ -31,7 +31,7 @@ import { SelectOption } from '../question-models/interfaces/select-option';
 @Component({
   selector: 'form-renderer',
   templateUrl: 'form-renderer.component.html',
-  styles: ['../../style/app.css', DEFAULT_STYLES, 'flatpickr/dist/flatpickr.css']
+  styles: ['../../style/app.css', DEFAULT_STYLES]
 })
 export class FormRendererComponent implements OnInit {
   @Input() public parentComponent: FormRendererComponent;
@@ -85,12 +85,6 @@ export class FormRendererComponent implements OnInit {
     if (this.parentComponent) {
       this.parentComponent.addChildComponent(this);
     }
-
-    if (this.node && this.node.question.renderingType === 'remote-select') {
-      
-    }
-
-  
   }
 
   public addChildComponent(child: FormRendererComponent) {

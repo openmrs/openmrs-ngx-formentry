@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as moment_ from 'moment';
 const moment = moment_;
@@ -15,18 +15,12 @@ const moment = moment_;
     }
   ]
 })
-export class NgxDatetimeComponent implements OnInit, ControlValueAccessor {
+export class NgxDatetimeComponent implements ControlValueAccessor {
   value: String | Date = '';
   isDisabled: boolean;
 
-  onChange = (_: any) => { }
-  onTouch = () => { }
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  onChange = (_: any) => { };
+  onTouch = () => { };
   onInput($event: any) {
     this.onTouch();
     this.onChange($event.value);
