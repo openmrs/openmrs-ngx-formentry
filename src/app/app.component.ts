@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 
-import { Subscriber } from 'rxjs';
-import { Observable, Subject, of } from 'rxjs';
+import { Subscriber ,  Observable, Subject, of } from 'rxjs';
 
 import {
   QuestionFactory,
@@ -250,8 +249,7 @@ export class AppComponent implements OnInit {
 
     if (this.form.valid) {
       this.form.showErrors = false;
-      const payload = this.encAdapter.generateFormPayload(this.form);
-
+      // const payload = this.encAdapter.generateFormPayload(this.form);
       // Alternative is to populate for each as shown below
       // // generate obs payload
       // let payload = this.obsValueAdapater.generateFormPayload(this.form);

@@ -7,7 +7,7 @@
     >
       <div class="error" *ngIf="errorNode.control.valid == false">
         <h4>{{ errorNode.question.label }}</h4>
-        <span class="text-danger"> {{ getControlError(errorNode) }}</span>
+        <span class="error-text"> {{ getControlError(errorNode) }}</span>
       </div>
     </li>
   </ul>

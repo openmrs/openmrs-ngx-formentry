@@ -1,0 +1,21 @@
+<div>
+  <!-- <ng-select
+    [id]="componentID"
+    [noFilter]="0"
+    (selected)="selected($event)"
+    (deselected)="removed($event)"
+    [options]="items"
+    [allowClear]="true"
+    [placeholder]="placeholder"
+    [notFoundMsg]="notFoundMsg"
+    (typed)="typed($event)"
+    tabindex="0"
+  >
+  </ng-select>
+  <div *ngIf="loading">resolving....</div> -->
+  <ng-select [items]="remoteOptions$ | async" bindLabel="label" bindValue="value" [multiple]="false"
+    [hideSelected]="true"  [compareWith]="compareItems" [trackByFn]="trackByFn" [loading]="loading"
+    typeToSearchText="Please enter 2 or more characters" [typeahead]="remoteOptionInput$"
+    [(ngModel)]="selectedRemoteOptions"  (ngModelChange)="selected($event)">
+  </ng-select>
+</div>

@@ -50,5 +50,5 @@ export { RepeatingQuestionOptions } from './form-entry/question-models/interface
 export { GroupQuestionOptions } from './form-entry/question-models/interfaces/group-question-options';
 export { NestedQuestion } from './form-entry/question-models/interfaces/nested-questions';
 export { DateTimePickerModule } from './components/date-time-picker/date-time-picker.module';
-export { NgxDateTimePickerModule } from './components/ngx-date-time-picker/ngx-date-time-picker.module';
+export { NgxDateTimePickerModule } from './components/ngx-datetime-picker/ngx-datetime-picker.module';
 export { JsExpressionHelper } from './form-entry/helpers/js-expression-helper';

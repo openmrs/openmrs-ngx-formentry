@@ -3,12 +3,16 @@ import {
   OnInit,
   Input,
   Inject,
+  ViewChild,
+  QueryList,
   OnChanges,
   SimpleChanges
 } from '@angular/core';
 import 'hammerjs';
+import { Tabs, Tab } from 'carbon-components-angular';
 import { DEFAULT_STYLES } from './form-renderer.component.css';
 import { DOCUMENT } from '@angular/common';
+import { FlatpickrOptions } from 'ng2-flatpickr/ng2-flatpickr';
 import { DataSources } from '../data-sources/data-sources';
 import { NodeBase, LeafNode, GroupNode } from '../form-factory/form-node';
 import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
@@ -16,6 +20,8 @@ import { ValidationFactory } from '../form-factory/validation.factory';
 import { DataSource } from '../question-models/interfaces/data-source';
 import { FormErrorsService } from '../services/form-errors.service';
 import { QuestionGroup } from '../question-models/group-question';
+import { SelectOption } from '../question-models/interfaces/select-option';
+
 // import { concat, of, Observable, Subject, BehaviorSubject } from 'rxjs';
 // import * as _ from 'lodash';
 
@@ -31,6 +37,7 @@ export class FormRendererComponent implements OnInit {
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
   @Input() public parentGroup: AfeFormGroup;
+  @ViewChild('tabsComponent', { static: false }) tabsComponent: Tabs;
   public childComponents: FormRendererComponent[] = [];
   public showTime: boolean;
   public showWeeks: boolean;
@@ -38,11 +45,15 @@ export class FormRendererComponent implements OnInit {
   public dataSource: DataSource;
   public isCollapsed = false;
   public auto: any;
-
-  // items$: Observable<any[]>;
-  // itemsLoading = false;
-  // itemsInput$ = new Subject<string>();
-
+  public followFocus = true;
+  public cacheActive = false;
+  public isNavigation = true;
+  public type = 'default';
+  public previousSelectedTab: Tab;
+  inlineDatePicker: Date = new Date();
+  dateTimeOptions: FlatpickrOptions = {
+    enableTime: true
+  };
   constructor(
     private validationFactory: ValidationFactory,
     private dataSources: DataSources,
@@ -151,6 +162,8 @@ export class FormRendererComponent implements OnInit {
 
   public clickTab(tabNumber) {
     this.activeTab = tabNumber;
+    this.disablePrevious();
+    this.tabsComponent.tabs.toArray()[tabNumber].active = true;
   }
 
   public loadPreviousTab() {
@@ -174,8 +187,8 @@ export class FormRendererComponent implements OnInit {
       document.body.scrollTop = 0;
     }
   }
-  public tabSelected($event) {
-    this.activeTab = $event;
+  public tabSelected(tab) {
+    this.activeTab = this.getTabIndex(tab.id);
     this.setPreviousTab();
   }
   public setPreviousTab() {
@@ -246,5 +259,17 @@ export class FormRendererComponent implements OnInit {
     }
 
     return [];
+  }
+
+  private getTabIndex(id) {
+    return parseInt(id.replace(/[^0-9]/g, ''), 10);
+  }
+  private disablePrevious() {
+    for (const tab of this.tabsComponent.tabs.toArray()) {
+      if (tab.active) {
+        tab.active = false;
+        break;
+      }
+    }
   }
 }

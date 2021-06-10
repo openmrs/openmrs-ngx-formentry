@@ -5,14 +5,9 @@ import {
   WrappedValue,
   ChangeDetectorRef
 } from '@angular/core';
-import { of } from 'rxjs';
-
-import { Subscription } from 'rxjs';
-import { Observable } from 'rxjs';
-import { BehaviorSubject } from 'rxjs';
+import { Subscription ,  Observable ,  BehaviorSubject } from 'rxjs';
 
 import { DomSanitizer } from '@angular/platform-browser';
-// import { FileUploadResourceService } from '../../etl-api/file-upload-resource.service';
 
 // Using similarity from AsyncPipe to avoid having to pipe |secure|async in HTML.
 // tslint:disable-next-line:use-pipe-transform-interface
