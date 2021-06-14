@@ -1,14 +1,19 @@
 <div *ngIf="showErrors()" class="container">
-  <ul class="list-group">
-    <li
-      class="list-group-item list-group-item-warning"
-      *ngFor="let errorNode of errorNodes"
-      (click)="announceErrorField(errorNode)"
-    >
-      <div class="error" *ngIf="errorNode.control.valid == false">
-        <h4>{{ errorNode.question.label }}</h4>
-        <span class="error-text"> {{ getControlError(errorNode) }}</span>
+  <div data-notification *ngFor="let errorNode of errorNodes"
+    class="bx--inline-notification bx--inline-notification--error bx--inline-notification--low-contrast" role="alert">
+    <div class="bx--inline-notification__details">
+      <div class="bx--inline-notification__text-wrapper">
+        <p class="bx--inline-notification__title">{{ errorNode.question.label }}</p>
+        <p class="bx--inline-notification__subtitle">{{ getControlError(errorNode) }}</p>
       </div>
-    </li>
-  </ul>
+    </div>
+    <button tabindex="0" (click)="announceErrorField(errorNode)"
+      class="bx--inline-notification__action-button bx--btn bx--btn--sm bx--btn--ghost" type="button">Fix</button>
+    <svg focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;"
+      xmlns="http://www.w3.org/2000/svg" class="bx--inline-notification__icon" width="20" height="20"
+      viewBox="0 0 20 20" aria-hidden="true">
+      <path d="M10,1c-5,0-9,4-9,9s4,9,9,9s9-4,9-9S15,1,10,1z M13.5,14.5l-8-8l1-1l8,8L13.5,14.5z"></path>
+      <path d="M13.5,14.5l-8-8l1-1l8,8L13.5,14.5z" data-icon-path="inner-path" opacity="0"></path>
+    </svg>
+  </div>
 </div>

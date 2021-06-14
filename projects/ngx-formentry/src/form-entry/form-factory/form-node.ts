@@ -1,4 +1,3 @@
-import { AbstractControl } from '@angular/forms';
 
 import { FormFactory } from './form.factory';
 import { Form } from './form';
@@ -26,8 +25,8 @@ export interface RemoveArrayChildNodeFunction {
   (index: number, node: ArrayNode);
 }
 
-export class NodeBase {
-  public children?: any;
+export abstract class NodeBase {
+  public abstract children?: any;
   private _control: AfeFormControl | AfeFormArray | AfeFormGroup;
   private _questionModel: QuestionBase;
   private _form: Form;
@@ -62,13 +61,16 @@ export class NodeBase {
   public get path(): string {
     return this._path;
   }
-  removeAt(index: number) {}
+  removeAt(index: number) { }
 
-  createChildNode() {}
-  removeChildNode() {}
+  createChildNode() { }
+  removeChildNode() { }
 }
 
 export class LeafNode extends NodeBase {
+  get children() {
+    return null;
+  }
   constructor(
     question: QuestionBase,
     control?: AfeFormControl | AfeFormArray | AfeFormGroup,

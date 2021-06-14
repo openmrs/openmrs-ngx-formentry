@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FormFactory } from '../form-factory/form.factory';
 import { FormControlService } from '../form-factory/form-control.service';
@@ -24,7 +24,7 @@ const moment = require('moment');
 
 describe('Encounter Value Adapter:', () => {
   let adultFormSchema: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     adultFormSchema = JSON.parse(JSON.stringify(adultForm));
     TestBed.configureTestingModule({
       providers: [
@@ -47,8 +47,8 @@ describe('Encounter Value Adapter:', () => {
   }));
 
   it('should be injectable', () => {
-    const adapter = TestBed.get(EncounterAdapter);
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const adapter = TestBed.inject(EncounterAdapter);
+    const factory: FormFactory = TestBed.inject(FormFactory);
     expect(adapter).toBeTruthy();
     expect(factory).toBeTruthy();
     expect(adultForm).toBeTruthy();
@@ -57,8 +57,8 @@ describe('Encounter Value Adapter:', () => {
   });
 
   it('should return all encounter nodes', () => {
-    const adapter = TestBed.get(EncounterAdapter);
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const adapter = TestBed.inject(EncounterAdapter);
+    const factory: FormFactory = TestBed.inject(FormFactory);
     const form = factory.createForm(adultFormSchema);
 
     const nodes: Array<NodeBase> = adapter.getEncounterNodes(form.rootNode);
@@ -70,8 +70,8 @@ describe('Encounter Value Adapter:', () => {
   });
 
   it('should populate form with existing encounter', () => {
-    const adapter = TestBed.get(EncounterAdapter);
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const adapter = TestBed.inject(EncounterAdapter);
+    const factory: FormFactory = TestBed.inject(FormFactory);
     const form = factory.createForm(adultFormSchema);
 
     const encounter = {
@@ -136,8 +136,8 @@ describe('Encounter Value Adapter:', () => {
   });
 
   it('should generate encounter payload', () => {
-    const adapter = TestBed.get(EncounterAdapter);
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const adapter = TestBed.inject(EncounterAdapter);
+    const factory: FormFactory = TestBed.inject(FormFactory);
     const form = factory.createForm(adultFormSchema);
 
     const encounter = {

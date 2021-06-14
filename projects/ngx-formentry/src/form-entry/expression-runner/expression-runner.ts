@@ -8,8 +8,10 @@ import { ArrayNode } from '../form-factory/form-node';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
 import { Form } from '../form-factory/form';
 import * as moment_ from 'moment';
+import { Injectable } from "@angular/core";
 
 const moment = moment_;
+@Injectable()
 export class ExpressionRunner {
   getRunnable(
     expression: string,

@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 /* tslint:disable:no-unused-expression */
 
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AfeNgSelectComponent } from './afe-ng-select.component';
 import { DummyDataSource } from '../form-entry/data-sources/dummy-data-source';
 

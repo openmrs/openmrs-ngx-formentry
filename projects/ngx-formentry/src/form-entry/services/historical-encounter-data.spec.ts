@@ -22,14 +22,14 @@ describe('Historical Encounter Data Service', () => {
   });
 
   it('should be defined', () => {
-    const service: HistoricalEncounterDataService = TestBed.get(
+    const service: HistoricalEncounterDataService = TestBed.inject(
       HistoricalEncounterDataService
     );
     expect(service).toBeTruthy();
   });
 
   it('should have "prevEnc" registered as key', () => {
-    const service: HistoricalEncounterDataService = TestBed.get(
+    const service: HistoricalEncounterDataService = TestBed.inject(
       HistoricalEncounterDataService
     );
     expect(service.getObject('prevEnc').getSingleObject()).toEqual(
@@ -107,7 +107,7 @@ describe('Historical Encounter Data Service', () => {
   });
 
   it('should have getObject() and getSingleObject() working', () => {
-    const service: HistoricalEncounterDataService = TestBed.get(
+    const service: HistoricalEncounterDataService = TestBed.inject(
       HistoricalEncounterDataService
     );
     expect(service.getObject('prevEnc').getSingleObject()).toEqual(
@@ -116,7 +116,7 @@ describe('Historical Encounter Data Service', () => {
   });
 
   it('getValue() should get the correct value', () => {
-    const service: HistoricalEncounterDataService = TestBed.get(
+    const service: HistoricalEncounterDataService = TestBed.inject(
       HistoricalEncounterDataService
     );
     const _obs: any = obs.getObs();

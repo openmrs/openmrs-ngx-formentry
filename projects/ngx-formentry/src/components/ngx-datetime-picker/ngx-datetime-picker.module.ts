@@ -6,7 +6,9 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxDatetimeComponent } from './ngx-datetime-picker.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule } from '../ngx-pick-datetime/lib/date-time/date-time.module';
+import { OwlNativeDateTimeModule } from '../ngx-pick-datetime/lib/date-time/adapter/native-date-time.module';
+
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

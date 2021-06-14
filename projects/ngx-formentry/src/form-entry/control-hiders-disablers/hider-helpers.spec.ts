@@ -12,13 +12,13 @@ describe('Control Hider Helper Service:', () => {
   });
 
   it('should be defined', () => {
-    const helper: HiderHelper = TestBed.get(HiderHelper);
+    const helper: HiderHelper = TestBed.inject(HiderHelper);
     expect(helper).toBeTruthy();
     // expect(factory.controlService).toBeTruthy();
   });
 
   it('should hide a control', () => {
-    const helper: HiderHelper = TestBed.get(HiderHelper);
+    const helper: HiderHelper = TestBed.inject(HiderHelper);
 
     const control: CanHide = {
       hidden: false,
@@ -43,7 +43,7 @@ describe('Control Hider Helper Service:', () => {
   });
 
   it('should show a control', () => {
-    const helper: HiderHelper = TestBed.get(HiderHelper);
+    const helper: HiderHelper = TestBed.inject(HiderHelper);
 
     const control: CanHide = {
       hidden: true,
@@ -65,7 +65,7 @@ describe('Control Hider Helper Service:', () => {
   });
 
   it('should set a hider for a control', () => {
-    const helper: HiderHelper = TestBed.get(HiderHelper);
+    const helper: HiderHelper = TestBed.inject(HiderHelper);
 
     const control: CanHide = {
       hidden: true,
@@ -92,7 +92,7 @@ describe('Control Hider Helper Service:', () => {
   });
 
   it('should clear hiders for a control', () => {
-    const helper: HiderHelper = TestBed.get(HiderHelper);
+    const helper: HiderHelper = TestBed.inject(HiderHelper);
 
     const control: CanHide = {
       hidden: true,
@@ -126,7 +126,7 @@ describe('Control Hider Helper Service:', () => {
   });
 
   it('should evaluate all controls hiders to determine whether to hide the control', () => {
-    const helper: HiderHelper = TestBed.get(HiderHelper);
+    const helper: HiderHelper = TestBed.inject(HiderHelper);
 
     // test case 1: should be hidden if one of the hiders is true
     const control: CanHide = {
@@ -216,7 +216,7 @@ describe('Control Hider Helper Service:', () => {
   });
 
   it('should trigger reEvaluation of a controls hidden status when control value changes', () => {
-    const helper: HiderHelper = TestBed.get(HiderHelper);
+    const helper: HiderHelper = TestBed.inject(HiderHelper);
 
     const subject: Subject<any> = new Subject<any>();
 

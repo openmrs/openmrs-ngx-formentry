@@ -1,5 +1,5 @@
 import { DebugModeService } from './debug-mode.service';
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, inject, waitForAsync } from '@angular/core/testing';
 
 describe('Service : Debug Mode Service', () => {
   beforeEach(() => {
@@ -8,13 +8,13 @@ describe('Service : Debug Mode Service', () => {
     });
   });
 
-  it('should construct Debug Mode Service', async(
+  it('should construct Debug Mode Service', waitForAsync(
     inject([DebugModeService], (service, debugModeService) => {
       expect(service).toBeDefined();
     })
   ));
 
-  it('should have debugEnabled method defined', async(
+  it('should have debugEnabled method defined', waitForAsync(
     inject([DebugModeService], (service, debugModeService) => {
       expect(service.debugEnabled()).toBeDefined();
     })

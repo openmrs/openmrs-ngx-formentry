@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef , Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as moment_ from 'moment';
 const moment = moment_;
@@ -18,7 +18,8 @@ const moment = moment_;
 export class NgxDatetimeComponent implements ControlValueAccessor {
   value: String | Date = '';
   isDisabled: boolean;
-
+  @Input() id = ''
+;
   onChange = (_: any) => { };
   onTouch = () => { };
   onInput($event: any) {
@@ -29,7 +30,7 @@ export class NgxDatetimeComponent implements ControlValueAccessor {
   writeValue(value: any): void {
     if (value && value !== '' && value instanceof Date) {
       this.value = value;
-    } else if (typeof value === 'string') {
+    } else if (value !== '' && typeof value === 'string') {
       this.value = moment(value).toDate();
     } else {
       this.value = '';

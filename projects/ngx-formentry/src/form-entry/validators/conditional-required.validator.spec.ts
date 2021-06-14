@@ -12,14 +12,14 @@ describe('Conditional Required Validator:', () => {
   });
 
   it('should be defined', () => {
-    const validator: ConditionalRequiredValidator = TestBed.get(
+    const validator: ConditionalRequiredValidator = TestBed.inject(
       ConditionalRequiredValidator
     );
     expect(validator).toBeTruthy();
   });
 
   it('should return an error when control is invalid', () => {
-    const validator: ConditionalRequiredValidator = TestBed.get(
+    const validator: ConditionalRequiredValidator = TestBed.inject(
       ConditionalRequiredValidator
     );
     const model = new ConditionalValidationModel({
@@ -45,7 +45,7 @@ describe('Conditional Required Validator:', () => {
   });
 
   it('should return null when control is valid', () => {
-    const validator: ConditionalRequiredValidator = TestBed.get(
+    const validator: ConditionalRequiredValidator = TestBed.inject(
       ConditionalRequiredValidator
     );
     const model = new ConditionalValidationModel({

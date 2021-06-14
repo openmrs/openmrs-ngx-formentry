@@ -1,3 +1,4 @@
+/* tslint:disable:component-class-suffix  */
 import {
   Pipe,
   PipeTransform,

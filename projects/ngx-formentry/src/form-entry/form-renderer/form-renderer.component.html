@@ -1,39 +1,23 @@
 <!--CONTAINERS-->
 <div *ngIf="node.question.renderingType === 'form'">
-  <!-- <div class="dropdown dropdown-tabs forms-dropdown">
-    <a class="btn dropdown-toggle" data-toggle="dropdown">
-      <i class="fa fa-angle-double-down"></i>
-    </a>
-    <ul class="dropdown-menu dropdown-menu-right forms-dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-      <li *ngFor="let question of node.question.questions; let i = index" (click)="clickTab(i)">
-        {{ question.label }}
-      </li>
-    </ul>
-  </div> -->
-  <ibm-tabs type="container" #tabsComponent>
-    <ibm-tab #tab (selected)="tabSelected(tab)" [heading]="question.label"
-      *ngFor="let question of node.question.questions; let i = index">
-      <div (swipeLeft)="loadNextTab()" (swipeRight)="loadPreviousTab()">
-        <form-renderer [node]="node.children[question.key]" [parentComponent]="this" [parentGroup]="node.control">
-        </form-renderer>
-      </div>
-    </ibm-tab>
-  </ibm-tabs>
-  <!-- </mat-tab-group> -->
+  <ngx-tabset (onSelect)="tabSelected($event)" [selectedIndex]="activeTab">
+    <ngx-tab [tabTitle]="question.label" *ngFor="let question of node.question.questions; let i = index">
+      <form-renderer [node]="node.children[question.key]" [parentComponent]="this" [parentGroup]="node.control">
+      </form-renderer>
+    </ngx-tab>
+    <error-renderer [form]="node.form"></error-renderer>
+    <div class="form-buttons">
+        <button (click)="actionButtonClicked('cancel')" class="bx--btn bx--btn--secondary" type="button">
+          Cance
+        </button>
+        <button  (click)="actionButtonClicked('save')" class="bx--btn bx--btn--primary" type="button">
+          Save
+        </button>
+    </div>
+  </ngx-tabset>
 
-  <div style="text-align: center">
-    <button type="button" class="bx--btn bx--btn--secondary" (click)="loadPreviousTab()"
-      [ngClass]="{ disabled: isCurrentTabFirst() }">
-      &lt;&lt;
-    </button>
-    <button type="button" class="bx--btn bx--btn--primary" (click)="loadNextTab()"
-      [ngClass]="{ disabled: isCurrentTabLast() }">
-      &gt;&gt;
-    </button>
-  </div>
 </div>
 <div *ngIf="node.question.renderingType === 'page'">
-  <!--<h2>{{node.question.label}}</h2>-->
   <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this"
     [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
 </div>
@@ -101,7 +85,8 @@
         [dataSource]="dataSource" [componentID]="node.question.key + 'id'" [formControlName]="node.question.key"
         [id]="node.question.key + 'id'"></ngx-remote-select>
 
-      <ngx-datetimepicker  [id]="node.question.key + 'id'" [formControlName]="node.question.key" *ngSwitchCase="'date'"  ></ngx-datetimepicker>
+      <ngx-datetimepicker [id]="node.question.key + 'id'" [formControlName]="node.question.key" *ngSwitchCase="'date'">
+      </ngx-datetimepicker>
       <ng-select [id]="node.question.key + 'id'" *ngSwitchCase="'multi-select'" [items]="node.question.options"
         bindLabel="label" bindValue="value" [multiple]="true" placeholder="" clearAllText="Clear"
         [formControlName]="node.question.key">
@@ -163,10 +148,9 @@
       </div>
       <appointments-overview [node]="node"></appointments-overview>
       <div *ngIf="hasErrors()">
-        <div   class="bx--form-requirement">{{errors()}}</div>
-        <p *ngFor="let e of errors()">
+        <div *ngFor="let e of errors()">
           <span class="text-danger">{{ e }}</span>
-        </p>
+        </div>
       </div>
     </div>
 
@@ -179,6 +163,7 @@
       {{ node.question.extras.questionInfo }}
     </div>
   </div>
+
 </div>
 <div *ngIf="node.question.controlType === 1" [hidden]="node.control.hidden"
   [ngClass]="{ disabled: node.control.disabled }">

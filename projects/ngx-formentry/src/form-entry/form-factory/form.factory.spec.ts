@@ -45,13 +45,13 @@ describe('Form Factory:', () => {
     });
   });
   it('should be injected', () => {
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const factory: FormFactory = TestBed.inject(FormFactory);
     expect(factory).toBeTruthy();
     expect(factory.controlService).toBeTruthy();
   });
 
   it('should create leaf node', () => {
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const factory: FormFactory = TestBed.inject(FormFactory);
 
     const testQuestion = new TextInputQuestion({
       type: 'text',
@@ -141,7 +141,7 @@ describe('Form Factory:', () => {
     groupQuestion.questions.push(groupQuestion2);
     groupQuestion2.questions.push(testQuestion3);
 
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const factory: FormFactory = TestBed.inject(FormFactory);
 
     const createdNode = factory.createNode(groupQuestion) as GroupNode;
 
@@ -257,7 +257,7 @@ describe('Form Factory:', () => {
     });
     groupQuestion2.questions.push(testQuestion);
 
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const factory: FormFactory = TestBed.inject(FormFactory);
 
     const createdNode = factory.createNode(groupQuestion) as GroupNode;
 
@@ -321,7 +321,7 @@ describe('Form Factory:', () => {
     repeatingQuestion.questions.push(testQuestion);
     repeatingQuestion.questions.push(groupQuestion);
 
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const factory: FormFactory = TestBed.inject(FormFactory);
 
     const createdNode = factory.createArrayNode(repeatingQuestion, null, null);
 
@@ -370,7 +370,7 @@ describe('Form Factory:', () => {
     repeatingQuestion.questions.push(testQuestion);
     repeatingQuestion.questions.push(groupQuestion);
 
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const factory: FormFactory = TestBed.inject(FormFactory);
 
     const createdNode = factory.createArrayNode(repeatingQuestion, null, null);
 
@@ -429,7 +429,7 @@ describe('Form Factory:', () => {
   it('should create a form', () => {
     const testSchema = new SampleSchema().getSchema();
 
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const factory: FormFactory = TestBed.inject(FormFactory);
 
     const createdForm: Form = factory.createForm(testSchema);
 
@@ -507,7 +507,7 @@ describe('Form Factory:', () => {
 
   it('should create a form with searching-by-id functionality', () => {
     const testSchema = new SampleSchema().getSchema();
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const factory: FormFactory = TestBed.inject(FormFactory);
 
     const createdForm: Form = factory.createForm(testSchema);
 

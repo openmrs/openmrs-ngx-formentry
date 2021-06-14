@@ -1,0 +1,104 @@
+.tab button {
+  display: block;
+  background-color: inherit;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  transition: 0.3s;
+  min-height: 2rem;
+  white-space: normal;
+  word-wrap: break-word;
+  margin: 0 0 0.063rem;
+}
+
+/* Change background color of buttons on hover */
+.tab button.active.hover {
+  background-color: var(--gray-gray-10);
+}
+
+.tab button.enabled.hover {
+  background-color: var(--gray-gray-10);
+}
+
+
+.tab button.enabled.hover {
+  background-color: var(--gray-gray-10);
+}
+/* Create an active/current "tab button" class */
+.tab button.completed {
+  border-left: 0.5rem solid var(--inverse-support-02);
+  background-color: var(--color-green-10);
+  font-family: IBMPlexSans;
+  font-size: 0.875rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: 0.16px;
+  color: var(--color-gray-100);
+}
+
+.tab button.active {
+  background-color: #ededed;
+  border-left: 0.5rem solid #009d9a;
+  font-family: IBMPlexSans;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: 0.16px;
+  color: var(--color-gray-100);
+}
+
+.tab button.enabled {
+  background-color: #ffffff;
+  border-left: 0.5rem solid #9ef0f0;
+  font-family: IBMPlexSans;
+  font-size: 0.875rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: 0.16px;
+  color: var(--color-gray-100);
+}
+
+.tab button.error {
+  background-color: var(--color-red-10);
+  border-left: 0.5rem solid var(--open-mrs-danger-red-60);
+  font-family: IBMPlexSans;
+  font-size: 0.875rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  color: #da1e28;
+}
+
+.tab button.disabled {
+  background-color: #ffffff;
+  border-left: 0.5rem solid #dae0e0;
+  font-family: IBMPlexSans;
+  font-size: 0.875rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: 0.16px;
+  color: var(--gray-gray-30);
+}
+.tab button.active.error {
+  background-color: var(--color-red-20);
+  border-left: 0.5rem solid var(--open-mrs-danger-red-60);
+  font-family: IBMPlexSans;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.29;
+  letter-spacing: 0.16px;
+  color: #da1e28;
+}

@@ -13,17 +13,27 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/ngx-openmrs-formentry",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "styles": ["src/styles.css","projects/ngx-formentry/styles/ngx-formentry.css"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["projects/ngx-formentry/styles","dist"]
+            },
             "scripts": []
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -33,7 +43,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -88,7 +97,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ngx-openmrs-formentry:serve"
+            "devServerTarget": "ngx-openmrs-formentry:serve",
           }
         },
         "lint": {
@@ -107,15 +116,16 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/ngx-formentry/tsconfig.lib.json",
-            "project": "projects/ngx-formentry/ng-package.json"
+            "project": "projects/ngx-formentry/ng-package.json",
           },
           "configurations": {
             "production": {
               "project": "projects/ngx-formentry/ng-package.prod.json"
-            }
+            ,              "tsConfig": "projects/ngx-formentry/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -139,5 +149,5 @@
       }
     }
   },
-  "defaultProject": "ngx-openmrs-formentry"
+  "defaultProject": "ngx-formentry"
 }

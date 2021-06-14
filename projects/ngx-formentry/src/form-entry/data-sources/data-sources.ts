@@ -13,7 +13,7 @@ export class DataSources {
     if (unWrap) {
       // tslint:disable-next-line:forin
       for (const o in dataSource) {
-        console.log('registering', o, dataSource[o]);
+        // console.log('registering', o, dataSource[o]);
         this.registerDataSource(o, dataSource[o], false);
       }
     }

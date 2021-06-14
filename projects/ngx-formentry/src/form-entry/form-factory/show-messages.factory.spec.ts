@@ -18,12 +18,12 @@ describe('Show Messages Factory:', () => {
   });
 
   it('should be injected', () => {
-    const factory: AlertsFactory = TestBed.get(AlertsFactory);
+    const factory: AlertsFactory = TestBed.inject(AlertsFactory);
     expect(factory).toBeTruthy();
   });
 
   it('should return a message when the alertWhenExpression returns true', () => {
-    const factory: AlertsFactory = TestBed.get(AlertsFactory);
+    const factory: AlertsFactory = TestBed.inject(AlertsFactory);
 
     /* tslint:disable */
     let model: QuestionBase = new QuestionBase({
@@ -49,7 +49,7 @@ describe('Show Messages Factory:', () => {
   });
 
   it('should return an empty message when the alertWhenExpression returns false', () => {
-    const factory: AlertsFactory = TestBed.get(AlertsFactory);
+    const factory: AlertsFactory = TestBed.inject(AlertsFactory);
 
     /* tslint:disable */
     let model: QuestionBase = new QuestionBase({

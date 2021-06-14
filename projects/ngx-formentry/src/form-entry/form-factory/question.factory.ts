@@ -26,7 +26,9 @@ import { DummyDataSource } from '../data-sources/dummy-data-source';
 import { HistoricalHelperService } from '../helpers/historical-expression-helper-service';
 import { Form } from './form';
 import { CheckBoxQuestion } from '../question-models/models';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class QuestionFactory {
   dataSources: any = {};
   historicalHelperService: HistoricalHelperService = new HistoricalHelperService();

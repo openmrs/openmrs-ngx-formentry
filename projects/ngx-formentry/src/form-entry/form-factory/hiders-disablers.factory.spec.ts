@@ -22,12 +22,12 @@ describe('Hiders Disablers Factory:', () => {
   });
 
   it('should be injected', () => {
-    const factory: HidersDisablersFactory = TestBed.get(HidersDisablersFactory);
+    const factory: HidersDisablersFactory = TestBed.inject(HidersDisablersFactory);
     expect(factory).toBeTruthy();
   });
 
   it('should return a disabler function', () => {
-    const factory: HidersDisablersFactory = TestBed.get(HidersDisablersFactory);
+    const factory: HidersDisablersFactory = TestBed.inject(HidersDisablersFactory);
 
     /* tslint:disable */
     let model: QuestionBase = new QuestionBase({
@@ -61,7 +61,7 @@ describe('Hiders Disablers Factory:', () => {
   });
 
   it('should return a hider function', () => {
-    const factory: HidersDisablersFactory = TestBed.get(HidersDisablersFactory);
+    const factory: HidersDisablersFactory = TestBed.inject(HidersDisablersFactory);
 
     /* tslint:disable */
     let model: QuestionBase = new QuestionBase({
