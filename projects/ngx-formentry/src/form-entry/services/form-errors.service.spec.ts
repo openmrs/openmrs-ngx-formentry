@@ -16,12 +16,12 @@ describe('Form Errors Service', () => {
   });
 
   it('should be defined', () => {
-    const service: FormErrorsService = TestBed.get(FormErrorsService);
+    const service: FormErrorsService = TestBed.inject(FormErrorsService);
     expect(service).toBeTruthy();
   });
 
   it('should announce error field', () => {
-    const service: FormErrorsService = TestBed.get(FormErrorsService);
+    const service: FormErrorsService = TestBed.inject(FormErrorsService);
     service.announceErrorField$.subscribe((error) => {
       const tab: number = +error.split(',')[0];
       const el = error.split(',')[1];

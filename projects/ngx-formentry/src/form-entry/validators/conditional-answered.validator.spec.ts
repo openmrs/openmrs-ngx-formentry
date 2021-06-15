@@ -12,14 +12,14 @@ describe('Conditional Answered Validator:', () => {
   });
 
   it('should be defined', () => {
-    const validator: ConditionalAnsweredValidator = TestBed.get(
+    const validator: ConditionalAnsweredValidator = TestBed.inject(
       ConditionalAnsweredValidator
     );
     expect(validator).toBeTruthy();
   });
 
   it('should return an error when control is invalid', () => {
-    const validator: ConditionalAnsweredValidator = TestBed.get(
+    const validator: ConditionalAnsweredValidator = TestBed.inject(
       ConditionalAnsweredValidator
     );
     const model = new ConditionalValidationModel({
@@ -49,7 +49,7 @@ describe('Conditional Answered Validator:', () => {
   });
 
   it('should return null when control is valid', () => {
-    const validator: ConditionalAnsweredValidator = TestBed.get(
+    const validator: ConditionalAnsweredValidator = TestBed.inject(
       ConditionalAnsweredValidator
     );
     const model = new ConditionalValidationModel({

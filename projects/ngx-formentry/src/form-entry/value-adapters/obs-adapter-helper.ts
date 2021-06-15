@@ -9,7 +9,9 @@ import {
   GroupNode,
   LeafNode
 } from '../form-factory/form-node';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class ObsAdapterHelper {
   constructor() {}
 
@@ -375,8 +377,6 @@ export class ObsAdapterHelper {
     }
 
     const valuePayload = this.getObsNodePayload(valueField);
-    console.log('valuePayload', valuePayload);
-
     // set obs datetime for the generated payload
     if (valuePayload.length > 0) {
       valuePayload[0].obsDatetime = this.toOpenMrsDateTimeString(

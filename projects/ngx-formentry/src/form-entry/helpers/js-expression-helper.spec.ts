@@ -10,12 +10,12 @@ describe('JS Expression Helper Service:', () => {
   });
 
   it('should be defined', () => {
-    const helper: JsExpressionHelper = TestBed.get(JsExpressionHelper);
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
     expect(helper).toBeTruthy();
   });
 
   it('should return the correct bmi when height and weight are provided', () => {
-    const helper: JsExpressionHelper = TestBed.get(JsExpressionHelper);
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
 
     const height = 180; // cm
     const weight = 70; // kgs
@@ -25,7 +25,7 @@ describe('JS Expression Helper Service:', () => {
   });
 
   it('should compute the correct bsa value when height and weight are provided', () => {
-    const helper: JsExpressionHelper = TestBed.get(JsExpressionHelper);
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
 
     let bsa, height, weight;
 
@@ -40,7 +40,7 @@ describe('JS Expression Helper Service:', () => {
   });
 
   it('should return true if value is empty, null or undefined', () => {
-    const helper: JsExpressionHelper = TestBed.get(JsExpressionHelper);
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
     let val = '';
 
     expect(helper.isEmpty(val)).toBe(true);
@@ -50,7 +50,7 @@ describe('JS Expression Helper Service:', () => {
   });
 
   it('should return true if array contains items', () => {
-    const helper: JsExpressionHelper = TestBed.get(JsExpressionHelper);
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
 
     const arr = [1, 2, 3, 4];
 
@@ -65,7 +65,7 @@ describe('JS Expression Helper Service:', () => {
   });
 
   it('should return true if array contains atleast one item', () => {
-    const helper: JsExpressionHelper = TestBed.get(JsExpressionHelper);
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
 
     const arr = [1, 2, 3, 4];
 

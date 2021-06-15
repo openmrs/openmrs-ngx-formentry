@@ -34,8 +34,8 @@ describe('Form:', () => {
   });
 
   it('should be injected', () => {
-    const formFactory = TestBed.get(FormFactory);
-    const questionFactory = TestBed.get(QuestionFactory);
+    const formFactory = TestBed.inject(FormFactory);
+    const questionFactory = TestBed.inject(QuestionFactory);
     const schema = new SampleSchema().getSchema();
     const form: Form = new Form(schema, formFactory, questionFactory);
 

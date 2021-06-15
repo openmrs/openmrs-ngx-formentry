@@ -36,14 +36,14 @@ describe('Control Relations Factory:', () => {
   });
 
   it('should be defined', () => {
-    const factory: ControlRelationsFactory = TestBed.get(
+    const factory: ControlRelationsFactory = TestBed.inject(
       ControlRelationsFactory
     );
     expect(factory).toBeTruthy();
   });
 
   it('should add relations to control', () => {
-    const factory: ControlRelationsFactory = TestBed.get(
+    const factory: ControlRelationsFactory = TestBed.inject(
       ControlRelationsFactory
     );
 
@@ -56,13 +56,13 @@ describe('Control Relations Factory:', () => {
   });
 
   it('should build control relations', () => {
-    const factory: ControlRelationsFactory = TestBed.get(
+    const factory: ControlRelationsFactory = TestBed.inject(
       ControlRelationsFactory
     );
 
     const testSchema = new SampleSchema().getSchema();
 
-    const formFactory: FormFactory = TestBed.get(FormFactory);
+    const formFactory: FormFactory = TestBed.inject(FormFactory);
 
     const createdForm = formFactory.createForm(testSchema);
 

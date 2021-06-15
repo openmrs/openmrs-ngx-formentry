@@ -1,6 +1,8 @@
 import * as _ from 'lodash';
 import { QuestionBase } from '../question-models/question-base';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class HistoricalFieldHelperService {
   public getDisplayTextFromOptions(
     question: QuestionBase,

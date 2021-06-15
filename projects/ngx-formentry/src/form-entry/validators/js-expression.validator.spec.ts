@@ -15,13 +15,13 @@ describe('JS Expression Validator:', () => {
   });
 
   it('should be defined', () => {
-    const validator: JsExpressionValidator = TestBed.get(JsExpressionValidator);
+    const validator: JsExpressionValidator = TestBed.inject(JsExpressionValidator);
     expect(validator).toBeTruthy();
   });
 
   it('should validate a given expression', () => {
     Validations.JSExpressionValidatorsEnabled = true;
-    const validator: JsExpressionValidator = TestBed.get(JsExpressionValidator);
+    const validator: JsExpressionValidator = TestBed.inject(JsExpressionValidator);
     const model = new JsExpressionValidationModel({
       type: 'js_expression',
       message: 'test message',
@@ -50,7 +50,7 @@ describe('JS Expression Validator:', () => {
 
   it('should return null when validation passes', () => {
     Validations.JSExpressionValidatorsEnabled = true;
-    const validator: JsExpressionValidator = TestBed.get(JsExpressionValidator);
+    const validator: JsExpressionValidator = TestBed.inject(JsExpressionValidator);
     const model = new JsExpressionValidationModel({
       type: 'js_expression',
       message: 'test message',

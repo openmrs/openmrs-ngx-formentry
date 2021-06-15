@@ -12,12 +12,12 @@ describe('Control Disabler Helper Service:', () => {
   });
 
   it('should be defined', () => {
-    const helper: DisablerHelper = TestBed.get(DisablerHelper);
+    const helper: DisablerHelper = TestBed.inject(DisablerHelper);
     expect(helper).toBeTruthy();
   });
 
   it('should set a disabler for a control', () => {
-    const helper: DisablerHelper = TestBed.get(DisablerHelper);
+    const helper: DisablerHelper = TestBed.inject(DisablerHelper);
 
     const control: CanDisable = {
       disabled: true,
@@ -44,7 +44,7 @@ describe('Control Disabler Helper Service:', () => {
   });
 
   it('should clear disablers for a control', () => {
-    const helper: DisablerHelper = TestBed.get(DisablerHelper);
+    const helper: DisablerHelper = TestBed.inject(DisablerHelper);
 
     const control: CanDisable = {
       disabled: true,
@@ -80,7 +80,7 @@ describe('Control Disabler Helper Service:', () => {
   });
 
   it('should evaluate all controls disablers to determine whether to disable the control', () => {
-    const helper: DisablerHelper = TestBed.get(DisablerHelper);
+    const helper: DisablerHelper = TestBed.inject(DisablerHelper);
 
     // test case 1: should be disabled if one of the disablers is true
     const control: CanDisable = {
@@ -178,7 +178,7 @@ describe('Control Disabler Helper Service:', () => {
   });
 
   it('should trigger reEvaluation of a controls disabled status when control value changes', () => {
-    const helper: DisablerHelper = TestBed.get(DisablerHelper);
+    const helper: DisablerHelper = TestBed.inject(DisablerHelper);
 
     const subject: Subject<any> = new Subject<any>();
 

@@ -151,5 +151,8 @@ export const DEFAULT_STYLES = `a {
   border: 0;
   box-shadow: none;
 }
+.text-danger{
+  color: var(--cds-support-01, #da1e28);
+}
 
     `;

@@ -50,8 +50,8 @@ describe('Obs Value Adapter Helper: ', () => {
   }));
 
   it('should find the obs that is an answer to a question', () => {
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     const form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();
@@ -316,8 +316,8 @@ describe('Obs Value Adapter Helper: ', () => {
   });
 
   it('should identify the type of obs a node represents', () => {
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     const form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();
@@ -358,8 +358,8 @@ describe('Obs Value Adapter Helper: ', () => {
   it('should set the value of a simple obs node given the obs that represents its value', () => {
     // simple obs represent values such as free text, single select, numbers, dates
     // the obs array supplied is already filtered as the obs that is the answer to the given node
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     const form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();
@@ -416,8 +416,8 @@ describe('Obs Value Adapter Helper: ', () => {
     // multi-select obs represent anwsers with multiple choices.
     // they are usually represented as multiple-obs
     // the obs array supplied is already filtered as the obs that is the answer to the given node
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     const form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();
@@ -472,8 +472,8 @@ describe('Obs Value Adapter Helper: ', () => {
   it('should set values for a complex obs node given the obs that represents its value', () => {
     // complex obs is a single obs but whose members other than the value, needs to be changed.
     // the obs array supplied is already filtered as the obs that is the answer to the given node
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     const form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();
@@ -513,8 +513,8 @@ describe('Obs Value Adapter Helper: ', () => {
   });
 
   it('should set the value for a group obs node given the obs that represents its value', () => {
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     const form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();
@@ -560,8 +560,8 @@ describe('Obs Value Adapter Helper: ', () => {
     'should set the value for a repeating group obs node given ' +
       'the obs array representing its value',
     () => {
-      const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-      const ff: FormFactory = TestBed.get(FormFactory);
+      const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+      const ff: FormFactory = TestBed.inject(FormFactory);
       expect(ff).toBeDefined();
       const form: Form = ff.createForm(adultForm);
       expect(form).toBeDefined();
@@ -689,8 +689,8 @@ describe('Obs Value Adapter Helper: ', () => {
   );
 
   it('should set the values for nodes given the array of obs for an encounter', () => {
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     const form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();
@@ -740,8 +740,8 @@ describe('Obs Value Adapter Helper: ', () => {
 
   // REGION: Payload Generation
   it('should generate payload obs for a simple obs node', () => {
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     let form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();
@@ -863,8 +863,8 @@ describe('Obs Value Adapter Helper: ', () => {
   });
 
   it('should generate payload obs for a complex obs node', () => {
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     let form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();
@@ -935,8 +935,8 @@ describe('Obs Value Adapter Helper: ', () => {
   });
 
   it('should generate payload obs for a multiselect obs node', () => {
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     const form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();
@@ -1027,8 +1027,8 @@ describe('Obs Value Adapter Helper: ', () => {
   });
 
   it('should generate payload obs for a group obs node', () => {
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     let form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();
@@ -1104,8 +1104,8 @@ describe('Obs Value Adapter Helper: ', () => {
   });
 
   it('should generate payload obs for a repeating group obs node', () => {
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     let form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();
@@ -1263,8 +1263,8 @@ describe('Obs Value Adapter Helper: ', () => {
   });
 
   it('should generate the obs payload for a rootnode given the form', () => {
-    const helper: ObsAdapterHelper = TestBed.get(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.get(FormFactory);
+    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
+    const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
     const form: Form = ff.createForm(adultForm);
     expect(form).toBeDefined();

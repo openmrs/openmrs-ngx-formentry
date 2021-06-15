@@ -13,8 +13,8 @@ import {
   EncounterAdapter,
   DataSources,
   FormErrorsService,
-  EncounterPdfViewerService
-} from '../../dist/ngx-formentry';
+  // EncounterPdfViewerService
+} from 'ngx-formentry';
 import { MockObs } from './mock/mock-obs';
 
 const adultForm = require('./adult-1.4.json');
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
     private orderAdaptor: OrderValueAdapter,
     private encAdapter: EncounterAdapter,
     private dataSources: DataSources,
-    private encounterPdfViewerService: EncounterPdfViewerService,
+   // private encounterPdfViewerService: EncounterPdfViewerService,
     private formErrorsService: FormErrorsService,
     private http: HttpClient
   ) {
@@ -233,9 +233,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public onSubmit($event) {
-    $event.preventDefault();
-
+  public onSubmit() {
     // Set valueProcessingInfo
     this.form.valueProcessingInfo = {
       patientUuid: 'patientUuid',
@@ -266,5 +264,13 @@ export class AppComponent implements OnInit {
     this.showingEncounterViewer === true
       ? (this.showingEncounterViewer = false)
       : (this.showingEncounterViewer = true);
+  }
+
+  public actionClicked(action: String) {
+    if (action === 'save') {
+      this.onSubmit();
+    } else {
+      // Reset Form
+    }
   }
 }

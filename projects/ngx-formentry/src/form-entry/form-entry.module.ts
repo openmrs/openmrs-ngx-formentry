@@ -1,21 +1,18 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import { MatTabsModule, MatIconModule, MatCardModule } from '@angular/material';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 // import { NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { DebugModeService } from '../form-entry/services/debug-mode.service';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
-import {
-  SelectModule as SelectModuleCarbon,
-  TabsModule
-} from 'carbon-components-angular';
+import { TimeAgoPipe } from './pipes/time-ago.pipe';
+
 import { FormErrorsService } from './services/form-errors.service';
 import { FormControlService } from './form-factory/form-control.service';
 import { ValidationFactory } from './form-factory/validation.factory';
 import { FormRendererComponent } from './form-renderer/form-renderer.component';
 import { ErrorRendererComponent } from './error-renderer/error-renderer.component';
 import { HistoricalValueDirective } from './directives/historical-value-directive';
+import { CollapseDirective } from './directives/collapse.directive';
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
 import { NumberInputModule } from '../components/number-input/number-input.module';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -38,11 +35,12 @@ import { ObsAdapterHelper } from './value-adapters/obs-adapter-helper';
 import { ObsValueAdapter } from './value-adapters/obs.adapter';
 import { NgxRemoteSelectModule } from '../components/ngx-remote-select/ngx-remote-select.module';
 import { AppointmentsOverviewComponent } from '../components/appointments-overview/appointments-overview.component';
-import { EncounterViewerModule } from '../encounter-viewer/encounter-viewer.module';
 import { CheckboxModule } from '../components/check-box/checkbox.module';
 import { SharedModule } from '../shared.module';
-import { TimeAgoPipe } from 'time-ago-pipe';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { NgxTabSetModule } from '../components/ngx-tabset/modules/ngx-tabset.module';
+import { SelectModule as SelectModuleCarbon } from '../components/select/select.module';
+import { InputModule } from '../components/input/input.module';
+
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -50,22 +48,17 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     CommonModule,
     ReactiveFormsModule,
     SelectModuleCarbon,
-    TabsModule,
-    CollapseModule,
     NgSelectModule,
     NumberInputModule,
+    InputModule,
     DateTimePickerModule,
     NgxRemoteSelectModule,
     // NoopAnimationsModule,
     RemoteFileUploadModule,
-    EncounterViewerModule,
     CheckboxModule,
-    MatIconModule,
-    MatTabsModule,
-    MatCardModule,
     NgxDateTimePickerModule,
-    OwlDateTimeModule, OwlNativeDateTimeModule,
-    SharedModule
+    SharedModule,
+    NgxTabSetModule.forRoot()
   ],
   declarations: [
     FormRendererComponent,
@@ -73,7 +66,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     AppointmentsOverviewComponent,
     HistoricalValueDirective,
     ErrorRendererComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    CollapseDirective
   ],
   providers: [
     FormBuilder,
@@ -102,8 +96,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     AfeNgSelectComponent,
     ErrorRendererComponent,
     DateTimePickerModule,
-    EncounterViewerModule,
     NgxDateTimePickerModule
   ]
 })
-export class FormEntryModule {}
+export class FormEntryModule { }

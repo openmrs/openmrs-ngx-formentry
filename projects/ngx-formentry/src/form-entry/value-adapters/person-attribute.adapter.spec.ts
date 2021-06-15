@@ -36,8 +36,8 @@ describe('Person Attribute Value Adapter:', () => {
   });
 
   it('should be injectable', () => {
-    const adapter = TestBed.get(PersonAttribuAdapter);
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const adapter = TestBed.inject(PersonAttribuAdapter);
+    const factory: FormFactory = TestBed.inject(FormFactory);
     expect(adapter).toBeTruthy();
     expect(factory).toBeTruthy();
     expect(adultForm).toBeTruthy();
@@ -46,8 +46,8 @@ describe('Person Attribute Value Adapter:', () => {
   });
 
   it('should return all person attribute nodes', () => {
-    const adapter = TestBed.get(PersonAttribuAdapter);
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const adapter = TestBed.inject(PersonAttribuAdapter);
+    const factory: FormFactory = TestBed.inject(FormFactory);
     const form = factory.createForm(adultFormSchema);
 
     const nodes: Array<NodeBase> = adapter.getPersonAttributeNodes(
@@ -63,8 +63,8 @@ describe('Person Attribute Value Adapter:', () => {
   });
 
   it('should populate form with existing person attribute', () => {
-    const adapter = TestBed.get(PersonAttribuAdapter);
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const adapter = TestBed.inject(PersonAttribuAdapter);
+    const factory: FormFactory = TestBed.inject(FormFactory);
     const form = factory.createForm(adultFormSchema);
 
     const personWithAttributes = {
@@ -118,8 +118,8 @@ describe('Person Attribute Value Adapter:', () => {
   });
 
   it('should generate person attribute payload attachable to person object', () => {
-    const adapter = TestBed.get(PersonAttribuAdapter);
-    const factory: FormFactory = TestBed.get(FormFactory);
+    const adapter = TestBed.inject(PersonAttribuAdapter);
+    const factory: FormFactory = TestBed.inject(FormFactory);
     const form = factory.createForm(adultFormSchema);
 
     const personWithAttributes = {

@@ -1,0 +1,17 @@
+<div class="bx--grid">
+    <div class="bx--row">
+        <div class="bx--col-sm-2 bx--col-md-2 bx--col-lg-2">
+            <div class="tab">
+                <button hover-class="hover" class="tablinks completed" *ngFor="let tab of tabs" (click)="selectTab(tab)" 
+                [class]="getStatusClasses(tab.active,tab.disabled)">
+                    <span>{{ tab.tabTitle }}</span>
+                </button>
+            </div>
+        </div>
+        <div class="bx--col-sm-3 bx--col-md-6 bx--col-lg-6">
+            <div id="tab" class="tabcontent">
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </div>
+</div>

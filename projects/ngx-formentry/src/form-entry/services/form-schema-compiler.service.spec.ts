@@ -19,14 +19,14 @@ describe('FormSchemaCompiler Service:', () => {
     });
   });
   it('should have FormSchemaCompiler defined and compileFormSchema defined as a public property', () => {
-    const formSchemaCompiler: FormSchemaCompiler = TestBed.get(
+    const formSchemaCompiler: FormSchemaCompiler = TestBed.inject(
       FormSchemaCompiler
     );
     expect(formSchemaCompiler).toBeTruthy();
     expect(formSchemaCompiler.compileFormSchema).toBeTruthy();
   });
   it('should extract all pages from referenced components and append it to the compiled schema', () => {
-    const formSchemaCompiler: FormSchemaCompiler = TestBed.get(
+    const formSchemaCompiler: FormSchemaCompiler = TestBed.inject(
       FormSchemaCompiler
     );
     const fs: any = formSchemaAdult;
@@ -43,7 +43,7 @@ describe('FormSchemaCompiler Service:', () => {
   });
 
   it('should extract all questions from referenced components and map it to the compiled schema', () => {
-    const formSchemaCompiler: FormSchemaCompiler = TestBed.get(
+    const formSchemaCompiler: FormSchemaCompiler = TestBed.inject(
       FormSchemaCompiler
     );
     const fs: any = formSchemaAdult;
@@ -56,7 +56,7 @@ describe('FormSchemaCompiler Service:', () => {
   });
 
   it('should remove all excluded question defined in the base form', () => {
-    const formSchemaCompiler: FormSchemaCompiler = TestBed.get(
+    const formSchemaCompiler: FormSchemaCompiler = TestBed.inject(
       FormSchemaCompiler
     );
     const fs: any = formSchemaAdult;
@@ -96,7 +96,7 @@ describe('FormSchemaCompiler Service:', () => {
   });
 
   it('should return the main form without compilation if  referenced components are missing', () => {
-    const formSchemaCompiler: FormSchemaCompiler = TestBed.get(
+    const formSchemaCompiler: FormSchemaCompiler = TestBed.inject(
       FormSchemaCompiler
     );
     const fs: any = formSchemaAdult;
