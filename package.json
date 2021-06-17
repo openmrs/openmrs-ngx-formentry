@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build ngx-formentry",
-    "build:lib": "./scripts/build.sh",
+    "build:lib": "ng build --prod ngx-formentry",
     "test": "ng test ngx-formentry --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
