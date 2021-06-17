@@ -1,5 +1,5 @@
 
-## AMPATH POC Formentry
+# AMPATH POC Formentry
 
 Ampath forms is a forms engine that is inspired and built to work with OpenMRS and its encounter/obs model. That being said it tries not to assume that it will be used with an OpenMRS context and does not take responsibility for fetching any dynamic data from OpenMRS that responsibility should be handled by the consuming application by providing data sources to the engine
 
