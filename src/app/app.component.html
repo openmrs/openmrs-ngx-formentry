@@ -1,5 +1,16 @@
 <div *ngIf="form && form.rootNode">
   <form [formGroup]="form.rootNode.control">
-    <form-renderer (onAction)="actionClicked($event)" [node]="form.rootNode"></form-renderer>
+    <form-renderer [node]="form.rootNode"></form-renderer>
   </form>
+  <div class="bx--row">
+    <div class="bx--offset-md-2">
+      <button  (click)="reset($event)" class="bx--btn bx--btn--secondary" type="button">
+        Cance
+      </button>
+      <button (click)="onSubmit($event)" class="bx--btn bx--btn--primary" type="button">
+        Save
+      </button>
+    </div>
+  </div>
+
 </div>

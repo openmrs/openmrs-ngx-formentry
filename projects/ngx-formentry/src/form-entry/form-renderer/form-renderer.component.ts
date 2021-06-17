@@ -33,7 +33,6 @@ export class FormRendererComponent implements OnInit {
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
   @Input() public parentGroup: AfeFormGroup;
-  @Output() onAction = new EventEmitter<String>();
   public childComponents: FormRendererComponent[] = [];
   public showTime: boolean;
   public showWeeks: boolean;
@@ -240,11 +239,6 @@ export class FormRendererComponent implements OnInit {
       e.style.display = 'block';
     }
   }
-
-  public actionButtonClicked(action: String) {
-    this.onAction.emit(action);
-  }
-
   private getErrors(node: NodeBase) {
     const errors: any = node.control.errors;
 

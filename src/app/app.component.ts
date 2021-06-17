@@ -233,7 +233,8 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public onSubmit() {
+  public onSubmit($event) {
+    $event.preventDefault();
     // Set valueProcessingInfo
     this.form.valueProcessingInfo = {
       patientUuid: 'patientUuid',
@@ -254,10 +255,16 @@ export class AppComponent implements OnInit {
 
       // // generate orders payload
       // let ordersPayload = this.orderAdaptor.generateFormPayload(this.form);
+      
     } else {
       this.form.showErrors = true;
       this.form.markInvalidControls(this.form.rootNode);
     }
+  }
+
+  public reset($event) {
+    $event.preventDefault();
+    this.form.rootNode.control.reset()
   }
 
   public toggleEncounterViewer() {
@@ -266,11 +273,4 @@ export class AppComponent implements OnInit {
       : (this.showingEncounterViewer = true);
   }
 
-  public actionClicked(action: String) {
-    if (action === 'save') {
-      this.onSubmit();
-    } else {
-      // Reset Form
-    }
-  }
 }
