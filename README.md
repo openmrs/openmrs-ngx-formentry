@@ -25,9 +25,43 @@ The concept of datasources is an attempt at eliminating need for the library to 
     
 
 The engine does not care about where the data sources get their data, only that they return observables which the engine can subscribe to for the data it needs. Which means you can provide dummy observables to the engine and it will happily consume them (That is how the example consumer app in the repository works without having an OpenMRS backend)
-## Development
+### Expression runner
+
+The expression run is basically that it takes in an expression , runs it and returns true or false. It is used for hiding/showing , disabling/enabling controls and in running complex validation logic.
+
+### Control Relations
+
+This is an important component that allows validation and skip logic. It is done after the question model has been transformed into an angular form schema and basically just goes through each control and identifies which fields cares about subscribes to their changes.
+
+### Validation and Skip logic
+We use Javascript expressions through the expression runner to achieve complex cross field validations and skip logic.
+
+### Calculations
+The engine contains a suite of helpers to allow fields to calculate their values based on the values of other field this is also dependant on the expression runner.
+  
+
+### Control Interfaces
+
+CanHide - This is used in a control to provide an implementation for hiding a control
+
+CanDisable - This is used in a control to provide an implementation for disabling a control
+
+CanGenerateAlert - This is used in a control to provide an implementation for generating FYI alerts that won’t prevent you from saving the form
+
+CanCalculate - This is used in a control to provide an implementation for calculating the value of the field base on other values in the form
 
   
+
+### Custom Controls
+
+Angular provides various controls for handling forms FormControl - for simple fields , FormGroup - grouped fields and FormArray for repeating fields. Afe* controls are custom implementations of these fields to add some custom behaviour necessary for the form engine.
+
+AfeFormControl
+
+AfeFormGroup
+
+AfeFormArray
+
 
 ### Build the library by running:
 
