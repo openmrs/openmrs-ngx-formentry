@@ -62,23 +62,20 @@ AfeFormGroup
 
 AfeFormArray
 
+### Developing
+
+`$ git clone https://github.com/AMPATH/ngx-openmrs-formentry`
+
+
+`$ cd ngx-openmrs-formentry `
+
+`$ npm install`
+
+`$ npm start `
 
 ### Build the library by running:
 
-  
-
 `$ npm run build:lib`
-
-  
-
-### Then run the demo with:
-
-  
-`$ cd dist/ngx-formentry`
-`$ npm link`
-`$ cd ../`
-`$ npm link ngx-formentry`
-`$ npm start`
 
 ### Usage
 
