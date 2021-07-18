@@ -3,13 +3,10 @@ import {
   OnInit,
   Input,
   forwardRef,
-  Renderer2,
-  ChangeDetectorRef
+  Renderer2
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
-import { SecurePipe } from './secure.pipe';
 @Component({
   selector: 'app-file-upload',
   templateUrl: 'file-upload.component.html',

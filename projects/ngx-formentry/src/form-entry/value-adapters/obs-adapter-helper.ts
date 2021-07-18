@@ -623,7 +623,7 @@ export class ObsAdapterHelper {
     if (this.isEmpty(datetime)) {
       return undefined;
     } else {
-      // transform value to memoent value to avoid error
+      // transform value to moment value to avoid error
       const formattedVal = moment(datetime).format();
       const val = formattedVal.substring(0, 19).replace('T', ' ');
       return this.isEmpty(val) ? undefined : val;

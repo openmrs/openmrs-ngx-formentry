@@ -1,8 +1,7 @@
 {
-  "name": "ngx-formentry",
-  "version": "3.0.0-alpha",
+  "name": "@ampath-kenya/ngx-formentry",
+  "version": "3.0.0-alpha7",
   "dependencies": {
-    "tslib": "^2.0.0"
   },
   "peerDependencies": {
     "@angular/animations": ">=11.2.14 <=12.0.4",
@@ -15,7 +14,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "@ng-select/ng-select": "^6.1.0",
-    "jspdf": "^1.5.3",
+    "jspdf": "^1.5.3",    
     "ngx-file-uploader": "0.0.18",
     "ngx-webcam": "^0.2.2",
     "reflect-metadata": "^0.1.9",

@@ -154,5 +154,10 @@ export const DEFAULT_STYLES = `a {
 .text-danger{
   color: var(--cds-support-01, #da1e28);
 }
-
+.error{
+  margin-bottom: 3rem;
+}
+[hidden] {
+  display: none !important;
+}
     `;

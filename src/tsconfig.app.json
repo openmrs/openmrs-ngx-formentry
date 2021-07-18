@@ -8,6 +8,14 @@
     "main.ts",
     "polyfills.ts"
   ],
+  "paths": {
+    "ngx-formentry": [
+      "projects/ngx-formentry"
+    ],
+    "ngx-formentry/*": [
+      "projects/ngx-formentry/*"
+    ]
+  },
   "include": [
     "src/**/*.d.ts"
   ]

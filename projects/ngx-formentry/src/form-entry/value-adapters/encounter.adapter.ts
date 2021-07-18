@@ -103,9 +103,7 @@ export class EncounterAdapter implements ValueAdapter {
             const dateValue = moment(node.control.value).utcOffset(
               rootNode.form.valueProcessingInfo.utcOffset || '+0300'
             );
-            payload['encounterDatetime'] = dateValue.format(
-              'YYYY-MM-DD HH:mm:ss'
-            );
+            payload['encounterDatetime'] = dateValue.format();
             break;
           case 'encounterProvider':
             if (node.control.value && node.control.value !== '') {
