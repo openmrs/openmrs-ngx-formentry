@@ -17,21 +17,19 @@ const moment = moment_;
 })
 export class NgxDatetimeComponent implements ControlValueAccessor {
   value: String | Date = '';
-  isDisabled: boolean;
+  isDisabled = false;
   @Input() id = ''
 ;
   onChange = (_: any) => { };
   onTouch = () => { };
   onInput($event: any) {
     this.onTouch();
-    this.onChange($event.value);
+    this.onChange(moment($event.value).format());
   }
 
   writeValue(value: any): void {
-    if (value && value !== '' && value instanceof Date) {
-      this.value = value;
-    } else if (value !== '' && typeof value === 'string') {
-      this.value = moment(value).toDate();
+    if (value && value !== '') {
+      this.value = moment(value).format();
     } else {
       this.value = '';
     }

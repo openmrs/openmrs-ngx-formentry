@@ -36,7 +36,7 @@
   font-style: normal;
   line-height: 1.43;
   letter-spacing: 0.16px;
-  color: var(--color-gray-100);
+  color: #161616;
 }
 
 .tab button.active {
@@ -48,7 +48,7 @@
   font-style: normal;
   line-height: 1.43;
   letter-spacing: 0.16px;
-  color: var(--color-gray-100);
+  color: #161616;
 }
 
 .tab button.enabled {

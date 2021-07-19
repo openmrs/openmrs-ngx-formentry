@@ -7,7 +7,7 @@ import { Component, Input, ContentChild, TemplateRef } from '@angular/core';
     <div *ngIf="active"
          class="pane"
          [ngClass]="customPaneClass">
-         <h3>{{tabTitle}}</h3>
+         <h4>{{tabTitle}}</h4>
       <div *ngIf="bypassDOM">
         <ng-container [ngTemplateOutlet]="template"></ng-container>
       </div>

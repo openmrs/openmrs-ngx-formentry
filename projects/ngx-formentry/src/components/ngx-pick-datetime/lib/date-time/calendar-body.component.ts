@@ -22,7 +22,7 @@ export class CalendarCell {
         public displayValue: string,
         public ariaLabel: string,
         public enabled: boolean,
-        public out: boolean = false,
+        public out = false,
         public cellClass: string = ''
     ) {}
 }

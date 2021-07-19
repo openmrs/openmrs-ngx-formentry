@@ -19,8 +19,11 @@
       "dom"
     ],
     "paths": {
-      "ngx-formentry": [
-        "dist/ngx-formentry"
+      "@ampath-kenya/ngx-formentry": [
+        "projects/ngx-formentry/src/lib"
+      ],
+      "@ampath-kenya/ngx-formentry/*": [
+        "projects/ngx-formentry/src/lib*"
       ]
     }
   },

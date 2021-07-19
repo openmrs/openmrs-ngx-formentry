@@ -14,7 +14,7 @@ import {
   DataSources,
   FormErrorsService,
   // EncounterPdfViewerService
-} from 'ngx-formentry';
+} from '@ampath-kenya/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
 
 const adultForm = require('./adult-1.4.json');
@@ -255,7 +255,6 @@ export class AppComponent implements OnInit {
 
       // // generate orders payload
       // let ordersPayload = this.orderAdaptor.generateFormPayload(this.form);
-      
     } else {
       this.form.showErrors = true;
       this.form.markInvalidControls(this.form.rootNode);
@@ -264,7 +263,7 @@ export class AppComponent implements OnInit {
 
   public reset($event) {
     $event.preventDefault();
-    this.form.rootNode.control.reset()
+    this.form.rootNode.control.reset();
   }
 
   public toggleEncounterViewer() {
