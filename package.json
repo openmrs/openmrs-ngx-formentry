@@ -35,7 +35,6 @@
     "moment": "^2.17.1",
     "ng-pick-datetime": "^7.0.0",
     "ngx-cookie": "^4.0.2",
-    "ngx-file-uploader": "0.0.18",
     "ngx-webcam": "^0.2.2",
     "pdfmake": "0.1.40",
     "reflect-metadata": "^0.1.9",
