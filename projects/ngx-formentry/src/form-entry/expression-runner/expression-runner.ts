@@ -55,27 +55,24 @@ export class ExpressionRunner {
 
         // prevent more than one return statements
         if (expression.indexOf('return') === -1) {
-          expression = '"return ' + expression + '"';
+          expression = 'return ' + expression;
         }
-
-        let funcDeclarationCode =
-          'var afeDynamicFunc = new Function("' +
-          paramList +
-          '", ' +
-          expression +
-          ');';
-        let funcCallCode =
-          'afeDynamicFunc.call(this ' +
-          (argList === '' ? '' : ',' + argList) +
-          ');';
+        const afeDynamicFunc = new Function(paramList, expression);
+        scope[Symbol.iterator] = function* () {
+          var k;
+          for (k in this) {
+            yield this[k];
+          }
+        };
 
         try {
           if (Object.keys(scope).indexOf('undefined') >= 0) {
             console.warn('Missing reference found', expression, scope);
             return false;
           }
-          //console.info('results: ', expression, eval(funcDeclarationCode + funcCallCode));
-          return eval(funcDeclarationCode + funcCallCode);
+          //console.log('Result====>',res)
+          //console.log('results: ', eval(funcDeclarationCode + funcCallCode));
+          return afeDynamicFunc.call(this, ...scope);
         } catch (e) {
           // if (window['error_count']) {
           //     window['error_count'] = window['error_count'] + 1;

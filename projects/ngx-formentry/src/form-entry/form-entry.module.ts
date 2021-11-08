@@ -16,7 +16,7 @@ import { CollapseDirective } from './directives/collapse.directive';
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
 import { NumberInputModule } from '../components/number-input/number-input.module';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { RemoteFileUploadModule } from '../components/file-upload/file-upload.module';
+// import { RemoteFileUploadModule } from '../components/file-upload/file-upload.module';
 import { DateTimePickerModule } from '../components/date-time-picker/date-time-picker.module';
 import { NgxDateTimePickerModule } from '../components/ngx-datetime-picker/ngx-datetime-picker.module';
 import { AfeNgSelectComponent } from '../components/afe-ng-select.component';
@@ -54,7 +54,7 @@ import { InputModule } from '../components/input/input.module';
     DateTimePickerModule,
     NgxRemoteSelectModule,
     // NoopAnimationsModule,
-    RemoteFileUploadModule,
+    // RemoteFileUploadModule,
     CheckboxModule,
     NgxDateTimePickerModule,
     SharedModule,
