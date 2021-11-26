@@ -31,10 +31,10 @@ export class ExpressionRunner {
         window['moment'] = moment;
         // scope.moment = moment;
         scope['myValue'] = control.value;
+        runner.setControlQuestion(control, form, scope);
         runner.getControlRelationValueString(control, scope);
         runner.getHelperMethods(helper, scope);
         runner.getDataDependencies(dataDependencies, scope);
-
         if (form) {
           // console.error('Form defined', form);
           runner.getDataDependencies(
@@ -146,6 +146,20 @@ export class ExpressionRunner {
             scope
           );
         }
+      });
+    }
+  }
+
+  private setControlQuestion(control: AfeFormArray | AfeFormGroup | AfeFormControl,
+    form: Form, scope: any) {
+    if (
+      control &&
+      control.controlRelations &&
+      control.controlRelations.relations) {
+      control.controlRelations.relations.forEach((relation) => {
+        const related = relation.relatedTo as any;
+        const question = form.searchNodeByQuestionId(related.uuid)[0]?.question?.extras;
+        scope['question' + related.uuid] = question;
       });
     }
   }
