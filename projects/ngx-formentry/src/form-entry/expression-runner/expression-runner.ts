@@ -31,6 +31,7 @@ export class ExpressionRunner {
         window['moment'] = moment;
         // scope.moment = moment;
         scope['myValue'] = control.value;
+        scope['FORM'] = {};
         runner.setControlQuestion(control, form, scope);
         runner.getControlRelationValueString(control, scope);
         runner.getHelperMethods(helper, scope);
@@ -159,7 +160,7 @@ export class ExpressionRunner {
       control.controlRelations.relations.forEach((relation) => {
         const related = relation.relatedTo as any;
         const question = form.searchNodeByQuestionId(related.uuid)[0]?.question?.extras;
-        scope['question' + related.uuid] = question;
+        scope["FORM"][related.uuid] = question;
       });
     }
   }
