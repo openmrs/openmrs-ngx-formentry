@@ -142,7 +142,8 @@ export class FormControlService {
     this.wireCalculator(
       question,
       control,
-      form ? form.dataSourcesContainer.dataSources : null
+      form,
+      form.dataSourcesContainer.dataSources
     );
 
     if (parentControl instanceof AfeFormGroup) {
@@ -193,6 +194,7 @@ export class FormControlService {
   private wireCalculator(
     question: QuestionBase,
     control: AfeFormControl,
+    form: Form,
     dataSource?: any
   ) {
     if (question.calculateExpression && question.calculateExpression !== '') {
@@ -202,7 +204,8 @@ export class FormControlService {
         question.calculateExpression,
         control,
         helper.helperFunctions,
-        dataSource
+        dataSource,
+        form
       );
       // this functionality strictly assumes the calculateExpression function has been defined in the JsExpressionHelper class
       control.setCalculatorFn(runnable.run);
