@@ -1,13 +1,11 @@
 @import 'picker.min.css';
 .ng-select {
-	padding-bottom: 1.25em
+	padding-bottom: 1.25em;
+	min-width: 16rem;
 }
 
 .ng-select.ng-select-disabled .ng-select-container:after {
 	border-bottom-color: transparent;
-	/* background-image: linear-gradient(to right, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.42) 33%, transparent 0%);
-	background-size: 4px 1px;
-	background-repeat: repeat-x */
 }
 
 .ng-select.ng-select-disabled .ng-select-container .ng-value-container .ng-value {
