@@ -1,0 +1,363 @@
+{
+  "uuid": "8b8e704e-3985-41f0-b448-43853b1ad904",
+  "display": "Functionality Scale - Asia",
+  "name": "Functionality Scale - Asia",
+  "description": "Functionality Scale - Asia",
+  "encounterType": {
+    "uuid": "c877fdd2-6011-42e6-9474-bf4a9b8e2aba",
+    "display": "Asia Assessment Form",
+    "name": "Asia Assessment Form",
+    "description": "Asia Assessment Form",
+    "retired": false
+  },
+  "version": "0.1",
+  "build": null,
+  "published": false,
+  "formFields": [],
+  "retired": false,
+  "pages": [
+    {
+      "label": "Encounter Details",
+      "sections": [
+        {
+          "label": "Encounter Details",
+          "isExpanded": "true",
+          "questions": [
+            {
+              "label": "Date of Assessment",
+              "type": "encounterDatetime",
+              "required": "true",
+              "id": "encounterDate",
+              "questionOptions": {
+                "rendering": "date"
+              },
+              "validators": [
+                {
+                  "type": "date"
+                }
+              ]
+            },
+            {
+              "label": "Conducted by",
+              "type": "obs",
+              "required": "true",
+              "id": "conductBy",
+              "questionOptions": {
+                "concept": "ICRC:CONDUCTED_BY",
+                "rendering": "text"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Questions",
+      "sections": [
+        {
+          "label": "Functionality Scale - Asia",
+          "isExpanded": "true",
+          "questions": [
+            {
+              "id": "q1",
+              "label": "1. How much difficulty have you had with taking care of yourself?",
+              "type": "obs",
+              "questionOptions": {
+                "rendering": "radio",
+                "concept": "ICRC:DIFFICULTY_TO_TAKE_CARE_YOURSELF",
+                "answers": [
+                  {
+                    "label": "None",
+                    "concept": "ICRC:447059"
+                  },
+                  {
+                    "label": "A little",
+                    "concept": "ICRC:A_LITTLE"
+                  },
+                  {
+                    "label": "Moderate",
+                    "concept": "CIEL:1499"
+                  },
+                  {
+                    "label": "A lot",
+                    "concept": "ICRC:A_LOT"
+                  },
+                  {
+                    "label": "Too much",
+                    "concept": "ICRC:TOO_MUCH"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "q2",
+              "label": "2. How much difficulty have you had with taking care of your household responsibilities?",
+              "type": "obs",
+              "questionOptions": {
+                "rendering": "radio",
+                "concept": "ICRC:DIFFICULTY_TO_TAKE_CARE_YOUR_HOUSEHOLD_RESPONSIBILITIES",
+                "answers": [
+                  {
+                    "label": "None",
+                    "concept": "ICRC:447059"
+                  },
+                  {
+                    "label": "A little",
+                    "concept": "ICRC:A_LITTLE"
+                  },
+                  {
+                    "label": "Moderate",
+                    "concept": "CIEL:1499"
+                  },
+                  {
+                    "label": "A lot",
+                    "concept": "ICRC:A_LOT"
+                  },
+                  {
+                    "label": "Too much",
+                    "concept": "ICRC:TOO_MUCH"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "q3",
+              "label": "3. How much difficulty have you had with concentrating (on any task)?",
+              "type": "obs",
+              "questionOptions": {
+                "rendering": "radio",
+                "concept": "ICRC:DIFFICULTY_TO_CONCENTRATE",
+                "answers": [
+                  {
+                    "label": "None",
+                    "concept": "ICRC:447059"
+                  },
+                  {
+                    "label": "A little",
+                    "concept": "ICRC:A_LITTLE"
+                  },
+                  {
+                    "label": "Moderate",
+                    "concept": "CIEL:1499"
+                  },
+                  {
+                    "label": "A lot",
+                    "concept": "ICRC:A_LOT"
+                  },
+                  {
+                    "label": "Too much",
+                    "concept": "ICRC:TOO_MUCH"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "q4",
+              "label": "4. How much difficulty have you had with calling and talking to someone?",
+              "type": "obs",
+              "questionOptions": {
+                "rendering": "radio",
+                "concept": "ICRC:DIFFICULTY_TO_TALK",
+                "answers": [
+                  {
+                    "label": "None",
+                    "concept": "ICRC:447059"
+                  },
+                  {
+                    "label": "A little",
+                    "concept": "ICRC:A_LITTLE"
+                  },
+                  {
+                    "label": "Moderate",
+                    "concept": "CIEL:1499"
+                  },
+                  {
+                    "label": "A lot",
+                    "concept": "ICRC:A_LOT"
+                  },
+                  {
+                    "label": "Too much",
+                    "concept": "ICRC:TOO_MUCH"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "q5",
+              "label": "5. How much difficulty have you had with taking care of children or grandchildren in the house?",
+              "type": "obs",
+              "questionOptions": {
+                "rendering": "radio",
+                "concept": "ICRC:DIFFICULTY_TO_TAKE_CARE_CHILDREN",
+                "answers": [
+                  {
+                    "label": "None",
+                    "concept": "ICRC:447059"
+                  },
+                  {
+                    "label": "A little",
+                    "concept": "ICRC:A_LITTLE"
+                  },
+                  {
+                    "label": "Moderate",
+                    "concept": "CIEL:1499"
+                  },
+                  {
+                    "label": "A lot",
+                    "concept": "ICRC:A_LOT"
+                  },
+                  {
+                    "label": "Too much",
+                    "concept": "ICRC:TOO_MUCH"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "q6",
+              "label": "6. How much difficulty have you had with visiting friends, neighbors or relatives?",
+              "type": "obs",
+              "questionOptions": {
+                "rendering": "radio",
+                "concept": "ICRC:DIFFICULTY_TO_VISIT",
+                "answers": [
+                  {
+                    "label": "None",
+                    "concept": "ICRC:447059"
+                  },
+                  {
+                    "label": "A little",
+                    "concept": "ICRC:A_LITTLE"
+                  },
+                  {
+                    "label": "Moderate",
+                    "concept": "CIEL:1499"
+                  },
+                  {
+                    "label": "A lot",
+                    "concept": "ICRC:A_LOT"
+                  },
+                  {
+                    "label": "Too much",
+                    "concept": "ICRC:TOO_MUCH"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "q7",
+              "label": "7. How much difficulty have you had with doing other tasks outside of the house?",
+              "type": "obs",
+              "questionOptions": {
+                "rendering": "radio",
+                "concept": "ICRC:DIFFICULTY_TO_DOING_OTHER_TASK_OUTSIDE_HOUSE",
+                "answers": [
+                  {
+                    "label": "None",
+                    "concept": "ICRC:447059"
+                  },
+                  {
+                    "label": "A little",
+                    "concept": "ICRC:A_LITTLE"
+                  },
+                  {
+                    "label": "Moderate",
+                    "concept": "CIEL:1499"
+                  },
+                  {
+                    "label": "A lot",
+                    "concept": "ICRC:A_LOT"
+                  },
+                  {
+                    "label": "Too much",
+                    "concept": "ICRC:TOO_MUCH"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "formCompleteness",
+              "label": "Form Completeness",
+              "type": "obs",
+              "required": true,
+              "questionOptions": {
+                "rendering": "radio",
+                "concept": "ICRC:FORM_COMPLETENESS",
+                "answers": [
+                  {
+                    "label": "Complete",
+                    "concept": "ICRC:COMPLETE"
+                  },
+                  {
+                    "label": "Incomplete",
+                    "concept": "CIEL:163339"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Scoring",
+      "sections": [
+        {
+          "label": "Scoring",
+          "isExpanded": "true",
+          "questions": [
+            {
+              "id": "score",
+              "label": "The template is a 5-point Likert scale, with no problem = 0, and too much problem being 4. A total possible maximum score would be 28, and a total minimum score could be 0. A cut off is not established, the service provider can have a sense that if a person is scoring 40% of disability (i.e. 11 as the total), that is quite a lot.",
+              "questionOptions": {
+                "rendering": "checkbox",
+                "answers": []
+              },
+              "score": {
+                "ICRC:447059": 0,
+                "ICRC:A_LITTLE": 1,
+                "CIEL:1499": 2,
+                "ICRC:A_LOT": 3,
+                "ICRC:TOO_MUCH": 4
+              }
+            },
+            {
+              "id": "totalScore",
+              "label": "Score",
+              "questionOptions": {
+                "concept": "ICRC:23021318",
+                "rendering": "text",
+                "calculate": {
+                  "calculateExpression": "(FORM.score.score[q1] || 0) + (FORM.score.score[q2] || 0) + (FORM.score.score[q3] || 0) + (FORM.score.score[q4] || 0) + (FORM.score.score[q5] || 0) + (FORM.score.score[q6] || 0) + (FORM.score.score[q7] || 0)"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Comments",
+      "sections": [
+        {
+          "label": "Comments",
+          "isExpanded": "true",
+          "questions": [
+            {
+              "label": "Comment",
+              "type": "obs",
+              "id": "comment",
+              "questionOptions": {
+                "concept": "ICRC:1990797",
+                "rendering": "textarea",
+                "rows": 4
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "referencedForms": [],
+  "processor": "EncounterFormProcessor"
+}

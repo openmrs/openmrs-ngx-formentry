@@ -16,8 +16,20 @@ import {
   // EncounterPdfViewerService
 } from '@ampath-kenya/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
+import { ConceptService } from "../../projects/ngx-formentry/src/form-entry/services/concept.service";
 
-const adultForm = require('./adult-1.4.json');
+//const adultForm = require('./icrc/briedCope.json');
+//const adultForm = require('./icrc/CRIES-8.json');
+const adultForm = require('./icrc/DASS-21.json');
+//const adultForm = require('./icrc/functionalityScaleAfrica.json');
+//const adultForm = require('./icrc/functionalityScaleAsia.json');
+//const adultForm = require('./icrc/IES-R.json');
+//const adultForm = require('./icrc/peds.json');
+//const adultForm = require('./icrc/POC_SRQ-20.json');
+//const adultForm = require('./icrc/proqol.json');
+
+//const adultForm = require('./icrc/adult-1.4.json');
+
 const adultFormObs = require('./mock/obs.json');
 const formOrdersPayload = require('./mock/orders.json');
 @Component({
@@ -37,6 +49,8 @@ export class AppComponent implements OnInit {
   showingEncounterViewer = false;
   public header = 'UMD Demo';
 
+  labelMap = {};
+
   constructor(
     private questionFactory: QuestionFactory,
     private formFactory: FormFactory,
@@ -46,7 +60,8 @@ export class AppComponent implements OnInit {
     private dataSources: DataSources,
     // private encounterPdfViewerService: EncounterPdfViewerService,
     private formErrorsService: FormErrorsService,
-    private http: HttpClient
+    private http: HttpClient,
+    private conceptService: ConceptService
   ) {
     this.schema = adultForm;
   }
@@ -82,7 +97,7 @@ export class AppComponent implements OnInit {
             { value: 1, label: 'Stage 1 Symptom' },
             { value: 2, label: 'Stage 2 Symptom' }
           ];
-         
+
           return  new Observable((observer: Observer<object>) => {
             setTimeout(() => {
               observer.next(items);
@@ -208,6 +223,67 @@ export class AppComponent implements OnInit {
       this.schema,
       this.dataSources.dataSources
     );
+
+    // Get concepts with no label
+    const concepts = this.traverse(this.form.rootNode);
+
+    // Fetch concept labels from server
+    this.conceptService.searchBulkConceptByUUID(concepts).subscribe((conceptData) => {
+      conceptData.forEach((concept : any) => {
+        this.labelMap[concept.extId] = concept.display;
+      });
+    });
+  }
+
+  fetchConcepts(concepts) {
+    concepts.forEach(value => {
+      this.conceptService.searchConceptByUUID(value).subscribe((id) => {
+        this.labelMap[value] = id.display;
+      });
+    });
+  }
+
+  traverse(o, type?) {
+    let concepts = [];
+    if (o.children) {
+      if (o.children instanceof Array) {
+        const returned = this.repeatingGroup(o.children);
+        return returned;
+      }
+      if (o.children instanceof Object) {
+        for (const key in o.children) {
+          if (o.children.hasOwnProperty(key)) {
+            const question = o.children[key].question;
+            switch (question.renderingType) {
+              case 'page':
+              case 'section':
+              case 'group':
+                const childrenConcepts = this.traverse(o.children[key]);
+                concepts = concepts.concat(childrenConcepts);
+                break;
+              case 'repeating':
+                const repeatingConcepts = this.repeatingGroup(o.children[key].children);
+                concepts = concepts.concat(repeatingConcepts);
+                break;
+              default:
+                if (!question.label && question.extras.questionOptions) {
+                  concepts.push(question.extras.questionOptions.concept);
+                }
+                break;
+            }
+          }
+        }
+      }
+    }
+    return concepts;
+  }
+
+  repeatingGroup(nodes) {
+    const toReturn = [];
+    for (const node of nodes) {
+      toReturn.push(this.traverse(node));
+    }
+    return toReturn;
   }
 
   public sampleResolve(): Observable<any> {

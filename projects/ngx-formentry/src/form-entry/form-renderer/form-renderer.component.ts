@@ -33,6 +33,7 @@ export class FormRendererComponent implements OnInit {
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
   @Input() public parentGroup: AfeFormGroup;
+  @Input() public labelMap: Object;
   public childComponents: FormRendererComponent[] = [];
   public showTime: boolean;
   public showWeeks: boolean;
@@ -77,6 +78,13 @@ export class FormRendererComponent implements OnInit {
 
     if (this.parentComponent) {
       this.parentComponent.addChildComponent(this);
+    }
+
+    if (!this.node.question.label) {
+      setTimeout(() => {
+        this.node.question.label = this.labelMap[this?.node?.question.extras?.questionOptions?.concept] || '';
+        console.log("this.node.question.label " + this.node.question.label);
+      }, 500);
     }
   }
 

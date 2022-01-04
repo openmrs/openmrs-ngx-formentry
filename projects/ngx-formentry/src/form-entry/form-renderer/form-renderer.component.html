@@ -2,7 +2,7 @@
 <div *ngIf="node.question.renderingType === 'form'">
   <ngx-tabset (onSelect)="tabSelected($event)" [selectedIndex]="activeTab">
     <ngx-tab [tabTitle]="question.label" *ngFor="let question of node.question.questions; let i = index">
-      <form-renderer [node]="node.children[question.key]" [parentComponent]="this" [parentGroup]="node.control">
+      <form-renderer [node]="node.children[question.key]" [parentComponent]="this" [parentGroup]="node.control" [labelMap]="labelMap">
       </form-renderer>
     </ngx-tab>
     <error-renderer [form]="node.form"></error-renderer>
@@ -11,7 +11,7 @@
 </div>
 <div *ngIf="node.question.renderingType === 'page'">
   <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this"
-    [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
+    [node]="node.children[question.key]" [parentGroup]="parentGroup" [labelMap]="labelMap"></form-renderer>
 </div>
 <div *ngIf="node.question.renderingType === 'section' && checkSection(node)">
   <div class="bx--accordion__item" [ngClass]="{ 'bx--accordion__item--active': !isCollapsed }">
@@ -28,7 +28,7 @@
     </button>
     <div class="bx--accordion__content" [collapse]="isCollapsed">
       <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this"
-        [node]="node.children[question.key]" [parentGroup]="parentGroup"></form-renderer>
+        [node]="node.children[question.key]" [parentGroup]="parentGroup" [labelMap]="labelMap"></form-renderer>
     </div>
   </div>
 </div>
@@ -175,7 +175,7 @@
         <div *ngSwitchCase="'testOrder'">
           <div *ngFor="let child of node.children; let i = index">
             <form-renderer *ngFor="let question of child.question.questions" [parentComponent]="this"
-              [node]="child.children[question.key]" [parentGroup]="child.control"></form-renderer>
+              [node]="child.children[question.key]" [parentGroup]="child.control" [labelMap]="labelMap"></form-renderer>
             <div>{{ child.orderNumber }}</div>
             <button type="button " class="bx--btn bx--btn--danger bx--btn--sm" (click)="node.removeAt(i)">
               Remove
@@ -194,7 +194,7 @@
         <div *ngSwitchCase="'obsGroup'" style="margin-bottom: 20px">
           <div *ngFor="let child of node.children; let i = index">
             <form-renderer *ngFor="let question of child.question.questions" [parentComponent]="this"
-              [node]="child.children[question.key]" [parentGroup]="child.control"></form-renderer>
+              [node]="child.children[question.key]" [parentGroup]="child.control" [labelMap]="labelMap"></form-renderer>
             <button type="button " class="bx--btn bx--btn--danger bx--btn--sm" (click)="node.removeAt(i)">
               Remove
             </button>
@@ -221,11 +221,11 @@
   <div [ngSwitch]="node.question.renderingType">
     <div *ngSwitchCase="'group'">
       <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this"
-        [node]="node.children[question.key]" [parentGroup]="node.control"></form-renderer>
+        [node]="node.children[question.key]" [parentGroup]="node.control" [labelMap]="labelMap"></form-renderer>
     </div>
     <div *ngSwitchCase="'field-set'" style="border: 1px solid #eeeeee; padding: 2px; margin: 2px">
       <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this"
-        [node]="node.children[question.key]" [parentGroup]="node.control"></form-renderer>
+        [node]="node.children[question.key]" [parentGroup]="node.control" [labelMap]="labelMap"></form-renderer>
     </div>
   </div>
 </div>
