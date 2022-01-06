@@ -4,7 +4,7 @@ import {
   Input,
   Inject,
   Output,
-  EventEmitter
+  EventEmitter, OnChanges, SimpleChanges
 } from '@angular/core';
 // import 'hammerjs';
 import { DEFAULT_STYLES } from './form-renderer.component.css';
@@ -29,7 +29,7 @@ import { SelectOption } from '../question-models/interfaces/select-option';
   templateUrl: 'form-renderer.component.html',
   styles: ['../../style/app.css', DEFAULT_STYLES]
 })
-export class FormRendererComponent implements OnInit {
+export class FormRendererComponent implements OnInit, OnChanges {
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
   @Input() public parentGroup: AfeFormGroup;
@@ -81,10 +81,14 @@ export class FormRendererComponent implements OnInit {
     }
 
     if (!this.node.question.label) {
-      setTimeout(() => {
-        this.node.question.label = this.labelMap[this?.node?.question.extras?.questionOptions?.concept] || '';
-        console.log("this.node.question.label " + this.node.question.label);
-      }, 500);
+      this.node.question.label = this.labelMap[this?.node?.question.extras?.questionOptions?.concept] || '';
+      console.log("this.node.question.label " + this.node.question.label);
+    }
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes.labelMap && changes.labelMap.currentValue[this.node.question.extras?.questionOptions?.concept]) {
+      this.node.question.label = this.labelMap[this.node.question.extras.questionOptions.concept];
     }
   }
 
