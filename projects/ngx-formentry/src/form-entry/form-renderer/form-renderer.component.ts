@@ -60,6 +60,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
   public ngOnInit() {
     this.setUpRemoteSelect();
     this.setUpFileUpload();
+    this.loadLabels();
     if (this.node && this.node.form) {
       const tab = this.node.form.valueProcessingInfo.lastFormTab;
       if (tab && tab !== this.activeTab) {
@@ -79,16 +80,11 @@ export class FormRendererComponent implements OnInit, OnChanges {
     if (this.parentComponent) {
       this.parentComponent.addChildComponent(this);
     }
-
-    if (!this.node.question.label) {
-      this.node.question.label = this.labelMap[this?.node?.question.extras?.questionOptions?.concept] || '';
-      console.log("this.node.question.label " + this.node.question.label);
-    }
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes.labelMap && changes.labelMap.currentValue[this.node.question.extras?.questionOptions?.concept]) {
-      this.node.question.label = this.labelMap[this.node.question.extras.questionOptions.concept];
+    if (changes.labelMap) {
+      this.loadLabels();
     }
   }
 
@@ -145,6 +141,19 @@ export class FormRendererComponent implements OnInit, OnChanges {
       ];
       // console.log('Key', this.node.question);
       // console.log('Data source', this.dataSource);
+    }
+  }
+
+  public loadLabels() {
+    if (!this.node.question.label && this.labelMap[this.node.question.extras?.questionOptions?.concept]) {
+      this.node.question.label = this.labelMap[this.node.question.extras.questionOptions.concept];
+    }
+    if (this.node.question.options) {
+      this.node.question.options.forEach((option) => {
+        if (!option.label && this.labelMap[option.value]) {
+          option.label = this.labelMap[option.value];
+        }
+      });
     }
   }
 

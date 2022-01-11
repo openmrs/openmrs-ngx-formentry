@@ -40,7 +40,6 @@ import { SharedModule } from '../shared.module';
 import { NgxTabSetModule } from '../components/ngx-tabset/modules/ngx-tabset.module';
 import { SelectModule as SelectModuleCarbon } from '../components/select/select.module';
 import { InputModule } from '../components/input/input.module';
-import {ConceptService} from "./services/concept.service";
 
 
 @NgModule({
@@ -90,8 +89,7 @@ import {ConceptService} from "./services/concept.service";
     EncounterAdapter,
     PersonAttribuAdapter,
     OrderValueAdapter,
-    DebugModeService,
-    ConceptService
+    DebugModeService
   ],
   exports: [
     FormRendererComponent,

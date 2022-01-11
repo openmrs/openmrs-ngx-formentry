@@ -4,7 +4,7 @@
   "version": "3.0.0-alpha7",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.js",
+    "start": "ng serve",
     "build": "ng build ngx-formentry",
     "build:lib": "ng build --prod ngx-formentry",
     "test": "ng test ngx-formentry --watch=false",

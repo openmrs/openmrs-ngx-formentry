@@ -16,20 +16,8 @@ import {
   // EncounterPdfViewerService
 } from '@ampath-kenya/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
-import { ConceptService } from "../../projects/ngx-formentry/src/form-entry/services/concept.service";
 
-//const adultForm = require('./icrc/briedCope.json');
-//const adultForm = require('./icrc/CRIES-8.json');
-const adultForm = require('./icrc/DASS-21.json');
-//const adultForm = require('./icrc/functionalityScaleAfrica.json');
-//const adultForm = require('./icrc/functionalityScaleAsia.json');
-//const adultForm = require('./icrc/IES-R.json');
-//const adultForm = require('./icrc/peds.json');
-//const adultForm = require('./icrc/POC_SRQ-20.json');
-//const adultForm = require('./icrc/proqol.json');
-
-//const adultForm = require('./icrc/adult-1.4.json');
-
+const adultForm = require('./adult-1.4.json');
 const adultFormObs = require('./mock/obs.json');
 const formOrdersPayload = require('./mock/orders.json');
 @Component({
@@ -48,7 +36,6 @@ export class AppComponent implements OnInit {
   encounterObject = adultFormObs;
   showingEncounterViewer = false;
   public header = 'UMD Demo';
-
   labelMap = {};
 
   constructor(
@@ -60,8 +47,7 @@ export class AppComponent implements OnInit {
     private dataSources: DataSources,
     // private encounterPdfViewerService: EncounterPdfViewerService,
     private formErrorsService: FormErrorsService,
-    private http: HttpClient,
-    private conceptService: ConceptService
+    private http: HttpClient
   ) {
     this.schema = adultForm;
   }
@@ -225,29 +211,54 @@ export class AppComponent implements OnInit {
     );
 
     // Get concepts with no label
-    const concepts = this.traverse(this.form.rootNode);
+    const concepts = this.traverseForUnlabeledConcepts(this.form.rootNode);
 
-    // Fetch concept labels from server
-    this.conceptService.searchBulkConceptByUUID(concepts).subscribe((conceptData) => {
-      conceptData.forEach((concept : any) => {
-        this.labelMap[concept.extId] = concept.display;
+    // Fetch missing labels from concept dictionary
+    this.fetchMockedConceptData(concepts).then((conceptData: any) => {
+      this.labelMap = [];
+      conceptData.forEach((concept: any) => {
+        this.labelMap[concept.reqId] = concept.display;
       });
     });
   }
 
-  fetchConcepts(concepts) {
-    concepts.forEach(value => {
-      this.conceptService.searchConceptByUUID(value).subscribe((id) => {
-        this.labelMap[value] = id.display;
-      });
+  fetchMockedConceptData (concepts) {
+    const promise = new Promise(function(resolve, reject) {
+      // Simulate a server response with some delay
+      setTimeout(function() {
+        const conceptData = [
+          {
+            "uuid": "a89ff9a6-1350-11df-a1f1-0026b9348838",
+            "display": "Was this visit scheduled?",
+            "reqId": concepts[0]
+          },
+          {
+            "uuid": "a89b6440-1350-11df-a1f1-0026b9348838",
+            "display": "Scheduled visit",
+            "reqId": concepts[1]
+          },
+          {
+            "uuid": "a89ff816-1350-11df-a1f1-0026b9348838",
+            "display": "Unscheduled visit early",
+            "reqId": concepts[2]
+          },
+          {
+            "uuid": "a89ff8de-1350-11df-a1f1-0026b9348838",
+            "display": "Unscheduled visit late",
+            "reqId": concepts[3]
+          }
+        ];
+        resolve(conceptData);
+      }, 2000);
     });
+    return promise;
   }
 
-  traverse(o, type?) {
+  traverseForUnlabeledConcepts(o, type?) {
     let concepts = [];
     if (o.children) {
       if (o.children instanceof Array) {
-        const returned = this.repeatingGroup(o.children);
+        const returned = this.traverseRepeatingGroupForUnlabeledConcepts(o.children);
         return returned;
       }
       if (o.children instanceof Object) {
@@ -258,16 +269,23 @@ export class AppComponent implements OnInit {
               case 'page':
               case 'section':
               case 'group':
-                const childrenConcepts = this.traverse(o.children[key]);
+                const childrenConcepts = this.traverseForUnlabeledConcepts(o.children[key]);
                 concepts = concepts.concat(childrenConcepts);
                 break;
               case 'repeating':
-                const repeatingConcepts = this.repeatingGroup(o.children[key].children);
+                const repeatingConcepts = this.traverseRepeatingGroupForUnlabeledConcepts(o.children[key].children);
                 concepts = concepts.concat(repeatingConcepts);
                 break;
               default:
                 if (!question.label && question.extras.questionOptions) {
                   concepts.push(question.extras.questionOptions.concept);
+                }
+                if (question.extras.questionOptions.answers) {
+                  question.extras.questionOptions.answers.forEach(answer => {
+                    if (!answer.label) {
+                      concepts.push(answer.concept);
+                    }
+                  });
                 }
                 break;
             }
@@ -278,10 +296,10 @@ export class AppComponent implements OnInit {
     return concepts;
   }
 
-  repeatingGroup(nodes) {
+  traverseRepeatingGroupForUnlabeledConcepts(nodes) {
     const toReturn = [];
     for (const node of nodes) {
-      toReturn.push(this.traverse(node));
+      toReturn.push(this.traverseForUnlabeledConcepts(node));
     }
     return toReturn;
   }
