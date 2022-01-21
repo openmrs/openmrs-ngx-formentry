@@ -1,11 +1,6 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  forwardRef,
-  Renderer2
-} from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Renderer2 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
 @Component({
   selector: 'app-file-upload',
