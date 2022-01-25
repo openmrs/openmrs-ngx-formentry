@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared.module';
 import { FileUploadComponent } from './file-upload.component';
 import { WebcamModule } from 'ngx-webcam';
+import { NgxFileUploaderModule } from 'ngx-file-uploader'
+
 
 @NgModule({
   imports: [
@@ -13,6 +15,7 @@ import { WebcamModule } from 'ngx-webcam';
     FormsModule,
     SharedModule,
     WebcamModule,
+    NgxFileUploaderModule
   ],
   exports: [FileUploadComponent],
   declarations: [FileUploadComponent],

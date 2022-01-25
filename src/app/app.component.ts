@@ -17,7 +17,7 @@ import {
 } from '@ampath-kenya/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
 
-const adultForm = require('./adult-1.4.json');
+const adultForm = require('./adult-1.6.json');
 const adultFormObs = require('./mock/obs.json');
 const formOrdersPayload = require('./mock/orders.json');
 @Component({

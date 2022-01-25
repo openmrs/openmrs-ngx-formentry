@@ -66,9 +66,16 @@
         </option>
       </ibm-select>
 
-      <!-- <app-file-upload *ngSwitchCase="'file'" [dataSource]="dataSource" [formControlName]="node.question.key"
-        [id]="node.question.key + 'id'" (fileChanged)="upload($event)">
-      </app-file-upload> -->
+    <div *ngSwitchCase="'file'">
+      <app-file-upload
+      [dataSource]="dataSource"
+      [formControlName]="node.question.key"
+      [id]="node.question.key + 'id'"
+      (fileChanged)="upload($event)"
+    >
+    </app-file-upload>
+    </div>
+    
       <textarea [placeholder]="node.question.placeholder" [rows]="node.question.rows"
         class="bx--text-area bx--text-area--v2" *ngSwitchCase="'textarea'" [formControlName]="node.question.key"
         [id]="node.question.key + 'id'">
