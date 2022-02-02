@@ -19,6 +19,7 @@ export class NgxDatetimeComponent implements ControlValueAccessor {
   value: String | Date = '';
   isDisabled = false;
   @Input() id = ''
+  @Input() theme = 'dark'
 ;
   onChange = (_: any) => { };
   onTouch = () => { };

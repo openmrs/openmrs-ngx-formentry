@@ -163,4 +163,11 @@ export const DEFAULT_STYLES = `a {
 [hidden] {
   display: none !important;
 }
+.accordion-content-dark {
+  background-color: #f4f4f4;
+  padding-right: 1rem;
+}
+.accordion-content-override{
+  padding-right: 1rem;
+} 
     `;
