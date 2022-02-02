@@ -1,7 +1,9 @@
-<div data-date-picker data-date-picker-type="single" class="bx--date-picker bx--date-picker--single">
-    <div class="bx--date-picker-container">
+<div data-date-picker data-date-picker-type="single" class="bx--date-picker bx--date-picker--single bx--date-picker--light" [ngClass]="{
+    'bx--date-picker--light': theme === 'light'
+}" >
+    <div class="bx--date-picker-container fill">
         <div class="bx--date-picker-input__wrapper">
-            <input [disabled]="isDisabled" (dateTimeChange)="onInput($event)" type="text" class="bx--date-picker__input" [id]="id" [value]="value" [owlDateTime]="dt1"
+            <input [disabled]="isDisabled" (dateTimeChange)="onInput($event)" type="text" class="bx--date-picker__input fill" [id]="id" [value]="value" [owlDateTime]="dt1"
                 [owlDateTimeTrigger]="dt1" placeholder="mm/dd/yyyy" data-date-picker-input />
             <svg focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;"
                 xmlns="http://www.w3.org/2000/svg" data-date-picker-icon="true" class="bx--date-picker__icon" width="16"

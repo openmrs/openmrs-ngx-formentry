@@ -271,9 +271,25 @@
 	"pages": [
 		{
 			"label": "Encounter Details",
+			"componentConfigs": [
+				{
+					"tag": "afe-content-display",
+					"url": "http://localhost:4200/lib/web-components.bundled.js?module",
+					"module": "true",
+					"detail": "This is custom component within a page it is displayed at the top of the page"
+				}
+			],
 			"sections": [
 				{
 					"label": "Encounter Details",
+					"componentConfigs": [
+						{
+							"tag": "afe-content-display",
+							"url": "http://localhost:4200/lib/web-components.bundled.js?module",
+							"module": "true",
+							"detail": "This is custom component within a section it is displayed at the top of the section"
+						}
+					],
 					"isExpanded": "true",
 					"questions": [
 						{
@@ -308,6 +324,32 @@
 							"required": "true",
 							"questionOptions": {
 								"rendering": "ui-select-extended"
+							}
+						},
+						{
+							"type": "obs",
+							"label": "Custom Control Test:",
+							"id": "customCon",
+							"required": "true",
+							"default": "",
+							"questionOptions": {
+								"rendering": "select",
+								"customControl": true,
+								"answers": [
+									{
+										"concept": "8b715fed-97f6-4e38-8f6a-c167a42f8923",
+										"label": "yes"
+									},
+									{
+										"concept": "a899e0ac-1350-11df-a1f1-0026b9348838",
+										"label": "No"
+									}
+								]
+							},
+							"customControlConfig": {
+								"tag": "afe-content-switcher",
+								"url": "http://localhost:4200/lib/web-components.bundled.js?module",
+								"module": "true"
 							}
 						}
 					]

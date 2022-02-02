@@ -1,0 +1,10 @@
+<div>
+    <ng-template #error>Component Loading failed...</ng-template>
+    <ng-template #loading>Loading Component...</ng-template>
+    <div *ngFor="let componentConfig of componentConfigs">
+        <ax-lazy-element
+            *axLazyElementDynamic="componentConfig.tag, url: componentConfig.url; module: true; errorTemplate: error; loadingTemplate: loading"
+            [config]="componentConfig" [dark]='dark'>
+        </ax-lazy-element>
+    </div>
+</div>

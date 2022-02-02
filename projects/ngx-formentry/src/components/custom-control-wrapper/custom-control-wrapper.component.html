@@ -1,0 +1,8 @@
+<div>
+    <ng-template #error>Loading failed...</ng-template>
+    <ng-template #loading>Loading...</ng-template>
+    <ax-lazy-element
+        *axLazyElementDynamic="customControlConfig.tag, url: customControlConfig.url; module: true; errorTemplate: error; loadingTemplate: loading"
+        [question]="question" [value]="value" [disabled]='disabled' (on-change)="onValueChange($event)" [config]="config">
+    </ax-lazy-element>
+</div>

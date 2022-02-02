@@ -40,6 +40,9 @@ import { SharedModule } from '../shared.module';
 import { NgxTabSetModule } from '../components/ngx-tabset/modules/ngx-tabset.module';
 import { SelectModule as SelectModuleCarbon } from '../components/select/select.module';
 import { InputModule } from '../components/input/input.module';
+import { CustomControlWrapperModule } from '../components/custom-control-wrapper/custom-control-wrapper..module';
+import { LazyElementsModule } from '@angular-extensions/elements';
+import { CustomComponentWrapperModule } from '../components/custom-component-wrapper/custom-component-wrapper..module';
 
 
 @NgModule({
@@ -58,6 +61,8 @@ import { InputModule } from '../components/input/input.module';
     CheckboxModule,
     NgxDateTimePickerModule,
     SharedModule,
+    CustomControlWrapperModule,
+    CustomComponentWrapperModule,
     NgxTabSetModule.forRoot()
   ],
   declarations: [

@@ -33,6 +33,7 @@ export class FormRendererComponent implements OnInit {
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
   @Input() public parentGroup: AfeFormGroup;
+  @Input() public theme = 'light';
   public childComponents: FormRendererComponent[] = [];
   public showTime: boolean;
   public showWeeks: boolean;
