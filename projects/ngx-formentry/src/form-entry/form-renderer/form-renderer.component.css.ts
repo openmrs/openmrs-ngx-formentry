@@ -168,6 +168,11 @@ export const DEFAULT_STYLES = `a {
   padding-right: 1rem;
 }
 .accordion-content-override{
-  padding-right: 1rem;
+  
+  box-sizing: content-box;
 } 
+
+.question-area {
+  width: 100%
+}
     `;

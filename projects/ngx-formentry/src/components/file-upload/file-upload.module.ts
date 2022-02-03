@@ -17,7 +17,7 @@ import { NgxFileUploaderModule } from 'ngx-file-uploader'
     WebcamModule,
     NgxFileUploaderModule
   ],
-  exports: [],
+  exports: [FileUploadComponent],
   declarations: [FileUploadComponent],
   providers: []
 })
