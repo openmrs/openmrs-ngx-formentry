@@ -322,23 +322,19 @@
 					"isExpanded": "true",
 					"questions": [
 						{
-							"label": "Was this visit scheduled?",
 							"id": "scheduledVisit",
 							"questionOptions": {
 								"rendering": "select",
 								"concept": "a89ff9a6-1350-11df-a1f1-0026b9348838",
 								"answers": [
 									{
-										"concept": "a89b6440-1350-11df-a1f1-0026b9348838",
-										"label": "Scheduled visit"
+										"concept": "a89b6440-1350-11df-a1f1-0026b9348838"
 									},
 									{
-										"concept": "a89ff816-1350-11df-a1f1-0026b9348838",
-										"label": "Unscheduled visit early"
+										"concept": "a89ff816-1350-11df-a1f1-0026b9348838"
 									},
 									{
-										"concept": "a89ff8de-1350-11df-a1f1-0026b9348838",
-										"label": "Unscheduled visit late"
+										"concept": "a89ff8de-1350-11df-a1f1-0026b9348838"
 									}
 								]
 							},
