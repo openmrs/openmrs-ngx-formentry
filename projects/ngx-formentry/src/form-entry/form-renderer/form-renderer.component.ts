@@ -33,6 +33,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
   @Input() public parentGroup: AfeFormGroup;
+  @Input() public theme = 'light';
   @Input() public labelMap: Object;
   public childComponents: FormRendererComponent[] = [];
   public showTime: boolean;

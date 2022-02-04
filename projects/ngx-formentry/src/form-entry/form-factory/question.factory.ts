@@ -27,6 +27,7 @@ import { HistoricalHelperService } from '../helpers/historical-expression-helper
 import { Form } from './form';
 import { CheckBoxQuestion } from '../question-models/models';
 import { Injectable } from "@angular/core";
+import { CustomControlQuestion } from '../question-models/custom-control-question.model';
 
 @Injectable()
 export class QuestionFactory {
@@ -46,6 +47,7 @@ export class QuestionFactory {
     const question = new SelectQuestion({ options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     question.options = schemaQuestion.questionOptions.answers.map(function (
       obj
     ) {
@@ -92,6 +94,7 @@ export class QuestionFactory {
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
     question.placeholder = schemaQuestion.questionOptions.placeholder || '';
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     const mappings: any = {
       label: 'label',
       required: 'required',
@@ -117,6 +120,7 @@ export class QuestionFactory {
     question.renderingType = 'number';
     question.placeholder = schemaQuestion.questionOptions.placeholder || '';
     question.extras = schemaQuestion;
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
 
     const mappings: any = {
       label: 'label',
@@ -142,6 +146,7 @@ export class QuestionFactory {
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
     question.showTime = schemaQuestion.questionOptions.showTime as boolean;
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     question.showWeeksAdder = schemaQuestion.questionOptions.weeksList
       ? true
       : false;
@@ -177,6 +182,7 @@ export class QuestionFactory {
       id: 'key'
     };
     question.showTime = true;
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
@@ -204,7 +210,7 @@ export class QuestionFactory {
       label: 'label',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -239,7 +245,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -270,7 +276,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -297,7 +303,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -320,7 +326,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -342,7 +348,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -364,7 +370,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -390,7 +396,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -425,7 +431,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -449,7 +455,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -468,6 +474,7 @@ export class QuestionFactory {
     schemaQuestion.sections.forEach((element) => {
       question.questions.push(this.toSectionQuestion(element));
     });
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     return question;
   }
 
@@ -482,7 +489,7 @@ export class QuestionFactory {
     schemaQuestion.pages.forEach((element) => {
       question.questions.push(this.toPageQuestion(element));
     });
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     return question;
   }
 
@@ -494,6 +501,7 @@ export class QuestionFactory {
     question.controlType = AfeControlType.None;
     question.isExpanded = schemaQuestion.isExpanded === 'true' ? true : false;
     question.questions = this.getSchemaQuestions(schemaQuestion.questions);
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     return question;
   }
 
@@ -517,7 +525,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
@@ -547,7 +555,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -557,9 +565,10 @@ export class QuestionFactory {
   }
 
   toFieldSetQuestion(schemaQuestion: any): QuestionGroup {
-    const toReturn = this.toGroupQuestion(schemaQuestion);
-    toReturn.renderingType = 'field-set';
-    return toReturn;
+    const question = this.toGroupQuestion(schemaQuestion);
+    question.renderingType = 'field-set';
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
+    return question;
   }
 
   toEncounterLocationQuestion(schemaQuestion: any): UiSelectQuestion {
@@ -583,7 +592,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
-
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -621,6 +630,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
     return question;
   }

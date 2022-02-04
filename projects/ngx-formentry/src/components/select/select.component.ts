@@ -64,7 +64,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
         <!-- select element: dynamically projected based on 'display' variant -->
         <ng-template #noInline>
-            <div class="bx--select-input__wrapper" [attr.data-invalid]="(invalid ? true : null)">
+            <div class="bx--select-input__wrapper extend" [attr.data-invalid]="(invalid ? true : null)">
                 <select
                     #select
                     [attr.id]="id"
@@ -110,6 +110,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
         .bx--select--inline:not(.bx--select--invalid) .bx--form__helper-text {
             margin-top: 0;
+        }
+        .bx--select-input__wrapper{
+            min-width: 16rem;
         }
     `],
     providers: [

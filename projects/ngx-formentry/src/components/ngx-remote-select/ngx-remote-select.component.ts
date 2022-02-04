@@ -35,6 +35,7 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
   @Input() placeholder = 'Search...';
   @Input() componentID: string;
   @Input() disabled = false;
+  @Input() theme = 'dark';
   items = [];
   value = [];
   loading = false;

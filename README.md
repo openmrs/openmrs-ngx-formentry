@@ -62,6 +62,30 @@ AfeFormGroup
 
 AfeFormArray
 
+### Custom Components
+
+The form engine supports using custom widgets and controls. The widgets and controls are standards web components customized to work with the engine by implimeneting a set a of inputs.
+
+The custom widgets take recieve this inputs
+
+* `config`  which provides the the widgets configs
+* `dark` which will be used to toggle the them to match the engine when this is true the widget should have a background color of `#f4f4f4` and `#ffffff` otherwise
+
+Custom Controls will receive
+
+* `question` - Json of the question as defined in the schema
+* `value` - current value of the control
+* `disabled` - disabled state of the control
+* `config` - the config of the control
+
+When developing the engine expects custom components to be served at localhost:8000 see example components at https://github.com/enyachoke/afe-ref-custom-components. Otherwise project will complain about the proxy 
+
+`[HPM] Error occurred while trying to proxy request /lib/web-components.bundled.js?module from localhost:4200 to http://localhost:8000 (ECONNREFUSED) (https://nodejs.org/api/errors.html#errors_common_system_errors)`
+
+
+Which is should be fine if your are not working on custom components (Make sure to not include them in the schema)
+
+
 ### Developing
 
 `$ git clone https://github.com/AMPATH/ngx-openmrs-formentry`

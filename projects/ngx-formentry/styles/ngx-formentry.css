@@ -47,8 +47,12 @@
 
 .ng-select .ng-select-container {
 	align-items: baseline;
-	min-height: 40px;
+	min-height: 2.5rem;
 	padding: 0 1rem;
+}
+
+.afe-custom.ng-select .ng-select-container  {            
+    background-color: #ffffff;
 }
 
 .ng-select .ng-select-container:after {

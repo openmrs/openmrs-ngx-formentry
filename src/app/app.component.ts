@@ -158,6 +158,10 @@ export class AppComponent implements OnInit {
     this.encAdapter.populateForm(this.form, adultFormObs);
 
     this.setUpCascadeSelectForWHOStaging();
+    if(!this.form.valid){
+      this.form.showErrors = true;
+      this.form.rootNode.control.markAsDirty();
+    }
 
     // Alternative is to set individually for obs and orders as show below
     // // Set obs
@@ -344,7 +348,8 @@ export class AppComponent implements OnInit {
 
     if (this.form.valid) {
       this.form.showErrors = false;
-      // const payload = this.encAdapter.generateFormPayload(this.form);
+      const payload = this.encAdapter.generateFormPayload(this.form);
+      console.log(JSON.stringify(payload));
       // Alternative is to populate for each as shown below
       // // generate obs payload
       // let payload = this.obsValueAdapater.generateFormPayload(this.form);
