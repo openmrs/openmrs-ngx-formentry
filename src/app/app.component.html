@@ -1,18 +1,16 @@
-<div class="bx--grid">
 <div *ngIf="form && form.rootNode">
   <form [formGroup]="form.rootNode.control">
     <form-renderer [node]="form.rootNode" [labelMap]="labelMap"></form-renderer>
   </form>
-  <div class="bx--row">
-    <div class="bx--offset-md-2">
-      <button  (click)="reset($event)" class="bx--btn bx--btn--secondary" type="button">
-        Cancel
-      </button>
-      <button (click)="onSubmit($event)" class="bx--btn bx--btn--primary" type="button">
-        Save
-      </button>
-    </div>
+
+  <div class="bx--offset-md-2">
+    <button (click)="reset($event)" class="bx--btn bx--btn--secondary" type="button">
+      Cancel
+    </button>
+    <button (click)="onSubmit($event)" class="bx--btn bx--btn--primary" type="button">
+      Save
+    </button>
   </div>
 
-</div>
+
 </div>

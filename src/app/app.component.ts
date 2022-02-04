@@ -159,7 +159,7 @@ export class AppComponent implements OnInit {
 
     this.setUpCascadeSelectForWHOStaging();
     if(!this.form.valid){
-      this.form.showErrors = true;
+      this.form.showErrors = false;
       this.form.rootNode.control.markAsDirty();
     }
 
@@ -348,8 +348,8 @@ export class AppComponent implements OnInit {
 
     if (this.form.valid) {
       this.form.showErrors = false;
-      const payload = this.encAdapter.generateFormPayload(this.form);
-      console.log(JSON.stringify(payload));
+      // const payload = this.encAdapter.generateFormPayload(this.form);
+      // console.log(JSON.stringify(payload));
       // Alternative is to populate for each as shown below
       // // generate obs payload
       // let payload = this.obsValueAdapater.generateFormPayload(this.form);
