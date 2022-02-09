@@ -4,7 +4,7 @@ import {
   Input,
   Inject,
   Output,
-  EventEmitter
+  EventEmitter, OnChanges, SimpleChanges
 } from '@angular/core';
 // import 'hammerjs';
 import { DEFAULT_STYLES } from './form-renderer.component.css';
@@ -29,11 +29,12 @@ import { SelectOption } from '../question-models/interfaces/select-option';
   templateUrl: 'form-renderer.component.html',
   styles: ['../../style/app.css', DEFAULT_STYLES]
 })
-export class FormRendererComponent implements OnInit {
+export class FormRendererComponent implements OnInit, OnChanges {
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
   @Input() public parentGroup: AfeFormGroup;
   @Input() public theme = 'light';
+  @Input() public labelMap: Object;
   public childComponents: FormRendererComponent[] = [];
   public showTime: boolean;
   public showWeeks: boolean;
@@ -60,6 +61,7 @@ export class FormRendererComponent implements OnInit {
   public ngOnInit() {
     this.setUpRemoteSelect();
     this.setUpFileUpload();
+    this.loadLabels();
     if (this.node && this.node.form) {
       const tab = this.node.form.valueProcessingInfo.lastFormTab;
       if (tab && tab !== this.activeTab) {
@@ -78,6 +80,12 @@ export class FormRendererComponent implements OnInit {
 
     if (this.parentComponent) {
       this.parentComponent.addChildComponent(this);
+    }
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes.labelMap) {
+      this.loadLabels();
     }
   }
 
@@ -134,6 +142,19 @@ export class FormRendererComponent implements OnInit {
       ];
       // console.log('Key', this.node.question);
       // console.log('Data source', this.dataSource);
+    }
+  }
+
+  public loadLabels() {
+    if (!this.node.question.label && this.labelMap[this.node.question.extras?.questionOptions?.concept]) {
+      this.node.question.label = this.labelMap[this.node.question.extras.questionOptions.concept];
+    }
+    if (this.node.question.options) {
+      this.node.question.options.forEach((option) => {
+        if (!option.label && this.labelMap[option.value]) {
+          option.label = this.labelMap[option.value];
+        }
+      });
     }
   }
 
