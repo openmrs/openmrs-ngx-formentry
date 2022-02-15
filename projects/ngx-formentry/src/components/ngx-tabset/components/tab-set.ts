@@ -1,5 +1,13 @@
 import {
-  Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter, OnChanges, SimpleChanges
+  Component,
+  ContentChildren,
+  QueryList,
+  AfterContentInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 
 import { TabComponent } from './tab';
@@ -10,7 +18,6 @@ import { TabComponent } from './tab';
   templateUrl: 'tabset.html'
 })
 export class TabsetComponent implements AfterContentInit, OnChanges {
-
   @ContentChildren(TabComponent) public tabs: QueryList<TabComponent>;
 
   @Input() public disableStyle = false;
@@ -48,7 +55,7 @@ export class TabsetComponent implements AfterContentInit, OnChanges {
     }
 
     // deactivate all tabs
-    this.tabs.toArray().forEach((tab: TabComponent) => tab.active = false);
+    this.tabs.toArray().forEach((tab: TabComponent) => (tab.active = false));
 
     // activate the tab the user has clicked on.
     tabToSelect.active = true;
