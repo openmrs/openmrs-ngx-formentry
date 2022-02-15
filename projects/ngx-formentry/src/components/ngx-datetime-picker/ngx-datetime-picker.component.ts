@@ -1,4 +1,4 @@
-import { Component, forwardRef , Input } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as moment_ from 'moment';
 const moment = moment_;
@@ -16,13 +16,14 @@ const moment = moment_;
   ]
 })
 export class NgxDatetimeComponent implements ControlValueAccessor {
-  value: String | Date = '';
+  value: string = '';
   isDisabled = false;
-  @Input() id = ''
-  @Input() theme = 'dark'
-;
-  onChange = (_: any) => { };
-  onTouch = () => { };
+  @Input() id = '';
+  @Input() theme = 'dark';
+  @Input() showWeeks = false;
+  @Input() weeks: number[];
+  onChange = (_: any) => {};
+  onTouch = () => {};
   onInput($event: any) {
     this.onTouch();
     this.onChange(moment($event.value).format());
@@ -48,4 +49,8 @@ export class NgxDatetimeComponent implements ControlValueAccessor {
     this.isDisabled = isDisabled;
   }
 
+  onWeeksSelected(numberOfWeeks: number) {
+    const currentDate: string =  new Date().toString();
+    this.onInput({ value: moment(currentDate).add(numberOfWeeks, 'weeks') });
+  }
 }

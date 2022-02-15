@@ -107,8 +107,9 @@
             tabindex="0" [dataSource]="dataSource" [componentID]="node.question.key + 'id'"
             [formControlName]="node.question.key" [id]="node.question.key + 'id'"></ngx-remote-select>
 
-          <ngx-datetimepicker [theme]="theme" [id]="node.question.key + 'id'" [formControlName]="node.question.key"
-            *ngSwitchCase="'date'">
+          <ngx-datetimepicker [weeks]="node.question.extras.questionOptions.weeksList"
+            [showWeeks]="node.question.showWeeksAdder" [theme]="theme" [id]="node.question.key + 'id'"
+            [formControlName]="node.question.key" *ngSwitchCase="'date'">
           </ngx-datetimepicker>
           <ng-select [ngClass]="{'afe-custom': theme === 'light'}" [id]="node.question.key + 'id'"
             *ngSwitchCase="'multi-select'" [items]="node.question.options" bindLabel="label" bindValue="value"
