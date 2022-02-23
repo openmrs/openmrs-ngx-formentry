@@ -56,7 +56,7 @@ export class OwlDialogRef<T> {
                 this.locationChanged.unsubscribe();
                 this._afterClosed$.next(this.result);
                 this._afterClosed$.complete();
-                this.componentInstance = null!;
+                this.componentInstance = null;
             });
 
         this.overlayRef.keydownEvents()

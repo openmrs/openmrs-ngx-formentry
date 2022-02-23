@@ -8,7 +8,7 @@ import { ArrayNode } from '../form-factory/form-node';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
 import { Form } from '../form-factory/form';
 import * as moment_ from 'moment';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 const moment = moment_;
 @Injectable()
@@ -56,24 +56,20 @@ export class ExpressionRunner {
 
         // prevent more than one return statements
         if (expression.indexOf('return') === -1) {
-          expression = 'return ' + expression;
+          expression = '"return ' + expression + '"';
         }
-        const afeDynamicFunc = new Function(paramList, expression);
-        scope[Symbol.iterator] = function* () {
-          var k;
-          for (k in this) {
-            yield this[k];
-          }
-        };
+
+        let funcDeclarationCode = `new Function("${paramList}", ${expression}).call(this ${
+          argList === '' ? '' : ',' + argList
+        });`;
 
         try {
           if (Object.keys(scope).indexOf('undefined') >= 0) {
             console.warn('Missing reference found', expression, scope);
             return false;
           }
-          //console.log('Result====>',res)
-          //console.log('results: ', eval(funcDeclarationCode + funcCallCode));
-          return afeDynamicFunc.call(this, ...scope);
+          //console.info('results: ', expression, eval(funcDeclarationCode + funcCallCode));
+          return eval(funcDeclarationCode);
         } catch (e) {
           // if (window['error_count']) {
           //     window['error_count'] = window['error_count'] + 1;
@@ -151,16 +147,21 @@ export class ExpressionRunner {
     }
   }
 
-  private setControlQuestion(control: AfeFormArray | AfeFormGroup | AfeFormControl,
-    form: Form, scope: any) {
+  private setControlQuestion(
+    control: AfeFormArray | AfeFormGroup | AfeFormControl,
+    form: Form,
+    scope: any
+  ) {
     if (
       control &&
       control.controlRelations &&
-      control.controlRelations.relations) {
+      control.controlRelations.relations
+    ) {
       control.controlRelations.relations.forEach((relation) => {
         const related = relation.relatedTo as any;
-        const question = form.searchNodeByQuestionId(related.uuid)[0]?.question?.extras;
-        scope["FORM"][related.uuid] = question;
+        const question = form.searchNodeByQuestionId(related.uuid)[0]?.question
+          ?.extras;
+        scope['FORM'][related.uuid] = question;
       });
     }
   }
