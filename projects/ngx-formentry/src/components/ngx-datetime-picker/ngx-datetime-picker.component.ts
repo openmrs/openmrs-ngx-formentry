@@ -16,7 +16,7 @@ const moment = moment_;
   ]
 })
 export class NgxDatetimeComponent implements ControlValueAccessor {
-  value: string = '';
+  value = '';
   isDisabled = false;
   @Input() id = '';
   @Input() theme = 'dark';

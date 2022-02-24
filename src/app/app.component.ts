@@ -158,7 +158,7 @@ export class AppComponent implements OnInit {
     this.encAdapter.populateForm(this.form, adultFormObs);
 
     this.setUpCascadeSelectForWHOStaging();
-    if(!this.form.valid){
+    if (!this.form.valid) {
       this.form.showErrors = false;
       this.form.rootNode.control.markAsDirty();
     }

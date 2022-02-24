@@ -14,14 +14,7 @@ import { CustomControlQuestion } from "../../form-entry/question-models/custom-c
   ]
 })
 export class CustomControlWrapperComponent implements ControlValueAccessor, OnInit  {
-
-  registerOnValidatorChange?(fn: () => void): void {
-    throw new Error("Method not implemented.");
-  }
-  customControlConfig = { tag: '', url: '', module: '' }
-  ngOnInit(): void {
-    this.customControlConfig = this.question?.extras?.customControlConfig;
-  }
+  customControlConfig = { tag: '', url: '', module: '' };
 
   @Input()
   question: CustomControlQuestion;
@@ -30,13 +23,20 @@ export class CustomControlWrapperComponent implements ControlValueAccessor, OnIn
 
   config = {};
 
-  onChange = (value) => { };
-
-  onTouched = () => { };
-
   touched = false;
 
   disabled = false;
+
+  registerOnValidatorChange?(fn: () => void): void {
+    throw new Error("Method not implemented.");
+  }
+  ngOnInit(): void {
+    this.customControlConfig = this.question?.extras?.customControlConfig;
+  }
+
+  onChange = (value) => { };
+
+  onTouched = () => { };
 
   onValueChange(event) {
     this.markAsTouched();

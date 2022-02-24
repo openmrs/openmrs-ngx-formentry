@@ -35,7 +35,7 @@ export class QuestionBase implements BaseOptions {
   hide?: string | boolean;
   disable?: string | boolean;
   calculateExpression?: string;
-  componentConfigs: Array<any>
+  componentConfigs: Array<any>;
   options?: any;
 
   constructor(options: BaseOptions) {

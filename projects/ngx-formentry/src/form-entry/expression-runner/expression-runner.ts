@@ -56,21 +56,23 @@ export class ExpressionRunner {
 
         // prevent more than one return statements
         if (expression.indexOf('return') === -1) {
-          expression = '"return ' + expression + '"';
+          expression = 'return ' + expression;
         }
 
-        let funcDeclarationCode = `new Function("${paramList}", ${expression}).call(this ${
-          argList === '' ? '' : ',' + argList
-        });`;
-
         try {
+          const afeDynamicFunc = new Function(paramList, expression);
+          scope[Symbol.iterator] = function* () {
+            var k;
+            for (k in this) {
+              yield this[k];
+            }
+          };
           if (Object.keys(scope).indexOf('undefined') >= 0) {
             console.warn('Missing reference found', expression, scope);
             return false;
           }
-          //console.info('results: ', expression, eval(funcDeclarationCode + funcCallCode));
-          return eval(funcDeclarationCode);
-        } catch (e) {
+          return afeDynamicFunc.call(this, ...scope);
+        } catch (error) {
           // if (window['error_count']) {
           //     window['error_count'] = window['error_count'] + 1;
           // } else {
@@ -82,7 +84,7 @@ export class ExpressionRunner {
           //     e, control, 'Effective Expression', (funcDeclarationCode + funcCallCode));
 
           // Uncomment the line above during debugging
-          // console.error('Error running expression:' + expression, scope);
+          // console.error(`Error running expression: ${expression} scope: ${scope} error: ${error}`);
 
           return false;
         }

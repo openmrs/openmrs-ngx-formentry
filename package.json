@@ -8,7 +8,7 @@
     "build": "ng build ngx-formentry",
     "build:lib": "ng build --prod ngx-formentry",
     "test": "ng test ngx-formentry --watch=false",
-    "lint": "ng lint",
+    "lint": "ng lint --exclude src/**/*.spec.ts --exclude projects/ngx-formentry/**/*.spec.ts --exclude projects/ngx-formentry/**/date-time-picker-input.directive.ts",
     "e2e": "ng e2e"
   },
   "peerDependencies": {
@@ -77,13 +77,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "ng lint"
+      "pre-commit": "npm run lint"
     }
   },
   "lint-staged": {
     "*.{ts,js,css,md}": [
       "prettier --write",
-      "ng lint ngx-openmrs-formentry"
+      "npm run lint"
     ]
   }
 }
