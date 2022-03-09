@@ -128,7 +128,7 @@
 
           <input [theme]="theme" class="bx--text-input" ibmText *ngSwitchDefault [formControlName]="node.question.key"
             [attr.placeholder]="node.question.placeholder" [type]="node.question.renderingType"
-            [id]="node.question.key + 'id'" />
+            [id]="node.question.key + 'id'" [readOnly]="node.question.extras.readonly"/>
 
           <div *ngSwitchCase="'radio'">
             <div *ngFor="let o of node.question.options">
