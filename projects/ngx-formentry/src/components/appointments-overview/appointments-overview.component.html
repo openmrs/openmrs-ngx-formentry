@@ -1,38 +1,35 @@
-<div *ngIf="showAppointments" class="appointments">
-  <p *ngIf="loadingAppointments">
-    <span *ngIf="!appointmentsLoaded && errorLoadingAppointments"
-      >Error checking appointments</span
-    >
-    <span *ngIf="loadingAppointments"
-      ><span class="fa fa-spinner fa-spin"></span>Checking appointments...</span
-    >
-  </p>
-  <div *ngIf="appointmentsLoaded && !errorLoadingAppointments">
-    <table
-      *ngIf="appointments.length > 0"
-      class="table table-stripped table-bordered"
-    >
+<div *ngIf="showAppointments" class="container">
+  <div *ngIf="loadingAppointments">
+    <span *ngIf="!appointmentsLoaded && errorLoadingAppointments">Error checking appointments</span>
+    <div *ngIf="loadingAppointments" class="bx--inline-loading" aria-live="assertive">
+      <div class="bx--inline-loading__animation">
+        <div aria-atomic="true" aria-labelledby="loading-id-2" aria-live="assertive"
+          class="bx--loading bx--loading--small">
+          <label id="loading-id-2" class="bx--visually-hidden">Active loading indicator</label><svg
+            class="bx--loading__svg" viewBox="0 0 100 100">
+            <title>Active loading indicator</title>
+            <circle class="bx--loading__background" cx="50%" cy="50%" r="44"></circle>
+            <circle class="bx--loading__stroke" cx="50%" cy="50%" r="44"></circle>
+          </svg>
+        </div>
+      </div>
+      <div class="bx--inline-loading__text">Loading...</div>
+    </div>
+  </div>
+
+  <div class="bx--data-table-content" *ngIf="appointmentsLoaded && !errorLoadingAppointments">
+    <table class="bx--data-table bx--data-table--no-border">
       <thead>
         <tr>
-          <th
-            *ngFor="let appointment of appointments"
-            [ngClass]="{ active: appointment.date === today }"
-          >
-            <span>{{ appointment.date }}</span>
+          <th *ngFor="let appointment of appointments" scope="col" [ngClass]="{ active: appointment.date === today }">
+            {{ appointment.date }}
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody aria-live="polite">
         <tr>
-          <td
-            *ngFor="let appointment of appointments"
-            [ngClass]="{ active: appointment.date === today }"
-          >
-            <span
-              ><strong
-                ><em>{{ appointment.count }}</em></strong
-              ></span
-            >
+          <td *ngFor="let appointment of appointments" [ngClass]="{ active: appointment.date === today }">
+            {{ appointment.count }}
           </td>
         </tr>
       </tbody>

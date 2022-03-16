@@ -23,7 +23,7 @@ export class AppointmentsOverviewComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges() {
-    this.node.control.valueChanges.subscribe((v) => {
+    this.node.control.valueChanges.subscribe((appointmentDate) => {
       this.resetProperties();
       const node = this.node;
       if (
@@ -33,7 +33,6 @@ export class AppointmentsOverviewComponent implements OnInit, OnChanges {
           node.question.extras.questionOptions.concept ===
             'a89d2398-1350-11df-a1f1-0026b9348838')
       ) {
-        // console.log('what change is here', this.showAppointments);
         if (!this.showAppointments) {
           this.loadingAppointments = true;
           this.showAppointments = true;
@@ -44,19 +43,22 @@ export class AppointmentsOverviewComponent implements OnInit, OnChanges {
                 .monthlyScheduleResourceService;
           }
           const locationUuid =
-            node.form.dataSourcesContainer.dataSources.userLocation.uuid;
+            node.form.dataSourcesContainer.dataSources?.userLocation?.uuid;
           if (dataSource && locationUuid) {
-            const startDate = moment(v)
+            const startDate = moment(appointmentDate)
               .startOf('week')
               .add(1, 'day')
               .format('YYYY-MM-DD');
-            const endDate = moment(v)
+            const endDate = moment(appointmentDate)
               .endOf('week')
               .subtract(1, 'day')
               .format('YYYY-MM-DD');
-            this.today = moment(v).format('DD-MM-YYYY');
+            this.today = moment(appointmentDate).format('DD-MM-YYYY');
             // create 5 week days
-            const _data = [];
+            const scheduledAppointments: Array<{
+              date: string;
+              count: number;
+            }> = [];
             const programTypes = [
               '781d85b0-1359-11df-a1f1-0026b9348838',
               '781d897a-1359-11df-a1f1-0026b9348838',
@@ -69,8 +71,8 @@ export class AppointmentsOverviewComponent implements OnInit, OnChanges {
             ];
             const programTypeParams = programTypes.join();
             for (let i = 1; i <= 5; i++) {
-              _data.push({
-                date: moment(v)
+              scheduledAppointments.push({
+                date: moment(appointmentDate)
                   .startOf('week')
                   .add(i, 'day')
                   .format('DD-MM-YYYY'),
@@ -86,16 +88,16 @@ export class AppointmentsOverviewComponent implements OnInit, OnChanges {
                 programType: programTypeParams
               })
               .subscribe(
-                (data) => {
+                ({ results }) => {
                   this.appointmentsLoaded = true;
                   this.loadingAppointments = false;
-                  _data.map((appointment, index) => {
+                  scheduledAppointments.map((appointment, index) => {
                     appointment.count =
-                      data[index] !== undefined
-                        ? data[index].count.scheduled
+                      results[index] !== undefined
+                        ? results[index].count.scheduled
                         : 0;
                   });
-                  this.appointments = _data;
+                  this.appointments = scheduledAppointments;
                 },
                 (error) => {
                   this.loadingAppointments = false;
