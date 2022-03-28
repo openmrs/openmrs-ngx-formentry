@@ -208,6 +208,7 @@ export class QuestionFactory {
     question.renderingType = schemaQuestion.questionOptions.rendering;
     const mappings: any = {
       label: 'label',
+      required: 'required',
       id: 'key'
     };
     question.componentConfigs = schemaQuestion.componentConfigs || [];
