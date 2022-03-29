@@ -14,7 +14,7 @@ export interface BaseOptions {
   hide?: string | boolean;
   alert?: any;
   disable?: string | boolean;
-  readonly?: string | boolean;
+  readOnly?: string | boolean;
   enableHistoricalValue?: boolean;
   historicalDataValue?: any;
   calculateExpression?: string;

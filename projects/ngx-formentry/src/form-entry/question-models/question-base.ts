@@ -34,7 +34,7 @@ export class QuestionBase implements BaseOptions {
   required?: boolean;
   hide?: string | boolean;
   disable?: string | boolean;
-  readonly?: string | boolean;
+  readOnly?: string | boolean;
   calculateExpression?: string;
   componentConfigs: Array<any>;
   options?: any;
@@ -50,7 +50,7 @@ export class QuestionBase implements BaseOptions {
     this.required = options.required;
     this.hide = options.hide;
     this.disable = options.disable;
-    this.readonly = options.readonly;
+    this.readOnly = options.readOnly;
     this.alert = options.alert;
     this.historicalDataValue = options.historicalDataValue;
     this.calculateExpression = options.calculateExpression;
