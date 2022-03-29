@@ -109,7 +109,7 @@
 
           <ngx-datetimepicker [weeks]="node.question.extras.questionOptions.weeksList"
             [showWeeks]="node.question.showWeeksAdder" [theme]="theme" [id]="node.question.key + 'id'"
-            [formControlName]="node.question.key" *ngSwitchCase="'date'">
+            [formControlName]="node.question.key" *ngSwitchCase="'date'" [datePickerFormat]="node.question.datePickerFormat">
           </ngx-datetimepicker>
           <ng-select [ngClass]="{'afe-custom': theme === 'light'}" [id]="node.question.key + 'id'"
             *ngSwitchCase="'multi-select'" [items]="node.question.options" bindLabel="label" bindValue="value"
