@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormEntryModule } from '@ampath-kenya/ngx-formentry';
+import { FormEntryModule } from '@openmrs/ngx-formentry';
 import { AppComponent } from './app.component';
 
 @NgModule({

@@ -126,9 +126,9 @@
           },
           "configurations": {
             "production": {
-              "project": "projects/ngx-formentry/ng-package.prod.json"
-            ,              "tsConfig": "projects/ngx-formentry/tsconfig.lib.prod.json"
-}
+              "project": "projects/ngx-formentry/ng-package.prod.json",
+              "tsConfig": "projects/ngx-formentry/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {

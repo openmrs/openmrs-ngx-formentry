@@ -1,7 +1,6 @@
 import {
   Component,
   ContentChildren,
-  QueryList,
   AfterContentInit,
   Input,
   Output,
@@ -9,6 +8,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
+import type { QueryList } from '@angular/core';
 
 import { TabComponent } from './tab';
 

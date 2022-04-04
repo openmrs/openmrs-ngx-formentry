@@ -19,10 +19,10 @@
       "dom"
     ],
     "paths": {
-      "@ampath-kenya/ngx-formentry": [
+      "@openmrs/ngx-formentry": [
         "projects/ngx-formentry/src/lib"
       ],
-      "@ampath-kenya/ngx-formentry/*": [
+      "@openmrs/ngx-formentry/*": [
         "projects/ngx-formentry/src/lib*"
       ]
     }

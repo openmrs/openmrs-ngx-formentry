@@ -13,8 +13,7 @@ import {
   EncounterAdapter,
   DataSources,
   FormErrorsService,
-  // EncounterPdfViewerService
-} from '@ampath-kenya/ngx-formentry';
+} from '@openmrs/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
 
 const adultForm = require('./adult-1.6.json');
@@ -45,7 +44,6 @@ export class AppComponent implements OnInit {
     private orderAdaptor: OrderValueAdapter,
     private encAdapter: EncounterAdapter,
     private dataSources: DataSources,
-    // private encounterPdfViewerService: EncounterPdfViewerService,
     private formErrorsService: FormErrorsService,
     private http: HttpClient
   ) {

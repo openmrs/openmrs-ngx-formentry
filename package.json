@@ -1,6 +1,5 @@
 {
-  "name": "ngx-openmrs-formentry",
-  "main": "ngx-openmrs-formentry/dist/ngx-formentry",
+  "name": "@openmrs/ngx-formentry",
   "version": "3.0.0",
   "scripts": {
     "ng": "ng",
