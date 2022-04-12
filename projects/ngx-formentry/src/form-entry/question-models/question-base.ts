@@ -20,6 +20,7 @@ export class QuestionBase implements BaseOptions {
   label?: string;
   renderingType: string;
 
+  orientation?: string;
   defaultValue?: any;
   originalValue?: any;
   enableHistoricalValue?: boolean;

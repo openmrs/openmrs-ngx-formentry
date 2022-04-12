@@ -197,6 +197,7 @@ export class QuestionFactory {
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
     question.extras = schemaQuestion;
+    question.orientation = schemaQuestion.questionOptions.orientation;
     question.options = schemaQuestion.questionOptions.answers.map((obj) => {
       return {
         label: obj.label,
