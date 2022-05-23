@@ -19,6 +19,7 @@ export class QuestionBase implements BaseOptions {
   alert?: any;
 
   label?: string;
+  prefix?: string;
   renderingType: string;
 
   orientation?: string;

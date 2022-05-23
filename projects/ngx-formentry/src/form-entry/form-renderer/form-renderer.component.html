@@ -69,7 +69,7 @@
 
       <label *ngIf="node.question.label" [style.color]="hasErrors() ? 'red' : ''" class="bx--label"
         [attr.for]="node.question.key">
-        {{ node.question.required ? '*' : '' }} {{ node.question.label }}
+        {{ node.question.required ? '*' : '' }} {{ node.question.prefix ? node.question.prefix + ' ' : '' }}{{ node.question.label }}
       </label>
 
       <div *ngIf="node.question.extras.questionOptions.customControl; else nativeControls">
