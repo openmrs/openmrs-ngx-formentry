@@ -175,4 +175,9 @@ export const DEFAULT_STYLES = `a {
 .question-area {
   width: 100%
 }
+
+.in-line{
+  display: inline-block;
+  padding-right: 0.5rem;
+}
     `;

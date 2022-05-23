@@ -132,7 +132,7 @@
             [id]="node.question.key + 'id'" [readOnly]="node.question.extras.readOnly"/>
 
           <div *ngSwitchCase="'radio'">
-            <div *ngFor="let o of node.question.options">
+            <div *ngFor="let o of node.question.options" [ngClass]="{'in-line': node.question.orientation === 'horizontal'}">
               <label class="form-control no-border">
                 <input type="radio" [formControlName]="node.question.key" [id]="node.question.key + 'id'"
                   [value]="o.value" />
