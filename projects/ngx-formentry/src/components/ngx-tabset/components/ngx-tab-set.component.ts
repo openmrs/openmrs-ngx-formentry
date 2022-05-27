@@ -10,14 +10,14 @@ import {
   SimpleChanges
 } from '@angular/core';
 
-import { TabComponent } from './tab';
+import { TabComponent } from './tab.component';
 
 @Component({
-  selector: 'ngx-tabset',
-  styleUrls: ['ngx-tabset.css'],
-  templateUrl: 'tabset.html'
+  selector: 'ngx-tab-set',
+  styleUrls: ['ngx-tab-set.component.scss'],
+  templateUrl: 'ngx-tab-set.component.html'
 })
-export class TabsetComponent implements AfterContentInit, OnChanges {
+export class TabSetComponent implements AfterContentInit, OnChanges {
   @ContentChildren(TabComponent) public tabs: QueryList<TabComponent>;
 
   @Input() public disableStyle = false;

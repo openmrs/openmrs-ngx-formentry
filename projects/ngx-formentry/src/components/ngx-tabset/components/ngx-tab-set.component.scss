@@ -1,11 +1,10 @@
 .tab-container {
   overflow-x: hidden;
   display: flex;
-  width: 100%;
 }
 
 .tab {
-  width: 219px;
+  width: 10rem;
   position: fixed;
 }
 
@@ -22,14 +21,17 @@
   white-space: normal;
   word-wrap: break-word;
   margin: 0 0 0.063rem;
-}
 
+  :hover {
+    cursor: pointer;
+  }
+}
 
 @media screen and (max-width: 768px) {
   .tab button {
     height: 3rem;
     border-bottom: 0.0125rem solid var(--open-mrs-background-gray);
-    width: 203px;
+    width: 10rem;
   }
 }
 
@@ -41,7 +43,6 @@
 .tab button.enabled.hover {
   background-color: var(--gray-gray-10);
 }
-
 
 .tab button.enabled.hover {
   background-color: var(--gray-gray-10);
@@ -118,8 +119,7 @@
   color: #da1e28;
 }
 
-.tabcontent {
+.tab-content {
   width: 100%;
-  padding: 0 0.625rem;
-  margin-left: 230px;
+  margin-left: 10rem;
 }

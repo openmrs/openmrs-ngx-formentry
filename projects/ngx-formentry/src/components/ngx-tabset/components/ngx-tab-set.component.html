@@ -1,0 +1,16 @@
+<div class="tab-container">
+  <div class="tab">
+    <button
+      hover-class="hover"
+      class="tablinks completed"
+      *ngFor="let tab of tabs"
+      (click)="selectTab(tab)"
+      [class]="getStatusClasses(tab.active, tab.disabled)"
+    >
+      <span>{{ tab.tabTitle }}</span>
+    </button>
+  </div>
+  <div id="tab" class="tab-content">
+    <ng-content></ng-content>
+  </div>
+</div>
