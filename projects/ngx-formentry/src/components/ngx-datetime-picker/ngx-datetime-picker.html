@@ -1,39 +1,94 @@
 <div class="date-time-picker-container">
-    <div data-date-picker data-date-picker-type="single"
-        class="bx--date-picker bx--date-picker--single bx--date-picker--light" [ngClass]="{
+  <div
+    data-date-picker
+    data-date-picker-type="single"
+    class="bx--date-picker bx--date-picker--single bx--date-picker--light"
+    [ngClass]="{
     'bx--date-picker--light': theme === 'light'
-}">
-        <div class="bx--date-picker-container fill">
-            <div class="bx--date-picker-input__wrapper">
-                <input [disabled]="isDisabled" (dateTimeChange)="onInput($event)" type="text"
-                    class="bx--date-picker__input fill" [id]="id" [value]="value" [owlDateTime]="dt1"
-                    [owlDateTimeTrigger]="dt1" placeholder="mm/dd/yyyy" data-date-picker-input />
-                <svg [owlDateTimeTrigger]="dt1" focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;"
-                    xmlns="http://www.w3.org/2000/svg" data-date-picker-icon="true" class="bx--date-picker__icon"
-                    width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-                    <path
-                        d="M13,2h-2V1h-1v1H6V1H5v1H3C2.4,2,2,2.4,2,3v10c0,0.6,0.4,1,1,1h10c0.6,0,1-0.4,1-1V3C14,2.4,13.6,2,13,2z M13,13H3V6h10V13z M13,5H3V3h2v1h1V3h4v1h1V3h2V5z">
-                    </path>
-                </svg>
-            </div>
-        </div>
+}"
+  >
+    <div class="bx--date-picker-container fill">
+      <div class="bx--date-picker-input__wrapper">
+        <input
+          [disabled]="isDisabled"
+          (dateTimeChange)="onInput($event)"
+          type="text"
+          class="bx--date-picker__input fill"
+          [id]="id"
+          [value]="value"
+          [owlDateTime]="dt1"
+          [owlDateTimeTrigger]="dt1"
+          placeholder="mm/dd/yyyy"
+          data-date-picker-input
+        />
+        <svg
+          [owlDateTimeTrigger]="dt1"
+          focusable="false"
+          preserveAspectRatio="xMidYMid meet"
+          style="will-change: transform"
+          xmlns="http://www.w3.org/2000/svg"
+          data-date-picker-icon="true"
+          class="bx--date-picker__icon"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          aria-hidden="true"
+        >
+          <path
+            d="M13,2h-2V1h-1v1H6V1H5v1H3C2.4,2,2,2.4,2,3v10c0,0.6,0.4,1,1,1h10c0.6,0,1-0.4,1-1V3C14,2.4,13.6,2,13,2z M13,13H3V6h10V13z M13,5H3V3h2v1h1V3h4v1h1V3h2V5z"
+          ></path>
+        </svg>
+      </div>
     </div>
+  </div>
 
-
-    <div *ngIf="showWeeks" class="bx--select some-class week-select-wrapper" [ngClass]="{'bx--select--light': theme === 'light'}">
-        <div class="bx--select-input__wrapper">
-            <select (change)="onWeeksSelected($event.target.value)" id="select-1" class="bx--select-input">
-                <option class="bx--select-option" value="placeholder-item" disabled="" hidden="" selected="">Select
-                    Weeks</option>
-                <option class="bx--select-option" [value]="week" *ngFor="let week of weeks">{{week}} Weeks</option>
-            </select>
-            <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
-                class="bx--select__arrow">
-                <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
-            </svg>
-        </div>
+  <div
+    *ngIf="showWeeks"
+    class="bx--select some-class week-select-wrapper"
+    [ngClass]="{'bx--select--light': theme === 'light'}"
+  >
+    <div class="bx--select-input__wrapper">
+      <select
+        (change)="onWeeksSelected($event.target.value)"
+        id="select-1"
+        class="bx--select-input"
+      >
+        <option
+          class="bx--select-option"
+          value="placeholder-item"
+          disabled=""
+          hidden=""
+          selected=""
+        >
+          Select Weeks
+        </option>
+        <option
+          class="bx--select-option"
+          [value]="week"
+          *ngFor="let week of weeks"
+        >
+          {{week}} Weeks
+        </option>
+      </select>
+      <svg
+        focusable="false"
+        preserveAspectRatio="xMidYMid meet"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        aria-hidden="true"
+        class="bx--select__arrow"
+      >
+        <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
+      </svg>
     </div>
-
+  </div>
 </div>
-<owl-date-time [pickerType]="datePickerFormat" [disabled]="isDisabled" #dt1></owl-date-time>
+{{datePickerFormat}}
+<owl-date-time
+  [pickerType]="datePickerFormat ? datePickerFormat :'calendar'"
+  [disabled]="isDisabled"
+  #dt1
+></owl-date-time>

@@ -124,9 +124,15 @@
         <i class="glyphicon glyphicon-question-sign" aria-hidden="true"></i>
       </a>
 
-      <label *ngIf="node.question.label" [style.color]="hasErrors() ? 'red' : ''" class="bx--label"
-        [attr.for]="node.question.key">
-        {{ node.question.required ? '*' : '' }} {{ node.question.prefix ? node.question.prefix + ' ' : '' }}{{ node.question.label }}
+      <label
+        *ngIf="node.question.label"
+        [style.color]="hasErrors() ? 'red' : ''"
+        class="bx--label"
+        [attr.for]="node.question.key"
+      >
+        {{ node.question.required ? '*' : '' }}
+        {{ node.question.prefix ? node.question.prefix + ' ' : ''
+        }}{{ node.question.label }}
       </label>
 
       <div
@@ -194,9 +200,15 @@
             [id]="node.question.key + 'id'"
           ></ngx-remote-select>
 
-          <ngx-datetimepicker [weeks]="node.question.extras.questionOptions.weeksList"
-            [showWeeks]="node.question.showWeeksAdder" [theme]="theme" [id]="node.question.key + 'id'"
-            [formControlName]="node.question.key" *ngSwitchCase="'date'" [datePickerFormat]="node.question.datePickerFormat">
+          <ngx-datetimepicker
+            [weeks]="node.question.extras.questionOptions.weeksList"
+            [showWeeks]="node.question.showWeeksAdder"
+            [theme]="theme"
+            [id]="node.question.key + 'id'"
+            [formControlName]="node.question.key"
+            *ngSwitchCase="'date'"
+            [datePickerFormat]="node.question.datePickerFormat"
+          >
           </ngx-datetimepicker>
           <ng-select
             [ngClass]="{ 'afe-custom': theme === 'light' }"
@@ -249,7 +261,12 @@
           />
 
           <div *ngSwitchCase="'radio'">
-            <div *ngFor="let o of node.question.options" [ngClass]="{'in-line': node.question.orientation === 'horizontal'}">
+            <div
+              *ngFor="let o of node.question.options"
+              [ngClass]="{
+                'in-line': node.question.orientation === 'horizontal'
+              }"
+            >
               <label class="form-control no-border">
                 <input
                   type="radio"
