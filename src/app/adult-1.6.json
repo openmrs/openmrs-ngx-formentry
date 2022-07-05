@@ -295,6 +295,7 @@
 						{
 							"label": "Visit date:",
 							"type": "encounterDatetime",
+							"datePickerFormat": "both",
 							"required": "true",
 							"default": "",
 							"id": "encDate",

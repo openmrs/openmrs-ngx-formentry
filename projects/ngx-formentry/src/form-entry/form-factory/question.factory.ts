@@ -187,7 +187,7 @@ export class QuestionFactory {
     };
     question.showTime = true;
     question.componentConfigs = schemaQuestion.componentConfigs || [];
-    question.datePickerFormat = schemaQuestion.datePickerFormat;
+    question.datePickerFormat = schemaQuestion.datePickerFormat ?? 'calendar';
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
