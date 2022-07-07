@@ -2,7 +2,7 @@ export class MockObs {
   getObs(): any {
     return {
       uuid: 'encounter-uuid',
-      encounterDatetime: '2016-01-21T16:17:46.000+0300',
+      encounterDatetime: '2022-06-01T10:10:46.000+0300',
       patient: {
         uuid: 'patient-uuid'
       },
@@ -23,6 +23,15 @@ export class MockObs {
         display: '5566790 - H Dengue Provider'
       },
       obs: [
+        {
+          uuid: '0bc6ef97-7727-4787-8c16-fc21460ccafd',
+          obsDatetime: '2016-01-21T01:17:46.000+0300',
+          concept: {
+            uuid: 'a899a9f2-1350-11df-a1f1-0026b9348838'
+          },
+          value: 'a899af10-1350-11df-a1f1-0026b9348838',
+          groupMembers: null
+        },
         {
           uuid: 'ac55c445-9661-4d42-86b5-4d6ec33a6274',
           obsDatetime: '2016-01-21T16:17:46.000+0300',

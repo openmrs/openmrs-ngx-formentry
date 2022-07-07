@@ -59,7 +59,9 @@ export class HistoricalEncounterDataService {
     if (answers.length > 0) {
       return {
         value: answers[0],
-        valueDate: moment(object.encounterDatetime).format('ll')
+        valueDate: moment(object.encounterDatetime).format(
+          'YYYY-MM-DDTHH:mm:ss'
+        )
       };
     }
   }

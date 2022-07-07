@@ -303,7 +303,7 @@
                   <span *ngIf="node.question.showHistoricalValueDate">
                     <span> | </span>
                     <strong class="text-primary"
-                      >{{ node.question.historicalDisplay?._date }}
+                      >{{ node.question.historicalDisplay?._date | date }}
                     </strong>
                     <span
                       class="text-primary"
