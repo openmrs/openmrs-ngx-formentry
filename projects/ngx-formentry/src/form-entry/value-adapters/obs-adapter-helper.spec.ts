@@ -1,11 +1,11 @@
 import { TestBed, inject } from '@angular/core/testing';
-// import { FormControl } from '@angular/forms';
+
+import moment from 'moment';
 
 import { ObsAdapterHelper } from './obs-adapter-helper';
 import { NodeBase, ArrayNode, GroupNode } from '../form-factory/form-node';
-const adultForm = require('../../adult.json');
-const adultFormObs = require('../../mock/obs.json');
-// const generatedPayload = require('./generatedPayload');
+import adultForm from '../../adult.json';
+import adultFormObs from '../../mock/obs.json';
 import { FormFactory } from '../../form-entry/form-factory/form.factory';
 import { FormControlService } from '../../form-entry/form-factory/form-control.service';
 import { ValidationFactory } from '../../form-entry/form-factory/validation.factory';
@@ -771,11 +771,12 @@ describe('Obs Value Adapter Helper: ', () => {
     const dateField = form.searchNodeByQuestionId('returnToClinic')[0];
 
     // simulate user input
-    dateField.control.setValue('2016-01-21T16:17:46.000+0300');
+    const dateValue = '2016-01-21T16:17:46.000+0300';
+    dateField.control.setValue(dateValue);
     const datePayload = helper.getSimpleObsPayload(dateField);
     expect(datePayload).toEqual({
       concept: 'a8a666ba-1350-11df-a1f1-0026b9348838',
-      value: '2016-01-21 16:17:46'
+      value: moment(dateValue).format('YYYY-MM-DD HH:mm:ss')
     });
 
     // CASE 2: EDITING AN EXISTING ENCOUNTER
@@ -851,7 +852,9 @@ describe('Obs Value Adapter Helper: ', () => {
     payload = helper.getSimpleObsPayload(field3);
     expect(payload).toEqual({
       uuid: 'uuid 3',
-      value: '2016-02-28 16:17:46'
+      value: moment('2016-02-28T16:17:46.000+0300').format(
+        'YYYY-MM-DD HH:mm:ss'
+      )
     });
 
     // Sub-case 4: single selects and concept answers cases
@@ -898,7 +901,9 @@ describe('Obs Value Adapter Helper: ', () => {
     payload = helper.getComplexObsPayload(complexObsNode);
     expect(payload).toEqual({
       uuid: 'other uuid',
-      obsDatetime: '2016-01-21 16:17:46',
+      obsDatetime: moment('2016-01-21T16:17:46.000+0300').format(
+        'YYYY-MM-DD HH:mm:ss'
+      ),
       value: 20
     });
 
@@ -912,7 +917,9 @@ describe('Obs Value Adapter Helper: ', () => {
 
     expect(payload).toEqual({
       uuid: 'other uuid',
-      obsDatetime: '2016-04-21 16:17:46'
+      obsDatetime: moment('2016-04-21T16:17:46.000+0300').format(
+        'YYYY-MM-DD HH:mm:ss'
+      )
     });
 
     // CASE 4: New form
@@ -929,7 +936,9 @@ describe('Obs Value Adapter Helper: ', () => {
     payload = helper.getComplexObsPayload(complexObsNode);
     expect(payload).toEqual({
       concept: 'a8982474-1350-11df-a1f1-0026b9348838',
-      obsDatetime: '2016-04-21 16:17:46',
+      obsDatetime: moment('2016-04-21T16:17:46.000+0300').format(
+        'YYYY-MM-DD HH:mm:ss'
+      ),
       value: 10
     });
   });
@@ -1077,7 +1086,9 @@ describe('Obs Value Adapter Helper: ', () => {
       groupMembers: [
         {
           uuid: 'some inner uuid',
-          value: '2016-04-21 16:17:46'
+          value: moment('2016-04-21T16:17:46.000+0300').format(
+            'YYYY-MM-DD HH:mm:ss'
+          )
         }
       ]
     });
@@ -1097,13 +1108,17 @@ describe('Obs Value Adapter Helper: ', () => {
       groupMembers: [
         {
           concept: 'a899e5f2-1350-11df-a1f1-0026b9348838',
-          value: '2016-04-21 16:17:46'
+          value: moment('2016-04-21T16:17:46.000+0300').format(
+            'YYYY-MM-DD HH:mm:ss'
+          )
         }
       ]
     });
   });
 
   it('should generate payload obs for a repeating group obs node', () => {
+    spyOn(window, 'confirm').and.callFake(() => true);
+
     const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
     const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
@@ -1262,7 +1277,7 @@ describe('Obs Value Adapter Helper: ', () => {
     ]);
   });
 
-  it('should generate the obs payload for a rootnode given the form', () => {
+  it('should generate the obs payload for a root node given the form', () => {
     const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
     const ff: FormFactory = TestBed.inject(FormFactory);
     expect(ff).toBeDefined();
@@ -1279,15 +1294,17 @@ describe('Obs Value Adapter Helper: ', () => {
     const newChild = newNode.children['tb_current'] as NodeBase;
     newChild.control.setValue('a8aaf3e2-1350-11df-a1f1-0026b9348838');
 
+    const dateValue = '2016-04-21T16:17:46.000+0300';
+
     // group and simple case
     const childNode = form.searchNodeByQuestionId('startDateOfTbTreatment')[0];
-    childNode.control.setValue('2016-04-21T16:17:46.000+0300');
+    childNode.control.setValue(dateValue);
 
     // complex case
     const valueNode = form.searchNodeByQuestionId('viralLoad_test')[0];
     valueNode.control.setValue(10);
     const dateNode = form.searchNodeByQuestionId('date_viralLoad_test')[0];
-    dateNode.control.setValue('2016-04-21T16:17:46.000+0300');
+    dateNode.control.setValue(dateValue);
 
     // multiselect case
     const multiSelectNode = form.searchNodeByQuestionId(
@@ -1297,6 +1314,7 @@ describe('Obs Value Adapter Helper: ', () => {
 
     const payload = helper.getObsNodePayload(form.rootNode);
 
+    const expectedDateValue = moment(dateValue).format('YYYY-MM-DD HH:mm:ss');
     expect(payload).toEqual([
       {
         concept: 'a899cf5e-1350-11df-a1f1-0026b9348838',
@@ -1307,7 +1325,7 @@ describe('Obs Value Adapter Helper: ', () => {
         groupMembers: [
           {
             concept: 'a899e5f2-1350-11df-a1f1-0026b9348838',
-            value: '2016-04-21 16:17:46'
+            value: expectedDateValue
           }
         ]
       },
@@ -1323,7 +1341,7 @@ describe('Obs Value Adapter Helper: ', () => {
       {
         concept: 'a8982474-1350-11df-a1f1-0026b9348838',
         value: 10,
-        obsDatetime: '2016-04-21 16:17:46'
+        obsDatetime: expectedDateValue
       }
     ]);
   });

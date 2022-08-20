@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import * as _ from 'lodash';
-import * as moment_ from 'moment';
-
-const moment = moment_;
-
+import _ from 'lodash';
+import moment from 'moment';
 @Injectable()
 export class HistoricalEncounterDataService {
   dataSources: any = {};

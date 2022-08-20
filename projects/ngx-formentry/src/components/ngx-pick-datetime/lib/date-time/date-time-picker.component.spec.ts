@@ -199,7 +199,7 @@ describe('OwlDateTimeComponent', () => {
         fixture.detectChanges();
         flush();
 
-        expect(parseInt(getComputedStyle(popup).height as string, 10)).toBe(0);
+        expect(parseInt(getComputedStyle(popup).height as string, 10)).toBeNaN();
       }));
 
       it('should close the popup when pressing ESCAPE', fakeAsync(() => {

@@ -19,30 +19,32 @@ describe('Label', () => {
 
     fixture = TestBed.createComponent(Label);
     component = fixture.componentInstance;
-    de = fixture.debugElement.query(By.css('.label'));
+    de = fixture.debugElement.query(By.css('label'));
     el = de.nativeElement;
     fixture.detectChanges();
   });
 
-  xit('should work', () => {
+  it('should work', () => {
     expect(component instanceof Label).toBe(true);
   });
 
-  xit('should set icon to success', () => {
-    component.labelState = 'success';
-    fixture.detectChanges();
-    expect(el.querySelector('.label-icon-success')).toBeTruthy();
-  });
+  // This functionality isn't replicated in the Carbon UI
+  // it('should set icon to success', () => {
+  //   component.labelState = 'success';
+  //   fixture.detectChanges();
+  //   console.log(el);
+  //   expect(el.querySelector('.label-icon-success')).toBeTruthy();
+  // });
 
-  xit('should set icon to warning', () => {
-    component.labelState = 'warning';
-    fixture.detectChanges();
-    expect(el.querySelector('.label-icon-warning')).toBeTruthy();
-  });
+  // it('should set icon to warning', () => {
+  //   component.labelState = 'warning';
+  //   fixture.detectChanges();
+  //   expect(el.querySelector('.label-icon-warning')).toBeTruthy();
+  // });
 
-  xit('should set icon to error', () => {
-    component.labelState = 'error';
-    fixture.detectChanges();
-    expect(el.querySelector('.label-icon-error')).toBeTruthy();
-  });
+  // it('should set icon to error', () => {
+  //   component.labelState = 'error';
+  //   fixture.detectChanges();
+  //   expect(el.querySelector('.label-icon-error')).toBeTruthy();
+  // });
 });

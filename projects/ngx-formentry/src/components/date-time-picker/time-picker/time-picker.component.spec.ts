@@ -1,12 +1,13 @@
 /**
  * time-picker.component.spec
  */
+ import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import moment from 'moment';
+
 import { TimePickerComponent } from './time-picker.component';
 import { ModalComponent } from '../picker-modal/modal.component';
 import { MomentPipe } from '../pipes/moment.pipe';
-import { By } from '@angular/platform-browser';
-import * as moment from 'moment/moment';
 
 describe('TimePickerComponent', () => {
   let comp: TimePickerComponent;

@@ -7,9 +7,7 @@ import { ValueAdapter } from './value.adapter';
 import { ObsValueAdapter } from './obs.adapter';
 import { OrderValueAdapter } from './order.adapter';
 
-import * as moment_ from 'moment';
-
-const moment = moment_;
+import moment from 'moment';
 
 @Injectable()
 export class EncounterAdapter implements ValueAdapter {

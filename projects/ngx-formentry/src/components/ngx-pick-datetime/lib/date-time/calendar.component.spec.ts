@@ -82,13 +82,10 @@ describe('OwlCalendarComponent', () => {
       testComponent = fixture.componentInstance;
     });
 
-    it(
-      'should be in month view with specified month active',
-      waitForAsync(() => {
-        expect(calendarInstance.currentView).toBe('month');
-        expect(calendarInstance.pickerMoment).toEqual(new Date(2018, JAN, 31));
-      })
-    );
+    it('should be in month view with specified month active', () => {
+      expect(calendarInstance.currentView).toBe('month');
+      expect(calendarInstance.pickerMoment).toEqual(new Date(2018, JAN, 31));
+    });
 
     it('should select date in month view', () => {
       const monthCell = calendarElement.querySelector(

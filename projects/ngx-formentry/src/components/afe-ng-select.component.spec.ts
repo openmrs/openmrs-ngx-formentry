@@ -1,13 +1,17 @@
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-expressions, @typescript-eslint/no-unused-expressions */
 
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { AfeNgSelectComponent } from './afe-ng-select.component';
 import { DummyDataSource } from '../form-entry/data-sources/dummy-data-source';
 
 describe('Component: AFE-select-component Unit Tests', () => {
   const dummyDataSource = new DummyDataSource();
-  const component = new AfeNgSelectComponent();
+  let component: AfeNgSelectComponent;
+
+  beforeEach(() => {
+    component = new AfeNgSelectComponent();
+  });
 
   afterEach(() => {
     TestBed.resetTestingModule();

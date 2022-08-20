@@ -1,7 +1,5 @@
-import * as _ from 'lodash';
-import * as moment_ from 'moment';
-
-const moment = moment_;
+import _ from 'lodash';
+import moment from 'moment';
 
 import {
   NodeBase,

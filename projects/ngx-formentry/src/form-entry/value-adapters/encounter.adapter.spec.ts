@@ -1,5 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 
+import moment from 'moment';
+
 import { FormFactory } from '../form-factory/form.factory';
 import { FormControlService } from '../form-factory/form-control.service';
 import { ValidationFactory } from '../form-factory/validation.factory';
@@ -17,10 +19,9 @@ import { ObsValueAdapter } from './obs.adapter';
 import { OrderValueAdapter } from './order.adapter';
 import { DebugModeService } from './../services/debug-mode.service';
 
-const adultForm = require('../../adult.json');
-const adultFormOrders = require('../../mock/orders.json');
-const adultFormObs = require('../../mock/obs.json');
-const moment = require('moment');
+import adultForm from '../../adult.json';
+import adultFormOrders from '../../mock/orders.json';
+import adultFormObs from '../../mock/obs.json';
 
 describe('Encounter Value Adapter:', () => {
   let adultFormSchema: any;
@@ -211,7 +212,7 @@ describe('Encounter Value Adapter:', () => {
     // generate payload
     const payload = adapter.generateFormPayload(form);
 
-    expect(payload['encounterDatetime']).toEqual('2016-11-23 14:32:54');
+    expect(payload['encounterDatetime']).toEqual('2016-11-23T14:32:54+03:00');
     expect(payload['encounterProviders'].length).toEqual(1);
     expect(payload['encounterProviders'][0].provider).toEqual(
       'new-provider-uuid'

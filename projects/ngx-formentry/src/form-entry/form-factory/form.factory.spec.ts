@@ -293,6 +293,7 @@ describe('Form Factory:', () => {
   });
 
   it('should create array node', () => {
+    spyOn(window, 'confirm').and.callFake(() => true);
     const repeatingQuestion: RepeatingQuestion = new RepeatingQuestion({
       key: 'r1',
       type: 'repeating',

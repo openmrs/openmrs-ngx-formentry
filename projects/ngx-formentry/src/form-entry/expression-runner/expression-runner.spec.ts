@@ -15,7 +15,7 @@ describe('Control Hider Helper Service:', () => {
     expect(runner).toBeTruthy();
   });
 
-  it('should run basic js epxression wihtout references, data dependencies and helpers', () => {
+  it('should run basic js expression wihtout references, data dependencies and helpers', () => {
     const runner: ExpressionRunner = TestBed.inject(ExpressionRunner);
     const control = new AfeFormControl();
     const expresion = '1===1';
@@ -23,7 +23,7 @@ describe('Control Hider Helper Service:', () => {
     expect(runnable.run()).toBe(true);
   });
 
-  it('should run js epxression wth references', () => {
+  it('should run js expression wth references', () => {
     const runner: ExpressionRunner = TestBed.inject(ExpressionRunner);
     const control = new AfeFormControl();
     control.uuid = 'a';
@@ -42,7 +42,7 @@ describe('Control Hider Helper Service:', () => {
     expect(runnable.run()).toBe(50);
   });
 
-  it('should run js epxression wth helper functions', () => {
+  it('should run js expression wth helper functions', () => {
     const runner: ExpressionRunner = TestBed.inject(ExpressionRunner);
     const control = new AfeFormControl();
     control.uuid = 'a';
@@ -85,7 +85,7 @@ describe('Control Hider Helper Service:', () => {
     expect(runnable.run()).toBe(51);
   });
 
-  it('should run js epxression wth data deps', () => {
+  it('should run js expression wth data deps', () => {
     const runner: ExpressionRunner = TestBed.inject(ExpressionRunner);
     const control = new AfeFormControl();
     control.uuid = 'a';

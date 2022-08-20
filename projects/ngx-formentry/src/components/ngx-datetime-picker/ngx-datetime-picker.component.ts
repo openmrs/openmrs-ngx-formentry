@@ -1,8 +1,6 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import * as moment_ from 'moment';
-const moment = moment_;
-
+import moment from 'moment';
 @Component({
   selector: 'ngx-datetimepicker',
   templateUrl: './ngx-datetime-picker.html',

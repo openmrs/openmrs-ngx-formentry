@@ -6,8 +6,7 @@ import { DatePickerComponent } from './date-picker.component';
 import { By } from '@angular/platform-browser';
 import { MomentPipe } from '../pipes/moment.pipe';
 import { ModalComponent } from '../picker-modal/modal.component';
-import * as moment from 'moment/moment';
-import { Moment } from 'moment/moment';
+import moment, { Moment } from 'moment';
 
 describe('DatePickerComponent', () => {
   let comp: DatePickerComponent;

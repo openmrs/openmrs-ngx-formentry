@@ -7,9 +7,7 @@ import {
   Output
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import * as moment_ from 'moment';
-
-const Moment = moment_;
+import moment from 'moment';
 
 @Component({
   selector: 'date-time-picker',
@@ -42,11 +40,11 @@ export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
   weeksSelected(count) {
     const now = new Date();
     const nextDate = now.setDate(now.getDate() + count * 7);
-    this.value = Moment(nextDate).format();
+    this.value = moment(nextDate).format();
   }
   setDate(date: any): void {
     if (date && date !== '') {
-      this.value = Moment(date).format();
+      this.value = moment(date).format();
     } else {
       this.value = date;
     }
@@ -54,7 +52,7 @@ export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
 
   setTime(time: any): void {
     if (time && time !== '') {
-      this.value = Moment(time).format();
+      this.value = moment(time).format();
     } else {
       this.value = time;
     }
@@ -101,7 +99,7 @@ export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value) {
     if (value instanceof Date) {
-      this.value = Moment(value).format();
+      this.value = moment(value).format();
     } else {
       this.value = value;
     }

@@ -143,7 +143,7 @@ export class FormControlService {
       question,
       control,
       form,
-      form.dataSourcesContainer.dataSources
+      form?.dataSourcesContainer?.dataSources
     );
 
     if (parentControl instanceof AfeFormGroup) {

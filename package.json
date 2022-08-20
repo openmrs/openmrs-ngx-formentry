@@ -8,6 +8,7 @@
     "build": "ng build ngx-formentry",
     "build:lib": "ng build --prod ngx-formentry",
     "test": "ng test ngx-formentry --watch=false",
+    "test:watch": "ng test ngx-formentry",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

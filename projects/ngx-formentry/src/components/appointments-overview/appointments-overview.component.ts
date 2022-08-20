@@ -1,9 +1,7 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 
 import { LeafNode } from '../../form-entry/form-factory/form-node';
-import * as moment_ from 'moment';
-
-const moment = moment_;
+import moment from 'moment';
 
 @Component({
   selector: 'appointments-overview',

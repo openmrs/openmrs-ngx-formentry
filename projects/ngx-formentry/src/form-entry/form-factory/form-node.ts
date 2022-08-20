@@ -60,6 +60,7 @@ export abstract class NodeBase {
   public get path(): string {
     return this._path;
   }
+  
   removeAt(index: number) {}
 
   createChildNode() {}

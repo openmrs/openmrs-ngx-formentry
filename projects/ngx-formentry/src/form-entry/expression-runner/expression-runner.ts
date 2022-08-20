@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import {
   AfeFormControl,
@@ -7,10 +8,7 @@ import {
 import { ArrayNode } from '../form-factory/form-node';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
 import { Form } from '../form-factory/form';
-import * as moment_ from 'moment';
-import { Injectable } from '@angular/core';
-
-const moment = moment_;
+import moment from 'moment';
 @Injectable()
 export class ExpressionRunner {
   getRunnable(
@@ -155,6 +153,7 @@ export class ExpressionRunner {
     scope: any
   ) {
     if (
+      form &&
       control &&
       control.controlRelations &&
       control.controlRelations.relations

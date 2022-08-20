@@ -3,8 +3,7 @@
  */
 
 import { MomentPipe } from './moment.pipe';
-import * as moment from 'moment/moment';
-import { Moment } from 'moment/moment';
+import moment, { Moment } from 'moment';
 
 describe('MomentPipe', () => {
   let defaultFormat: string;

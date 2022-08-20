@@ -3,10 +3,7 @@
  */
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import * as moment_ from 'moment';
-
-const moment = moment_;
-import { Moment } from 'moment/moment';
+import moment, { Moment } from 'moment';
 
 // webpack1_
 declare let require: any;
