@@ -1,17 +1,17 @@
-/* tslint:disable:component-class-suffix  */
+/* eslint-disable @angular-eslint/component-class-suffix */
 import {
-    Component,
-    Input,
-    AfterViewInit,
-    ElementRef,
-    HostBinding,
-    TemplateRef,
-    ViewChild,
-    ContentChild,
-    AfterContentInit
-} from "@angular/core";
+  Component,
+  Input,
+  AfterViewInit,
+  ElementRef,
+  HostBinding,
+  TemplateRef,
+  ViewChild,
+  ContentChild,
+  AfterContentInit
+} from '@angular/core';
 
-import { TextArea } from "./text-area.directive";
+import { TextArea } from './text-area.directive';
 
 /**
  * [See demo](../../?path=/story/input--label)
@@ -36,126 +36,166 @@ import { TextArea } from "./text-area.directive";
  * <example-url>../../iframe.html?id=input--label</example-url>
  */
 @Component({
-    selector: "ibm-label",
-    template: `
-        <label
-            [for]="labelInputID"
-            [attr.aria-label]="ariaLabel"
-            class="bx--label"
-            [ngClass]="{
-                'bx--skeleton': skeleton
-            }">
-            <ng-content></ng-content>
-        </label>
-        <div
-            [class]="wrapperClass"
-            [ngClass]="{
-                'bx--text-input__field-wrapper--warning': warn
-            }"
-            [attr.data-invalid]="(invalid ? true : null)"
-            #wrapper>
-            <svg *ngIf="invalid"focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;" xmlns="http://www.w3.org/2000/svg" class="bx--text-input__invalid-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8,1C4.2,1,1,4.2,1,8s3.2,7,7,7s7-3.1,7-7S11.9,1,8,1z M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2    c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"></path><path d="M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8    c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z" data-icon-path="inner-path" opacity="0"></path></svg>
-            <ng-content select="input,textarea,div"></ng-content>
-        </div>
-        <div *ngIf="!skeleton && helperText && !invalid && !warn" class="bx--form__helper-text">
-            <ng-container *ngIf="!isTemplate(helperText)">{{helperText}}</ng-container>
-            <ng-template *ngIf="isTemplate(helperText)" [ngTemplateOutlet]="helperText"></ng-template>
-        </div>
-        <div *ngIf="!warn && invalid" class="bx--form-requirement">
-            <ng-container *ngIf="!isTemplate(invalidText)">{{invalidText}}</ng-container>
-            <ng-template *ngIf="isTemplate(invalidText)" [ngTemplateOutlet]="invalidText"></ng-template>
-        </div>
-        <div *ngIf="!invalid && warn" class="bx--form-requirement">
-            <ng-container *ngIf="!isTemplate(warnText)">{{warnText}}</ng-container>
-            <ng-template *ngIf="isTemplate(warnText)" [ngTemplateOutlet]="warnText"></ng-template>
-        </div>
-    `
+  selector: 'ibm-label',
+  template: `
+    <label
+      [for]="labelInputID"
+      [attr.aria-label]="ariaLabel"
+      class="bx--label"
+      [ngClass]="{
+        'bx--skeleton': skeleton
+      }"
+    >
+      <ng-content></ng-content>
+    </label>
+    <div
+      [class]="wrapperClass"
+      [ngClass]="{
+        'bx--text-input__field-wrapper--warning': warn
+      }"
+      [attr.data-invalid]="invalid ? true : null"
+      #wrapper
+    >
+      <svg
+        *ngIf="invalid"
+        focusable="false"
+        preserveAspectRatio="xMidYMid meet"
+        style="will-change: transform;"
+        xmlns="http://www.w3.org/2000/svg"
+        class="bx--text-input__invalid-icon"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        aria-hidden="true"
+      >
+        <path
+          d="M8,1C4.2,1,1,4.2,1,8s3.2,7,7,7s7-3.1,7-7S11.9,1,8,1z M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2    c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"
+        ></path>
+        <path
+          d="M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8    c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"
+          data-icon-path="inner-path"
+          opacity="0"
+        ></path>
+      </svg>
+      <ng-content select="input,textarea,div"></ng-content>
+    </div>
+    <div
+      *ngIf="!skeleton && helperText && !invalid && !warn"
+      class="bx--form__helper-text"
+    >
+      <ng-container *ngIf="!isTemplate(helperText)">{{
+        helperText
+      }}</ng-container>
+      <ng-template
+        *ngIf="isTemplate(helperText)"
+        [ngTemplateOutlet]="helperText"
+      ></ng-template>
+    </div>
+    <div *ngIf="!warn && invalid" class="bx--form-requirement">
+      <ng-container *ngIf="!isTemplate(invalidText)">{{
+        invalidText
+      }}</ng-container>
+      <ng-template
+        *ngIf="isTemplate(invalidText)"
+        [ngTemplateOutlet]="invalidText"
+      ></ng-template>
+    </div>
+    <div *ngIf="!invalid && warn" class="bx--form-requirement">
+      <ng-container *ngIf="!isTemplate(warnText)">{{ warnText }}</ng-container>
+      <ng-template
+        *ngIf="isTemplate(warnText)"
+        [ngTemplateOutlet]="warnText"
+      ></ng-template>
+    </div>
+  `
 })
 export class Label implements AfterContentInit, AfterViewInit {
-    /**
-     * Used to build the id of the input item associated with the `Label`.
-     */
-    static labelCounter = 0;
-    /**
-     * The class of the wrapper
-     */
-    wrapperClass = "bx--text-input__field-wrapper";
-    /**
-     * The id of the input item associated with the `Label`. This value is also used to associate the `Label` with
-     * its input counterpart through the 'for' attribute.
-    */
-    @Input() labelInputID = "ibm-label-" + Label.labelCounter;
+  /**
+   * Used to build the id of the input item associated with the `Label`.
+   */
+  static labelCounter = 0;
+  /**
+   * The class of the wrapper
+   */
+  wrapperClass = 'bx--text-input__field-wrapper';
+  /**
+   * The id of the input item associated with the `Label`. This value is also used to associate the `Label` with
+   * its input counterpart through the 'for' attribute.
+   */
+  @Input() labelInputID = 'ibm-label-' + Label.labelCounter;
 
-    /**
-     * State of the `Label` will determine the styles applied.
-     */
-    @Input() labelState: "success" | "warning" | "error" | "" = "";
-    /**
-     * Set to `true` for a loading label.
-     */
-    @Input() skeleton = false;
-    /**
-     * Optional helper text that appears under the label.
-     */
-    @Input() helperText: string | TemplateRef<any>;
-    /**
-     * Sets the invalid text.
-     */
-    @Input() invalidText: string | TemplateRef<any>;
-    /**
-     * Set to `true` for an invalid label component.
-     */
-    @Input() invalid = false;
-    /**
-      * Set to `true` to show a warning (contents set by warningText)
-      */
-    @Input() warn = false;
-    /**
-     * Sets the warning text
-     */
-    @Input() warnText: string | TemplateRef<any>;
-    /**
-     * Set the arialabel for label
-     */
-    @Input() ariaLabel: string;
+  /**
+   * State of the `Label` will determine the styles applied.
+   */
+  @Input() labelState: 'success' | 'warning' | 'error' | '' = '';
+  /**
+   * Set to `true` for a loading label.
+   */
+  @Input() skeleton = false;
+  /**
+   * Optional helper text that appears under the label.
+   */
+  @Input() helperText: string | TemplateRef<any>;
+  /**
+   * Sets the invalid text.
+   */
+  @Input() invalidText: string | TemplateRef<any>;
+  /**
+   * Set to `true` for an invalid label component.
+   */
+  @Input() invalid = false;
+  /**
+   * Set to `true` to show a warning (contents set by warningText)
+   */
+  @Input() warn = false;
+  /**
+   * Sets the warning text
+   */
+  @Input() warnText: string | TemplateRef<any>;
+  /**
+   * Set the arialabel for label
+   */
+  @Input() ariaLabel: string;
 
-    // @ts-ignore
-    @ViewChild("wrapper", { static: false }) wrapper: ElementRef<HTMLDivElement>;
+  // @ts-ignore
+  @ViewChild('wrapper', { static: false }) wrapper: ElementRef<HTMLDivElement>;
 
-    // @ts-ignore
-    @ContentChild(TextArea, { static: false }) textArea: TextArea;
+  // @ts-ignore
+  @ContentChild(TextArea, { static: false }) textArea: TextArea;
 
-    @HostBinding("class.bx--form-item") labelClass = true;
+  @HostBinding('class.bx--form-item') labelClass = true;
 
-    /**
-     * Creates an instance of Label.
-     */
-    constructor() {
-        Label.labelCounter++;
+  /**
+   * Creates an instance of Label.
+   */
+  constructor() {
+    Label.labelCounter++;
+  }
+
+  /**
+   * Update wrapper class if a textarea is hosted.
+   */
+  ngAfterContentInit() {
+    if (this.textArea) {
+      this.wrapperClass = 'bx--text-area__wrapper';
     }
+  }
 
-    /**
-     * Update wrapper class if a textarea is hosted.
-     */
-    ngAfterContentInit() {
-        if (this.textArea) {
-            this.wrapperClass = "bx--text-area__wrapper";
-        }
+  /**
+   * Sets the id on the input item associated with the `Label`.
+   */
+  ngAfterViewInit() {
+    if (this.wrapper) {
+      const inputElement = this.wrapper.nativeElement.querySelector(
+        'input,textarea,div'
+      );
+      if (inputElement) {
+        inputElement.setAttribute('id', this.labelInputID);
+      }
     }
+  }
 
-    /**
-     * Sets the id on the input item associated with the `Label`.
-     */
-    ngAfterViewInit() {
-        if (this.wrapper) {
-            const inputElement = this.wrapper.nativeElement.querySelector("input,textarea,div");
-            if (inputElement) {
-                inputElement.setAttribute("id", this.labelInputID);
-            }
-        }
-    }
-
-    public isTemplate(value) {
-        return value instanceof TemplateRef;
-    }
+  public isTemplate(value) {
+    return value instanceof TemplateRef;
+  }
 }

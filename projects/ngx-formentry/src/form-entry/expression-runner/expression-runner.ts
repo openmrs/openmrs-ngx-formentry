@@ -23,7 +23,7 @@ export class ExpressionRunner {
     const runner = this;
     const runnable: Runnable = {
       run: () => {
-        /* tslint:disable */
+        /* eslint-disable */
         let scope: any = {};
         if (control.uuid) {
           scope[control.uuid] = control.value;
@@ -88,7 +88,7 @@ export class ExpressionRunner {
 
           return false;
         }
-        /* tslint:enable */
+        /* eslint-enable */
       }
     };
     return runnable;

@@ -3,11 +3,8 @@ import { Component, Input, ContentChild, TemplateRef } from '@angular/core';
 @Component({
   selector: 'ngx-tab',
   template: `
-
-    <div *ngIf="active"
-         class="pane"
-         [ngClass]="customPaneClass">
-         <h4>{{tabTitle}}</h4>
+    <div *ngIf="active" class="pane" [ngClass]="customPaneClass">
+      <h4>{{ tabTitle }}</h4>
       <div *ngIf="bypassDOM">
         <ng-container [ngTemplateOutlet]="template"></ng-container>
       </div>

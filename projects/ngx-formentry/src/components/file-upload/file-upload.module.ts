@@ -8,7 +8,6 @@ import { FileUploadComponent } from './file-upload.component';
 import { WebcamModule } from 'ngx-webcam';
 import { NgxFileUploaderModule } from 'ngx-file-uploader';
 
-
 @NgModule({
   imports: [
     CommonModule,

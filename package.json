@@ -1,13 +1,14 @@
 {
   "name": "@openmrs/ngx-formentry",
   "version": "3.0.0",
+  "license": "MPL-2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build ngx-formentry",
     "build:lib": "ng build --prod ngx-formentry",
     "test": "ng test ngx-formentry --watch=false",
-    "lint": "ng lint --exclude src/**/*.spec.ts --exclude projects/ngx-formentry/**/*.spec.ts --exclude projects/ngx-formentry/**/date-time-picker-input.directive.ts",
+    "lint": "ng lint",
     "e2e": "ng e2e"
   },
   "peerDependencies": {
@@ -30,6 +31,7 @@
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
     "jquery": "^3.1.1",
+    "jspdf": "^2.5.1",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "ng-pick-datetime": "^7.0.0",
@@ -49,14 +51,21 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1102.14",
+    "@angular-eslint/builder": "4.3.1",
+    "@angular-eslint/eslint-plugin": "4.3.1",
+    "@angular-eslint/eslint-plugin-template": "4.3.1",
+    "@angular-eslint/schematics": "4.3.1",
+    "@angular-eslint/template-parser": "4.3.1",
     "@angular/cli": "^11.2.14",
     "@angular/compiler-cli": "^11.2.14",
     "@angular/language-service": "^11.2.14",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "4.16.1",
+    "@typescript-eslint/parser": "4.16.1",
     "carbon-components": "^10.36.0",
-    "codelyzer": "^6.0.0",
+    "eslint": "^7.6.0",
     "husky": "^4.3.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
@@ -71,18 +80,17 @@
     "prettier": "2.1.2",
     "protractor": "~7.0.0",
     "ts-node": "~5.0.1",
-    "tslint": "~6.1.0",
     "typescript": "~4.0.7"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "yarn run lint"
     }
   },
   "lint-staged": {
     "*.{ts,js,css,md}": [
       "prettier --write",
-      "npm run lint"
+      "yarn run lint"
     ]
   }
 }

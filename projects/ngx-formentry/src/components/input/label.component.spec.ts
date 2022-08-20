@@ -1,48 +1,48 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { DebugElement } from "@angular/core";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 
-import { Label } from "./label.component";
+import { Label } from './label.component';
 
-describe("Label", () => {
-    let component: Label;
-    let fixture: ComponentFixture<Label>;
-    let de: DebugElement;
-    let el: HTMLElement;
+describe('Label', () => {
+  let component: Label;
+  let fixture: ComponentFixture<Label>;
+  let de: DebugElement;
+  let el: HTMLElement;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            declarations: [Label],
-            imports: [],
-            providers: []
-        });
-
-        fixture = TestBed.createComponent(Label);
-        component = fixture.componentInstance;
-        de = fixture.debugElement.query(By.css(".label"));
-        el = de.nativeElement;
-        fixture.detectChanges();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [Label],
+      imports: [],
+      providers: []
     });
 
-    xit("should work", () => {
-        expect(component instanceof Label).toBe(true);
-    });
+    fixture = TestBed.createComponent(Label);
+    component = fixture.componentInstance;
+    de = fixture.debugElement.query(By.css('.label'));
+    el = de.nativeElement;
+    fixture.detectChanges();
+  });
 
-    xit("should set icon to success", () => {
-        component.labelState = "success";
-        fixture.detectChanges();
-        expect(el.querySelector(".label-icon-success")).toBeTruthy();
-    });
+  xit('should work', () => {
+    expect(component instanceof Label).toBe(true);
+  });
 
-    xit("should set icon to warning", () => {
-        component.labelState = "warning";
-        fixture.detectChanges();
-        expect(el.querySelector(".label-icon-warning")).toBeTruthy();
-    });
+  xit('should set icon to success', () => {
+    component.labelState = 'success';
+    fixture.detectChanges();
+    expect(el.querySelector('.label-icon-success')).toBeTruthy();
+  });
 
-    xit("should set icon to error", () => {
-        component.labelState = "error";
-        fixture.detectChanges();
-        expect(el.querySelector(".label-icon-error")).toBeTruthy();
-    });
+  xit('should set icon to warning', () => {
+    component.labelState = 'warning';
+    fixture.detectChanges();
+    expect(el.querySelector('.label-icon-warning')).toBeTruthy();
+  });
+
+  xit('should set icon to error', () => {
+    component.labelState = 'error';
+    fixture.detectChanges();
+    expect(el.querySelector('.label-icon-error')).toBeTruthy();
+  });
 });

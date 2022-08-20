@@ -2,26 +2,70 @@ name: AMPATH Form Entry CI
 
 on:
   push:
-    branches: [ 3.0.0-carbonize ]
+    branches: [ main ]
   pull_request:
-    branches: [ 3.0.0-carbonize ]
+    branches: [ main ]
+  release:
+    types:
+      - created
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: "14.x"
-      - run:  npm install
-      - run:  npm run lint
-      - run:  npm run build:lib
+          node-version: "14"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build:lib
 
+  pre_release:
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ github.event_name == 'push' }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14"
+          cache: "npm"
+      - run: npm ci
+      - run: npm --no-git-tag-version version patch
+      - run: npm --no-git-tag-version version "$(node -e "console.log(require('./package.json').version)")-pre.${{ github.run_number }})"
+      - run: npm run build:lib
+      - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
+      - run: git add . && git commit -m "Prerelease version" --no-verify
+      - run: npm publish --tag next --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: dist
-          path: dist/**
+          name: ngx-formentry
+          path: |
+            dist/**/*.*
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ github.event_name == 'release' }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build:lib
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

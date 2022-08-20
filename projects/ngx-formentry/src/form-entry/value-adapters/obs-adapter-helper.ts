@@ -9,7 +9,7 @@ import {
   GroupNode,
   LeafNode
 } from '../form-factory/form-node';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ObsAdapterHelper {
@@ -140,7 +140,7 @@ export class ObsAdapterHelper {
       let dateField: LeafNode; // other member to be manipulated by user
 
       const nodeAsGroup = node as GroupNode;
-      // tslint:disable-next-line:forin
+      // eslint-disable-next-line guard-for-in
       for (const o in nodeAsGroup.children) {
         if (
           (nodeAsGroup.children[o] as LeafNode).question.extras.questionOptions
@@ -174,7 +174,7 @@ export class ObsAdapterHelper {
     if (node && obs.length > 0) {
       const groupNode = node as GroupNode;
       groupNode.initialValue = obs[0];
-      // tslint:disable-next-line:forin
+      // eslint-disable-next-line guard-for-in
       for (const o in groupNode.children) {
         this.setNodeValue(groupNode.children[o], obs[0].groupMembers);
       }
@@ -198,7 +198,7 @@ export class ObsAdapterHelper {
       case 'unknown':
         if (node instanceof GroupNode) {
           const groupNode = node as GroupNode;
-          // tslint:disable-next-line:forin
+          // eslint-disable-next-line guard-for-in
           for (const o in groupNode.children) {
             this.setNodeValue(groupNode.children[o], obs);
           }
@@ -359,7 +359,7 @@ export class ObsAdapterHelper {
     let dateField: LeafNode; // other member to be manipulated by user
 
     const nodeAsGroup = node as GroupNode;
-    // tslint:disable-next-line:forin
+    // eslint-disable-next-line guard-for-in
     for (const o in nodeAsGroup.children) {
       if (
         (nodeAsGroup.children[o] as LeafNode).question.extras.questionOptions
@@ -516,7 +516,7 @@ export class ObsAdapterHelper {
       case 'unknown':
         if (node instanceof GroupNode) {
           const groupNode = node as GroupNode;
-          // tslint:disable-next-line:forin
+          // eslint-disable-next-line guard-for-in
           for (const o in groupNode.children) {
             const groupNodePayoad = this.getObsNodePayload(
               groupNode.children[o]

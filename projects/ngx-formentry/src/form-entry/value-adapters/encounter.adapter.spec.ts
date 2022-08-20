@@ -24,27 +24,29 @@ const moment = require('moment');
 
 describe('Encounter Value Adapter:', () => {
   let adultFormSchema: any;
-  beforeEach(waitForAsync(() => {
-    adultFormSchema = JSON.parse(JSON.stringify(adultForm));
-    TestBed.configureTestingModule({
-      providers: [
-        OrderValueAdapter,
-        ObsValueAdapter,
-        FormFactory,
-        FormControlService,
-        ValidationFactory,
-        HidersDisablersFactory,
-        AlertsFactory,
-        EncounterAdapter,
-        ExpressionRunner,
-        JsExpressionHelper,
-        QuestionFactory,
-        ControlRelationsFactory,
-        ObsAdapterHelper,
-        DebugModeService
-      ]
-    });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      adultFormSchema = JSON.parse(JSON.stringify(adultForm));
+      TestBed.configureTestingModule({
+        providers: [
+          OrderValueAdapter,
+          ObsValueAdapter,
+          FormFactory,
+          FormControlService,
+          ValidationFactory,
+          HidersDisablersFactory,
+          AlertsFactory,
+          EncounterAdapter,
+          ExpressionRunner,
+          JsExpressionHelper,
+          QuestionFactory,
+          ControlRelationsFactory,
+          ObsAdapterHelper,
+          DebugModeService
+        ]
+      });
+    })
+  );
 
   it('should be injectable', () => {
     const adapter = TestBed.inject(EncounterAdapter);

@@ -1,10 +1,10 @@
-/* tslint:disable:component-class-suffix directive-class-suffix*/
-import { Directive, HostBinding } from "@angular/core";
+/* eslint-disable @angular-eslint/component-class-suffix, @angular-eslint/directive-class-suffix */
+import { Directive, HostBinding } from '@angular/core';
 
 @Directive({
-    // tslint:disable-next-line
-    selector: "option"
+  // eslint-disable-next-line
+  selector: 'option'
 })
 export class Option {
-    @HostBinding("class") inputClass = "bx--select-option";
+  @HostBinding('class') inputClass = 'bx--select-option';
 }

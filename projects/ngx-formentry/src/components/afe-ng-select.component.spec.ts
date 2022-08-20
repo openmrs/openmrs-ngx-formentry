@@ -1,5 +1,5 @@
-/* tslint:disable:no-unused-variable */
-/* tslint:disable:no-unused-expression */
+/* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-expressions, @typescript-eslint/no-unused-expressions */
 
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AfeNgSelectComponent } from './afe-ng-select.component';

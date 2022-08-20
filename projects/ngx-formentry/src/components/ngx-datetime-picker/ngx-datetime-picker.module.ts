@@ -9,7 +9,6 @@ import { NgxDatetimeComponent } from './ngx-datetime-picker.component';
 import { OwlDateTimeModule } from '../ngx-pick-datetime/lib/date-time/date-time.module';
 import { OwlNativeDateTimeModule } from '../ngx-pick-datetime/lib/date-time/adapter/native-date-time.module';
 
-
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -19,9 +18,7 @@ import { OwlNativeDateTimeModule } from '../ngx-pick-datetime/lib/date-time/adap
     OwlNativeDateTimeModule
   ],
   declarations: [NgxDatetimeComponent],
-  exports: [
-    NgxDatetimeComponent
-  ],
+  exports: [NgxDatetimeComponent],
   providers: []
 })
 export class NgxDateTimePickerModule {}

@@ -1,0 +1,46 @@
+{
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": [
+    "!**/*",
+    "**/*.spec.ts",
+    "**/date-time-picker-input.directive.ts"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "projects/ngx-formentry/tsconfig.lib.json",
+          "projects/ngx-formentry/tsconfig.spec.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "warn",
+          {
+            "type": "attribute",
+            "prefix": "lib",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "warn",
+          {
+            "type": "element",
+            "prefix": "lib",
+            "style": "kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "rules": {}
+    }
+  ]
+}

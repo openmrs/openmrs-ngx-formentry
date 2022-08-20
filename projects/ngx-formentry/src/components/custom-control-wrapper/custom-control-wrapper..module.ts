@@ -5,14 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { CustomControlWrapperComponent } from './custom-control-wrapper.component';
 import { LazyElementsModule } from '@angular-extensions/elements';
 
-
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [
-    CommonModule,
-    FormsModule,
-    LazyElementsModule
-  ],
+  imports: [CommonModule, FormsModule, LazyElementsModule],
   exports: [CustomControlWrapperComponent],
   declarations: [CustomControlWrapperComponent],
   providers: []

@@ -8,15 +8,21 @@ describe('Service : Debug Mode Service', () => {
     });
   });
 
-  it('should construct Debug Mode Service', waitForAsync(
-    inject([DebugModeService], (service, debugModeService) => {
-      expect(service).toBeDefined();
-    })
-  ));
+  it(
+    'should construct Debug Mode Service',
+    waitForAsync(
+      inject([DebugModeService], (service, debugModeService) => {
+        expect(service).toBeDefined();
+      })
+    )
+  );
 
-  it('should have debugEnabled method defined', waitForAsync(
-    inject([DebugModeService], (service, debugModeService) => {
-      expect(service.debugEnabled()).toBeDefined();
-    })
-  ));
+  it(
+    'should have debugEnabled method defined',
+    waitForAsync(
+      inject([DebugModeService], (service, debugModeService) => {
+        expect(service.debugEnabled()).toBeDefined();
+      })
+    )
+  );
 });

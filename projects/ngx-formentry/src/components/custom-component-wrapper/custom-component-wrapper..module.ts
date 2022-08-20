@@ -4,13 +4,9 @@ import { CommonModule } from '@angular/common';
 import { CustomComponentWrapperComponent } from './custom-component-wrapper.component';
 import { LazyElementsModule } from '@angular-extensions/elements';
 
-
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [
-    CommonModule,
-    LazyElementsModule
-  ],
+  imports: [CommonModule, LazyElementsModule],
   exports: [CustomComponentWrapperComponent],
   declarations: [CustomComponentWrapperComponent],
   providers: []

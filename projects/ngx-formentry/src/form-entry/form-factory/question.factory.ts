@@ -26,7 +26,7 @@ import { DummyDataSource } from '../data-sources/dummy-data-source';
 import { HistoricalHelperService } from '../helpers/historical-expression-helper-service';
 import { Form } from './form';
 import { CheckBoxQuestion } from '../question-models/models';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { CustomControlQuestion } from '../question-models/custom-control-question.model';
 
 @Injectable()

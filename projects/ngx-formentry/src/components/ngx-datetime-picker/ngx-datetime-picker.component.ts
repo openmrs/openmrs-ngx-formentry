@@ -50,7 +50,7 @@ export class NgxDatetimeComponent implements ControlValueAccessor {
   }
 
   onWeeksSelected(numberOfWeeks: number) {
-    const currentDate: string =  new Date().toString();
+    const currentDate: string = new Date().toString();
     this.onInput({ value: moment(currentDate).add(numberOfWeeks, 'weeks') });
   }
 }

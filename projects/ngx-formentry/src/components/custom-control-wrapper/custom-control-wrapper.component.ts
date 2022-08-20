@@ -1,10 +1,17 @@
-import { Component, forwardRef, Input, OnInit } from "@angular/core";
-import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
-import { CustomControlQuestion } from "../../form-entry/question-models/custom-control-question.model";
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator
+} from '@angular/forms';
+import { CustomControlQuestion } from '../../form-entry/question-models/custom-control-question.model';
 
 @Component({
   selector: 'app-custom-control-wrapper',
-  templateUrl: "custom-control-wrapper.component.html",
+  templateUrl: 'custom-control-wrapper.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -13,7 +20,8 @@ import { CustomControlQuestion } from "../../form-entry/question-models/custom-c
     }
   ]
 })
-export class CustomControlWrapperComponent implements ControlValueAccessor, OnInit  {
+export class CustomControlWrapperComponent
+  implements ControlValueAccessor, OnInit {
   customControlConfig = { tag: '', url: '', module: '' };
 
   @Input()
@@ -28,15 +36,15 @@ export class CustomControlWrapperComponent implements ControlValueAccessor, OnIn
   disabled = false;
 
   registerOnValidatorChange?(fn: () => void): void {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
   ngOnInit(): void {
     this.customControlConfig = this.question?.extras?.customControlConfig;
   }
 
-  onChange = (value) => { };
+  onChange = (value) => {};
 
-  onTouched = () => { };
+  onTouched = () => {};
 
   onValueChange(event) {
     this.markAsTouched();
@@ -45,7 +53,6 @@ export class CustomControlWrapperComponent implements ControlValueAccessor, OnIn
       this.onChange(this.value);
     }
   }
-
 
   writeValue(value: any) {
     this.value = value;

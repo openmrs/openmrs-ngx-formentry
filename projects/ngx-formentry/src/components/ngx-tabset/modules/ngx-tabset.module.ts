@@ -6,19 +6,11 @@ import { TabComponent } from '../components/tab';
 import { HoverClassDirective } from '../directives/hover-class.directive';
 
 @NgModule({
-  declarations: [
-    TabComponent,
-    TabsetComponent,
-    HoverClassDirective
-  ],
-  exports: [
-    TabComponent,
-    TabsetComponent,
-  ],
+  declarations: [TabComponent, TabsetComponent, HoverClassDirective],
+  exports: [TabComponent, TabsetComponent],
   imports: [CommonModule]
 })
 export class NgxTabSetModule {
-
   /**
    * Use in AppModule: new instance of NgxTabset.
    */
@@ -38,5 +30,4 @@ export class NgxTabSetModule {
       providers: []
     };
   }
-
 }

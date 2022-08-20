@@ -12,7 +12,7 @@ import {
   OrderValueAdapter,
   EncounterAdapter,
   DataSources,
-  FormErrorsService,
+  FormErrorsService
 } from '@openmrs/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
 
@@ -72,7 +72,6 @@ export class AppComponent implements OnInit {
       resolveSelectedValue: this.sampleResolve
     });
 
-
     const ds = {
       dataSourceOptions: { concept: undefined },
       searchOptions: (text?: string) => {
@@ -82,7 +81,7 @@ export class AppComponent implements OnInit {
             { value: 2, label: 'Stage 2 Symptom' }
           ];
 
-          return  new Observable((observer: Observer<object>) => {
+          return new Observable((observer: Observer<object>) => {
             setTimeout(() => {
               observer.next(items);
             }, 1000);
@@ -93,7 +92,7 @@ export class AppComponent implements OnInit {
       resolveSelectedValue: (key: string) => {
         if (ds.dataSourceOptions && ds.dataSourceOptions.concept) {
           const item = { value: 1, label: 'Stage 1 Symptom' };
-          return  new Observable((observer: Observer<object>) => {
+          return new Observable((observer: Observer<object>) => {
             setTimeout(() => {
               observer.next(item);
             }, 1000);
@@ -224,30 +223,30 @@ export class AppComponent implements OnInit {
     });
   }
 
-  fetchMockedConceptData (concepts) {
-    const promise = new Promise(function(resolve, reject) {
+  fetchMockedConceptData(concepts) {
+    const promise = new Promise(function (resolve, reject) {
       // Simulate a server response with some delay
-      setTimeout(function() {
+      setTimeout(function () {
         const conceptData = [
           {
-            "uuid": "a89ff9a6-1350-11df-a1f1-0026b9348838",
-            "display": "Was this visit scheduled?",
-            "reqId": concepts[0]
+            uuid: 'a89ff9a6-1350-11df-a1f1-0026b9348838',
+            display: 'Was this visit scheduled?',
+            reqId: concepts[0]
           },
           {
-            "uuid": "a89b6440-1350-11df-a1f1-0026b9348838",
-            "display": "Scheduled visit",
-            "reqId": concepts[1]
+            uuid: 'a89b6440-1350-11df-a1f1-0026b9348838',
+            display: 'Scheduled visit',
+            reqId: concepts[1]
           },
           {
-            "uuid": "a89ff816-1350-11df-a1f1-0026b9348838",
-            "display": "Unscheduled visit early",
-            "reqId": concepts[2]
+            uuid: 'a89ff816-1350-11df-a1f1-0026b9348838',
+            display: 'Unscheduled visit early',
+            reqId: concepts[2]
           },
           {
-            "uuid": "a89ff8de-1350-11df-a1f1-0026b9348838",
-            "display": "Unscheduled visit late",
-            "reqId": concepts[3]
+            uuid: 'a89ff8de-1350-11df-a1f1-0026b9348838',
+            display: 'Unscheduled visit late',
+            reqId: concepts[3]
           }
         ];
         resolve(conceptData);
@@ -260,7 +259,9 @@ export class AppComponent implements OnInit {
     let concepts = [];
     if (o.children) {
       if (o.children instanceof Array) {
-        const returned = this.traverseRepeatingGroupForUnlabeledConcepts(o.children);
+        const returned = this.traverseRepeatingGroupForUnlabeledConcepts(
+          o.children
+        );
         return returned;
       }
       if (o.children instanceof Object) {
@@ -271,11 +272,15 @@ export class AppComponent implements OnInit {
               case 'page':
               case 'section':
               case 'group':
-                const childrenConcepts = this.traverseForUnlabeledConcepts(o.children[key]);
+                const childrenConcepts = this.traverseForUnlabeledConcepts(
+                  o.children[key]
+                );
                 concepts = concepts.concat(childrenConcepts);
                 break;
               case 'repeating':
-                const repeatingConcepts = this.traverseRepeatingGroupForUnlabeledConcepts(o.children[key].children);
+                const repeatingConcepts = this.traverseRepeatingGroupForUnlabeledConcepts(
+                  o.children[key].children
+                );
                 concepts = concepts.concat(repeatingConcepts);
                 break;
               default:
@@ -283,7 +288,7 @@ export class AppComponent implements OnInit {
                   concepts.push(question.extras.questionOptions.concept);
                 }
                 if (question.extras.questionOptions.answers) {
-                  question.extras.questionOptions.answers.forEach(answer => {
+                  question.extras.questionOptions.answers.forEach((answer) => {
                     if (!answer.label) {
                       concepts.push(answer.concept);
                     }
@@ -370,5 +375,4 @@ export class AppComponent implements OnInit {
       ? (this.showingEncounterViewer = false)
       : (this.showingEncounterViewer = true);
   }
-
 }

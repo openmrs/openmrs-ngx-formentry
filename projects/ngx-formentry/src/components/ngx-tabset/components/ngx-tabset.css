@@ -24,7 +24,6 @@
   margin: 0 0 0.063rem;
 }
 
-
 @media screen and (max-width: 768px) {
   .tab button {
     height: 3rem;
@@ -41,7 +40,6 @@
 .tab button.enabled.hover {
   background-color: var(--gray-gray-10);
 }
-
 
 .tab button.enabled.hover {
   background-color: var(--gray-gray-10);

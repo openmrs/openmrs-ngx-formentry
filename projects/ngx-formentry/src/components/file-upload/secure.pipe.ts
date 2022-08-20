@@ -1,4 +1,4 @@
-/* tslint:disable:component-class-suffix  */
+/* eslint-disable @angular-eslint/component-class-suffix */
 import {
   Pipe,
   PipeTransform,
@@ -6,12 +6,12 @@ import {
   WrappedValue,
   ChangeDetectorRef
 } from '@angular/core';
-import { Subscription ,  Observable ,  BehaviorSubject } from 'rxjs';
+import { Subscription, Observable, BehaviorSubject } from 'rxjs';
 
 import { DomSanitizer } from '@angular/platform-browser';
 
 // Using similarity from AsyncPipe to avoid having to pipe |secure|async in HTML.
-// tslint:disable-next-line:use-pipe-transform-interface
+// eslint-disable-next-line @angular-eslint/use-pipe-transform-interface
 @Pipe({
   name: 'secure',
   pure: false

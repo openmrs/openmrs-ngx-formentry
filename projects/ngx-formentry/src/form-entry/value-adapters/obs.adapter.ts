@@ -131,7 +131,7 @@ export class ObsValueAdapter implements ValueAdapter {
     let valueField: any;
     let dateField: any;
 
-    // tslint:disable-next-line:forin
+    // eslint-disable-next-line guard-for-in
     for (const o in node.children) {
       if (
         (node.children[o] as LeafNode).question.extras.questionOptions
@@ -355,14 +355,14 @@ export class ObsValueAdapter implements ValueAdapter {
     const newPayload = [];
     for (const obs of payload) {
       const groupPayload = [];
-      /* tslint:disable */
+      /* eslint-disable */
       for (let key in obs.value) {
         let concept = key.split(':')[0];
         let value = key.split(':')[1];
         groupPayload.push({ concept: concept, value: value });
       }
       newPayload.push({ concept: groupConcept, groupMembers: groupPayload });
-      /* tslint:enable */
+      /* eslint-enable */
     }
     return newPayload;
   }
@@ -433,7 +433,7 @@ export class ObsValueAdapter implements ValueAdapter {
     let valueField: any;
     let dateField: any;
 
-    // tslint:disable-next-line:forin
+    // eslint-disable-next-line guard-for-in
     for (const o in node.children) {
       if (
         (node.children[o] as LeafNode).question.extras.questionOptions

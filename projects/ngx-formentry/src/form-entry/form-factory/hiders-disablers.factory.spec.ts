@@ -22,20 +22,24 @@ describe('Hiders Disablers Factory:', () => {
   });
 
   it('should be injected', () => {
-    const factory: HidersDisablersFactory = TestBed.inject(HidersDisablersFactory);
+    const factory: HidersDisablersFactory = TestBed.inject(
+      HidersDisablersFactory
+    );
     expect(factory).toBeTruthy();
   });
 
   it('should return a disabler function', () => {
-    const factory: HidersDisablersFactory = TestBed.inject(HidersDisablersFactory);
+    const factory: HidersDisablersFactory = TestBed.inject(
+      HidersDisablersFactory
+    );
 
-    /* tslint:disable */
+    /* eslint-disable */
     let model: QuestionBase = new QuestionBase({
       type: 'date',
       key: 'control1',
       disable: "control2 === 10 && arrayContains(control3, 'six')"
     });
-    /* tslint:enable */
+    /* eslint-enable */
 
     const control: AfeFormControl = new AfeFormControl();
 
@@ -61,15 +65,17 @@ describe('Hiders Disablers Factory:', () => {
   });
 
   it('should return a hider function', () => {
-    const factory: HidersDisablersFactory = TestBed.inject(HidersDisablersFactory);
+    const factory: HidersDisablersFactory = TestBed.inject(
+      HidersDisablersFactory
+    );
 
-    /* tslint:disable */
+    /* eslint-disable */
     let model: QuestionBase = new QuestionBase({
       type: 'date',
       key: 'control1',
       hide: "control2 === 10 && arrayContains(control3, 'six')"
     });
-    /* tslint:enable */
+    /* eslint-enable */
 
     const control: AfeFormControl = new AfeFormControl();
 

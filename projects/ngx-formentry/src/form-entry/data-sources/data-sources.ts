@@ -11,7 +11,7 @@ export class DataSources {
 
   registerDataSource(key: string, dataSource: any, unWrap = false) {
     if (unWrap) {
-      // tslint:disable-next-line:forin
+      // eslint-disable-next-line guard-for-in
       for (const o in dataSource) {
         // console.log('registering', o, dataSource[o]);
         this.registerDataSource(o, dataSource[o], false);

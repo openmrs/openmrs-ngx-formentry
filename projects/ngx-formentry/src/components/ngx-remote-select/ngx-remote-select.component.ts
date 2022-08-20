@@ -10,7 +10,13 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { concat, Observable, of, Subject } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  tap
+} from 'rxjs/operators';
 import { SelectOption } from '../../form-entry/question-models/interfaces/select-option';
 
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
@@ -55,7 +61,7 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
     this.loadOptions();
@@ -98,7 +104,7 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   // not used, used for touch input
-  public registerOnTouched() { }
+  public registerOnTouched() {}
   // change events from the textarea
   onChange(event) {
     this.propagateChange(event.id);
@@ -115,12 +121,12 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
       return item.value === selected.value;
     }
     return false;
-  }
+  };
 
   // the method set in registerOnChange, it is just
   // a placeholder for a method that takes one parameter,
   // we use it to emit changes back to the form
-  private propagateChange = (change: any) => { };
+  private propagateChange = (change: any) => {};
 
   trackByFn(item: SelectOption) {
     return item.value;
@@ -134,12 +140,13 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
         tap(() => {
           this.loading = true;
         }),
-        switchMap(term => this.dataSource.searchOptions(term).pipe(
-          catchError(() => of([])), // empty list on error
-          tap(() => this.loading = false)
-        ))
+        switchMap((term) =>
+          this.dataSource.searchOptions(term).pipe(
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.loading = false))
+          )
+        )
       )
     );
   }
-
 }
