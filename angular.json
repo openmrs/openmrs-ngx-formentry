@@ -23,7 +23,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css","projects/ngx-formentry/styles/ngx-formentry.css"],
+            "styles": ["src/styles.scss","projects/ngx-formentry/styles/ngx-formentry.css"],
             "stylePreprocessorOptions": {
               "includePaths": ["projects/ngx-formentry/styles","dist"]
             },

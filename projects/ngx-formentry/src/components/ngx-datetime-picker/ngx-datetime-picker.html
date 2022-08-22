@@ -2,18 +2,18 @@
   <div
     data-date-picker
     data-date-picker-type="single"
-    class="bx--date-picker bx--date-picker--single bx--date-picker--light"
+    class="cds--date-picker cds--date-picker--single cds--date-picker--light"
     [ngClass]="{
-    'bx--date-picker--light': theme === 'light'
+    'cds--date-picker--light': theme === 'light'
 }"
   >
-    <div class="bx--date-picker-container fill">
-      <div class="bx--date-picker-input__wrapper">
+    <div class="cds--date-picker-container fill">
+      <div class="cds--date-picker-input__wrapper">
         <input
           [disabled]="isDisabled"
           (dateTimeChange)="onInput($event)"
           type="text"
-          class="bx--date-picker__input fill"
+          class="cds--date-picker__input fill"
           [id]="id"
           [value]="value"
           [owlDateTime]="dt1"
@@ -28,7 +28,7 @@
           style="will-change: transform"
           xmlns="http://www.w3.org/2000/svg"
           data-date-picker-icon="true"
-          class="bx--date-picker__icon"
+          class="cds--date-picker__icon"
           width="16"
           height="16"
           viewBox="0 0 16 16"
@@ -44,17 +44,17 @@
 
   <div
     *ngIf="showWeeks"
-    class="bx--select some-class week-select-wrapper"
-    [ngClass]="{'bx--select--light': theme === 'light'}"
+    class="cds--select some-class week-select-wrapper"
+    [ngClass]="{'cds--select--light': theme === 'light'}"
   >
-    <div class="bx--select-input__wrapper">
+    <div class="cds--select-input__wrapper">
       <select
         (change)="onWeeksSelected($event.target.value)"
         id="select-1"
-        class="bx--select-input"
+        class="cds--select-input"
       >
         <option
-          class="bx--select-option"
+          class="cds--select-option"
           value="placeholder-item"
           disabled=""
           hidden=""
@@ -63,7 +63,7 @@
           Select Weeks
         </option>
         <option
-          class="bx--select-option"
+          class="cds--select-option"
           [value]="week"
           *ngFor="let week of weeks"
         >
@@ -79,7 +79,7 @@
         height="16"
         viewBox="0 0 16 16"
         aria-hidden="true"
-        class="bx--select__arrow"
+        class="cds--select__arrow"
       >
         <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
       </svg>

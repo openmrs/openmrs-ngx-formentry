@@ -33,30 +33,30 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 @Component({
     selector: "ibm-select",
     template: `
-        <div class="bx--form-item">
+        <div class="cds--form-item">
             <ng-template [ngIf]="skeleton">
-                <div *ngIf="label" class="bx--label bx--skeleton"></div>
-                <div class="bx--select bx--skeleton"></div>
+                <div *ngIf="label" class="cds--label cds--skeleton"></div>
+                <div class="cds--select cds--skeleton"></div>
             </ng-template>
             <div
                 *ngIf="!skeleton"
-                class="bx--select"
+                class="cds--select"
                 [ngClass]="{
-                    'bx--select--inline': display === 'inline',
-                    'bx--select--light': theme === 'light',
-                    'bx--select--invalid': invalid,
-                    'bx--select--warning': warn,
-                    'bx--select--disabled': disabled
+                    'cds--select--inline': display === 'inline',
+                    'cds--select--light': theme === 'light',
+                    'cds--select--invalid': invalid,
+                    'cds--select--warning': warn,
+                    'cds--select--disabled': disabled
                 }">
-                <label *ngIf="label" [for]="id" class="bx--label">
+                <label *ngIf="label" [for]="id" class="cds--label">
                     <ng-container *ngIf="!isTemplate(label)">{{label}}</ng-container>
                     <ng-template *ngIf="isTemplate(label)" [ngTemplateOutlet]="label"></ng-template>
                 </label>
-                <div *ngIf="helperText" class="bx--form__helper-text">
+                <div *ngIf="helperText" class="cds--form__helper-text">
                     <ng-container *ngIf="!isTemplate(helperText)">{{helperText}}</ng-container>
                     <ng-template *ngIf="isTemplate(helperText)" [ngTemplateOutlet]="helperText"></ng-template>
                 </div>
-                <div *ngIf="display === 'inline'; else noInline" class="bx--select-input--inline__wrapper">
+                <div *ngIf="display === 'inline'; else noInline" class="cds--select-input--inline__wrapper">
                     <ng-container *ngTemplateOutlet="noInline"></ng-container>
                 </div>
             </div>
@@ -64,7 +64,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
         <!-- select element: dynamically projected based on 'display' variant -->
         <ng-template #noInline>
-            <div class="bx--select-input__wrapper extend" [attr.data-invalid]="(invalid ? true : null)">
+            <div class="cds--select-input__wrapper extend" [attr.data-invalid]="(invalid ? true : null)">
                 <select
                     #select
                     [attr.id]="id"
@@ -72,10 +72,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
                     [disabled]="disabled"
                     (change)="onChange($event)"
                     [attr.aria-invalid]="invalid ? 'true' : null"
-                    class="bx--select-input"
+                    class="cds--select-input"
                     [ngClass]="{
-                        'bx--select-input--xl': size === 'xl',
-                        'bx--select-input--sm': size === 'sm'
+                        'cds--select-input--xl': size === 'xl',
+                        'cds--select-input--sm': size === 'sm'
                     }">
                     <ng-content></ng-content>
                 </select>
@@ -84,34 +84,34 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
                     preserveAspectRatio="xMidYMid meet"
                     style="will-change: transform;"
                     xmlns="http://www.w3.org/2000/svg"
-                    class="bx--select__arrow"
+                    class="cds--select__arrow"
                     width="16"
                     height="16"
                     viewBox="0 0 16 16"
                     aria-hidden="true">
                     <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
                 </svg>
-                <svg *ngIf="invalid"focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;" xmlns="http://www.w3.org/2000/svg" class="bx--text-input__invalid-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8,1C4.2,1,1,4.2,1,8s3.2,7,7,7s7-3.1,7-7S11.9,1,8,1z M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2    c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"></path><path d="M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8    c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z" data-icon-path="inner-path" opacity="0"></path></svg>
+                <svg *ngIf="invalid"focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change: transform;" xmlns="http://www.w3.org/2000/svg" class="cds--text-input__invalid-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8,1C4.2,1,1,4.2,1,8s3.2,7,7,7s7-3.1,7-7S11.9,1,8,1z M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2    c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"></path><path d="M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8    c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z" data-icon-path="inner-path" opacity="0"></path></svg>
             </div>
-            <div *ngIf="invalid && invalidText && !warn" role="alert" class="bx--form-requirement" aria-live="polite">
+            <div *ngIf="invalid && invalidText && !warn" role="alert" class="cds--form-requirement" aria-live="polite">
                 <ng-container *ngIf="!isTemplate(invalidText)">{{invalidText}}</ng-container>
                 <ng-template *ngIf="isTemplate(invalidText)" [ngTemplateOutlet]="invalidText"></ng-template>
             </div>
-            <div *ngIf="!invalid && warn" class="bx--form-requirement">
+            <div *ngIf="!invalid && warn" class="cds--form-requirement">
                 <ng-container *ngIf="!isTemplate(warnText)">{{warnText}}</ng-container>
                 <ng-template *ngIf="isTemplate(warnText)" [ngTemplateOutlet]="warnText"></ng-template>
             </div>
         </ng-template>
     `,
     styles: [`
-        .bx--select--inline .bx--form__helper-text {
+        .cds--select--inline .cds--form__helper-text {
             order: 4;
         }
 
-        .bx--select--inline:not(.bx--select--invalid) .bx--form__helper-text {
+        .cds--select--inline:not(.cds--select--invalid) .cds--form__helper-text {
             margin-top: 0;
         }
-        .bx--select-input__wrapper{
+        .cds--select-input__wrapper{
             min-width: 16rem;
         }
     `],

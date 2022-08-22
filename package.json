@@ -12,7 +12,7 @@
     "e2e": "ng e2e"
   },
   "peerDependencies": {
-    "carbon-components": "10.x"
+    "@carbon/styles": "1.x"
   },
   "dependencies": {
     "@angular-devkit/core": "^10.2.3",
@@ -26,6 +26,7 @@
     "@angular/platform-browser": "^11.2.14",
     "@angular/platform-browser-dynamic": "^11.2.14",
     "@angular/router": "^11.2.14",
+    "@carbon/styles": "^1.9.0",
     "@ng-select/ng-select": "^6.1.0",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
@@ -57,7 +58,6 @@
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
-    "carbon-components": "^10.36.0",
     "codelyzer": "^6.0.0",
     "husky": "^4.3.0",
     "jasmine-core": "~3.6.0",

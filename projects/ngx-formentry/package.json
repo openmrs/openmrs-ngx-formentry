@@ -19,7 +19,7 @@
     "shelljs": "^0.7.0",
     "slick-carousel": "^1.6.0",
     "tree-model": "^1.0.5",
-    "carbon-components": "^10.36.0",
+    "@carbon/styles": "^1.9.0",
     "ngx-file-uploader": "^0.0.18",
     "@angular-extensions/elements": "^12.6.0"
   }

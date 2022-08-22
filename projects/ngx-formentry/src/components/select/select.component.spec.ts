@@ -43,7 +43,7 @@ describe("Select", () => {
         fixture = TestBed.createComponent(SelectTest);
         wrapper = fixture.componentInstance;
         fixture.detectChanges();
-        const de = fixture.debugElement.query(By.css(".bx--select-input"));
+        const de = fixture.debugElement.query(By.css(".cds--select-input"));
         spyOn(wrapper, "onChange").and.callThrough();
         de.triggerEventHandler("change", {target: {value: "option1"}});
         fixture.detectChanges();
@@ -61,7 +61,7 @@ describe("Select", () => {
         }).createComponent(SelectTest);
         fixture.detectChanges();
         element = fixture.debugElement.query(By.css("ibm-select")).nativeElement;
-        expect(element.querySelector(".bx--label").textContent).toEqual("test");
+        expect(element.querySelector(".cds--label").textContent).toEqual("test");
     });
 
     it("should set helperText to test", () => {
@@ -72,7 +72,7 @@ describe("Select", () => {
         }).createComponent(SelectTest);
         fixture.detectChanges();
         element = fixture.debugElement.query(By.css("ibm-select")).nativeElement;
-        expect(element.querySelector(".bx--form__helper-text").textContent).toEqual("test");
+        expect(element.querySelector(".cds--form__helper-text").textContent).toEqual("test");
     });
 
     it("should set display to inline", () => {
@@ -83,7 +83,7 @@ describe("Select", () => {
         }).createComponent(SelectTest);
         fixture.detectChanges();
         element = fixture.debugElement.query(By.css("ibm-select")).nativeElement;
-        expect(element.querySelector(".bx--select--inline")).toBeTruthy();
+        expect(element.querySelector(".cds--select--inline")).toBeTruthy();
     });
 
     it("should set option to disabled", () => {
@@ -108,11 +108,11 @@ describe("Select", () => {
         }).createComponent(SelectTest);
         fixture.detectChanges();
         element = fixture.debugElement.query(By.css("ibm-select")).nativeElement;
-        expect(element.querySelector(".bx--select__invalid-icon")).toBeTruthy();
-        expect(element.querySelector(".bx--form-requirement").textContent).toEqual("test");
+        expect(element.querySelector(".cds--select__invalid-icon")).toBeTruthy();
+        expect(element.querySelector(".cds--form-requirement").textContent).toEqual("test");
     });
 
-    it("should set class bx--skeleton", () => {
+    it("should set class cds--skeleton", () => {
         fixture = TestBed.overrideComponent(SelectTest, {
             set: {
                 template: `<ibm-select [skeleton]=true></ibm-select>`
@@ -120,6 +120,6 @@ describe("Select", () => {
         }).createComponent(SelectTest);
         fixture.detectChanges();
         element = fixture.debugElement.query(By.css("ibm-select")).nativeElement;
-        expect(element.querySelector(".bx--skeleton")).toBeTruthy();
+        expect(element.querySelector(".cds--skeleton")).toBeTruthy();
     });
 });
