@@ -1,4 +1,4 @@
-name: AMPATH Form Entry CI
+name: Form Entry CI
 
 on:
   push:
