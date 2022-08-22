@@ -37,8 +37,7 @@ jobs:
           node-version: "16"
           cache: "npm"
       - run: yarn install --frozen-lockfile
-      - run: yarn --no-git-tag-version version patch
-      - run: yarn --no-git-tag-version version "$(node -e "console.log(require('./package.json').version)")-pre.${{ github.run_number }})"
+      - run: yarn version --new-version "$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }})" --no-git-tag-version
       - run: yarn run build:lib
       - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
       - run: git add . && git commit -m "Prerelease version" --no-verify
