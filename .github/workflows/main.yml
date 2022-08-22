@@ -20,9 +20,9 @@ jobs:
         with:
           node-version: "16"
           cache: "npm"
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run build:lib
+      - run: yarn install --frozen-lockfile
+      - run: yarn run lint
+      - run: yarn run build:lib
 
   pre_release:
     runs-on: ubuntu-latest
@@ -36,13 +36,13 @@ jobs:
         with:
           node-version: "16"
           cache: "npm"
-      - run: npm ci
-      - run: npm --no-git-tag-version version patch
-      - run: npm --no-git-tag-version version "$(node -e "console.log(require('./package.json').version)")-pre.${{ github.run_number }})"
-      - run: npm run build:lib
+      - run: yarn install --frozen-lockfile
+      - run: yarn --no-git-tag-version version patch
+      - run: yarn --no-git-tag-version version "$(node -e "console.log(require('./package.json').version)")-pre.${{ github.run_number }})"
+      - run: yarn run build:lib
       - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
       - run: git add . && git commit -m "Prerelease version" --no-verify
-      - run: npm publish --tag next --access public
+      - run: yarn publish --tag next --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Upload Artifacts
@@ -64,8 +64,8 @@ jobs:
         with:
           node-version: "16"
           cache: "npm"
-      - run: npm ci
-      - run: npm run build:lib
-      - run: npm publish
+      - run: yarn install --frozen-lockfile
+      - run: yarn run build:lib
+      - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
