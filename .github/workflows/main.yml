@@ -37,7 +37,7 @@ jobs:
           node-version: "16"
           cache: "npm"
       - run: yarn install --frozen-lockfile
-      - run: NEW_VERSION="$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}" yarn version --new-version $NEW_VERSION --no-git-tag-version && cd projects/ngx-formentry && yarn version --new-version $NEW_VERSION --no-git-tag-version
+      - run: export NEW_VERSION="$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}" && yarn version --new-version $NEW_VERSION --no-git-tag-version && cd projects/ngx-formentry && yarn version --new-version $NEW_VERSION --no-git-tag-version
       - run: yarn run build:lib
       - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
       - run: git add . && git commit -m "Prerelease version" --no-verify
