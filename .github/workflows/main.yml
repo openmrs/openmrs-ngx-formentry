@@ -43,7 +43,7 @@ jobs:
       - run: git add . && git commit -m "Prerelease version" --no-verify
       - run: yarn publish dist/ngx-formentry --tag next --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -67,4 +67,4 @@ jobs:
       - run: yarn run build:lib
       - run: yarn publish dist/ngx-formentry --tag latest --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
