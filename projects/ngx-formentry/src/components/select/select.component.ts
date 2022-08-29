@@ -33,30 +33,30 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 @Component({
   selector: 'ibm-select',
   template: `
-    <div class="bx--form-item">
+    <div class="cds--form-item">
       <ng-template [ngIf]="skeleton">
-        <div *ngIf="label" class="bx--label bx--skeleton"></div>
-        <div class="bx--select bx--skeleton"></div>
+        <div *ngIf="label" class="cds--label cds--skeleton"></div>
+        <div class="cds--select cds--skeleton"></div>
       </ng-template>
       <div
         *ngIf="!skeleton"
-        class="bx--select"
+        class="cds--select"
         [ngClass]="{
-          'bx--select--inline': display === 'inline',
-          'bx--select--light': theme === 'light',
-          'bx--select--invalid': invalid,
-          'bx--select--warning': warn,
-          'bx--select--disabled': disabled
+          'cds--select--inline': display === 'inline',
+          'cds--select--light': theme === 'light',
+          'cds--select--invalid': invalid,
+          'cds--select--warning': warn,
+          'cds--select--disabled': disabled
         }"
       >
-        <label *ngIf="label" [for]="id" class="bx--label">
+        <label *ngIf="label" [for]="id" class="cds--label">
           <ng-container *ngIf="!isTemplate(label)">{{ label }}</ng-container>
           <ng-template
             *ngIf="isTemplate(label)"
             [ngTemplateOutlet]="label"
           ></ng-template>
         </label>
-        <div *ngIf="helperText" class="bx--form__helper-text">
+        <div *ngIf="helperText" class="cds--form__helper-text">
           <ng-container *ngIf="!isTemplate(helperText)">{{
             helperText
           }}</ng-container>
@@ -67,7 +67,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         </div>
         <div
           *ngIf="display === 'inline'; else noInline"
-          class="bx--select-input--inline__wrapper"
+          class="cds--select-input--inline__wrapper"
         >
           <ng-container *ngTemplateOutlet="noInline"></ng-container>
         </div>
@@ -77,7 +77,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     <!-- select element: dynamically projected based on 'display' variant -->
     <ng-template #noInline>
       <div
-        class="bx--select-input__wrapper extend"
+        class="cds--select-input__wrapper extend"
         [attr.data-invalid]="invalid ? true : null"
       >
         <select
@@ -87,10 +87,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
           [disabled]="disabled"
           (change)="onChange($event)"
           [attr.aria-invalid]="invalid ? 'true' : null"
-          class="bx--select-input"
+          class="cds--select-input"
           [ngClass]="{
-            'bx--select-input--xl': size === 'xl',
-            'bx--select-input--sm': size === 'sm'
+            'cds--select-input--xl': size === 'xl',
+            'cds--select-input--sm': size === 'sm'
           }"
         >
           <ng-content></ng-content>
@@ -100,7 +100,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
           preserveAspectRatio="xMidYMid meet"
           style="will-change: transform;"
           xmlns="http://www.w3.org/2000/svg"
-          class="bx--select__arrow"
+          class="cds--select__arrow"
           width="16"
           height="16"
           viewBox="0 0 16 16"
@@ -114,7 +114,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
           preserveAspectRatio="xMidYMid meet"
           style="will-change: transform;"
           xmlns="http://www.w3.org/2000/svg"
-          class="bx--text-input__invalid-icon"
+          class="cds--text-input__invalid-icon"
           width="16"
           height="16"
           viewBox="0 0 16 16"
@@ -133,7 +133,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       <div
         *ngIf="invalid && invalidText && !warn"
         role="alert"
-        class="bx--form-requirement"
+        class="cds--form-requirement"
         aria-live="polite"
       >
         <ng-container *ngIf="!isTemplate(invalidText)">{{
@@ -144,7 +144,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
           [ngTemplateOutlet]="invalidText"
         ></ng-template>
       </div>
-      <div *ngIf="!invalid && warn" class="bx--form-requirement">
+      <div *ngIf="!invalid && warn" class="cds--form-requirement">
         <ng-container *ngIf="!isTemplate(warnText)">{{
           warnText
         }}</ng-container>
@@ -157,14 +157,14 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   `,
   styles: [
     `
-      .bx--select--inline .bx--form__helper-text {
+      .cds--select--inline .cds--form__helper-text {
         order: 4;
       }
 
-      .bx--select--inline:not(.bx--select--invalid) .bx--form__helper-text {
+      .cds--select--inline:not(.cds--select--invalid) .cds--form__helper-text {
         margin-top: 0;
       }
-      .bx--select-input__wrapper {
+      .cds--select-input__wrapper {
         min-width: 16rem;
       }
     `

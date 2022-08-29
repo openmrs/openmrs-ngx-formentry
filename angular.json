@@ -29,7 +29,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
+              "src/styles.scss",
               "projects/ngx-formentry/styles/ngx-formentry.css"
             ],
             "stylePreprocessorOptions": {

@@ -13,7 +13,7 @@
     "e2e": "ng e2e"
   },
   "peerDependencies": {
-    "carbon-components": "10.x"
+    "@carbon/styles": "1.x"
   },
   "dependencies": {
     "@angular-devkit/core": "^10.2.3",
@@ -27,6 +27,7 @@
     "@angular/platform-browser": "^11.2.14",
     "@angular/platform-browser-dynamic": "^11.2.14",
     "@angular/router": "^11.2.14",
+    "@carbon/styles": "^1.11.0",
     "@ng-select/ng-select": "^6.1.0",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
@@ -65,7 +66,6 @@
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "4.16.1",
     "@typescript-eslint/parser": "4.16.1",
-    "carbon-components": "^10.36.0",
     "eslint": "^7.6.0",
     "husky": "^4.3.0",
     "jasmine-core": "~3.6.0",

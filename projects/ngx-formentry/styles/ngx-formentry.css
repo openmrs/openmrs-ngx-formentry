@@ -224,7 +224,7 @@
 }
 
 .ng-select .ng-arrow-wrapper .ng-arrow::after {
-  content: url("data:image/svg+xml;charset=UTF-8, <svg  focusable='false' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' aria-hidden='true' class='bx--select__arrow' style='will-change: transform;'><path  d='M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z'></path></svg>");
+  content: url("data:image/svg+xml;charset=UTF-8, <svg  focusable='false' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' aria-hidden='true' class='cds--select__arrow' style='will-change: transform;'><path  d='M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z'></path></svg>");
 }
 
 .ng-select .ng-spinner-zone {

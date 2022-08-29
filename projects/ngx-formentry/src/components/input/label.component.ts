@@ -41,9 +41,9 @@ import { TextArea } from './text-area.directive';
     <label
       [for]="labelInputID"
       [attr.aria-label]="ariaLabel"
-      class="bx--label"
+      class="cds--label"
       [ngClass]="{
-        'bx--skeleton': skeleton
+        'cds--skeleton': skeleton
       }"
     >
       <ng-content></ng-content>
@@ -51,7 +51,7 @@ import { TextArea } from './text-area.directive';
     <div
       [class]="wrapperClass"
       [ngClass]="{
-        'bx--text-input__field-wrapper--warning': warn
+        'cds--text-input__field-wrapper--warning': warn
       }"
       [attr.data-invalid]="invalid ? true : null"
       #wrapper
@@ -62,7 +62,7 @@ import { TextArea } from './text-area.directive';
         preserveAspectRatio="xMidYMid meet"
         style="will-change: transform;"
         xmlns="http://www.w3.org/2000/svg"
-        class="bx--text-input__invalid-icon"
+        class="cds--text-input__invalid-icon"
         width="16"
         height="16"
         viewBox="0 0 16 16"
@@ -81,7 +81,7 @@ import { TextArea } from './text-area.directive';
     </div>
     <div
       *ngIf="!skeleton && helperText && !invalid && !warn"
-      class="bx--form__helper-text"
+      class="cds--form__helper-text"
     >
       <ng-container *ngIf="!isTemplate(helperText)">{{
         helperText
@@ -91,7 +91,7 @@ import { TextArea } from './text-area.directive';
         [ngTemplateOutlet]="helperText"
       ></ng-template>
     </div>
-    <div *ngIf="!warn && invalid" class="bx--form-requirement">
+    <div *ngIf="!warn && invalid" class="cds--form-requirement">
       <ng-container *ngIf="!isTemplate(invalidText)">{{
         invalidText
       }}</ng-container>
@@ -100,7 +100,7 @@ import { TextArea } from './text-area.directive';
         [ngTemplateOutlet]="invalidText"
       ></ng-template>
     </div>
-    <div *ngIf="!invalid && warn" class="bx--form-requirement">
+    <div *ngIf="!invalid && warn" class="cds--form-requirement">
       <ng-container *ngIf="!isTemplate(warnText)">{{ warnText }}</ng-container>
       <ng-template
         *ngIf="isTemplate(warnText)"
@@ -117,7 +117,7 @@ export class Label implements AfterContentInit, AfterViewInit {
   /**
    * The class of the wrapper
    */
-  wrapperClass = 'bx--text-input__field-wrapper';
+  wrapperClass = 'cds--text-input__field-wrapper';
   /**
    * The id of the input item associated with the `Label`. This value is also used to associate the `Label` with
    * its input counterpart through the 'for' attribute.
@@ -163,7 +163,7 @@ export class Label implements AfterContentInit, AfterViewInit {
   // @ts-ignore
   @ContentChild(TextArea, { static: false }) textArea: TextArea;
 
-  @HostBinding('class.bx--form-item') labelClass = true;
+  @HostBinding('class.cds--form-item') labelClass = true;
 
   /**
    * Creates an instance of Label.
@@ -177,7 +177,7 @@ export class Label implements AfterContentInit, AfterViewInit {
    */
   ngAfterContentInit() {
     if (this.textArea) {
-      this.wrapperClass = 'bx--text-area__wrapper';
+      this.wrapperClass = 'cds--text-area__wrapper';
     }
   }
 
