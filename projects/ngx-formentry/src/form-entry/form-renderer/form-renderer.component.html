@@ -17,15 +17,15 @@
     [node]="node.children[question.key]" [parentGroup]="parentGroup" [labelMap]="labelMap"></form-renderer>
 </div>
 <div *ngIf="node.question.renderingType === 'section' && checkSection(node)">
-  <div class="bx--accordion__item" [ngClass]="{ 'bx--accordion__item--active': !isCollapsed }">
-    <button class="bx--accordion__heading" type="button" [attr.aria-expanded]="isCollapsed ? 'false' : 'true'"
+  <div class="cds--accordion__item" [ngClass]="{ 'cds--accordion__item--active': !isCollapsed }">
+    <button class="cds--accordion__heading" type="button" [attr.aria-expanded]="isCollapsed ? 'false' : 'true'"
       aria-controls="accordion-item-0" (click)="isCollapsed = !isCollapsed">
-      <svg class="bx--accordion__arrow" ibmIcon="chevron--right" size="16" xmlns="http://www.w3.org/2000/svg"
+      <svg class="cds--accordion__arrow" ibmIcon="chevron--right" size="16" xmlns="http://www.w3.org/2000/svg"
         focusable="false" preserveAspectRatio="xMidYMid meet" aria-hidden="true" width="16" height="16"
         viewBox="0 0 16 16">
         <path d="M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
       </svg>
-      <p class="bx--accordion__title">
+      <p class="cds--accordion__title">
         {{ node.question.label }}
       </p>
     </button>
@@ -33,7 +33,7 @@
       <!--Section Components-->
       <app-custom-component-wrapper [dark]="(theme === 'light')" [componentConfigs]="node.question.componentConfigs">
       </app-custom-component-wrapper>
-      <div class="bx--accordion__content accordion-content-override" [ngClass]="{
+      <div class="cds--accordion__content accordion-content-override" [ngClass]="{
         'accordion-content-dark': theme === 'light'}">
         <form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this"
           [node]="node.children[question.key]" [parentGroup]="parentGroup" [labelMap]="labelMap"></form-renderer>
@@ -54,7 +54,7 @@
   [ngClass]="{ disabled: node.control.disabled }">
   <app-custom-component-wrapper [dark]="!(theme === 'light')" [componentConfigs]="node.question.componentConfigs">
   </app-custom-component-wrapper>
-  <div class="bx--form-item">
+  <div class="cds--form-item">
     <!--LEAF CONTROL-->
     <div class="question-area">
       <a class="form-tooltip pull-right" (click)="toggleInformation(node.question.extras.id)" data-placement="right"
@@ -67,7 +67,7 @@
         <i class="glyphicon glyphicon-question-sign" aria-hidden="true"></i>
       </a>
 
-      <label *ngIf="node.question.label" [style.color]="hasErrors() ? 'red' : ''" class="bx--label"
+      <label *ngIf="node.question.label" [style.color]="hasErrors() ? 'red' : ''" class="cds--label"
         [attr.for]="node.question.key">
         {{ node.question.required ? '*' : '' }} {{ node.question.label }}
       </label>
@@ -97,9 +97,9 @@
           </div>
 
           <textarea [theme]="theme" ibmTextArea [ngClass]="{
-          'bx--text-area--light': theme === 'light',
-          'bx--text-area--invalid': !node.control.valid
-      }" [placeholder]="node.question.placeholder" [rows]="node.question.rows" class="bx--text-area"
+          'cds--text-area--light': theme === 'light',
+          'cds--text-area--invalid': !node.control.valid
+      }" [placeholder]="node.question.placeholder" [rows]="node.question.rows" class="cds--text-area"
             *ngSwitchCase="'textarea'" [formControlName]="node.question.key" [id]="node.question.key + 'id'"
             [readOnly]="node.question.extras.readOnly">
         </textarea>
@@ -127,7 +127,7 @@
             [formControlName]="node.question.key" [attr.placeholder]="node.question.placeholder">
           </number-input>
 
-          <input [theme]="theme" class="bx--text-input" ibmText *ngSwitchDefault [formControlName]="node.question.key"
+          <input [theme]="theme" class="cds--text-input" ibmText *ngSwitchDefault [formControlName]="node.question.key"
             [attr.placeholder]="node.question.placeholder" [type]="node.question.renderingType"
             [id]="node.question.key + 'id'" [readOnly]="node.question.extras.readOnly"/>
 
@@ -166,7 +166,7 @@
                   </span>
                 </div>
                 <button type="button" [node]="node" [name]="'historyValue'"
-                  class="bx--btn bx--btn--primary bx--btn--sm col-xs-3">
+                  class="cds--btn cds--btn--primary cds--btn--sm col-xs-3">
                   Use Value
                 </button>
               </div>
@@ -213,7 +213,7 @@
             <form-renderer *ngFor="let question of child.question.questions" [parentComponent]="this"
               [node]="child.children[question.key]" [parentGroup]="child.control" [labelMap]="labelMap"></form-renderer>
             <div>{{ child.orderNumber }}</div>
-            <button type="button " class="bx--btn bx--btn--danger bx--btn--sm" (click)="node.removeAt(i)">
+            <button type="button " class="cds--btn cds--btn--danger cds--btn--sm" (click)="node.removeAt(i)">
               Remove
             </button>
             <br />
@@ -231,7 +231,7 @@
           <div *ngFor="let child of node.children; let i = index">
             <form-renderer *ngFor="let question of child.question.questions" [parentComponent]="this"
               [node]="child.children[question.key]" [parentGroup]="child.control" [labelMap]="labelMap"></form-renderer>
-            <button type="button " class="bx--btn bx--btn--danger bx--btn--sm" (click)="node.removeAt(i)">
+            <button type="button " class="cds--btn cds--btn--danger cds--btn--sm" (click)="node.removeAt(i)">
               Remove
             </button>
             <br />
@@ -245,7 +245,7 @@
           </div>
         </div>
       </div>
-      <button type="button" class="bx--btn bx--btn--primary" (click)="node.createChildNode()">
+      <button type="button" class="cds--btn cds--btn--primary" (click)="node.createChildNode()">
         Add
       </button>
     </div>

@@ -173,6 +173,9 @@ export const DEFAULT_STYLES = `a {
 }
 
 .question-area {
-  width: 100%
+  width: 100%;
+  display: flex;
+  justify-content:flex-start;
+  flex-direction: column;
 }
     `;
