@@ -219,7 +219,7 @@ export abstract class OwlDateTime<T> {
       (!this.maxDateTime ||
         this.dateTimeAdapter.compare(dateTime, this.maxDateTime) <= 0)
     );
-  }
+  };
 
   protected getValidDate(obj: any): T | null {
     return this.dateTimeAdapter.isDateInstance(obj) &&

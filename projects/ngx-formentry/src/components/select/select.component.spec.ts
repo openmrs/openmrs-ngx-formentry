@@ -67,9 +67,9 @@ describe('Select', () => {
     }).createComponent(SelectTest);
     fixture.detectChanges();
     element = fixture.debugElement.query(By.css('ibm-select')).nativeElement;
-    expect(element.querySelector('.cds--form__helper-text').textContent).toEqual(
-      'test'
-    );
+    expect(
+      element.querySelector('.cds--form__helper-text').textContent
+    ).toEqual('test');
   });
 
   it('should set display to inline', () => {
@@ -106,7 +106,9 @@ describe('Select', () => {
     fixture.detectChanges();
     element = fixture.debugElement.query(By.css('ibm-select')).nativeElement;
     console.log(element);
-    expect(element.querySelector('.cds--text-input__invalid-icon')).toBeTruthy();
+    expect(
+      element.querySelector('.cds--text-input__invalid-icon')
+    ).toBeTruthy();
     expect(element.querySelector('.cds--form-requirement').textContent).toEqual(
       'test'
     );

@@ -5,13 +5,12 @@
       class="tablinks completed"
       *ngFor="let tab of tabs"
       (click)="selectTab(tab)"
-      [class]="getStatusClasses(tab.active,tab.disabled)"
+      [class]="getStatusClasses(tab.active, tab.disabled)"
     >
       <span>{{ tab.tabTitle }}</span>
     </button>
   </div>
-
-  <div id="tab" class="tabcontent">
+  <div id="tab" class="tab-content">
     <ng-content></ng-content>
   </div>
 </div>

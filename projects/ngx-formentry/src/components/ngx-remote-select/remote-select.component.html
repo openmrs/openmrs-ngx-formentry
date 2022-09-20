@@ -1,7 +1,19 @@
 <div>
-  <ng-select [ngClass]="{'afe-custom': theme === 'light'}" [disabled]="disabled" [items]="remoteOptions$ | async" bindLabel="label" bindValue="value" [multiple]="false"
-    [hideSelected]="true"  [compareWith]="compareItems" [trackByFn]="trackByFn" [loading]="loading"
-    typeToSearchText="Please enter 2 or more characters" [typeahead]="remoteOptionInput$"
-    [(ngModel)]="selectedRemoteOptions"  (ngModelChange)="selected($event)">
+  <ng-select
+    [ngClass]="{ 'afe-custom': theme === 'light' }"
+    [disabled]="disabled"
+    [items]="remoteOptions$ | async"
+    bindLabel="label"
+    bindValue="value"
+    [multiple]="false"
+    [hideSelected]="true"
+    [compareWith]="compareItems"
+    [trackByFn]="trackByFn"
+    [loading]="loading"
+    typeToSearchText="Please enter 2 or more characters"
+    [typeahead]="remoteOptionInput$"
+    [(ngModel)]="selectedRemoteOptions"
+    (ngModelChange)="selected($event)"
+  >
   </ng-select>
 </div>
