@@ -21,6 +21,7 @@ import * as _ from 'lodash';
   ]
 })
 export class CheckboxControlComponent implements OnInit, AfterViewInit {
+  @Input() public id: String;
   @Input() public options: Array<any>;
   @Input() public selected: Array<any>;
   public _value: Array<any> = [];
@@ -34,7 +35,7 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public ngAfterViewInit() {}
+  public ngAfterViewInit() { }
 
   public writeValue(value: any) {
     this.value = value;
@@ -80,6 +81,6 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
     this.onChange(this.value);
   }
 
-  private onChange = (change: any) => {};
-  private onTouched = () => {};
+  private onChange = (change: any) => { };
+  private onTouched = () => { };
 }

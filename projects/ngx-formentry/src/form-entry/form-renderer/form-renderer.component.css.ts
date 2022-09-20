@@ -178,4 +178,9 @@ export const DEFAULT_STYLES = `a {
   justify-content:flex-start;
   flex-direction: column;
 }
+
+.in-line{
+  display: inline-block;
+  padding-right: 0.5rem;
+}
     `;

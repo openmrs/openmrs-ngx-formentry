@@ -18,10 +18,11 @@ export class NgxDatetimeComponent implements ControlValueAccessor {
   isDisabled = false;
   @Input() id = '';
   @Input() theme = 'dark';
+  @Input() datePickerFormat = '';
   @Input() showWeeks = false;
   @Input() weeks: number[];
-  onChange = (_: any) => {};
-  onTouch = () => {};
+  onChange = (_: any) => { };
+  onTouch = () => { };
   onInput($event: any) {
     this.onTouch();
     this.onChange(moment($event.value).format());

@@ -31,7 +31,7 @@ import { CustomControlQuestion } from '../question-models/custom-control-questio
 export class QuestionFactory {
   dataSources: any = {};
   historicalHelperService: HistoricalHelperService = new HistoricalHelperService();
-  constructor() {}
+  constructor() { }
 
   createQuestionModel(formSchema: any, form?: Form): QuestionBase {
     if (form) {
@@ -44,6 +44,7 @@ export class QuestionFactory {
   toSelectQuestion(schemaQuestion: any): SelectQuestion {
     const question = new SelectQuestion({ options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.componentConfigs = schemaQuestion.componentConfigs || [];
     question.options = schemaQuestion.questionOptions.answers.map(function (
@@ -86,6 +87,7 @@ export class QuestionFactory {
       key: ''
     });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.renderingType = 'number';
     question.placeholder = schemaQuestion.questionOptions.placeholder;
@@ -114,6 +116,7 @@ export class QuestionFactory {
       key: ''
     });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.renderingType = 'number';
     question.placeholder = schemaQuestion.questionOptions.placeholder || '';
@@ -166,6 +169,7 @@ export class QuestionFactory {
   toEncounterDatetimeQuestion(schemaQuestion: any): DateQuestion {
     const question = new DateQuestion({ type: '', key: '' });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.renderingType = 'date';
     question.key = schemaQuestion.id;
     question.validators = this.addValidators(schemaQuestion);
@@ -181,6 +185,7 @@ export class QuestionFactory {
     };
     question.showTime = true;
     question.componentConfigs = schemaQuestion.componentConfigs || [];
+    question.datePickerFormat = schemaQuestion.datePickerFormat ?? 'calendar';
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
@@ -193,8 +198,10 @@ export class QuestionFactory {
   toCheckBoxQuestion(schemaQuestion: any): CheckBoxQuestion {
     const question = new CheckBoxQuestion({ options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.extras = schemaQuestion;
+    question.orientation = schemaQuestion.questionOptions.orientation;
     question.options = schemaQuestion.questionOptions.answers.map((obj) => {
       return {
         label: obj.label,
@@ -226,6 +233,7 @@ export class QuestionFactory {
       key: ''
     });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.options = schemaQuestion.questionOptions.answers.map(function (
       obj
@@ -262,6 +270,7 @@ export class QuestionFactory {
       key: ''
     });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.placeholder = schemaQuestion.questionOptions.placeholder;
     question.isExpanded = schemaQuestion.isExpanded;
@@ -291,6 +300,7 @@ export class QuestionFactory {
       key: ''
     });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.renderingType = 'text';
     question.placeholder = schemaQuestion.questionOptions.placeholder;
@@ -314,6 +324,7 @@ export class QuestionFactory {
   toFileUploadQuestion(schemaQuestion: any): FileUploadQuestion {
     const question = new FileUploadQuestion({ type: '', key: '' });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.renderingType = 'file';
     question.dataSource = 'file';
@@ -337,6 +348,7 @@ export class QuestionFactory {
   toDrugQuestion(schemaQuestion: any): SelectQuestion {
     const question = new SelectQuestion({ options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
@@ -359,6 +371,7 @@ export class QuestionFactory {
   toProblemQuestion(schemaQuestion: any): SelectQuestion {
     const question = new SelectQuestion({ options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
@@ -381,6 +394,7 @@ export class QuestionFactory {
   toConceptAnswerSelect(schemaQuestion: any): SelectQuestion {
     const question = new SelectQuestion({ options: [], type: '', key: '' });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
@@ -411,6 +425,7 @@ export class QuestionFactory {
       key: ''
     });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.questions = this.getChildrenQuestionModels(
       schemaQuestion.questions
     );
@@ -442,6 +457,7 @@ export class QuestionFactory {
   toGroupQuestion(schemaQuestion: any): QuestionGroup {
     const question = new QuestionGroup({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.questions = this.getChildrenQuestionModels(
       schemaQuestion.questions
     );
@@ -466,6 +482,7 @@ export class QuestionFactory {
   toPageQuestion(schemaQuestion: any): QuestionGroup {
     const question = new QuestionGroup({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.label;
     question.renderingType = 'page';
     question.controlType = AfeControlType.None;
@@ -481,6 +498,7 @@ export class QuestionFactory {
     const question = new QuestionGroup({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.renderingType = 'form';
     question.controlType = AfeControlType.AfeFormGroup;
     question.extras = schemaQuestion;
@@ -495,6 +513,7 @@ export class QuestionFactory {
   toSectionQuestion(schemaQuestion: any): QuestionGroup {
     const question = new QuestionGroup({ questions: [], type: '', key: '' });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.label;
     question.renderingType = 'section';
     question.controlType = AfeControlType.None;
@@ -509,10 +528,11 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () {},
-      resolveFunction: function () {}
+      searchFunction: function () { },
+      resolveFunction: function () { }
     });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
@@ -539,10 +559,11 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () {},
-      resolveFunction: function () {}
+      searchFunction: function () { },
+      resolveFunction: function () { }
     });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
@@ -575,10 +596,11 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () {},
-      resolveFunction: function () {}
+      searchFunction: function () { },
+      resolveFunction: function () { }
     });
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.renderingType = schemaQuestion.type;
     question.renderingType = 'remote-select';
@@ -612,6 +634,7 @@ export class QuestionFactory {
     });
 
     question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
@@ -762,6 +785,7 @@ export class QuestionFactory {
     const converted: any = {};
     converted.type = 'complex-obs';
     converted.label = schemaQuestion.label;
+    converted.prefix = schemaQuestion.prefix;
     converted.id = 'complex_' + schemaQuestion.id;
     converted.questionOptions = {};
     converted.questionOptions.concept = schemaQuestion.questionOptions.concept;

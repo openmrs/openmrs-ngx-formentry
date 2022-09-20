@@ -14,12 +14,15 @@ export class QuestionBase implements BaseOptions {
   historicalDisplay?: any;
   rows?: any;
   showWeeksAdder?: any;
+  datePickerFormat: string;
   key: string;
   alert?: any;
 
   label?: string;
+  prefix?: string;
   renderingType: string;
 
+  orientation?: string;
   defaultValue?: any;
   originalValue?: any;
   enableHistoricalValue?: boolean;

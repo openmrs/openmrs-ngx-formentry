@@ -4,7 +4,7 @@ import moment from 'moment';
 @Injectable()
 export class HistoricalEncounterDataService {
   dataSources: any = {};
-  constructor() {}
+  constructor() { }
 
   registerEncounters(name: string, encounters: any) {
     const encStore: any = {
@@ -56,7 +56,9 @@ export class HistoricalEncounterDataService {
     if (answers.length > 0) {
       return {
         value: answers[0],
-        valueDate: moment(object.encounterDatetime).format('ll')
+        valueDate: moment(object.encounterDatetime).format(
+          'YYYY-MM-DDTHH:mm:ss'
+        )
       };
     }
   }
