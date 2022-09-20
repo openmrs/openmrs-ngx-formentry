@@ -35,7 +35,7 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public ngAfterViewInit() { }
+  public ngAfterViewInit() {}
 
   public writeValue(value: any) {
     this.value = value;
@@ -81,6 +81,6 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
     this.onChange(this.value);
   }
 
-  private onChange = (change: any) => { };
-  private onTouched = () => { };
+  private onChange = (change: any) => {};
+  private onTouched = () => {};
 }

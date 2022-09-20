@@ -4,7 +4,7 @@ import moment from 'moment';
 @Injectable()
 export class HistoricalEncounterDataService {
   dataSources: any = {};
-  constructor() { }
+  constructor() {}
 
   registerEncounters(name: string, encounters: any) {
     const encStore: any = {

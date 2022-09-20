@@ -1,6 +1,16 @@
 <fieldset class="cds--fieldset">
-  <div class="cds--form-item cds--checkbox-wrapper" *ngFor="let option of options; let i = index">
-    <input type="checkbox" class="cds--checkbox" [id]="i + id" [checked]="option.checked" (change)="selectOpt(option, $event)" [value]="option.value">
+  <div
+    class="cds--form-item cds--checkbox-wrapper"
+    *ngFor="let option of options; let i = index"
+  >
+    <input
+      type="checkbox"
+      class="cds--checkbox"
+      [id]="i + id"
+      [checked]="option.checked"
+      (change)="selectOpt(option, $event)"
+      [value]="option.value"
+    />
     <label [for]="i + id" class="cds--checkbox-label">
       <span class="cds--checkbox-label-text">{{ option.label }}</span>
     </label>

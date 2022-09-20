@@ -1,30 +1,79 @@
-<div data-numberinput [attr.data-invalid]="invalid ? true : null" class="cds--number" [ngClass]="{
-      'cds--number--light': theme === 'light',
-      'cds--number--nolabel': !label,
-      'cds--number--helpertext': helperText,
-      'cds--skeleton': skeleton,
-      'cds--number--sm': size === 'sm',
-      'cds--number--xl': size === 'xl'
-    }">
-  <div class="cds--number__input-wrapper" [ngClass]="{
-        'cds--number__input-wrapper--warning': warn
-      }">
-    <input type="number" [id]="id" [value]="value" [attr.min]="min" [attr.max]="max" [attr.step]="step"
-      [disabled]="disabled" [required]="required" (input)="onNumberInputChange($event)" />
+<div
+  data-numberinput
+  [attr.data-invalid]="invalid ? true : null"
+  class="cds--number"
+  [ngClass]="{
+    'cds--number--light': theme === 'light',
+    'cds--number--nolabel': !label,
+    'cds--number--helpertext': helperText,
+    'cds--skeleton': skeleton,
+    'cds--number--sm': size === 'sm',
+    'cds--number--xl': size === 'xl'
+  }"
+>
+  <div
+    class="cds--number__input-wrapper"
+    [ngClass]="{
+      'cds--number__input-wrapper--warning': warn
+    }"
+  >
+    <input
+      type="number"
+      [id]="id"
+      [value]="value"
+      [attr.min]="min"
+      [attr.max]="max"
+      [attr.step]="step"
+      [disabled]="disabled"
+      [required]="required"
+      (input)="onNumberInputChange($event)"
+    />
     <div class="cds--number__controls">
-      <button type="button" class="cds--number__control-btn down-icon" (click)="onDecrement()" title="Decrement number"
-        [attr.aria-label]="decrementLabel" tabindex="-1">
-        <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true" class="down-icon">
+      <button
+        type="button"
+        class="cds--number__control-btn down-icon"
+        (click)="onDecrement()"
+        title="Decrement number"
+        [attr.aria-label]="decrementLabel"
+        tabindex="-1"
+      >
+        <svg
+          focusable="false"
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          width="16"
+          height="16"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+          class="down-icon"
+        >
           <path d="M8 15H24V17H8z"></path>
         </svg>
       </button>
       <div class="cds--number__rule-divider"></div>
-      <button type="button" class="cds--number__control-btn up-icon" (click)="onIncrement()" title="Increment number"
-        [attr.aria-label]="incrementLabel" tabindex="-1">
-        <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true" class="up-icon">
-          <path d="M17 15L17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"></path>
+      <button
+        type="button"
+        class="cds--number__control-btn up-icon"
+        (click)="onIncrement()"
+        title="Increment number"
+        [attr.aria-label]="incrementLabel"
+        tabindex="-1"
+      >
+        <svg
+          focusable="false"
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          width="16"
+          height="16"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+          class="up-icon"
+        >
+          <path
+            d="M17 15L17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"
+          ></path>
         </svg>
       </button>
       <div class="cds--number__rule-divider"></div>
@@ -33,17 +82,26 @@
   <div *ngIf="helperText && !invalid && !warn" class="cds--form__helper-text">
     <ng-container *ngIf="!isTemplate(helperText)">{{
       helperText
-      }}</ng-container>
-    <ng-template *ngIf="isTemplate(helperText)" [ngTemplateOutlet]="helperText"></ng-template>
+    }}</ng-container>
+    <ng-template
+      *ngIf="isTemplate(helperText)"
+      [ngTemplateOutlet]="helperText"
+    ></ng-template>
   </div>
   <div *ngIf="!warn && invalid" class="cds--form-requirement">
     <ng-container *ngIf="!isTemplate(invalidText)">{{
       invalidText
-      }}</ng-container>
-    <ng-template *ngIf="isTemplate(invalidText)" [ngTemplateOutlet]="invalidText"></ng-template>
+    }}</ng-container>
+    <ng-template
+      *ngIf="isTemplate(invalidText)"
+      [ngTemplateOutlet]="invalidText"
+    ></ng-template>
   </div>
   <div *ngIf="!invalid && warn" class="cds--form-requirement">
     <ng-container *ngIf="!isTemplate(warnText)">{{ warnText }}</ng-container>
-    <ng-template *ngIf="isTemplate(warnText)" [ngTemplateOutlet]="warnText"></ng-template>
+    <ng-template
+      *ngIf="isTemplate(warnText)"
+      [ngTemplateOutlet]="warnText"
+    ></ng-template>
   </div>
 </div>

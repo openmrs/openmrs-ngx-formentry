@@ -6,15 +6,8 @@ import { TabComponent } from '../components/tab.component';
 import { HoverClassDirective } from '../directives/hover-class.directive';
 
 @NgModule({
-  declarations: [
-    TabComponent,
-    TabSetComponent,
-    HoverClassDirective
-  ],
-  exports: [
-    TabComponent,
-    TabSetComponent,
-  ],
+  declarations: [TabComponent, TabSetComponent, HoverClassDirective],
+  exports: [TabComponent, TabSetComponent],
   imports: [CommonModule]
 })
 export class NgxTabSetModule {

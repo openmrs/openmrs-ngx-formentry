@@ -31,7 +31,7 @@ import { CustomControlQuestion } from '../question-models/custom-control-questio
 export class QuestionFactory {
   dataSources: any = {};
   historicalHelperService: HistoricalHelperService = new HistoricalHelperService();
-  constructor() { }
+  constructor() {}
 
   createQuestionModel(formSchema: any, form?: Form): QuestionBase {
     if (form) {
@@ -528,8 +528,8 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () { },
-      resolveFunction: function () { }
+      searchFunction: function () {},
+      resolveFunction: function () {}
     });
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
@@ -559,8 +559,8 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () { },
-      resolveFunction: function () { }
+      searchFunction: function () {},
+      resolveFunction: function () {}
     });
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
@@ -596,8 +596,8 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () { },
-      resolveFunction: function () { }
+      searchFunction: function () {},
+      resolveFunction: function () {}
     });
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
