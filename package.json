@@ -27,6 +27,8 @@
     "@angular/platform-browser": "^11.2.14",
     "@angular/platform-browser-dynamic": "^11.2.14",
     "@angular/router": "^11.2.14",
+    "@ngx-translate/core": "^13.0.0",
+    "@ngx-translate/http-loader": "^6.0.0",
     "@carbon/styles": "^1.11.0",
     "@ng-select/ng-select": "^6.1.0",
     "core-js": "^2.5.4",

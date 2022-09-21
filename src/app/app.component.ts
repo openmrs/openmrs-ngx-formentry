@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 
 import { Subscriber, Observable, Subject, of, Observer } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 import {
   QuestionFactory,
@@ -45,7 +46,9 @@ export class AppComponent implements OnInit {
     private encAdapter: EncounterAdapter,
     private dataSources: DataSources,
     private formErrorsService: FormErrorsService,
-    private http: HttpClient
+    private http: HttpClient,
+    private translate: TranslateService
+
   ) {
     this.schema = adultForm;
   }
@@ -221,6 +224,28 @@ export class AppComponent implements OnInit {
         this.labelMap[concept.reqId] = concept.display;
       });
     });
+
+    this.translate.currentLang = 'fr';
+    this.fetchMockedTranslationsData().then((translationsData: any) => {
+      this.translate.setTranslation(translationsData.language, translationsData.translations);
+    });
+
+  }
+
+  fetchMockedTranslationsData() {
+    const promise = new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        const translationsData = {
+          "uuid": "510bb364-6928-42ea-9458-a46bfc2eebc6",
+          "language": "fr",
+          "translations": {
+            "Encounter Details": "Détails de la rencontre",
+          }
+        };
+        resolve(translationsData);
+      }, 2000);
+    });
+    return promise;
   }
 
   fetchMockedConceptData(concepts) {
