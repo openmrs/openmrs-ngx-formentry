@@ -21,6 +21,7 @@ import * as _ from 'lodash';
   ]
 })
 export class CheckboxControlComponent implements OnInit, AfterViewInit {
+  @Input() public id: String;
   @Input() public options: Array<any>;
   @Input() public selected: Array<any>;
   public _value: Array<any> = [];

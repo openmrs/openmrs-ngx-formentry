@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
-import { TabsetComponent } from '../components/tab-set';
-import { TabComponent } from '../components/tab';
+import { TabSetComponent } from '../components/ngx-tab-set.component';
+import { TabComponent } from '../components/tab.component';
 import { HoverClassDirective } from '../directives/hover-class.directive';
 
 @NgModule({
-  declarations: [TabComponent, TabsetComponent, HoverClassDirective],
-  exports: [TabComponent, TabsetComponent],
+  declarations: [TabComponent, TabSetComponent, HoverClassDirective],
+  exports: [TabComponent, TabSetComponent],
   imports: [CommonModule]
 })
 export class NgxTabSetModule {

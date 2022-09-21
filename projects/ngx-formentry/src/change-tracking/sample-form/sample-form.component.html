@@ -58,11 +58,25 @@
       >
     </div>
     <div class="form-row">
-      <button class="cds--btn cds--btn--primary" type="submit" [disabled]="!form.valid">Save</button>
-      <button class="cds--btn cds--btn--secondary" type="button" (click)="setControlOneValue()">
+      <button
+        class="cds--btn cds--btn--primary"
+        type="submit"
+        [disabled]="!form.valid"
+      >
+        Save
+      </button>
+      <button
+        class="cds--btn cds--btn--secondary"
+        type="button"
+        (click)="setControlOneValue()"
+      >
         change value 1
       </button>
-      <button class="cds--btn cds--btn--danger" type="button" (click)="removeControlNine()">
+      <button
+        class="cds--btn cds--btn--danger"
+        type="button"
+        (click)="removeControlNine()"
+      >
         remove control 9
       </button>
     </div>

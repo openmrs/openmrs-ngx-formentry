@@ -26,4 +26,5 @@ export interface BaseOptions {
   historicalDisplay?: any;
   rows?: any;
   showWeeksAdder?: any;
+  datePickerFormat?: any;
 }

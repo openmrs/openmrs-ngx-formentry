@@ -1,7 +1,7 @@
 /**
  * time-picker.component.spec
  */
- import { By } from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import moment from 'moment';
 
