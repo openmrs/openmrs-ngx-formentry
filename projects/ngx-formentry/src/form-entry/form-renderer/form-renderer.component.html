@@ -2,7 +2,7 @@
 <div *ngIf="node.question.renderingType === 'form'">
   <ngx-tab-set (onSelect)="tabSelected($event)" [selectedIndex]="activeTab">
     <ngx-tab
-      [tabTitle]="question.label"
+      [tabTitle]="question.label | translate"
       *ngFor="let question of node.question.questions; let i = index"
     >
       <form-renderer
@@ -58,7 +58,7 @@
         <path d="M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
       </svg>
       <p class="cds--accordion__title">
-        {{ node.question.label }}
+        {{ node.question.label | translate }}
       </p>
     </button>
     <div [collapse]="isCollapsed">
@@ -132,7 +132,7 @@
       >
         {{ node.question.required ? '*' : '' }}
         {{ node.question.prefix ? node.question.prefix + ' ' : ''
-        }}{{ node.question.label }}
+        }}{{ node.question.label | translate }}
       </label>
 
       <div
@@ -158,7 +158,7 @@
             [id]="node.question.key + 'id'"
           >
             <option *ngFor="let o of node.question.options" [value]="o.value">
-              {{ o.label }}
+              {{ o.label | translate }}
             </option>
           </ibm-select>
 
@@ -179,7 +179,7 @@
               'cds--text-area--light': theme === 'light',
               'cds--text-area--invalid': !node.control.valid
             }"
-            [placeholder]="node.question.placeholder"
+            [placeholder]="node.question.placeholder | translate"
             [rows]="node.question.rows"
             class="cds--text-area"
             *ngSwitchCase="'textarea'"
@@ -192,7 +192,7 @@
           <ngx-remote-select
             [theme]="theme"
             *ngSwitchCase="'remote-select'"
-            [placeholder]="node.question.placeholder"
+            [placeholder]="node.question.placeholder | translate"
             tabindex="0"
             [dataSource]="dataSource"
             [componentID]="node.question.key + 'id'"
@@ -215,7 +215,7 @@
             [id]="node.question.key + 'id'"
             *ngSwitchCase="'multi-select'"
             [items]="node.question.options"
-            bindLabel="label"
+            bindLabel="label | translate"
             bindValue="value"
             [multiple]="true"
             placeholder=""
@@ -229,7 +229,7 @@
             [id]="node.question.key + 'id'"
             *ngSwitchCase="'single-select'"
             [items]="node.question.options"
-            bindLabel="label"
+            bindLabel="label | translate"
             bindValue="value"
             placeholder=""
             clearAllText="Clear"
@@ -244,7 +244,7 @@
             [min]="node.question.extras.questionOptions.min"
             [max]="node.question.extras.questionOptions.max"
             [formControlName]="node.question.key"
-            [attr.placeholder]="node.question.placeholder"
+            [attr.placeholder]="node.question.placeholder | translate"
           >
           </number-input>
 
@@ -274,7 +274,7 @@
                   [id]="node.question.key + 'id'"
                   [value]="o.value"
                 />
-                {{ o.label }}
+                {{ o.label | translate }}
               </label>
             </div>
           </div>
@@ -348,7 +348,7 @@
           node.question.extras.questionInfo !== ' '
         "
       >
-        {{ node.question.extras.questionInfo }}
+        {{ node.question.extras.questionInfo | translate }}
       </div>
     </div>
   </div>
@@ -361,7 +361,7 @@
   <!--ARRAY CONTROL-->
   <div [ngSwitch]="node.question.renderingType">
     <div class="well" style="padding: 2px" *ngSwitchCase="'repeating'">
-      <h4 style="margin: 2px; font-weight: bold">{{ node.question.label }}</h4>
+      <h4 style="margin: 2px; font-weight: bold">{{ node.question.label | translate }}</h4>
       <hr
         style="
           margin-left: -2px;
