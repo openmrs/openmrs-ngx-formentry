@@ -37,7 +37,7 @@
             class="picker-day"
             (click)="selectDay(day)"
             [ngClass]="{
-              'out-focus': day.month() != calendarDate.month(),
+              'out-focus': day.month() !== calendarDate.month(),
               today: day.isSame(today),
               selected: day.isSame(selectedDate)
             }"
