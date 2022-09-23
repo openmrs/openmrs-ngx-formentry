@@ -1483,10 +1483,10 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.7.0"
 
-"@ng-select/ng-select@^6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-6.1.0.tgz#c0575d963a1871dcf72d38186598c7c71d26dd49"
-  integrity sha512-uro/zIjL+TRWzbrzNN9IjIusOeLfhCn9cIr5Bq3AsJyxyU7Gdj9kOD5wVrrQ0NVkaQ1BJMcWmUvmYGBXLI6cnA==
+"@ng-select/ng-select@^7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-7.4.0.tgz#553ff25f887ec602e5f54b6818d65e40f7422cb0"
+  integrity sha512-Mn+gUA5KV2740zQHr4Zkc1tyTqeDE67tm4Cz4+miONWIPFP9KfxQ26goRDS8vT43zbDefalPQWH1thX+8NBRGg==
   dependencies:
     tslib "^2.0.0"
 
