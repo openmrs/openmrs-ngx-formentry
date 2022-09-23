@@ -1,11 +1,11 @@
-<!-- <lib-file-uploader
+<lib-ngx-file-uploader
   [srcUrl]="pdfUrl"
   [formEntry]="formEntryMode"
   [(ngModel)]="fileUuid"
   (_onClear)="clearValue()"
   (uploadData)="onFileChange($event)"
 >
-</lib-file-uploader>
+</lib-ngx-file-uploader>
 <div *ngIf="fileUuid">
   <img
     *ngIf="!pdfUploaded"
@@ -13,4 +13,4 @@
     [src]="fileUuid | secure: this.dataSource.fetchFile"
     alt=""
   />
-</div> -->
+</div>
