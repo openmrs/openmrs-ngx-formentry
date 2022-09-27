@@ -281,7 +281,7 @@
 
           <div *ngSwitchCase="'checkbox'">
             <checkbox
-              [id]="node.question.key + 'id'"
+              [id]="node.question.key + 'id' + controlId"
               [formControlName]="node.question.key"
               [options]="node.question.options"
               [selected]="node.control.value"
@@ -410,9 +410,11 @@
               [node]="child.children[question.key]"
               [parentGroup]="child.control"
               [labelMap]="labelMap"
+              [controlId]="i"
             ></form-renderer>
             <button
-              type="button "
+              type="button"
+              style="width: 100px"
               class="cds--btn cds--btn--danger cds--btn--sm"
               (click)="node.removeAt(i)"
             >
@@ -433,7 +435,7 @@
       </div>
       <button
         type="button"
-        class="cds--btn cds--btn--primary"
+        class="cds--btn cds--btn--primary cds--btn--sm"
         (click)="node.createChildNode()"
       >
         Add

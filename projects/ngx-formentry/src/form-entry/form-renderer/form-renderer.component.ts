@@ -28,6 +28,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
   @Input() public parentGroup: AfeFormGroup;
   @Input() public theme = 'light';
   @Input() public labelMap: Object;
+  @Input() public controlId: String = '';
   public childComponents: FormRendererComponent[] = [];
   public showTime: boolean;
   public showWeeks: boolean;
