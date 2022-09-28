@@ -27,7 +27,7 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
   public _value: Array<any> = [];
 
   public ngOnInit() {
-    this.selected =[];
+    this.selected = [];
     this.options = this.options.map((option) => {
       if (this.selected.indexOf(option.value) !== -1) {
         Object.assign(option, { checked: true });
@@ -77,7 +77,8 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
       });
     }
 
-    this._value = [...this.selected];
+    // this._value = [...this.selected];
+    this.selected = [...this._value];
     this.onChange(this.value);
   }
 
