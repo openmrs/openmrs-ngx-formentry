@@ -348,7 +348,7 @@ export class AppComponent implements OnInit {
       providerUuid: 'providerUuid',
       utcOffset: '+0300'
     };
-
+    const payload = this.encAdapter.generateFormPayload(this.form);
     if (this.form.valid) {
       this.form.showErrors = false;
       // const payload = this.encAdapter.generateFormPayload(this.form);
