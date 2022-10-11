@@ -331,7 +331,6 @@
 							"type": "obs",
 							"label": "Custom Control Test:",
 							"id": "customCon",
-							"required": "true",
 							"default": "",
 							"questionOptions": {
 								"rendering": "select",
@@ -1512,6 +1511,34 @@
 							"label": "Is the patient on ART?",
 							"required": "true",
 							"id": "onArt",
+							"historicalExpression": "arrayContainsAny(['a89b7c50-1350-11df-a1f1-0026b9348838','a89b7ae8-1350-11df-a1f1-0026b9348838','a8a00220-1350-11df-a1f1-0026b9348838','a89b77aa-1350-11df-a1f1-0026b9348838'], HD.getObject('prevEnc').getValue('a89b75d4-1350-11df-a1f1-0026b9348838')) ? 'a899b35c-1350-11df-a1f1-0026b9348838' : HD.getObject('prevEnc').getValue('a89ae254-1350-11df-a1f1-0026b9348838')",
+							"questionOptions": {
+								"concept": "a89ae254-1350-11df-a1f1-0026b9348838",
+								"answers": [
+									{
+										"concept": "a899b35c-1350-11df-a1f1-0026b9348838",
+										"label": "Yes"
+									},
+									{
+										"concept": "a899b42e-1350-11df-a1f1-0026b9348838",
+										"label": "No"
+									}
+								],
+								"rendering": "select"
+							},
+							"type": "obs",
+							"validators": [
+								{
+									"type": "js_expression",
+									"failsWhenExpression": "!isEmpty(transferInControl) && transferInControl === 'a899b42e-1350-11df-a1f1-0026b9348838' && !isEmpty(myValue) && arrayContains(['a899b35c-1350-11df-a1f1-0026b9348838'], myValue)",
+									"message": "In the enrollment section, patient not marked as transfer in. Kindly confirm."
+								}
+							]
+						},
+						{
+							"label": "Is the patient on ART 2?",
+							"required": "true",
+							"id": "onArt2",
 							"historicalExpression": "arrayContainsAny(['a89b7c50-1350-11df-a1f1-0026b9348838','a89b7ae8-1350-11df-a1f1-0026b9348838','a8a00220-1350-11df-a1f1-0026b9348838','a89b77aa-1350-11df-a1f1-0026b9348838'], HD.getObject('prevEnc').getValue('a89b75d4-1350-11df-a1f1-0026b9348838')) ? 'a899b35c-1350-11df-a1f1-0026b9348838' : HD.getObject('prevEnc').getValue('a89ae254-1350-11df-a1f1-0026b9348838')",
 							"questionOptions": {
 								"concept": "a89ae254-1350-11df-a1f1-0026b9348838",

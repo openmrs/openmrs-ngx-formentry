@@ -26,6 +26,7 @@ export interface RemoveArrayChildNodeFunction {
 
 export abstract class NodeBase {
   public abstract children?: any;
+  public nodeIndex?: Number;
   private _control: AfeFormControl | AfeFormArray | AfeFormGroup;
   private _questionModel: QuestionBase;
   private _form: Form;

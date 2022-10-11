@@ -22,6 +22,7 @@ import { Form } from './form';
 
 @Injectable()
 export class FormFactory {
+  private nodeIndex = 0;
   public hd: any = {
     getValue: () => {
       return 20;
@@ -80,6 +81,8 @@ export class FormFactory {
     } else {
       node = this.createLeafNode(question, parentNode, parentControl, form);
     }
+    node.nodeIndex = this.nodeIndex;
+    this.nodeIndex++;
     return node;
   }
 
