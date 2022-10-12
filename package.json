@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "build": "ng build",
-    "build:lib": "ng build ngx-formentry",
+    "build": "ng build --configuration production",
+    "build:lib": "ng build ngx-formentry --configuration production ",
     "test": "ng test ngx-formentry --watch=false",
     "test:watch": "ng test ngx-formentry",
     "lint": "ng lint",
