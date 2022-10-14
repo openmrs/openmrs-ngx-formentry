@@ -14,3 +14,4 @@ export { RepeatingQuestion } from '../question-models/repeating-question';
 
 export { TextQuestionOptions } from './interfaces/text-question-options';
 export { CheckBoxQuestion } from './checkbox.model';
+export { RadioButtonQuestion } from './radio-button.model';

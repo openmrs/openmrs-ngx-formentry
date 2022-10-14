@@ -1,13 +1,14 @@
 import { QuestionBase } from './question-base';
-import { CheckboxOptions } from './interfaces/checkbox-options';
+import { RadioButtonOptions } from './interfaces/radio-button-options';
 import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
-export class CheckBoxQuestion extends QuestionBase {
+export class RadioButtonQuestion extends QuestionBase {
   options: { key: string; value: string }[];
 
-  constructor(options: CheckboxOptions) {
+  constructor(options: RadioButtonOptions) {
     super(options);
-    this.renderingType = 'checkbox';
+    this.renderingType = 'radio';
+    this.allowRadioUnselect = options.allowRadioUnselect === false;
     this.options = options.options || [];
     this.controlType = AfeControlType.AfeFormControl;
   }

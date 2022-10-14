@@ -24,6 +24,7 @@ import { DummyDataSource } from '../data-sources/dummy-data-source';
 import { HistoricalHelperService } from '../helpers/historical-expression-helper-service';
 import { Form } from './form';
 import { CheckBoxQuestion } from '../question-models/models';
+import { RadioButtonQuestion } from '../question-models/models';
 import { Injectable } from '@angular/core';
 import { CustomControlQuestion } from '../question-models/custom-control-question.model';
 
@@ -209,6 +210,40 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.extras = schemaQuestion;
     question.orientation = schemaQuestion.questionOptions.orientation;
+    question.options = schemaQuestion.questionOptions.answers.map((obj) => {
+      return {
+        label: obj.label,
+        value: obj.concept
+      };
+    });
+    question.options.splice(0, 0);
+
+    question.renderingType = schemaQuestion.questionOptions.rendering;
+    const mappings: any = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
+    return question;
+  }
+
+  toRadioButtonQuestion(schemaQuestion: any): RadioButtonQuestion {
+    const question = new RadioButtonQuestion({
+      options: [],
+      type: '',
+      key: ''
+    });
+    question.label = schemaQuestion.label;
+    question.key = schemaQuestion.id;
+    question.extras = schemaQuestion;
+    question.allowRadioUnselect =
+      schemaQuestion.questionOptions.allowRadioUnselect;
     question.options = schemaQuestion.questionOptions.answers.map((obj) => {
       return {
         label: obj.label,
@@ -788,7 +823,7 @@ export class QuestionFactory {
       case 'encounterProvider':
         return this.toEncounterProviderQuestion(schema);
       case 'radio':
-        return this.toCheckBoxQuestion(schema);
+        return this.toRadioButtonQuestion(schema);
       case 'checkbox':
         return this.toCheckBoxQuestion(schema);
       case 'encounterProvider':
