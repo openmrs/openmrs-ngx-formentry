@@ -29,9 +29,9 @@ module.exports = function (config) {
     singleRun: false,
     browsers: ['ChromeHeadless'],
     flags: ['--disable-gpu', '--no-sandbox'],
-    captureTimeout: 60000,
-    browserDisconnectTimeout: 60000,
+    browserDisconnectTimeout: 100000,
+    browserNoActivityTimeout: 100000,
     browserDisconnectTolerance: 3,
-    browserNoActivityTimeout: 30000
+    captureTimeout: 100000
   });
 };
