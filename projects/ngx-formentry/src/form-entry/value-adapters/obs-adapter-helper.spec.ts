@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import moment from 'moment';
 
@@ -19,10 +19,14 @@ import { Form } from '../form-factory/form';
 import { DebugModeService } from './../services/debug-mode.service';
 
 describe('Obs Value Adapter Helper: ', () => {
+  let formFactory: FormFactory;
+  let obsAdapterHelper: ObsAdapterHelper;
+
   beforeEach((done) => {
     window.setTimeout(function () {
       done();
     }, 0);
+
     TestBed.configureTestingModule({
       declarations: [],
       providers: [
@@ -39,21 +43,22 @@ describe('Obs Value Adapter Helper: ', () => {
         DebugModeService
       ]
     });
+
+    formFactory = TestBed.inject(FormFactory);
+    obsAdapterHelper = TestBed.inject(ObsAdapterHelper);
   });
 
   afterEach(() => {
     TestBed.resetTestingModule();
   });
 
-  it('should be injected', inject([ObsAdapterHelper], (s: ObsAdapterHelper) => {
-    expect(s).toBeTruthy();
-  }));
+  it('should be injected', () => {
+    expect(obsAdapterHelper).toBeTruthy();
+  });
 
   it('should find the obs that is an answer to a question', () => {
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    const form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    const form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     // CASE 1: Simple Obs
@@ -91,9 +96,9 @@ describe('Obs Value Adapter Helper: ', () => {
 
     const expectedSimpleObs = [simpleObs[1]];
 
-    expect(helper.findObsAnswerToQuestion(simpleNode, simpleObs)).toEqual(
-      expectedSimpleObs
-    );
+    expect(
+      obsAdapterHelper.findObsAnswerToQuestion(simpleNode, simpleObs)
+    ).toEqual(expectedSimpleObs);
 
     // CASE 2: Repeating obs
     // find arv drugs concept: a89b6a62-1350-11df-a1f1-0026b9348838
@@ -150,7 +155,7 @@ describe('Obs Value Adapter Helper: ', () => {
 
     const expectedMultiselectObs = [multiselectObs[1], multiselectObs[3]];
     expect(
-      helper.findObsAnswerToQuestion(multiselectNode, multiselectObs)
+      obsAdapterHelper.findObsAnswerToQuestion(multiselectNode, multiselectObs)
     ).toEqual(expectedMultiselectObs);
 
     // CASE 3: Complex obs i.e obs where multiple properties are editable e.g obsDatetime
@@ -159,7 +164,7 @@ describe('Obs Value Adapter Helper: ', () => {
     )[0];
     const expectedComplexObs = [multiselectObs[4]];
     expect(
-      helper.findObsAnswerToQuestion(complexObsNode, multiselectObs)
+      obsAdapterHelper.findObsAnswerToQuestion(complexObsNode, multiselectObs)
     ).toEqual(expectedComplexObs);
 
     // CASE 4: Groups and Repeating Groups
@@ -302,7 +307,7 @@ describe('Obs Value Adapter Helper: ', () => {
     const expectedTbStartDateObs = [groupObs[1]];
 
     expect(
-      helper.findObsAnswerToQuestion(groupNodeWithStartDate, groupObs)
+      obsAdapterHelper.findObsAnswerToQuestion(groupNodeWithStartDate, groupObs)
     ).toEqual(expectedTbStartDateObs);
 
     // example two: repeating group
@@ -311,15 +316,13 @@ describe('Obs Value Adapter Helper: ', () => {
     )[0];
     const expectedRepeatingGroupObs = [groupObs[2], groupObs[3], groupObs[4]];
     expect(
-      helper.findObsAnswerToQuestion(repeatingGroupNode, groupObs)
+      obsAdapterHelper.findObsAnswerToQuestion(repeatingGroupNode, groupObs)
     ).toEqual(expectedRepeatingGroupObs);
   });
 
   it('should identify the type of obs a node represents', () => {
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    const form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    const form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     // There are types of obs node i.e simple obs node, complex obs node, multiselect obs node,
@@ -327,41 +330,42 @@ describe('Obs Value Adapter Helper: ', () => {
 
     // case 1: simple obs node
     const simpleObsNode = form.searchNodeByQuestionId('scheduledVisit')[0];
-    expect(helper.getObsNodeType(simpleObsNode)).toEqual('simple');
+    expect(obsAdapterHelper.getObsNodeType(simpleObsNode)).toEqual('simple');
 
     // case 2: multi-select obs node
     const multiSelectNode = form.searchNodeByQuestionId(
       'current_art_regimen_adult'
     )[0];
-    expect(helper.getObsNodeType(multiSelectNode)).toEqual('multiselect');
+    expect(obsAdapterHelper.getObsNodeType(multiSelectNode)).toEqual(
+      'multiselect'
+    );
 
     // case 3: complex obs
     const complexObsNode = form.searchNodeByQuestionId(
       'complex_creatinine_test'
     )[0];
-    expect(helper.getObsNodeType(complexObsNode)).toEqual('complex');
+    expect(obsAdapterHelper.getObsNodeType(complexObsNode)).toEqual('complex');
 
     // case 4: group obs node
     const groupObsNode = form.searchNodeByQuestionId(
       'groupStartDateTbTreatment'
     )[0];
-    expect(helper.getObsNodeType(groupObsNode)).toEqual('group');
-    console.log('groupObsNode', groupObsNode);
+    expect(obsAdapterHelper.getObsNodeType(groupObsNode)).toEqual('group');
 
     // case 5: repeating obs node
     const repeatingGroupNode = form.searchNodeByQuestionId(
       'tb_current_regimen_group'
     )[0];
-    expect(helper.getObsNodeType(repeatingGroupNode)).toEqual('repeatingGroup');
+    expect(obsAdapterHelper.getObsNodeType(repeatingGroupNode)).toEqual(
+      'repeatingGroup'
+    );
   });
 
   it('should set the value of a simple obs node given the obs that represents its value', () => {
     // simple obs represent values such as free text, single select, numbers, dates
     // the obs array supplied is already filtered as the obs that is the answer to the given node
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    const form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    const form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     // CASE 1: select values i.e obs value is an object
@@ -382,7 +386,7 @@ describe('Obs Value Adapter Helper: ', () => {
       }
     ];
 
-    helper.setSimpleObsNodeValue(simpleObsNode, obsValue);
+    obsAdapterHelper.setSimpleObsNodeValue(simpleObsNode, obsValue);
 
     // check 1: the value of the node control should be set
     expect(simpleObsNode.control.value).toEqual(obsValue[0].value.uuid);
@@ -404,7 +408,7 @@ describe('Obs Value Adapter Helper: ', () => {
       }
     ];
 
-    helper.setSimpleObsNodeValue(numericObsNode, obsWithNumeric);
+    obsAdapterHelper.setSimpleObsNodeValue(numericObsNode, obsWithNumeric);
     // check 1: the value of the node control should be set
     expect(numericObsNode.control.value).toEqual(obsWithNumeric[0].value);
 
@@ -416,10 +420,8 @@ describe('Obs Value Adapter Helper: ', () => {
     // multi-select obs represent anwsers with multiple choices.
     // they are usually represented as multiple-obs
     // the obs array supplied is already filtered as the obs that is the answer to the given node
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    const form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    const form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     const multiselectObs = [
@@ -456,7 +458,10 @@ describe('Obs Value Adapter Helper: ', () => {
       'current_art_regimen_adult'
     )[0];
 
-    helper.setMultiselectObsNodeValue(multiSelectNode, multiselectObs);
+    obsAdapterHelper.setMultiselectObsNodeValue(
+      multiSelectNode,
+      multiselectObs
+    );
 
     // check 1: the value of the node control should be set
     expect(multiSelectNode.control.value).toEqual([
@@ -472,10 +477,8 @@ describe('Obs Value Adapter Helper: ', () => {
   it('should set values for a complex obs node given the obs that represents its value', () => {
     // complex obs is a single obs but whose members other than the value, needs to be changed.
     // the obs array supplied is already filtered as the obs that is the answer to the given node
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    const form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    const form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     const complexObsNode = form.searchNodeByQuestionId(
@@ -495,7 +498,7 @@ describe('Obs Value Adapter Helper: ', () => {
 
     expect(complexObsNode).toBeDefined();
 
-    helper.setComplexObsNodeValue(complexObsNode, obs);
+    obsAdapterHelper.setComplexObsNodeValue(complexObsNode, obs);
 
     // check 1: the initial value for the complex obs node is set
     expect(complexObsNode.initialValue).toBe(obs[0]);
@@ -513,10 +516,8 @@ describe('Obs Value Adapter Helper: ', () => {
   });
 
   it('should set the value for a group obs node given the obs that represents its value', () => {
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    const form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    const form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     const groupObsNode = form.searchNodeByQuestionId(
@@ -544,7 +545,7 @@ describe('Obs Value Adapter Helper: ', () => {
       }
     ];
 
-    helper.setGroupObsNodeValue(groupObsNode, groupObs);
+    obsAdapterHelper.setGroupObsNodeValue(groupObsNode, groupObs);
 
     // check 1: the initial value for the group obs node is set
     expect(groupObsNode.initialValue).toBe(groupObs[0]);
@@ -562,8 +563,8 @@ describe('Obs Value Adapter Helper: ', () => {
     () => {
       const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
       const ff: FormFactory = TestBed.inject(FormFactory);
-      expect(ff).toBeDefined();
-      const form: Form = ff.createForm(adultForm);
+      expect(formFactory).toBeDefined();
+      const form: Form = formFactory.createForm(adultForm);
       expect(form).toBeDefined();
 
       const repeatingObsNode = form.searchNodeByQuestionId(
@@ -629,7 +630,10 @@ describe('Obs Value Adapter Helper: ', () => {
         }
       ];
 
-      helper.setRepeatingGroupObsNodeValue(repeatingObsNode, repeatingGroupObs);
+      obsAdapterHelper.setRepeatingGroupObsNodeValue(
+        repeatingObsNode,
+        repeatingGroupObs
+      );
 
       // check 1: repeating node has initial value set
       expect(repeatingObsNode.initialValue).toBe(repeatingGroupObs);
@@ -689,13 +693,11 @@ describe('Obs Value Adapter Helper: ', () => {
   );
 
   it('should set the values for nodes given the array of obs for an encounter', () => {
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    const form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    const form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
-    helper.setNodeValue(form.rootNode, adultFormObs.obs);
+    obsAdapterHelper.setNodeValue(form.rootNode, adultFormObs.obs);
 
     // Simple obs are set
     const simpleNode = form.searchNodeByQuestionId('onTbTreatment')[0];
@@ -740,10 +742,8 @@ describe('Obs Value Adapter Helper: ', () => {
 
   // REGION: Payload Generation
   it('should generate payload obs for a simple obs node', () => {
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    let form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    let form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     // CASE 1: NEW FORM
@@ -755,16 +755,19 @@ describe('Obs Value Adapter Helper: ', () => {
 
     // null or empty values are ignored for new case.
     // no obs is created.
-    let simplePayload = helper.getSimpleObsPayload(simpleField);
+    let simplePayload = obsAdapterHelper.getSimpleObsPayload(simpleField);
     expect(simplePayload).toBeNull();
 
     // simulate user input
     simpleField.control.setValue(200);
 
-    simplePayload = helper.getSimpleObsPayload(simpleField);
+    simplePayload = obsAdapterHelper.getSimpleObsPayload(simpleField);
+
     expect(simplePayload).toEqual({
       concept: 'a8a65d5a-1350-11df-a1f1-0026b9348838',
-      value: 200
+      value: 200,
+      formFieldNamespace: jasmine.stringMatching(/\w+/),
+      formFieldPath: jasmine.stringMatching(/\w+/)
     });
 
     // SUB-CASE 2: Date fields
@@ -773,14 +776,17 @@ describe('Obs Value Adapter Helper: ', () => {
     // simulate user input
     const dateValue = '2016-01-21T16:17:46.000+0300';
     dateField.control.setValue(dateValue);
-    const datePayload = helper.getSimpleObsPayload(dateField);
+    const datePayload = obsAdapterHelper.getSimpleObsPayload(dateField);
+
     expect(datePayload).toEqual({
       concept: 'a8a666ba-1350-11df-a1f1-0026b9348838',
-      value: moment(dateValue).format('YYYY-MM-DD HH:mm:ss')
+      value: moment(dateValue).format('YYYY-MM-DD HH:mm:ss'),
+      formFieldNamespace: jasmine.stringMatching(/\w+/),
+      formFieldPath: jasmine.stringMatching(/\w+/)
     });
 
     // CASE 2: EDITING AN EXISTING ENCOUNTER
-    form = ff.createForm(adultForm);
+    form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     const existingObs = [
@@ -821,7 +827,7 @@ describe('Obs Value Adapter Helper: ', () => {
     ];
 
     // populate form with values
-    helper.setNodeValue(form.rootNode, existingObs);
+    obsAdapterHelper.setNodeValue(form.rootNode, existingObs);
 
     // simulate user changes as described above in the payload
 
@@ -838,38 +844,42 @@ describe('Obs Value Adapter Helper: ', () => {
     field4.control.setValue('a89ff816-1350-11df-a1f1-0026b9348838');
 
     // Sub-Case 1: cleared fields are voided
-    let payload = helper.getSimpleObsPayload(field1);
+    let payload = obsAdapterHelper.getSimpleObsPayload(field1);
     expect(payload).toEqual({
       uuid: 'uuid 1',
       voided: true
     });
 
     // Sub-case 2: unchanged values
-    payload = helper.getSimpleObsPayload(field2);
+    payload = obsAdapterHelper.getSimpleObsPayload(field2);
     expect(payload).toBeNull();
 
     // Sub-case 3: value changed
-    payload = helper.getSimpleObsPayload(field3);
+    payload = obsAdapterHelper.getSimpleObsPayload(field3);
+
     expect(payload).toEqual({
       uuid: 'uuid 3',
       value: moment('2016-02-28T16:17:46.000+0300').format(
         'YYYY-MM-DD HH:mm:ss'
-      )
+      ),
+      formFieldNamespace: jasmine.stringMatching(/\w+/),
+      formFieldPath: jasmine.stringMatching(/\w+/)
     });
 
     // Sub-case 4: single selects and concept answers cases
-    payload = helper.getSimpleObsPayload(field4);
+    payload = obsAdapterHelper.getSimpleObsPayload(field4);
+
     expect(payload).toEqual({
       uuid: 'uuid 4',
-      value: 'a89ff816-1350-11df-a1f1-0026b9348838'
+      value: 'a89ff816-1350-11df-a1f1-0026b9348838',
+      formFieldNamespace: jasmine.stringMatching(/\w+/),
+      formFieldPath: jasmine.stringMatching(/\w+/)
     });
   });
 
   it('should generate payload obs for a complex obs node', () => {
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    let form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    let form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     const existingObs: Array<any> = [
@@ -885,26 +895,29 @@ describe('Obs Value Adapter Helper: ', () => {
     ];
 
     // populate form with values
-    helper.setNodeValue(form.rootNode, existingObs);
+    obsAdapterHelper.setNodeValue(form.rootNode, existingObs);
 
     let complexObsNode = form.searchNodeByQuestionId(
       'complex_viralLoad_test'
     )[0];
 
     // CASE 1: No change
-    let payload: any = helper.getComplexObsPayload(complexObsNode);
+    let payload: any = obsAdapterHelper.getComplexObsPayload(complexObsNode);
     expect(payload).toBeNull();
 
     // CASE 2: Value changes and/or date changes
     let valueNode = form.searchNodeByQuestionId('viralLoad_test')[0];
     valueNode.control.setValue(20);
-    payload = helper.getComplexObsPayload(complexObsNode);
+    payload = obsAdapterHelper.getComplexObsPayload(complexObsNode);
+
     expect(payload).toEqual({
       uuid: 'other uuid',
       obsDatetime: moment('2016-01-21T16:17:46.000+0300').format(
         'YYYY-MM-DD HH:mm:ss'
       ),
-      value: 20
+      value: 20,
+      formFieldNamespace: jasmine.stringMatching(/\w+/),
+      formFieldPath: jasmine.stringMatching(/\w+/)
     });
 
     // CASE 3: date changes only
@@ -913,7 +926,7 @@ describe('Obs Value Adapter Helper: ', () => {
 
     let dateNode = form.searchNodeByQuestionId('date_viralLoad_test')[0];
     dateNode.control.setValue('2016-04-21T16:17:46.000+0300');
-    payload = helper.getComplexObsPayload(complexObsNode);
+    payload = obsAdapterHelper.getComplexObsPayload(complexObsNode);
 
     expect(payload).toEqual({
       uuid: 'other uuid',
@@ -923,7 +936,7 @@ describe('Obs Value Adapter Helper: ', () => {
     });
 
     // CASE 4: New form
-    form = ff.createForm(adultForm);
+    form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
     complexObsNode = form.searchNodeByQuestionId('complex_viralLoad_test')[0];
 
@@ -933,21 +946,22 @@ describe('Obs Value Adapter Helper: ', () => {
     dateNode = form.searchNodeByQuestionId('date_viralLoad_test')[0];
     dateNode.control.setValue('2016-04-21T16:17:46.000+0300');
 
-    payload = helper.getComplexObsPayload(complexObsNode);
+    payload = obsAdapterHelper.getComplexObsPayload(complexObsNode);
+
     expect(payload).toEqual({
       concept: 'a8982474-1350-11df-a1f1-0026b9348838',
       obsDatetime: moment('2016-04-21T16:17:46.000+0300').format(
         'YYYY-MM-DD HH:mm:ss'
       ),
-      value: 10
+      value: 10,
+      formFieldNamespace: jasmine.stringMatching(/\w+/),
+      formFieldPath: jasmine.stringMatching(/\w+/)
     });
   });
 
   it('should generate payload obs for a multiselect obs node', () => {
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    const form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    const form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     let existingObs: Array<any> = [
@@ -974,11 +988,12 @@ describe('Obs Value Adapter Helper: ', () => {
     ];
 
     // populate form with values
-    helper.setNodeValue(form.rootNode, existingObs);
+    obsAdapterHelper.setNodeValue(form.rootNode, existingObs);
 
     const multiSelectNode = form.searchNodeByQuestionId(
       'current_art_regimen_adult'
     )[0];
+
     expect(multiSelectNode.control.value).toEqual([
       '6a73f32d-1870-4527-af6e-74443251ded2',
       '1c4a75d0-cc91-4752-b0a5-4b833326ff7a'
@@ -990,7 +1005,8 @@ describe('Obs Value Adapter Helper: ', () => {
       'a89cc876-1350-11df-a1f1-0026b9348838'
     ]);
 
-    let payload = helper.getMultiselectObsPayload(multiSelectNode);
+    let payload = obsAdapterHelper.getMultiselectObsPayload(multiSelectNode);
+
     expect(payload).toEqual([
       {
         uuid: 'uuid 1',
@@ -998,7 +1014,9 @@ describe('Obs Value Adapter Helper: ', () => {
       },
       {
         concept: 'a899cf5e-1350-11df-a1f1-0026b9348838',
-        value: 'a89cc876-1350-11df-a1f1-0026b9348838'
+        value: 'a89cc876-1350-11df-a1f1-0026b9348838',
+        formFieldNamespace: jasmine.stringMatching(/\w+/),
+        formFieldPath: jasmine.stringMatching(/\w+/)
       }
     ]);
 
@@ -1017,7 +1035,7 @@ describe('Obs Value Adapter Helper: ', () => {
     ];
 
     // populate form with values
-    helper.setNodeValue(form.rootNode, existingObs);
+    obsAdapterHelper.setNodeValue(form.rootNode, existingObs);
     const clearedMultiSelectNode = form.searchNodeByQuestionId('tbSymptoms')[0];
     expect(clearedMultiSelectNode.control.value).toEqual([
       'a899e0ac-1350-11df-a1f1-0026b9348838'
@@ -1026,7 +1044,7 @@ describe('Obs Value Adapter Helper: ', () => {
     // simulate user input
     clearedMultiSelectNode.control.setValue('');
 
-    payload = helper.getMultiselectObsPayload(clearedMultiSelectNode);
+    payload = obsAdapterHelper.getMultiselectObsPayload(clearedMultiSelectNode);
     expect(payload).toEqual([
       {
         uuid: 'uuid 6',
@@ -1036,10 +1054,8 @@ describe('Obs Value Adapter Helper: ', () => {
   });
 
   it('should generate payload obs for a group obs node', () => {
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    let form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    let form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     const groupObs: any = [
@@ -1064,14 +1080,14 @@ describe('Obs Value Adapter Helper: ', () => {
     ];
 
     // populate form with values
-    helper.setNodeValue(form.rootNode, groupObs);
+    obsAdapterHelper.setNodeValue(form.rootNode, groupObs);
 
     let groupObsNode = form.searchNodeByQuestionId(
       'groupStartDateTbTreatment'
     )[0];
 
     // CASE 1: Nothing changed
-    let payload: any = helper.getGroupPayload(groupObsNode);
+    let payload: any = obsAdapterHelper.getGroupPayload(groupObsNode);
     expect(payload).toEqual(null);
 
     // CASE 2: Something changed
@@ -1079,22 +1095,26 @@ describe('Obs Value Adapter Helper: ', () => {
     let childNode = form.searchNodeByQuestionId('startDateOfTbTreatment')[0];
     childNode.control.setValue('2016-04-21T16:17:46.000+0300');
 
-    payload = helper.getGroupPayload(groupObsNode);
+    payload = obsAdapterHelper.getGroupPayload(groupObsNode);
 
     expect(payload).toEqual({
-      uuid: 'some uuid',
       groupMembers: [
         {
           uuid: 'some inner uuid',
           value: moment('2016-04-21T16:17:46.000+0300').format(
             'YYYY-MM-DD HH:mm:ss'
-          )
+          ),
+          formFieldNamespace: jasmine.stringMatching(/\w+/),
+          formFieldPath: jasmine.stringMatching(/\w+/)
         }
-      ]
+      ],
+      uuid: 'some uuid',
+      formFieldNamespace: jasmine.stringMatching(/\w+/),
+      formFieldPath: jasmine.stringMatching(/\w+/)
     });
 
     // CASE 3: New group
-    form = ff.createForm(adultForm);
+    form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     groupObsNode = form.searchNodeByQuestionId('groupStartDateTbTreatment')[0];
@@ -1102,27 +1122,30 @@ describe('Obs Value Adapter Helper: ', () => {
 
     // simulate user input
     childNode.control.setValue('2016-04-21T16:17:46.000+0300');
-    payload = helper.getGroupPayload(groupObsNode);
+    payload = obsAdapterHelper.getGroupPayload(groupObsNode);
+
     expect(payload).toEqual({
-      concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
       groupMembers: [
         {
           concept: 'a899e5f2-1350-11df-a1f1-0026b9348838',
           value: moment('2016-04-21T16:17:46.000+0300').format(
             'YYYY-MM-DD HH:mm:ss'
-          )
+          ),
+          formFieldNamespace: jasmine.stringMatching(/\w+/),
+          formFieldPath: jasmine.stringMatching(/\w+/)
         }
-      ]
+      ],
+      concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
+      formFieldNamespace: jasmine.stringMatching(/\w+/),
+      formFieldPath: jasmine.stringMatching(/\w+/)
     });
   });
 
   it('should generate payload obs for a repeating group obs node', () => {
     spyOn(window, 'confirm').and.callFake(() => true);
 
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    let form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    let form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     const obs: Array<any> = [
@@ -1204,14 +1227,14 @@ describe('Obs Value Adapter Helper: ', () => {
     ];
 
     // populate form with values
-    helper.setNodeValue(form.rootNode, obs);
+    obsAdapterHelper.setNodeValue(form.rootNode, obs);
 
     let groupObsNode: ArrayNode = form.searchNodeByQuestionId(
       'tb_current_regimen_group'
     )[0] as ArrayNode;
 
     // CASE 1: Nothing changed
-    let payload: any = helper.getRepeatingGroupPayload(groupObsNode);
+    let payload: any = obsAdapterHelper.getRepeatingGroupPayload(groupObsNode);
     expect(payload).toEqual(null);
 
     // CASE 2: Something changed
@@ -1226,26 +1249,34 @@ describe('Obs Value Adapter Helper: ', () => {
     const childMember = childGroupNode.children['regimenTabsDay'] as NodeBase;
     childMember.control.setValue(21);
 
-    payload = helper.getRepeatingGroupPayload(groupObsNode);
+    payload = obsAdapterHelper.getRepeatingGroupPayload(groupObsNode);
 
     expect(payload).toEqual([
       {
-        uuid: 'some uuid 1',
         groupMembers: [
           {
+            value: 21,
             uuid: 'uuid 2',
-            value: 21
+            formFieldNamespace: jasmine.stringMatching(/\w+/),
+            formFieldPath: jasmine.stringMatching(/\w+/)
           }
-        ]
+        ],
+        uuid: 'some uuid 1',
+        formFieldNamespace: jasmine.stringMatching(/\w+/),
+        formFieldPath: jasmine.stringMatching(/\w+/)
       },
       {
         groupMembers: [
           {
             concept: 'a899e444-1350-11df-a1f1-0026b9348838',
-            value: 'a8aaf3e2-1350-11df-a1f1-0026b9348838'
+            value: 'a8aaf3e2-1350-11df-a1f1-0026b9348838',
+            formFieldNamespace: jasmine.stringMatching(/\w+/),
+            formFieldPath: jasmine.stringMatching(/\w+/)
           }
         ],
-        concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838'
+        concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
+        formFieldNamespace: jasmine.stringMatching(/\w+/),
+        formFieldPath: jasmine.stringMatching(/\w+/)
       },
       {
         uuid: 'some uuid 3',
@@ -1254,7 +1285,7 @@ describe('Obs Value Adapter Helper: ', () => {
     ]);
 
     // CASE 3: New form case
-    form = ff.createForm(adultForm);
+    form = formFactory.createForm(adultForm);
     groupObsNode = form.searchNodeByQuestionId(
       'tb_current_regimen_group'
     )[0] as ArrayNode;
@@ -1262,26 +1293,28 @@ describe('Obs Value Adapter Helper: ', () => {
     newChild = newNode.children['tb_current'] as NodeBase;
     newChild.control.setValue('a8aaf3e2-1350-11df-a1f1-0026b9348838');
 
-    payload = helper.getRepeatingGroupPayload(groupObsNode);
+    payload = obsAdapterHelper.getRepeatingGroupPayload(groupObsNode);
 
     expect(payload).toEqual([
       {
         groupMembers: [
           {
             concept: 'a899e444-1350-11df-a1f1-0026b9348838',
-            value: 'a8aaf3e2-1350-11df-a1f1-0026b9348838'
+            value: 'a8aaf3e2-1350-11df-a1f1-0026b9348838',
+            formFieldNamespace: jasmine.stringMatching(/\w+/),
+            formFieldPath: jasmine.stringMatching(/\w+/)
           }
         ],
-        concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838'
+        concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
+        formFieldNamespace: jasmine.stringMatching(/\w+/),
+        formFieldPath: jasmine.stringMatching(/\w+/)
       }
     ]);
   });
 
   it('should generate the obs payload for a root node given the form', () => {
-    const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-    const ff: FormFactory = TestBed.inject(FormFactory);
-    expect(ff).toBeDefined();
-    const form: Form = ff.createForm(adultForm);
+    expect(formFactory).toBeDefined();
+    const form: Form = formFactory.createForm(adultForm);
     expect(form).toBeDefined();
 
     // simulate user input
@@ -1312,35 +1345,48 @@ describe('Obs Value Adapter Helper: ', () => {
     )[0];
     multiSelectNode.control.setValue(['1c4a75d0-cc91-4752-b0a5-4b833326ff7a']);
 
-    const payload = helper.getObsNodePayload(form.rootNode);
+    const payload = obsAdapterHelper.getObsNodePayload(form.rootNode);
 
     const expectedDateValue = moment(dateValue).format('YYYY-MM-DD HH:mm:ss');
+
     expect(payload).toEqual([
       {
         concept: 'a899cf5e-1350-11df-a1f1-0026b9348838',
-        value: '1c4a75d0-cc91-4752-b0a5-4b833326ff7a'
+        value: '1c4a75d0-cc91-4752-b0a5-4b833326ff7a',
+        formFieldNamespace: jasmine.stringMatching(/\w+/),
+        formFieldPath: jasmine.stringMatching(/\w+/)
       },
       {
-        concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
         groupMembers: [
           {
             concept: 'a899e5f2-1350-11df-a1f1-0026b9348838',
-            value: expectedDateValue
+            value: expectedDateValue,
+            formFieldNamespace: jasmine.stringMatching(/\w+/),
+            formFieldPath: jasmine.stringMatching(/\w+/)
           }
-        ]
+        ],
+        concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
+        formFieldNamespace: jasmine.stringMatching(/\w+/),
+        formFieldPath: jasmine.stringMatching(/\w+/)
       },
       {
         groupMembers: [
           {
             concept: 'a899e444-1350-11df-a1f1-0026b9348838',
-            value: 'a8aaf3e2-1350-11df-a1f1-0026b9348838'
+            value: 'a8aaf3e2-1350-11df-a1f1-0026b9348838',
+            formFieldNamespace: jasmine.stringMatching(/\w+/),
+            formFieldPath: jasmine.stringMatching(/\w+/)
           }
         ],
-        concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838'
+        concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
+        formFieldNamespace: jasmine.stringMatching(/\w+/),
+        formFieldPath: jasmine.stringMatching(/\w+/)
       },
       {
         concept: 'a8982474-1350-11df-a1f1-0026b9348838',
         value: 10,
+        formFieldNamespace: jasmine.stringMatching(/\w+/),
+        formFieldPath: jasmine.stringMatching(/\w+/),
         obsDatetime: expectedDateValue
       }
     ]);

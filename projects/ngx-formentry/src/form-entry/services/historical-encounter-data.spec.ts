@@ -157,7 +157,7 @@ describe('Historical Encounter Data Service', () => {
         )
     ).toEqual({
       value: '2016-01-10T00:00:00.000+0300',
-      valueDate: 'Jan 21, 2016'
+      valueDate: '2016-01-21T16:17:46'
     });
   });
 });
