@@ -46,9 +46,8 @@ export class TabSetComponent implements AfterContentInit, OnChanges {
     });
   }
 
-  public onHover($event) {
-    console.log($event);
-  }
+  public onHover($event) {}
+
   public selectTab(tabToSelect: TabComponent): void {
     if (tabToSelect.disabled === true || tabToSelect.active === true) {
       return;

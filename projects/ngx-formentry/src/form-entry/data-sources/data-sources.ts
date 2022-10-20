@@ -13,7 +13,7 @@ export class DataSources {
     if (unWrap) {
       // eslint-disable-next-line guard-for-in
       for (const o in dataSource) {
-        // console.log('registering', o, dataSource[o]);
+        
         this.registerDataSource(o, dataSource[o], false);
       }
     }

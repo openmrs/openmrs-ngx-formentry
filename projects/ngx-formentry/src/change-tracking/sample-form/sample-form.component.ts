@@ -218,13 +218,9 @@ export class SampleFormComponent implements OnInit {
     // this.wireRelation(this.control1, this.array4);
     this.control1.controlRelations.addRelatedControls(this.array4);
 
-    this.form.statusChanges.subscribe(() => {
-      // console.log('Form Status Change: ', this.form.status);
-    });
+    this.form.statusChanges.subscribe(() => {});
 
-    this.form.valueChanges.subscribe(() => {
-      // console.log('Form Value Change: ', this.form.value);
-    });
+    this.form.valueChanges.subscribe(() => {});
   }
 
   // private wireRelation(a: AbstractControl, b: AbstractControl, isCyclic = false): void {
@@ -237,7 +233,6 @@ export class SampleFormComponent implements OnInit {
   //         } else {
   //             a.updateValueAndValidity();
   //         }
-  //         console.log('control value changes:', val);
   //     });
   // }
 
@@ -251,7 +246,6 @@ export class SampleFormComponent implements OnInit {
   //         } else {
   //             a.updateValueAndValidity();
   //         }
-  //         console.log('control value changes:', val);
   //     });
   // }
 
@@ -283,7 +277,7 @@ export class SampleFormComponent implements OnInit {
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
       const hasFailedValidation = refControl.value === 'failed';
-      // console.log(controlName, ' forbidden validation ran:', hasFailedValidation);
+
       return hasFailedValidation ? { forbiddenValue: { name } } : null;
     };
   }
@@ -295,7 +289,7 @@ export class SampleFormComponent implements OnInit {
     return (control: AbstractControl): { [key: string]: any } => {
       const arrayVal = refControl.value as Array<any>;
       const hasFailedValidation = arrayVal.length === 0;
-      // console.log(controlName, 'missing validation ran:', hasFailedValidation);
+
       return hasFailedValidation ? { forbiddenValue: { name } } : null;
     };
   }

@@ -989,11 +989,10 @@ describe('Question Factory', () => {
     const converted = factory.toModel(schemaQuestion, 'field-set');
     const result: QuestionGroup = converted as QuestionGroup;
 
-    console.log('result :', result.extras.questions[1]);
-    console.log('expected', expectedConvertedSchema.questions[1]);
-
     expect(result).toBeTruthy();
-    expect(result.extras).toEqual(expectedConvertedSchema);
+    expect(result.extras).toEqual(
+      jasmine.objectContaining(expectedConvertedSchema)
+    );
     expect(result.key).toEqual(expectedConvertedSchema.id);
     expect(result.renderingType).toBe(
       expectedConvertedSchema.questionOptions.rendering

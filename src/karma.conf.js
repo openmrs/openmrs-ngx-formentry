@@ -26,7 +26,12 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false
+    singleRun: false,
+    browsers: ['ChromeHeadless'],
+    flags: ['--disable-gpu', '--no-sandbox'],
+    browserDisconnectTimeout: 100000,
+    browserNoActivityTimeout: 100000,
+    browserDisconnectTolerance: 3,
+    captureTimeout: 100000
   });
 };

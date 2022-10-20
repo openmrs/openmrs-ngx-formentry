@@ -147,7 +147,7 @@ export class OrderValueAdapter implements ValueAdapter {
         }
       }
     }
-    // console.log('Deleted Orders ', deleteOrders);
+
     return deleteOrders;
   }
 
@@ -162,7 +162,7 @@ export class OrderValueAdapter implements ValueAdapter {
       childNode.control.setValue(value);
       childNode['initialValue'] = value;
       childNode['orderNumber'] = order.orderNumber;
-      // console.log('Set Value', node.children[index].control.value, node, childNode);
+
       index++;
     }
   }

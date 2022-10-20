@@ -13,7 +13,7 @@ import { Injectable } from '@angular/core';
 export class ObsAdapterHelper {
   formFieldNamespace = 'O3';
   obsIndex = 0;
-  constructor() { }
+  constructor() {}
 
   findObsAnswerToQuestion(node: NodeBase, obsArray: Array<any>): Array<any> {
     // Find and Order the obs based on form_namespace_and_path
@@ -449,10 +449,12 @@ export class ObsAdapterHelper {
     if (Array.isArray(node.control.value)) {
       _.each(node.control.value, (item) => {
         if (existingUuids.indexOf(item) < 0) {
-          payload.push(this.addFieldNameSpaceandPath(node, {
-            concept: node.question.extras.questionOptions.concept,
-            value: item
-          }));
+          payload.push(
+            this.addFieldNameSpaceandPath(node, {
+              concept: node.question.extras.questionOptions.concept,
+              value: item
+            })
+          );
         }
       });
     }
@@ -505,7 +507,7 @@ export class ObsAdapterHelper {
     });
 
     // void deleted groups
-    // console.log('groupsUuidsAfterEditting', groupsUuidsAfterEditting);
+
     if (nodeAsArray.initialValue && Array.isArray(nodeAsArray.initialValue)) {
       _.each(nodeAsArray.initialValue, (obs) => {
         if (groupsUuidsAfterEditting.indexOf(obs.uuid) < 0) {
