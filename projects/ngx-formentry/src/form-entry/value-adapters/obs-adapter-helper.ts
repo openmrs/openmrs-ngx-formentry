@@ -11,9 +11,12 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ObsAdapterHelper {
+  formFieldNamespace = 'O3';
+  obsIndex = 0;
   constructor() {}
 
   findObsAnswerToQuestion(node: NodeBase, obsArray: Array<any>): Array<any> {
+    // Find and Order the obs based on form_namespace_and_path
     const found = [];
 
     if (!this.isObsNode(node)) {
@@ -121,6 +124,7 @@ export class ObsAdapterHelper {
 
   setMultiselectObsNodeValue(node: NodeBase, obs: Array<any>) {
     if (node && obs.length > 0) {
+      obs = obs.sort(this.comparePath);
       node.initialValue = obs;
 
       const obsUuids = [];
@@ -182,13 +186,20 @@ export class ObsAdapterHelper {
   setRepeatingGroupObsNodeValue(node: NodeBase, obs: Array<any>) {
     if (node && obs.length > 0) {
       const arrayNode = node as ArrayNode;
+      obs = obs.sort(this.comparePath);
       arrayNode.initialValue = obs;
-
       for (let i = 0; i < obs.length; i++) {
         const createdNode = arrayNode.createChildNode();
         this.setGroupObsNodeValue(createdNode, [obs[i]]);
       }
     }
+  }
+
+  comparePath(first, second) {
+    if (!first || !second) {
+      return -1;
+    }
+    return Number(first.formFieldPath) - Number(second.formFieldPath);
   }
 
   setNodeValue(node: NodeBase, obs: Array<any>) {
@@ -349,9 +360,15 @@ export class ObsAdapterHelper {
       obs.uuid = node.initialValue.uuid;
     }
 
-    return obs;
+    return this.addFieldNameSpaceandPath(node, obs);
   }
 
+  addFieldNameSpaceandPath(node, obs) {
+    obs.formFieldNamespace = this.formFieldNamespace;
+    obs.formFieldPath = `${node?.question?.questionIndex}${node?.nodeIndex}${this.obsIndex}`;
+    this.obsIndex++;
+    return obs;
+  }
   getComplexObsPayload(node: NodeBase) {
     let valueField: LeafNode; // essential memmber
     let dateField: LeafNode; // other member to be manipulated by user
@@ -395,6 +412,7 @@ export class ObsAdapterHelper {
         payload.obsDatetime = this.toOpenMrsDateTimeString(
           dateField.control.value
         );
+
         return payload;
       }
     }
@@ -431,14 +449,15 @@ export class ObsAdapterHelper {
     if (Array.isArray(node.control.value)) {
       _.each(node.control.value, (item) => {
         if (existingUuids.indexOf(item) < 0) {
-          payload.push({
-            concept: node.question.extras.questionOptions.concept,
-            value: item
-          });
+          payload.push(
+            this.addFieldNameSpaceandPath(node, {
+              concept: node.question.extras.questionOptions.concept,
+              value: item
+            })
+          );
         }
       });
     }
-
     return payload;
   }
 
@@ -467,7 +486,7 @@ export class ObsAdapterHelper {
       groupPayload.concept =
         nodeAsGroup.question.extras.questionOptions.concept;
     }
-
+    this.addFieldNameSpaceandPath(node, groupPayload);
     return groupPayload;
   }
 
@@ -488,7 +507,7 @@ export class ObsAdapterHelper {
     });
 
     // void deleted groups
-    // console.log('groupsUuidsAfterEditting', groupsUuidsAfterEditting);
+
     if (nodeAsArray.initialValue && Array.isArray(nodeAsArray.initialValue)) {
       _.each(nodeAsArray.initialValue, (obs) => {
         if (groupsUuidsAfterEditting.indexOf(obs.uuid) < 0) {
@@ -509,7 +528,6 @@ export class ObsAdapterHelper {
 
   getObsNodePayload(node: NodeBase): Array<any> {
     let payload = [];
-
     switch (this.getObsNodeType(node)) {
       case 'unknown':
         if (node instanceof GroupNode) {
@@ -581,7 +599,6 @@ export class ObsAdapterHelper {
       default:
         break;
     }
-
     return payload;
   }
 

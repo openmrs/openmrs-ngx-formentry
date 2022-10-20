@@ -38,7 +38,7 @@ export class EncounterAdapter implements ValueAdapter {
       switch (node.question.extras.type) {
         case 'encounterDatetime':
           if (payload['encounterDatetime']) {
-            // console.log('date', payload['encounterDatetime']);
+            
             node.control.setValue(
               moment(payload['encounterDatetime']).toDate()
             );
@@ -76,7 +76,6 @@ export class EncounterAdapter implements ValueAdapter {
 
   generateFormPayload(form: Form) {
     const payload = this.generateNodePayload(form.rootNode);
-
     this.setNonFilledPayloadMembers(form, payload);
 
     payload['obs'] = this.obsAdapter.generateFormPayload(form) || [];

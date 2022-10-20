@@ -18,13 +18,13 @@ export class FormSchemaCompiler {
       return formSchema;
     }
 
-    // get all place-holders from the form schema
+    // get all placeholders from the form schema
     const placeHolders = this.getAllPlaceholderObjects(formSchema);
     if (_.isEmpty(placeHolders)) {
       return formSchema;
     }
 
-    // replace all placeHolders
+    // replace all placeholders
     this.replaceAllPlaceholdersWithActualObjects(refForms, placeHolders);
     return formSchema;
   }

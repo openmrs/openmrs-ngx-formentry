@@ -18,27 +18,27 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
+            "allowedCommonJsDependencies": ["core-js", "raf"],
             "outputPath": "dist/ngx-openmrs-formentry",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.scss",
               "projects/ngx-formentry/styles/ngx-formentry.css"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "projects/ngx-formentry/styles",
-                "dist"
-              ]
+              "includePaths": ["projects/ngx-formentry/styles", "dist"]
             },
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -58,12 +58,12 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -89,25 +89,15 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": [
-              "src/styles.css"
-            ],
-            "scripts": [
-              "node_modules/systemjs/dist/system.min.js"
-            ],
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ]
+            "styles": ["src/styles.css"],
+            "scripts": ["node_modules/systemjs/dist/system.min.js"],
+            "assets": ["src/favicon.ico", "src/assets"]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
@@ -126,10 +116,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "e2e//**/*.ts",
-              "e2e//**/*.html"
-            ]
+            "lintFilePatterns": ["e2e//**/*.ts", "e2e//**/*.html"]
           }
         }
       }

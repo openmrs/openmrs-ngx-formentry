@@ -32,7 +32,6 @@ describe('Label', () => {
   // it('should set icon to success', () => {
   //   component.labelState = 'success';
   //   fixture.detectChanges();
-  //   console.log(el);
   //   expect(el.querySelector('.label-icon-success')).toBeTruthy();
   // });
 

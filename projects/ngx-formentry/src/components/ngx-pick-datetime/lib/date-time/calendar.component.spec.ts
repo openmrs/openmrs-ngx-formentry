@@ -65,8 +65,10 @@ describe('OwlCalendarComponent', () => {
     let calendarElement: HTMLElement;
     let periodButton: HTMLElement;
     let calendarInstance: OwlCalendarComponent<Date>;
+    let dateTimePickerIntlService: OwlDateTimeIntl;
 
     beforeEach(() => {
+      dateTimePickerIntlService = TestBed.inject(OwlDateTimeIntl);
       fixture = TestBed.createComponent(StandardCalendar);
       fixture.detectChanges();
 
@@ -138,19 +140,16 @@ describe('OwlCalendarComponent', () => {
     });
 
     it('should re-render when the i18n labels have changed', () => {
-      inject([OwlDateTimeIntl], (intl: OwlDateTimeIntl) => {
-        const button = fixture.debugElement.nativeElement.querySelector(
-          '.owl-dt-control-period-button'
-        );
+      const button = fixture.debugElement.nativeElement.querySelector(
+        '.owl-dt-control-period-button'
+      );
 
-        intl.switchToMultiYearViewLabel = 'Go to multi-year view?';
-        intl.changes.next();
-        fixture.detectChanges();
+      dateTimePickerIntlService.switchToMultiYearViewLabel =
+        'Go to multi-year view?';
+      dateTimePickerIntlService.changes.next();
+      fixture.detectChanges();
 
-        expect(button.getAttribute('aria-label')).toBe(
-          'Go to multi-year view?'
-        );
-      });
+      expect(button.getAttribute('aria-label')).toBe('Go to multi-year view?');
     });
 
     it('should set all buttons to be `type="button"`', () => {

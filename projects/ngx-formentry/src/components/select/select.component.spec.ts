@@ -105,7 +105,6 @@ describe('Select', () => {
     }).createComponent(SelectTest);
     fixture.detectChanges();
     element = fixture.debugElement.query(By.css('ibm-select')).nativeElement;
-    console.log(element);
     expect(
       element.querySelector('.cds--text-input__invalid-icon')
     ).toBeTruthy();

@@ -24,6 +24,7 @@ import { DummyDataSource } from '../data-sources/dummy-data-source';
 import { HistoricalHelperService } from '../helpers/historical-expression-helper-service';
 import { Form } from './form';
 import { CheckBoxQuestion } from '../question-models/models';
+import { RadioButtonQuestion } from '../question-models/models';
 import { Injectable } from '@angular/core';
 import { CustomControlQuestion } from '../question-models/custom-control-question.model';
 
@@ -31,6 +32,7 @@ import { CustomControlQuestion } from '../question-models/custom-control-questio
 export class QuestionFactory {
   dataSources: any = {};
   historicalHelperService: HistoricalHelperService = new HistoricalHelperService();
+  quetionIndex = 0;
   constructor() {}
 
   createQuestionModel(formSchema: any, form?: Form): QuestionBase {
@@ -43,6 +45,7 @@ export class QuestionFactory {
 
   toSelectQuestion(schemaQuestion: any): SelectQuestion {
     const question = new SelectQuestion({ options: [], type: '', key: '' });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -86,6 +89,7 @@ export class QuestionFactory {
       type: '',
       key: ''
     });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -115,6 +119,7 @@ export class QuestionFactory {
       type: '',
       key: ''
     });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -143,6 +148,7 @@ export class QuestionFactory {
       return this.toEncounterDatetimeQuestion(schemaQuestion);
     }
     const question = new DateQuestion({ type: '', key: '' });
+    question.questionIndex = this.quetionIndex;
     question.renderingType = 'date';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
@@ -168,6 +174,7 @@ export class QuestionFactory {
 
   toEncounterDatetimeQuestion(schemaQuestion: any): DateQuestion {
     const question = new DateQuestion({ type: '', key: '' });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.renderingType = 'date';
@@ -197,11 +204,46 @@ export class QuestionFactory {
 
   toCheckBoxQuestion(schemaQuestion: any): CheckBoxQuestion {
     const question = new CheckBoxQuestion({ options: [], type: '', key: '' });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.extras = schemaQuestion;
     question.orientation = schemaQuestion.questionOptions.orientation;
+    question.options = schemaQuestion.questionOptions.answers.map((obj) => {
+      return {
+        label: obj.label,
+        value: obj.concept
+      };
+    });
+    question.options.splice(0, 0);
+
+    question.renderingType = schemaQuestion.questionOptions.rendering;
+    const mappings: any = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
+    return question;
+  }
+
+  toRadioButtonQuestion(schemaQuestion: any): RadioButtonQuestion {
+    const question = new RadioButtonQuestion({
+      options: [],
+      type: '',
+      key: ''
+    });
+    question.label = schemaQuestion.label;
+    question.key = schemaQuestion.id;
+    question.extras = schemaQuestion;
+    question.allowRadioUnselect =
+      schemaQuestion.questionOptions.allowRadioUnselect;
     question.options = schemaQuestion.questionOptions.answers.map((obj) => {
       return {
         label: obj.label,
@@ -232,6 +274,7 @@ export class QuestionFactory {
       type: '',
       key: ''
     });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -269,6 +312,7 @@ export class QuestionFactory {
       type: '',
       key: ''
     });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -299,6 +343,7 @@ export class QuestionFactory {
       type: '',
       key: ''
     });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -323,6 +368,7 @@ export class QuestionFactory {
 
   toFileUploadQuestion(schemaQuestion: any): FileUploadQuestion {
     const question = new FileUploadQuestion({ type: '', key: '' });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -347,6 +393,7 @@ export class QuestionFactory {
 
   toDrugQuestion(schemaQuestion: any): SelectQuestion {
     const question = new SelectQuestion({ options: [], type: '', key: '' });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -370,6 +417,7 @@ export class QuestionFactory {
 
   toProblemQuestion(schemaQuestion: any): SelectQuestion {
     const question = new SelectQuestion({ options: [], type: '', key: '' });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -393,6 +441,7 @@ export class QuestionFactory {
 
   toConceptAnswerSelect(schemaQuestion: any): SelectQuestion {
     const question = new SelectQuestion({ options: [], type: '', key: '' });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -424,6 +473,7 @@ export class QuestionFactory {
       type: '',
       key: ''
     });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.questions = this.getChildrenQuestionModels(
@@ -456,6 +506,7 @@ export class QuestionFactory {
 
   toGroupQuestion(schemaQuestion: any): QuestionGroup {
     const question = new QuestionGroup({ questions: [], type: '', key: '' });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.questions = this.getChildrenQuestionModels(
@@ -531,6 +582,7 @@ export class QuestionFactory {
       searchFunction: function () {},
       resolveFunction: function () {}
     });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -562,6 +614,7 @@ export class QuestionFactory {
       searchFunction: function () {},
       resolveFunction: function () {}
     });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -599,6 +652,7 @@ export class QuestionFactory {
       searchFunction: function () {},
       resolveFunction: function () {}
     });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -632,7 +686,7 @@ export class QuestionFactory {
       label: '',
       rendering: ''
     });
-
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
@@ -708,6 +762,7 @@ export class QuestionFactory {
   }
 
   toModel(schema: any, renderType: string): any {
+    this.quetionIndex++;
     if (renderType === 'ui-select-extended') {
       renderType = schema.type;
     }
@@ -768,7 +823,7 @@ export class QuestionFactory {
       case 'encounterProvider':
         return this.toEncounterProviderQuestion(schema);
       case 'radio':
-        return this.toCheckBoxQuestion(schema);
+        return this.toRadioButtonQuestion(schema);
       case 'checkbox':
         return this.toCheckBoxQuestion(schema);
       case 'encounterProvider':
