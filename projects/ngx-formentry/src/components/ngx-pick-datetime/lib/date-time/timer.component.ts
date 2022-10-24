@@ -1,39 +1,40 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
-/**
- * timer.component
- */
-
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   NgZone,
-  OnInit,
   Optional,
   Output
 } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
-import { take } from 'rxjs/operators';
 
 @Component({
   exportAs: 'owlDateTimeTimer',
-  selector: 'owl-date-time-timer',
+  selector: 'ofe-owl-date-time-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.scss'],
-  preserveWhitespaces: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.owl-dt-timer]': 'owlDTTimerClass',
-    '[attr.tabindex]': 'owlDTTimeTabIndex'
-  }
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OwlTimerComponent<T> implements OnInit {
+export class OwlTimerComponent<T> {
+  @HostBinding('attr.tabindex')
+  get owlDTTimeTabIndex() {
+    return -1;
+  }
+
+  @HostBinding('class.owl-dt-timer')
+  get owlDTTimerClass() {
+    return true;
+  }
+
   /** The current picker moment */
   private _pickerMoment: T;
+
   @Input()
   get pickerMoment() {
     return this._pickerMoment;
@@ -46,6 +47,7 @@ export class OwlTimerComponent<T> implements OnInit {
 
   /** The minimum selectable date time. */
   private _minDateTime: T | null;
+
   @Input()
   get minDateTime(): T | null {
     return this._minDateTime;
@@ -58,6 +60,7 @@ export class OwlTimerComponent<T> implements OnInit {
 
   /** The maximum selectable date time. */
   private _maxDateTime: T | null;
+
   @Input()
   get maxDateTime(): T | null {
     return this._maxDateTime;
@@ -172,14 +175,6 @@ export class OwlTimerComponent<T> implements OnInit {
   @Output()
   selectedChange = new EventEmitter<T>();
 
-  get owlDTTimerClass(): boolean {
-    return true;
-  }
-
-  get owlDTTimeTabIndex(): number {
-    return -1;
-  }
-
   constructor(
     private ngZone: NgZone,
     private elmRef: ElementRef,
@@ -187,8 +182,6 @@ export class OwlTimerComponent<T> implements OnInit {
     private cdRef: ChangeDetectorRef,
     @Optional() private dateTimeAdapter: DateTimeAdapter<T>
   ) {}
-
-  public ngOnInit() {}
 
   /**
    * Focus to the host element

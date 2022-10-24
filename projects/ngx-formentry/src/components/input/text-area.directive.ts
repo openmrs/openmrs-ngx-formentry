@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix, @angular-eslint/directive-class-suffix */
 import { Directive, HostBinding, Input } from '@angular/core';
 
 /**
@@ -7,15 +6,15 @@ import { Directive, HostBinding, Input } from '@angular/core';
  * Example:
  *
  * ```html
- * <textarea ibmTextArea></textarea>
+ * <textarea ofeTextAreaInput></textarea>
  * ```
  *
  * See the [vanilla carbon docs](http://www.carbondesignsystem.com/components/text-input/code) for more detail.
  */
 @Directive({
-  selector: '[ibmTextArea]'
+  selector: '[ofeTextAreaInput]'
 })
-export class TextArea {
+export class TextAreaDirective {
   /**
    * `light` or `dark` input theme
    */

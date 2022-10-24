@@ -1,7 +1,7 @@
 import { Component, Input, ContentChild, TemplateRef } from '@angular/core';
 
 @Component({
-  selector: 'ngx-tab',
+  selector: 'ofe-tab',
   templateUrl: 'tab.component.html',
   styleUrls: ['./tab.component.css']
 })

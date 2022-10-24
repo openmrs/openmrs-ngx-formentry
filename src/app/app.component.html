@@ -1,6 +1,9 @@
 <div *ngIf="form && form.rootNode">
   <form [formGroup]="form.rootNode.control">
-    <form-renderer [node]="form.rootNode" [labelMap]="labelMap"></form-renderer>
+    <ofe-form-renderer
+      [node]="form.rootNode"
+      [labelMap]="labelMap"
+    ></ofe-form-renderer>
   </form>
 
   <div class="cds--offset-md-2">

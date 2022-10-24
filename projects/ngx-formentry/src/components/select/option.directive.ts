@@ -1,10 +1,8 @@
-/* eslint-disable @angular-eslint/component-class-suffix, @angular-eslint/directive-class-suffix */
 import { Directive, HostBinding } from '@angular/core';
 
 @Directive({
-  // eslint-disable-next-line
-  selector: 'option'
+  selector: '[ofeOption]'
 })
-export class Option {
+export class OptionDirective {
   @HostBinding('class') inputClass = 'cds--select-option';
 }

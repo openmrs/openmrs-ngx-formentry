@@ -11,7 +11,7 @@ import * as _ from 'lodash';
 import { NodeBase } from '../form-factory/form-node';
 
 @Directive({
-  selector: `[node]`
+  selector: `[ofeNode]`
 })
 export class HistoricalValueDirective {
   @Input() _node: NodeBase;

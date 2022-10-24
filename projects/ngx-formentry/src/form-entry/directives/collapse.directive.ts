@@ -1,10 +1,8 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
 import {
   AnimationBuilder,
   AnimationFactory,
   AnimationPlayer
 } from '@angular/animations';
-
 import {
   AfterViewChecked,
   Directive,
@@ -19,14 +17,11 @@ import {
 import { collapseAnimation, expandAnimation } from './collapse-animations';
 
 @Directive({
-  selector: '[collapse]',
-  exportAs: 'bs-collapse',
-  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
-  host: {
-    '[class.collapse]': 'true'
-  }
+  selector: '[ofeCollapse]',
+  exportAs: 'bs-collapse'
 })
 export class CollapseDirective implements AfterViewChecked {
+  // @HostBinding('class.collapse')
   /** This event fires as soon as content collapses */
   @Output() collapsed: EventEmitter<CollapseDirective> = new EventEmitter();
   /** This event fires when collapsing is started */

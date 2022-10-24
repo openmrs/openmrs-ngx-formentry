@@ -1,16 +1,11 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
-/**
- * calendar-multi-year-view.component
- */
-
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  HostBinding,
   Input,
-  OnInit,
   Optional,
   Output,
   ViewChild
@@ -38,17 +33,21 @@ export const YEARS_PER_ROW = 3;
 export const YEAR_ROWS = 7;
 
 @Component({
-  selector: 'owl-date-time-multi-year-view',
+  selector: 'ofe-owl-date-time-multi-year-view',
   templateUrl: './calendar-multi-year-view.component.html',
   styleUrls: ['./calendar-multi-year-view.component.scss'],
-  host: {
-    '[class.owl-dt-calendar-view]': 'owlDTCalendarView',
-    '[class.owl-dt-calendar-multi-year-view]': 'owlDTCalendarMultiYearView'
-  },
-  preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
+export class OwlMultiYearViewComponent<T> implements AfterContentInit {
+  @HostBinding('class.owl-dt-calendar-view') get owlDTCalendarView() {
+    return true;
+  }
+
+  @HostBinding('class.owl-dt-calendar-multi-year-view')
+  get owlDTCalendarMultiYearView() {
+    return true;
+  }
+
   /**
    * The select mode of the picker;
    * */
@@ -84,6 +83,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
   }
 
   private _selecteds: T[] = [];
+
   @Input()
   get selecteds(): T[] {
     return this._selecteds;
@@ -220,7 +220,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
   /**
    * Callback to invoke when a new month is selected
    * */
-  @Output() readonly change = new EventEmitter<T>();
+  @Output() readonly monthChange = new EventEmitter<T>();
 
   /**
    * Emits the selected year. This doesn't imply a change on the selected date
@@ -239,21 +239,11 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
   @ViewChild(OwlCalendarBodyComponent, { static: true })
   calendarBodyElm: OwlCalendarBodyComponent;
 
-  get owlDTCalendarView(): boolean {
-    return true;
-  }
-
-  get owlDTCalendarMultiYearView(): boolean {
-    return true;
-  }
-
   constructor(
     private cdRef: ChangeDetectorRef,
     private pickerIntl: OwlDateTimeIntl,
     @Optional() private dateTimeAdapter: DateTimeAdapter<T>
   ) {}
-
-  public ngOnInit() {}
 
   public ngAfterContentInit(): void {
     this._todayYear = this.dateTimeAdapter.getYear(this.dateTimeAdapter.now());
@@ -287,7 +277,7 @@ export class OwlMultiYearViewComponent<T> implements OnInit, AfterContentInit {
       this.dateTimeAdapter.getSeconds(this.pickerMoment)
     );
 
-    this.change.emit(selected);
+    this.monthChange.emit(selected);
   }
 
   /**

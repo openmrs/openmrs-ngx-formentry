@@ -1,8 +1,3 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
-/**
- * dialog-container.component
- */
-
 import {
   ChangeDetectorRef,
   Component,
@@ -10,8 +5,9 @@ import {
   ElementRef,
   EmbeddedViewRef,
   EventEmitter,
+  HostBinding,
+  HostListener,
   Inject,
-  OnInit,
   Optional,
   ViewChild
 } from '@angular/core';
@@ -45,7 +41,7 @@ const zoomFadeInFrom = {
 };
 
 @Component({
-  selector: 'owl-dialog-container',
+  selector: 'ofe-owl-dialog-container',
   templateUrl: './dialog-container.component.html',
   animations: [
     trigger('slideModal', [
@@ -81,22 +77,60 @@ const zoomFadeInFrom = {
         { params: { x: '0px', y: '0px', ox: '50%', oy: '50%' } }
       )
     ])
-  ],
-  host: {
-    '(@slideModal.start)': 'onAnimationStart($event)',
-    '(@slideModal.done)': 'onAnimationDone($event)',
-    '[class.owl-dialog-container]': 'owlDialogContainerClass',
-    '[attr.tabindex]': 'owlDialogContainerTabIndex',
-    '[attr.id]': 'owlDialogContainerId',
-    '[attr.role]': 'owlDialogContainerRole',
-    '[attr.aria-labelledby]': 'owlDialogContainerAriaLabelledby',
-    '[attr.aria-describedby]': 'owlDialogContainerAriaDescribedby',
-    '[@slideModal]': 'owlDialogContainerAnimation'
-  }
+  ]
 })
-export class OwlDialogContainerComponent
-  extends BasePortalOutlet
-  implements OnInit {
+export class OwlDialogContainerComponent extends BasePortalOutlet {
+  @HostBinding('attr.tabindex') get owlDialogContainerTabIndex() {
+    return -1;
+  }
+
+  @HostBinding('class.owl-dialog-container')
+  get owlDialogContainerClass() {
+    return true;
+  }
+
+  @HostBinding('attr.id')
+  get owlDialogContainerId() {
+    return this._config.id;
+  }
+
+  @HostBinding('attr.role')
+  get owlDialogContainerRole() {
+    return this._config.role || null;
+  }
+
+  @HostBinding('attr.aria-labelledby')
+  get owlDialogContainerAriaLabelledby() {
+    return this.ariaLabelledBy;
+  }
+
+  @HostBinding('attr.aria-describedby')
+  get owlDialogContainerAriaDescribedby() {
+    return this._config.ariaDescribedBy || null;
+  }
+
+  @HostBinding('@slideModal')
+  get owlDialogContainerAnimation() {
+    return { value: this.state, params: this.params };
+  }
+
+  @HostListener('@slideModal.start', ['$event'])
+  public onAnimationStart(event: AnimationEvent): void {
+    this.isAnimating = true;
+    this.animationStateChanged.emit(event);
+  }
+
+  @HostListener('@slideModal.done', ['$event'])
+  public onAnimationDone(event: AnimationEvent): void {
+    if (event.toState === 'enter') {
+      this.trapFocus();
+    } else if (event.toState === 'exit') {
+      this.restoreFocus();
+    }
+
+    this.animationStateChanged.emit(event);
+    this.isAnimating = false;
+  }
   @ViewChild(CdkPortalOutlet, { static: true })
   portalOutlet: CdkPortalOutlet;
 
@@ -131,34 +165,6 @@ export class OwlDialogContainerComponent
   // This would help us to refocus back to element when the dialog was closed.
   private elementFocusedBeforeDialogWasOpened: HTMLElement | null = null;
 
-  get owlDialogContainerClass(): boolean {
-    return true;
-  }
-
-  get owlDialogContainerTabIndex(): number {
-    return -1;
-  }
-
-  get owlDialogContainerId(): string {
-    return this._config.id;
-  }
-
-  get owlDialogContainerRole(): string {
-    return this._config.role || null;
-  }
-
-  get owlDialogContainerAriaLabelledby(): string {
-    return this.ariaLabelledBy;
-  }
-
-  get owlDialogContainerAriaDescribedby(): string {
-    return this._config.ariaDescribedBy || null;
-  }
-
-  get owlDialogContainerAnimation(): any {
-    return { value: this.state, params: this.params };
-  }
-
   constructor(
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
@@ -169,8 +175,6 @@ export class OwlDialogContainerComponent
   ) {
     super();
   }
-
-  public ngOnInit() {}
 
   /**
    * Attach a ComponentPortal as content to this dialog container.
@@ -198,22 +202,6 @@ export class OwlDialogContainerComponent
     if (config.event) {
       this.calculateZoomOrigin(event);
     }
-  }
-
-  public onAnimationStart(event: AnimationEvent): void {
-    this.isAnimating = true;
-    this.animationStateChanged.emit(event);
-  }
-
-  public onAnimationDone(event: AnimationEvent): void {
-    if (event.toState === 'enter') {
-      this.trapFocus();
-    } else if (event.toState === 'exit') {
-      this.restoreFocus();
-    }
-
-    this.animationStateChanged.emit(event);
-    this.isAnimating = false;
   }
 
   public startExitAnimation() {

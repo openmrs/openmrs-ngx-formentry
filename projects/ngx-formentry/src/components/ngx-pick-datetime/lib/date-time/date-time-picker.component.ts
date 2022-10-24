@@ -1,7 +1,3 @@
-/**
- * date-time-picker.component
- */
-
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,7 +9,6 @@ import {
   Input,
   NgZone,
   OnDestroy,
-  OnInit,
   Optional,
   Output,
   ViewContainerRef
@@ -30,6 +25,9 @@ import {
 } from '@angular/cdk/overlay';
 import { ESCAPE, UP_ARROW } from '@angular/cdk/keycodes';
 import { coerceArray, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { merge, Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
+
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
@@ -45,8 +43,6 @@ import {
 } from './date-time.class';
 import { OwlDialogRef } from '../dialog/dialog-ref.class';
 import { OwlDialogService } from '../dialog/dialog.service';
-import { merge, Subscription } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
 
 /** Injection token that determines the scroll handling while the dtPicker is open. */
 export const OWL_DTPICKER_SCROLL_STRATEGY = new InjectionToken<
@@ -69,16 +65,15 @@ export const OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER = {
 };
 
 @Component({
-  selector: 'owl-date-time',
+  selector: 'ofe-owl-date-time',
   exportAs: 'owlDateTime',
   templateUrl: './date-time-picker.component.html',
   styleUrls: ['./date-time-picker.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OwlDateTimeComponent<T>
   extends OwlDateTime<T>
-  implements OnInit, OnDestroy {
+  implements OnDestroy {
   /** Custom class for the picker backdrop. */
   @Input()
   public backdropClass: string | string[] = [];
@@ -89,6 +84,7 @@ export class OwlDateTimeComponent<T>
 
   /** The date to open the calendar to initially. */
   private _startAt: T | null;
+
   @Input()
   get startAt(): T | null {
     // If an explicit startAt is set we start there, otherwise we start at whatever the currently
@@ -311,8 +307,6 @@ export class OwlDateTimeComponent<T>
     super(dateTimeAdapter, dateTimeFormats);
     this.defaultScrollStrategy = defaultScrollStrategy;
   }
-
-  public ngOnInit() {}
 
   public ngOnDestroy(): void {
     this.close();

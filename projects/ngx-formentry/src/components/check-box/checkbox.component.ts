@@ -1,16 +1,10 @@
-import {
-  Component,
-  Input,
-  forwardRef,
-  OnInit,
-  AfterViewInit
-} from '@angular/core';
+import { Component, Input, forwardRef, OnInit } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'checkbox',
+  selector: 'ofe-checkbox',
   templateUrl: './checkbox.component.html',
   providers: [
     {
@@ -20,7 +14,7 @@ import * as _ from 'lodash';
     }
   ]
 })
-export class CheckboxControlComponent implements OnInit, AfterViewInit {
+export class CheckboxControlComponent implements OnInit {
   @Input() public id: String;
   @Input() public options: Array<any>;
   @Input() public selected: Array<any>;
@@ -35,8 +29,6 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
       return option;
     });
   }
-
-  public ngAfterViewInit() {}
 
   public writeValue(value: any) {
     this.value = value;

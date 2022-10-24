@@ -1,4 +1,4 @@
-<owl-date-time-timer-box
+<ofe-owl-date-time-timer-box
   [upBtnAriaLabel]="upHourButtonLabel"
   [downBtnAriaLabel]="downHourButtonLabel"
   [upBtnDisabled]="!upHourEnabled()"
@@ -11,8 +11,8 @@
   [inputLabel]="'Hour'"
   (inputChange)="setHourValueViaInput($event)"
   (valueChange)="setHourValue($event)"
-></owl-date-time-timer-box>
-<owl-date-time-timer-box
+></ofe-owl-date-time-timer-box>
+<ofe-owl-date-time-timer-box
   [showDivider]="true"
   [upBtnAriaLabel]="upMinuteButtonLabel"
   [downBtnAriaLabel]="downMinuteButtonLabel"
@@ -25,8 +25,8 @@
   [inputLabel]="'Minute'"
   (inputChange)="setMinuteValue($event)"
   (valueChange)="setMinuteValue($event)"
-></owl-date-time-timer-box>
-<owl-date-time-timer-box
+></ofe-owl-date-time-timer-box>
+<ofe-owl-date-time-timer-box
   *ngIf="showSecondsTimer"
   [showDivider]="true"
   [upBtnAriaLabel]="upSecondButtonLabel"
@@ -40,7 +40,7 @@
   [inputLabel]="'Second'"
   (inputChange)="setSecondValue($event)"
   (valueChange)="setSecondValue($event)"
-></owl-date-time-timer-box>
+></ofe-owl-date-time-timer-box>
 
 <div *ngIf="hour12Timer" class="owl-dt-timer-hour12">
   <button

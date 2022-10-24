@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
 import {
   Pipe,
   PipeTransform,
@@ -11,7 +10,6 @@ import { Subscription, Observable, BehaviorSubject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 
 // Using similarity from AsyncPipe to avoid having to pipe |secure|async in HTML.
-// eslint-disable-next-line @angular-eslint/use-pipe-transform-interface
 @Pipe({
   name: 'secure',
   pure: false

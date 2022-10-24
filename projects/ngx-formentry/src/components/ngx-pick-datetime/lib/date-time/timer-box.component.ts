@@ -1,12 +1,8 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
-/**
- * timer-box.component
- */
-
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -18,16 +14,17 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   exportAs: 'owlDateTimeTimerBox',
-  selector: 'owl-date-time-timer-box',
+  selector: 'ofe-owl-date-time-timer-box',
   templateUrl: './timer-box.component.html',
   styleUrls: ['./timer-box.component.scss'],
-  preserveWhitespaces: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.owl-dt-timer-box]': 'owlDTTimerBoxClass'
-  }
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OwlTimerBoxComponent implements OnInit, OnDestroy {
+  @HostBinding('class.owl-dt-timer-box')
+  get owlDTTimerBoxClass() {
+    return true;
+  }
+
   @Input() showDivider = false;
 
   @Input() upBtnAriaLabel: string;
@@ -64,10 +61,6 @@ export class OwlTimerBoxComponent implements OnInit, OnDestroy {
 
   get displayValue(): number {
     return this.boxValue || this.value;
-  }
-
-  get owlDTTimerBoxClass(): boolean {
-    return true;
   }
 
   constructor() {}

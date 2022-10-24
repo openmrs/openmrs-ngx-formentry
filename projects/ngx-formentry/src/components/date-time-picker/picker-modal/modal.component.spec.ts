@@ -24,9 +24,9 @@ describe('ModalComponent', () => {
     overlayEl = fixture.debugElement.query(By.css('.modal-overlay'));
   });
 
-  it('should raise onOverlayClick event when the .modal-overlay element clicked', () => {
+  it('should raise an overlayClick event when the .modal-overlay element clicked', () => {
     let modalStatus: boolean;
-    comp.onOverlayClick.subscribe((status: boolean) => (modalStatus = status));
+    comp.overlayClick.subscribe((status: boolean) => (modalStatus = status));
     overlayEl.triggerEventHandler('click', null);
     expect(modalStatus).toBeFalsy();
   });

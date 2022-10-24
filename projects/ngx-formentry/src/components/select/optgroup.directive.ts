@@ -1,10 +1,8 @@
-/* eslint-disable @angular-eslint/component-class-suffix, @angular-eslint/directive-class-suffix */
 import { Directive, HostBinding } from '@angular/core';
 
 @Directive({
-  // eslint-disable-next-line
-  selector: 'optgroup'
+  selector: '[ofeOptgroup]'
 })
-export class OptGroup {
+export class OptGroupDirective {
   @HostBinding('class') inputClass = 'cds--select-optgroup';
 }

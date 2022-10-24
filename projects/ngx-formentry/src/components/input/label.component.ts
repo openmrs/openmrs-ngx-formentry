@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
 import {
   Component,
   Input,
@@ -11,32 +10,32 @@ import {
   AfterContentInit
 } from '@angular/core';
 
-import { TextArea } from './text-area.directive';
+import { TextAreaDirective } from './text-area.directive';
 
 /**
  * [See demo](../../?path=/story/input--label)
  *
  * ```html
- * <ibm-label labelState="success">
+ * <ofe-label labelState="success">
  *     <label label>Field with success</label>
  *     <input type="text" class="input-field">
- * </ibm-label>
+ * </ofe-label>
  *
- * <ibm-label labelState="warning">
+ * <ofe-label labelState="warning">
  *     <label label>Field with warning</label>
  *     <input type="text" class="input-field">
- * </ibm-label>
+ * </ofe-label>
  *
- * <ibm-label labelState="error">
+ * <ofe-label labelState="error">
  *     <label label>Field with error</label>
  *     <input type="text" class="input-field">
- * </ibm-label>
+ * </ofe-label>
  * ```
  *
  * <example-url>../../iframe.html?id=input--label</example-url>
  */
 @Component({
-  selector: 'ibm-label',
+  selector: 'ofe-label',
   template: `
     <label
       [for]="labelInputID"
@@ -109,7 +108,7 @@ import { TextArea } from './text-area.directive';
     </div>
   `
 })
-export class Label implements AfterContentInit, AfterViewInit {
+export class LabelComponent implements AfterContentInit, AfterViewInit {
   /**
    * Used to build the id of the input item associated with the `Label`.
    */
@@ -122,7 +121,7 @@ export class Label implements AfterContentInit, AfterViewInit {
    * The id of the input item associated with the `Label`. This value is also used to associate the `Label` with
    * its input counterpart through the 'for' attribute.
    */
-  @Input() labelInputID = 'ibm-label-' + Label.labelCounter;
+  @Input() labelInputID = 'ofe-label-' + LabelComponent.labelCounter;
 
   /**
    * State of the `Label` will determine the styles applied.
@@ -161,15 +160,16 @@ export class Label implements AfterContentInit, AfterViewInit {
   @ViewChild('wrapper', { static: false }) wrapper: ElementRef<HTMLDivElement>;
 
   // @ts-ignore
-  @ContentChild(TextArea, { static: false }) textArea: TextArea;
+  @ContentChild(TextAreaDirective, { static: false })
+  textArea: TextAreaDirective;
 
   @HostBinding('class.cds--form-item') labelClass = true;
 
   /**
-   * Creates an instance of Label.
+   * Creates an instance of LabelComponent.
    */
   constructor() {
-    Label.labelCounter++;
+    LabelComponent.labelCounter++;
   }
 
   /**

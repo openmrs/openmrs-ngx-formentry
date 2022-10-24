@@ -2,8 +2,9 @@ import { Component, OnInit, Input, forwardRef, Renderer2 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
+
 @Component({
-  selector: 'app-file-upload',
+  selector: 'ofe-file-upload',
   templateUrl: 'file-upload.component.html',
   providers: [
     {
@@ -28,7 +29,7 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
   pdfUploaded = false;
   formEntryMode = true;
   pdfUrl: string;
-  private _dataSource: DataSource;
+
   @Input()
   public get dataSource(): DataSource {
     return this._dataSource;
@@ -37,6 +38,8 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
     this._dataSource = v;
   }
 
+  private _dataSource: DataSource;
+
   constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
@@ -44,11 +47,13 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
       this.checkFileType();
     }
   }
+
   public onFileChange(fileList) {
     for (const file of fileList) {
       this.upload(file);
     }
   }
+
   upload(data) {
     if (this.dataSource) {
       this.uploading = true;

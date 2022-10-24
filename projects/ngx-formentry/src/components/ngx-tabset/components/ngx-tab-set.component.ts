@@ -13,7 +13,7 @@ import type { QueryList } from '@angular/core';
 import { TabComponent } from './tab.component';
 
 @Component({
-  selector: 'ngx-tab-set',
+  selector: 'ofe-tab-set',
   styleUrls: ['ngx-tab-set.component.scss'],
   templateUrl: 'ngx-tab-set.component.html'
 })
@@ -25,7 +25,7 @@ export class TabSetComponent implements AfterContentInit, OnChanges {
   @Input() public customTabsClass: String = '';
   @Input() public selectedIndex: Number = 0;
 
-  @Output() public onSelect = new EventEmitter();
+  @Output() public tabSelect = new EventEmitter();
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.selectedIndex && !changes.selectedIndex.firstChange) {
@@ -58,7 +58,7 @@ export class TabSetComponent implements AfterContentInit, OnChanges {
 
     // activate the tab the user has clicked on.
     tabToSelect.active = true;
-    this.onSelect.emit(this.tabs.toArray().indexOf(tabToSelect));
+    this.tabSelect.emit(this.tabs.toArray().indexOf(tabToSelect));
   }
   public getStatusClasses(active, disabled) {
     if (active) {

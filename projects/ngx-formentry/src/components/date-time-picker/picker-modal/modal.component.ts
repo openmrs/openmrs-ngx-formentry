@@ -5,7 +5,6 @@
 import {
   Component,
   Output,
-  OnInit,
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
@@ -17,20 +16,18 @@ declare let require: any;
 // webpack2_
 
 @Component({
-  selector: 'picker-modal',
+  selector: 'ofe-picker-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: []
 })
-export class ModalComponent implements OnInit {
-  @Output() onOverlayClick = new EventEmitter<boolean>();
+export class ModalComponent {
+  @Output() overlayClick = new EventEmitter<boolean>();
 
   constructor() {}
 
-  ngOnInit() {}
-
   closeModal() {
-    this.onOverlayClick.emit(false);
+    this.overlayClick.emit(false);
   }
 }

@@ -33,13 +33,11 @@ describe('Hiders Disablers Factory:', () => {
       HidersDisablersFactory
     );
 
-    /* eslint-disable */
     let model: QuestionBase = new QuestionBase({
       type: 'date',
       key: 'control1',
       disable: "control2 === 10 && arrayContains(control3, 'six')"
     });
-    /* eslint-enable */
 
     const control: AfeFormControl = new AfeFormControl();
 
@@ -69,13 +67,11 @@ describe('Hiders Disablers Factory:', () => {
       HidersDisablersFactory
     );
 
-    /* eslint-disable */
     let model: QuestionBase = new QuestionBase({
       type: 'date',
       key: 'control1',
       hide: "control2 === 10 && arrayContains(control3, 'six')"
     });
-    /* eslint-enable */
 
     const control: AfeFormControl = new AfeFormControl();
 

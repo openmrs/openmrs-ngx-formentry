@@ -1,15 +1,10 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-/**
- * timer.component.spec
- */
-
 import { EventEmitter } from '@angular/core';
 import {
-  async,
   ComponentFixture,
   fakeAsync,
   flush,
-  TestBed
+  TestBed,
+  waitForAsync
 } from '@angular/core/testing';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { Component, DebugElement, NgZone } from '@angular/core';
@@ -50,18 +45,20 @@ class MockNgZone extends NgZone {
 describe('OwlTimerComponent', () => {
   let zone: MockNgZone;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
-      declarations: [StandardTimer],
-      providers: [
-        OwlDateTimeIntl,
-        { provide: NgZone, useFactory: () => (zone = new MockNgZone()) }
-      ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
+        declarations: [StandardTimer],
+        providers: [
+          OwlDateTimeIntl,
+          { provide: NgZone, useFactory: () => (zone = new MockNgZone()) }
+        ]
+      }).compileComponents();
+    })
+  );
 
-  describe('standard timer', () => {
+  describe('Standard timer', () => {
     let fixture: ComponentFixture<StandardTimer>;
     let testComponent: StandardTimer;
     let timerDebugElement: DebugElement;
@@ -82,7 +79,7 @@ describe('OwlTimerComponent', () => {
 
     it('should have two timer boxes if showSecondsTimer set to false', () => {
       const timerBoxes = timerElement.querySelectorAll(
-        'owl-date-time-timer-box'
+        'ofe-owl-date-time-timer-box'
       );
       expect(timerInstance.showSecondsTimer).toBeFalsy();
       expect(timerBoxes.length).toBe(2);
@@ -93,7 +90,7 @@ describe('OwlTimerComponent', () => {
       fixture.detectChanges();
 
       const timerBoxes = timerElement.querySelectorAll(
-        'owl-date-time-timer-box'
+        'ofe-owl-date-time-timer-box'
       );
       expect(timerInstance.showSecondsTimer).toBeTruthy();
       expect(timerBoxes.length).toBe(3);
@@ -349,7 +346,7 @@ describe('OwlTimerComponent', () => {
 
 @Component({
   template: `
-    <owl-date-time-timer
+    <ofe-owl-date-time-timer
       [hour12Timer]="hour12Timer"
       [showSecondsTimer]="showSecondsTimer"
       [pickerMoment]="pickerMoment"
@@ -359,7 +356,7 @@ describe('OwlTimerComponent', () => {
       [minDateTime]="minDateTime"
       [maxDateTime]="maxDateTime"
       (selectedChange)="handleSelectedChange($event)"
-    ></owl-date-time-timer>
+    ></ofe-owl-date-time-timer>
   `
 })
 class StandardTimer {

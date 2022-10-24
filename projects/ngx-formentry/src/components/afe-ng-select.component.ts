@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Option } from '../form-entry/question-models/select-option';
@@ -6,7 +6,7 @@ import { Option } from '../form-entry/question-models/select-option';
 import { DataSource } from '../form-entry/question-models/interfaces/data-source';
 
 @Component({
-  selector: 'afe-ng-select',
+  selector: 'ofe-ng-select',
   template: `<ng-select
     (searchInputText)="getChangingText($event)"
     (ngModelChange)="onValueChange($event)"
@@ -22,8 +22,7 @@ import { DataSource } from '../form-entry/question-models/interfaces/data-source
     }
   ]
 })
-export class AfeNgSelectComponent
-  implements ControlValueAccessor, OnInit, OnChanges {
+export class AfeNgSelectComponent implements ControlValueAccessor, OnInit {
   subject: BehaviorSubject<Option[]>;
   subjectOption: BehaviorSubject<Option>;
   @Input() dataSource: DataSource;
@@ -46,8 +45,6 @@ export class AfeNgSelectComponent
   }
 
   registerOnTouched(fn: any): void {}
-
-  ngOnChanges(changes: any) {}
 
   ngOnInit() {
     if (this.extras) {

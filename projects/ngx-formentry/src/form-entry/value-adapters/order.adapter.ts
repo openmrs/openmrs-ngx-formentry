@@ -185,7 +185,6 @@ export class OrderValueAdapter implements ValueAdapter {
                 break;
               case 'repeating':
                 if (formNode.children) {
-                  // eslint-disable-next-line guard-for-in
                   for (const node in formNode.children) {
                     const question = formNode.children[node].question;
                     if (

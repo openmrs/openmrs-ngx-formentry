@@ -19,7 +19,7 @@ import { QuestionGroup } from '../question-models/group-question';
 import { ValidationErrors } from '@angular/forms';
 
 @Component({
-  selector: 'form-renderer',
+  selector: 'ofe-form-renderer',
   templateUrl: 'form-renderer.component.html',
   styleUrls: ['../../style/app.css', './form-renderer.component.css']
 })

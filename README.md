@@ -1,4 +1,3 @@
-
 # AMPATH POC Formentry
 
 Ampath forms is a forms engine that is inspired and built to work with OpenMRS and its encounter/obs model. That being said it tries not to assume that it will be used with an OpenMRS context and does not take responsibility for fetching any dynamic data from OpenMRS that responsibility should be handled by the consuming application by providing data sources to the engine
@@ -15,16 +14,12 @@ The question model is lifted from the Angular tutorial and adapted to support ou
 
 The concept of datasources is an attempt at eliminating need for the library to know about the OpenMRS backend for cases where you need to ;
 
-  
-
--   Resolve uuid to labels by hitting an OpenMRS endpoint (Mostly used for values which provide concept uuids and allows us fetch the label from a remote endpoint)
-    
--   Fetch options for a select drop down by searching via rest (Used for concepts and drugs)
-    
--   Upload documents and relate them to an encounter(Basically allows us to upload images and then set the url  as an obs value which may not be ideal)
-    
+- Resolve uuid to labels by hitting an OpenMRS endpoint (Mostly used for values which provide concept uuids and allows us fetch the label from a remote endpoint)
+- Fetch options for a select drop down by searching via rest (Used for concepts and drugs)
+- Upload documents and relate them to an encounter(Basically allows us to upload images and then set the url as an obs value which may not be ideal)
 
 The engine does not care about where the data sources get their data, only that they return observables which the engine can subscribe to for the data it needs. Which means you can provide dummy observables to the engine and it will happily consume them (That is how the example consumer app in the repository works without having an OpenMRS backend)
+
 ### Expression runner
 
 The expression run is basically that it takes in an expression , runs it and returns true or false. It is used for hiding/showing , disabling/enabling controls and in running complex validation logic.
@@ -34,11 +29,12 @@ The expression run is basically that it takes in an expression , runs it and ret
 This is an important component that allows validation and skip logic. It is done after the question model has been transformed into an angular form schema and basically just goes through each control and identifies which fields cares about subscribes to their changes.
 
 ### Validation and Skip logic
+
 We use Javascript expressions through the expression runner to achieve complex cross field validations and skip logic.
 
 ### Calculations
+
 The engine contains a suite of helpers to allow fields to calculate their values based on the values of other field this is also dependant on the expression runner.
-  
 
 ### Control Interfaces
 
@@ -50,11 +46,9 @@ CanGenerateAlert - This is used in a control to provide an implementation for ge
 
 CanCalculate - This is used in a control to provide an implementation for calculating the value of the field base on other values in the form
 
-  
-
 ### Custom Controls
 
-Angular provides various controls for handling forms FormControl - for simple fields , FormGroup - grouped fields and FormArray for repeating fields. Afe* controls are custom implementations of these fields to add some custom behaviour necessary for the form engine.
+Angular provides various controls for handling forms FormControl - for simple fields , FormGroup - grouped fields and FormArray for repeating fields. Afe\* controls are custom implementations of these fields to add some custom behaviour necessary for the form engine.
 
 AfeFormControl
 
@@ -68,28 +62,25 @@ The form engine supports using custom widgets and controls. The widgets and cont
 
 The custom widgets take recieve this inputs
 
-* `config`  which provides the the widgets configs
-* `dark` which will be used to toggle the them to match the engine when this is true the widget should have a background color of `#f4f4f4` and `#ffffff` otherwise
+- `config` which provides the the widgets configs
+- `dark` which will be used to toggle the them to match the engine when this is true the widget should have a background color of `#f4f4f4` and `#ffffff` otherwise
 
 Custom Controls will receive
 
-* `question` - Json of the question as defined in the schema
-* `value` - current value of the control
-* `disabled` - disabled state of the control
-* `config` - the config of the control
+- `question` - Json of the question as defined in the schema
+- `value` - current value of the control
+- `disabled` - disabled state of the control
+- `config` - the config of the control
 
-When developing the engine expects custom components to be served at localhost:8000 see example components at https://github.com/enyachoke/afe-ref-custom-components. Otherwise project will complain about the proxy 
+When developing the engine expects custom components to be served at localhost:8000 see example components at https://github.com/enyachoke/afe-ref-custom-components. Otherwise project will complain about the proxy
 
 `[HPM] Error occurred while trying to proxy request /lib/web-components.bundled.js?module from localhost:4200 to http://localhost:8000 (ECONNREFUSED) (https://nodejs.org/api/errors.html#errors_common_system_errors)`
 
-
 Which is should be fine if your are not working on custom components (Make sure to not include them in the schema)
-
 
 ### Developing
 
 `$ git clone https://github.com/AMPATH/ngx-openmrs-formentry`
-
 
 `$ cd ngx-openmrs-formentry `
 
@@ -104,6 +95,7 @@ Which is should be fine if your are not working on custom components (Make sure 
 ### Usage
 
 `app.component.ts`
+
 ```Javascript
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -373,22 +365,22 @@ export class AppComponent implements OnInit {
 
 }
 ```
-  `app.component.html`
-  
-  ```html
-  <div *ngIf="form && form.rootNode">
 
-	<form [formGroup]="form.rootNode.control">
+`app.component.html`
 
-		<form-renderer (onAction)="actionClicked($event)" [node]="form.rootNode"></form-renderer>
-
-</form>
-
+```html
+<div *ngIf="form && form.rootNode">
+  <form [formGroup]="form.rootNode.control">
+    <ofe-form-renderer
+      (onAction)="actionClicked($event)"
+      [node]="form.rootNode"
+    ></ofe-form-renderer>
+  </form>
 </div>
-  ```
+```
 
-See ```src/app/adult-1.4.json``` for  and ```src/app/mock/obs.json``` for sample encounter payload
- 
+See `src/app/adult-1.4.json` for and `src/app/mock/obs.json` for sample encounter payload
+
 ### To publish:
 
 Update the version in both of the `package.json` files
@@ -400,6 +392,7 @@ Update the version in both of the `package.json` files
 `$ git tag <Version>`
 
 Reset branch so you don't commit the dist to the src repository
+
 ```
 
 $ git reset HEAD~1 --hard

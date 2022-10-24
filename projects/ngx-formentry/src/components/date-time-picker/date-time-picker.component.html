@@ -86,17 +86,17 @@
     />
   </div>
 </div>
-<date-picker
+<ofe-date-picker
   *ngIf="showDatePicker"
   [initDate]="value"
-  (onSelectDate)="setDate($event)"
-  (onDatePickerCancel)="toggleDatePicker($event)"
-></date-picker>
+  (dateSelect)="setDate($event)"
+  (datePickerCancel)="toggleDatePicker($event)"
+></ofe-date-picker>
 
-<time-picker
+<ofe-time-picker
   *ngIf="showTimePicker"
   [initTime]="value"
   [use12Hour]="true"
-  (onSelectTime)="setTime($event)"
-  (onTimePickerCancel)="toggleTimePicker($event)"
-></time-picker>
+  (timeSelect)="setTime($event)"
+  (timePickerCancel)="toggleTimePicker($event)"
+></ofe-time-picker>

@@ -12,7 +12,7 @@ declare let require: any;
 // webpack2_
 
 @Component({
-  selector: 'time-picker',
+  selector: 'ofe-time-picker',
   templateUrl: './time-picker.component.html',
   styleUrls: ['./time-picker.component.css']
 })
@@ -22,8 +22,8 @@ export class TimePickerComponent implements OnInit {
   @Input() viewFormat = 'hh:mm A';
   @Input() use12Hour = false;
   @Input() returnObject = 'js';
-  @Output() onSelectTime = new EventEmitter<any>();
-  @Output() onTimePickerCancel = new EventEmitter<boolean>();
+  @Output() timeSelect = new EventEmitter<any>();
+  @Output() timePickerCancel = new EventEmitter<boolean>();
   hourFormat = 'HH';
   public time: Moment;
 
@@ -74,26 +74,26 @@ export class TimePickerComponent implements OnInit {
 
   selectTime(): void {
     const selectTime = this.parseToReturnObjectType(this.time);
-    this.onSelectTime.emit(selectTime);
+    this.timeSelect.emit(selectTime);
     this.cancelTimePicker();
     return;
   }
 
   selectNow(): void {
     const selectTime = this.parseToReturnObjectType(moment());
-    this.onSelectTime.emit(selectTime);
+    this.timeSelect.emit(selectTime);
     this.cancelTimePicker();
     return;
   }
 
   clearTime(): void {
-    this.onSelectTime.emit(null);
+    this.timeSelect.emit(null);
     this.cancelTimePicker();
     return;
   }
 
   cancelTimePicker(): void {
-    this.onTimePickerCancel.emit(false);
+    this.timePickerCancel.emit(false);
     return;
   }
 
