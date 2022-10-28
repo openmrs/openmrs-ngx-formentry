@@ -178,7 +178,7 @@ export class JsExpressionHelper {
     const sexIdx = sex === 'M' ? 0 : 1;
     const smokerIdx = smoker ? 1 : 0;
     const ageIdx = 6 - getAgeBin(age);
-    const bmiIdx = 4 - getBmiBin(bmi);
+    const bmiIdx = getBmiBin(bmi);
     const sbpIdx = 4 - getSbpBin(sbp);
 
     const riskScore = cvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][bmiIdx];
