@@ -1,5 +1,7 @@
 import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
+import { manDataset, womanDataset } from './dataset-sample';
+
 @Injectable()
 export class JsExpressionHelper {
   calcBMI(height, weight) {
@@ -164,6 +166,68 @@ export class JsExpressionHelper {
     return height && weight && refSectionObject ? formattedSDValue : null;
   }
 
+  getAgePosition(age) {
+    if (age >= 70) {
+      return 0;
+    } else if (age >= 65) {
+      return 1;
+    } else if (age >= 60) {
+      return 2;
+    } else if (age >= 55) {
+      return 3;
+    } else if (age >= 50) {
+      return 4;
+    } else if (age >= 45) {
+      return 5;
+    }
+    return 6;
+  }
+
+  getSBPPosition(sbp) {
+    if (sbp >= 180) {
+      return 0;
+    } else if (sbp >= 160) {
+      return 1;
+    } else if (sbp >= 140) {
+      return 2;
+    } else if (sbp >= 120) {
+      return 3;
+    } else if (sbp >= 50) {
+      return 4;
+    } else if (sbp >= 45) {
+      return 5;
+    }
+    return 6;
+  }
+
+  getBMIPosition(bmi) {
+    if (bmi >= 35) {
+      return 4;
+    } else if (bmi >= 30) {
+      return 3;
+    } else if (bmi >= 25) {
+      return 2;
+    } else if (bmi >= 20) {
+      return 1;
+    }
+    return 0;
+  }
+
+  // Order Sex -> Age -> SBP -> Smoker -> BMI
+  calculateBMI(height, weight) {
+    return weight / (height * height);
+  }
+
+  calcNonLabCVDRisk({ age, sex, smoker, height, weight, sbp }) {
+    const bmi = this.calculateBMI(height, weight);
+    // Variables
+    const baseDataset = sex ? manDataset : womanDataset;
+
+    const riskScore = baseDataset[this.getAgePosition(age)][this.getSBPPosition(sbp)][smoker ? 1 : 0][this.getBMIPosition(bmi)];
+
+    return riskScore;
+  }
+
   isEmpty(val) {
     if (
       val === undefined ||
@@ -251,6 +315,7 @@ export class JsExpressionHelper {
       calcBMIForAgeZscore: helper.calcBMIForAgeZscore,
       calcWeightForHeightZscore: helper.calcWeightForHeightZscore,
       calcHeightForAgeZscore: helper.calcHeightForAgeZscore,
+      calcSouthEastAsiaNonLabCVDRisk: helper.calcNonLabCVDRisk,
       isEmpty: helper.isEmpty,
       arrayContains: helper.arrayContains,
       extractRepeatingGroupValues: helper.extractRepeatingGroupValues
