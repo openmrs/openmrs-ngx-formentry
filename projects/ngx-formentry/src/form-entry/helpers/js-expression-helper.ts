@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
-import { manDataset, womanDataset } from './dataset-sample';
+import { cvdRiskTables } from './risk-dataset-table';
 
 @Injectable()
 export class JsExpressionHelper {
@@ -166,64 +166,22 @@ export class JsExpressionHelper {
     return height && weight && refSectionObject ? formattedSDValue : null;
   }
 
-  getAgePosition(age) {
-    if (age >= 70) {
-      return 0;
-    } else if (age >= 65) {
-      return 1;
-    } else if (age >= 60) {
-      return 2;
-    } else if (age >= 55) {
-      return 3;
-    } else if (age >= 50) {
-      return 4;
-    } else if (age >= 45) {
-      return 5;
-    }
-    return 6;
-  }
 
-  getSBPPosition(sbp) {
-    if (sbp >= 180) {
-      return 0;
-    } else if (sbp >= 160) {
-      return 1;
-    } else if (sbp >= 140) {
-      return 2;
-    } else if (sbp >= 120) {
-      return 3;
-    } else if (sbp >= 50) {
-      return 4;
-    } else if (sbp >= 45) {
-      return 5;
-    }
-    return 6;
-  }
 
-  getBMIPosition(bmi) {
-    if (bmi >= 35) {
-      return 4;
-    } else if (bmi >= 30) {
-      return 3;
-    } else if (bmi >= 25) {
-      return 2;
-    } else if (bmi >= 20) {
-      return 1;
-    }
-    return 0;
-  }
+  calcSouthEastAsiaNonLabCVDRisk(age, sex, smoker, bmi, sbp) {
+    // Bin functions
+    const getAgeBin = (age) => Math.floor((Math.min(Math.max(40, age), 74) - 40) / 5);
+    const getSbpBin = (sbp) => Math.max(0, Math.floor((Math.min(sbp, 180) - 120) / 20) + 1);
+    const getBmiBin = (bmi) => Math.max(0, Math.floor((Math.min(bmi, 35) - 20) / 5) + 1);
 
-  // Order Sex -> Age -> SBP -> Smoker -> BMI
-  calculateBMI(height, weight) {
-    return weight / (height * height);
-  }
-
-  calcNonLabCVDRisk({ age, sex, smoker, height, weight, sbp }) {
-    const bmi = this.calculateBMI(height, weight);
     // Variables
-    const baseDataset = sex ? manDataset : womanDataset;
+    const sexIdx = sex === 'M' ? 0 : 1;
+    const smokerIdx = smoker ? 1 : 0;
+    const ageIdx = getAgeBin(age);
+    const bmiIdx = getBmiBin(bmi);
+    const sbpIdx = getSbpBin(sbp);
 
-    const riskScore = baseDataset[this.getAgePosition(age)][this.getSBPPosition(sbp)][smoker ? 1 : 0][this.getBMIPosition(bmi)];
+    const riskScore = cvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][bmiIdx];
 
     return riskScore;
   }
@@ -315,7 +273,7 @@ export class JsExpressionHelper {
       calcBMIForAgeZscore: helper.calcBMIForAgeZscore,
       calcWeightForHeightZscore: helper.calcWeightForHeightZscore,
       calcHeightForAgeZscore: helper.calcHeightForAgeZscore,
-      calcSouthEastAsiaNonLabCVDRisk: helper.calcNonLabCVDRisk,
+      calcSouthEastAsiaNonLabCVDRisk: helper.calcSouthEastAsiaNonLabCVDRisk,
       isEmpty: helper.isEmpty,
       arrayContains: helper.arrayContains,
       extractRepeatingGroupValues: helper.extractRepeatingGroupValues
