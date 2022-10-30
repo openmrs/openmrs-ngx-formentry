@@ -21,7 +21,6 @@ export class ExpressionRunner {
     const runner = this;
     const runnable: Runnable = {
       run: () => {
-        /* eslint-disable */
         let scope: any = {};
         if (control.uuid) {
           scope[control.uuid] = control.value;

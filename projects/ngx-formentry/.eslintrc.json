@@ -7,9 +7,7 @@
   ],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
         "project": [
           "projects/ngx-formentry/tsconfig.lib.json",
@@ -22,7 +20,7 @@
           "warn",
           {
             "type": "attribute",
-            "prefix": "lib",
+            "prefix": "ofe",
             "style": "camelCase"
           }
         ],
@@ -30,16 +28,14 @@
           "warn",
           {
             "type": "element",
-            "prefix": "lib",
+            "prefix": "ofe",
             "style": "kebab-case"
           }
         ]
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
+      "files": ["*.html"],
       "rules": {}
     }
   ]

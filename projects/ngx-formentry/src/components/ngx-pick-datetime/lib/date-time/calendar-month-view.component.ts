@@ -1,14 +1,10 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
-/**
- * calendar-month-view.component
- */
-
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  HostBinding,
   Inject,
   Input,
   OnDestroy,
@@ -45,18 +41,18 @@ const DAYS_PER_WEEK = 7;
 const WEEKS_PER_VIEW = 6;
 
 @Component({
-  selector: 'owl-date-time-month-view',
+  selector: 'ofe-owl-date-time-month-view',
   exportAs: 'owlYearView',
   templateUrl: './calendar-month-view.component.html',
   styleUrls: ['./calendar-month-view.component.scss'],
-  host: {
-    '[class.owl-dt-calendar-view]': 'owlDTCalendarView'
-  },
-  preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OwlMonthViewComponent<T>
   implements OnInit, AfterContentInit, OnDestroy {
+  @HostBinding('class.owl-dt-calendar-view') get owlDTCalendarView() {
+    return true;
+  }
+
   /**
    * Whether to hide dates in other months at the start or end of the current month.
    * */
@@ -279,10 +275,6 @@ export class OwlMonthViewComponent<T>
   /** The body of calendar table */
   @ViewChild(OwlCalendarBodyComponent, { static: true })
   calendarBodyElm: OwlCalendarBodyComponent;
-
-  get owlDTCalendarView(): boolean {
-    return true;
-  }
 
   constructor(
     private cdRef: ChangeDetectorRef,

@@ -92,13 +92,13 @@ describe('OwlCalendarBodyComponent', () => {
 
 @Component({
   template: ` <table
-    owl-date-time-calendar-body
+    ofe-owl-date-time-calendar-body
     [rows]="rows"
     [todayValue]="todayValue"
     [selectedValues]="selectedValues"
     [selectMode]="'single'"
     [activeCell]="activeCell"
-    (select)="handleSelect()"
+    (cellSelected)="handleSelect()"
   ></table>`
 })
 class StandardCalendarBodyComponent {

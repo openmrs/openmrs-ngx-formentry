@@ -9,7 +9,7 @@ import {
 
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 @Component({
-  selector: 'my-sample-form',
+  selector: 'ofe-sample-form',
   templateUrl: 'sample-form.component.html'
 })
 export class SampleFormComponent implements OnInit {

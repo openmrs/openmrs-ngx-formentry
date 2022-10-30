@@ -34,9 +34,9 @@ describe('TimePickerComponent', () => {
     expect(nowBtnEl.nativeElement.textContent).toBe('Now');
   });
 
-  it('should raise onSelectTime event when "Now" button clicked', () => {
+  it('should raise a timeSelect event when "Now" button clicked', () => {
     let selectedTimeValue: string;
-    comp.onSelectTime.subscribe((time: string) => (selectedTimeValue = time));
+    comp.timeSelect.subscribe((time: string) => (selectedTimeValue = time));
     comp.returnObject = 'string';
     const nowBtnEl = fixture.debugElement.query(By.css('.action-now'));
     nowBtnEl.triggerEventHandler('click', null);
@@ -48,13 +48,13 @@ describe('TimePickerComponent', () => {
     expect(confirmBtnEl.nativeElement.textContent).toBe('Confirm');
   });
 
-  it('should raise onSelectTime event when "Confirm" button clicked', () => {
+  it('should raise timeSelect event when "Confirm" button clicked', () => {
     let selectedTimeValue: string;
     const initTimeMoment = moment().add(1, 'h');
     comp.initTime = initTimeMoment.format(comp.viewFormat);
     comp.returnObject = 'string';
     fixture.detectChanges();
-    comp.onSelectTime.subscribe((time: string) => (selectedTimeValue = time));
+    comp.timeSelect.subscribe((time: string) => (selectedTimeValue = time));
     const confirmBtnEl = fixture.debugElement.query(By.css('.action-confirm'));
     confirmBtnEl.triggerEventHandler('click', null);
     expect(selectedTimeValue).toBe(initTimeMoment.format(comp.viewFormat));
@@ -65,9 +65,9 @@ describe('TimePickerComponent', () => {
     expect(clearBtnEl.nativeElement.textContent).toBe('Clear');
   });
 
-  it('should raise onSelectTime event when "Clear" button clicked', () => {
+  it('should raise a timeSelect event when "Clear" button clicked', () => {
     let selectedTimeValue: string;
-    comp.onSelectTime.subscribe((time: string) => (selectedTimeValue = time));
+    comp.timeSelect.subscribe((time: string) => (selectedTimeValue = time));
     const clearBtnEl = fixture.debugElement.query(By.css('.action-clear'));
     clearBtnEl.triggerEventHandler('click', null);
     expect(selectedTimeValue).toBeNull();
@@ -78,9 +78,9 @@ describe('TimePickerComponent', () => {
     expect(closeBtnEl.nativeElement.textContent).toBe('Close');
   });
 
-  it('should raise onTimePickerCancel event when "Close" button clicked', () => {
+  it('should raise a timePickerCancel event when "Close" button clicked', () => {
     let timePickerStatus: boolean;
-    comp.onTimePickerCancel.subscribe(
+    comp.timePickerCancel.subscribe(
       (status: boolean) => (timePickerStatus = status)
     );
     const closeBtnEl = fixture.debugElement.query(By.css('.action-close'));

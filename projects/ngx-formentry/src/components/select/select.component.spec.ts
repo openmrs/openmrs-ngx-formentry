@@ -1,41 +1,42 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { Component } from '@angular/core';
-import { Select } from './select.component';
+
+import { SelectComponent } from './select.component';
 
 @Component({
   template: `
-    <ibm-select (valueChange)="onChange($event)" [(ngModel)]="model">
+    <ofe-select (valueChange)="onChange($event)" [(ngModel)]="model">
       <option value="option1">Option 1</option>
-    </ibm-select>
+    </ofe-select>
   `
 })
-class SelectTest {
+class SelectComponentTest {
   model = null;
   value = null;
+
   onChange(event) {
     this.value = event;
   }
 }
 
-describe('Select', () => {
+describe('SelectComponent', () => {
   let fixture, wrapper, element;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [Select, SelectTest],
+      declarations: [SelectComponent, SelectComponentTest],
       imports: [FormsModule]
     });
   });
 
   it('should work', () => {
-    fixture = TestBed.createComponent(Select);
-    expect(fixture.componentInstance instanceof Select).toBe(true);
+    fixture = TestBed.createComponent(SelectComponent);
+    expect(fixture.componentInstance instanceof SelectComponent).toBe(true);
   });
 
   it('should call onChange on change select and propagate the change back to the form', () => {
-    fixture = TestBed.createComponent(SelectTest);
+    fixture = TestBed.createComponent(SelectComponentTest);
     wrapper = fixture.componentInstance;
     fixture.detectChanges();
     const de = fixture.debugElement.query(By.css('.cds--select-input'));
@@ -49,62 +50,62 @@ describe('Select', () => {
   });
 
   it('should set label to test', () => {
-    fixture = TestBed.overrideComponent(SelectTest, {
+    fixture = TestBed.overrideComponent(SelectComponentTest, {
       set: {
-        template: `<ibm-select label="test"></ibm-select>`
+        template: `<ofe-select label="test"></ofe-select>`
       }
-    }).createComponent(SelectTest);
+    }).createComponent(SelectComponentTest);
     fixture.detectChanges();
-    element = fixture.debugElement.query(By.css('ibm-select')).nativeElement;
+    element = fixture.debugElement.query(By.css('ofe-select')).nativeElement;
     expect(element.querySelector('.cds--label').textContent).toEqual('test');
   });
 
   it('should set helperText to test', () => {
-    fixture = TestBed.overrideComponent(SelectTest, {
+    fixture = TestBed.overrideComponent(SelectComponentTest, {
       set: {
-        template: `<ibm-select helperText="test"></ibm-select>`
+        template: `<ofe-select helperText="test"></ofe-select>`
       }
-    }).createComponent(SelectTest);
+    }).createComponent(SelectComponentTest);
     fixture.detectChanges();
-    element = fixture.debugElement.query(By.css('ibm-select')).nativeElement;
+    element = fixture.debugElement.query(By.css('ofe-select')).nativeElement;
     expect(
       element.querySelector('.cds--form__helper-text').textContent
     ).toEqual('test');
   });
 
   it('should set display to inline', () => {
-    fixture = TestBed.overrideComponent(SelectTest, {
+    fixture = TestBed.overrideComponent(SelectComponentTest, {
       set: {
-        template: `<ibm-select display="inline"></ibm-select>`
+        template: `<ofe-select display="inline"></ofe-select>`
       }
-    }).createComponent(SelectTest);
+    }).createComponent(SelectComponentTest);
     fixture.detectChanges();
-    element = fixture.debugElement.query(By.css('ibm-select')).nativeElement;
+    element = fixture.debugElement.query(By.css('ofe-select')).nativeElement;
     expect(element.querySelector('.cds--select--inline')).toBeTruthy();
   });
 
   it('should set option to disabled', () => {
-    fixture = TestBed.overrideComponent(SelectTest, {
+    fixture = TestBed.overrideComponent(SelectComponentTest, {
       set: {
         template: `
-                <ibm-select>
+                <ofe-select>
                     <option value="option1" disabled> Option 1 </option>
-                </ibm-select>`
+                </ofe-select>`
       }
-    }).createComponent(SelectTest);
+    }).createComponent(SelectComponentTest);
     fixture.detectChanges();
-    element = fixture.debugElement.query(By.css('ibm-select')).nativeElement;
+    element = fixture.debugElement.query(By.css('ofe-select')).nativeElement;
     expect(element.querySelector('option').disabled).toBe(true);
   });
 
   it('should display ibm-icon-warning-filled16 and display invalid text', () => {
-    fixture = TestBed.overrideComponent(SelectTest, {
+    fixture = TestBed.overrideComponent(SelectComponentTest, {
       set: {
-        template: `<ibm-select [invalid]=true invalidText="test"></ibm-select>`
+        template: `<ofe-select [invalid]=true invalidText="test"></ofe-select>`
       }
-    }).createComponent(SelectTest);
+    }).createComponent(SelectComponentTest);
     fixture.detectChanges();
-    element = fixture.debugElement.query(By.css('ibm-select')).nativeElement;
+    element = fixture.debugElement.query(By.css('ofe-select')).nativeElement;
     expect(
       element.querySelector('.cds--text-input__invalid-icon')
     ).toBeTruthy();
@@ -114,13 +115,13 @@ describe('Select', () => {
   });
 
   it('should set class cds--skeleton', () => {
-    fixture = TestBed.overrideComponent(SelectTest, {
+    fixture = TestBed.overrideComponent(SelectComponentTest, {
       set: {
-        template: `<ibm-select [skeleton]=true></ibm-select>`
+        template: `<ofe-select [skeleton]=true></ofe-select>`
       }
-    }).createComponent(SelectTest);
+    }).createComponent(SelectComponentTest);
     fixture.detectChanges();
-    element = fixture.debugElement.query(By.css('ibm-select')).nativeElement;
+    element = fixture.debugElement.query(By.css('ofe-select')).nativeElement;
     expect(element.querySelector('.cds--skeleton')).toBeTruthy();
   });
 });

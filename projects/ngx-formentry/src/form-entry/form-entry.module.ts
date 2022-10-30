@@ -11,7 +11,7 @@ import { FormControlService } from './form-factory/form-control.service';
 import { ValidationFactory } from './form-factory/validation.factory';
 import { FormRendererComponent } from './form-renderer/form-renderer.component';
 import { ErrorRendererComponent } from './error-renderer/error-renderer.component';
-import { HistoricalValueDirective } from './directives/historical-value-directive';
+import { HistoricalValueDirective } from './directives/historical-value.directive';
 import { CollapseDirective } from './directives/collapse.directive';
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
 import { NumberInputModule } from '../components/number-input/number-input.module';

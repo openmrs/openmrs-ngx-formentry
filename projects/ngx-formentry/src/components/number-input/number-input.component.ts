@@ -24,7 +24,7 @@ export class NumberChangeEvent {
 }
 
 @Component({
-  selector: 'number-input',
+  selector: 'ofe-number-input',
   templateUrl: 'number-input.component.html',
   providers: [
     {
@@ -121,7 +121,7 @@ export class NumberInputComponent implements ControlValueAccessor {
   /**
    * Emits event notifying other classes when a change in state occurs in the input.
    */
-  @Output() change = new EventEmitter<NumberChangeEvent>();
+  @Output() numberChange = new EventEmitter<NumberChangeEvent>();
   /**
    * Sets the decrement label text
    */
@@ -222,7 +222,7 @@ export class NumberInputComponent implements ControlValueAccessor {
     const event = new NumberChangeEvent();
     event.source = this;
     event.value = this.value;
-    this.change.emit(event);
+    this.numberChange.emit(event);
     this.propagateChange(this.value);
   }
 

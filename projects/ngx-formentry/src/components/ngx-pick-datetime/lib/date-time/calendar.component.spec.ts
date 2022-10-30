@@ -1,8 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-/**
- * calendar.component.spec
- */
-
 import {
   waitForAsync,
   ComponentFixture,
@@ -453,13 +448,13 @@ describe('OwlCalendarComponent', () => {
 
 @Component({
   template: `
-    <owl-date-time-calendar
+    <ofe-owl-date-time-calendar
       [(selected)]="selected"
       [selectMode]="selectMode"
       [pickerMoment]="pickerMoment"
       (monthSelected)="selectedMonth = $event"
       (yearSelected)="selectedYear = $event"
-    ></owl-date-time-calendar>
+    ></ofe-owl-date-time-calendar>
   `
 })
 class StandardCalendar {
@@ -472,12 +467,12 @@ class StandardCalendar {
 
 @Component({
   template: `
-    <owl-date-time-calendar
+    <ofe-owl-date-time-calendar
       [selectMode]="selectMode"
       [pickerMoment]="pickerMoment"
       [minDate]="minDate"
       [maxDate]="maxDate"
-    ></owl-date-time-calendar>
+    ></ofe-owl-date-time-calendar>
   `
 })
 class CalendarWithMinMax {
@@ -490,12 +485,12 @@ class CalendarWithMinMax {
 
 @Component({
   template: `
-    <owl-date-time-calendar
+    <ofe-owl-date-time-calendar
       [(selected)]="selected"
       [selectMode]="selectMode"
       [pickerMoment]="pickerMoment"
       [dateFilter]="dateFilter"
-    ></owl-date-time-calendar>
+    ></ofe-owl-date-time-calendar>
   `
 })
 class CalendarWithDateFilter {

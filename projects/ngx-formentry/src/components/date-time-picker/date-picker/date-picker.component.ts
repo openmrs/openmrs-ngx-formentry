@@ -13,7 +13,7 @@ declare let require: any;
 // webpack2_
 
 @Component({
-  selector: 'date-picker',
+  selector: 'ofe-date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.css']
 })
@@ -24,8 +24,8 @@ export class DatePickerComponent implements OnInit {
   @Input() public locale = 'en';
   @Input() public viewFormat = 'll';
   @Input() public returnObject = 'js';
-  @Output() public onDatePickerCancel = new EventEmitter<boolean>();
-  @Output() public onSelectDate = new EventEmitter<any>();
+  @Output() public datePickerCancel = new EventEmitter<boolean>();
+  @Output() public dateSelect = new EventEmitter<any>();
 
   public calendarDate: Moment;
   public selectedDate: Moment;
@@ -98,7 +98,7 @@ export class DatePickerComponent implements OnInit {
     );
     day = this.calendarDate.clone().add(daysDifference, 'd');
     const selectedDay = this.parseToReturnObjectType(day);
-    this.onSelectDate.emit(selectedDay);
+    this.dateSelect.emit(selectedDay);
     this.cancelDatePicker();
     return;
   }
@@ -117,19 +117,19 @@ export class DatePickerComponent implements OnInit {
 
   public selectToday(): void {
     const today = this.parseToReturnObjectType(moment());
-    this.onSelectDate.emit(today);
+    this.dateSelect.emit(today);
     this.cancelDatePicker();
     return;
   }
 
   public clearPickDate(): void {
-    this.onSelectDate.emit(null);
+    this.dateSelect.emit(null);
     this.cancelDatePicker();
     return;
   }
 
   public cancelDatePicker(): void {
-    this.onDatePickerCancel.emit(false);
+    this.datePickerCancel.emit(false);
     return;
   }
 

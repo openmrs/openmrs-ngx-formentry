@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
 import {
   AfterViewInit,
   Component,
@@ -13,171 +12,36 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 /**
- * `ibm-select` provides a styled `select` component.
+ * `ofe-select` provides a styled `select` component.
  *
  * [See demo](../../?path=/story/select--basic)
  *
  * Example:
  *
  * ```
- * <ibm-select [(ngModel)]="model">
+ * <ofe-select [(ngModel)]="model">
  *     <option value="default" disabled selected hidden>Choose an option</option>
  *     <option value="option1">Option 1</option>
  *    <option value="option2">Option 2</option>
  *     <option value="option3">Option 3</option>
- * </ibm-select>
+ * </ofe-select>
  *    ```
  *
  * <example-url>../../iframe.html?id=select--basic</example-url>
  */
 @Component({
-  selector: 'ibm-select',
-  template: `
-    <div class="cds--form-item">
-      <ng-template [ngIf]="skeleton">
-        <div *ngIf="label" class="cds--label cds--skeleton"></div>
-        <div class="cds--select cds--skeleton"></div>
-      </ng-template>
-      <div
-        *ngIf="!skeleton"
-        class="cds--select"
-        [ngClass]="{
-          'cds--select--inline': display === 'inline',
-          'cds--select--light': theme === 'light',
-          'cds--select--invalid': invalid,
-          'cds--select--warning': warn,
-          'cds--select--disabled': disabled
-        }"
-      >
-        <label *ngIf="label" [for]="id" class="cds--label">
-          <ng-container *ngIf="!isTemplate(label)">{{ label }}</ng-container>
-          <ng-template
-            *ngIf="isTemplate(label)"
-            [ngTemplateOutlet]="label"
-          ></ng-template>
-        </label>
-        <div *ngIf="helperText" class="cds--form__helper-text">
-          <ng-container *ngIf="!isTemplate(helperText)">{{
-            helperText
-          }}</ng-container>
-          <ng-template
-            *ngIf="isTemplate(helperText)"
-            [ngTemplateOutlet]="helperText"
-          ></ng-template>
-        </div>
-        <div
-          *ngIf="display === 'inline'; else noInline"
-          class="cds--select-input--inline__wrapper"
-        >
-          <ng-container *ngTemplateOutlet="noInline"></ng-container>
-        </div>
-      </div>
-    </div>
-
-    <!-- select element: dynamically projected based on 'display' variant -->
-    <ng-template #noInline>
-      <div
-        class="cds--select-input__wrapper extend"
-        [attr.data-invalid]="invalid ? true : null"
-      >
-        <select
-          #select
-          [attr.id]="id"
-          [attr.aria-label]="ariaLabel"
-          [disabled]="disabled"
-          (change)="onChange($event)"
-          [attr.aria-invalid]="invalid ? 'true' : null"
-          class="cds--select-input"
-          [ngClass]="{
-            'cds--select-input--xl': size === 'xl',
-            'cds--select-input--sm': size === 'sm'
-          }"
-        >
-          <ng-content></ng-content>
-        </select>
-        <svg
-          focusable="false"
-          preserveAspectRatio="xMidYMid meet"
-          style="will-change: transform;"
-          xmlns="http://www.w3.org/2000/svg"
-          class="cds--select__arrow"
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          aria-hidden="true"
-        >
-          <path d="M8 11L3 6 3.7 5.3 8 9.6 12.3 5.3 13 6z"></path>
-        </svg>
-        <svg
-          *ngIf="invalid"
-          focusable="false"
-          preserveAspectRatio="xMidYMid meet"
-          style="will-change: transform;"
-          xmlns="http://www.w3.org/2000/svg"
-          class="cds--text-input__invalid-icon"
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          aria-hidden="true"
-        >
-          <path
-            d="M8,1C4.2,1,1,4.2,1,8s3.2,7,7,7s7-3.1,7-7S11.9,1,8,1z M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2    c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"
-          ></path>
-          <path
-            d="M7.5,4h1v5h-1C7.5,9,7.5,4,7.5,4z M8,12.2c-0.4,0-0.8-0.4-0.8-0.8s0.3-0.8,0.8-0.8    c0.4,0,0.8,0.4,0.8,0.8S8.4,12.2,8,12.2z"
-            data-icon-path="inner-path"
-            opacity="0"
-          ></path>
-        </svg>
-      </div>
-      <div
-        *ngIf="invalid && invalidText && !warn"
-        role="alert"
-        class="cds--form-requirement"
-        aria-live="polite"
-      >
-        <ng-container *ngIf="!isTemplate(invalidText)">{{
-          invalidText
-        }}</ng-container>
-        <ng-template
-          *ngIf="isTemplate(invalidText)"
-          [ngTemplateOutlet]="invalidText"
-        ></ng-template>
-      </div>
-      <div *ngIf="!invalid && warn" class="cds--form-requirement">
-        <ng-container *ngIf="!isTemplate(warnText)">{{
-          warnText
-        }}</ng-container>
-        <ng-template
-          *ngIf="isTemplate(warnText)"
-          [ngTemplateOutlet]="warnText"
-        ></ng-template>
-      </div>
-    </ng-template>
-  `,
-  styles: [
-    `
-      .cds--select--inline .cds--form__helper-text {
-        order: 4;
-      }
-
-      .cds--select--inline:not(.cds--select--invalid) .cds--form__helper-text {
-        margin-top: 0;
-      }
-      .cds--select-input__wrapper {
-        min-width: 16rem;
-      }
-    `
-  ],
+  selector: 'ofe-select',
+  templateUrl: 'select.component.html',
+  styleUrls: ['./select.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: Select,
+      useExisting: SelectComponent,
       multi: true
     }
   ]
 })
-export class Select implements ControlValueAccessor, AfterViewInit {
+export class SelectComponent implements ControlValueAccessor, AfterViewInit {
   /**
    * Tracks the total number of selects instantiated. Used to generate unique IDs
    */
@@ -210,7 +74,7 @@ export class Select implements ControlValueAccessor, AfterViewInit {
   /**
    * Sets the unique ID. Defaults to `select-${total count of selects instantiated}`
    */
-  @Input() id = `select-${Select.selectCount++}`;
+  @Input() id = `select-${SelectComponent.selectCount++}`;
   /**
    * Number input field render size
    */
@@ -236,7 +100,6 @@ export class Select implements ControlValueAccessor, AfterViewInit {
 
   @Output() valueChange = new EventEmitter();
 
-  // @ts-ignore
   @ViewChild('select', { static: false }) select: ElementRef;
 
   @Input() set value(v) {

@@ -83,7 +83,7 @@ export class Form {
   ) {
     if (rootNode instanceof GroupNode) {
       const nodeAsGroup = rootNode as GroupNode;
-      // eslint-disable-next-line guard-for-in
+
       for (const o in nodeAsGroup.children) {
         this.searchNodeByQuestionType(
           nodeAsGroup.children[o],
@@ -125,7 +125,7 @@ export class Form {
 
     if (rootNode instanceof GroupNode) {
       const nodeAsGroup = rootNode as GroupNode;
-      // eslint-disable-next-line guard-for-in
+
       for (const o in nodeAsGroup.children) {
         this.findNodesByQuestionId(
           nodeAsGroup.children[o],
@@ -217,7 +217,7 @@ export class Form {
 
     if (rootNode instanceof GroupNode) {
       const nodeAsGroup = rootNode as GroupNode;
-      // eslint-disable-next-line guard-for-in
+
       for (const o in nodeAsGroup.children) {
         this._updateAlertsForAllControls(nodeAsGroup.children[o]);
       }
@@ -244,7 +244,7 @@ export class Form {
 
     if (rootNode instanceof GroupNode) {
       const nodeAsGroup = rootNode as GroupNode;
-      // eslint-disable-next-line guard-for-in
+
       for (const o in nodeAsGroup.children) {
         this._updateHiddenDisabledStateForAllControls(nodeAsGroup.children[o]);
       }

@@ -1,31 +1,36 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
-/**
- * date-time-picker-trigger.directive
- */
-
 import {
   AfterContentInit,
   ChangeDetectorRef,
   Directive,
+  HostBinding,
+  HostListener,
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   SimpleChanges
 } from '@angular/core';
 import { OwlDateTimeComponent } from './date-time-picker.component';
 import { merge, of as observableOf, Subscription } from 'rxjs';
 
 @Directive({
-  selector: '[owlDateTimeTrigger]',
-  host: {
-    '(click)': 'handleClickOnHost($event)',
-    '[class.owl-dt-trigger-disabled]': 'owlDTTriggerDisabledClass'
-  }
+  selector: '[ofeOwlDateTimeTrigger]'
 })
 export class OwlDateTimeTriggerDirective<T>
-  implements OnInit, OnChanges, AfterContentInit, OnDestroy {
-  @Input('owlDateTimeTrigger') dtPicker: OwlDateTimeComponent<T>;
+  implements OnChanges, AfterContentInit, OnDestroy {
+  @Input('ofeOwlDateTimeTrigger') dtPicker: OwlDateTimeComponent<T>;
+
+  @HostBinding('class.owl-dt-trigger-disabled')
+  get owlDTTriggerDisabledClass(): boolean {
+    return this.disabled;
+  }
+
+  @HostListener('click', ['$event'])
+  handleClickOnHost($event: Event): void {
+    if (this.dtPicker) {
+      this.dtPicker.open();
+      $event.stopPropagation();
+    }
+  }
 
   private _disabled: boolean;
   @Input()
@@ -39,15 +44,9 @@ export class OwlDateTimeTriggerDirective<T>
     this._disabled = value;
   }
 
-  get owlDTTriggerDisabledClass(): boolean {
-    return this.disabled;
-  }
-
   private stateChanges = Subscription.EMPTY;
 
   constructor(protected changeDetector: ChangeDetectorRef) {}
-
-  public ngOnInit(): void {}
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes.datepicker) {
@@ -61,13 +60,6 @@ export class OwlDateTimeTriggerDirective<T>
 
   public ngOnDestroy(): void {
     this.stateChanges.unsubscribe();
-  }
-
-  public handleClickOnHost(event: Event): void {
-    if (this.dtPicker) {
-      this.dtPicker.open();
-      event.stopPropagation();
-    }
   }
 
   private watchStateChanges(): void {

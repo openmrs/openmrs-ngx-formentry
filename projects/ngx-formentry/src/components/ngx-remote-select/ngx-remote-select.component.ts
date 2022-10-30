@@ -22,7 +22,7 @@ import { SelectOption } from '../../form-entry/question-models/interfaces/select
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
 import * as _ from 'lodash';
 @Component({
-  selector: 'ngx-remote-select',
+  selector: 'ofe-remote-select',
   templateUrl: 'remote-select.component.html',
   providers: [
     {
@@ -38,15 +38,15 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
   remoteOptionsLoading = false;
   remoteOptionInput$ = new Subject<string>();
   selectedRemoteOptions: SelectOption;
-  @Input() placeholder = 'Search...';
-  @Input() componentID: string;
-  @Input() disabled = false;
-  @Input() theme = 'dark';
   items = [];
   value = [];
   loading = false;
   searchText = '';
   notFoundMsg = 'match no found';
+  @Input() placeholder = 'Search...';
+  @Input() componentID: string;
+  @Input() disabled = false;
+  @Input() theme = 'dark';
   @Output() done: EventEmitter<any> = new EventEmitter<any>();
 
   private _dataSource: DataSource;

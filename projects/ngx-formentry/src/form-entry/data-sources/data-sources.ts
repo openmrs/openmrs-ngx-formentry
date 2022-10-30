@@ -11,9 +11,7 @@ export class DataSources {
 
   registerDataSource(key: string, dataSource: any, unWrap = false) {
     if (unWrap) {
-      // eslint-disable-next-line guard-for-in
       for (const o in dataSource) {
-        
         this.registerDataSource(o, dataSource[o], false);
       }
     }

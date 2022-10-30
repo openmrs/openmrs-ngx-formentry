@@ -299,11 +299,11 @@ describe('OwlMultiYearViewComponent', () => {
 
 @Component({
   template: `
-    <owl-date-time-multi-year-view
+    <ofe-owl-date-time-multi-year-view
       [selected]="selected"
       [(pickerMoment)]="pickerMoment"
-      (change)="handleChange($event)"
-    ></owl-date-time-multi-year-view>
+      (monthChange)="handleChange($event)"
+    ></ofe-owl-date-time-multi-year-view>
   `
 })
 class StandardMultiYearViewComponent {
@@ -317,10 +317,10 @@ class StandardMultiYearViewComponent {
 
 @Component({
   template: `
-    <owl-date-time-multi-year-view
+    <ofe-owl-date-time-multi-year-view
       [(pickerMoment)]="pickerMoment"
       [dateFilter]="dateFilter"
-    ></owl-date-time-multi-year-view>
+    ></ofe-owl-date-time-multi-year-view>
   `
 })
 class MultiYearViewWithDateFilterComponent {

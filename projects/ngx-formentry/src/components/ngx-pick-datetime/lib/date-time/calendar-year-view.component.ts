@@ -1,14 +1,10 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
-/**
- * calendar-year-view.component
- */
-
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  HostBinding,
   Inject,
   Input,
   OnDestroy,
@@ -44,18 +40,18 @@ const MONTHS_PER_YEAR = 12;
 const MONTHS_PER_ROW = 3;
 
 @Component({
-  selector: 'owl-date-time-year-view',
+  selector: 'ofe-owl-date-time-year-view',
   exportAs: 'owlMonthView',
   templateUrl: './calendar-year-view.component.html',
   styleUrls: ['./calendar-year-view.component.scss'],
-  host: {
-    '[class.owl-dt-calendar-view]': 'owlDTCalendarView'
-  },
-  preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OwlYearViewComponent<T>
   implements OnInit, AfterContentInit, OnDestroy {
+  @HostBinding('class.owl-dt-calendar-view') get owlDTCalendarView() {
+    return true;
+  }
+
   /**
    * The select mode of the picker;
    * */
@@ -205,7 +201,7 @@ export class OwlYearViewComponent<T>
    * Callback to invoke when a new month is selected
    * */
   @Output()
-  readonly change = new EventEmitter<T>();
+  readonly monthChange = new EventEmitter<T>();
 
   /**
    * Emits the selected year. This doesn't imply a change on the selected date
@@ -224,10 +220,6 @@ export class OwlYearViewComponent<T>
   /** The body of calendar table */
   @ViewChild(OwlCalendarBodyComponent, { static: true })
   calendarBodyElm: OwlCalendarBodyComponent;
-
-  get owlDTCalendarView(): boolean {
-    return true;
-  }
 
   constructor(
     private cdRef: ChangeDetectorRef,
@@ -286,7 +278,7 @@ export class OwlYearViewComponent<T>
       this.dateTimeAdapter.getSeconds(this.pickerMoment)
     );
 
-    this.change.emit(result);
+    this.monthChange.emit(result);
   }
 
   /**
