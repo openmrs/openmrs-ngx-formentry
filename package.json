@@ -9,7 +9,7 @@
     "build:lib": "ng build ngx-formentry --configuration production ",
     "test": "ng test ngx-formentry --watch=false",
     "test:watch": "ng test ngx-formentry",
-    "lint": "ng lint",
+    "lint": "TIMING=1 ng lint",
     "e2e": "ng e2e"
   },
   "peerDependencies": {
@@ -82,6 +82,7 @@
     "protractor": "~7.0.0",
     "sass": "^1.33.0",
     "ts-node": "~5.0.1",
+    "turbo": "^1.6.1",
     "typescript": "~4.3.5"
   },
   "browserslist": [
