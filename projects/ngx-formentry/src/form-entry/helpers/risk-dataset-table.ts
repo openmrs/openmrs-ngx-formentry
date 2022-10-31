@@ -2,7 +2,7 @@
 
 // Vertically we have the BMI value eg for the first array [26(bmi < 20), 28(bmi 20 - 24), 30(bmi 25 - 29), 32(bmi 30 - 35), 34(bmi >= 35)]
 
-export const cvdRiskTables = [
+export const southEastAsiaCvdRiskTables = [
   // Men
   [
     // Non smoker

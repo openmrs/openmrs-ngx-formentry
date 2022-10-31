@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
-import { cvdRiskTables } from './risk-dataset-table';
+import { southEastAsiaCvdRiskTables } from './risk-dataset-table';
 
 @Injectable()
 export class JsExpressionHelper {
@@ -168,7 +168,7 @@ export class JsExpressionHelper {
 
 
 
-  calcSouthEastAsiaNonLabCVDRisk(age, sex, smoker, bmi, sbp) {
+  calcSouthEastAsiaNonLabCVDRisk(sex: 'M' | 'F', smoker: boolean, age: number, sbp: number, bmi: number) {
     // Bin functions
     const getAgeBin = (age) => Math.floor((Math.min(Math.max(40, age), 74) - 40) / 5);
     const getSbpBin = (sbp) => Math.max(0, Math.floor((Math.min(sbp, 180) - 120) / 20) + 1);
@@ -181,9 +181,7 @@ export class JsExpressionHelper {
     const bmiIdx = getBmiBin(bmi);
     const sbpIdx = 4 - getSbpBin(sbp);
 
-    const riskScore = cvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][bmiIdx];
-
-    return riskScore;
+    return southEastAsiaCvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][bmiIdx];
   }
 
   isEmpty(val) {
