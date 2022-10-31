@@ -1,5 +1,7 @@
 import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
+import { southEastAsiaCvdRiskTables } from './risk-dataset-table';
+
 @Injectable()
 export class JsExpressionHelper {
   calcBMI(height, weight) {
@@ -164,6 +166,24 @@ export class JsExpressionHelper {
     return height && weight && refSectionObject ? formattedSDValue : null;
   }
 
+
+
+  calcSouthEastAsiaNonLabCVDRisk(sex: 'M' | 'F', smoker: boolean, age: number, sbp: number, bmi: number) {
+    // Bin functions
+    const getAgeBin = (age) => Math.floor((Math.min(Math.max(40, age), 74) - 40) / 5);
+    const getSbpBin = (sbp) => Math.max(0, Math.floor((Math.min(sbp, 180) - 120) / 20) + 1);
+    const getBmiBin = (bmi) => Math.max(0, Math.floor((Math.min(bmi, 35) - 20) / 5) + 1);
+
+    // Variables
+    const sexIdx = sex === 'M' ? 0 : 1;
+    const smokerIdx = smoker ? 1 : 0;
+    const ageIdx = 6 - getAgeBin(age);
+    const bmiIdx = getBmiBin(bmi);
+    const sbpIdx = 4 - getSbpBin(sbp);
+
+    return southEastAsiaCvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][bmiIdx];
+  }
+
   isEmpty(val) {
     if (
       val === undefined ||
@@ -251,6 +271,7 @@ export class JsExpressionHelper {
       calcBMIForAgeZscore: helper.calcBMIForAgeZscore,
       calcWeightForHeightZscore: helper.calcWeightForHeightZscore,
       calcHeightForAgeZscore: helper.calcHeightForAgeZscore,
+      calcSouthEastAsiaNonLabCVDRisk: helper.calcSouthEastAsiaNonLabCVDRisk,
       isEmpty: helper.isEmpty,
       arrayContains: helper.arrayContains,
       extractRepeatingGroupValues: helper.extractRepeatingGroupValues
