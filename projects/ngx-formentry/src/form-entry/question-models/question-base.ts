@@ -42,7 +42,8 @@ export class QuestionBase implements BaseOptions {
   componentConfigs: Array<any>;
   options?: any;
   questionIndex?: Number;
-  allowRadioUnselect?: boolean;
+
+  allowUnselect?: boolean;
 
   constructor(options: BaseOptions) {
     this.defaultValue = options.defaultValue;
@@ -59,7 +60,7 @@ export class QuestionBase implements BaseOptions {
     this.alert = options.alert;
     this.historicalDataValue = options.historicalDataValue;
     this.calculateExpression = options.calculateExpression;
-    this.allowRadioUnselect = options.allowRadioUnselect;
+    this.allowUnselect = options.allowUnselect;
   }
 
   setHistoricalValue(v: boolean) {

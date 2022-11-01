@@ -1,6 +1,6 @@
 import { Component, Input, forwardRef, OnInit } from '@angular/core';
 
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
@@ -14,20 +14,13 @@ import * as _ from 'lodash';
     }
   ]
 })
-export class RadioButtonControlComponent implements OnInit {
+export class RadioButtonControlComponent implements ControlValueAccessor, OnInit {
   @Input() public id: String;
-  @Input() public selected: any;
   @Input() public options: Array<any>;
-  @Input() public allowRadioUnselect: Boolean;
+  @Input() public allowUnselect: boolean;
 
   public ngOnInit() {
-    this.options = this.options.map((option) => {
-      if (this.selected == option.value) {
-        this.selected = option.value;
-        Object.assign(option, { checked: true });
-      }
-      return option;
-    });
+    this.options = this.options.map((opt) => ({ ...opt, checked: false }));
   }
 
   public writeValue(value: any) {}
@@ -40,34 +33,14 @@ export class RadioButtonControlComponent implements OnInit {
     this.onTouched = fn;
   }
 
-  public selectOpt(option, event) {
-    this.options.forEach((o) => {
-      if (event.target.checked && o.value == option.value) {
-        this.selected = o.value;
-        Object.assign(o, { checked: true });
-      } else {
-        this.selected = null;
-        Object.assign(o, { checked: false });
-      }
-    });
+  public handleClick(option) {
+    if (this.allowUnselect && option.checked) {
+      option.checked = false;
+    } else if (!option.checked) {
+      option.checked = true;
+    }
   }
 
-  public selectUnselectOpt(option, event) {
-    this.options.forEach((o) => {
-      if (
-        event.target.checked &&
-        this.selected == o.value &&
-        this.selected == option.value
-      ) {
-        this.selected = null;
-        Object.assign(o, { checked: false });
-      } else if (event.target.checked && o.value == option.value) {
-        this.selected = o.value;
-        Object.assign(o, { checked: true });
-      }
-    });
-  }
-
-  private onChange = (change: any) => {};
-  private onTouched = () => {};
+  public onChange = (_: any) => {};
+  public onTouched = () => {};
 }

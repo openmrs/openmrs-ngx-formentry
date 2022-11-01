@@ -27,5 +27,5 @@ export interface BaseOptions {
   rows?: any;
   showWeeksAdder?: any;
   datePickerFormat?: any;
-  allowRadioUnselect?: any;
+  allowUnselect?: boolean;
 }

@@ -219,7 +219,7 @@ export class QuestionFactory {
     question.options.splice(0, 0);
 
     question.renderingType = schemaQuestion.questionOptions.rendering;
-    const mappings: any = {
+    const mappings = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -239,11 +239,14 @@ export class QuestionFactory {
       type: '',
       key: ''
     });
+    question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
     question.key = schemaQuestion.id;
+    question.prefix = schemaQuestion.prefix;
     question.extras = schemaQuestion;
-    question.allowRadioUnselect =
-      schemaQuestion.questionOptions.allowRadioUnselect;
+    question.allowUnselect =
+      schemaQuestion.questionOptions.allowUnselect;
+    question.orientation = schemaQuestion.questionOptions.orientation;
     question.options = schemaQuestion.questionOptions.answers.map((obj) => {
       return {
         label: obj.label,
@@ -253,7 +256,7 @@ export class QuestionFactory {
     question.options.splice(0, 0);
 
     question.renderingType = schemaQuestion.questionOptions.rendering;
-    const mappings: any = {
+    const mappings = {
       label: 'label',
       required: 'required',
       id: 'key'
