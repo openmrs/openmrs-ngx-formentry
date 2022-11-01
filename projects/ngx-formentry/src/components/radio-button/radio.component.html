@@ -1,9 +1,18 @@
-<fieldset class="bx--fieldset">
-  <div *ngFor="let option of options; let i = index" class="bx--form-item bx--radio-wrapper">
+<fieldset class="cds--fieldset">
+  <div
+    *ngFor="let option of options; let i = index"
+    class="cds--form-item cds--radio-wrapper"
+  >
     <label class="form-control no-border">
-      <input type="radio" [id]="id + '_' + i" name="id" [checked]="option.checked" [value]="option.value"  (click)="allowRadioUnselect ? selectOpt(option, $event) : selectUnselectOpt(option, $event)" />
+      <input
+        type="radio"
+        [id]="id + '_' + i"
+        [name]="id"
+        [checked]="option.checked"
+        [value]="option.value"
+        (click)="handleClick(option)"
+      />
       {{ option.label }}
     </label>
   </div>
 </fieldset>
-
