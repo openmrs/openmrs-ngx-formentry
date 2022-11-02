@@ -11,6 +11,7 @@
         [checked]="option.checked"
         [value]="option.value"
         (click)="handleClick(option)"
+        (change)="handleChange(option)"
       />
       {{ option.label }}
     </label>
