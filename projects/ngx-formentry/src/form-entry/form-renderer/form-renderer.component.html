@@ -24,10 +24,10 @@
         <div class="cds--inline-notification__details">
           <div class="cds--inline-notification__text-wrapper">
             <p class="cds--inline-notification__title">
-              {{ errorNode.question.label }}
+              {{ errorNode.question.label | translate }}
             </p>
             <p class="cds--inline-notification__subtitle">
-              {{ getControlError(errorNode) }}
+              {{ getControlError(errorNode | translate) }}
             </p>
           </div>
         </div>
@@ -294,7 +294,7 @@
           >
           </input>
 
-          <input
+          <ofe-number-input
             [theme]="theme"
             class="cds--text-input"
             ofeTextInput
@@ -304,7 +304,8 @@
             [type]="node.question.renderingType"
             [id]="node.question.key + 'id'"
             [readOnly]="node.question.extras.readOnly"
-          />
+          >
+          </ofe-number-input>
 
           <div *ngSwitchCase="'radio'">
             <ofe-radio-button
