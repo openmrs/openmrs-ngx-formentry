@@ -6,7 +6,7 @@
       *ngFor="let question of node.question.questions; let i = index"
     >
       <ofe-form-renderer
-        [node]="node.children[question.key]"
+        [node]="node.children[question.key] | translate"
         [parentComponent]="this"
         [parentGroup]="node.control"
         [labelMap]="labelMap"
@@ -174,11 +174,11 @@
         *ngIf="node.question.label"
         [style.color]="hasErrors() ? 'red' : ''"
         class="cds--label"
-        [attr.for]="node.question.key"
+        [attr.for]="node.question.key | translate"
       >
         {{ node.question.required ? '*' : '' }}
-        {{ node.question.prefix ? node.question.prefix + ' ' : ''
-        }}{{ node.question.label | translate }}
+        {{ node.question.prefix ? node.question.prefix + ' ' : ''}}
+        {{ node.question.label | translate }}
       </label>
 
       <div
@@ -300,7 +300,7 @@
             ofeTextInput
             *ngSwitchDefault
             [formControlName]="node.question.key"
-            [attr.placeholder]="node.question.placeholder"
+            [attr.placeholder]="node.question.placeholder | translate"
             [type]="node.question.renderingType"
             [id]="node.question.key + 'id'"
             [readOnly]="node.question.extras.readOnly"

@@ -5,9 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormEntryModule } from '@openmrs/ngx-formentry';
 import { AppComponent } from './app.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
-
+import { NgxTranslateModule } from './translate/translate.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,9 +16,7 @@ import { of } from 'rxjs';
     FormEntryModule,
     HttpClientModule,
     ReactiveFormsModule,
-    TranslateModule.forRoot({
-      defaultLanguage: 'en'
-    })
+    NgxTranslateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

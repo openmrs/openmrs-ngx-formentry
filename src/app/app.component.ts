@@ -16,6 +16,7 @@ import {
   FormErrorsService
 } from '@openmrs/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
+import { mockTranslationsData } from './mock/mock-translations';
 
 const adultForm = require('./adult-1.6.json');
 const adultFormObs = require('./mock/obs.json');
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
   encounterObject = adultFormObs;
   showingEncounterViewer = false;
   public header = 'UMD Demo';
+  currentLanguage = 'fr';
   labelMap = {};
 
   constructor(
@@ -225,23 +227,20 @@ export class AppComponent implements OnInit {
       });
     });
 
-    this.translate.currentLang = 'fr';
+
+    this.translate.currentLang = this.currentLanguage;
     this.fetchMockedTranslationsData().then((translationsData: any) => {
       this.translate.setTranslation(translationsData.language, translationsData.translations);
     });
 
   }
 
+
+
   fetchMockedTranslationsData() {
     const promise = new Promise(function (resolve, reject) {
       setTimeout(function () {
-        const translationsData = {
-          "uuid": "510bb364-6928-42ea-9458-a46bfc2eebc6",
-          "language": "fr",
-          "translations": {
-            "Encounter Details": "Détails de la rencontre",
-          }
-        };
+        const translationsData = mockTranslationsData.find(translation => translation.language === 'fr')
         resolve(translationsData);
       }, 2000);
     });
