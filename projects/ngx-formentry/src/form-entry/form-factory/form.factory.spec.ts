@@ -281,7 +281,7 @@ describe('Form Factory:', () => {
     expect((thirdLevel.children['key1'] as LeafNode).control).toBeTruthy();
     expect(
       (thirdLevel.children['key1'] as LeafNode).control instanceof
-        AfeFormControl
+      AfeFormControl
     ).toBe(true);
     const control = (thirdLevel.children['key1'] as LeafNode)
       .control as AfeFormControl;
@@ -301,9 +301,9 @@ describe('Form Factory:', () => {
       questions: [],
       extras: {
         questionOptions: {
-        min: 0,
-        max: 10,
-      }
+          min: 0,
+          max: 10
+        }
       },
     });
 
