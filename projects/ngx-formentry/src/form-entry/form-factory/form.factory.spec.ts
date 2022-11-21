@@ -298,7 +298,13 @@ describe('Form Factory:', () => {
       key: 'r1',
       type: 'repeating',
       label: 'repeating',
-      questions: []
+      questions: [],
+      extras: {
+        questionOptions: {
+        min: 0,
+        max: 10,
+      }
+      },
     });
 
     const testQuestion = new TextInputQuestion({
