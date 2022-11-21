@@ -399,8 +399,13 @@
   <div [ngSwitch]="node.question.renderingType">
     <div class="well" style="padding: 2px" *ngSwitchCase="'repeating'">
       <h4 style="margin: 2px; font-weight: bold">{{ node.question.label }}</h4>
-      <hr
-        style="
+      <div>
+        <label class="cds--label" *ngIf="node.question.extras.questionOptions.min" style="margin-right: 2px">min:
+          {{ node.question.extras.questionOptions.min }}</label>
+        <label class="cds--label" *ngIf="node.question.extras.questionOptions.max">max:
+          {{ node.question.extras.questionOptions.max }}</label>
+      </div>
+      <hr style="
           margin-left: -2px;
           margin-right: -2px;
           margin-bottom: 4px;
@@ -474,7 +479,7 @@
         type="button"
         class="cds--btn cds--btn--primary cds--btn--sm"
         (click)="node.createChildNode()"
-      >
+        [ngClass]="{ disabled: node.children.length >= node.question.extras.questionOptions.max }">
         Add
       </button>
     </div>
