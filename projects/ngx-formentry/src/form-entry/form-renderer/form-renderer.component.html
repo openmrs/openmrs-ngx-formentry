@@ -283,7 +283,7 @@
           >
           </ng-select>
 
-          <input
+          <ofe-number-input
             [theme]="theme"
             *ngSwitchCase="'number'"
             [id]="node.question.key + 'id'"
@@ -292,9 +292,9 @@
             [formControlName]="node.question.key"
             [attr.placeholder]="node.question.placeholder | translate"
           >
-          </input>
+          </ofe-number-input>
 
-          <ofe-number-input
+          <input
             [theme]="theme"
             class="cds--text-input"
             ofeTextInput
@@ -304,8 +304,7 @@
             [type]="node.question.renderingType"
             [id]="node.question.key + 'id'"
             [readOnly]="node.question.extras.readOnly"
-          >
-          </ofe-number-input>
+          />
 
           <div *ngSwitchCase="'radio'">
             <ofe-radio-button
