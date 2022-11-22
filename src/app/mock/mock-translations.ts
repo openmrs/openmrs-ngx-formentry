@@ -26,7 +26,7 @@ const kmTranslations = {
     "Encounter Details": "ព័ត៌មានលម្អិតនៃការជួប",
     "Pre-Clinic Review": "ការពិនិត្យឡើងវិញមុនគ្លីនិក",
     "Clinical History": "ប្រវត្តិគ្លីនិក",
-    "Medical History": "ប្រវត្តិវេជ្ជសាស្ត្",
+    "Medication History": "ប្រវត្តិវេជ្ជសាស្ត្",
     "Vitals": "វីតាល់",
     "Test Results": "លទ្ធផល​តេ​ស្",
     "This is custom component within a page it is displayed at the top of the page":"នេះគឺជាសមាសភាគផ្ទាល់ខ្លួននៅក្នុងផ្នែកដែលវាត្រូវបានបង្ហាញនៅផ្នែកខាងលើនៃផ្នែក",

@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
   encounterObject = adultFormObs;
   showingEncounterViewer = false;
   public header = 'UMD Demo';
-  currentLanguage = 'fr';
+  currentLanguage = 'km';
   labelMap = {};
 
   constructor(
@@ -240,7 +240,7 @@ export class AppComponent implements OnInit {
   fetchMockedTranslationsData() {
     const promise = new Promise(function (resolve, reject) {
       setTimeout(function () {
-        const translationsData = mockTranslationsData.find(translation => translation.language === 'fr')
+        const translationsData = mockTranslationsData.find(translation => translation.language === 'km')
         resolve(translationsData);
       }, 2000);
     });
