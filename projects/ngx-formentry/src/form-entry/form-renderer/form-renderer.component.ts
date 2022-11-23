@@ -17,6 +17,7 @@ import { DataSource } from '../question-models/interfaces/data-source';
 import { FormErrorsService } from '../services/form-errors.service';
 import { QuestionGroup } from '../question-models/group-question';
 import { ValidationErrors } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ofe-form-renderer',
@@ -47,6 +48,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
     private validationFactory: ValidationFactory,
     private dataSources: DataSources,
     private formErrorsService: FormErrorsService,
+    public translate: TranslateService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.activeTab = 0;

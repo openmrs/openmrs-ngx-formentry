@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 
 import { Subscriber, Observable, Subject, of, Observer } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 import {
   QuestionFactory,
@@ -15,6 +16,7 @@ import {
   FormErrorsService
 } from '@openmrs/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
+import { mockTranslationsData } from './mock/mock-translations';
 
 const adultForm = require('./adult-1.6.json');
 const adultFormObs = require('./mock/obs.json');
@@ -35,6 +37,7 @@ export class AppComponent implements OnInit {
   encounterObject = adultFormObs;
   showingEncounterViewer = false;
   public header = 'UMD Demo';
+  currentLanguage = 'km';
   labelMap = {};
 
   constructor(
@@ -45,7 +48,9 @@ export class AppComponent implements OnInit {
     private encAdapter: EncounterAdapter,
     private dataSources: DataSources,
     private formErrorsService: FormErrorsService,
-    private http: HttpClient
+    private http: HttpClient,
+    private translate: TranslateService
+
   ) {
     this.schema = adultForm;
   }
@@ -221,6 +226,25 @@ export class AppComponent implements OnInit {
         this.labelMap[concept.reqId] = concept.display;
       });
     });
+
+
+    this.translate.currentLang = this.currentLanguage;
+    this.fetchMockedTranslationsData().then((translationsData: any) => {
+      this.translate.setTranslation(translationsData.language, translationsData.translations);
+    });
+
+  }
+
+
+
+  fetchMockedTranslationsData() {
+    const promise = new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        const translationsData = mockTranslationsData.find(translation => translation.language === 'km')
+        resolve(translationsData);
+      }, 2000);
+    });
+    return promise;
   }
 
   fetchMockedConceptData(concepts) {
