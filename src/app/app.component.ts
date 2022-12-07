@@ -111,6 +111,13 @@ export class AppComponent implements OnInit {
     const obs = new MockObs();
     this.dataSources.registerDataSource('rawPrevEnc', obs.getObs());
 
+
+    const mostRecentObsValueBefore = (date: string, obsConcepts) => {
+      const filteredObs = obsConcepts.filter((ob) => ob.obsDatetime.split('T')[0] < date);
+      return filteredObs;
+    }
+
+    this.dataSources.registerDataSource('mostRecentObsValueBefore', mostRecentObsValueBefore('2016-06-10', obs.getObs().obs));
     this.dataSources.registerDataSource('patient', { sex: 'M' }, true);
 
     this.dataSources.registerDataSource('patientInfo', {
@@ -152,9 +159,9 @@ export class AppComponent implements OnInit {
       }
     });
 
+
     // Create form
     this.createForm();
-
     // Set encounter, obs, orders
     adultFormObs.orders = formOrdersPayload.orders;
     this.encAdapter.populateForm(this.form, adultFormObs);
