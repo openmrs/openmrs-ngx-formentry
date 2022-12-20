@@ -14,22 +14,19 @@ export class HistoricalHelperService {
 
   public evaluate(
     expr: string,
-    dataSources: Record<string, unknown>,
-    additionalScopeValues: Record<string, unknown> | null,
-  ) {
+    dataSources: any,
+    additionalScopevalues: any
+  ): any {
     const HD = new HistoricalEncounterDataService();
     HD.registerEncounters('prevEnc', dataSources['rawPrevEnc']);
-    if (dataSources.hasOwnProperty('rawPrevObs')) {
-      HD.registerEncounters('prevObs', dataSources['rawPrevObs']);
-    }
+    const deps: any = {
+      HD: HD
+    };
 
-    const deps = { HD };
-
-    if (additionalScopeValues) {
-      for (const o in additionalScopeValues) {
-        const value = additionalScopeValues[o];
-        if (typeof value !== 'undefined' && value !== null) {
-          deps[o] = value;
+    if (additionalScopevalues) {
+      for (const o in additionalScopevalues) {
+        if (additionalScopevalues[o]) {
+          deps[o] = additionalScopevalues[o];
         }
       }
     }
