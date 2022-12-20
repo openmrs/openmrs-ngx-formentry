@@ -84,13 +84,13 @@ Which is should be fine if your are not working on custom components (Make sure 
 
 `$ cd ngx-openmrs-formentry `
 
-`$ npm install`
+`$ yarn`
 
-`$ npm start `
+`$ yarn start`
 
 ### Build the library by running:
 
-`$ npm run build:lib`
+`$ yarn run build:lib`
 
 ### Usage
 
