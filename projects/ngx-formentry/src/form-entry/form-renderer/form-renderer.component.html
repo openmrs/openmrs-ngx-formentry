@@ -177,7 +177,7 @@
         [attr.for]="node.question.key | translate"
       >
         {{ node.question.required ? '*' : '' }}
-        {{ node.question.prefix ? node.question.prefix + ' ' : ''}}
+        {{ node.question.prefix ? node.question.prefix + ' ' : '' }}
         {{ node.question.label | translate }}
       </label>
 
@@ -357,7 +357,6 @@
                 </div>
                 <button
                   type="button"
-                  ofeNode="node"
                   [name]="'historyValue'"
                   class="cds--btn cds--btn--primary cds--btn--sm col-xs-3"
                 >
