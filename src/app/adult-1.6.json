@@ -3861,6 +3861,22 @@
 							"id": "__yuHJFKyxE"
 						},
 						{
+                            "label" : "Historical Calculation",
+                            "type" : "obs",
+                            "questionOptions" : {
+                                "rendering" : "number",
+                                "concept" : "5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                                "max" : "",
+                                "min" : "",
+                                "showDate" : "",
+                                "useMostRecentValue": true,
+								"calculate": {
+									"calculateExpression": "parseFloat(extractObsValue(rawPrevObs,'5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',height))"
+								}
+                            },
+                            "id" : "Ht"
+                        },
+						{
 							"label": "Weight (Kg):",
 							"id": "weight",
 							"questionOptions": {

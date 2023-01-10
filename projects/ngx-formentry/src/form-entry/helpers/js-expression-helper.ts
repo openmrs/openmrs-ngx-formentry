@@ -243,6 +243,15 @@ export class JsExpressionHelper {
     }
   }
 
+  extractObsValue(rawEncounter, uuid, alternateControl?) {
+    const findObs = (obs, uuid) => {
+      let result;
+      obs?.some(o => result = o?.concept?.uuid === uuid ? o : findObs(o.children || [], uuid));
+      return result;
+    }
+    return findObs(rawEncounter.obs, uuid).value || alternateControl;
+  }
+
   get helperFunctions() {
     const helper = this;
     return {
@@ -253,7 +262,8 @@ export class JsExpressionHelper {
       calcHeightForAgeZscore: helper.calcHeightForAgeZscore,
       isEmpty: helper.isEmpty,
       arrayContains: helper.arrayContains,
-      extractRepeatingGroupValues: helper.extractRepeatingGroupValues
+      extractRepeatingGroupValues: helper.extractRepeatingGroupValues,
+      extractObsValue: helper.extractObsValue
     };
   }
 }
