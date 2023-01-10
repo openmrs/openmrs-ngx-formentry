@@ -243,6 +243,9 @@ export class JsExpressionHelper {
     }
   }
 
+  /*
+   TODO make it possible to bootstrap expressions without control relations to make alternateControl optional as at the moment it required
+   if no other expression on the control as a relationship to another control*/
   extractObsValue(rawEncounter, uuid, alternateControl?) {
     const findObs = (obs, uuid) => {
       let result;
