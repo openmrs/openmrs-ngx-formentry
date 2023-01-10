@@ -50,3 +50,12 @@ export { NestedQuestion } from '../form-entry/question-models/interfaces/nested-
 export { DateTimePickerModule } from '../components/date-time-picker/date-time-picker.module';
 export { NgxDateTimePickerModule } from '../components/ngx-datetime-picker/ngx-datetime-picker.module';
 export { JsExpressionHelper } from '../form-entry/helpers/js-expression-helper';
+export { FormRendererComponent } from '../form-entry/form-renderer/form-renderer.component';
+export { AfeNgSelectComponent } from '../components/afe-ng-select.component';
+export { NgxDatetimeComponent } from '../components/ngx-datetime-picker/ngx-datetime-picker.component';
+export { DateTimePickerComponent } from '../components/date-time-picker/date-time-picker.component';
+export { ModalComponent } from '../components/date-time-picker';
+export { ErrorRendererComponent } from '../form-entry/error-renderer/error-renderer.component';
+export { DatePickerComponent } from '../components/date-time-picker';
+export { TimePickerComponent } from '../components/date-time-picker';
+export { MomentPipe } from '../components/date-time-picker';

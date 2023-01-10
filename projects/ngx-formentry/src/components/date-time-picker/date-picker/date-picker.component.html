@@ -1,4 +1,4 @@
-<picker-modal (onOverlayClick)="cancelDatePicker()">
+<ofe-picker-modal (overlayClick)="cancelDatePicker()">
   <div class="picker-wrap">
     <div class="picker-box">
       <div class="picker-header">
@@ -37,7 +37,7 @@
             class="picker-day"
             (click)="selectDay(day)"
             [ngClass]="{
-              'out-focus': day.month() != calendarDate.month(),
+              'out-focus': day.month() !== calendarDate.month(),
               today: day.isSame(today),
               selected: day.isSame(selectedDate)
             }"
@@ -84,4 +84,4 @@
       </div>
     </div>
   </div>
-</picker-modal>
+</ofe-picker-modal>

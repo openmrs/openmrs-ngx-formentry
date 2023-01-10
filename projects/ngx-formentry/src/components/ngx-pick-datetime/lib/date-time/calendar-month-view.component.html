@@ -22,7 +22,7 @@
     </tr>
   </thead>
   <tbody
-    owl-date-time-calendar-body
+    ofe-owl-date-time-calendar-body
     role="grid"
     [rows]="days"
     [todayValue]="todayDate"
@@ -30,6 +30,6 @@
     [selectMode]="selectMode"
     [activeCell]="activeCell"
     (keydown)="handleCalendarKeydown($event)"
-    (select)="selectCalendarCell($event)"
+    (cellSelected)="selectCalendarCell($event)"
   ></tbody>
 </table>

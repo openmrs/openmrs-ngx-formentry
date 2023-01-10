@@ -1,14 +1,10 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
-/**
- * date-time-inline.component
- */
-
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
   forwardRef,
+  HostBinding,
   Inject,
   Input,
   OnInit,
@@ -38,19 +34,19 @@ export const OWL_DATETIME_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  selector: 'owl-date-time-inline',
+  selector: 'ofe-owl-date-time-inline',
   templateUrl: './date-time-inline.component.html',
   styleUrls: ['./date-time-inline.component.scss'],
-  host: {
-    '[class.owl-dt-inline]': 'owlDTInlineClass'
-  },
   changeDetection: ChangeDetectionStrategy.OnPush,
-  preserveWhitespaces: false,
   providers: [OWL_DATETIME_VALUE_ACCESSOR]
 })
 export class OwlDateTimeInlineComponent<T>
   extends OwlDateTime<T>
   implements OnInit, ControlValueAccessor {
+  @HostBinding('class.owl-dt-inline') get owlDTInlineClass() {
+    return true;
+  }
+
   @ViewChild(OwlDateTimeContainerComponent, { static: true })
   container: OwlDateTimeContainerComponent<T>;
 
@@ -125,8 +121,9 @@ export class OwlDateTimeInlineComponent<T>
   }
 
   private _dateTimeFilter: (date: T | null) => boolean;
-  @Input('owlDateTimeFilter')
-  get dateTimeFilter() {
+
+  @Input()
+  get owlDateTimeFilter() {
     return this._dateTimeFilter;
   }
 
@@ -141,7 +138,7 @@ export class OwlDateTimeInlineComponent<T>
     return this._min || null;
   }
 
-  @Input('min')
+  @Input() min: Date;
   set minDateTime(value: T | null) {
     this._min = this.getValidDate(this.dateTimeAdapter.deserialize(value));
     this.changeDetector.markForCheck();
@@ -154,7 +151,7 @@ export class OwlDateTimeInlineComponent<T>
     return this._max || null;
   }
 
-  @Input('max')
+  @Input() max: Date;
   set maxDateTime(value: T | null) {
     this._max = this.getValidDate(this.dateTimeAdapter.deserialize(value));
     this.changeDetector.markForCheck();
@@ -246,10 +243,6 @@ export class OwlDateTimeInlineComponent<T>
       this._selectMode === 'rangeFrom' ||
       this._selectMode === 'rangeTo'
     );
-  }
-
-  get owlDTInlineClass(): boolean {
-    return true;
   }
 
   private onModelChange: Function = () => {};

@@ -7,7 +7,7 @@ export class CheckBoxQuestion extends QuestionBase {
 
   constructor(options: CheckboxOptions) {
     super(options);
-    this.renderingType = 'checkbox' || 'radio';
+    this.renderingType = 'checkbox';
     this.options = options.options || [];
     this.controlType = AfeControlType.AfeFormControl;
   }

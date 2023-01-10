@@ -1,7 +1,3 @@
-/**
- * calendar-year-view.component.spec
- */
-
 import {
   async,
   ComponentFixture,
@@ -315,11 +311,11 @@ describe('OwlYearViewComponent', () => {
 
 @Component({
   template: `
-    <owl-date-time-year-view
+    <ofe-owl-date-time-year-view
       [selected]="selected"
       [(pickerMoment)]="pickerMoment"
-      (change)="handleChange($event)"
-    ></owl-date-time-year-view>
+      (monthChange)="handleChange($event)"
+    ></ofe-owl-date-time-year-view>
   `
 })
 class StandardYearViewComponent {
@@ -333,10 +329,10 @@ class StandardYearViewComponent {
 
 @Component({
   template: `
-    <owl-date-time-year-view
+    <ofe-owl-date-time-year-view
       [(pickerMoment)]="pickerMoment"
       [dateFilter]="dateFilter"
-    ></owl-date-time-year-view>
+    ></ofe-owl-date-time-year-view>
   `
 })
 class YearViewWithDateFilterComponent {

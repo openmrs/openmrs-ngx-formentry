@@ -33,9 +33,9 @@ describe('DatePickerComponent', () => {
     expect(todayBtnEl.nativeElement.textContent).toBe('Today');
   });
 
-  it('should raise onSelectDate event when "Today" button clicked', () => {
+  it('should fire a dateSelect event when "Today" button clicked', () => {
     let selectedDateValue: any;
-    comp.onSelectDate.subscribe((date: any) => (selectedDateValue = date));
+    comp.dateSelect.subscribe((date: any) => (selectedDateValue = date));
     expect(selectedDateValue).toBeUndefined();
     const todayBtnEl = fixture.debugElement.query(By.css('.action-today'));
     todayBtnEl.triggerEventHandler('click', null);
@@ -47,9 +47,9 @@ describe('DatePickerComponent', () => {
     expect(clearBtnEl.nativeElement.textContent).toBe('Clear');
   });
 
-  it('should raise onSelectDate event when "Clear" button clicked', () => {
+  it('should fire a dateSelect event when "Clear" button clicked', () => {
     let selectedDateValue: any;
-    comp.onSelectDate.subscribe((date: any) => (selectedDateValue = date));
+    comp.dateSelect.subscribe((date: any) => (selectedDateValue = date));
     const clearBtnEl = fixture.debugElement.query(By.css('.action-clear'));
     clearBtnEl.triggerEventHandler('click', null);
     expect(selectedDateValue).toBeNull();
@@ -60,9 +60,9 @@ describe('DatePickerComponent', () => {
     expect(closeBtnEl.nativeElement.textContent).toBe('Close');
   });
 
-  it('should raise onDatePickerCancel event when "Close" button clicked', () => {
+  it('should fire a datePickerCancel event when "Close" button clicked', () => {
     let pickerStatus: boolean;
-    comp.onDatePickerCancel.subscribe(
+    comp.datePickerCancel.subscribe(
       (status: boolean) => (pickerStatus = status)
     );
     const closeBtnEl = fixture.debugElement.query(By.css('.action-close'));

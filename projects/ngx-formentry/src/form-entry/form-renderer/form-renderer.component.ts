@@ -7,6 +7,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import * as _ from 'lodash';
 
 import { DataSources } from '../data-sources/data-sources';
 import { NodeBase, LeafNode, GroupNode } from '../form-factory/form-node';
@@ -16,9 +17,10 @@ import { DataSource } from '../question-models/interfaces/data-source';
 import { FormErrorsService } from '../services/form-errors.service';
 import { QuestionGroup } from '../question-models/group-question';
 import { ValidationErrors } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'form-renderer',
+  selector: 'ofe-form-renderer',
   templateUrl: 'form-renderer.component.html',
   styleUrls: ['../../style/app.css', './form-renderer.component.css']
 })
@@ -28,6 +30,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
   @Input() public parentGroup: AfeFormGroup;
   @Input() public theme = 'light';
   @Input() public labelMap: Object;
+  @Input() public controlId: String = '';
   public childComponents: FormRendererComponent[] = [];
   public showTime: boolean;
   public showWeeks: boolean;
@@ -45,6 +48,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
     private validationFactory: ValidationFactory,
     private dataSources: DataSources,
     private formErrorsService: FormErrorsService,
+    public translate: TranslateService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.activeTab = 0;
@@ -72,6 +76,20 @@ export class FormRendererComponent implements OnInit, OnChanges {
 
     if (this.parentComponent) {
       this.parentComponent.addChildComponent(this);
+    }
+
+    if (
+      this.node &&
+      this.node.question.renderingType === 'repeating' &&
+      this?.node?.question?.extras?.questionOptions?.min >= 0
+    ) {
+      for (
+        let index = this.node.children.length;
+        index < this.node.question.extras.questionOptions.min;
+        index++
+      ) {
+        this.node.createChildNode();
+      }
     }
   }
 
@@ -240,5 +258,48 @@ export class FormRendererComponent implements OnInit, OnChanges {
     }
 
     return [];
+  }
+
+  showErrors() {
+    return !this.node.form.valid && this.node.form.showErrors;
+  }
+
+  get errorNodes() {
+    const invalidControls = this.node.form.markInvalidControls(
+      this.node.form.rootNode,
+      []
+    );
+    return invalidControls;
+  }
+
+  getControlError(node: LeafNode) {
+    const errors: any = node.control.errors;
+
+    if (errors) {
+      return this.validationFactory.errors(errors, node.question);
+    }
+
+    return [];
+  }
+
+  announceErrorField(errorNode: LeafNode) {
+    const nodes: Array<NodeBase> = this.node.form.searchNodeByQuestionId(
+      errorNode.path.substring(0, errorNode.path.indexOf('.'))
+    );
+
+    _.forEach(nodes, (node: NodeBase) => {
+      if (node.question.renderingType === 'page') {
+        const pageIndex: number = this.getPageIndex(node);
+        this.formErrorsService.announceErrorField(
+          pageIndex + ',' + errorNode.question.key
+        );
+      }
+    });
+  }
+
+  getPageIndex(node: NodeBase) {
+    const questionGroup: QuestionGroup = this.node.form.rootNode
+      .question as QuestionGroup;
+    return questionGroup.questions.indexOf(node.question);
   }
 }

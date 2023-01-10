@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import { NodeBase } from '../form-factory/form-node';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: `[node]`
 })
 export class HistoricalValueDirective {
@@ -26,8 +27,8 @@ export class HistoricalValueDirective {
     if (e.target.name === 'historyValue') {
       if (
         this._node &&
-        (!this.compareString(this._node.question.renderingType, 'page') ||
-          !this.compareString(this._node.question.renderingType, 'section'))
+        (!this.compareStrings(this._node.question.renderingType, 'page') ||
+          !this.compareStrings(this._node.question.renderingType, 'section'))
       ) {
         this._node.control.setValue(
           this._node.question.historicalDataValue.value
@@ -41,13 +42,7 @@ export class HistoricalValueDirective {
       }
     }
   }
-  private compareString(a, b) {
-    if (a === b) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+
   @Input()
   set node(node: NodeBase) {
     if (node) {
@@ -78,5 +73,9 @@ export class HistoricalValueDirective {
         }
       }
     }
+  }
+
+  private compareStrings(a: string, b: string): boolean {
+    return a === b;
   }
 }

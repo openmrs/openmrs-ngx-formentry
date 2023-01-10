@@ -1,0 +1,11 @@
+.cds--select--inline .cds--form__helper-text {
+  order: 4;
+}
+
+.cds--select--inline:not(.cds--select--invalid) .cds--form__helper-text {
+  margin-top: 0;
+}
+
+.cds--select-input__wrapper {
+  min-width: 16rem;
+}

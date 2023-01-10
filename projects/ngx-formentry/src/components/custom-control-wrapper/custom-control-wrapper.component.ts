@@ -1,16 +1,9 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  ControlValueAccessor,
-  NG_VALIDATORS,
-  NG_VALUE_ACCESSOR,
-  ValidationErrors,
-  Validator
-} from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CustomControlQuestion } from '../../form-entry/question-models/custom-control-question.model';
 
 @Component({
-  selector: 'app-custom-control-wrapper',
+  selector: 'ofe-custom-control-wrapper',
   templateUrl: 'custom-control-wrapper.component.html',
   providers: [
     {
@@ -38,6 +31,7 @@ export class CustomControlWrapperComponent
   registerOnValidatorChange?(fn: () => void): void {
     throw new Error('Method not implemented.');
   }
+
   ngOnInit(): void {
     this.customControlConfig = this.question?.extras?.customControlConfig;
   }

@@ -11,7 +11,7 @@ import { FormControlService } from './form-factory/form-control.service';
 import { ValidationFactory } from './form-factory/validation.factory';
 import { FormRendererComponent } from './form-renderer/form-renderer.component';
 import { ErrorRendererComponent } from './error-renderer/error-renderer.component';
-import { HistoricalValueDirective } from './directives/historical-value-directive';
+import { HistoricalValueDirective } from './directives/historical-value.directive';
 import { CollapseDirective } from './directives/collapse.directive';
 import { HistoricalFieldHelperService } from './helpers/historical-field-helper-service';
 import { NumberInputModule } from '../components/number-input/number-input.module';
@@ -36,6 +36,7 @@ import { ObsValueAdapter } from './value-adapters/obs.adapter';
 import { NgxRemoteSelectModule } from '../components/ngx-remote-select/ngx-remote-select.module';
 import { AppointmentsOverviewComponent } from '../components/appointments-overview/appointments-overview.component';
 import { CheckboxModule } from '../components/check-box/checkbox.module';
+import { RadioModule } from '../components/radio-button/radio.module';
 import { SharedModule } from '../shared.module';
 import { NgxTabSetModule } from '../components/ngx-tabset/modules/ngx-tabset.module';
 import { SelectModule as SelectModuleCarbon } from '../components/select/select.module';
@@ -43,6 +44,7 @@ import { InputModule } from '../components/input/input.module';
 import { CustomControlWrapperModule } from '../components/custom-control-wrapper/custom-control-wrapper..module';
 import { LazyElementsModule } from '@angular-extensions/elements';
 import { CustomComponentWrapperModule } from '../components/custom-component-wrapper/custom-component-wrapper..module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -58,11 +60,13 @@ import { CustomComponentWrapperModule } from '../components/custom-component-wra
     // NoopAnimationsModule,
     RemoteFileUploadModule,
     CheckboxModule,
+    RadioModule,
     NgxDateTimePickerModule,
     SharedModule,
     CustomControlWrapperModule,
     CustomComponentWrapperModule,
-    NgxTabSetModule.forRoot()
+    NgxTabSetModule.forRoot(),
+    TranslateModule.forRoot()
   ],
   declarations: [
     FormRendererComponent,
@@ -100,7 +104,8 @@ import { CustomComponentWrapperModule } from '../components/custom-component-wra
     AfeNgSelectComponent,
     ErrorRendererComponent,
     DateTimePickerModule,
-    NgxDateTimePickerModule
+    NgxDateTimePickerModule,
+    TranslateModule
   ]
 })
 export class FormEntryModule {}

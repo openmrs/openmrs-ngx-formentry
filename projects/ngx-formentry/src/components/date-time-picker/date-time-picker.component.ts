@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   Input,
   forwardRef,
   EventEmitter,
@@ -10,7 +9,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import moment from 'moment';
 
 @Component({
-  selector: 'date-time-picker',
+  selector: 'ofe-date-time-picker',
   templateUrl: './date-time-picker.component.html',
   styleUrls: ['./date-time-picker.component.css'],
   providers: [
@@ -21,21 +20,19 @@ import moment from 'moment';
     }
   ]
 })
-export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
+export class DateTimePickerComponent implements ControlValueAccessor {
   @Input() modelValue: any;
   @Input() showDate = true;
   @Input() showTime = false;
   @Input() showWeeks = false;
   @Input() weeks: number[] = [2, 4, 6, 8, 12, 16, 24];
-  @Output() onDateChange = new EventEmitter<any>();
+  @Output() dateChange = new EventEmitter<any>();
   public showDatePicker = false;
   public showTimePicker = false;
   onChange: any = () => {};
   onTouched: any = () => {};
 
   constructor() {}
-
-  ngOnInit() {}
 
   weeksSelected(count) {
     const now = new Date();
@@ -84,7 +81,7 @@ export class DateTimePickerComponent implements OnInit, ControlValueAccessor {
 
   set value(val) {
     this.modelValue = val;
-    this.onDateChange.emit(val);
+    this.dateChange.emit(val);
     this.onChange(val);
     this.onTouched();
   }

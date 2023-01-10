@@ -1,8 +1,3 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
-/**
- * calendar.component
- */
-
 import {
   AfterContentInit,
   AfterViewChecked,
@@ -11,14 +6,17 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Inject,
   Input,
   NgZone,
   OnDestroy,
-  OnInit,
   Optional,
   Output
 } from '@angular/core';
+import { take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import {
@@ -26,22 +24,21 @@ import {
   OwlDateTimeFormats
 } from './adapter/date-time-format.class';
 import { SelectMode } from './date-time.class';
-import { take } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'owl-date-time-calendar',
+  selector: 'ofe-owl-date-time-calendar',
   exportAs: 'owlDateTimeCalendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
-  host: {
-    '[class.owl-dt-calendar]': 'owlDTCalendarClass'
-  },
-  preserveWhitespaces: false,
+
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OwlCalendarComponent<T>
-  implements OnInit, AfterContentInit, AfterViewChecked, OnDestroy {
+  implements AfterContentInit, AfterViewChecked, OnDestroy {
+  @HostBinding('class.owl-dt-calendar') get owlDTCalendarClass() {
+    return true;
+  }
+
   @Input()
   get minDate(): T | null {
     return this._minDate;
@@ -169,13 +166,6 @@ export class OwlCalendarComponent<T>
     return this._currentView === 'month';
   }
 
-  /**
-   * Bind class 'owl-dt-calendar' to host
-   * */
-  get owlDTCalendarClass(): boolean {
-    return true;
-  }
-
   constructor(
     private elmRef: ElementRef,
     private pickerIntl: OwlDateTimeIntl,
@@ -278,8 +268,6 @@ export class OwlCalendarComponent<T>
       (!this.maxDate || this.dateTimeAdapter.compare(date, this.maxDate) <= 0)
     );
   };
-
-  public ngOnInit() {}
 
   public ngAfterContentInit(): void {
     this._currentView = this.startView;

@@ -86,7 +86,6 @@ export class PersonAttribuAdapter implements ValueAdapter {
 
     if (rootNode instanceof GroupNode) {
       const node = rootNode as GroupNode;
-      // eslint-disable-next-line guard-for-in
       for (const o in node.children) {
         if (node.children[o] instanceof NodeBase) {
           this._getPersonAttributesNodes(node.children[o], array);

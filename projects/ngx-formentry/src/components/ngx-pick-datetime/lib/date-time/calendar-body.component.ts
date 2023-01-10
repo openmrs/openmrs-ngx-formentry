@@ -1,20 +1,15 @@
-/* eslint-disable @angular-eslint/component-class-suffix, @angular-eslint/no-host-metadata-property */
-/**
- * calendar-body.component
- */
-
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   NgZone,
-  OnInit,
   Output
 } from '@angular/core';
-import { SelectMode } from './date-time.class';
 import { take } from 'rxjs/operators';
+import { SelectMode } from './date-time.class';
 
 export class CalendarCell {
   constructor(
@@ -28,17 +23,16 @@ export class CalendarCell {
 }
 
 @Component({
-  selector: '[owl-date-time-calendar-body]',
+  /* eslint-disable-next-line @angular-eslint/component-selector */
+  selector: '[ofe-owl-date-time-calendar-body]',
   exportAs: 'owlDateTimeCalendarBody',
   templateUrl: './calendar-body.component.html',
   styleUrls: ['./calendar-body.component.scss'],
-  host: {
-    '[class.owl-dt-calendar-body]': 'owlDTCalendarBodyClass'
-  },
-  preserveWhitespaces: false,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OwlCalendarBodyComponent implements OnInit {
+export class OwlCalendarBodyComponent {
+  @HostBinding('class.owl-dt-calendar-body') owlDTCalendarBodyClass = true;
+
   /**
    * The cell number of the active cell in the table.
    */
@@ -85,11 +79,7 @@ export class OwlCalendarBodyComponent implements OnInit {
    * Emit when a calendar cell is selected
    * */
   @Output()
-  public readonly select = new EventEmitter<CalendarCell>();
-
-  get owlDTCalendarBodyClass(): boolean {
-    return true;
-  }
+  public readonly cellSelected = new EventEmitter<CalendarCell>();
 
   get isInSingleMode(): boolean {
     return this.selectMode === 'single';
@@ -105,10 +95,8 @@ export class OwlCalendarBodyComponent implements OnInit {
 
   constructor(private elmRef: ElementRef, private ngZone: NgZone) {}
 
-  public ngOnInit() {}
-
   public selectCell(cell: CalendarCell): void {
-    this.select.emit(cell);
+    this.cellSelected.emit(cell);
   }
 
   public isActiveCell(rowIndex: number, colIndex: number): boolean {

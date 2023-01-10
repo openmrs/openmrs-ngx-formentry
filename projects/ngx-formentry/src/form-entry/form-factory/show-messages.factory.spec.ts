@@ -25,7 +25,6 @@ describe('Show Messages Factory:', () => {
   it('should return a message when the alertWhenExpression returns true', () => {
     const factory: AlertsFactory = TestBed.inject(AlertsFactory);
 
-    /* eslint-disable */
     let model: QuestionBase = new QuestionBase({
       type: 'testOrder',
       key: 'control1',
@@ -34,7 +33,6 @@ describe('Show Messages Factory:', () => {
         message: 'Vl required'
       }
     });
-    /* eslint-enable */
     const control2: AfeFormControl = new AfeFormControl();
     control2.uuid = 'control2';
     control2.setValue('hello');
@@ -51,7 +49,6 @@ describe('Show Messages Factory:', () => {
   it('should return an empty message when the alertWhenExpression returns false', () => {
     const factory: AlertsFactory = TestBed.inject(AlertsFactory);
 
-    /* eslint-disable */
     let model: QuestionBase = new QuestionBase({
       type: 'testOrder',
       key: 'control1',
@@ -60,7 +57,6 @@ describe('Show Messages Factory:', () => {
         message: 'Vl required'
       }
     });
-    /* eslint-enable */
     const control2: AfeFormControl = new AfeFormControl();
     control2.uuid = 'control2';
     control2.setValue('');

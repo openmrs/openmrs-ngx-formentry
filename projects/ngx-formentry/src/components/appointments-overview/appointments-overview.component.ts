@@ -1,14 +1,14 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnChanges, Input } from '@angular/core';
 
 import { LeafNode } from '../../form-entry/form-factory/form-node';
 import moment from 'moment';
 
 @Component({
-  selector: 'appointments-overview',
+  selector: 'ofe-appointments-overview',
   templateUrl: './appointments-overview.component.html',
   styleUrls: ['./appointments-overview.component.css']
 })
-export class AppointmentsOverviewComponent implements OnInit, OnChanges {
+export class AppointmentsOverviewComponent implements OnChanges {
   @Input() node: LeafNode;
   showAppointments = false;
   loadingAppointments = false;
@@ -17,8 +17,6 @@ export class AppointmentsOverviewComponent implements OnInit, OnChanges {
   appointments: Array<any> = [];
   today = '';
   constructor() {}
-
-  ngOnInit() {}
 
   ngOnChanges() {
     this.node.control.valueChanges.subscribe((appointmentDate) => {

@@ -1,14 +1,11 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
-/**
- * date-time-picker-input.directive
- */
-
 import {
   AfterContentInit,
   Directive,
   ElementRef,
   EventEmitter,
   forwardRef,
+  HostBinding,
+  HostListener,
   Inject,
   Input,
   OnDestroy,
@@ -28,6 +25,7 @@ import {
   Validators
 } from '@angular/forms';
 import { DOWN_ARROW } from '@angular/cdk/keycodes';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { OwlDateTimeComponent } from './date-time-picker.component';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import {
@@ -36,7 +34,6 @@ import {
 } from './adapter/date-time-format.class';
 import { Subscription } from 'rxjs';
 import { SelectMode } from './date-time.class';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export const OWL_DATETIME_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -53,17 +50,6 @@ export const OWL_DATETIME_VALIDATORS: any = {
 @Directive({
   selector: 'input[owlDateTime]',
   exportAs: 'owlDateTimeInput',
-  host: {
-    '(keydown)': 'handleKeydownOnHost($event)',
-    '(blur)': 'handleBlurOnHost($event)',
-    '(input)': 'handleInputOnHost($event)',
-    '(change)': 'handleChangeOnHost($event)',
-    '[attr.aria-haspopup]': 'owlDateTimeInputAriaHaspopup',
-    '[attr.aria-owns]': 'owlDateTimeInputAriaOwns',
-    '[attr.min]': 'minIso8601',
-    '[attr.max]': 'maxIso8601',
-    '[disabled]': 'owlDateTimeInputDisabled'
-  },
   providers: [OWL_DATETIME_VALUE_ACCESSOR, OWL_DATETIME_VALIDATORS]
 })
 export class OwlDateTimeInputDirective<T>
@@ -73,6 +59,68 @@ export class OwlDateTimeInputDirective<T>
     OnDestroy,
     ControlValueAccessor,
     Validator {
+  @HostBinding('attr.aria-haspopup')
+  get owlDateTimeInputAriaHaspopup() {
+    return true;
+  }
+
+  @HostBinding('attr.max') get maxIso8601() {
+    return this.max ? this.dateTimeAdapter.toIso8601(this.max) : null;
+  }
+
+  @HostBinding('attr.min') get minIso8601() {
+    return this.min ? this.dateTimeAdapter.toIso8601(this.min) : null;
+  }
+
+  @HostBinding('attr.aria-owns') get owlDateTimeInputAriaOwns() {
+    return (this.dtPicker.opened && this.dtPicker.id) || null;
+  }
+
+  @HostBinding('disabled') get owlDateTimeInputDisabled() {
+    return this.disabled;
+  }
+
+  @HostListener('blur', ['$event'])
+  public handleBlurOnHost($event: Event): void {
+    this.onModelTouched();
+  }
+
+  @HostListener('change', ['$event'])
+  public handleChangeOnHost($event: Event): void {
+    let v;
+    if (this.isInSingleMode) {
+      v = this.value;
+    } else if (this.isInRangeMode) {
+      v = this.values;
+    }
+
+    this.dateTimeChange.emit({
+      source: this,
+      value: v,
+      input: this.elmRef.nativeElement
+    });
+  }
+
+  @HostListener('input', ['$event'])
+  public handleInputOnHost($event: any): void {
+    const value = $event.target.value;
+    if (this._selectMode === 'single') {
+      this.changeInputInSingleMode(value);
+    } else if (this._selectMode === 'range') {
+      this.changeInputInRangeMode(value);
+    } else {
+      this.changeInputInRangeFromToMode(value);
+    }
+  }
+
+  @HostListener('keydown', ['$event'])
+  public handleKeydownOnHost($event: KeyboardEvent): void {
+    if ($event.altKey && $event.keyCode === DOWN_ARROW) {
+      this.dtPicker.open();
+      $event.preventDefault();
+    }
+  }
+
   /**
    * The date time picker that this input is associated with.
    * */
@@ -209,26 +257,6 @@ export class OwlDateTimeInputDirective<T>
       this._selectMode === 'rangeFrom' ||
       this._selectMode === 'rangeTo'
     );
-  }
-
-  get owlDateTimeInputAriaHaspopup(): boolean {
-    return true;
-  }
-
-  get owlDateTimeInputAriaOwns(): string {
-    return (this.dtPicker.opened && this.dtPicker.id) || null;
-  }
-
-  get minIso8601(): string {
-    return this.min ? this.dateTimeAdapter.toIso8601(this.min) : null;
-  }
-
-  get maxIso8601(): string {
-    return this.max ? this.dateTimeAdapter.toIso8601(this.max) : null;
-  }
-
-  get owlDateTimeInputDisabled(): boolean {
-    return this.disabled;
   }
 
   private _dateTimeFilter: (date: T | null) => boolean;
@@ -506,46 +534,6 @@ export class OwlDateTimeInputDirective<T>
 
   public registerOnValidatorChange(fn: () => void): void {
     this.validatorOnChange = fn;
-  }
-
-  /**
-   * Open the picker when user hold alt + DOWN_ARROW
-   * */
-  public handleKeydownOnHost(event: KeyboardEvent): void {
-    if (event.altKey && event.keyCode === DOWN_ARROW) {
-      this.dtPicker.open();
-      event.preventDefault();
-    }
-  }
-
-  public handleBlurOnHost(event: Event): void {
-    this.onModelTouched();
-  }
-
-  public handleInputOnHost(event: any): void {
-    const value = event.target.value;
-    if (this._selectMode === 'single') {
-      this.changeInputInSingleMode(value);
-    } else if (this._selectMode === 'range') {
-      this.changeInputInRangeMode(value);
-    } else {
-      this.changeInputInRangeFromToMode(value);
-    }
-  }
-
-  public handleChangeOnHost(event: any): void {
-    let v;
-    if (this.isInSingleMode) {
-      v = this.value;
-    } else if (this.isInRangeMode) {
-      v = this.values;
-    }
-
-    this.dateTimeChange.emit({
-      source: this,
-      value: v,
-      input: this.elmRef.nativeElement
-    });
   }
 
   /**

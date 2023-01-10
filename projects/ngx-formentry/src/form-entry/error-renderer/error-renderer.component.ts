@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import * as _ from 'lodash';
 
 import { Form } from '../form-factory/form';
@@ -8,19 +8,17 @@ import { QuestionGroup } from '../question-models/group-question';
 import { FormErrorsService } from '../services/form-errors.service';
 
 @Component({
-  selector: 'error-renderer',
+  selector: 'ofe-error-renderer',
   templateUrl: 'error-renderer.component.html',
   styleUrls: ['./error-renderer.component.css']
 })
-export class ErrorRendererComponent implements OnInit {
+export class ErrorRendererComponent {
   @Input() form: Form;
 
   constructor(
     private validationFactory: ValidationFactory,
     private formErrorsService: FormErrorsService
   ) {}
-
-  ngOnInit() {}
 
   showErrors() {
     return !this.form.valid && this.form.showErrors;

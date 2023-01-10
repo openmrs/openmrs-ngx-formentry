@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody
-    owl-date-time-calendar-body
+    ofe-owl-date-time-calendar-body
     role="grid"
     [rows]="months"
     [numCols]="3"
@@ -19,6 +19,6 @@
     [selectedValues]="selectedMonths"
     [selectMode]="selectMode"
     (keydown)="handleCalendarKeydown($event)"
-    (select)="selectCalendarCell($event)"
+    (cellSelected)="selectCalendarCell($event)"
   ></tbody>
 </table>

@@ -3,7 +3,7 @@
   [@fadeInPicker]="picker.pickerMode === 'inline' ? '' : 'enter'"
   class="owl-dt-container-inner"
 >
-  <owl-date-time-calendar
+  <ofe-owl-date-time-calendar
     *ngIf="pickerType === 'both' || pickerType === 'calendar'"
     class="owl-dt-container-row"
     [firstDayOfWeek]="picker.firstDayOfWeek"
@@ -19,9 +19,8 @@
     (yearSelected)="picker.selectYear($event)"
     (monthSelected)="picker.selectMonth($event)"
     (selectedChange)="dateSelected($event)"
-  ></owl-date-time-calendar>
-
-  <owl-date-time-timer
+  ></ofe-owl-date-time-calendar>
+  <ofe-owl-date-time-timer
     *ngIf="pickerType === 'both' || pickerType === 'timer'"
     class="owl-dt-container-row"
     [pickerMoment]="pickerMoment"
@@ -33,8 +32,7 @@
     [stepMinute]="picker.stepMinute"
     [stepSecond]="picker.stepSecond"
     (selectedChange)="timeSelected($event)"
-  ></owl-date-time-timer>
-
+  ></ofe-owl-date-time-timer>
   <div
     *ngIf="picker.isInRangeMode"
     role="radiogroup"

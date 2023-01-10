@@ -147,7 +147,7 @@ export class OrderValueAdapter implements ValueAdapter {
         }
       }
     }
-    // console.log('Deleted Orders ', deleteOrders);
+
     return deleteOrders;
   }
 
@@ -162,7 +162,7 @@ export class OrderValueAdapter implements ValueAdapter {
       childNode.control.setValue(value);
       childNode['initialValue'] = value;
       childNode['orderNumber'] = order.orderNumber;
-      // console.log('Set Value', node.children[index].control.value, node, childNode);
+
       index++;
     }
   }
@@ -185,7 +185,6 @@ export class OrderValueAdapter implements ValueAdapter {
                 break;
               case 'repeating':
                 if (formNode.children) {
-                  // eslint-disable-next-line guard-for-in
                   for (const node in formNode.children) {
                     const question = formNode.children[node].question;
                     if (

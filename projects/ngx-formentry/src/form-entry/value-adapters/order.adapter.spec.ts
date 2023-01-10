@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 const adultForm = require('../../adult.json');
 const adultFormOrders = require('../../mock/orders.json');
 import { FormFactory } from '../../form-entry/form-factory/form.factory';
@@ -14,6 +14,9 @@ import { ControlRelationsFactory } from '../../form-entry/form-factory/control-r
 import { DebugModeService } from './../services/debug-mode.service';
 
 describe('Orders Value Adapter', () => {
+  let formFactory: FormFactory;
+  let orderValueAdapter: OrderValueAdapter;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
@@ -31,6 +34,9 @@ describe('Orders Value Adapter', () => {
         DebugModeService
       ]
     });
+
+    formFactory = TestBed.inject(FormFactory);
+    orderValueAdapter = TestBed.inject(OrderValueAdapter);
   });
 
   afterEach(() => {
@@ -50,77 +56,69 @@ describe('Orders Value Adapter', () => {
     }
   ];
 
-  it('should be defined', inject(
-    [OrderValueAdapter],
-    (s: OrderValueAdapter) => {
-      expect(s).toBeTruthy();
-    }
-  ));
+  it('should be defined', () => {
+    expect(orderValueAdapter).toBeTruthy();
+  });
 
   describe('generateFormPayload', () => {
-    it('should populate form with additional orders and generate payload', inject(
-      [OrderValueAdapter, FormFactory],
-      (s: OrderValueAdapter, f: FormFactory) => {
-        const form = f.createForm(adultForm);
-        s.formOrderNodes = [];
-        s.populateForm(form, adultFormOrders);
+    it('should populate form with additional orders and generate payload', () => {
+      const form = formFactory.createForm(adultForm);
+      orderValueAdapter.formOrderNodes = [];
+      orderValueAdapter.populateForm(form, adultFormOrders);
 
-        // setting order provider
-        const valueProcessingInfo = { providerUuid: 'provider-uuid' };
-        form.valueProcessingInfo = valueProcessingInfo;
+      // setting order provider
+      const valueProcessingInfo = { providerUuid: 'provider-uuid' };
+      form.valueProcessingInfo = valueProcessingInfo;
 
-        let index = 0;
-        for (const order of newOrders) {
-          const node = s.formOrderNodes[0];
-          node.createChildNode();
-          const value = {};
-          value[node.question.key] = order.concept;
-          const childNode = node.children[index];
-          childNode.control.setValue(value);
-          childNode['orderNumber'] = order.orderNumber;
-          index++;
-        }
+      let index = 0;
 
-        // Confirm controls where populated with data;
-        expect(s.formOrderNodes[0].control.value[0]).toEqual({
-          order1: 'a8982474-1350-11df-a1f1-0026b9348838'
-        });
-        expect(s.formOrderNodes[0].control.value[1]).toEqual({
-          order1: 'a89dda72-1350-11df-a1f1-0026b9348838'
-        });
-
-        // Confirm payload was generated;
-        const payload = s.generateFormPayload(form);
-
-        expect(payload[0].concept).toEqual(
-          'a89dda72-1350-11df-a1f1-0026b9348838'
-        );
-        expect(payload[0].type).toEqual('testorder');
-        expect(payload[0].careSetting).toEqual(
-          '6f0c9a92-6f24-11e3-af88-005056821db0'
-        );
-        expect(payload[0].orderer).toEqual('provider-uuid');
-
-        // Confirm deleted orders were added to the payload
-        expect(payload[1].uuid).toEqual('order-2-uuid');
-        expect(payload[1].voided).toEqual(true);
+      for (const order of newOrders) {
+        const node = orderValueAdapter.formOrderNodes[0];
+        node.createChildNode();
+        const value = {};
+        value[node.question.key] = order.concept;
+        const childNode = node.children[index];
+        childNode.control.setValue(value);
+        childNode['orderNumber'] = order.orderNumber;
+        index++;
       }
-    ));
+
+      // Confirm controls where populated with data;
+      expect(orderValueAdapter.formOrderNodes[0].control.value[0]).toEqual({
+        order1: 'a8982474-1350-11df-a1f1-0026b9348838'
+      });
+      expect(orderValueAdapter.formOrderNodes[0].control.value[1]).toEqual({
+        order1: 'a89dda72-1350-11df-a1f1-0026b9348838'
+      });
+
+      // Confirm payload was generated;
+      const payload = orderValueAdapter.generateFormPayload(form);
+
+      expect(payload[0].concept).toEqual(
+        'a89dda72-1350-11df-a1f1-0026b9348838'
+      );
+      expect(payload[0].type).toEqual('testorder');
+      expect(payload[0].careSetting).toEqual(
+        '6f0c9a92-6f24-11e3-af88-005056821db0'
+      );
+      expect(payload[0].orderer).toEqual('provider-uuid');
+
+      // Confirm deleted orders were added to the payload
+      expect(payload[1].uuid).toEqual('order-2-uuid');
+      expect(payload[1].voided).toEqual(true);
+    });
   });
 
   describe('populateForm', () => {
-    it('should populate form with orders from existing payload', inject(
-      [OrderValueAdapter, FormFactory],
-      (s: OrderValueAdapter, f: FormFactory) => {
-        const form = f.createForm(adultForm);
-        s.populateForm(form, adultFormOrders);
-        expect(s.formOrderNodes[0].control.value[0]).toEqual({
-          order1: 'a8982474-1350-11df-a1f1-0026b9348838'
-        });
-        expect(s.formOrderNodes[0].control.value[1]).toEqual({
-          order1: 'a898fe80-1350-11df-a1f1-0026b9348838'
-        });
-      }
-    ));
+    it('should populate form with orders from existing payload', () => {
+      const form = formFactory.createForm(adultForm);
+      orderValueAdapter.populateForm(form, adultFormOrders);
+      expect(orderValueAdapter.formOrderNodes[0].control.value[0]).toEqual({
+        order1: 'a8982474-1350-11df-a1f1-0026b9348838'
+      });
+      expect(orderValueAdapter.formOrderNodes[0].control.value[1]).toEqual({
+        order1: 'a898fe80-1350-11df-a1f1-0026b9348838'
+      });
+    });
   });
 });

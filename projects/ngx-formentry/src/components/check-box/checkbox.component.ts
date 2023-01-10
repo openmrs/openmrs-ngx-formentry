@@ -1,16 +1,10 @@
-import {
-  Component,
-  Input,
-  forwardRef,
-  OnInit,
-  AfterViewInit
-} from '@angular/core';
+import { Component, Input, forwardRef, OnInit } from '@angular/core';
 
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'checkbox',
+  selector: 'ofe-checkbox',
   templateUrl: './checkbox.component.html',
   providers: [
     {
@@ -20,13 +14,14 @@ import * as _ from 'lodash';
     }
   ]
 })
-export class CheckboxControlComponent implements OnInit, AfterViewInit {
+export class CheckboxControlComponent implements OnInit {
   @Input() public id: String;
   @Input() public options: Array<any>;
   @Input() public selected: Array<any>;
   public _value: Array<any> = [];
 
   public ngOnInit() {
+    this.selected = [];
     this.options = this.options.map((option) => {
       if (this.selected.indexOf(option.value) !== -1) {
         Object.assign(option, { checked: true });
@@ -34,8 +29,6 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
       return option;
     });
   }
-
-  public ngAfterViewInit() {}
 
   public writeValue(value: any) {
     this.value = value;
@@ -69,15 +62,15 @@ export class CheckboxControlComponent implements OnInit, AfterViewInit {
 
   public selectOpt(option, event) {
     if (event.target.checked) {
-      this._value.push(option.value);
+      this.selected = [...this.selected, option.value];
     } else {
-      this.options.forEach((o) => {
-        if (o.value === option.value) {
-          this._value.splice(o, 1);
-        }
+      this.selected = this.selected.filter(function (o) {
+        return o !== option.value;
       });
     }
 
+    // this._value = [...this.selected];
+    this.selected = [...this._value];
     this.onChange(this.value);
   }
 

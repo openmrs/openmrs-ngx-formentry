@@ -293,10 +293,10 @@ describe('OwlMonthViewComponent', () => {
 
 @Component({
   template: `
-    <owl-date-time-month-view
+    <ofe-owl-date-time-month-view
       [(selected)]="selected"
       [(pickerMoment)]="pickerMoment"
-    ></owl-date-time-month-view>
+    ></ofe-owl-date-time-month-view>
   `
 })
 class StandardMonthViewComponent {
@@ -306,10 +306,10 @@ class StandardMonthViewComponent {
 
 @Component({
   template: `
-    <owl-date-time-month-view
+    <ofe-owl-date-time-month-view
       [(pickerMoment)]="pickerMoment"
       [dateFilter]="dateFilter"
-    ></owl-date-time-month-view>
+    ></ofe-owl-date-time-month-view>
   `
 })
 class MonthViewWithDateFilterComponent {

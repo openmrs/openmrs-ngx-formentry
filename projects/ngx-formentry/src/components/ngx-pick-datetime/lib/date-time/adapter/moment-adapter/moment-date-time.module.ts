@@ -13,7 +13,6 @@ import {
   OWL_DATE_TIME_LOCALE
 } from '../date-time-adapter.class';
 import { OWL_DATE_TIME_FORMATS } from '../date-time-format.class';
-// import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE_PROVIDER } from 'ng-pick-datetime';
 
 @NgModule({
   providers: [

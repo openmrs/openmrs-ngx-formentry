@@ -35,7 +35,7 @@
     </tr>
   </thead>
   <tbody
-    owl-date-time-calendar-body
+    ofe-owl-date-time-calendar-body
     role="grid"
     [rows]="years"
     [numCols]="3"
@@ -45,7 +45,7 @@
     [selectedValues]="selectedYears"
     [selectMode]="selectMode"
     (keydown)="handleCalendarKeydown($event)"
-    (select)="selectCalendarCell($event)"
+    (cellSelected)="selectCalendarCell($event)"
   ></tbody>
 </table>
 <button

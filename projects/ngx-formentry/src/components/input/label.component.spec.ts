@@ -2,22 +2,22 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { Label } from './label.component';
+import { LabelComponent } from './label.component';
 
-describe('Label', () => {
-  let component: Label;
-  let fixture: ComponentFixture<Label>;
+describe('LabelComponent', () => {
+  let component: LabelComponent;
+  let fixture: ComponentFixture<LabelComponent>;
   let de: DebugElement;
   let el: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [Label],
+      declarations: [LabelComponent],
       imports: [],
       providers: []
     });
 
-    fixture = TestBed.createComponent(Label);
+    fixture = TestBed.createComponent(LabelComponent);
     component = fixture.componentInstance;
     de = fixture.debugElement.query(By.css('label'));
     el = de.nativeElement;
@@ -25,14 +25,13 @@ describe('Label', () => {
   });
 
   it('should work', () => {
-    expect(component instanceof Label).toBe(true);
+    expect(component instanceof LabelComponent).toBe(true);
   });
 
   // This functionality isn't replicated in the Carbon UI
   // it('should set icon to success', () => {
   //   component.labelState = 'success';
   //   fixture.detectChanges();
-  //   console.log(el);
   //   expect(el.querySelector('.label-icon-success')).toBeTruthy();
   // });
 

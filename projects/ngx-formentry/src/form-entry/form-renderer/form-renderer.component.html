@@ -1,35 +1,81 @@
 <!--CONTAINERS-->
 <div *ngIf="node.question.renderingType === 'form'">
-  <ngx-tab-set (onSelect)="tabSelected($event)" [selectedIndex]="activeTab">
-    <ngx-tab
-      [tabTitle]="question.label"
+  <ofe-tab-set (tabSelect)="tabSelected($event)" [selectedIndex]="activeTab">
+    <ofe-tab
+      [tabTitle]="question.label | translate"
       *ngFor="let question of node.question.questions; let i = index"
     >
-      <form-renderer
-        [node]="node.children[question.key]"
+      <ofe-form-renderer
+        [node]="node.children[question.key] | translate"
         [parentComponent]="this"
         [parentGroup]="node.control"
         [labelMap]="labelMap"
       >
-      </form-renderer>
-    </ngx-tab>
-    <error-renderer [form]="node.form"></error-renderer>
-  </ngx-tab-set>
+      </ofe-form-renderer>
+    </ofe-tab>
+    <div *ngIf="showErrors()" class="container">
+      <div
+        data-notification
+        *ngFor="let errorNode of errorNodes"
+        class="cds--inline-notification cds--inline-notification--error cds--inline-notification--low-contrast pointer"
+        role="alert"
+        (click)="announceErrorField(errorNode)"
+      >
+        <div class="cds--inline-notification__details">
+          <div class="cds--inline-notification__text-wrapper">
+            <p class="cds--inline-notification__title">
+              {{ errorNode.question.label | translate }}
+            </p>
+            <p class="cds--inline-notification__subtitle">
+              {{ getControlError(errorNode | translate) }}
+            </p>
+          </div>
+        </div>
+        <button
+          tabindex="0"
+          class="cds--inline-notification__action-button cds--btn cds--btn--sm cds--btn--ghost"
+          type="button"
+        >
+          Fix
+        </button>
+        <svg
+          focusable="false"
+          preserveAspectRatio="xMidYMid meet"
+          style="will-change: transform"
+          xmlns="http://www.w3.org/2000/svg"
+          class="cds--inline-notification__icon"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          aria-hidden="true"
+        >
+          <path
+            d="M10,1c-5,0-9,4-9,9s4,9,9,9s9-4,9-9S15,1,10,1z M13.5,14.5l-8-8l1-1l8,8L13.5,14.5z"
+          ></path>
+          <path
+            d="M13.5,14.5l-8-8l1-1l8,8L13.5,14.5z"
+            data-icon-path="inner-path"
+            opacity="0"
+          ></path>
+        </svg>
+      </div>
+    </div>
+  </ofe-tab-set>
 </div>
 <div *ngIf="node.question.renderingType === 'page'">
   <!--Page Components-->
-  <app-custom-component-wrapper
+  <ofe-custom-component-wrapper
     [dark]="theme === 'light'"
     [componentConfigs]="node.question.componentConfigs"
   >
-  </app-custom-component-wrapper>
-  <form-renderer
+  </ofe-custom-component-wrapper>
+  <ofe-form-renderer
     *ngFor="let question of node.question.questions"
     [parentComponent]="this"
     [node]="node.children[question.key]"
     [parentGroup]="parentGroup"
     [labelMap]="labelMap"
-  ></form-renderer>
+  ></ofe-form-renderer>
 </div>
 <div *ngIf="node.question.renderingType === 'section' && checkSection(node)">
   <div
@@ -58,29 +104,29 @@
         <path d="M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
       </svg>
       <p class="cds--accordion__title">
-        {{ node.question.label }}
+        {{ node.question.label | translate }}
       </p>
     </button>
-    <div [collapse]="isCollapsed">
+    <div ofeCollapse="isCollapsed">
       <!--Section Components-->
-      <app-custom-component-wrapper
+      <ofe-custom-component-wrapper
         [dark]="theme === 'light'"
         [componentConfigs]="node.question.componentConfigs"
       >
-      </app-custom-component-wrapper>
+      </ofe-custom-component-wrapper>
       <div
         class="cds--accordion__content accordion-content-override"
         [ngClass]="{
           'accordion-content-dark': theme === 'light'
         }"
       >
-        <form-renderer
+        <ofe-form-renderer
           *ngFor="let question of node.question.questions"
           [parentComponent]="this"
           [node]="node.children[question.key]"
           [parentGroup]="parentGroup"
           [labelMap]="labelMap"
-        ></form-renderer>
+        ></ofe-form-renderer>
       </div>
     </div>
   </div>
@@ -102,11 +148,11 @@
   [hidden]="node.control.hidden"
   [ngClass]="{ disabled: node.control.disabled }"
 >
-  <app-custom-component-wrapper
+  <ofe-custom-component-wrapper
     [dark]="!(theme === 'light')"
     [componentConfigs]="node.question.componentConfigs"
   >
-  </app-custom-component-wrapper>
+  </ofe-custom-component-wrapper>
   <div class="cds--form-item">
     <!--LEAF CONTROL-->
     <div class="question-area">
@@ -128,11 +174,11 @@
         *ngIf="node.question.label"
         [style.color]="hasErrors() ? 'red' : ''"
         class="cds--label"
-        [attr.for]="node.question.key"
+        [attr.for]="node.question.key | translate"
       >
         {{ node.question.required ? '*' : '' }}
-        {{ node.question.prefix ? node.question.prefix + ' ' : ''
-        }}{{ node.question.label }}
+        {{ node.question.prefix ? node.question.prefix + ' ' : '' }}
+        {{ node.question.label | translate }}
       </label>
 
       <div
@@ -141,45 +187,45 @@
           else nativeControls
         "
       >
-        <app-custom-control-wrapper
+        <ofe-custom-control-wrapper
           [formControlName]="node.question.key"
           [id]="node.question.key + 'id'"
           [question]="node.question"
         >
-        </app-custom-control-wrapper>
+        </ofe-custom-control-wrapper>
       </div>
 
       <ng-template #nativeControls>
         <div class="afe-control" [ngSwitch]="node.question.renderingType">
-          <ibm-select
+          <ofe-select
             [theme]="theme"
             *ngSwitchCase="'select'"
             [formControlName]="node.question.key"
             [id]="node.question.key + 'id'"
           >
             <option *ngFor="let o of node.question.options" [value]="o.value">
-              {{ o.label }}
+              {{ o.label | translate }}
             </option>
-          </ibm-select>
+          </ofe-select>
 
           <div *ngSwitchCase="'file'">
-            <app-file-upload
+            <ofe-file-upload
               [dataSource]="dataSource"
               [formControlName]="node.question.key"
               [id]="node.question.key + 'id'"
               (fileChanged)="upload($event)"
             >
-            </app-file-upload>
+            </ofe-file-upload>
           </div>
 
           <textarea
             [theme]="theme"
-            ibmTextArea
+            ofeTextAreaInput
             [ngClass]="{
               'cds--text-area--light': theme === 'light',
               'cds--text-area--invalid': !node.control.valid
             }"
-            [placeholder]="node.question.placeholder"
+            [placeholder]="node.question.placeholder | translate"
             [rows]="node.question.rows"
             class="cds--text-area"
             *ngSwitchCase="'textarea'"
@@ -189,18 +235,18 @@
           >
           </textarea>
 
-          <ngx-remote-select
+          <ofe-remote-select
             [theme]="theme"
             *ngSwitchCase="'remote-select'"
-            [placeholder]="node.question.placeholder"
+            [placeholder]="node.question.placeholder | translate"
             tabindex="0"
             [dataSource]="dataSource"
             [componentID]="node.question.key + 'id'"
             [formControlName]="node.question.key"
             [id]="node.question.key + 'id'"
-          ></ngx-remote-select>
+          ></ofe-remote-select>
 
-          <ngx-datetimepicker
+          <ofe-ngx-date-time-picker
             [weeks]="node.question.extras.questionOptions.weeksList"
             [showWeeks]="node.question.showWeeksAdder"
             [theme]="theme"
@@ -209,13 +255,13 @@
             *ngSwitchCase="'date'"
             [datePickerFormat]="node.question.datePickerFormat"
           >
-          </ngx-datetimepicker>
+          </ofe-ngx-date-time-picker>
           <ng-select
             [ngClass]="{ 'afe-custom': theme === 'light' }"
             [id]="node.question.key + 'id'"
             *ngSwitchCase="'multi-select'"
             [items]="node.question.options"
-            bindLabel="label"
+            bindLabel="label | translate"
             bindValue="value"
             [multiple]="true"
             placeholder=""
@@ -229,7 +275,7 @@
             [id]="node.question.key + 'id'"
             *ngSwitchCase="'single-select'"
             [items]="node.question.options"
-            bindLabel="label"
+            bindLabel="label | translate"
             bindValue="value"
             placeholder=""
             clearAllText="Clear"
@@ -237,55 +283,46 @@
           >
           </ng-select>
 
-          <number-input
+          <ofe-number-input
             [theme]="theme"
             *ngSwitchCase="'number'"
             [id]="node.question.key + 'id'"
             [min]="node.question.extras.questionOptions.min"
             [max]="node.question.extras.questionOptions.max"
             [formControlName]="node.question.key"
-            [attr.placeholder]="node.question.placeholder"
+            [attr.placeholder]="node.question.placeholder | translate"
           >
-          </number-input>
+          </ofe-number-input>
 
           <input
             [theme]="theme"
             class="cds--text-input"
-            ibmText
+            ofeTextInput
             *ngSwitchDefault
             [formControlName]="node.question.key"
-            [attr.placeholder]="node.question.placeholder"
+            [attr.placeholder]="node.question.placeholder | translate"
             [type]="node.question.renderingType"
             [id]="node.question.key + 'id'"
             [readOnly]="node.question.extras.readOnly"
           />
 
           <div *ngSwitchCase="'radio'">
-            <div
-              *ngFor="let o of node.question.options"
-              [ngClass]="{
-                'in-line': node.question.orientation === 'horizontal'
-              }"
-            >
-              <label class="form-control no-border">
-                <input
-                  type="radio"
-                  [formControlName]="node.question.key"
-                  [id]="node.question.key + 'id'"
-                  [value]="o.value"
-                />
-                {{ o.label }}
-              </label>
-            </div>
-          </div>
-
-          <div *ngSwitchCase="'checkbox'">
-            <checkbox
+            <ofe-radio-button
               [id]="node.question.key + 'id'"
               [formControlName]="node.question.key"
               [options]="node.question.options"
+              [allowUnselect]="node.question.allowUnselect"
               [selected]="node.control.value"
-            ></checkbox>
+            ></ofe-radio-button>
+          </div>
+
+          <div *ngSwitchCase="'checkbox'">
+            <ofe-checkbox
+              [id]="node.question.key + 'id' + controlId"
+              [formControlName]="node.question.key"
+              [options]="node.question.options"
+              [selected]="node.control.value"
+            ></ofe-checkbox>
           </div>
 
           <div
@@ -320,7 +357,6 @@
                 </div>
                 <button
                   type="button"
-                  [node]="node"
                   [name]="'historyValue'"
                   class="cds--btn cds--btn--primary cds--btn--sm col-xs-3"
                 >
@@ -329,7 +365,7 @@
               </div>
             </div>
           </div>
-          <appointments-overview [node]="node"></appointments-overview>
+          <ofe-appointments-overview [node]="node"></ofe-appointments-overview>
           <div *ngIf="hasErrors()">
             <div *ngFor="let e of errors()">
               <span class="text-danger">{{ e }}</span>
@@ -348,7 +384,7 @@
           node.question.extras.questionInfo !== ' '
         "
       >
-        {{ node.question.extras.questionInfo }}
+        {{ node.question.extras.questionInfo | translate }}
       </div>
     </div>
   </div>
@@ -361,9 +397,14 @@
   <!--ARRAY CONTROL-->
   <div [ngSwitch]="node.question.renderingType">
     <div class="well" style="padding: 2px" *ngSwitchCase="'repeating'">
-      <h4 style="margin: 2px; font-weight: bold">{{ node.question.label }}</h4>
-      <hr
-        style="
+      <h4 style="margin: 2px; font-weight: bold">{{ node.question.label | translate }}</h4>
+      <div>
+        <label class="cds--label" *ngIf="node.question.extras.questionOptions.min" style="margin-right: 2px">min:
+          {{ node.question.extras.questionOptions.min }}</label>
+        <label class="cds--label" *ngIf="node.question.extras.questionOptions.max">max:
+          {{ node.question.extras.questionOptions.max }}</label>
+      </div>
+      <hr style="
           margin-left: -2px;
           margin-right: -2px;
           margin-bottom: 4px;
@@ -374,13 +415,13 @@
       <div [ngSwitch]="node.question.extras.type">
         <div *ngSwitchCase="'testOrder'">
           <div *ngFor="let child of node.children; let i = index">
-            <form-renderer
+            <ofe-form-renderer
               *ngFor="let question of child.question.questions"
               [parentComponent]="this"
               [node]="child.children[question.key]"
               [parentGroup]="child.control"
               [labelMap]="labelMap"
-            ></form-renderer>
+            ></ofe-form-renderer>
             <div>{{ child.orderNumber }}</div>
             <button
               type="button "
@@ -404,15 +445,17 @@
 
         <div *ngSwitchCase="'obsGroup'" style="margin-bottom: 20px">
           <div *ngFor="let child of node.children; let i = index">
-            <form-renderer
+            <ofe-form-renderer
               *ngFor="let question of child.question.questions"
               [parentComponent]="this"
               [node]="child.children[question.key]"
               [parentGroup]="child.control"
               [labelMap]="labelMap"
-            ></form-renderer>
+              [controlId]="i"
+            ></ofe-form-renderer>
             <button
-              type="button "
+              type="button"
+              style="width: 100px"
               class="cds--btn cds--btn--danger cds--btn--sm"
               (click)="node.removeAt(i)"
             >
@@ -433,9 +476,9 @@
       </div>
       <button
         type="button"
-        class="cds--btn cds--btn--primary"
+        class="cds--btn cds--btn--primary cds--btn--sm"
         (click)="node.createChildNode()"
-      >
+        [ngClass]="{ disabled: node.children.length >= node.question.extras.questionOptions.max }">
         Add
       </button>
     </div>
@@ -449,25 +492,25 @@
   <!--GROUP-->
   <div [ngSwitch]="node.question.renderingType">
     <div *ngSwitchCase="'group'">
-      <form-renderer
+      <ofe-form-renderer
         *ngFor="let question of node.question.questions"
         [parentComponent]="this"
         [node]="node.children[question.key]"
         [parentGroup]="node.control"
         [labelMap]="labelMap"
-      ></form-renderer>
+      ></ofe-form-renderer>
     </div>
     <div
       *ngSwitchCase="'field-set'"
       style="border: 1px solid #eeeeee; padding: 2px; margin: 2px"
     >
-      <form-renderer
+      <ofe-form-renderer
         *ngFor="let question of node.question.questions"
         [parentComponent]="this"
         [node]="node.children[question.key]"
         [parentGroup]="node.control"
         [labelMap]="labelMap"
-      ></form-renderer>
+      ></ofe-form-renderer>
     </div>
   </div>
 </div>

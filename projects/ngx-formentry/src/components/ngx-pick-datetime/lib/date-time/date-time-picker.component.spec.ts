@@ -1,9 +1,3 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property, @angular-eslint/component-class-suffix */
-/**
- * date-time-picker.component.spec
- */
-
-import { OwlDateTimeComponent } from './date-time-picker.component';
 import {
   ComponentFixture,
   fakeAsync,
@@ -18,12 +12,16 @@ import {
   ValueProvider,
   ViewChild
 } from '@angular/core';
-import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
+import { By } from '@angular/platform-browser';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { OwlDateTimeModule } from './date-time.module';
+import { ENTER, ESCAPE, RIGHT_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
 import { OverlayContainer } from '@angular/cdk/overlay';
+
+import { OwlDateTimeComponent } from './date-time-picker.component';
+import { OwlDateTimeInputDirective } from './date-time-picker-input.directive';
+import { OwlDateTimeModule } from './date-time.module';
 import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
 import {
   dispatchKeyboardEvent,
@@ -32,8 +30,7 @@ import {
   dispatchEvent,
   dispatchFakeEvent
 } from '../../test-helpers';
-import { ENTER, ESCAPE, RIGHT_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
-import { By } from '@angular/platform-browser';
+
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeTriggerDirective } from './date-time-picker-trigger.directive';
 import { OWL_DATE_TIME_FORMATS } from './adapter/date-time-format.class';
@@ -132,14 +129,14 @@ describe('OwlDateTimeComponent', () => {
         fixture.detectChanges();
 
         expect(
-          document.querySelector('.owl-dt-dialog owl-dialog-container')
+          document.querySelector('.owl-dt-dialog ofe-owl-dialog-container')
         ).toBeNull();
 
         testComponent.dateTimePicker.open();
         fixture.detectChanges();
 
         expect(
-          document.querySelector('.owl-dt-dialog owl-dialog-container')
+          document.querySelector('.owl-dt-dialog ofe-owl-dialog-container')
         ).not.toBeNull();
       });
 
@@ -232,13 +229,15 @@ describe('OwlDateTimeComponent', () => {
         fixture.detectChanges();
         flush();
 
-        expect(document.querySelector('owl-dialog-container')).not.toBeNull();
+        expect(
+          document.querySelector('ofe-owl-dialog-container')
+        ).not.toBeNull();
 
         testComponent.dateTimePicker.close();
         fixture.detectChanges();
         flush();
 
-        expect(document.querySelector('owl-dialog-container')).toBeNull();
+        expect(document.querySelector('ofe-owl-dialog-container')).toBeNull();
       }));
 
       it('should close popup panel when cancel button clicked', fakeAsync(() => {
@@ -382,7 +381,7 @@ describe('OwlDateTimeComponent', () => {
         );
       });
 
-      it('input should aria-owns owl-date-time-container after opened in popup mode', fakeAsync(() => {
+      it('input should aria-owns ofe-owl-date-time-container after opened in popup mode', fakeAsync(() => {
         const inputEl = fixture.debugElement.query(By.css('input'))
           .nativeElement;
         expect(inputEl.getAttribute('aria-owns')).toBeNull();
@@ -398,11 +397,11 @@ describe('OwlDateTimeComponent', () => {
         const ownedElement = document.getElementById(ownedElementId);
         expect(ownedElement).not.toBeNull();
         expect((ownedElement as Element).tagName.toLowerCase()).toBe(
-          'owl-date-time-container'
+          'ofe-owl-date-time-container'
         );
       }));
 
-      it('input should aria-owns owl-date-time-container after opened in dialog mode', fakeAsync(() => {
+      it('input should aria-owns ofe-owl-date-time-container after opened in dialog mode', fakeAsync(() => {
         testComponent.pickerMode = 'dialog';
         fixture.detectChanges();
 
@@ -421,7 +420,7 @@ describe('OwlDateTimeComponent', () => {
         const ownedElement = document.getElementById(ownedElementId);
         expect(ownedElement).not.toBeNull();
         expect((ownedElement as Element).tagName.toLowerCase()).toBe(
-          'owl-date-time-container'
+          'ofe-owl-date-time-container'
         );
       }));
 
@@ -1528,7 +1527,7 @@ describe('OwlDateTimeComponent', () => {
       });
     });
 
-    describe('DateTimePicker with owlDateTimeTrigger', () => {
+    describe('DateTimePicker with dtPicker', () => {
       let fixture: ComponentFixture<DateTimePickerWithTrigger>;
       let testComponent: DateTimePickerWithTrigger;
 
@@ -1548,14 +1547,16 @@ describe('OwlDateTimeComponent', () => {
       }));
 
       it('should open the picker when trigger clicked', () => {
-        expect(document.querySelector('owl-date-time-container')).toBeNull();
+        expect(
+          document.querySelector('ofe-owl-date-time-container')
+        ).toBeNull();
 
         const toggle = fixture.debugElement.query(By.css('button'));
         dispatchMouseEvent(toggle.nativeElement, 'click');
         fixture.detectChanges();
 
         expect(
-          document.querySelector('owl-date-time-container')
+          document.querySelector('ofe-owl-date-time-container')
         ).not.toBeNull();
       });
 
@@ -1566,12 +1567,16 @@ describe('OwlDateTimeComponent', () => {
           .nativeElement;
 
         expect(toggle.classList).toContain('owl-dt-trigger-disabled');
-        expect(document.querySelector('owl-date-time-container')).toBeNull();
+        expect(
+          document.querySelector('ofe-owl-date-time-container')
+        ).toBeNull();
 
         dispatchMouseEvent(toggle, 'click');
         fixture.detectChanges();
 
-        expect(document.querySelector('owl-date-time-container')).toBeNull();
+        expect(
+          document.querySelector('ofe-owl-date-time-container')
+        ).toBeNull();
       });
 
       it('should not open the picker when trigger clicked if input is disabled', () => {
@@ -1583,12 +1588,16 @@ describe('OwlDateTimeComponent', () => {
           .nativeElement;
 
         expect(toggle.classList).toContain('owl-dt-trigger-disabled');
-        expect(document.querySelector('owl-date-time-container')).toBeNull();
+        expect(
+          document.querySelector('ofe-owl-date-time-container')
+        ).toBeNull();
 
         dispatchMouseEvent(toggle, 'click');
         fixture.detectChanges();
 
-        expect(document.querySelector('owl-date-time-container')).toBeNull();
+        expect(
+          document.querySelector('ofe-owl-date-time-container')
+        ).toBeNull();
       });
     });
 
@@ -1789,7 +1798,7 @@ describe('OwlDateTimeComponent', () => {
         fixture.detectChanges();
 
         expect(
-          document.querySelector('owl-date-time-container')
+          document.querySelector('ofe-owl-date-time-container')
         ).not.toBeNull();
 
         const cellOne = document.querySelector(
@@ -1872,7 +1881,7 @@ describe('OwlDateTimeComponent', () => {
         fixture.detectChanges();
 
         expect(
-          document.querySelector('owl-date-time-container')
+          document.querySelector('ofe-owl-date-time-container')
         ).not.toBeNull();
 
         const cells = document.querySelectorAll('.owl-dt-calendar-cell');
@@ -1900,7 +1909,7 @@ describe('OwlDateTimeComponent', () => {
         fixture.detectChanges();
 
         expect(
-          document.querySelector('owl-date-time-container')
+          document.querySelector('ofe-owl-date-time-container')
         ).not.toBeNull();
 
         const increaseHourBtn = document.querySelector(
@@ -1944,7 +1953,7 @@ describe('OwlDateTimeComponent', () => {
         fixture.detectChanges();
 
         expect(
-          document.querySelector('owl-date-time-container')
+          document.querySelector('ofe-owl-date-time-container')
         ).not.toBeNull();
 
         const increaseMinuteBtn = document.querySelector(
@@ -1988,7 +1997,7 @@ describe('OwlDateTimeComponent', () => {
         fixture.detectChanges();
 
         expect(
-          document.querySelector('owl-date-time-container')
+          document.querySelector('ofe-owl-date-time-container')
         ).not.toBeNull();
 
         const increaseSecondBtn = document.querySelector(
@@ -2127,13 +2136,13 @@ describe('OwlDateTimeComponent', () => {
 @Component({
   template: `
     <input [owlDateTime]="dt" [value]="date" />
-    <owl-date-time
+    <ofe-owl-date-time
       [opened]="opened"
       [disabled]="disabled"
       [pickerType]="pickerType"
       [pickerMode]="pickerMode"
       #dt
-    ></owl-date-time>
+    ></ofe-owl-date-time>
   `
 })
 class StandardDateTimePicker {
@@ -2151,11 +2160,11 @@ class StandardDateTimePicker {
 @Component({
   template: `
     <input [owlDateTime]="dt" [selectMode]="selectMode" [values]="dates" />
-    <owl-date-time
+    <ofe-owl-date-time
       [startAt]="startAt"
       [pickerType]="pickerType"
       #dt
-    ></owl-date-time>
+    ></ofe-owl-date-time>
   `
 })
 class RangeDateTimePicker {
@@ -2173,13 +2182,13 @@ class RangeDateTimePicker {
   template: `
     <input [owlDateTime]="dt" />
     <input [owlDateTime]="dt" />
-    <owl-date-time #dt></owl-date-time>
+    <ofe-owl-date-time #dt></ofe-owl-date-time>
   `
 })
 class MultiInputDateTimePicker {}
 
 @Component({
-  template: ` <owl-date-time #dt></owl-date-time> `
+  template: ` <ofe-owl-date-time #dt></ofe-owl-date-time> `
 })
 class NoInputDateTimePicker {
   @ViewChild('dt', { static: true })
@@ -2189,7 +2198,7 @@ class NoInputDateTimePicker {
 @Component({
   template: `
     <input [owlDateTime]="dt" [value]="date" />
-    <owl-date-time #dt [startAt]="startDate"></owl-date-time>
+    <ofe-owl-date-time #dt [startAt]="startDate"></ofe-owl-date-time>
   `
 })
 class DateTimePickerWithStartAt {
@@ -2202,12 +2211,12 @@ class DateTimePickerWithStartAt {
 @Component({
   template: `
     <input [owlDateTime]="dt" [value]="date" />
-    <owl-date-time
+    <ofe-owl-date-time
       #dt
       [startView]="startView"
       (monthSelected)="onMonthSelection()"
       (yearSelected)="onYearSelection()"
-    ></owl-date-time>
+    ></ofe-owl-date-time>
   `
 })
 class DateTimePickerWithStartView {
@@ -2224,7 +2233,7 @@ class DateTimePickerWithStartView {
 @Component({
   template: `
     <input [(ngModel)]="moment" [selectMode]="selectMode" [owlDateTime]="dt" />
-    <owl-date-time #dt></owl-date-time>
+    <ofe-owl-date-time #dt></ofe-owl-date-time>
   `
 })
 class DateTimePickerWithNgModel {
@@ -2241,9 +2250,9 @@ class DateTimePickerWithNgModel {
     <input
       [formControl]="formControl"
       [owlDateTime]="dt"
-      [owlDateTimeTrigger]="dt"
+      [ofeOwlDateTimeTrigger]="dt"
     />
-    <owl-date-time #dt></owl-date-time>
+    <ofe-owl-date-time #dt></ofe-owl-date-time>
   `
 })
 class DateTimePickerWithFormControl {
@@ -2259,8 +2268,8 @@ class DateTimePickerWithFormControl {
 @Component({
   template: `
     <input [owlDateTime]="dt" />
-    <button [owlDateTimeTrigger]="dt">Icon</button>
-    <owl-date-time #dt></owl-date-time>
+    <button [ofeOwlDateTimeTrigger]="dt">Icon</button>
+    <ofe-owl-date-time #dt></ofe-owl-date-time>
   `
 })
 class DateTimePickerWithTrigger {
@@ -2277,9 +2286,9 @@ class DateTimePickerWithTrigger {
       [min]="min"
       [max]="max"
       [owlDateTime]="dt"
-      [owlDateTimeTrigger]="dt"
+      [ofeOwlDateTimeTrigger]="dt"
     />
-    <owl-date-time [showSecondsTimer]="true" #dt></owl-date-time>
+    <ofe-owl-date-time [showSecondsTimer]="true" #dt></ofe-owl-date-time>
   `
 })
 class DateTimePickerWithMinAndMaxValidation {
@@ -2301,9 +2310,9 @@ class DateTimePickerWithMinAndMaxValidation {
       [(ngModel)]="date"
       [owlDateTimeFilter]="filter"
       [owlDateTime]="dt"
-      [owlDateTimeTrigger]="dt"
+      [ofeOwlDateTimeTrigger]="dt"
     />
-    <owl-date-time [showSecondsTimer]="true" #dt></owl-date-time>
+    <ofe-owl-date-time [showSecondsTimer]="true" #dt></ofe-owl-date-time>
   `
 })
 class DateTimePickerWithFilterValidation {
@@ -2321,13 +2330,13 @@ class DateTimePickerWithFilterValidation {
   template: `
     <input
       [owlDateTime]="dt"
-      [owlDateTimeTrigger]="dt"
+      [ofeOwlDateTimeTrigger]="dt"
       (change)="handleChange()"
       (input)="handleInput()"
       (dateTimeChange)="handleDateTimeChange()"
       (dateTimeInput)="handleDateTimeInput()"
     />
-    <owl-date-time [showSecondsTimer]="true" #dt></owl-date-time>
+    <ofe-owl-date-time [showSecondsTimer]="true" #dt></ofe-owl-date-time>
   `
 })
 class DateTimePickerWithChangeAndInputEvents {
@@ -2350,7 +2359,7 @@ class DateTimePickerWithChangeAndInputEvents {
 @Component({
   template: `
     <input [owlDateTime]="dt" [(ngModel)]="value" [min]="min" [max]="max" />
-    <owl-date-time #dt [startAt]="startAt"></owl-date-time>
+    <ofe-owl-date-time #dt [startAt]="startAt"></ofe-owl-date-time>
   `
 })
 class DateTimePickerWithISOStrings {
@@ -2367,11 +2376,11 @@ class DateTimePickerWithISOStrings {
 @Component({
   template: `
     <input [(ngModel)]="selected" [owlDateTime]="dt" />
-    <owl-date-time
+    <ofe-owl-date-time
       (afterPickerOpen)="openedSpy()"
       (afterPickerClosed)="closedSpy()"
       #dt
-    ></owl-date-time>
+    ></ofe-owl-date-time>
   `
 })
 class DateTimePickerWithEvents {
