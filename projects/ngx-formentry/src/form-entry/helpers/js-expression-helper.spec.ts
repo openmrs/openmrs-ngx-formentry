@@ -39,6 +39,27 @@ describe('JS Expression Helper Service:', () => {
     expect(bsa).toBe(2.24);
   });
 
+  it('should return a value given an encounter payload and a concept uuid', () => {
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+
+    let obsValue;
+
+    obsValue = helper.extractObsValue({
+      obs: [{
+        uuid: '0bc6ef97-7727-4787-8c16-fc21460ccdydfd',
+        obsDatetime: '2016-01-21T01:17:46.000+0300',
+        concept: {
+          uuid: '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+        },
+        value: 173,
+        groupMembers: null
+      }]
+    }, '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    expect(obsValue).toBeTruthy();
+
+    expect(obsValue).toBe(173);
+  });
+
   it('should return true if value is empty, null or undefined', () => {
     const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
     let val = '';

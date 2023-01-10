@@ -110,6 +110,7 @@ export class AppComponent implements OnInit {
 
     const obs = new MockObs();
     this.dataSources.registerDataSource('rawPrevEnc', obs.getObs());
+    this.dataSources.registerDataSource('rawPrevObs', obs.getObs());
 
     this.dataSources.registerDataSource('patient', { sex: 'M' }, true);
 

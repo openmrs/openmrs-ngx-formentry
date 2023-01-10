@@ -24,6 +24,15 @@ export class MockObs {
       },
       obs: [
         {
+          uuid: '0bc6ef97-7727-4787-8c16-fc21460ccdydfd',
+          obsDatetime: '2016-01-21T01:17:46.000+0300',
+          concept: {
+            uuid: '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+          },
+          value: 173,
+          groupMembers: null
+        },
+        {
           uuid: '0bc6ef97-7727-4787-8c16-fc21460ccafd',
           obsDatetime: '2016-01-21T01:17:46.000+0300',
           concept: {
