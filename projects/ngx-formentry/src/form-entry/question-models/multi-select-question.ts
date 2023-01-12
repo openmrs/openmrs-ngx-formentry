@@ -3,7 +3,7 @@ import { MultiSelectQuestionOptions } from './interfaces/multi-select-options';
 import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
 export class MultiSelectQuestion extends SelectQuestion {
-  options: { key: string; value: string }[];
+  options: { label: string; value: string }[];
 
   constructor(options: MultiSelectQuestionOptions) {
     super(options);
