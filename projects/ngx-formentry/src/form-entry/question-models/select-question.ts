@@ -3,7 +3,7 @@ import { SelectQuestionOptions } from './interfaces/select-question-options';
 import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
 export class SelectQuestion extends QuestionBase {
-  options: { key: string; value: string }[];
+  options: { label: string; value: string }[];
   dataSource?: any;
 
   constructor(options: SelectQuestionOptions) {

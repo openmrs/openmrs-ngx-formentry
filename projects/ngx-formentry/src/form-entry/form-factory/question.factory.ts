@@ -50,17 +50,12 @@ export class QuestionFactory {
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.componentConfigs = schemaQuestion.componentConfigs || [];
-    question.options = schemaQuestion.questionOptions.answers.map(function (
-      obj
-    ) {
-      return {
-        label: obj.label,
-        value: obj.concept
-      };
-    });
+    question.options = schemaQuestion.questionOptions.answers.map((obj) => ({
+      label: obj.label,
+      value: obj.concept
+    }));
 
-    const options: any = question.options;
-    options.splice(0, 0, {
+    question.options.splice(0, 0, {
       label: '',
       value: ''
     });
@@ -69,7 +64,7 @@ export class QuestionFactory {
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
 
-    const mappings: any = {
+    const mappings = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -244,8 +239,7 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.prefix = schemaQuestion.prefix;
     question.extras = schemaQuestion;
-    question.allowUnselect =
-      schemaQuestion.questionOptions.allowUnselect;
+    question.allowUnselect = schemaQuestion.questionOptions.allowUnselect;
     question.orientation = schemaQuestion.questionOptions.orientation;
     question.options = schemaQuestion.questionOptions.answers.map((obj) => {
       return {
@@ -281,14 +275,10 @@ export class QuestionFactory {
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
-    question.options = schemaQuestion.questionOptions.answers.map(function (
-      obj
-    ) {
-      return {
-        label: obj.label,
-        value: obj.concept
-      };
-    });
+    question.options = schemaQuestion.questionOptions.answers.map((obj) => ({
+      label: obj.label,
+      value: obj.concept
+    }));
     question.validators = this.addValidators(schemaQuestion);
     question.dataSource = new DummyDataSource();
     question.extras = schemaQuestion;
