@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
   encounterObject = adultFormObs;
   showingEncounterViewer = false;
   public header = 'UMD Demo';
-  currentLanguage = 'km';
+  currentLanguage = 'en';
   labelMap = {};
 
   constructor(
