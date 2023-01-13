@@ -112,7 +112,7 @@ export class AppComponent implements OnInit {
     this.dataSources.registerDataSource('rawPrevEnc', obs.getObs());
     this.dataSources.registerDataSource('rawPrevObs', obs.getObs());
 
-    this.dataSources.registerDataSource('patient', { sex: 'M' }, true);
+    this.dataSources.registerDataSource('patient', { sex: 'M', age: 50 }, true);
 
     this.dataSources.registerDataSource('patientInfo', {
       name: 'Test Patient',
@@ -241,7 +241,7 @@ export class AppComponent implements OnInit {
   fetchMockedTranslationsData() {
     const promise = new Promise(function (resolve, reject) {
       setTimeout(function () {
-        const translationsData = mockTranslationsData.find(translation => translation.language === 'km')
+        const translationsData = mockTranslationsData.find(translation => translation.language === 'en')
         resolve(translationsData);
       }, 2000);
     });

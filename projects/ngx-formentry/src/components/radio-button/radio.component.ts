@@ -53,7 +53,6 @@ export class RadioButtonControlComponent implements ControlValueAccessor, OnInit
   }
 
   public handleClick(option) {
-    console.log("handleClick", option);
     if (this.allowUnselect && option.checked) {
       option.checked = false;
       // doesn't fire by itself, so we create a synthetic change event
@@ -64,7 +63,6 @@ export class RadioButtonControlComponent implements ControlValueAccessor, OnInit
   }
 
   public handleChange(option) {
-    console.log("handleChange", option);
     if (!option.checked) {
       this.value = undefined;
     } else {
