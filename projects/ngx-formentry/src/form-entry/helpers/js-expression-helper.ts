@@ -272,7 +272,7 @@ export class JsExpressionHelper {
       obs?.some(o => result = o?.concept?.uuid === uuid ? o : findObs(o.children || [], uuid));
       return result;
     }
-    return findObs(rawEncounter.obs, uuid)?.value || alternateControl;
+      return findObs(rawEncounter?.obs, uuid)?.value || alternateControl;    
   }
 
   get helperFunctions() {
