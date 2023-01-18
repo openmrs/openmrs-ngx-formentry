@@ -263,16 +263,22 @@ export class JsExpressionHelper {
     }
   }
 
-  /*
-   TODO make it possible to bootstrap expressions without control relations to make alternateControl optional as at the moment it required
-   if no other expression on the control as a relationship to another control*/
-  extractObsValue(rawEncounter, uuid, alternateControl?) {
+  /**
+   * Takes a target control, an encounter and concept uuid. If the target control has a value it returns it
+   * otherwise it tries to find it in the encounter. Finally it returns null of it can't find either of them.
+   * @param targetControl 
+   * @param rawEncounter 
+   * @param uuid 
+   * @returns
+   */
+  getObsFromControlOrEncounter(targetControl,rawEncounter,uuid): any {
     const findObs = (obs, uuid) => {
       let result;
-      obs?.some(o => result = o?.concept?.uuid === uuid ? o : findObs(o.children || [], uuid));
+      obs?.some(o => result = o?.concept?.uuid === uuid ? o : findObs(o.groupMembers || [], uuid));
       return result;
     }
-      return findObs(rawEncounter?.obs, uuid)?.value || alternateControl;    
+    const obsValue = findObs(rawEncounter?.obs, uuid)?.value;
+    return !!targetControl ? targetControl : typeof obsValue === 'object' ? obsValue.uuid : !!obsValue ? obsValue : null
   }
 
   get helperFunctions() {
@@ -287,7 +293,7 @@ export class JsExpressionHelper {
       isEmpty: helper.isEmpty,
       arrayContains: helper.arrayContains,
       extractRepeatingGroupValues: helper.extractRepeatingGroupValues,
-      extractObsValue: helper.extractObsValue
+      getObsFromControlOrEncounter: helper.getObsFromControlOrEncounter
     };
   }
 }
