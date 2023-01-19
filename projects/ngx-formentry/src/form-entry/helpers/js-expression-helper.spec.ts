@@ -44,7 +44,7 @@ describe('JS Expression Helper Service:', () => {
 
     let obsValue;
 
-    obsValue = helper.extractObsValue({
+    obsValue = helper.getObsFromControlOrEncounter(null,{
       obs: [{
         uuid: '0bc6ef97-7727-4787-8c16-fc21460ccdydfd',
         obsDatetime: '2016-01-21T01:17:46.000+0300',
