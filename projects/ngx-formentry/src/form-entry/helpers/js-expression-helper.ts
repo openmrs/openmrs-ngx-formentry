@@ -181,7 +181,9 @@ export class JsExpressionHelper {
     const bmiIdx = getBmiBin(bmi);
     const sbpIdx = 4 - getSbpBin(sbp);
 
-    return southEastAsiaCvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][bmiIdx];
+    const hasAllAttributes = sex && smoker && age && sbp && bmi;
+
+    return !hasAllAttributes ? null : southEastAsiaCvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][bmiIdx];
   }
 
   isEmpty(val) {
@@ -266,9 +268,9 @@ export class JsExpressionHelper {
   /**
    * Takes a target control, an encounter and concept uuid. If the target control has a value it returns it
    * otherwise it tries to find it in the encounter. Finally it returns null of it can't find either of them.
-   * @param targetControl 
-   * @param rawEncounter 
-   * @param uuid 
+   * @param targetControl
+   * @param rawEncounter
+   * @param uuid
    * @returns
    */
   getObsFromControlOrEncounter(targetControl,rawEncounter,uuid): any {
