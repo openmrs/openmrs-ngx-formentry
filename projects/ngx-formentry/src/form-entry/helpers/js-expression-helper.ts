@@ -168,29 +168,26 @@ export class JsExpressionHelper {
 
 
 
-  calcSouthEastAsiaNonLabCVDRisk(sex: 'M' | 'F', smoker: boolean, age: number, sbp: number, bmi: number) {
-    const hasMissingValue = (sex === null || typeof sex === "undefined") ||
-      (smoker === null || typeof smoker === "undefined") ||
-      (isNaN(age) || typeof age === "undefined") ||
-      (isNaN(sbp) || typeof sbp === "undefined") ||
-      (isNaN(bmi) || typeof bmi === "undefined");
+  calcSouthEastAsiaNonLabCVDRisk(sex: 'M' | 'F', smoker?: boolean, age?: number, sbp?: number, bmi?: number) {
+    const hasValidValues = (typeof sex === "string" && typeof smoker === "boolean" && typeof age === "number" && typeof sbp === "number" && typeof bmi === "number");
 
-    if (hasMissingValue) {
-      return null;
+    if (hasValidValues) {
+      // Bin functions
+      const getAgeBin = (age) => Math.floor((Math.min(Math.max(40, age), 74) - 40) / 5);
+      const getSbpBin = (sbp) => Math.max(0, Math.floor((Math.min(sbp, 180) - 120) / 20) + 1);
+      const getBmiBin = (bmi) => Math.max(0, Math.floor((Math.min(bmi, 35) - 20) / 5) + 1);
+
+      // Variables
+      const sexIdx = sex === 'M' ? 0 : 1;
+      const smokerIdx = smoker ? 1 : 0;
+      const ageIdx = 6 - getAgeBin(age);
+      const bmiIdx = getBmiBin(bmi);
+      const sbpIdx = 4 - getSbpBin(sbp);
+
+      return southEastAsiaCvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][bmiIdx];
     }
-    // Bin functions
-    const getAgeBin = (age) => Math.floor((Math.min(Math.max(40, age), 74) - 40) / 5);
-    const getSbpBin = (sbp) => Math.max(0, Math.floor((Math.min(sbp, 180) - 120) / 20) + 1);
-    const getBmiBin = (bmi) => Math.max(0, Math.floor((Math.min(bmi, 35) - 20) / 5) + 1);
+    return null;
 
-    // Variables
-    const sexIdx = sex === 'M' ? 0 : 1;
-    const smokerIdx = smoker ? 1 : 0;
-    const ageIdx = 6 - getAgeBin(age);
-    const bmiIdx = getBmiBin(bmi);
-    const sbpIdx = 4 - getSbpBin(sbp);
-
-    return southEastAsiaCvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][bmiIdx];
   }
 
   isEmpty(val) {
