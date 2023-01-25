@@ -169,6 +169,15 @@ export class JsExpressionHelper {
 
 
   calcSouthEastAsiaNonLabCVDRisk(sex: 'M' | 'F', smoker: boolean, age: number, sbp: number, bmi: number) {
+    const hasMissingValue = (sex === null || typeof sex === "undefined") ||
+      (smoker === null || typeof smoker === "undefined") ||
+      (isNaN(age) || typeof age === "undefined") ||
+      (isNaN(sbp) || typeof sbp === "undefined") ||
+      (isNaN(bmi) || typeof bmi === "undefined");
+
+    if (hasMissingValue) {
+      return null;
+    }
     // Bin functions
     const getAgeBin = (age) => Math.floor((Math.min(Math.max(40, age), 74) - 40) / 5);
     const getSbpBin = (sbp) => Math.max(0, Math.floor((Math.min(sbp, 180) - 120) / 20) + 1);
@@ -181,9 +190,7 @@ export class JsExpressionHelper {
     const bmiIdx = getBmiBin(bmi);
     const sbpIdx = 4 - getSbpBin(sbp);
 
-    const hasAllAttributes = sex && smoker && age && sbp && bmi;
-
-    return !hasAllAttributes ? null : southEastAsiaCvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][bmiIdx];
+    return southEastAsiaCvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][bmiIdx];
   }
 
   isEmpty(val) {
