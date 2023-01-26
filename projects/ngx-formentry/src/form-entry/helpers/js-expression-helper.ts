@@ -168,7 +168,12 @@ export class JsExpressionHelper {
 
 
 
-  calcSouthEastAsiaNonLabCVDRisk(sex: 'M' | 'F', smoker: boolean, age: number, sbp: number, bmi: number) {
+  calcSouthEastAsiaNonLabCVDRisk(sex: 'M' | 'F', smoker?: boolean, age?: number, sbp?: number, bmi?: number) {
+    const hasValidValues = (typeof sex === "string" && typeof smoker === "boolean" && typeof age === "number" && typeof sbp === "number" && typeof bmi === "number");
+
+    if (!hasValidValues) {
+      return null;
+    }
     // Bin functions
     const getAgeBin = (age) => Math.floor((Math.min(Math.max(40, age), 74) - 40) / 5);
     const getSbpBin = (sbp) => Math.max(0, Math.floor((Math.min(sbp, 180) - 120) / 20) + 1);
@@ -266,9 +271,9 @@ export class JsExpressionHelper {
   /**
    * Takes a target control, an encounter and concept uuid. If the target control has a value it returns it
    * otherwise it tries to find it in the encounter. Finally it returns null of it can't find either of them.
-   * @param targetControl 
-   * @param rawEncounter 
-   * @param uuid 
+   * @param targetControl
+   * @param rawEncounter
+   * @param uuid
    * @returns
    */
   getObsFromControlOrEncounter(targetControl,rawEncounter,uuid): any {

@@ -13,7 +13,7 @@ import {
   OrderValueAdapter,
   EncounterAdapter,
   DataSources,
-  FormErrorsService
+  FormErrorsService,
 } from '@openmrs/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
 import { mockTranslationsData } from './mock/mock-translations';
@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     private dataSources: DataSources,
     private formErrorsService: FormErrorsService,
     private http: HttpClient,
-    private translate: TranslateService
+    private translate: TranslateService,
 
   ) {
     this.schema = adultForm;
@@ -231,7 +231,7 @@ export class AppComponent implements OnInit {
 
     this.translate.currentLang = this.currentLanguage;
     this.fetchMockedTranslationsData().then((translationsData: any) => {
-      this.translate.setTranslation(translationsData.language, translationsData.translations);
+      this.translate.setTranslation(translationsData?.language, translationsData?.translations);
     });
 
   }
