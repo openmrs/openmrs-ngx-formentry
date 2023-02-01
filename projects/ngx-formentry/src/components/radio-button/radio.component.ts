@@ -34,6 +34,10 @@ export class RadioButtonControlComponent implements ControlValueAccessor, OnInit
 
   public writeValue(value: any) {
     this.value = value;
+    const newValueOpt = this.options.find((opt) => opt.value === value);
+    if (newValueOpt) {
+      Object.assign(newValueOpt, { checked: true });
+    }
   }
 
   public registerOnChange(fn: (newValue?: any, emitModelEvent?: boolean) => void) {
