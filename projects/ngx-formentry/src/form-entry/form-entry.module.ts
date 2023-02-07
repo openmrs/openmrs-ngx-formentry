@@ -31,6 +31,7 @@ import { ControlRelationsFactory } from './form-factory/control-relations.factor
 import { EncounterAdapter } from './value-adapters/encounter.adapter';
 import { PersonAttribuAdapter } from './value-adapters/person-attribute.adapter';
 import { OrderValueAdapter } from './value-adapters/order.adapter';
+import { DiagnosisValueAdapter } from './value-adapters/diagnosis.adapter';
 import { ObsAdapterHelper } from './value-adapters/obs-adapter-helper';
 import { ObsValueAdapter } from './value-adapters/obs.adapter';
 import { NgxRemoteSelectModule } from '../components/ngx-remote-select/ngx-remote-select.module';
@@ -45,6 +46,7 @@ import { CustomControlWrapperModule } from '../components/custom-control-wrapper
 import { LazyElementsModule } from '@angular-extensions/elements';
 import { CustomComponentWrapperModule } from '../components/custom-component-wrapper/custom-component-wrapper..module';
 import { TranslateModule } from '@ngx-translate/core';
+import {NgxDiagnosisModule} from "../components/ngx-diagnosis/ngx-diagnosis.module";
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -66,7 +68,8 @@ import { TranslateModule } from '@ngx-translate/core';
     CustomControlWrapperModule,
     CustomComponentWrapperModule,
     NgxTabSetModule.forRoot(),
-    TranslateModule.forRoot()
+    TranslateModule.forRoot(),
+    NgxDiagnosisModule
   ],
   declarations: [
     FormRendererComponent,
@@ -97,6 +100,7 @@ import { TranslateModule } from '@ngx-translate/core';
     EncounterAdapter,
     PersonAttribuAdapter,
     OrderValueAdapter,
+    DiagnosisValueAdapter,
     DebugModeService
   ],
   exports: [

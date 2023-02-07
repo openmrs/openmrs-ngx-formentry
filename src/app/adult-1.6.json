@@ -8030,6 +8030,26 @@
 					]
 				}
 			]
-		}
+		},
+    {
+      "label": "Diagnoses",
+      "sections": [
+        {
+          "label": "Diagnoses",
+          "isExpanded": "true",
+          "questions": [
+            {
+              "label": "Diagnosis",
+              "id": "diagnosisId",
+              "type": "diagnosis",
+              "questionOptions": {
+                "rendering": "repeating",
+                "dataSource": "diagnoses"
+              }
+            }
+          ]
+        }
+      ]
+    }
 	]
 }

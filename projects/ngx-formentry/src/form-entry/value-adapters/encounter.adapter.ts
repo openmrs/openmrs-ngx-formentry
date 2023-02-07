@@ -6,6 +6,7 @@ import { Form } from '../form-factory/form';
 import { ValueAdapter } from './value.adapter';
 import { ObsValueAdapter } from './obs.adapter';
 import { OrderValueAdapter } from './order.adapter';
+import { DiagnosisValueAdapter } from './diagnosis.adapter';
 
 import moment from 'moment';
 
@@ -13,6 +14,7 @@ import moment from 'moment';
 export class EncounterAdapter implements ValueAdapter {
   constructor(
     public ordersAdapter: OrderValueAdapter,
+    public diagnosesAdapter: DiagnosisValueAdapter,
     public obsAdapter: ObsValueAdapter
   ) {}
 
@@ -21,6 +23,9 @@ export class EncounterAdapter implements ValueAdapter {
 
     if (Array.isArray(payload.orders)) {
       this.ordersAdapter.populateForm(form, payload);
+    }
+    if (Array.isArray(payload.diagnoses)) {
+      this.diagnosesAdapter.populateForm(form, payload);
     }
     if (Array.isArray(payload.obs)) {
       this.obsAdapter.populateForm(form, payload.obs);
@@ -80,6 +85,8 @@ export class EncounterAdapter implements ValueAdapter {
     payload['obs'] = this.obsAdapter.generateFormPayload(form) || [];
 
     payload['orders'] = this.ordersAdapter.generateFormPayload(form) || [];
+
+    payload['diagnoses'] = this.diagnosesAdapter.generateFormPayload(form) || [];
 
     return payload;
   }

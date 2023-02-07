@@ -27,6 +27,7 @@ import { CheckBoxQuestion } from '../question-models/models';
 import { RadioButtonQuestion } from '../question-models/models';
 import { Injectable } from '@angular/core';
 import { CustomControlQuestion } from '../question-models/custom-control-question.model';
+import { DiagnosisQuestion } from '../question-models/diagnosis-question';
 
 @Injectable()
 export class QuestionFactory {
@@ -483,6 +484,13 @@ export class QuestionFactory {
       question.questions = orders;
     }
 
+    if (schemaQuestion.type === 'diagnosis') {
+      const diagnosisQuestion = this.toDiagnosisQuestion(schemaQuestion);
+      const diagnosisQuestions = [];
+      diagnosisQuestions.push(diagnosisQuestion);
+      question.questions = diagnosisQuestions;
+    }
+
     const mappings: any = {
       label: 'label',
       required: 'required',
@@ -704,6 +712,35 @@ export class QuestionFactory {
     return question;
   }
 
+  toDiagnosisQuestion(schemaQuestion: any): DiagnosisQuestion {
+    const question = new DiagnosisQuestion({
+      type: '',
+      key: '',
+      label: '',
+      rendering: ''
+    });
+    question.questionIndex = this.quetionIndex;
+    question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
+    question.key = schemaQuestion.id;
+    question.renderingType = 'remote-select';
+    question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
+    question.dataSource = schemaQuestion.questionOptions.dataSource || 'diagnoses';
+    const mappings: any = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
+    return question;
+  }
+
   getSchemaQuestions(schema: any): any {
     const listQuestions = new Array();
     this.getQuestions(schema, listQuestions);
@@ -803,8 +840,6 @@ export class QuestionFactory {
         return this.toPersonAttributeQuestion(schema);
       case 'text':
         return this.toTextQuestion(schema);
-      case 'textarea':
-        return this.toTextAreaQuestion(schema);
       case 'textarea':
         return this.toTextAreaQuestion(schema);
       case 'select-concept-answers':

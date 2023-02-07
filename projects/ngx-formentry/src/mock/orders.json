@@ -334,5 +334,45 @@
       "type": "testorder",
       "resourceVersion": "1.10"
     }
+  ],
+  "diagnoses": [
+    {
+      "uuid": "636bf840-a244-4e83-815f-3ba2b6ce35bd",
+      "diagnosis": {
+        "specificName": {
+          "uuid": "16599BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+          "display": "Malarial Fever"
+        },
+        "coded": {
+          "uuid": "116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "display": "Malarial Fever"
+        }
+      },
+      "condition": null,
+      "certainty": "CONFIRMED",
+      "rank": 1,
+      "voided": true,
+      "display": "FEVER",
+      "resourceVersion": "1.8"
+    },
+    {
+      "uuid": "636bf840-a244-4e83-815f-3ba2b6ce35be",
+      "diagnosis": {
+        "specificName": {
+          "uuid": "3085BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+          "display": "FEVER"
+        },
+        "coded": {
+          "uuid": "5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "display": "FEVER"
+        }
+      },
+      "condition": null,
+      "certainty": "CONFIRMED",
+      "rank": 2,
+      "voided": false,
+      "display": "FEVER",
+      "resourceVersion": "1.8"
+    }
   ]
 }
