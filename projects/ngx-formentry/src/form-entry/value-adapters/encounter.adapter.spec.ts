@@ -22,6 +22,7 @@ import { DebugModeService } from './../services/debug-mode.service';
 import adultForm from '../../adult.json';
 import adultFormOrders from '../../mock/orders.json';
 import adultFormObs from '../../mock/obs.json';
+import {DiagnosisValueAdapter} from "./diagnosis.adapter";
 
 describe('Encounter Value Adapter:', () => {
   let adultFormSchema: any;
@@ -31,6 +32,7 @@ describe('Encounter Value Adapter:', () => {
       TestBed.configureTestingModule({
         providers: [
           OrderValueAdapter,
+          DiagnosisValueAdapter,
           ObsValueAdapter,
           FormFactory,
           FormControlService,
