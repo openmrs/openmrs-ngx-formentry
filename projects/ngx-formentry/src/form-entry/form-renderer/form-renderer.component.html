@@ -459,6 +459,35 @@
           </div>
         </div>
 
+        <div *ngSwitchCase="'diagnosis'">
+          <div *ngFor="let child of node.children; let i = index">
+            <ofe-form-renderer
+              *ngFor="let question of child.question.questions"
+              [parentComponent]="this"
+              [node]="child.children[question.key]"
+              [parentGroup]="child.control"
+              [labelMap]="labelMap"
+            ></ofe-form-renderer>
+            <button
+              type="button "
+              class="cds--btn cds--btn--danger cds--btn--sm"
+              (click)="node.removeAt(i)"
+            >
+              Remove
+            </button>
+            <br />
+            <hr
+              style="
+                margin-left: -2px;
+                margin-right: -2px;
+                margin-bottom: 4px;
+                margin-top: 8px;
+                border-width: 1px;
+              "
+            />
+          </div>
+        </div>
+
         <div *ngSwitchCase="'obsGroup'" style="margin-bottom: 20px">
           <div *ngFor="let child of node.children; let i = index">
             <ofe-form-renderer
