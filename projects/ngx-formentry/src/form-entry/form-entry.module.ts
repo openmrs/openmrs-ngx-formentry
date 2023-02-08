@@ -46,7 +46,6 @@ import { CustomControlWrapperModule } from '../components/custom-control-wrapper
 import { LazyElementsModule } from '@angular-extensions/elements';
 import { CustomComponentWrapperModule } from '../components/custom-component-wrapper/custom-component-wrapper..module';
 import { TranslateModule } from '@ngx-translate/core';
-import {NgxDiagnosisModule} from "../components/ngx-diagnosis/ngx-diagnosis.module";
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -68,8 +67,7 @@ import {NgxDiagnosisModule} from "../components/ngx-diagnosis/ngx-diagnosis.modu
     CustomControlWrapperModule,
     CustomComponentWrapperModule,
     NgxTabSetModule.forRoot(),
-    TranslateModule.forRoot(),
-    NgxDiagnosisModule
+    TranslateModule.forRoot()
   ],
   declarations: [
     FormRendererComponent,
