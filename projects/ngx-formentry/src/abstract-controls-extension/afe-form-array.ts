@@ -84,7 +84,10 @@ export class AfeFormArray
 
   disable(param?: { onlySelf?: boolean; emitEvent?: boolean }) {
     super.disable(param);
-    super.setValue([]);
+    if (this.disablers.length > 0)
+      if (this.disablers[0].resetValueOnDisable) {
+        super.setValue([]);
+      }
   }
 
   setHidingFn(newHider: Hider) {

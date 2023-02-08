@@ -14,6 +14,7 @@ export interface CanDisable {
 export interface Disabler {
   toDisable: boolean;
   disableWhenExpression: string;
+  resetValueOnDisable: boolean;
   reEvaluateDisablingExpression: EvaluateExpressionFn;
 }
 

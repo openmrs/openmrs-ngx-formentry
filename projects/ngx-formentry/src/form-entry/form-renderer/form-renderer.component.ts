@@ -201,7 +201,11 @@ export class FormRendererComponent implements OnInit, OnChanges {
     }
   }
   public hasErrors() {
-    return this.node.control.touched && !this.node.control.valid;
+    return (
+      this.node.control.touched &&
+      !this.node.control.valid &&
+      this.node.control.disablers.length === 0
+    );
   }
 
   public errors() {

@@ -1030,6 +1030,15 @@ export class QuestionFactory {
       question.disable = schemaQuestion.disable.disableWhenExpression;
     }
 
+    if (schemaQuestion.disable) {
+      //if resetValueOnDisable doesn't exist on the config or no value is provided the default value will be passed (true)
+      question.resetValueOnDisable =
+        !schemaQuestion.hasOwnProperty('resetValueOnDisable') ||
+        this.isEmpty(schemaQuestion.resetValueOnDisable)
+          ? true
+          : schemaQuestion.resetValueOnDisable;
+    }
+
     if (!!schemaQuestion.hide) {
       question.hide = schemaQuestion.hide;
     }
@@ -1049,5 +1058,12 @@ export class QuestionFactory {
           : String.fromCharCode(Math.floor(r * 26) + (r > 0.5 ? 97 : 65));
     }
     return '_' + s;
+  }
+
+  isEmpty(value): boolean {
+    if (value === '' || value === null || value === undefined) {
+      return true;
+    }
+    return false;
   }
 }
