@@ -68,8 +68,7 @@ export class CheckboxControlComponent implements OnInit {
         return o !== option.value;
       });
     }
-
-    // this._value = [...this.selected];
+    
     this._value = [...this.selected];
     this.onChange(this._value);
   }
