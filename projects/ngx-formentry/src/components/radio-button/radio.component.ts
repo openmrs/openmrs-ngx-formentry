@@ -4,6 +4,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 @Component({
   selector: 'ofe-radio-button',
   templateUrl: './radio.component.html',
+  styleUrls: ['./radio.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -17,12 +18,13 @@ export class RadioButtonControlComponent implements ControlValueAccessor, OnInit
   @Input() public options: Array<any>;
   @Input() public selected: any;
   @Input() public allowUnselect: boolean;
+  @Input() public orientation: string;
 
   private _value: any = undefined;
 
   public ngOnInit() {
     this.options = this.options.map((opt) => ({ ...opt, checked: false }));
-    
+
     if (Boolean(this.selected)) {
       const maybeOpt = this.options.find((opt) => opt.value === this.selected);
       if (maybeOpt) {
