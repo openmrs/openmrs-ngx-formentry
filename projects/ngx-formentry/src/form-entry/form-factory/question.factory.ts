@@ -715,14 +715,13 @@ export class QuestionFactory {
   toDiagnosisQuestion(schemaQuestion: any): DiagnosisQuestion {
     const question = new DiagnosisQuestion({
       type: '',
-      key: '',
-      label: '',
-      rendering: ''
+      key: schemaQuestion.id,
+      label: schemaQuestion.label,
+      rendering: '',
+      rank: schemaQuestion.questionOptions.rank
     });
     question.questionIndex = this.quetionIndex;
-    question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
-    question.key = schemaQuestion.id;
     question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;

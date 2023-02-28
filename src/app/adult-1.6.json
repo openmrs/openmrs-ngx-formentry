@@ -8044,7 +8044,8 @@
               "type": "diagnosis",
               "questionOptions": {
                 "rendering": "repeating",
-                "dataSource": "diagnoses"
+                "dataSource": "diagnoses",
+                "rank": 1
               }
             }
           ]

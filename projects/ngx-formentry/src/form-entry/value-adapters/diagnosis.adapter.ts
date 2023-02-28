@@ -18,7 +18,8 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     });
     this.formDiagnosisNodes = [];
     this._findDiagnosisQuestionNodes(form.rootNode);
-    this._setDiagnosesValues(this.formDiagnosisNodes, form.existingDiagnoses);
+    this._setDiagnosesValues(this.formDiagnosisNodes, form.existingDiagnoses, 1);
+    this._setDiagnosesValues(this.formDiagnosisNodes, form.existingDiagnoses, 2);
   }
 
   private _createDiagnosesPayload(diagnosisNodes, existingDiagnoses) {
@@ -55,11 +56,9 @@ export class DiagnosisValueAdapter implements ValueAdapter {
         nonCoded: '',
       },
       certainty: 'CONFIRMED',
-      rank: 1,
+      rank: questionExtras.questionOptions.rank,
       voided: false
     };
-    //TODO diagnosis.certainty = quesitonExtras.questionOptions.certainty;
-    //TODO diagnosis.rank = quesitonExtras.questionOptions.rank;
 
     return diagnosis;
   }
@@ -75,10 +74,10 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     });
   }
 
-  private _setDiagnosesValues(formDiagnosisNodes, existingDiagnoses: Array<Diagnosis>) {
-    formDiagnosisNodes?.forEach(node => {
+  private _setDiagnosesValues(formDiagnosisNodes, existingDiagnoses: Array<Diagnosis>, rank: 1 | 2) {
+    formDiagnosisNodes?.filter(node => node.question.extras.rank == rank).forEach(node => {
       node['initialValue'] = existingDiagnoses;
-      existingDiagnoses.forEach((diagnosis, index) => {
+      existingDiagnoses.filter(d => d.rank == rank).forEach((diagnosis, index) => {
         node.createChildNode();
         const value = {};
         value[node.question.key] = diagnosis.diagnosis.coded;
