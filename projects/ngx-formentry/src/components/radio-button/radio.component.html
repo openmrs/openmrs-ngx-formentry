@@ -2,6 +2,7 @@
   <div
     *ngFor="let option of options; let i = index"
     class="cds--form-item cds--radio-wrapper"
+    [ngClass]="{'inline': orientation === 'horizontal'}"
   >
     <label class="form-control no-border">
       <input
