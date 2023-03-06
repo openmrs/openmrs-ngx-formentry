@@ -25,7 +25,7 @@ export class EncounterAdapter implements ValueAdapter {
       this.ordersAdapter.populateForm(form, payload);
     }
     if (Array.isArray(payload.diagnoses)) {
-      this.diagnosesAdapter.populateForm(form, payload);
+      this.diagnosesAdapter.populateForm(form, payload.diagnoses);
     }
     if (Array.isArray(payload.obs)) {
       this.obsAdapter.populateForm(form, payload.obs);

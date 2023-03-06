@@ -5274,20 +5274,41 @@
       ]
     },
     {
-      "label": "Diagnoses",
+      "label": "Primary Diagnoses",
       "sections": [
         {
-          "label": "Diagnoses",
+          "label": "Primary Diagnoses",
           "isExpanded": "true",
           "questions": [
             {
-              "label": "Diagnosis",
-              "id": "diagnosisId",
+              "label": "Primary Diagnosis",
+              "id": "primaryDiagnosisId",
               "type": "diagnosis",
               "questionOptions": {
                 "rendering": "repeating",
                 "dataSource": "diagnoses",
                 "rank": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Secondary Diagnoses",
+      "sections": [
+        {
+          "label": "Secondary Diagnoses",
+          "isExpanded": "true",
+          "questions": [
+            {
+              "label": "Secondary Diagnosis",
+              "id": "secondaryDiagnosisId",
+              "type": "diagnosis",
+              "questionOptions": {
+                "rendering": "repeating",
+                "dataSource": "diagnoses",
+                "rank": 2
               }
             }
           ]

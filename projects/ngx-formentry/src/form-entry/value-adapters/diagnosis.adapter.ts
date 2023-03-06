@@ -12,8 +12,8 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     return this._createDiagnosesPayload(this.formDiagnosisNodes, form.existingDiagnoses);
   }
 
-  populateForm(form: Form, payload) {
-    form.existingDiagnoses = payload.diagnoses?.filter(d => {
+  populateForm(form: Form, diagnosesPayload) {
+    form.existingDiagnoses = diagnosesPayload?.filter(d => {
       return !d.voided;
     });
     this.formDiagnosisNodes = [];
@@ -75,7 +75,7 @@ export class DiagnosisValueAdapter implements ValueAdapter {
   }
 
   private _setDiagnosesValues(formDiagnosisNodes, existingDiagnoses: Array<Diagnosis>, rank: 1 | 2) {
-    formDiagnosisNodes?.filter(node => node.question.extras.rank == rank).forEach(node => {
+    formDiagnosisNodes?.filter(node => node.question.extras.questionOptions.rank == rank).forEach(node => {
       node['initialValue'] = existingDiagnoses;
       existingDiagnoses.filter(d => d.rank == rank).forEach((diagnosis, index) => {
         node.createChildNode();
@@ -84,8 +84,6 @@ export class DiagnosisValueAdapter implements ValueAdapter {
         const childNode = node.children[index];
         childNode.control.setValue(value);
         childNode['initialValue'] = value;
-        //childNode['diagnosesCertainty'] = diagnosis.certainty;
-        //childNode['diagnosesRank'] = diagnosis.rank;
       });
     });
   }

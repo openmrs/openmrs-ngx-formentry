@@ -95,6 +95,7 @@ describe('Encounter Value Adapter:', () => {
       },
       obs: adultFormObs.obs,
       orders: adultFormOrders.orders,
+      diagnoses: adultFormOrders.diagnoses,
       patient: {
         uuid: 'patient-uuid',
         identifiers: []
@@ -138,6 +139,9 @@ describe('Encounter Value Adapter:', () => {
     expect(adapter.ordersAdapter.formOrderNodes[0].control.value[0]).toEqual({
       order1: 'a8982474-1350-11df-a1f1-0026b9348838'
     });
+
+    // Check that it populated diagnoses
+    expect(adapter.diagnosesAdapter.formDiagnosisNodes[1].control.value[0].secondaryDiagnosisId.uuid).toEqual('5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
   });
 
   it('should generate encounter payload', () => {
@@ -161,6 +165,7 @@ describe('Encounter Value Adapter:', () => {
       },
       obs: adultFormObs.obs,
       orders: adultFormOrders.orders,
+      diagnoses: adultFormOrders.diagnoses,
       patient: {
         uuid: 'patient-uuid',
         identifiers: []
@@ -211,6 +216,17 @@ describe('Encounter Value Adapter:', () => {
     const createdNode = (node[0] as ArrayNode).createChildNode();
     (createdNode.children['order1'] as LeafNode).control.setValue('new-order');
 
+    // change diagnoses
+    let primaryDiagnosisNode = form.searchNodeByQuestionId('primaryDiagnosisId')[0];
+    primaryDiagnosisNode.createChildNode();
+    const value = {};
+    value[primaryDiagnosisNode.question.key] = {
+      uuid: '116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      display: 'Malarial Fever'
+    };
+    const childNode = primaryDiagnosisNode.children[0];
+    childNode.control.setValue(value);
+
     // generate payload
     const payload = adapter.generateFormPayload(form);
 
@@ -236,5 +252,10 @@ describe('Encounter Value Adapter:', () => {
 
     // check that it generated orders payload
     expect(payload['orders'].length > 0).toBe(true);
+
+    // check that it generated orders payload
+    console.log(JSON.stringify(payload['diagnoses']));
+    expect(payload['diagnoses'].find(d => d.diagnosis.coded.uuid == '116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')).toBeTruthy();
+    expect(payload['diagnoses'].find(d => d.diagnosis.coded.uuid == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')).toBeTruthy();
   });
 });

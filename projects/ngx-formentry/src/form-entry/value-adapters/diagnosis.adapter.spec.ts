@@ -71,7 +71,7 @@ describe('Diagnosis Value Adapter', () => {
           display: 'Puerperal Fever',
         },
       },
-      voided: true,
+      voided: false,
     }
   ];
 
@@ -83,12 +83,12 @@ describe('Diagnosis Value Adapter', () => {
     it('should populate form with additional diagnoses and generate payload', () => {
       const form = formFactory.createForm(adultForm);
       diagnosisValueAdapter.formDiagnosisNodes = [];
-      diagnosisValueAdapter.populateForm(form, adultFormOrders);
+      diagnosisValueAdapter.populateForm(form, adultFormOrders.diagnoses);
 
       let index = 0;
 
       for (const diagnosis of newDiagnoses) {
-        const node = diagnosisValueAdapter.formDiagnosisNodes[0];
+        const node = diagnosisValueAdapter.formDiagnosisNodes[diagnosis.rank - 1];
         node.createChildNode();
         const value = {};
         value[node.question.key] = {
@@ -97,12 +97,12 @@ describe('Diagnosis Value Adapter', () => {
         };
         const childNode = node.children[index];
         childNode.control.setValue(value);
-        index++;
+        //index++;
       }
 
       // Confirm controls where populated with data;
-      expect(diagnosisValueAdapter.formDiagnosisNodes[0].control.value[0].diagnosisId.uuid).toEqual('116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-      expect(diagnosisValueAdapter.formDiagnosisNodes[0].control.value[1].diagnosisId.uuid).toEqual('113511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+      expect(diagnosisValueAdapter.formDiagnosisNodes[0].control.value[0].primaryDiagnosisId.uuid).toEqual('116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+      expect(diagnosisValueAdapter.formDiagnosisNodes[1].control.value[0].secondaryDiagnosisId.uuid).toEqual('113511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
 
       // Confirm payload was generated;
       const payload = diagnosisValueAdapter.generateFormPayload(form);
@@ -117,11 +117,11 @@ describe('Diagnosis Value Adapter', () => {
   describe('Populate Form', () => {
     it('should populate form with diagnoses from existing payload', () => {
       const form = formFactory.createForm(adultForm);
-      diagnosisValueAdapter.populateForm(form, adultFormOrders);
+      diagnosisValueAdapter.populateForm(form, adultFormOrders.diagnoses);
 
       expect(diagnosisValueAdapter.formDiagnosisNodes.filter(n => {
           return n.control.value.find(v => {
-            return v.diagnosisId.uuid == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && v.diagnosisId.display == 'FEVER';
+            return v.secondaryDiagnosisId.uuid == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && v.secondaryDiagnosisId.display == 'FEVER';
           });
         }
       )).toBeTruthy();
