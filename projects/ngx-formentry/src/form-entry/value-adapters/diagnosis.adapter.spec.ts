@@ -91,18 +91,15 @@ describe('Diagnosis Value Adapter', () => {
         const node = diagnosisValueAdapter.formDiagnosisNodes[diagnosis.rank - 1];
         node.createChildNode();
         const value = {};
-        value[node.question.key] = {
-          uuid: diagnosis.diagnosis.coded.uuid,
-          display: diagnosis.diagnosis.coded.display
-        };
+        value[node.question.key] = diagnosis.diagnosis.coded.uuid;
         const childNode = node.children[index];
         childNode.control.setValue(value);
         //index++;
       }
 
       // Confirm controls where populated with data;
-      expect(diagnosisValueAdapter.formDiagnosisNodes[0].control.value[0].primaryDiagnosisId.uuid).toEqual('116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-      expect(diagnosisValueAdapter.formDiagnosisNodes[1].control.value[0].secondaryDiagnosisId.uuid).toEqual('113511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+      expect(diagnosisValueAdapter.formDiagnosisNodes[0].control.value[0].primaryDiagnosisId).toEqual('116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+      expect(diagnosisValueAdapter.formDiagnosisNodes[1].control.value[0].secondaryDiagnosisId).toEqual('113511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
 
       // Confirm payload was generated;
       const payload = diagnosisValueAdapter.generateFormPayload(form);
@@ -121,7 +118,7 @@ describe('Diagnosis Value Adapter', () => {
 
       expect(diagnosisValueAdapter.formDiagnosisNodes.filter(n => {
           return n.control.value.find(v => {
-            return v.secondaryDiagnosisId.uuid == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && v.secondaryDiagnosisId.display == 'FEVER';
+            return v.secondaryDiagnosisId == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && v.secondaryDiagnosisId.display == 'FEVER';
           });
         }
       )).toBeTruthy();

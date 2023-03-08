@@ -23,17 +23,27 @@ export class DiagnosisValueAdapter implements ValueAdapter {
   }
 
   private _createDiagnosesPayload(diagnosisNodes, existingDiagnoses) {
+    alert("The diagnoses are here #8.")
     const payload: Array<Diagnosis> = [];
     const selectedDiagnoses: Array<Diagnosis> = [];
     let deletedDiagnoses: Array<Diagnosis> = [];
 
     diagnosisNodes?.forEach(node => {
-      node.control.value.filter(v => v[node.question.key].uuid).forEach(value => {
+      console.log('this is a node:', node);
+
+      node.control.value.forEach(v => {
+        console.log("this is a node:", node?.question?.extras?.questionOptions?.rank);
+        console.log("value:", v[node.question.key]);
+      });
+      node.control.value.filter(v => v[node.question.key]).forEach(value => {
+        console.log("this is a node: ", node.question.extras.questionOptions.rank);
+        console.log("uuid: ", value[node.question.key]);
         // Create Payload
         const payloadDiagnosis = this._createPayloadDiagnosis(
-          value[node.question.key].uuid,
+          value[node.question.key],
           node.question.extras
         );
+        console.log("this is the payload");
         // Validate if is new value
         const existingDiagnosis = existingDiagnoses.find(d => d.diagnosis.coded.uuid == payloadDiagnosis.diagnosis.coded.uuid);
         if (payloadDiagnosis.diagnosis.coded.uuid && !this._compareDiagnoses(existingDiagnosis, payloadDiagnosis)) {
@@ -80,7 +90,7 @@ export class DiagnosisValueAdapter implements ValueAdapter {
       existingDiagnoses.filter(d => d.rank == rank).forEach((diagnosis, index) => {
         node.createChildNode();
         const value = {};
-        value[node.question.key] = diagnosis.diagnosis.coded;
+        value[node.question.key] = diagnosis.diagnosis.coded.uuid;
         const childNode = node.children[index];
         childNode.control.setValue(value);
         childNode['initialValue'] = value;
