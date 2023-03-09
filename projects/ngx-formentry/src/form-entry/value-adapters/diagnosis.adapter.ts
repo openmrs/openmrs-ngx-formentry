@@ -12,8 +12,8 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     return this._createDiagnosesPayload(this.formDiagnosisNodes, form.existingDiagnoses);
   }
 
-  populateForm(form: Form, diagnosesPayload) {
-    form.existingDiagnoses = diagnosesPayload?.filter(d => {
+  populateForm(form: Form, diagnoses) {
+    form.existingDiagnoses = diagnoses?.filter(d => {
       return !d.voided;
     });
     this.formDiagnosisNodes = [];
@@ -24,9 +24,9 @@ export class DiagnosisValueAdapter implements ValueAdapter {
 
   private _createDiagnosesPayload(diagnosisNodes, existingDiagnoses) {
     alert("The diagnoses are here #8.")
-    const payload: Array<Diagnosis> = [];
-    const selectedDiagnoses: Array<Diagnosis> = [];
-    let deletedDiagnoses: Array<Diagnosis> = [];
+    const payload: Array<DiagnosisPayload> = [];
+    const selectedDiagnoses: Array<DiagnosisPayload> = [];
+    let deletedDiagnoses: Array<DiagnosisPayload> = [];
 
     diagnosisNodes?.forEach(node => {
       node.control.value.filter(v => v[node.question.key]).forEach(value => {
@@ -36,8 +36,8 @@ export class DiagnosisValueAdapter implements ValueAdapter {
           node.question.extras
         );
         // Validate if is new value
-        const existingDiagnosis = existingDiagnoses.find(d => d.diagnosis.coded.uuid == payloadDiagnosis.diagnosis.coded.uuid);
-        if (payloadDiagnosis.diagnosis.coded.uuid && !this._compareDiagnoses(existingDiagnosis, payloadDiagnosis)) {
+        const existingDiagnosis = existingDiagnoses.find(d => d.diagnosis.coded.uuid == payloadDiagnosis.diagnosis.coded);
+        if (payloadDiagnosis.diagnosis.coded && !this._compareDiagnoses(existingDiagnosis, payloadDiagnosis)) {
           payload.push(payloadDiagnosis);
         }
         selectedDiagnoses.push(payloadDiagnosis);
@@ -48,13 +48,10 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     return payload.concat(deletedDiagnoses);
   }
 
-  private _createPayloadDiagnosis(codedUuid, questionExtras): Diagnosis {
-    const diagnosis: Diagnosis = {
+  private _createPayloadDiagnosis(codedUuid, questionExtras): DiagnosisPayload {
+    const diagnosis: DiagnosisPayload = {
       diagnosis: {
-        coded: {
-          uuid: codedUuid
-        },
-        nonCoded: '',
+        coded: codedUuid,
       },
       certainty: 'CONFIRMED',
       rank: questionExtras.questionOptions.rank,
@@ -64,14 +61,15 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     return diagnosis;
   }
 
-  private _getDeletedDiagnoses(selectedDiagnoses: Array<Diagnosis>, existingDiagnoses: Array<Diagnosis>): Array<Diagnosis> {
+  private _getDeletedDiagnoses(selectedDiagnoses: Array<DiagnosisPayload>, existingDiagnoses: Array<Diagnosis>): Array<DiagnosisPayload> {
     return existingDiagnoses?.filter(e => {
       return !selectedDiagnoses.find(s => {
-        return !e.voided && s.diagnosis.coded.uuid === e.diagnosis.coded.uuid;
+        return !e.voided && s.diagnosis.coded === e.diagnosis.coded.uuid;
       });
     }).map(d => {
-      d.voided = true;
-      return d;
+      let diagnosisPayload = this._convert(d);
+      diagnosisPayload.voided = true;
+      return diagnosisPayload;
     });
   }
 
@@ -123,13 +121,27 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     }
   }
 
-  private _compareDiagnoses(existingDiagnosis: Diagnosis, payloadDiagnosis: Diagnosis): boolean {
+  private _compareDiagnoses(existingDiagnosis: Diagnosis, payloadDiagnosis: DiagnosisPayload): boolean {
     let isEqual: boolean = true;
-    isEqual = isEqual && existingDiagnosis?.diagnosis.coded.uuid === payloadDiagnosis?.diagnosis.coded.uuid;
-    isEqual = isEqual && existingDiagnosis?.diagnosis.nonCoded === payloadDiagnosis?.diagnosis.nonCoded;
+    isEqual = isEqual && existingDiagnosis?.diagnosis.coded.uuid === payloadDiagnosis?.diagnosis.coded;
     isEqual = isEqual && existingDiagnosis?.rank === payloadDiagnosis?.rank;
     isEqual = isEqual && existingDiagnosis?.certainty === payloadDiagnosis?.certainty;
     return isEqual;
+  }
+
+  private _convert(diagnosis: Diagnosis): DiagnosisPayload {
+    return {
+      uuid: diagnosis.uuid,
+      encounter: diagnosis.encounter,
+      patient: diagnosis.patient,
+      diagnosis: {
+        coded: diagnosis.diagnosis.coded.uuid,
+        nonCoded: diagnosis.diagnosis.nonCoded,
+      },
+      certainty: diagnosis.certainty,
+      rank: diagnosis.rank,
+      voided: diagnosis.voided,
+    }
   }
 }
 
@@ -143,6 +155,20 @@ export interface Diagnosis {
       uuid: string;
       display?: string;
     };
+    nonCoded?: string;
+  };
+  certainty: 'CONFIRMED' | 'PROVISIONAL';
+  rank: 1 | 2;
+  voided?: boolean;
+}
+
+
+export interface DiagnosisPayload {
+  uuid?: string;
+  encounter?: string;
+  patient?: string;
+  diagnosis: {
+    coded?: string;
     nonCoded?: string;
   };
   certainty: 'CONFIRMED' | 'PROVISIONAL';
