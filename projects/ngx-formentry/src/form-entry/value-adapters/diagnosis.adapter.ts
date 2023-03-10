@@ -23,7 +23,6 @@ export class DiagnosisValueAdapter implements ValueAdapter {
   }
 
   private _createDiagnosesPayload(diagnosisNodes, existingDiagnoses) {
-    alert("The diagnoses are here #8.")
     const payload: Array<DiagnosisPayload> = [];
     const selectedDiagnoses: Array<DiagnosisPayload> = [];
     let deletedDiagnoses: Array<DiagnosisPayload> = [];
@@ -161,7 +160,6 @@ export interface Diagnosis {
   rank: 1 | 2;
   voided?: boolean;
 }
-
 
 export interface DiagnosisPayload {
   uuid?: string;
