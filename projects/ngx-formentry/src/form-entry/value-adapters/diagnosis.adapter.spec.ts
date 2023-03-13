@@ -103,11 +103,11 @@ describe('Diagnosis Value Adapter', () => {
 
       // Confirm payload was generated;
       const payload = diagnosisValueAdapter.generateFormPayload(form);
-      expect(payload.find(p => p.diagnosis.coded.uuid == '116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')).toBeTruthy();
-      expect(payload.find(p => p.diagnosis.coded.uuid == '113511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')).toBeTruthy();
+      expect(payload.find(p => p.diagnosis.coded == '116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')).toBeTruthy();
+      expect(payload.find(p => p.diagnosis.coded == '113511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')).toBeTruthy();
 
       // Confirm deleted diagnoses were added to the payload
-      expect(payload.find(p => p.diagnosis.coded.uuid == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && p.voided)).toBeTruthy();
+      expect(payload.find(p => p.diagnosis.coded == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && p.voided)).toBeTruthy();
     });
   });
 
