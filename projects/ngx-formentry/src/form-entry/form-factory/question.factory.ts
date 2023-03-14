@@ -805,8 +805,6 @@ export class QuestionFactory {
         return this.toTextQuestion(schema);
       case 'textarea':
         return this.toTextAreaQuestion(schema);
-      case 'textarea':
-        return this.toTextAreaQuestion(schema);
       case 'select-concept-answers':
         return this.toConceptAnswerSelect(schema);
       case 'encounterLocation':
