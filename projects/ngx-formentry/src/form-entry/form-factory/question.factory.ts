@@ -486,9 +486,7 @@ export class QuestionFactory {
 
     else if (schemaQuestion.type === 'diagnosis') {
       const diagnosisQuestion = this.toDiagnosisQuestion(schemaQuestion);
-      const diagnosisQuestions = [];
-      diagnosisQuestions.push(diagnosisQuestion);
-      question.questions = diagnosisQuestions;
+      question.questions = [diagnosisQuestion];
     }
 
     const mappings: any = {
