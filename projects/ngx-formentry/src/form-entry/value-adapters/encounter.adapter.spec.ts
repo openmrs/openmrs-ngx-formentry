@@ -254,7 +254,6 @@ describe('Encounter Value Adapter:', () => {
     expect(payload['orders'].length > 0).toBe(true);
 
     // check that it generated orders payload
-    console.log(JSON.stringify(payload['diagnoses']));
     expect(payload['diagnoses'].find(d => d.diagnosis.coded.uuid == '116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')).toBeTruthy();
     expect(payload['diagnoses'].find(d => d.diagnosis.coded.uuid == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')).toBeTruthy();
   });
