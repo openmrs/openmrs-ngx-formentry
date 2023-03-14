@@ -12,7 +12,7 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     return this._createDiagnosesPayload(this.formDiagnosisNodes, form.existingDiagnoses);
   }
 
-  populateForm(form: Form, diagnoses) {
+  populateForm(form: Form, diagnoses:Array<Diagnosis>) {
     form.existingDiagnoses = diagnoses?.filter(d => {
       return !d.voided;
     });
@@ -24,7 +24,6 @@ export class DiagnosisValueAdapter implements ValueAdapter {
 
   private _createDiagnosesPayload(diagnosisNodes, existingDiagnoses) {
     const payload: Array<DiagnosisPayload> = [];
-    const selectedDiagnoses: Array<DiagnosisPayload> = [];
     let deletedDiagnoses: Array<DiagnosisPayload> = [];
 
     diagnosisNodes?.forEach(node => {
@@ -35,15 +34,12 @@ export class DiagnosisValueAdapter implements ValueAdapter {
           node.question.extras
         );
         // Validate if is new value
-        const existingDiagnosis = existingDiagnoses.find(d => d.diagnosis.coded.uuid == payloadDiagnosis.diagnosis.coded);
-        if (payloadDiagnosis.diagnosis.coded && !this._compareDiagnoses(existingDiagnosis, payloadDiagnosis)) {
           payload.push(payloadDiagnosis);
-        }
-        selectedDiagnoses.push(payloadDiagnosis);
       });
     });
 
-    deletedDiagnoses = this._getDeletedDiagnoses(selectedDiagnoses, existingDiagnoses);
+    this._updatedOldDiagnoses(payload, existingDiagnoses);
+    deletedDiagnoses = this._getDeletedDiagnoses(payload, existingDiagnoses);
     return payload.concat(deletedDiagnoses);
   }
 
@@ -60,10 +56,11 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     return diagnosis;
   }
 
-  private _getDeletedDiagnoses(selectedDiagnoses: Array<DiagnosisPayload>, existingDiagnoses: Array<Diagnosis>): Array<DiagnosisPayload> {
+  private _getDeletedDiagnoses(payloadDiagnoses: Array<DiagnosisPayload>, existingDiagnoses: Array<Diagnosis>): Array<DiagnosisPayload> {
     return existingDiagnoses?.filter(e => {
-      return !selectedDiagnoses.find(s => {
-        return !e.voided && s.diagnosis.coded === e.diagnosis.coded.uuid;
+      return !payloadDiagnoses.find(p => {
+        let isSame = !e.voided && p.diagnosis.coded === e.diagnosis.coded.uuid;
+        return isSame;
       });
     }).map(d => {
       let diagnosisPayload = this._convert(d);
@@ -72,7 +69,16 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     });
   }
 
-  private _setDiagnosesValues(formDiagnosisNodes, existingDiagnoses: Array<Diagnosis>, rank: 1 | 2) {
+  private _updatedOldDiagnoses(payloadDiagnoses: Array<DiagnosisPayload>, existingDiagnoses: Array<Diagnosis>) {
+     payloadDiagnoses.forEach(p => {
+       existingDiagnoses?.forEach(e => {
+         let isSame = !e.voided && p.diagnosis.coded === e.diagnosis.coded.uuid;
+         p.uuid = isSame ? e.uuid : null;
+       });
+     });
+  }
+
+  private _setDiagnosesValues(formDiagnosisNodes, existingDiagnoses: Array<Diagnosis>, rank: number) {
     formDiagnosisNodes?.filter(node => node.question.extras.questionOptions.rank == rank).forEach(node => {
       node['initialValue'] = existingDiagnoses;
       existingDiagnoses.filter(d => d.rank == rank).forEach((diagnosis, index) => {
@@ -120,14 +126,6 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     }
   }
 
-  private _compareDiagnoses(existingDiagnosis: Diagnosis, payloadDiagnosis: DiagnosisPayload): boolean {
-    let isEqual: boolean = true;
-    isEqual = isEqual && existingDiagnosis?.diagnosis.coded.uuid === payloadDiagnosis?.diagnosis.coded;
-    isEqual = isEqual && existingDiagnosis?.rank === payloadDiagnosis?.rank;
-    isEqual = isEqual && existingDiagnosis?.certainty === payloadDiagnosis?.certainty;
-    return isEqual;
-  }
-
   private _convert(diagnosis: Diagnosis): DiagnosisPayload {
     return {
       uuid: diagnosis.uuid,
@@ -157,7 +155,7 @@ export interface Diagnosis {
     nonCoded?: string;
   };
   certainty: 'CONFIRMED' | 'PROVISIONAL';
-  rank: 1 | 2;
+  rank: number;
   voided?: boolean;
 }
 
@@ -170,6 +168,6 @@ export interface DiagnosisPayload {
     nonCoded?: string;
   };
   certainty: 'CONFIRMED' | 'PROVISIONAL';
-  rank: 1 | 2;
+  rank: number;
   voided?: boolean;
 }

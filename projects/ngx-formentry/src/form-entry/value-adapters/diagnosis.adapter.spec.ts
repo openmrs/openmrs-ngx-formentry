@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 
 const adultForm = require('../../adult.json');
-const adultFormOrders = require('../../mock/orders.json');
+const adultFormDiagnoses = require('../../mock/diagnoses.json');
 import {FormFactory} from '../../form-entry/form-factory/form.factory';
 import {FormControlService} from '../../form-entry/form-factory/form-control.service';
 import {ValidationFactory} from '../../form-entry/form-factory/validation.factory';
@@ -83,7 +83,7 @@ describe('Diagnosis Value Adapter', () => {
     it('should populate form with additional diagnoses and generate payload', () => {
       const form = formFactory.createForm(adultForm);
       diagnosisValueAdapter.formDiagnosisNodes = [];
-      diagnosisValueAdapter.populateForm(form, adultFormOrders.diagnoses);
+      diagnosisValueAdapter.populateForm(form, adultFormDiagnoses.diagnoses);
 
       let index = 0;
 
@@ -114,7 +114,7 @@ describe('Diagnosis Value Adapter', () => {
   describe('Populate Form', () => {
     it('should populate form with diagnoses from existing payload', () => {
       const form = formFactory.createForm(adultForm);
-      diagnosisValueAdapter.populateForm(form, adultFormOrders.diagnoses);
+      diagnosisValueAdapter.populateForm(form, adultFormDiagnoses.diagnoses);
 
       expect(diagnosisValueAdapter.formDiagnosisNodes.filter(n => {
           return n.control.value.find(v => {
