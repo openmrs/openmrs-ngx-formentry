@@ -24,9 +24,10 @@ import { NumberFixedLenPipe } from './numberedFixLen.pipe';
 import { OwlCalendarComponent } from './calendar.component';
 import { OwlDateTimeInlineComponent } from './date-time-inline.component';
 import { OwlDialogModule } from '../dialog/dialog.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [CommonModule, OverlayModule, OwlDialogModule, A11yModule],
+  imports: [CommonModule, OverlayModule, OwlDialogModule, A11yModule, TranslateModule],
   exports: [
     OwlCalendarComponent,
     OwlTimerComponent,

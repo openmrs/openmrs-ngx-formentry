@@ -34,6 +34,9 @@ import {
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
 import { OwlDateTimeTriggerDirective } from './date-time-picker-trigger.directive';
 import { OWL_DATE_TIME_FORMATS } from './adapter/date-time-format.class';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { JsonLoader } from 'src/app/translate/json-loader';
+import { HttpClient } from '@angular/common/http';
 
 const JAN = 0,
   FEB = 1,
@@ -64,6 +67,7 @@ describe('OwlDateTimeComponent', () => {
         OwlDateTimeModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
+        TranslateModule.forRoot(),
         ...imports
       ],
       providers,
@@ -90,6 +94,10 @@ describe('OwlDateTimeComponent', () => {
       let containerElement: HTMLElement;
 
       beforeEach(fakeAsync(() => {
+        TestBed.configureTestingModule({
+          imports: [TranslateModule.forRoot()],
+          providers: [TranslateService],
+        }).compileComponents();
         fixture = createComponent(StandardDateTimePicker, [
           OwlNativeDateTimeModule
         ]);
@@ -1607,6 +1615,25 @@ describe('OwlDateTimeComponent', () => {
       let minMoment;
       let maxMoment;
 
+      const translateServiceMock = jasmine.createSpyObj('TranslateService', ['instant']);
+
+      beforeEach(fakeAsync(() => {
+        TestBed.configureTestingModule({
+          imports: [
+            TranslateModule.forRoot({
+              defaultLanguage: 'en',
+              loader: {
+                provide: TranslateLoader,
+                useClass: JsonLoader,
+                useValue: translateServiceMock,
+                deps: [HttpClient]
+              }
+            })
+          ],
+          providers: [TranslateService]
+        }).compileComponents();
+      }));
+
       beforeEach(fakeAsync(() => {
         fixture = createComponent(DateTimePickerWithMinAndMaxValidation, [
           OwlNativeDateTimeModule
@@ -1821,6 +1848,23 @@ describe('OwlDateTimeComponent', () => {
       let inputEl: HTMLInputElement;
 
       beforeEach(fakeAsync(() => {
+        const translateServiceMock = jasmine.createSpyObj('TranslateService', ['instant']);
+
+        TestBed.configureTestingModule({
+          imports: [
+            TranslateModule.forRoot({
+              defaultLanguage: 'en',
+              loader: {
+                provide: TranslateLoader,
+                useClass: JsonLoader,
+                useValue: translateServiceMock,
+                deps: [HttpClient]
+              }
+            })
+          ],
+          providers: [TranslateService]
+        }).compileComponents();
+
         fixture = createComponent(DateTimePickerWithChangeAndInputEvents, [
           OwlNativeDateTimeModule
         ]);

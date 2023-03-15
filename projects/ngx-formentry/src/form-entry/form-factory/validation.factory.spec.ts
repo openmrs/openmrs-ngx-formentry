@@ -3,8 +3,24 @@ import { AfeFormControl } from '../../abstract-controls-extension/afe-form-contr
 import { ValidationFactory } from './validation.factory';
 import { QuestionFactory } from './question.factory';
 import { Messages } from '../utils/messages';
-
+import { TestBed } from '@angular/core/testing';
+import { TranslateModule, TranslateService } from '@ngx-translate/core'
 describe('ValidationFactory Unit Tests', () => {
+  const translateServiceMock = jasmine.createSpyObj('TranslateService', ['instant']);
+  translateServiceMock.instant.and.returnValue('Invalid value');
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot({})],
+      providers: [
+        {
+          provide: TranslateService,
+          useValue: translateServiceMock
+        },
+      ],
+    }).compileComponents();
+  });
+
   const dateSchemaQuestion: any = {
     label: 'Date patient first became medically eligible for ART:',
     id: 'eligibility',
@@ -35,7 +51,7 @@ describe('ValidationFactory Unit Tests', () => {
   };
 
   const questionFactory = new QuestionFactory();
-  const validationFactory = new ValidationFactory();
+  const validationFactory = new ValidationFactory(translateServiceMock);
 
   it('should return validators when a question model is provided', () => {
     const converted = questionFactory.toDateQuestion(dateSchemaQuestion);
@@ -44,6 +60,7 @@ describe('ValidationFactory Unit Tests', () => {
   });
 
   it('should return the correct date error message when date is invalid', () => {
+    translateServiceMock.instant.and.returnValue(Messages.INVALID_DATE_MSG);
     const date = 'fake date';
     const converted = questionFactory.toDateQuestion(dateSchemaQuestion);
     const validations = validationFactory.getValidators(converted);
@@ -60,6 +77,7 @@ describe('ValidationFactory Unit Tests', () => {
   });
 
   it('should return the correct error message when min value is invalid', () => {
+    translateServiceMock.instant.and.returnValue(Messages.MIN_MSG);
     const value: any = -50;
     const converted = questionFactory.toNumberQuestion(numberSchemaQuestion);
     const validations = validationFactory.getValidators(converted);
@@ -79,6 +97,7 @@ describe('ValidationFactory Unit Tests', () => {
   });
 
   it('should return the correct error message when max value is invalid', () => {
+    translateServiceMock.instant.and.returnValue(Messages.MAX_MSG);
     const value: any = 450;
     const converted = questionFactory.toNumberQuestion(numberSchemaQuestion);
     const validations = validationFactory.getValidators(converted);

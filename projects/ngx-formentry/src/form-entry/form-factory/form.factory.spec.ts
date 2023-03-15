@@ -26,10 +26,12 @@ import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { DebugModeService } from './../services/debug-mode.service';
 
 import { Form } from './form';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('Form Factory:', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       providers: [
         FormFactory,
         FormControlService,

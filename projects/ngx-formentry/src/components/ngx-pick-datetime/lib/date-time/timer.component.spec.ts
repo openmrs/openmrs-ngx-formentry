@@ -12,6 +12,7 @@ import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
 import { OwlDateTimeModule } from './date-time.module';
 import { By } from '@angular/platform-browser';
 import { OwlTimerComponent } from './timer.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 const JAN = 0,
   FEB = 1,
@@ -48,7 +49,7 @@ describe('OwlTimerComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
+        imports: [OwlNativeDateTimeModule, OwlDateTimeModule, TranslateModule.forRoot()],
         declarations: [StandardTimer],
         providers: [
           OwlDateTimeIntl,

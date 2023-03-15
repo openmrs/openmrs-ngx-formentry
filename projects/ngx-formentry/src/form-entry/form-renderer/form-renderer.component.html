@@ -36,7 +36,7 @@
           class="cds--inline-notification__action-button cds--btn cds--btn--sm cds--btn--ghost"
           type="button"
         >
-          Fix
+          {{ 'FIX' | translate }}
         </button>
         <svg
           focusable="false"
@@ -344,7 +344,7 @@
             <div class="container-fluid">
               <div class="row">
                 <div class="col-xs-9">
-                  <span class="text-warning">Previous Value: </span>
+                  <span class="text-warning">{{ 'PREVIOUS_VALUE' | translate }}: </span>
                   <strong>{{ node.question.historicalDisplay?.text }}</strong>
                   <span *ngIf="node.question.showHistoricalValueDate">
                     <span> | </span>
@@ -369,7 +369,7 @@
                   [name]="'historyValue'"
                   class="cds--btn cds--btn--primary cds--btn--sm col-xs-3"
                 >
-                  Use Value
+                  {{ 'USE_VALUE' | translate }}
                 </button>
               </div>
             </div>
@@ -447,7 +447,7 @@
               class="cds--btn cds--btn--danger cds--btn--sm"
               (click)="node.removeAt(i)"
             >
-              Remove
+              {{ 'REMOVE' | translate }}
             </button>
             <br />
             <hr
@@ -507,7 +507,7 @@
               class="cds--btn cds--btn--danger cds--btn--sm"
               (click)="node.removeAt(i)"
             >
-              Remove
+            {{ 'ADD' | translate }}
             </button>
             <br />
             <hr
@@ -531,7 +531,7 @@
             node.children.length >= node.question.extras.questionOptions.max
         }"
       >
-        Add
+        {{ 'ADD' | translate }}
       </button>
     </div>
   </div>

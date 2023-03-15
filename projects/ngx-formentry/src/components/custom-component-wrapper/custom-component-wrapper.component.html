@@ -1,6 +1,6 @@
 <div>
-  <ng-template #error>Component Loading failed...</ng-template>
-  <ng-template #loading>Loading Component...</ng-template>
+  <ng-template #error>{{ 'COMPONENT_LOADING_FAILED' | translate }}</ng-template>
+  <ng-template #loading>{{ 'LOADING_COMPONENT' | translate }}</ng-template>
   <div *ngFor="let componentConfig of componentConfigs">
     <ax-lazy-element
       *axLazyElementDynamic="
