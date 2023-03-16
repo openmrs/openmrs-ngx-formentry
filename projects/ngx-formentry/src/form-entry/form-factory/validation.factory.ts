@@ -162,7 +162,7 @@ export class ValidationFactory {
             break;
           case 'maxlength':
             messages.push(
-              Messages.MIN_LENGTH_MSG.replace(
+              Messages.MAX_LENGTH_MSG.replace(
                 '{maxLength}',
                 errors.maxlength.requiredLength
               )
