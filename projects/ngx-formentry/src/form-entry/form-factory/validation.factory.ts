@@ -20,6 +20,8 @@ import { MaxValidationModel } from '../question-models/max-validation.model';
 import { MinValidationModel } from '../question-models/min-validation.model';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
 import { ConditionalValidationModel } from '../question-models/conditional-validation.model';
+import { MaxLengthValidator } from '../validators/max-length.validator';
+import { MaxLengthValidationModel } from '../question-models/max-length-validation.model';
 
 @Injectable()
 export class ValidationFactory {
@@ -51,6 +53,11 @@ export class ValidationFactory {
           case 'max':
             list.push(
               this.getMaxValueValidator((<MaxValidationModel>validator).max)
+            );
+            break;
+          case 'maxlength':
+            list.push(
+              this.maxLengthValidator((<MaxLengthValidationModel>validator).maxlength)
             );
             break;
           case 'min':
@@ -121,8 +128,8 @@ export class ValidationFactory {
     return Validators.minLength;
   }
 
-  get maxLengthValidator() {
-    return Validators.maxLength;
+  public maxLengthValidator(maxLength: number) {
+    return new MaxLengthValidator().validate(maxLength);
   }
 
   public getMinValueValidator(min: number): any {

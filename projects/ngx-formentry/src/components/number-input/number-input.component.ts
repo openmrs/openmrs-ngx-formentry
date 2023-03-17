@@ -91,6 +91,10 @@ export class NumberInputComponent implements ControlValueAccessor {
    */
   @Input() max = null;
   /**
+   * Sets the max length attribute on the `input` element.
+   */
+   @Input() maxlength = null;
+  /**
    * Sets the text inside the `label` tag.
    */
   @Input() label: string | TemplateRef<any>;
