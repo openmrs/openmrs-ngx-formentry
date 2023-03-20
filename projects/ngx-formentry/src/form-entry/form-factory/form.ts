@@ -7,11 +7,13 @@ import { NodeBase, GroupNode, LeafNode, ArrayNode } from './form-node';
 import { QuestionBase } from '../question-models/question-base';
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { AfeFormArray } from '../../abstract-controls-extension/afe-form-array';
+import { Diagnosis } from '../value-adapters/diagnosis.adapter';
 
 export class Form {
   public rootNode: GroupNode;
   public valueProcessingInfo: any = {};
   public existingOrders: any = {};
+  public existingDiagnoses: Array<Diagnosis> = [];
   private _dataSourcesContainer: DataSources;
   private _showErrors = false;
   constructor(

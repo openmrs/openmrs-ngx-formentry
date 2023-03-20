@@ -27,6 +27,7 @@ import { CheckBoxQuestion } from '../question-models/models';
 import { RadioButtonQuestion } from '../question-models/models';
 import { Injectable } from '@angular/core';
 import { CustomControlQuestion } from '../question-models/custom-control-question.model';
+import { DiagnosisQuestion } from '../question-models/diagnosis-question';
 
 @Injectable()
 export class QuestionFactory {
@@ -481,6 +482,9 @@ export class QuestionFactory {
       const orders = [];
       orders.push(testOrder);
       question.questions = orders;
+    } else if (schemaQuestion.type === 'diagnosis') {
+      const diagnosisQuestion = this.toDiagnosisQuestion(schemaQuestion);
+      question.questions = [diagnosisQuestion];
     }
 
     const mappings: any = {
@@ -701,6 +705,34 @@ export class QuestionFactory {
     };
     question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
+    return question;
+  }
+
+  toDiagnosisQuestion(schemaQuestion: any): DiagnosisQuestion {
+    const question = new DiagnosisQuestion({
+      type: '',
+      key: schemaQuestion.id,
+      label: schemaQuestion.label,
+      rendering: '',
+      rank: schemaQuestion.questionOptions.rank
+    });
+    question.questionIndex = this.quetionIndex;
+    question.prefix = schemaQuestion.prefix;
+    question.renderingType = 'remote-select';
+    question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
+    question.dataSource = schemaQuestion.questionOptions.dataSource || 'diagnoses';
+    const mappings: any = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
     return question;
   }
 

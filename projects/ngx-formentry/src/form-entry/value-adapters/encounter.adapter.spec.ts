@@ -21,7 +21,9 @@ import { DebugModeService } from './../services/debug-mode.service';
 
 import adultForm from '../../adult.json';
 import adultFormOrders from '../../mock/orders.json';
+import adultFormDiagnoses from '../../mock/diagnoses.json';
 import adultFormObs from '../../mock/obs.json';
+import { DiagnosisValueAdapter } from "./diagnosis.adapter";
 
 describe('Encounter Value Adapter:', () => {
   let adultFormSchema: any;
@@ -31,6 +33,7 @@ describe('Encounter Value Adapter:', () => {
       TestBed.configureTestingModule({
         providers: [
           OrderValueAdapter,
+          DiagnosisValueAdapter,
           ObsValueAdapter,
           FormFactory,
           FormControlService,
@@ -93,6 +96,7 @@ describe('Encounter Value Adapter:', () => {
       },
       obs: adultFormObs.obs,
       orders: adultFormOrders.orders,
+      diagnoses: adultFormDiagnoses.diagnoses,
       patient: {
         uuid: 'patient-uuid',
         identifiers: []
@@ -136,6 +140,9 @@ describe('Encounter Value Adapter:', () => {
     expect(adapter.ordersAdapter.formOrderNodes[0].control.value[0]).toEqual({
       order1: 'a8982474-1350-11df-a1f1-0026b9348838'
     });
+
+    // Check that it populated diagnoses
+    expect(adapter.diagnosesAdapter.formDiagnosisNodes[1].control.value[0].secondaryDiagnosisId).toEqual('5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
   });
 
   it('should generate encounter payload', () => {
@@ -159,6 +166,7 @@ describe('Encounter Value Adapter:', () => {
       },
       obs: adultFormObs.obs,
       orders: adultFormOrders.orders,
+      diagnoses: adultFormDiagnoses.diagnoses,
       patient: {
         uuid: 'patient-uuid',
         identifiers: []
@@ -209,6 +217,14 @@ describe('Encounter Value Adapter:', () => {
     const createdNode = (node[0] as ArrayNode).createChildNode();
     (createdNode.children['order1'] as LeafNode).control.setValue('new-order');
 
+    // change diagnoses
+    let primaryDiagnosisNode = form.searchNodeByQuestionId('primaryDiagnosisId')[0];
+    primaryDiagnosisNode.createChildNode();
+    const value = {};
+    value[primaryDiagnosisNode.question.key] = '116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    const childNode = primaryDiagnosisNode.children[0];
+    childNode.control.setValue(value);
+
     // generate payload
     const payload = adapter.generateFormPayload(form);
 
@@ -234,5 +250,9 @@ describe('Encounter Value Adapter:', () => {
 
     // check that it generated orders payload
     expect(payload['orders'].length > 0).toBe(true);
+
+    // check that it generated orders payload
+    expect(payload['diagnoses'].find(d => d.diagnosis.coded == '116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')).toBeTruthy();
+    expect(payload['diagnoses'].find(d => d.diagnosis.coded == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')).toBeTruthy();
   });
 });
