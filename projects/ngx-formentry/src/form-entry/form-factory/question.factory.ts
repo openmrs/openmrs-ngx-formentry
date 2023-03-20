@@ -482,9 +482,7 @@ export class QuestionFactory {
       const orders = [];
       orders.push(testOrder);
       question.questions = orders;
-    }
-
-    else if (schemaQuestion.type === 'diagnosis') {
+    } else if (schemaQuestion.type === 'diagnosis') {
       const diagnosisQuestion = this.toDiagnosisQuestion(schemaQuestion);
       question.questions = [diagnosisQuestion];
     }
