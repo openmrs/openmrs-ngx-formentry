@@ -22,6 +22,8 @@ import { JsExpressionValidationModel } from '../question-models/js-expression-va
 import { ConditionalValidationModel } from '../question-models/conditional-validation.model';
 import { MaxLengthValidator } from '../validators/max-length.validator';
 import { MaxLengthValidationModel } from '../question-models/max-length-validation.model';
+import { MinLengthValidationModel } from '../question-models/min-length-validation.model';
+import { MinLengthValidator } from '../validators/min-length.validator';
 
 @Injectable()
 export class ValidationFactory {
@@ -63,6 +65,11 @@ export class ValidationFactory {
           case 'min':
             list.push(
               this.getMinValueValidator((<MinValidationModel>validator).min)
+            );
+            break;
+          case 'minlength':
+            list.push(
+              this.minLengthValidator((<MinLengthValidationModel>validator).minlength)
             );
             break;
           case 'conditionalRequired':
@@ -124,8 +131,8 @@ export class ValidationFactory {
     return new MinDateValidator().validate;
   }
 
-  get minLengthValidator(): any {
-    return Validators.minLength;
+  public minLengthValidator(minLength: number) {
+    return new MinLengthValidator().validate(minLength);
   }
 
   public maxLengthValidator(maxLength: number) {
