@@ -78,7 +78,6 @@
 
 .ng-select .ng-select-container .ng-value-container {
   align-items: stretch;
-  padding: 0.4375em 0;
   border-top: 0.84375em solid transparent;
 }
 
@@ -97,14 +96,12 @@
 }
 
 .ng-select.ng-select-single .ng-select-container .ng-arrow-wrapper {
-  align-self: flex-end;
+  align-self: center;
   right: 4px;
-  top: -5px;
 }
 
 .ng-select.ng-select-single .ng-select-container .ng-clear-wrapper {
-  align-self: flex-end;
-  bottom: 7px;
+  align-self: center;
 }
 
 .ng-select.ng-select-multiple.ng-select-disabled

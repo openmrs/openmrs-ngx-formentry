@@ -158,7 +158,7 @@ export const DEFAULT_STYLES = `a {
   margin-bottom: 3rem;
 }
 .afe-control{
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.125rem;
 }
 [hidden] {
   display: none !important;
