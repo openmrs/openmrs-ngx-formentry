@@ -6,6 +6,6 @@ export class MinValidationModel extends ValidationModel {
   constructor(validations: any) {
     super(validations);
     const min: any = validations.min;
-    this.min = +min;
+    this.min = Number(min);
   }
 }

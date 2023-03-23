@@ -28,6 +28,9 @@ import { RadioButtonQuestion } from '../question-models/models';
 import { Injectable } from '@angular/core';
 import { CustomControlQuestion } from '../question-models/custom-control-question.model';
 import { DiagnosisQuestion } from '../question-models/diagnosis-question';
+import { MaxLengthValidationModel } from '../question-models/max-length-validation.model';
+import { MinLengthValidationModel } from '../question-models/min-length-validation.model';
+
 
 @Injectable()
 export class QuestionFactory {
@@ -947,6 +950,22 @@ export class QuestionFactory {
             new MinValidationModel({
               type: 'min',
               min: questionOptions.min
+            })
+          );
+        }
+        if (questionOptions.maxLength) {
+          validators.push(
+            new MaxLengthValidationModel({
+              type: 'maxlength',
+              maxlength: questionOptions.maxLength
+            })
+          );
+        }
+        if (questionOptions.minLength) {
+          validators.push(
+            new MinLengthValidationModel({
+              type: 'minlength',
+              minlength: questionOptions.minLength
             })
           );
         }

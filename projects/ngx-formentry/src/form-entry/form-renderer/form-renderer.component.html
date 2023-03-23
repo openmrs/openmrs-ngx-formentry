@@ -295,6 +295,8 @@
             [id]="node.question.key + 'id'"
             [min]="node.question.extras.questionOptions.min"
             [max]="node.question.extras.questionOptions.max"
+            [maxlength]="node.question.extras.questionOptions.maxLength"
+            [minlength]="node.question.extras.questionOptions.minLength"
             [formControlName]="node.question.key"
             [attr.placeholder]="node.question.placeholder | translate"
           >
