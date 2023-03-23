@@ -37,7 +37,7 @@ export class OwlDateTimeIntl {
   prevMonthLabel = 'Previous month';
 
   /** A label for the next month button (used by screen readers). */
-  nextMonthLabel = this.translate.instant('NEXT_MONTH');
+  nextMonthLabel = 'Next month';
 
   /** A label for the previous year button (used by screen readers). */
   prevYearLabel = 'Previous year';
@@ -58,16 +58,16 @@ export class OwlDateTimeIntl {
   switchToMultiYearViewLabel = 'Choose month and year';
 
   /** A label for the cancel button */
-  cancelBtnLabel = this.translate.instant('CANCEL');
+  cancelBtnLabel = this.translate.instant('cancel');
 
   /** A label for the set button */
-  setBtnLabel = this.translate.instant('SET');
+  setBtnLabel = this.translate.instant('set');
 
   /** A label for the range 'from' in picker info */
-  rangeFromLabel = this.translate.instant('FROM');
+  rangeFromLabel = this.translate.instant('from');
 
   /** A label for the range 'to' in picker info */
-  rangeToLabel = this.translate.instant('TO');
+  rangeToLabel = this.translate.instant('to');
 
   /** A label for the hour12 button (AM) */
   hour12AMLabel = 'AM';

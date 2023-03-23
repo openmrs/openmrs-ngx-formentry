@@ -40,28 +40,28 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
     if (Number.isNaN(seconds)) {
       return '';
     } else if (seconds <= 45) {
-      return this.translate.instant('A_MINUTE_AGO');
+      return this.translate.instant('aMinuteAgo');
     } else if (seconds <= 90) {
-      return this.translate.instant('A_MINUTE_AGO');
+      return this.translate.instant('minutesAgo');
     } else if (minutes <= 45) {
-      return minutes + ' ' + this.translate.instant('MINUTES_AGO');
+      return minutes + ' ' + this.translate.instant('minutesAgo');
     } else if (minutes <= 90) {
-      return this.translate.instant('AN_HOUR_AGO');
+      return this.translate.instant('anHourAgo');
     } else if (hours <= 22) {
-      return hours + ' ' + this.translate.instant('HOURS_AGO');
+      return hours + ' ' + this.translate.instant('hoursAgo');
     } else if (hours <= 36) {
-      return this.translate.instant('A_DAY_AGO');
+      return this.translate.instant('aDayAgo');
     } else if (days <= 25) {
-      return days + ' ' + this.translate.instant('DAYS_AGO');
+      return days + ' ' + this.translate.instant('daysAgo');
     } else if (days <= 45) {
-      return this.translate.instant('A_MONTH_AGO');
+      return this.translate.instant('aMonthAgo');
     } else if (days <= 345) {
-      return months + ' ' + this.translate.instant('MONTHS_AGO');
+      return months + ' ' + this.translate.instant('monthsAgo');
     } else if (days <= 545) {
-      return this.translate.instant('A_YEAR_AGO');
+      return this.translate.instant('aYearAgo');
     } else {
       // (days > 545)
-      return years + ' ' + this.translate.instant('YEARS_AGO');
+      return years + ' ' + this.translate.instant('yearsAgo');
     }
   }
   ngOnDestroy(): void {

@@ -164,42 +164,42 @@ export class ValidationFactory {
             messages.push(this.translate.instant('INVALID_DATE_MSG'));
             break;
           case 'futureDateRestriction':
-            messages.push(this.translate.instant('FUTURE_DATE_RESTRICTION_MSG'));
+            messages.push(this.translate.instant('futureDateRestriction'));
             break;
           case 'minlength':
-              messages.push(this.translate.instant('MIN_LENGTH_MSG').replace(
+            messages.push(this.translate.instant('minLength').replace(
                 '{minLength}',
                 errors.minlength.requiredLength
               )
             );
             break;
           case 'maxlength':
-            messages.push(this.translate.instant('MAX_LENGTH_MSG').replace(
+            messages.push(this.translate.instant('maxLength').replace(
                 '{maxLength}',
                 errors.maxlength.requiredLength
               )
             );
             break;
           case 'maxdate':
-            messages.push(this.translate.instant('MAX_DATE_MSG').replace(
+            messages.push(this.translate.instant('maxDate').replace(
                 '{maxDate}',
                 errors.maxdate.requiredDate
               )
             );
             break;
           case 'mindate':
-            messages.push(this.translate.instant('MIN_DATE_MSG').replace(
+            messages.push(this.translate.instant('minDate').replace(
                 '{minDate}',
                 errors.mindate.requiredDate
               )
             );
             break;
           case 'max':
-            messages.push(this.translate.instant('MAX_MSG').replace('{max}', errors.max.requiredValue)
+            messages.push(this.translate.instant('max').replace('{max}', errors.max.requiredValue)
             );
             break;
           case 'min':
-            messages.push(this.translate.instant('MIN_MSG').replace('{min}', errors.min.requiredValue)
+            messages.push(this.translate.instant('min').replace('{min}', errors.min.requiredValue)
             );
             break;
           case 'js_expression':

@@ -60,14 +60,14 @@
           hidden=""
           selected=""
         >
-        {{ 'SELECT_WEEKS' | translate }}
+        {{ 'selectWeeks' | translate }}
         </option>
         <option
           class="cds--select-option"
           [value]="week"
           *ngFor="let week of weeks"
         >
-          {{week}} {{ 'WEEKS' | translate }}
+          {{week}} {{ 'weeks' | translate }}
         </option>
       </select>
       <svg

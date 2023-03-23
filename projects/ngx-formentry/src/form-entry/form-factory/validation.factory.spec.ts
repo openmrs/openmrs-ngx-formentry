@@ -60,7 +60,7 @@ describe('ValidationFactory Unit Tests', () => {
   });
 
   it('should return the correct date error message when date is invalid', () => {
-    translateServiceMock.instant.and.returnValue(Messages.INVALID_DATE_MSG);
+    translateServiceMock.instant.and.returnValue(Messages.invalidDate);
     const date = 'fake date';
     const converted = questionFactory.toDateQuestion(dateSchemaQuestion);
     const validations = validationFactory.getValidators(converted);
@@ -72,12 +72,12 @@ describe('ValidationFactory Unit Tests', () => {
       converted
     );
 
-    expect(errorMessages.indexOf(Messages.INVALID_DATE_MSG)).not.toBe(-1);
+    expect(errorMessages.indexOf(Messages.invalidDate)).not.toBe(-1);
     expect(formControl.errors['date']).toBe(true);
   });
 
   it('should return the correct error message when min value is invalid', () => {
-    translateServiceMock.instant.and.returnValue(Messages.MIN_MSG);
+    translateServiceMock.instant.and.returnValue(Messages.min);
     const value: any = -50;
     const converted = questionFactory.toNumberQuestion(numberSchemaQuestion);
     const validations = validationFactory.getValidators(converted);
@@ -89,7 +89,7 @@ describe('ValidationFactory Unit Tests', () => {
       converted
     );
     expect(errorMessages.length).not.toBe(0);
-    const expectedMsg = Messages.MIN_MSG.replace(
+    const expectedMsg = Messages.min.replace(
       '{min}',
       numberSchemaQuestion.questionOptions.min
     );
@@ -97,7 +97,7 @@ describe('ValidationFactory Unit Tests', () => {
   });
 
   it('should return the correct error message when max value is invalid', () => {
-    translateServiceMock.instant.and.returnValue(Messages.MAX_MSG);
+    translateServiceMock.instant.and.returnValue(Messages.max);
     const value: any = 450;
     const converted = questionFactory.toNumberQuestion(numberSchemaQuestion);
     const validations = validationFactory.getValidators(converted);
@@ -109,7 +109,7 @@ describe('ValidationFactory Unit Tests', () => {
       converted
     );
     expect(errorMessages.length).not.toBe(0);
-    const expectedMsg = Messages.MAX_MSG.replace(
+    const expectedMsg = Messages.max.replace(
       '{max}',
       numberSchemaQuestion.questionOptions.max
     );
