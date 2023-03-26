@@ -93,11 +93,11 @@ export class NumberInputComponent implements ControlValueAccessor {
   /**
    * Sets the max length attribute on the `input` element.
    */
-   @Input() maxlength = null;
-   /**
+  @Input() maxlength = null;
+  /**
    * Sets the min length attribute on the `input` element.
    */
-    @Input() minlength = null;
+  @Input() minlength = null;
   /**
    * Sets the text inside the `label` tag.
    */
@@ -201,8 +201,13 @@ export class NumberInputComponent implements ControlValueAccessor {
 
     if (this.max === null || val + this.step <= this.max) {
       this.value = parseFloat((val + this.step).toPrecision(this.precision));
-    } else {
+    }
+
+    if (this.max && this.max > 0 && this.value > this.max) {
       this.value = this.max;
+    }
+    if (this.max === undefined || this.max === '') {
+      this.value = val + this.step;
     }
 
     this.emitChangeEvent();
@@ -216,8 +221,14 @@ export class NumberInputComponent implements ControlValueAccessor {
 
     if (this.min === null || val - this.step >= this.min) {
       this.value = parseFloat((val - this.step).toPrecision(this.precision));
-    } else {
+    }
+
+    if (this.min && this.min > 0 && this.value < this.min) {
       this.value = this.min;
+    }
+
+    if (this.min === undefined || this.min === '') {
+      this.value = val - this.step;
     }
 
     this.emitChangeEvent();
