@@ -66,6 +66,9 @@
   background-color: #ffffff;
 }
 
+.ofe-remote-select.ng-select .ng-select-container {
+  background-color: green;
+}
 .ng-select .ng-select-container:after {
   border-bottom: 1px solid #8d8d8d;
   content: '';
@@ -229,8 +232,13 @@
 }
 
 .ng-dropdown-panel {
+  margin-top: -1rem;
   background: #fff;
   left: 0;
+}
+
+.ng-select > .ng-dropdown-panel {
+  margin-top: 0;
 }
 
 .ng-dropdown-panel.ng-select-bottom {

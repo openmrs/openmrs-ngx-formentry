@@ -43,6 +43,7 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
   loading = false;
   searchText = '';
   notFoundMsg = 'match no found';
+  public appendToBody: boolean = false;
   @Input() placeholder = 'Search...';
   @Input() componentID: string;
   @Input() disabled = false;
@@ -65,6 +66,13 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {
     this.loadOptions();
+    // check if there is enough space at the bottom of the ng-select component
+    const selectElement = document.querySelector('ng-select');
+    const selectBoundingRect = selectElement.getBoundingClientRect();
+    const bottomSpace = window.innerHeight - selectBoundingRect.bottom;
+    if (bottomSpace < 200) { // if less than 200px space at the bottom, set appendToBody to true
+      this.appendToBody = true;
+    }
   }
 
   subscribeToDataSourceDataChanges() {
