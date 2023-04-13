@@ -13,7 +13,7 @@
     typeToSearchText="Please enter 2 or more characters"
     [typeahead]="remoteOptionInput$"
     [(ngModel)]="selectedRemoteOptions"
-    [appendTo]="'app-root form'"
+    [appendTo]="'my-app-fe-wrapper form'"
     (ngModelChange)="selected($event)"
   >
   </ng-select>

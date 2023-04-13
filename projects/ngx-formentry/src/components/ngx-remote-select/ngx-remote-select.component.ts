@@ -18,6 +18,7 @@ import {
   switchMap,
   tap
 } from 'rxjs/operators';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import { SelectOption } from '../../form-entry/question-models/interfaces/select-option';
 
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
@@ -50,8 +51,9 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
   @Input() theme = 'dark';
   @Output() done: EventEmitter<any> = new EventEmitter<any>();
 
-  private elmRef: ElementRef;
-  private appendToParentElement: boolean = false;
+  private ngSelectElement: ElementRef;
+  private appendToParentElement: string;
+  @ViewChild(NgSelectComponent) mySelect: NgSelectComponent;
 
   private _dataSource: DataSource;
   @Input()
@@ -65,19 +67,17 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2,  private elementRef: ElementRef) {}
 
   ngOnInit() {
     this.loadOptions();
-    // check if there is enough space at the bottom of the ng-select component
-    const selectElement = this.elmRef.nativeElement.querySelector('ng-select');
+    const selectElement = this.elementRef.nativeElement as HTMLElement;
     const selectBoundingRect = selectElement.getBoundingClientRect();
-    const formElement = this.elmRef.nativeElement.closest('.cds--form-item'); // use closest() to find the closest ancestor matching the selector
-    const formBoundingRect = formElement.getBoundingClientRect();
-    const bottomSpace = formBoundingRect.bottom - selectBoundingRect.bottom;
-    if (bottomSpace < 200) { // if less than 200px space at the bottom, set appendToBody to true
-      this.appendToParentElement = true;
-    }
+
+    const formRoot = document.querySelector('my-app-root');
+    const formRootBoundingRect = formRoot.getBoundingClientRect();
+    const bottomSpace = formRootBoundingRect.bottom - selectBoundingRect.bottom;
+    this.appendToParentElement = (bottomSpace < 200) ? 'body' : null;
   }
 
   subscribeToDataSourceDataChanges() {
