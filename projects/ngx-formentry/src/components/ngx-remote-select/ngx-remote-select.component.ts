@@ -6,7 +6,8 @@ import {
   ViewChild,
   Output,
   EventEmitter,
-  Renderer2
+  Renderer2,
+  ElementRef
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { concat, Observable, of, Subject } from 'rxjs';
@@ -43,12 +44,14 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
   loading = false;
   searchText = '';
   notFoundMsg = 'match no found';
-  public appendToBody: boolean = false;
   @Input() placeholder = 'Search...';
   @Input() componentID: string;
   @Input() disabled = false;
   @Input() theme = 'dark';
   @Output() done: EventEmitter<any> = new EventEmitter<any>();
+
+  private elmRef: ElementRef;
+  private appendToParentElement: boolean = false;
 
   private _dataSource: DataSource;
   @Input()
@@ -67,11 +70,13 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
   ngOnInit() {
     this.loadOptions();
     // check if there is enough space at the bottom of the ng-select component
-    const selectElement = document.querySelector('ng-select');
+    const selectElement = this.elmRef.nativeElement.querySelector('ng-select');
     const selectBoundingRect = selectElement.getBoundingClientRect();
-    const bottomSpace = window.innerHeight - selectBoundingRect.bottom;
+    const formElement = this.elmRef.nativeElement.closest('.cds--form-item'); // use closest() to find the closest ancestor matching the selector
+    const formBoundingRect = formElement.getBoundingClientRect();
+    const bottomSpace = formBoundingRect.bottom - selectBoundingRect.bottom;
     if (bottomSpace < 200) { // if less than 200px space at the bottom, set appendToBody to true
-      this.appendToBody = true;
+      this.appendToParentElement = true;
     }
   }
 
