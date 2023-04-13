@@ -72,19 +72,22 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
   ngOnInit() {
     this.loadOptions();
     const selectElement = this.elementRef.nativeElement as HTMLElement;
-    const selectBoundingRect = selectElement.getBoundingClientRect();
 
     const formRoot = document.querySelector('my-app-root');
     const ngFormRoot = document.querySelector('app-root');
 
-    if (formRoot) {
-      const formRootBoundingRect = formRoot.getBoundingClientRect();
-      const bottomSpace = formRootBoundingRect.bottom - selectBoundingRect.bottom;
-      this.appendToParentElement = (bottomSpace < 200) ? 'body' : null;
-    }
-    const formRootBoundingRect = ngFormRoot.getBoundingClientRect();
-    const bottomSpace = formRootBoundingRect.bottom - selectBoundingRect.bottom;
-    this.appendToParentElement = (bottomSpace < 200) ? 'body' : null;
+    setTimeout(() => {
+      const selectBoundingRect = selectElement.getBoundingClientRect();
+      if (formRoot !== null) {
+        const formRootBoundingRect = formRoot.getBoundingClientRect();
+        const bottomSpace = formRootBoundingRect.bottom - selectBoundingRect.bottom;
+        this.appendToParentElement = (bottomSpace < 200) ? 'body' : null;
+      } else if (ngFormRoot) {
+        const formRootBoundingRect = ngFormRoot.getBoundingClientRect();
+        const bottomSpace = formRootBoundingRect.bottom - selectBoundingRect.bottom;
+        this.appendToParentElement = (bottomSpace < 200) ? 'body' : null;
+      }
+    });
   }
 
   subscribeToDataSourceDataChanges() {
