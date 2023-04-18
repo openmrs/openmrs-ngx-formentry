@@ -55,7 +55,8 @@ export class HistoricalValueDirective {
         if (
           this._node.question.renderingType === 'select' ||
           this._node.question.renderingType === 'multi-select' ||
-          this._node.question.renderingType === 'single-select'
+          this._node.question.renderingType === 'single-select' ||
+          this._node.question.renderingType === 'radio' 
         ) {
           display.text = this.historicalFieldHelper.getDisplayTextFromOptions(
             this._node.question,
