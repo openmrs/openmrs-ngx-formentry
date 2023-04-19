@@ -67,23 +67,18 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  constructor(private renderer: Renderer2,  private elementRef: ElementRef) {}
+  constructor(private renderer: Renderer2,  private elementRef: ElementRef<HTMLElement>) {}
 
   ngOnInit() {
     this.loadOptions();
-    const selectElement = this.elementRef.nativeElement as HTMLElement;
+    const selectElement = this.elementRef.nativeElement;
 
-    const formRoot = document.querySelector('my-app-root');
-    const ngFormRoot = document.querySelector('app-root');
+    const form = this.elementRef.nativeElement.closest("form");
 
     setTimeout(() => {
       const selectBoundingRect = selectElement.getBoundingClientRect();
-      if (formRoot !== null) {
-        const formRootBoundingRect = formRoot.getBoundingClientRect();
-        const bottomSpace = formRootBoundingRect.bottom - selectBoundingRect.bottom;
-        this.appendToParentElement = (bottomSpace < 200) ? 'body' : null;
-      } else if (ngFormRoot) {
-        const formRootBoundingRect = ngFormRoot.getBoundingClientRect();
+      if (form !== null) {
+        const formRootBoundingRect = form.getBoundingClientRect();
         const bottomSpace = formRootBoundingRect.bottom - selectBoundingRect.bottom;
         this.appendToParentElement = (bottomSpace < 200) ? 'body' : null;
       }
