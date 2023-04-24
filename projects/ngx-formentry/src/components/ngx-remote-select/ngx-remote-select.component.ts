@@ -3,11 +3,9 @@ import {
   OnInit,
   Input,
   forwardRef,
-  ViewChild,
   Output,
   EventEmitter,
   Renderer2,
-  ElementRef
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { concat, Observable, of, Subject } from 'rxjs';
@@ -17,7 +15,6 @@ import {
   switchMap,
   tap
 } from 'rxjs/operators';
-import { NgSelectComponent } from '@ng-select/ng-select';
 import { SelectOption } from '../../form-entry/question-models/interfaces/select-option';
 
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
@@ -49,10 +46,6 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
   @Input() disabled = false;
   @Input() theme = 'dark';
   @Output() done: EventEmitter<any> = new EventEmitter<any>();
-
-  private ngSelectElement: ElementRef;
-  private appendToParentElement: string;
-  @ViewChild(NgSelectComponent) mySelect: NgSelectComponent;
 
   private _dataSource: DataSource;
   @Input()
