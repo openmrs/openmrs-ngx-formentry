@@ -108,7 +108,7 @@ The above command should install the local copy of the form entry library into t
 
 When you start the form entry app, it should now be using the local copy of `openmrs-ngx-formentry`
 
-- The key thing to note is that an override for the form entry import map URL is already set up on the dev server.
+The key thing to note is that an override for the form entry import map URL is already set up on the dev server.
 
 Launch the patient chart and then you will be able to test your local changes.
 

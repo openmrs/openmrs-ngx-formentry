@@ -13,7 +13,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { concat, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
-  debounceTime,
   distinctUntilChanged,
   switchMap,
   tap
@@ -67,22 +66,10 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  constructor(private renderer: Renderer2,  private elementRef: ElementRef<HTMLElement>) {}
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
     this.loadOptions();
-    const selectElement = this.elementRef.nativeElement;
-
-    const form = this.elementRef.nativeElement.closest("form");
-
-    setTimeout(() => {
-      const selectBoundingRect = selectElement.getBoundingClientRect();
-      if (form !== null) {
-        const formRootBoundingRect = form.getBoundingClientRect();
-        const bottomSpace = formRootBoundingRect.bottom - selectBoundingRect.bottom;
-        this.appendToParentElement = (bottomSpace < 200) ? 'body' : null;
-      }
-    });
   }
 
   subscribeToDataSourceDataChanges() {
