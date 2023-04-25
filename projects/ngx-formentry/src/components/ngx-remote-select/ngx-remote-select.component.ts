@@ -3,16 +3,14 @@ import {
   OnInit,
   Input,
   forwardRef,
-  ViewChild,
   Output,
   EventEmitter,
-  Renderer2
+  Renderer2,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { concat, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
-  debounceTime,
   distinctUntilChanged,
   switchMap,
   tap

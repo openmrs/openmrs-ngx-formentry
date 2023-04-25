@@ -229,8 +229,13 @@
 }
 
 .ng-dropdown-panel {
+  margin-top: -1rem;
   background: #fff;
   left: 0;
+}
+
+.ng-select > .ng-dropdown-panel {
+  margin-top: 0;
 }
 
 .ng-dropdown-panel.ng-select-bottom {

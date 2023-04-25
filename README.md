@@ -92,6 +92,28 @@ Which is should be fine if your are not working on custom components (Make sure 
 
 `$ yarn run build:lib`
 
+### Linking ngx-formentry with form-entry-app in patient chart
+While you have your patient chart and ngx-formentry repo open locally,
+Build the ngx-formentry project by 
+running `$yarn run build:lib`
+
+Then cd into the `dist/ngx-formentry`  directory created from the previous step.
+Run `$ pwd | pbcopy` to copy that path.
+
+On the patient chart repo cd into `esm-form-entry-app`
+
+While there, run `yarn link` + the path you copied earlier e.g `/Users/hadijahkyampeire/Desktop/openmrs-ngx-formentry/dist/ngx-formentry`.
+
+The above command should install the local copy of the form entry library into the `esm-form-entry-app` package. You can check that this worked by opening the `package.json` manifest file entry for `@openmrs/ngx-formentry`.
+
+When you start the form entry app, it should now be using the local copy of `openmrs-ngx-formentry`
+
+The key thing to note is that an override for the form entry import map URL is already set up on the dev server.
+
+Launch the patient chart and then you will be able to test your local changes.
+
+Refer to this doc for detailed information [Ampath Forms docs](https://ampath-forms.vercel.app/docs/developer-guide/run-form-engine-in-openmrs3)
+
 ### Usage
 
 `app.component.ts`
