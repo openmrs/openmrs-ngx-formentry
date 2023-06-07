@@ -3,8 +3,6 @@ import { AfeFormControl } from '../../abstract-controls-extension/afe-form-contr
 export class MinValidator {
   validate(min: number) {
     return (control: AfeFormControl): { [key: string]: any } => {
-      console.log('minValue', min, control.value, typeof control.value);
-
       if (control.hidden) {
         return null;
       }

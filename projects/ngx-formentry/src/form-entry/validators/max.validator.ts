@@ -3,8 +3,6 @@ import { AfeFormControl } from '../../abstract-controls-extension/afe-form-contr
 export class MaxValidator {
   validate(max: number) {
     return (control: AfeFormControl): { [key: string]: any } => {
-      console.log('maxValue', max, control.value, typeof control.value);
-
       if (control.hidden) {
         return null;
       }
@@ -14,7 +12,6 @@ export class MaxValidator {
       // Case 2: control.value is not a number:
       // if its empty string or null or undefined it will return false else it will pass through for validation
       if (typeof control.value === 'number' || control.value) {
-        console.log('in');
         const v: number = control.value;
         return v <= max
           ? null
