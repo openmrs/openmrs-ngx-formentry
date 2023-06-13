@@ -93,9 +93,9 @@ class AfeFormControl
     this.calculator = newCalculator;
   }
 
-  updateCalculatedValue() {
+  async updateCalculatedValue() {
     if (this.calculator) {
-      const _val = this.calculator.call(ExpressionRunner, {});
+      const _val = await this.calculator.call(ExpressionRunner, {});
       this.setValue(_val);
     }
   }
@@ -146,6 +146,7 @@ class AfeFormControl
   }
 
   setValue(value: any) {
+    console.log('setting value', value)
     super.setValue(value);
   }
 }
