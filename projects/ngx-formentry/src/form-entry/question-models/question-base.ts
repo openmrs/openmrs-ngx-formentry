@@ -36,6 +36,7 @@ export class QuestionBase implements BaseOptions {
   validators?: Array<ValidationModel>;
   required?: boolean;
   hide?: string | boolean;
+  resetValueOnDisable?: boolean;
   disable?: string | boolean;
   readOnly?: string | boolean;
   calculateExpression?: string;

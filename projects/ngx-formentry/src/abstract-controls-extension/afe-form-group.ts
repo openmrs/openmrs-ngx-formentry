@@ -68,7 +68,11 @@ export class AfeFormGroup
 
   disable(param?: { onlySelf?: boolean; emitEvent?: boolean }) {
     super.disable(param);
-    super.setValue({});
+    if (
+      this.disablers.some((disabler) => disabler.resetValueOnDisabled === true)
+    ) {
+      super.setValue({});
+    }
   }
 
   setHidingFn(newHider: Hider) {

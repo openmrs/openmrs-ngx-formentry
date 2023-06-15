@@ -41,6 +41,7 @@ export class HidersDisablersFactory {
     const disabler: Disabler = {
       toDisable: false,
       disableWhenExpression: question.disable as string,
+      resetValueOnDisable: question.resetValueOnDisable,
       reEvaluateDisablingExpression: () => {
         const result = runnable.run();
         disabler.toDisable = result;
