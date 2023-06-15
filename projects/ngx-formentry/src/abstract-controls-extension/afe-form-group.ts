@@ -69,7 +69,7 @@ export class AfeFormGroup
   disable(param?: { onlySelf?: boolean; emitEvent?: boolean }) {
     super.disable(param);
     if (
-      this.disablers.some((disabler) => disabler.resetValueOnDisabled === true)
+      this.disablers.some((disabler) => disabler.resetValueOnDisable === true)
     ) {
       super.setValue({});
     }
