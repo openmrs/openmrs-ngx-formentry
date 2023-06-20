@@ -42,6 +42,7 @@ export class QuestionBase implements BaseOptions {
   componentConfigs: Array<any>;
   options?: any;
   questionIndex?: Number;
+  message?: string;
 
   allowUnselect?: boolean;
 

@@ -276,7 +276,7 @@ export class JsExpressionHelper {
    * @param uuid
    * @returns
    */
-  getObsFromControlOrEncounter(targetControl,rawEncounter,uuid): any {
+  getObsFromControlOrEncounter(targetControl, rawEncounter, uuid): any {
     const findObs = (obs, uuid) => {
       let result;
       obs?.some(o => result = o?.concept?.uuid === uuid ? o : findObs(o.groupMembers || [], uuid));
@@ -284,6 +284,10 @@ export class JsExpressionHelper {
     }
     const obsValue = findObs(rawEncounter?.obs, uuid)?.value;
     return !!targetControl ? targetControl : typeof obsValue === 'object' ? obsValue.uuid : !!obsValue ? obsValue : null
+  }
+
+  fetchData(url: string, requestOptions:object = {}, propertyName: string) {
+    return fetch(url, { ...requestOptions }).then(r => r.json()).then(r => r[propertyName]);
   }
 
   get helperFunctions() {
@@ -298,7 +302,8 @@ export class JsExpressionHelper {
       isEmpty: helper.isEmpty,
       arrayContains: helper.arrayContains,
       extractRepeatingGroupValues: helper.extractRepeatingGroupValues,
-      getObsFromControlOrEncounter: helper.getObsFromControlOrEncounter
+      getObsFromControlOrEncounter: helper.getObsFromControlOrEncounter,
+      fetchData: helper.fetchData
     };
   }
 }

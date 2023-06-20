@@ -146,8 +146,7 @@ class AfeFormControl
   }
 
   setValue(value: any) {
-    console.log('setting value', value)
-    super.setValue(value);
+        super.setValue(value);
   }
 }
 export { AfeFormControl };

@@ -26,12 +26,12 @@ export class ControlRelation {
     return this._lastUpdateValue;
   }
 
-  updateControlBasedOnRelation(newValue: any): boolean {
+  async updateControlBasedOnRelation(newValue: any): Promise<boolean> {
     if (newValue !== this._lastUpdateValue) {
       this._lastUpdateValue = newValue;
 
       if ((this._control as any).updateCalculatedValue) {
-        (this._control as any).updateCalculatedValue();
+        await (this._control as any).updateCalculatedValue();
       }
 
       this._control.updateValueAndValidity();

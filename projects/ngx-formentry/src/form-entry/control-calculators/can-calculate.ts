@@ -1,5 +1,5 @@
 export interface CanCalculate {
   calculator: Function;
-  setCalculatorFn(newCalculator: Function);
+  setCalculatorFn(newCalculator: () => Promise<any>);
   updateCalculatedValue();
 }

@@ -1063,11 +1063,11 @@ export class QuestionFactory {
     if (schemaQuestion.alert) {
       question.alert = schemaQuestion.alert;
     }
-    // if (typeof schemaQuestion.message === 'object') {
-    //   if (schemaQuestion.message.alertWhenExpression) {
-    //     question.message = schemaQuestion.message.alertWhenExpression;
-    //   }
-    // }
+    if (typeof schemaQuestion.message === 'object') {
+      if (schemaQuestion.message.alertWhenExpression) {
+        question.message = schemaQuestion.message.alertWhenExpression;
+      }
+    }
   }
 
   addDisableOrHideProperty(schemaQuestion: any, question: QuestionBase): any {

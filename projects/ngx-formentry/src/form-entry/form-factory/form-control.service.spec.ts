@@ -265,7 +265,7 @@ describe('Form Factory Control Service Tests', () => {
     expect(createdArrayControl.hiders[0].hideWhenExpression).toBe('1 === 2');
   });
 
-  it('should wire calculator expressions functions and evaluate correctly', () => {
+  it('should wire calculator expressions functions and evaluate correctly', async() => {
     const heightQuestion: QuestionBase = new TextInputQuestion({
       type: 'text',
       key: 'height',
@@ -297,8 +297,8 @@ describe('Form Factory Control Service Tests', () => {
 
     control3.controlRelations.addRelatedControls([control1, control2]);
     // this will trigger propagateChange() function in the controls
-    control1.setValue(180);
-    control2.setValue(70);
+    await control1.setValue(180);
+    await control2.setValue(70);
 
     expect(control3).toBeTruthy();
     expect(control3.calculator).toBeTruthy();
