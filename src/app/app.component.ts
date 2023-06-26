@@ -425,7 +425,8 @@ export class AppComponent implements OnInit {
       providerUuid: 'providerUuid',
       utcOffset: '+0300',
       locationUuid: 'some-location-uuid',
-      dateAppointmentIssued: new Date().toISOString()
+      dateAppointmentIssued: new Date().toISOString(),
+      age: 37
     };
 
     if (this.form.valid) {
