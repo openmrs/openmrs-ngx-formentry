@@ -47,6 +47,7 @@ import { CustomControlWrapperModule } from '../components/custom-control-wrapper
 import { CustomComponentWrapperModule } from '../components/custom-component-wrapper/custom-component-wrapper..module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.adapter';
+import { MachineLearningComponent } from '../components/machine-learning-button/machine-learning.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -78,7 +79,8 @@ import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.ad
     HistoricalValueDirective,
     ErrorRendererComponent,
     TimeAgoPipe,
-    CollapseDirective
+    CollapseDirective,
+    MachineLearningComponent
   ],
   providers: [
     UntypedFormBuilder,
