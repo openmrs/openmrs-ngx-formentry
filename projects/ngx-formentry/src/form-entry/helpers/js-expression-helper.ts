@@ -383,6 +383,9 @@ export class JsExpressionHelper {
     return ""
   }
 
+
+
+
   get helperFunctions() {
     const helper = this;
     return {
@@ -399,7 +402,7 @@ export class JsExpressionHelper {
       doesNotMatchExpression: helper.doesNotMatchExpression,
       calcGravida: helper.calcGravida,
       fetchData: helper.fetchData,
-      calculateZNutritionScore: helper.calculateZNutritionScore
+      calculateZNutritionScore: helper.calculateZNutritionScore,
     };
   }
 }

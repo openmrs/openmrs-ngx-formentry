@@ -377,7 +377,8 @@ export class AppComponent implements OnInit {
       encounterUuid: 'encounterUuid',
       providerUuid: 'providerUuid',
       utcOffset: '+0300',
-      locationUuid: 'some-location-uuid'
+      locationUuid:"some-location-uuid",
+      age: 37
     };
     if (this.form.valid) {
       this.form.showErrors = false;
