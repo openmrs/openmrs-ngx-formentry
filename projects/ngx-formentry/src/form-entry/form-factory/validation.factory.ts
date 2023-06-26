@@ -158,10 +158,10 @@ export class ValidationFactory {
       if (errors.hasOwnProperty(property)) {
         switch (property) {
           case 'required':
-            messages.push(this.translate.instant('REQUIRED_FIELD_MSG'));
+            messages.push(this.translate.instant('requiredField'));
             break;
           case 'date':
-            messages.push(this.translate.instant('INVALID_DATE_MSG'));
+            messages.push(this.translate.instant('invalidDate'));
             break;
           case 'futureDateRestriction':
             messages.push(this.translate.instant('futureDateRestriction'));
