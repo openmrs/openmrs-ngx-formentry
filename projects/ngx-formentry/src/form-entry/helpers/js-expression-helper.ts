@@ -286,9 +286,10 @@ export class JsExpressionHelper {
     return !!targetControl ? targetControl : typeof obsValue === 'object' ? obsValue.uuid : !!obsValue ? obsValue : null
   }
 
-  fetchData(url: string, requestOptions:object = {}, propertyName: string) {
+  fetchData(url: string, requestOptions: object = {}, propertyName: string) {
     return fetch(url, { ...requestOptions }).then(r => r.json()).then(r => r[propertyName]);
   }
+
 
   get helperFunctions() {
     const helper = this;
@@ -303,7 +304,7 @@ export class JsExpressionHelper {
       arrayContains: helper.arrayContains,
       extractRepeatingGroupValues: helper.extractRepeatingGroupValues,
       getObsFromControlOrEncounter: helper.getObsFromControlOrEncounter,
-      fetchData: helper.fetchData
+      fetchData: helper.fetchData,
     };
   }
 }
