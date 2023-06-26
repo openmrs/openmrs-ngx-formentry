@@ -34,6 +34,7 @@ describe('Control Disabler Helper Service:', () => {
     const disabler: Disabler = {
       toDisable: false,
       disableWhenExpression: 'true',
+      resetValueOnDisable: true,
       reEvaluateDisablingExpression: () => {}
     };
 
@@ -63,6 +64,7 @@ describe('Control Disabler Helper Service:', () => {
     const disabler: Disabler = {
       toDisable: false,
       disableWhenExpression: 'true',
+      resetValueOnDisable: true,
       reEvaluateDisablingExpression: () => {}
     };
 
@@ -102,6 +104,7 @@ describe('Control Disabler Helper Service:', () => {
     const hider1: Disabler = {
       toDisable: false,
       disableWhenExpression: 'true',
+      resetValueOnDisable: true,
       reEvaluateDisablingExpression: () => {
         hider1.toDisable = true;
       }
@@ -110,6 +113,7 @@ describe('Control Disabler Helper Service:', () => {
     const hider2: Disabler = {
       toDisable: true,
       disableWhenExpression: 'true',
+      resetValueOnDisable: true,
       reEvaluateDisablingExpression: () => {
         hider2.toDisable = false;
       }
@@ -118,6 +122,7 @@ describe('Control Disabler Helper Service:', () => {
     const hider3: Disabler = {
       toDisable: false,
       disableWhenExpression: 'true',
+      resetValueOnDisable: true,
       reEvaluateDisablingExpression: () => {
         hider3.toDisable = true;
       }
@@ -154,6 +159,7 @@ describe('Control Disabler Helper Service:', () => {
     const hider4: Disabler = {
       toDisable: true,
       disableWhenExpression: 'true',
+      resetValueOnDisable: true,
       reEvaluateDisablingExpression: () => {
         hider4.toDisable = false;
       }
@@ -162,6 +168,7 @@ describe('Control Disabler Helper Service:', () => {
     const hider5: Disabler = {
       toDisable: true,
       disableWhenExpression: 'true',
+      resetValueOnDisable: true,
       reEvaluateDisablingExpression: () => {
         hider5.toDisable = false;
       }
@@ -202,6 +209,7 @@ describe('Control Disabler Helper Service:', () => {
     const hider1: Disabler = {
       toDisable: false,
       disableWhenExpression: 'true',
+      resetValueOnDisable: true,
       reEvaluateDisablingExpression: () => {
         hider1.toDisable = true;
       }
@@ -210,6 +218,7 @@ describe('Control Disabler Helper Service:', () => {
     const hider2: Disabler = {
       toDisable: true,
       disableWhenExpression: 'true',
+      resetValueOnDisable: true,
       reEvaluateDisablingExpression: () => {
         hider2.toDisable = false;
       }
@@ -218,6 +227,7 @@ describe('Control Disabler Helper Service:', () => {
     const hider3: Disabler = {
       toDisable: false,
       disableWhenExpression: 'true',
+      resetValueOnDisable: true,
       reEvaluateDisablingExpression: () => {
         hider3.toDisable = true;
       }
