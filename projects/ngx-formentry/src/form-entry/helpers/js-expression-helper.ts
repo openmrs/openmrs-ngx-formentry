@@ -166,18 +166,30 @@ export class JsExpressionHelper {
     return height && weight && refSectionObject ? formattedSDValue : null;
   }
 
-
-
-  calcSouthEastAsiaNonLabCVDRisk(sex: 'M' | 'F', smoker?: boolean, age?: number, sbp?: number, bmi?: number) {
-    const hasValidValues = (typeof sex === "string" && typeof smoker === "boolean" && typeof age === "number" && typeof sbp === "number" && typeof bmi === "number");
+  calcSouthEastAsiaNonLabCVDRisk(
+    sex: 'M' | 'F',
+    smoker?: boolean,
+    age?: number,
+    sbp?: number,
+    bmi?: number
+  ) {
+    const hasValidValues =
+      typeof sex === 'string' &&
+      typeof smoker === 'boolean' &&
+      typeof age === 'number' &&
+      typeof sbp === 'number' &&
+      typeof bmi === 'number';
 
     if (!hasValidValues) {
       return null;
     }
     // Bin functions
-    const getAgeBin = (age) => Math.floor((Math.min(Math.max(40, age), 74) - 40) / 5);
-    const getSbpBin = (sbp) => Math.max(0, Math.floor((Math.min(sbp, 180) - 120) / 20) + 1);
-    const getBmiBin = (bmi) => Math.max(0, Math.floor((Math.min(bmi, 35) - 20) / 5) + 1);
+    const getAgeBin = (age) =>
+      Math.floor((Math.min(Math.max(40, age), 74) - 40) / 5);
+    const getSbpBin = (sbp) =>
+      Math.max(0, Math.floor((Math.min(sbp, 180) - 120) / 20) + 1);
+    const getBmiBin = (bmi) =>
+      Math.max(0, Math.floor((Math.min(bmi, 35) - 20) / 5) + 1);
 
     // Variables
     const sexIdx = sex === 'M' ? 0 : 1;
@@ -186,7 +198,9 @@ export class JsExpressionHelper {
     const bmiIdx = getBmiBin(bmi);
     const sbpIdx = 4 - getSbpBin(sbp);
 
-    return southEastAsiaCvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][bmiIdx];
+    return southEastAsiaCvdRiskTables[sexIdx][smokerIdx][ageIdx][sbpIdx][
+      bmiIdx
+    ];
   }
 
   isEmpty(val) {
@@ -276,14 +290,54 @@ export class JsExpressionHelper {
    * @param uuid
    * @returns
    */
-  getObsFromControlOrEncounter(targetControl,rawEncounter,uuid): any {
+  getObsFromControlOrEncounter(targetControl, rawEncounter, uuid): any {
     const findObs = (obs, uuid) => {
       let result;
-      obs?.some(o => result = o?.concept?.uuid === uuid ? o : findObs(o.groupMembers || [], uuid));
+      obs?.some(
+        (o) =>
+          (result =
+            o?.concept?.uuid === uuid ? o : findObs(o.groupMembers || [], uuid))
+      );
       return result;
-    }
+    };
     const obsValue = findObs(rawEncounter?.obs, uuid)?.value;
-    return !!targetControl ? targetControl : typeof obsValue === 'object' ? obsValue.uuid : !!obsValue ? obsValue : null
+    return !!targetControl
+      ? targetControl
+      : typeof obsValue === 'object'
+      ? obsValue.uuid
+      : !!obsValue
+      ? obsValue
+      : null;
+  }
+
+  /**
+   * Fetches data from a given URL and extracts a nested object based on the provided objectPath.
+   * @async
+   * @param {string} url - The URL from which to fetch data.
+   * @param {string} objectPath - The dot-separated path to the nested object to extract.
+   * @returns {Promise<object>} A promise that resolves with the extracted nested object.
+   * @throws {Error} Will throw an error if the arguments are invalid, the fetch fails, or if the object path cannot be resolved.
+   */
+  async fetchData(url, objectPath, options = {}) {
+    try {
+      const response = await fetch(url, { ...options });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      const nestedObject = objectPath.split('.').reduce((obj, key) => {
+        if (obj && obj.hasOwnProperty(key)) {
+          return obj[key];
+        }
+        return `Unable to access the property '${key}' in your object.`;
+      }, data);
+
+      return nestedObject;
+    } catch (error) {
+      console.error(`An error occurred: ${error}`);
+      throw error;
+    }
   }
 
   get helperFunctions() {
@@ -298,7 +352,8 @@ export class JsExpressionHelper {
       isEmpty: helper.isEmpty,
       arrayContains: helper.arrayContains,
       extractRepeatingGroupValues: helper.extractRepeatingGroupValues,
-      getObsFromControlOrEncounter: helper.getObsFromControlOrEncounter
+      getObsFromControlOrEncounter: helper.getObsFromControlOrEncounter,
+      fetchData: helper.fetchData
     };
   }
 }
