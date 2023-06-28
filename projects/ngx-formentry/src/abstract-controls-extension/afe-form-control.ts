@@ -100,7 +100,15 @@ class AfeFormControl
   updateCalculatedValue() {
     if (this.calculator) {
       const _val = this.calculator.call(ExpressionRunner, {});
-      this.setValue(_val);
+      if (_val instanceof Promise) {
+        _val
+          .then((val) => {
+            this.setValue(val);
+          })
+          .catch((err) => console.error(err));
+      } else {
+        this.setValue(_val);
+      }
     }
   }
 
