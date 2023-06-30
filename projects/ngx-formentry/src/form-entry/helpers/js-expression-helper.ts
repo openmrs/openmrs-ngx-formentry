@@ -303,8 +303,8 @@ export class JsExpressionHelper {
       let result;
       obs?.some(
         (o) =>
-          (result =
-            o?.concept?.uuid === uuid ? o : findObs(o.groupMembers || [], uuid))
+        (result =
+          o?.concept?.uuid === uuid ? o : findObs(o.groupMembers || [], uuid))
       );
       return result;
     };
@@ -314,10 +314,10 @@ export class JsExpressionHelper {
     return hasValue(targetControl)
       ? targetControl
       : obsValue !== null && typeof obsValue === 'object'
-      ? obsValue.uuid
-      : hasValue(obsValue)
-      ? obsValue
-      : null;
+        ? obsValue.uuid
+        : hasValue(obsValue)
+          ? obsValue
+          : null;
   }
 
   /**
