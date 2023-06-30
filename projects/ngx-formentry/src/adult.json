@@ -284,6 +284,19 @@
                   }
                 },
                 {
+                  "type": "patientIdentifier",
+                  "label": "Patient clinic number",
+                  "questionInfo": "",
+                  "id": "patientClinicNumber",
+                  "required": "false",
+                  "default": "",
+                  "questionOptions": {
+                    "rendering": "text",
+                    "identifierType": "dfacd928-0370-4315-99d7-6ec1c9f7ae76"
+                  }
+                },
+                
+                {
                   "type": "obs",
                   "label": "If non-Ampath, specify:",
                   "questionInfo": "",
