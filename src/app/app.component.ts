@@ -18,7 +18,7 @@ import {
 } from '@openmrs/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
 import { mockTranslationsData } from './mock/mock-translations';
-import { PatientIdenfierAdapater } from 'projects/ngx-formentry/src/form-entry/value-adapters/patient-identifier.adapter';
+import { PatientIdentifierAdapter } from 'projects/ngx-formentry/src/form-entry/value-adapters/patient-identifier.adapter';
 
 const adultForm = require('./adult-1.6.json');
 const adultFormObs = require('./mock/obs.json');
@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
     private http: HttpClient,
     private translate: TranslateService,
     private personAttributeAdapter:PersonAttribuAdapter,
-    private patientIdenfierAdapter:PatientIdenfierAdapater
+    private patientIdenfierAdapter:PatientIdentifierAdapter
 
   ) {
     this.schema = adultForm;

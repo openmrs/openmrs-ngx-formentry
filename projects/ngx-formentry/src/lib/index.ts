@@ -59,4 +59,4 @@ export { ErrorRendererComponent } from '../form-entry/error-renderer/error-rende
 export { DatePickerComponent } from '../components/date-time-picker';
 export { TimePickerComponent } from '../components/date-time-picker';
 export { MomentPipe } from '../components/date-time-picker';
-export { PatientIdenfierAdapater } from "../form-entry/value-adapters/patient-identifier.adapter"
+export { PatientIdentifierAdapter } from "../form-entry/value-adapters/patient-identifier.adapter"

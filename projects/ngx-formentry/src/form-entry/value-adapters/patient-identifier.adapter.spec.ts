@@ -9,12 +9,12 @@ import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { QuestionFactory } from '../form-factory/question.factory';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
 import { NodeBase } from '../form-factory/form-node';
-import { DebugModeService } from './../services/debug-mode.service';
-import { PatientIdenfierAdapater } from './patient-identifier.adapter';
+import { DebugModeService } from '../services/debug-mode.service';
+import { PatientIdentifierAdapter } from './patient-identifier.adapter';
 
 const adultForm = require('../../adult.json');
 const mockLocationUuid = "some-location-uuid";
-fdescribe('Patient identifier Value Adapter:', () => {
+describe('Patient identifier Value Adapter:', () => {
     let adultFormSchema: any;
     beforeEach(() => {
         adultFormSchema = JSON.parse(JSON.stringify(adultForm));
@@ -24,7 +24,7 @@ fdescribe('Patient identifier Value Adapter:', () => {
                 FormControlService,
                 ValidationFactory,
                 HidersDisablersFactory,
-                PatientIdenfierAdapater,
+                PatientIdentifierAdapter,
                 ExpressionRunner,
                 JsExpressionHelper,
                 AlertsFactory,
@@ -36,7 +36,7 @@ fdescribe('Patient identifier Value Adapter:', () => {
     });
 
     it('should be injectable', () => {
-        const adapter = TestBed.inject(PatientIdenfierAdapater);
+        const adapter = TestBed.inject(PatientIdentifierAdapter);
         const factory: FormFactory = TestBed.inject(FormFactory);
         expect(adapter).toBeTruthy();
         expect(factory).toBeTruthy();
@@ -46,7 +46,7 @@ fdescribe('Patient identifier Value Adapter:', () => {
     });
 
     it('should return all patient identifier nodes', () => {
-        const adapter = TestBed.inject(PatientIdenfierAdapater);
+        const adapter = TestBed.inject(PatientIdentifierAdapter);
         const factory: FormFactory = TestBed.inject(FormFactory);
         const form = factory.createForm(adultFormSchema);
 
@@ -60,7 +60,7 @@ fdescribe('Patient identifier Value Adapter:', () => {
     });
 
     it('should generate patient identifier payload attachable to patient object', () => {
-        const adapter = TestBed.inject(PatientIdenfierAdapater);
+        const adapter = TestBed.inject(PatientIdentifierAdapter);
         const factory: FormFactory = TestBed.inject(FormFactory);
         const form = factory.createForm(adultFormSchema);
 

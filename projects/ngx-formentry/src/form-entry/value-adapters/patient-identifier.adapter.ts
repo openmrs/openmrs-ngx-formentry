@@ -5,7 +5,7 @@ import { Form } from "../form-factory";
 
 
 @Injectable()
-export class PatientIdenfierAdapater {
+export class PatientIdentifierAdapter {
     generateFormPayload(form: Form, locationUuid: string) {
         return this.generateNodePayload(form.rootNode, locationUuid);
     }
@@ -58,11 +58,11 @@ export class PatientIdenfierAdapater {
 
     getPatientIdentifierNodes(rootNode: NodeBase): Array<NodeBase> {
         const results: Array<NodeBase> = [];
-        this.getPatientidentifierTypeNodes(rootNode, results);
+        this.getPatientIdentifierTypeNodes(rootNode, results);
         return results;
     }
 
-    private getPatientidentifierTypeNodes(
+    private getPatientIdentifierTypeNodes(
         rootNode: NodeBase,
         array: Array<NodeBase>
     ) {
@@ -77,7 +77,7 @@ export class PatientIdenfierAdapater {
             const node = rootNode as GroupNode;
             for (const o in node.children) {
                 if (node.children[o] instanceof NodeBase) {
-                    this.getPatientidentifierTypeNodes(node.children[o], array);
+                    this.getPatientIdentifierTypeNodes(node.children[o], array);
                 }
             }
         }
@@ -85,7 +85,7 @@ export class PatientIdenfierAdapater {
         if (rootNode instanceof ArrayNode) {
             const node = rootNode as ArrayNode;
             node.children.forEach((child) => {
-                this.getPatientidentifierTypeNodes(child, array);
+                this.getPatientIdentifierTypeNodes(child, array);
             });
         }
     }
