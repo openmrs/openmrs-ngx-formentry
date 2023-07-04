@@ -14,9 +14,11 @@ import {
   EncounterAdapter,
   DataSources,
   FormErrorsService,
+  PersonAttribuAdapter,
 } from '@openmrs/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
 import { mockTranslationsData } from './mock/mock-translations';
+import { PatientIdentifierAdapter } from 'projects/ngx-formentry/src/form-entry/value-adapters/patient-identifier.adapter';
 
 const adultForm = require('./adult-1.6.json');
 const adultFormObs = require('./mock/obs.json');
@@ -50,6 +52,8 @@ export class AppComponent implements OnInit {
     private formErrorsService: FormErrorsService,
     private http: HttpClient,
     private translate: TranslateService,
+    private personAttributeAdapter:PersonAttribuAdapter,
+    private patientIdenfierAdapter:PatientIdentifierAdapter
 
   ) {
     this.schema = adultForm;
@@ -375,7 +379,8 @@ export class AppComponent implements OnInit {
       formUuid: 'formUuid',
       encounterUuid: 'encounterUuid',
       providerUuid: 'providerUuid',
-      utcOffset: '+0300'
+      utcOffset: '+0300',
+      locationUuid:"some-location-uuid"
     };
     if (this.form.valid) {
       this.form.showErrors = false;
@@ -387,6 +392,10 @@ export class AppComponent implements OnInit {
 
       // // generate orders payload
       // let ordersPayload = this.orderAdaptor.generateFormPayload(this.form);
+      
+      // generate patient identifiers
+      //const patientIdenfitiers = this.patientIdenfierAdapter.generateFormPayload(this.form,this.form.valueProcessingInfo['locationUuid']);
+
     } else {
       this.form.showErrors = true;
       this.form.markInvalidControls(this.form.rootNode);
