@@ -99,4 +99,15 @@ describe('JS Expression Helper Service:', () => {
     result = helper.arrayContainsAny(arr, members);
     expect(result).toBe(false);
   });
+  it('should return true if a value does not match a regular expression', () => {
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+
+    let val = 'REC12345-123';
+    let regexString = '^REC\\d{5}-\\d{5,6}$';
+
+    expect(helper.doesNotMatchExpression(regexString, val)).toBe(true);
+
+    val = 'REC12345-12345';
+    expect(helper.doesNotMatchExpression(regexString, val)).toBe(false);
+  })
 });

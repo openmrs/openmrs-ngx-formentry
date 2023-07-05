@@ -286,6 +286,17 @@ export class JsExpressionHelper {
     return !!targetControl ? targetControl : typeof obsValue === 'object' ? obsValue.uuid : !!obsValue ? obsValue : null
   }
 
+  doesNotMatchExpression(regexString: string, val: string | null | undefined): boolean {
+    if (!val || ['undefined', 'null', ''].includes(val.toString())) {
+      return true;
+    }
+    const pattern = new RegExp(regexString); 
+    if (!pattern.test(val)) {
+      return true;
+    }
+    return false;
+  }
+
   get helperFunctions() {
     const helper = this;
     return {
@@ -298,7 +309,8 @@ export class JsExpressionHelper {
       isEmpty: helper.isEmpty,
       arrayContains: helper.arrayContains,
       extractRepeatingGroupValues: helper.extractRepeatingGroupValues,
-      getObsFromControlOrEncounter: helper.getObsFromControlOrEncounter
+      getObsFromControlOrEncounter: helper.getObsFromControlOrEncounter,
+      doesNotMatchExpression: helper.doesNotMatchExpression
     };
   }
 }
