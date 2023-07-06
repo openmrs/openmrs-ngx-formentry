@@ -297,6 +297,24 @@ export class JsExpressionHelper {
     return false;
   }
 
+  calcGravida(parityTerm, parityAbortion) {
+    let gravida = 0;
+
+    if (Number.isInteger(parityTerm)) {
+      gravida += parityTerm + 1;
+    }
+
+    if (Number.isInteger(parityAbortion)) {
+      gravida += parityAbortion + 1;
+    }
+
+    if (Number.isInteger(parityTerm) && Number.isInteger(parityAbortion)) {
+      gravida = parityTerm + parityAbortion + 1;
+    }
+
+    return gravida;
+  }
+
   get helperFunctions() {
     const helper = this;
     return {
@@ -310,7 +328,8 @@ export class JsExpressionHelper {
       arrayContains: helper.arrayContains,
       extractRepeatingGroupValues: helper.extractRepeatingGroupValues,
       getObsFromControlOrEncounter: helper.getObsFromControlOrEncounter,
-      doesNotMatchExpression: helper.doesNotMatchExpression
+      doesNotMatchExpression: helper.doesNotMatchExpression,
+      calcGravida: helper.calcGravida
     };
   }
 }
