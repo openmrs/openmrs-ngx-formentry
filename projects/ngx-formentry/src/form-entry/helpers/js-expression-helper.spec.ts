@@ -110,4 +110,16 @@ describe('JS Expression Helper Service:', () => {
     val = 'REC12345-12345';
     expect(helper.doesNotMatchExpression(regexString, val)).toBe(false);
   })
+  it('should return the gravida value given term births and abortion count', () => {
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+
+    let parityTerm = 0;
+    let parityAbortion = 0;
+
+    expect(helper.calcGravida(parityTerm, parityAbortion)).toBe(1);
+
+    parityTerm = 1;
+    parityAbortion = 2;
+    expect(helper.calcGravida(parityTerm, parityAbortion)).toBe(4);
+  })
 });
