@@ -529,19 +529,12 @@
             {
               "label": "Civil status:",
               "type": "obs",
-<<<<<<< HEAD
               "questionOptions": {
                 "rendering": "checkbox",
-=======
-              "historicalExpression": "HD.getObject('prevEnc').getValue('a899a9f2-1350-11df-a1f1-0026b9348838')",
-              "questionOptions": {
-                "rendering": "select",
->>>>>>> 0d2551d ((feat) Add asynchronous functionality to updateCalculatedValue())
                 "concept": "a899a9f2-1350-11df-a1f1-0026b9348838",
                 "answers": [
                   {
                     "concept": "a899af10-1350-11df-a1f1-0026b9348838",
-<<<<<<< HEAD
                     "label": "Cohabitating",
                     "disableWhenExpression": "myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
@@ -573,33 +566,6 @@
                   {
                     "concept": "a899ae34-1350-11df-a1f1-0026b9348838",
                     "label": "Other"
-=======
-                    "label": "Cohabitating"
-                  },
-                  {
-                    "concept": "a899ad58-1350-11df-a1f1-0026b9348838",
-                    "label": "Divorced"
-                  },
-                  {
-                    "concept": "a8aa76b0-1350-11df-a1f1-0026b9348838",
-                    "label": "Married monogamous"
-                  },
-                  {
-                    "concept": "a8b03712-1350-11df-a1f1-0026b9348838",
-                    "label": "Married polygamous"
-                  },
-                  {
-                    "concept": "a899aba0-1350-11df-a1f1-0026b9348838",
-                    "label": "Separated"
-                  },
-                  {
-                    "concept": "a899ac7c-1350-11df-a1f1-0026b9348838",
-                    "label": "Single"
-                  },
-                  {
-                    "concept": "a899ae34-1350-11df-a1f1-0026b9348838",
-                    "label": "Widowed"
->>>>>>> 0d2551d ((feat) Add asynchronous functionality to updateCalculatedValue())
                   }
                 ]
               },
@@ -3962,6 +3928,10 @@
                 "concept": "a8a65fee-1350-11df-a1f1-0026b9348838",
                 "max": "43",
                 "min": "25"
+              },
+              "alert": {
+                "alertWhenExpression": "myValue >= 40",
+                "message": "The patient temperature is too high"
               },
               "type": "obs",
               "validators": [],
