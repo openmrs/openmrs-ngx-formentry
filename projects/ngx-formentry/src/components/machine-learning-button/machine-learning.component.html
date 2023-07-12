@@ -1,5 +1,10 @@
 <div *ngIf="showMachineLearningButton">
-    <button (click)="getRiskScore()" class="cds--btn cds--btn--primary" type="button">
-        Get Machine Learning Prediction
-    </button>
+  <button
+    (click)="getRiskScore()"
+    class="cds--btn cds--btn--primary"
+    type="button"
+  >
+    <span *ngIf="!isLoading">Get HIV risk category</span>
+    <span *ngIf="isLoading">Loading ...</span>
+  </button>
 </div>
