@@ -326,11 +326,11 @@ export class ObsAdapterHelper {
   // PAYLOAD GENERATION FUNCTIONS
   addFieldNameSpaceandPath(node, obs) {
     obs.formFieldNamespace = this.formFieldNamespace;
-    obs.formFieldPath = `${node?.question?.questionIndex}${node?.nodeIndex}${this.obsIndex}`;
+    obs.formFieldPath = `${this.obsIndex}~${node?.question?.extras?.id}`;
     this.obsIndex++;
     return obs;
   }
-  
+
   getSimpleObsPayload(node: NodeBase): any {
     // check for empty values first
     if (this.isEmpty(node.control.value)) {
