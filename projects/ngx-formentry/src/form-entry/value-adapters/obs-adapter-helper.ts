@@ -203,7 +203,7 @@ export class ObsAdapterHelper {
 
     let firstNumber;
     if (first.formFieldPath?.includes('~')) {
-      firstNumber = first.formFieldPath.split('~')[1];
+      firstNumber = first.formFieldPath.split('~', 1)[1];
     } else {
       firstNumber = first.formFieldPath;
     }
