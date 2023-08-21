@@ -349,7 +349,7 @@ export class ObsAdapterHelper {
 
   getQuestionIdFromFormFieldPath(formFieldPath: string) {
     if (formFieldPath?.includes('~')) {
-      return formFieldPath.split('~')[0];
+      return formFieldPath.split('~', 1)[0];
     }
   }
 
