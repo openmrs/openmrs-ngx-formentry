@@ -28,7 +28,7 @@ export class ObsAdapterHelper {
       (node instanceof GroupNode && node.question.extras.type === 'complex-obs')
     ) {
       _.each(obsArray, (item) => {
-        var questionId = this.getQuestionIdFromFormFieldPath(item.formFieldPath);
+        let questionId = this.getQuestionIdFromFormFieldPath(item.formFieldPath);
         if (
           (questionId && questionId === node?.question?.extras?.id) ||
           (!questionId && item.concept && item.concept.uuid === node.question.extras.questionOptions.concept)
