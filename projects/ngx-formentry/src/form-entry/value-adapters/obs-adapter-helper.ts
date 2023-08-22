@@ -28,9 +28,10 @@ export class ObsAdapterHelper {
       (node instanceof GroupNode && node.question.extras.type === 'complex-obs')
     ) {
       _.each(obsArray, (item) => {
+        let questionId = this.getQuestionIdFromFormFieldPath(item.formFieldPath);
         if (
-          item.concept &&
-          item.concept.uuid === node.question.extras.questionOptions.concept
+          (questionId && questionId === node?.question?.extras?.id) ||
+          (!questionId && item.concept && item.concept.uuid === node.question.extras.questionOptions.concept)
         ) {
           found.push(item);
         }
@@ -199,7 +200,22 @@ export class ObsAdapterHelper {
     if (!first || !second) {
       return -1;
     }
-    return Number(first.formFieldPath) - Number(second.formFieldPath);
+
+    let firstNumber;
+    if (first.formFieldPath?.includes('~')) {
+      firstNumber = first.formFieldPath.split('~', 1)[1];
+    } else {
+      firstNumber = first.formFieldPath;
+    }
+
+    let secondNumber;
+    if (second.formFieldPath?.includes('~')) {
+      secondNumber = second.formFieldPath.split('~', 1)[1];
+    } else {
+      secondNumber = second.formFieldPath;
+    }
+
+    return Number(firstNumber) - Number(secondNumber);
   }
 
   setNodeValue(node: NodeBase, obs: Array<any>) {
@@ -329,6 +345,12 @@ export class ObsAdapterHelper {
     obs.formFieldPath = `${node?.question?.extras?.id}~${this.obsIndex}`;
     this.obsIndex++;
     return obs;
+  }
+
+  getQuestionIdFromFormFieldPath(formFieldPath: string) {
+    if (formFieldPath?.includes('~')) {
+      return formFieldPath.split('~', 1)[0];
+    }
   }
 
   getSimpleObsPayload(node: NodeBase): any {
