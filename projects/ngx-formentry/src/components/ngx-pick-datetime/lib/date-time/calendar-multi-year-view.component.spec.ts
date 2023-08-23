@@ -7,7 +7,6 @@ import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
 import { OwlDateTimeModule } from './date-time.module';
 import { Component, DebugElement } from '@angular/core';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import {
   OwlMultiYearViewComponent,
@@ -44,7 +43,7 @@ describe('OwlMultiYearViewComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [OwlNativeDateTimeModule, OwlDateTimeModule, TranslateModule.forRoot()],
+        imports: [OwlNativeDateTimeModule, OwlDateTimeModule],
         declarations: [
           StandardMultiYearViewComponent,
           MultiYearViewWithDateFilterComponent
@@ -62,10 +61,6 @@ describe('OwlMultiYearViewComponent', () => {
     let multiYearViewInstance: OwlMultiYearViewComponent<Date>;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
-        providers: [TranslateService],
-      }).compileComponents();
       fixture = TestBed.createComponent(StandardMultiYearViewComponent);
       fixture.detectChanges();
 
@@ -280,11 +275,6 @@ describe('OwlMultiYearViewComponent', () => {
     let multiYearViewElement: Element;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
-        providers: [TranslateService],
-      }).compileComponents();
-      
       fixture = TestBed.createComponent(MultiYearViewWithDateFilterComponent);
       fixture.detectChanges();
 

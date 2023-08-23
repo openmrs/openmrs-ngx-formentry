@@ -14,12 +14,10 @@ import { SampleSchema } from './sample-schema';
 
 import { Form } from './form';
 import { DebugModeService } from './../services/debug-mode.service';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('Form:', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
       providers: [
         FormFactory,
         QuestionFactory,

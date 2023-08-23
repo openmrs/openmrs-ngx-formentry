@@ -11,7 +11,6 @@ import {
   dispatchMouseEvent,
   dispatchKeyboardEvent
 } from '../../test-helpers';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
 import { OwlDateTimeModule } from './date-time.module';
 import { OwlCalendarComponent } from './calendar.component';
@@ -64,11 +63,6 @@ describe('OwlCalendarComponent', () => {
     let dateTimePickerIntlService: OwlDateTimeIntl;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
-        providers: [TranslateService],
-      }).compileComponents();
-
       dateTimePickerIntlService = TestBed.inject(OwlDateTimeIntl);
       fixture = TestBed.createComponent(StandardCalendar);
       fixture.detectChanges();
@@ -285,11 +279,6 @@ describe('OwlCalendarComponent', () => {
     let calendarInstance: OwlCalendarComponent<Date>;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
-        providers: [TranslateService],
-      }).compileComponents();
-      
       fixture = TestBed.createComponent(CalendarWithMinMax);
       fixture.detectChanges();
 
@@ -432,10 +421,6 @@ describe('OwlCalendarComponent', () => {
     let calendarInstance: OwlCalendarComponent<Date>;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
-        providers: [TranslateService],
-      }).compileComponents();
       fixture = TestBed.createComponent(CalendarWithDateFilter);
       fixture.detectChanges();
 

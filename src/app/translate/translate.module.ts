@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { JsonLoader } from './json-loader';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [],
@@ -11,11 +10,6 @@ import { JsonLoader } from './json-loader';
     HttpClientModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
-      loader: {
-        provide: TranslateLoader,
-        useClass: JsonLoader,
-        deps: [HttpClient]
-      }
     }),
   ],
   exports: [TranslateModule],

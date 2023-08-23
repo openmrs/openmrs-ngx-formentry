@@ -9,12 +9,10 @@ import {
   AfeFormControl
 } from '../../abstract-controls-extension';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('Show Messages Factory:', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
       providers: [AlertsFactory, ExpressionRunner, JsExpressionHelper]
     });
   });

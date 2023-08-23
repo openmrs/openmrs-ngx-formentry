@@ -12,7 +12,6 @@ import { ExpressionRunner } from '../../form-entry/expression-runner/expression-
 import { JsExpressionHelper } from '../../form-entry/helpers/js-expression-helper';
 import { ControlRelationsFactory } from '../../form-entry/form-factory/control-relations.factory';
 import { DebugModeService } from './../services/debug-mode.service';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('Orders Value Adapter', () => {
   let formFactory: FormFactory;
@@ -20,7 +19,6 @@ describe('Orders Value Adapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
       declarations: [],
       providers: [
         FormFactory,

@@ -17,7 +17,6 @@ import { JsExpressionHelper } from '../../form-entry/helpers/js-expression-helpe
 import { ControlRelationsFactory } from '../../form-entry/form-factory/control-relations.factory';
 import { Form } from '../form-factory/form';
 import { DebugModeService } from './../services/debug-mode.service';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('Obs Value Adapter Helper: ', () => {
   let formFactory: FormFactory;
@@ -30,7 +29,6 @@ describe('Obs Value Adapter Helper: ', () => {
 
     TestBed.configureTestingModule({
       declarations: [],
-      imports: [TranslateModule.forRoot()],
       providers: [
         ObsAdapterHelper,
         FormFactory,

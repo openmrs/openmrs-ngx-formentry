@@ -16,7 +16,6 @@ import { Form } from '../form-factory/form';
 import { ObsValueAdapter } from './obs.adapter';
 import { ObsAdapterHelper } from './obs-adapter-helper';
 import { DebugModeService } from './../services/debug-mode.service';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('Obs Value Adapter: ', () => {
   let formFactory: FormFactory;
@@ -24,7 +23,6 @@ describe('Obs Value Adapter: ', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
       declarations: [],
       providers: [
         FormFactory,

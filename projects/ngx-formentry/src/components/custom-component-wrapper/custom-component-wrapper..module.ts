@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { CustomComponentWrapperComponent } from './custom-component-wrapper.component';
 import { LazyElementsModule } from '@angular-extensions/elements';
-import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [CommonModule, LazyElementsModule, TranslateModule],
+  imports: [CommonModule, LazyElementsModule],
   exports: [CustomComponentWrapperComponent],
   declarations: [CustomComponentWrapperComponent],
   providers: []

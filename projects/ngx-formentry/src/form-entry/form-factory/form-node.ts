@@ -8,7 +8,6 @@ import {
   AfeFormArray,
   AfeFormGroup
 } from '../../abstract-controls-extension';
-import { TranslateService } from '@ngx-translate/core';
 export interface ChildNodeCreatedListener {
   addChildNodeCreatedListener(func: any);
 
@@ -114,12 +113,11 @@ export class ArrayNode extends NodeBase implements ChildNodeCreatedListener {
 
   constructor(
     question: QuestionBase,
-    public translate: TranslateService,
     control?: AfeFormControl | AfeFormArray | AfeFormGroup,
     parentControl?: AfeFormControl | AfeFormArray | AfeFormGroup,
     private formFactory?: FormFactory,
     form?: Form,
-    parentPath?: string,
+    parentPath?: string
   ) {
     super(question, control, form, parentPath);
     this._children = [];
@@ -133,10 +131,7 @@ export class ArrayNode extends NodeBase implements ChildNodeCreatedListener {
   public createChildNode(): GroupNode {
     if (this.children.length >= this.question.extras.questionOptions.max) {
       confirm(
-        this.translate.instant('maxEntries').replace(
-          '{max}',
-          this.question.extras.questionOptions.max
-        )
+        `Cannot have more than ${this.question.extras.questionOptions.max} entries`
       );
       return;
     }
@@ -154,7 +149,7 @@ export class ArrayNode extends NodeBase implements ChildNodeCreatedListener {
 
   public removeAt(index: number) {
     if (this.children.length <= this.question.extras.questionOptions.min) {
-      const clearPrompt = confirm(this.translate.instant('clearEntry'));
+      const clearPrompt = confirm(`Are you sure you want to clear this entry?`);
       if (clearPrompt && this.removeChildFunc && this.createChildNode) {
         this.removeChildFunc(index, this);
 
@@ -169,7 +164,7 @@ export class ArrayNode extends NodeBase implements ChildNodeCreatedListener {
       }
     } else {
       const removePrompt = confirm(
-        this.translate.instant('deleteEntry')
+        'Are you sure you want to delete this item?'
       );
       if (removePrompt) {
         if (this.removeChildFunc) {

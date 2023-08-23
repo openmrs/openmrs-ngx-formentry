@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
 
 import { ConditionalRequiredValidator } from '../validators/conditional-required.validator';
@@ -14,6 +13,7 @@ import { MaxDateValidator } from '../validators/max-date.validator';
 import { FutureDateRestrictionValidator } from '../validators/future-date-restriction.validator';
 import { JsExpressionValidator } from '../validators/js-expression.validator';
 import { QuestionBase } from '../question-models/question-base';
+import { Messages } from '../utils/messages';
 import { ValidationModel } from '../question-models/validation.model';
 import { DateValidationModel } from '../question-models/date-validation.model';
 import { MaxValidationModel } from '../question-models/max-validation.model';
@@ -27,7 +27,7 @@ import { MinLengthValidator } from '../validators/min-length.validator';
 
 @Injectable()
 export class ValidationFactory {
-  constructor(private translate: TranslateService) {}
+  constructor() {}
 
   getValidators(question: QuestionBase, form?: any) {
     const list: Array<any> = [];
@@ -158,48 +158,54 @@ export class ValidationFactory {
       if (errors.hasOwnProperty(property)) {
         switch (property) {
           case 'required':
-            messages.push(this.translate.instant('requiredField'));
+            messages.push(Messages.REQUIRED_FIELD_MSG);
             break;
           case 'date':
-            messages.push(this.translate.instant('invalidDate'));
+            messages.push(Messages.INVALID_DATE_MSG);
             break;
           case 'futureDateRestriction':
-            messages.push(this.translate.instant('futureDateRestriction'));
+            messages.push(Messages.FUTURE_DATE_RESTRICTION_MSG);
             break;
           case 'minlength':
-            messages.push(this.translate.instant('minLength').replace(
+            messages.push(
+              Messages.MIN_LENGTH_MSG.replace(
                 '{minLength}',
                 errors.minlength.requiredLength
               )
             );
             break;
           case 'maxlength':
-            messages.push(this.translate.instant('maxLength').replace(
+            messages.push(
+              Messages.MAX_LENGTH_MSG.replace(
                 '{maxLength}',
                 errors.maxlength.requiredLength
               )
             );
             break;
           case 'maxdate':
-            messages.push(this.translate.instant('maxDate').replace(
+            messages.push(
+              Messages.MAX_DATE_MSG.replace(
                 '{maxDate}',
                 errors.maxdate.requiredDate
               )
             );
             break;
           case 'mindate':
-            messages.push(this.translate.instant('minDate').replace(
+            messages.push(
+              Messages.MIN_DATE_MSG.replace(
                 '{minDate}',
                 errors.mindate.requiredDate
               )
             );
             break;
           case 'max':
-            messages.push(this.translate.instant('max').replace('{max}', errors.max.requiredValue)
+            messages.push(
+              Messages.MAX_MSG.replace('{max}', errors.max.requiredValue)
             );
             break;
           case 'min':
-            messages.push(this.translate.instant('min').replace('{min}', errors.min.requiredValue)
+            messages.push(
+              Messages.MIN_MSG.replace('{min}', errors.min.requiredValue)
             );
             break;
           case 'js_expression':

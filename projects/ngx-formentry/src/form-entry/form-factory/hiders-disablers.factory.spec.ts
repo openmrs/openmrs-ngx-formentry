@@ -8,12 +8,10 @@ import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { AfeFormControl } from '../../abstract-controls-extension';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { DebugModeService } from './../services/debug-mode.service';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('Hiders Disablers Factory:', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
       providers: [
         HidersDisablersFactory,
         ExpressionRunner,

@@ -3,24 +3,8 @@ import { AfeFormControl } from '../../abstract-controls-extension/afe-form-contr
 import { ValidationFactory } from './validation.factory';
 import { QuestionFactory } from './question.factory';
 import { Messages } from '../utils/messages';
-import { TestBed } from '@angular/core/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core'
+
 describe('ValidationFactory Unit Tests', () => {
-  const translateServiceMock = jasmine.createSpyObj('TranslateService', ['instant']);
-  translateServiceMock.instant.and.returnValue('Invalid value');
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot({})],
-      providers: [
-        {
-          provide: TranslateService,
-          useValue: translateServiceMock
-        },
-      ],
-    }).compileComponents();
-  });
-
   const dateSchemaQuestion: any = {
     label: 'Date patient first became medically eligible for ART:',
     id: 'eligibility',
@@ -51,7 +35,7 @@ describe('ValidationFactory Unit Tests', () => {
   };
 
   const questionFactory = new QuestionFactory();
-  const validationFactory = new ValidationFactory(translateServiceMock);
+  const validationFactory = new ValidationFactory();
 
   it('should return validators when a question model is provided', () => {
     const converted = questionFactory.toDateQuestion(dateSchemaQuestion);
@@ -60,7 +44,6 @@ describe('ValidationFactory Unit Tests', () => {
   });
 
   it('should return the correct date error message when date is invalid', () => {
-    translateServiceMock.instant.and.returnValue(Messages.invalidDate);
     const date = 'fake date';
     const converted = questionFactory.toDateQuestion(dateSchemaQuestion);
     const validations = validationFactory.getValidators(converted);
@@ -72,12 +55,11 @@ describe('ValidationFactory Unit Tests', () => {
       converted
     );
 
-    expect(errorMessages.indexOf(Messages.invalidDate)).not.toBe(-1);
+    expect(errorMessages.indexOf(Messages.INVALID_DATE_MSG)).not.toBe(-1);
     expect(formControl.errors['date']).toBe(true);
   });
 
   it('should return the correct error message when min value is invalid', () => {
-    translateServiceMock.instant.and.returnValue(Messages.min);
     const value: any = -50;
     const converted = questionFactory.toNumberQuestion(numberSchemaQuestion);
     const validations = validationFactory.getValidators(converted);
@@ -89,7 +71,7 @@ describe('ValidationFactory Unit Tests', () => {
       converted
     );
     expect(errorMessages.length).not.toBe(0);
-    const expectedMsg = Messages.min.replace(
+    const expectedMsg = Messages.MIN_MSG.replace(
       '{min}',
       numberSchemaQuestion.questionOptions.min
     );
@@ -97,7 +79,6 @@ describe('ValidationFactory Unit Tests', () => {
   });
 
   it('should return the correct error message when max value is invalid', () => {
-    translateServiceMock.instant.and.returnValue(Messages.max);
     const value: any = 450;
     const converted = questionFactory.toNumberQuestion(numberSchemaQuestion);
     const validations = validationFactory.getValidators(converted);
@@ -109,7 +90,7 @@ describe('ValidationFactory Unit Tests', () => {
       converted
     );
     expect(errorMessages.length).not.toBe(0);
-    const expectedMsg = Messages.max.replace(
+    const expectedMsg = Messages.MAX_MSG.replace(
       '{max}',
       numberSchemaQuestion.questionOptions.max
     );

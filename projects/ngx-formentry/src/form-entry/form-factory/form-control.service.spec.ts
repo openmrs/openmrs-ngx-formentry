@@ -19,14 +19,13 @@ import { AlertsFactory } from './show-messages.factory';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { DebugModeService } from './../services/debug-mode.service';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('Form Factory Control Service Tests', () => {
   let injector: Injector;
   let formControlService: FormControlService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, TranslateModule.forRoot()],
+      imports: [FormsModule],
       providers: [
         FormControlService,
         ValidationFactory,

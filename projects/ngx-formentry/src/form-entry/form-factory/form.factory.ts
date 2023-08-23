@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 // import { AbstractControl } from '@angular/forms';
 
-import { TranslateService } from '@ngx-translate/core';
 import { LeafNode, GroupNode, ArrayNode, NodeBase } from './form-node';
 import {
   QuestionBase,
@@ -33,8 +32,7 @@ export class FormFactory {
   constructor(
     public controlService: FormControlService,
     public questionFactroy: QuestionFactory,
-    public controlRelationsFactory: ControlRelationsFactory,
-    public translate: TranslateService,
+    public controlRelationsFactory: ControlRelationsFactory
   ) {}
 
   createForm(schema: any, dataSource?: any): Form {
@@ -151,7 +149,6 @@ export class FormFactory {
     ) as AfeFormGroup;
     const arrayNode = new ArrayNode(
       question,
-      this.translate,
       controlModel,
       parentControl,
       this,

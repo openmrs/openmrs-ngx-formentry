@@ -2,7 +2,6 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import moment from 'moment';
 
-import { TranslateModule } from '@ngx-translate/core';
 import { FormFactory } from '../form-factory/form.factory';
 import { FormControlService } from '../form-factory/form-control.service';
 import { ValidationFactory } from '../form-factory/validation.factory';
@@ -32,7 +31,6 @@ describe('Encounter Value Adapter:', () => {
     waitForAsync(() => {
       adultFormSchema = JSON.parse(JSON.stringify(adultForm));
       TestBed.configureTestingModule({
-        imports: [TranslateModule.forRoot()],
         providers: [
           OrderValueAdapter,
           DiagnosisValueAdapter,
