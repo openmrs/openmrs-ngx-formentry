@@ -203,18 +203,17 @@ export class ObsAdapterHelper {
 
     let firstNumber;
     if (first.formFieldPath?.includes('~')) {
-      firstNumber = first.formFieldPath.split('~', 1)[1];
+      firstNumber = first.formFieldPath.split('~', 2)[1];
     } else {
       firstNumber = first.formFieldPath;
     }
 
     let secondNumber;
     if (second.formFieldPath?.includes('~')) {
-      secondNumber = second.formFieldPath.split('~', 1)[1];
+      secondNumber = second.formFieldPath.split('~', 2)[1];
     } else {
       secondNumber = second.formFieldPath;
     }
-
     return Number(firstNumber) - Number(secondNumber);
   }
 
