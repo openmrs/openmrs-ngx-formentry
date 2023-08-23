@@ -11,6 +11,7 @@ import { QuestionFactory } from '../form-factory/question.factory';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
 import { NodeBase } from '../form-factory/form-node';
 import { DebugModeService } from './../services/debug-mode.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 const adultForm = require('../../adult.json');
 
@@ -19,6 +20,7 @@ describe('Person Attribute Value Adapter:', () => {
   beforeEach(() => {
     adultFormSchema = JSON.parse(JSON.stringify(adultForm));
     TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       providers: [
         FormFactory,
         FormControlService,

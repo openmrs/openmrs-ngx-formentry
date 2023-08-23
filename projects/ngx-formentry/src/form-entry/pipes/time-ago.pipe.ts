@@ -5,6 +5,7 @@ import {
   ChangeDetectorRef,
   OnDestroy
 } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 @Pipe({
   name: 'timeAgo',
   pure: false
@@ -13,8 +14,8 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
   private timer: number;
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    private ngZone: NgZone
-  ) {}
+    private ngZone: NgZone,
+    public translate: TranslateService) {}
   transform(value: string) {
     this.removeTimer();
     const d = new Date(value);
@@ -39,28 +40,28 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
     if (Number.isNaN(seconds)) {
       return '';
     } else if (seconds <= 45) {
-      return 'a few seconds ago';
+      return this.translate.instant('aMinuteAgo');
     } else if (seconds <= 90) {
-      return 'a minute ago';
+      return this.translate.instant('minutesAgo');
     } else if (minutes <= 45) {
-      return minutes + ' minutes ago';
+      return minutes + ' ' + this.translate.instant('minutesAgo');
     } else if (minutes <= 90) {
-      return 'an hour ago';
+      return this.translate.instant('anHourAgo');
     } else if (hours <= 22) {
-      return hours + ' hours ago';
+      return hours + ' ' + this.translate.instant('hoursAgo');
     } else if (hours <= 36) {
-      return 'a day ago';
+      return this.translate.instant('aDayAgo');
     } else if (days <= 25) {
-      return days + ' days ago';
+      return days + ' ' + this.translate.instant('daysAgo');
     } else if (days <= 45) {
-      return 'a month ago';
+      return this.translate.instant('aMonthAgo');
     } else if (days <= 345) {
-      return months + ' months ago';
+      return months + ' ' + this.translate.instant('monthsAgo');
     } else if (days <= 545) {
-      return 'a year ago';
+      return this.translate.instant('aYearAgo');
     } else {
       // (days > 545)
-      return years + ' years ago';
+      return years + ' ' + this.translate.instant('yearsAgo');
     }
   }
   ngOnDestroy(): void {
