@@ -33,8 +33,10 @@ export class DiagnosisValueAdapter implements ValueAdapter {
           value[node.question.key],
           node.question.extras
         );
-        // Validate if is new value
+        // Validate if is new value and no duplicates in payload
+        if (!payload.some(({ diagnosis: { coded } }) => coded === payloadDiagnosis.diagnosis.coded)) {
           payload.push(payloadDiagnosis);
+        }
       });
     });
 
