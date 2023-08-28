@@ -111,7 +111,8 @@ export class DiagnosisValueAdapter implements ValueAdapter {
                 if (formNode.children) {
                   for (const node in formNode.children) {
                     const question = formNode.children[node].question;
-                    if (question.extras && question.extras.type === 'diagnosis') {
+                    const index = formNode.children[node].nodeIndex;
+                    if (question.extras && question.extras.type === 'diagnosis' && !this.formDiagnosisNodes.some(x => index === x.nodeIndex)) {
                       this.formDiagnosisNodes.push(formNode.children[node]);
                     }
                   }
