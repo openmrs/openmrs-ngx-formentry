@@ -86,7 +86,6 @@ export class EncounterAdapter implements ValueAdapter {
 
     payload['orders'] = this.ordersAdapter.generateFormPayload(form) || [];
 
-    payload['diagnoses'] = this.diagnosesAdapter.generateFormPayload(form) || [];
 
     return payload;
   }

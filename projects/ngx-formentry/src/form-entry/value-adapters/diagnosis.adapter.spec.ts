@@ -1,19 +1,19 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 const adultForm = require('../../adult.json');
 const adultFormDiagnoses = require('../../mock/diagnoses.json');
-import {FormFactory} from '../../form-entry/form-factory/form.factory';
-import {FormControlService} from '../../form-entry/form-factory/form-control.service';
-import {ValidationFactory} from '../../form-entry/form-factory/validation.factory';
-import {QuestionFactory} from '../../form-entry/form-factory/question.factory';
-import {OrderValueAdapter} from './order.adapter';
-import {HidersDisablersFactory} from '../../form-entry/form-factory/hiders-disablers.factory';
-import {AlertsFactory} from '../form-factory/show-messages.factory';
-import {ExpressionRunner} from '../../form-entry/expression-runner/expression-runner';
-import {JsExpressionHelper} from '../../form-entry/helpers/js-expression-helper';
-import {ControlRelationsFactory} from '../../form-entry/form-factory/control-relations.factory';
-import {DebugModeService} from './../services/debug-mode.service';
-import {Diagnosis, DiagnosisValueAdapter} from './diagnosis.adapter';
+import { FormFactory } from '../../form-entry/form-factory/form.factory';
+import { FormControlService } from '../../form-entry/form-factory/form-control.service';
+import { ValidationFactory } from '../../form-entry/form-factory/validation.factory';
+import { QuestionFactory } from '../../form-entry/form-factory/question.factory';
+import { OrderValueAdapter } from './order.adapter';
+import { HidersDisablersFactory } from '../../form-entry/form-factory/hiders-disablers.factory';
+import { AlertsFactory } from '../form-factory/show-messages.factory';
+import { ExpressionRunner } from '../../form-entry/expression-runner/expression-runner';
+import { JsExpressionHelper } from '../../form-entry/helpers/js-expression-helper';
+import { ControlRelationsFactory } from '../../form-entry/form-factory/control-relations.factory';
+import { DebugModeService } from './../services/debug-mode.service';
+import { Diagnosis, DiagnosisValueAdapter } from './diagnosis.adapter';
 
 describe('Diagnosis Value Adapter', () => {
   let formFactory: FormFactory;
@@ -55,10 +55,10 @@ describe('Diagnosis Value Adapter', () => {
       diagnosis: {
         coded: {
           uuid: '116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
-          display: 'Malarial Fever',
-        },
+          display: 'Malarial Fever'
+        }
       },
-      voided: false,
+      voided: false
     },
     {
       uuid: 'diagnosis-2-uuid5',
@@ -68,10 +68,10 @@ describe('Diagnosis Value Adapter', () => {
       diagnosis: {
         coded: {
           uuid: '113511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
-          display: 'Puerperal Fever',
-        },
+          display: 'Puerperal Fever'
+        }
       },
-      voided: false,
+      voided: false
     }
   ];
 
@@ -88,7 +88,8 @@ describe('Diagnosis Value Adapter', () => {
       let index = 0;
 
       for (const diagnosis of newDiagnoses) {
-        const node = diagnosisValueAdapter.formDiagnosisNodes[diagnosis.rank - 1];
+        const node =
+          diagnosisValueAdapter.formDiagnosisNodes[diagnosis.rank - 1];
         node.createChildNode();
         const value = {};
         value[node.question.key] = diagnosis.diagnosis.coded.uuid;
@@ -98,16 +99,52 @@ describe('Diagnosis Value Adapter', () => {
       }
 
       // Confirm controls where populated with data;
-      expect(diagnosisValueAdapter.formDiagnosisNodes[0].control.value[0].primaryDiagnosisId).toEqual('116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-      expect(diagnosisValueAdapter.formDiagnosisNodes[1].control.value[0].secondaryDiagnosisId).toEqual('113511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+      expect(
+        diagnosisValueAdapter.formDiagnosisNodes[0].control.value[0]
+          .primaryDiagnosisId
+      ).toEqual('116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+      expect(
+        diagnosisValueAdapter.formDiagnosisNodes[1].control.value[0]
+          .secondaryDiagnosisId
+      ).toEqual('113511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
 
       // Confirm payload was generated;
-      const payload = diagnosisValueAdapter.generateFormPayload(form);
-      expect(payload.find(p => p.diagnosis.coded == '116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')).toBeTruthy();
-      expect(payload.find(p => p.diagnosis.coded == '113511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')).toBeTruthy();
+      const payload = diagnosisValueAdapter.generateFormPayload(
+        form,
+        'some-encounterUuid'
+      );
+      expect(
+        payload.find(
+          (p) => p.diagnosis.coded == '116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+        )
+      ).toBeTruthy();
+      expect(
+        payload.find(
+          (p) => p.diagnosis.coded == '113511AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+        )
+      ).toBeTruthy();
+
+      // Confirm payload has correct values
+      expect(payload[0]).toEqual({
+        diagnosis: {
+          coded: '116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+        },
+        certainty: 'CONFIRMED',
+        rank: 1,
+        voided: false,
+        encounter: 'some-encounterUuid',
+        uuid: null,
+        condition: null
+      });
 
       // Confirm deleted diagnoses were added to the payload
-      expect(payload.find(p => p.diagnosis.coded == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && p.voided)).toBeTruthy();
+      expect(
+        payload.find(
+          (p) =>
+            p.diagnosis.coded == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' &&
+            p.voided
+        )
+      ).toBeTruthy();
     });
   });
 
@@ -116,12 +153,17 @@ describe('Diagnosis Value Adapter', () => {
       const form = formFactory.createForm(adultForm);
       diagnosisValueAdapter.populateForm(form, adultFormDiagnoses.diagnoses);
 
-      expect(diagnosisValueAdapter.formDiagnosisNodes.filter(n => {
-          return n.control.value.find(v => {
-            return v.secondaryDiagnosisId == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && v.secondaryDiagnosisId.display == 'FEVER';
+      expect(
+        diagnosisValueAdapter.formDiagnosisNodes.filter((n) => {
+          return n.control.value.find((v) => {
+            return (
+              v.secondaryDiagnosisId ==
+                '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' &&
+              v.secondaryDiagnosisId.display == 'FEVER'
+            );
           });
-        }
-      )).toBeTruthy();
+        })
+      ).toBeTruthy();
     });
   });
 });
