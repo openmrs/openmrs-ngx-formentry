@@ -286,6 +286,35 @@ export class JsExpressionHelper {
     return !!targetControl ? targetControl : typeof obsValue === 'object' ? obsValue.uuid : !!obsValue ? obsValue : null
   }
 
+  doesNotMatchExpression(regexString: string, val: string | null | undefined): boolean {
+    if (!val || ['undefined', 'null', ''].includes(val.toString())) {
+      return true;
+    }
+    const pattern = new RegExp(regexString); 
+    if (!pattern.test(val)) {
+      return true;
+    }
+    return false;
+  }
+
+  calcGravida(parityTerm, parityAbortion) {
+    let gravida = 0;
+
+    if (Number.isInteger(parityTerm)) {
+      gravida += parityTerm + 1;
+    }
+
+    if (Number.isInteger(parityAbortion)) {
+      gravida += parityAbortion + 1;
+    }
+
+    if (Number.isInteger(parityTerm) && Number.isInteger(parityAbortion)) {
+      gravida = parityTerm + parityAbortion + 1;
+    }
+
+    return gravida;
+  }
+
   get helperFunctions() {
     const helper = this;
     return {
@@ -298,7 +327,9 @@ export class JsExpressionHelper {
       isEmpty: helper.isEmpty,
       arrayContains: helper.arrayContains,
       extractRepeatingGroupValues: helper.extractRepeatingGroupValues,
-      getObsFromControlOrEncounter: helper.getObsFromControlOrEncounter
+      getObsFromControlOrEncounter: helper.getObsFromControlOrEncounter,
+      doesNotMatchExpression: helper.doesNotMatchExpression,
+      calcGravida: helper.calcGravida
     };
   }
 }

@@ -152,6 +152,10 @@ export class EncounterAdapter implements ValueAdapter {
       );
     }
 
+    if (!payload.encounterDatetime) {
+      this.setPayloadEncounterDate(payload, form.valueProcessingInfo.encounterDatetime ?? new Date().toISOString(), form.valueProcessingInfo.utcOffset);
+    }
+
     if (form.valueProcessingInfo.formUuid) {
       this.setPayloadFormUuid(payload, form.valueProcessingInfo.formUuid);
     }
@@ -174,6 +178,13 @@ export class EncounterAdapter implements ValueAdapter {
 
   setPayloadEncounterTypeUuid(payload, encounterTypeUuid: string) {
     payload['encounterType'] = encounterTypeUuid;
+  }
+
+  setPayloadEncounterDate(payload, encounterDatetime: string, utcOffset: string) {
+    const dateValue = moment(encounterDatetime).utcOffset(
+      utcOffset || '+0300'
+    );
+    payload['encounterDatetime'] = dateValue.format();
   }
 
   setPayloadFormUuid(payload, formUuid: string) {
