@@ -203,7 +203,10 @@
             [formControlName]="node.question.key"
             [id]="node.question.key + 'id'"
           >
-            <option *ngFor="let option of node.question.options" [value]="option.value">
+            <option
+              *ngFor="let option of node.question.options"
+              [value]="option.value"
+            >
               {{ option.label | translate }}
             </option>
           </ofe-select>
@@ -261,6 +264,7 @@
             [id]="node.question.key + 'id'"
             *ngSwitchCase="'multi-select'"
             [multiple]="true"
+            [appendTo]="'form'"
             placeholder=""
             clearAllText="Clear"
             [formControlName]="node.question.key"
