@@ -14,7 +14,7 @@ import {
   EncounterAdapter,
   DataSources,
   FormErrorsService,
-  PersonAttribuAdapter,
+  PersonAttribuAdapter
 } from '@openmrs/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
 import { mockTranslationsData } from './mock/mock-translations';
@@ -52,9 +52,8 @@ export class AppComponent implements OnInit {
     private formErrorsService: FormErrorsService,
     private http: HttpClient,
     private translate: TranslateService,
-    private personAttributeAdapter:PersonAttribuAdapter,
-    private patientIdenfierAdapter:PatientIdentifierAdapter
-
+    private personAttributeAdapter: PersonAttribuAdapter,
+    private patientIdenfierAdapter: PatientIdentifierAdapter
   ) {
     this.schema = adultForm;
   }
@@ -236,20 +235,21 @@ export class AppComponent implements OnInit {
       });
     });
 
-
     this.translate.currentLang = this.currentLanguage;
     this.fetchMockedTranslationsData().then((translationsData: any) => {
-      this.translate.setTranslation(translationsData?.language, translationsData?.translations);
+      this.translate.setTranslation(
+        translationsData?.language,
+        translationsData?.translations
+      );
     });
-
   }
-
-
 
   fetchMockedTranslationsData() {
     const promise = new Promise(function (resolve, reject) {
       setTimeout(function () {
-        const translationsData = mockTranslationsData.find(translation => translation.language === 'en')
+        const translationsData = mockTranslationsData.find(
+          (translation) => translation.language === 'en'
+        );
         resolve(translationsData);
       }, 2000);
     });
@@ -380,7 +380,7 @@ export class AppComponent implements OnInit {
       encounterUuid: 'encounterUuid',
       providerUuid: 'providerUuid',
       utcOffset: '+0300',
-      locationUuid:"some-location-uuid"
+      locationUuid: 'some-location-uuid'
     };
     if (this.form.valid) {
       this.form.showErrors = false;
@@ -392,10 +392,9 @@ export class AppComponent implements OnInit {
 
       // // generate orders payload
       // let ordersPayload = this.orderAdaptor.generateFormPayload(this.form);
-      
+
       // generate patient identifiers
       //const patientIdenfitiers = this.patientIdenfierAdapter.generateFormPayload(this.form,this.form.valueProcessingInfo['locationUuid']);
-
     } else {
       this.form.showErrors = true;
       this.form.markInvalidControls(this.form.rootNode);

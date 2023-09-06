@@ -8,7 +8,7 @@ export class MinLengthValidator {
       }
 
       if (control.value && control.value.length !== 0) {
-        const v = (control.value).toString().length;
+        const v = control.value.toString().length;
         return v >= minLength
           ? null
           : { minlength: { requiredLength: minLength, actualValue: v } };

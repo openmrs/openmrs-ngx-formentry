@@ -8,7 +8,7 @@ export class MaxLengthValidator {
       }
 
       if (control.value && control.value.length !== 0) {
-        const v = (control.value).toString().length;
+        const v = control.value.toString().length;
         return v <= maxLength
           ? null
           : { maxlength: { requiredLength: maxLength, actualValue: v } };
