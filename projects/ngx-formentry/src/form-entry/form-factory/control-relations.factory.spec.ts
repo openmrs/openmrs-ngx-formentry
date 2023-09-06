@@ -16,10 +16,12 @@ import { AlertsFactory } from './show-messages.factory';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { DebugModeService } from './../services/debug-mode.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('Control Relations Factory:', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       providers: [
         ControlRelationsFactory,
         FormFactory,

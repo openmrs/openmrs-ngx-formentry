@@ -10,7 +10,7 @@
     [compareWith]="compareItems"
     [trackByFn]="trackByFn"
     [loading]="loading"
-    typeToSearchText="Please enter 2 or more characters"
+    typeToSearchText="{{ 'enterMoreCharacters' | translate }}"
     [typeahead]="remoteOptionInput$"
     [(ngModel)]="selectedRemoteOptions"
     [appendTo]="'form'"
