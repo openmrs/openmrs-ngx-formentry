@@ -86,7 +86,8 @@ export class EncounterAdapter implements ValueAdapter {
 
     payload['orders'] = this.ordersAdapter.generateFormPayload(form) || [];
 
-    payload['diagnoses'] = this.diagnosesAdapter.generateFormPayload(form) || [];
+    payload['diagnoses'] =
+      this.diagnosesAdapter.generateFormPayload(form) || [];
 
     return payload;
   }
@@ -153,7 +154,11 @@ export class EncounterAdapter implements ValueAdapter {
     }
 
     if (!payload.encounterDatetime) {
-      this.setPayloadEncounterDate(payload, form.valueProcessingInfo.encounterDatetime ?? new Date().toISOString(), form.valueProcessingInfo.utcOffset);
+      this.setPayloadEncounterDate(
+        payload,
+        form.valueProcessingInfo.encounterDatetime ?? new Date().toISOString(),
+        form.valueProcessingInfo.utcOffset
+      );
     }
 
     if (form.valueProcessingInfo.formUuid) {
@@ -180,10 +185,12 @@ export class EncounterAdapter implements ValueAdapter {
     payload['encounterType'] = encounterTypeUuid;
   }
 
-  setPayloadEncounterDate(payload, encounterDatetime: string, utcOffset: string) {
-    const dateValue = moment(encounterDatetime).utcOffset(
-      utcOffset || '+0300'
-    );
+  setPayloadEncounterDate(
+    payload,
+    encounterDatetime: string,
+    utcOffset: string
+  ) {
+    const dateValue = moment(encounterDatetime).utcOffset(utcOffset || '+0300');
     payload['encounterDatetime'] = dateValue.format();
   }
 

@@ -82,7 +82,7 @@ Which is should be fine if your are not working on custom components (Make sure 
 
 `$ git clone https://github.com/AMPATH/ngx-openmrs-formentry`
 
-`$ cd ngx-openmrs-formentry `
+`$ cd ngx-openmrs-formentry`
 
 `$ yarn`
 
@@ -93,11 +93,12 @@ Which is should be fine if your are not working on custom components (Make sure 
 `$ yarn run build:lib`
 
 ### Linking ngx-formentry with form-entry-app in patient chart
+
 While you have your patient chart and ngx-formentry repo open locally,
-Build the ngx-formentry project by 
+Build the ngx-formentry project by
 running `$yarn run build:lib`
 
-Then cd into the `dist/ngx-formentry`  directory created from the previous step.
+Then cd into the `dist/ngx-formentry` directory created from the previous step.
 Run `$ pwd | pbcopy` to copy that path.
 
 On the patient chart repo cd into `esm-form-entry-app`

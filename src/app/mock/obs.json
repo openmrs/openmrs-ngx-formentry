@@ -438,7 +438,7 @@
         }
       ]
     },
-     {
+    {
       "uuid": "81dd8e5c-2a77-4296-ac7e-bb57ca3d9add",
       "obsDatetime": "2016-12-01T11:33:57.000+0300",
       "concept": {
@@ -458,8 +458,7 @@
         ]
       },
       "groupMembers": null,
-      "formFieldPath":"100.0"
-
+      "formFieldPath": "100.0"
     },
     {
       "uuid": "b4c90238-41d4-46a3-a557-16d8c3a8e42a",
@@ -541,7 +540,7 @@
     {
       "uuid": "7e5d7b85-075a-4d5e-aa0c-678196b40a18",
       "obsDatetime": "2016-12-01T11:33:57.000+0300",
-      "formFieldPath":"101.1",
+      "formFieldPath": "101.1",
       "concept": {
         "uuid": "a8a072c8-1350-11df-a1f1-0026b9348838",
         "name": {
@@ -2810,7 +2809,7 @@
             }
           ],
           "resourceVersion": "1.11"
-        },     
+        },
         {
           "uuid": "e8b92e69-49f4-47fa-98f1-f62bf01aeed8",
           "display": "NUMBER OF TABLETS PER DAY: 2.0",
@@ -3101,7 +3100,7 @@
           ],
           "resourceVersion": "1.11"
         },
-        
+
         {
           "uuid": "e8b92e69-49f4-47fa-98f1-f62bf01aeed8",
           "display": "NUMBER OF TABLETS PER DAY: 2.0",
@@ -3180,7 +3179,7 @@
         }
       ]
     },
-    
+
     {
       "uuid": "d240d15d-d60a-444c-8def-0de6e932f7d8",
       "obsDatetime": "2016-12-01T11:33:57.000+0300",
@@ -3201,7 +3200,7 @@
         ]
       },
       "groupMembers": null,
-      "formFieldPath":"100.1"
+      "formFieldPath": "100.1"
     },
     {
       "uuid": "425c71b9-8f10-4452-92f8-cd8d44c4a971",
@@ -3864,7 +3863,7 @@
         ]
       },
       "groupMembers": null,
-      "formFieldPath":"100.2"
+      "formFieldPath": "100.2"
     },
     {
       "uuid": "f86f7a3f-9883-4b9d-b2bf-7602e3c38ba8",

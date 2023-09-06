@@ -1,7 +1,7 @@
 import { ValidationModel } from './validation.model';
 
 export class MinLengthValidationModel extends ValidationModel {
- minlength: number;
+  minlength: number;
 
   constructor(validations: any) {
     super(validations);

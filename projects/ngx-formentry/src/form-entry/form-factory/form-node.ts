@@ -62,10 +62,10 @@ export abstract class NodeBase {
   public get path(): string {
     return this._path;
   }
-  removeAt(index: number) { }
+  removeAt(index: number) {}
 
-  createChildNode() { }
-  removeChildNode() { }
+  createChildNode() {}
+  removeChildNode() {}
 }
 
 export class LeafNode extends NodeBase {

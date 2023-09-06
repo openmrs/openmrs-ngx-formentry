@@ -59,7 +59,9 @@ export class ValidationFactory {
             break;
           case 'maxlength':
             list.push(
-              this.maxLengthValidator((<MaxLengthValidationModel>validator).maxlength)
+              this.maxLengthValidator(
+                (<MaxLengthValidationModel>validator).maxlength
+              )
             );
             break;
           case 'min':
@@ -69,7 +71,9 @@ export class ValidationFactory {
             break;
           case 'minlength':
             list.push(
-              this.minLengthValidator((<MinLengthValidationModel>validator).minlength)
+              this.minLengthValidator(
+                (<MinLengthValidationModel>validator).minlength
+              )
             );
             break;
           case 'conditionalRequired':
