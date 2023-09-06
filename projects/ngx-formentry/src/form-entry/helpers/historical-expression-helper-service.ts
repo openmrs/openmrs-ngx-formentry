@@ -15,7 +15,7 @@ export class HistoricalHelperService {
   public evaluate(
     expr: string,
     dataSources: Record<string, unknown>,
-    additionalScopeValues: Record<string, unknown> | null,
+    additionalScopeValues: Record<string, unknown> | null
   ) {
     const HD = new HistoricalEncounterDataService();
     HD.registerEncounters('prevEnc', dataSources['rawPrevEnc']);

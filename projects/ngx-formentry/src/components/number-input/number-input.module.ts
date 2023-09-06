@@ -8,7 +8,7 @@ import { NumberInputDirective } from './number.directive';
 @NgModule({
   imports: [CommonModule, FormsModule],
   exports: [NumberInputComponent],
-  declarations: [NumberInputComponent,NumberInputDirective],
+  declarations: [NumberInputComponent, NumberInputDirective],
   providers: []
 })
 export class NumberInputModule {}

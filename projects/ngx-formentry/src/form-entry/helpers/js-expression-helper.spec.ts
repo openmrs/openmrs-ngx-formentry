@@ -44,17 +44,23 @@ describe('JS Expression Helper Service:', () => {
 
     let obsValue;
 
-    obsValue = helper.getObsFromControlOrEncounter(null,{
-      obs: [{
-        uuid: '0bc6ef97-7727-4787-8c16-fc21460ccdydfd',
-        obsDatetime: '2016-01-21T01:17:46.000+0300',
-        concept: {
-          uuid: '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
-        },
-        value: 173,
-        groupMembers: null
-      }]
-    }, '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    obsValue = helper.getObsFromControlOrEncounter(
+      null,
+      {
+        obs: [
+          {
+            uuid: '0bc6ef97-7727-4787-8c16-fc21460ccdydfd',
+            obsDatetime: '2016-01-21T01:17:46.000+0300',
+            concept: {
+              uuid: '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+            },
+            value: 173,
+            groupMembers: null
+          }
+        ]
+      },
+      '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+    );
     expect(obsValue).toBeTruthy();
 
     expect(obsValue).toBe(173);
@@ -109,7 +115,7 @@ describe('JS Expression Helper Service:', () => {
 
     val = 'REC12345-12345';
     expect(helper.doesNotMatchExpression(regexString, val)).toBe(false);
-  })
+  });
   it('should return the gravida value given term births and abortion count', () => {
     const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
 
@@ -121,5 +127,5 @@ describe('JS Expression Helper Service:', () => {
     parityTerm = 1;
     parityAbortion = 2;
     expect(helper.calcGravida(parityTerm, parityAbortion)).toBe(4);
-  })
+  });
 });

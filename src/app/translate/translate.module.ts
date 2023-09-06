@@ -9,9 +9,9 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonModule,
     HttpClientModule,
     TranslateModule.forRoot({
-      defaultLanguage: 'en',
-    }),
+      defaultLanguage: 'en'
+    })
   ],
-  exports: [TranslateModule],
+  exports: [TranslateModule]
 })
-export class NgxTranslateModule { }
+export class NgxTranslateModule {}

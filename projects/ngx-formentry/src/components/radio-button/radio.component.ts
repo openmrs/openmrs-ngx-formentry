@@ -1,4 +1,11 @@
-import { Component, Input, forwardRef, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  forwardRef,
+  OnInit,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -13,7 +20,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   ]
 })
-export class RadioButtonControlComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class RadioButtonControlComponent
+  implements ControlValueAccessor, OnInit, OnChanges {
   @Input() public id: String;
   @Input() public options: Array<any>;
   @Input() public selected: any;
@@ -35,7 +43,9 @@ export class RadioButtonControlComponent implements ControlValueAccessor, OnInit
     }
   }
 
-  public registerOnChange(fn: (newValue?: any, emitModelEvent?: boolean) => void) {
+  public registerOnChange(
+    fn: (newValue?: any, emitModelEvent?: boolean) => void
+  ) {
     this.onChange = fn;
   }
 
@@ -44,7 +54,7 @@ export class RadioButtonControlComponent implements ControlValueAccessor, OnInit
   }
 
   get value(): any {
-    return this._value ?? "";
+    return this._value ?? '';
   }
 
   set value(value: any) {
@@ -82,9 +92,9 @@ export class RadioButtonControlComponent implements ControlValueAccessor, OnInit
 
   private updateSelectedOption(): void {
     if (this.selected) {
-      const maybeOpt = this.options.find(opt => opt.value === this.selected);
+      const maybeOpt = this.options.find((opt) => opt.value === this.selected);
       if (maybeOpt) {
-        this.options.forEach(opt => opt.checked = opt === maybeOpt);
+        this.options.forEach((opt) => (opt.checked = opt === maybeOpt));
         this.value = this.selected;
       }
     }

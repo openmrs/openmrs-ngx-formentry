@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Form} from '../form-factory/form';
-import {ValueAdapter} from './value.adapter';
+import { Injectable } from '@angular/core';
+import { Form } from '../form-factory/form';
+import { ValueAdapter } from './value.adapter';
 
 @Injectable()
 export class DiagnosisValueAdapter implements ValueAdapter {
@@ -9,33 +9,46 @@ export class DiagnosisValueAdapter implements ValueAdapter {
   generateFormPayload(form: Form) {
     this.formDiagnosisNodes = [];
     this._findDiagnosisQuestionNodes(form.rootNode);
-    return this._createDiagnosesPayload(this.formDiagnosisNodes, form.existingDiagnoses);
+    return this._createDiagnosesPayload(
+      this.formDiagnosisNodes,
+      form.existingDiagnoses
+    );
   }
 
-  populateForm(form: Form, diagnoses:Array<Diagnosis>) {
-    form.existingDiagnoses = diagnoses?.filter(d => {
+  populateForm(form: Form, diagnoses: Array<Diagnosis>) {
+    form.existingDiagnoses = diagnoses?.filter((d) => {
       return !d.voided;
     });
     this.formDiagnosisNodes = [];
     this._findDiagnosisQuestionNodes(form.rootNode);
-    this._setDiagnosesValues(this.formDiagnosisNodes, form.existingDiagnoses, 1);
-    this._setDiagnosesValues(this.formDiagnosisNodes, form.existingDiagnoses, 2);
+    this._setDiagnosesValues(
+      this.formDiagnosisNodes,
+      form.existingDiagnoses,
+      1
+    );
+    this._setDiagnosesValues(
+      this.formDiagnosisNodes,
+      form.existingDiagnoses,
+      2
+    );
   }
 
   private _createDiagnosesPayload(diagnosisNodes, existingDiagnoses) {
     const payload: Array<DiagnosisPayload> = [];
     let deletedDiagnoses: Array<DiagnosisPayload> = [];
 
-    diagnosisNodes?.forEach(node => {
-      node.control.value.filter(v => v[node.question.key]).forEach(value => {
-        // Create Payload
-        const payloadDiagnosis = this._createPayloadDiagnosis(
-          value[node.question.key],
-          node.question.extras
-        );
-        // Validate if is new value
+    diagnosisNodes?.forEach((node) => {
+      node.control.value
+        .filter((v) => v[node.question.key])
+        .forEach((value) => {
+          // Create Payload
+          const payloadDiagnosis = this._createPayloadDiagnosis(
+            value[node.question.key],
+            node.question.extras
+          );
+          // Validate if is new value
           payload.push(payloadDiagnosis);
-      });
+        });
     });
 
     this._updatedOldDiagnoses(payload, existingDiagnoses);
@@ -46,7 +59,7 @@ export class DiagnosisValueAdapter implements ValueAdapter {
   private _createPayloadDiagnosis(codedUuid, questionExtras): DiagnosisPayload {
     const diagnosis: DiagnosisPayload = {
       diagnosis: {
-        coded: codedUuid,
+        coded: codedUuid
       },
       certainty: 'CONFIRMED',
       rank: questionExtras.questionOptions.rank,
@@ -56,40 +69,57 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     return diagnosis;
   }
 
-  private _getDeletedDiagnoses(payloadDiagnoses: Array<DiagnosisPayload>, existingDiagnoses: Array<Diagnosis>): Array<DiagnosisPayload> {
-    return existingDiagnoses?.filter(e => {
-      return !payloadDiagnoses.find(p => {
+  private _getDeletedDiagnoses(
+    payloadDiagnoses: Array<DiagnosisPayload>,
+    existingDiagnoses: Array<Diagnosis>
+  ): Array<DiagnosisPayload> {
+    return existingDiagnoses
+      ?.filter((e) => {
+        return !payloadDiagnoses.find((p) => {
+          let isSame =
+            !e.voided && p.diagnosis.coded === e.diagnosis.coded.uuid;
+          return isSame;
+        });
+      })
+      .map((d) => {
+        let diagnosisPayload = this._convert(d);
+        diagnosisPayload.voided = true;
+        return diagnosisPayload;
+      });
+  }
+
+  private _updatedOldDiagnoses(
+    payloadDiagnoses: Array<DiagnosisPayload>,
+    existingDiagnoses: Array<Diagnosis>
+  ) {
+    payloadDiagnoses.forEach((p) => {
+      existingDiagnoses?.forEach((e) => {
         let isSame = !e.voided && p.diagnosis.coded === e.diagnosis.coded.uuid;
-        return isSame;
+        p.uuid = isSame ? e.uuid : null;
       });
-    }).map(d => {
-      let diagnosisPayload = this._convert(d);
-      diagnosisPayload.voided = true;
-      return diagnosisPayload;
     });
   }
 
-  private _updatedOldDiagnoses(payloadDiagnoses: Array<DiagnosisPayload>, existingDiagnoses: Array<Diagnosis>) {
-     payloadDiagnoses.forEach(p => {
-       existingDiagnoses?.forEach(e => {
-         let isSame = !e.voided && p.diagnosis.coded === e.diagnosis.coded.uuid;
-         p.uuid = isSame ? e.uuid : null;
-       });
-     });
-  }
-
-  private _setDiagnosesValues(formDiagnosisNodes, existingDiagnoses: Array<Diagnosis>, rank: number) {
-    formDiagnosisNodes?.filter(node => node.question.extras.questionOptions.rank == rank).forEach(node => {
-      node['initialValue'] = existingDiagnoses;
-      existingDiagnoses.filter(d => d.rank == rank).forEach((diagnosis, index) => {
-        node.createChildNode();
-        const value = {};
-        value[node.question.key] = diagnosis.diagnosis.coded.uuid;
-        const childNode = node.children[index];
-        childNode.control.setValue(value);
-        childNode['initialValue'] = value;
+  private _setDiagnosesValues(
+    formDiagnosisNodes,
+    existingDiagnoses: Array<Diagnosis>,
+    rank: number
+  ) {
+    formDiagnosisNodes
+      ?.filter((node) => node.question.extras.questionOptions.rank == rank)
+      .forEach((node) => {
+        node['initialValue'] = existingDiagnoses;
+        existingDiagnoses
+          .filter((d) => d.rank == rank)
+          .forEach((diagnosis, index) => {
+            node.createChildNode();
+            const value = {};
+            value[node.question.key] = diagnosis.diagnosis.coded.uuid;
+            const childNode = node.children[index];
+            childNode.control.setValue(value);
+            childNode['initialValue'] = value;
+          });
       });
-    });
   }
 
   private _findDiagnosisQuestionNodes(formNode) {
@@ -112,7 +142,13 @@ export class DiagnosisValueAdapter implements ValueAdapter {
                   for (const node in formNode.children) {
                     const question = formNode.children[node].question;
                     const index = formNode.children[node].nodeIndex;
-                    if (question.extras && question.extras.type === 'diagnosis' && !this.formDiagnosisNodes.some(x => index === x.nodeIndex)) {
+                    if (
+                      question.extras &&
+                      question.extras.type === 'diagnosis' &&
+                      !this.formDiagnosisNodes.some(
+                        (x) => index === x.nodeIndex
+                      )
+                    ) {
                       this.formDiagnosisNodes.push(formNode.children[node]);
                     }
                   }
@@ -134,12 +170,12 @@ export class DiagnosisValueAdapter implements ValueAdapter {
       patient: diagnosis.patient,
       diagnosis: {
         coded: diagnosis.diagnosis.coded.uuid,
-        nonCoded: diagnosis.diagnosis.nonCoded,
+        nonCoded: diagnosis.diagnosis.nonCoded
       },
       certainty: diagnosis.certainty,
       rank: diagnosis.rank,
-      voided: diagnosis.voided,
-    }
+      voided: diagnosis.voided
+    };
   }
 }
 
