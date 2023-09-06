@@ -3,10 +3,12 @@
  */
 
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class OwlDateTimeIntl {
+  constructor(public translate: TranslateService) {}
   /**
    * Stream that emits whenever the labels here are changed. Use this to notify
    * components if the labels have changed after initialization.
@@ -56,16 +58,16 @@ export class OwlDateTimeIntl {
   switchToMultiYearViewLabel = 'Choose month and year';
 
   /** A label for the cancel button */
-  cancelBtnLabel = 'Cancel';
+  cancelBtnLabel = this.translate.instant('cancel');
 
   /** A label for the set button */
-  setBtnLabel = 'Set';
+  setBtnLabel = this.translate.instant('set');
 
   /** A label for the range 'from' in picker info */
-  rangeFromLabel = 'From';
+  rangeFromLabel = this.translate.instant('from');
 
   /** A label for the range 'to' in picker info */
-  rangeToLabel = 'To';
+  rangeToLabel = this.translate.instant('to');
 
   /** A label for the hour12 button (AM) */
   hour12AMLabel = 'AM';

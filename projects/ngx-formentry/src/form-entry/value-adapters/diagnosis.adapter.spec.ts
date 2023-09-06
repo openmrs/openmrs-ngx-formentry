@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 const adultForm = require('../../adult.json');
 const adultFormDiagnoses = require('../../mock/diagnoses.json');
@@ -21,6 +22,7 @@ describe('Diagnosis Value Adapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       declarations: [],
       providers: [
         FormFactory,

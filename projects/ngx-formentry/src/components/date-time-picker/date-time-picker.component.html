@@ -27,11 +27,11 @@
           aria-haspopup="true"
           aria-expanded="false"
         >
-          Weeks <span class="caret"></span>
+          {{ 'weeks' | translate }} <span class="caret"></span>
         </button>
         <ul class="dropdown-menu up">
           <li (click)="weeksSelected(count)" *ngFor="let count of weeks">
-            <span> {{ count }} Weeks</span>
+            <span> {{ count }} {{ 'weeks' | translate }}</span>
           </li>
         </ul>
       </div>
@@ -65,11 +65,11 @@
           aria-haspopup="true"
           aria-expanded="false"
         >
-          Weeks <span class="caret"></span>
+          {{ 'weeks' | translate }} <span class="caret"></span>
         </button>
         <ul class="dropdown-menu up">
           <li (click)="weeksSelected(count)" *ngFor="let count of weeks">
-            <span> {{ count }} Weeks</span>
+            <span> {{ count }} {{ 'weeks' | translate }}</span>
           </li>
         </ul>
       </div>
