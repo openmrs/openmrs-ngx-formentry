@@ -54,11 +54,11 @@ jobs:
           node-version: '16'
           cache: 'npm'
       - run: yarn install --immutable
-      - run: export NEW_VERSION="$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}" && yarn version --new-version $NEW_VERSION --no-git-tag-version && cd projects/ngx-formentry && yarn version --new-version $NEW_VERSION --no-git-tag-version
+      - run: yarn version "$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}"
       - run: yarn turbo build:lib --color --concurrency=5
       - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
       - run: git add . && git commit -m "Prerelease version" --no-verify
-      - run: yarn publish dist/ngx-formentry --tag next --access public
+      - run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" && yarn npm publish --access public --tag next
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - name: Upload Artifacts
@@ -84,6 +84,6 @@ jobs:
 
       - name: Build
         run: yarn turbo build:lib --color --concurrency=5
-      - run: yarn publish dist/ngx-formentry --tag latest --access public
+      - run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" &&  yarn npm publish --access public --tag latest
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
