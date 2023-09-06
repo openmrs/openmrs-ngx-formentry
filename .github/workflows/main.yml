@@ -2,9 +2,9 @@ name: Form Entry CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   release:
     types:
       - created
@@ -12,14 +12,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TURBO_API: 'http://127.0.0.1:9080'
+      TURBO_TOKEN: ${{ secrets.TURBO_SERVER_TOKEN }}
+      TURBO_TEAM: ${{ github.repository_owner }}
 
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-          cache: "npm"
+          node-version: '16'
+          cache: 'npm'
       - run: yarn install --frozen-lockfile
 
       - name: Setup a local cache server for Turborepo
@@ -27,15 +31,15 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           server-token: ${{ secrets.TURBO_SERVER_TOKEN }}
-      
-      - name: Run lint
-        run: yarn turbo lint --color --concurrency=5 --api="http://127.0.0.1:9080" --token="${{ secrets.TURBO_SERVER_TOKEN }}" --team="${{ github.repository_owner }}"
 
-      - name: Run tests 
-        run: yarn turbo test --color --concurrency=5 --api="http://127.0.0.1:9080" --token="${{ secrets.TURBO_SERVER_TOKEN }}" --team="${{ github.repository_owner }}"
+      - name: Run lint
+        run: yarn turbo lint --color
+
+      - name: Run tests
+        run: yarn turbo test --color
 
       - name: Run build
-        run: yarn turbo build:lib --color --concurrency=5 --api="http://127.0.0.1:9080" --token="${{ secrets.TURBO_SERVER_TOKEN }}" --team="${{ github.repository_owner }}"
+        run: yarn turbo build:lib --color --concurrency=5
 
   pre_release:
     runs-on: ubuntu-latest
@@ -47,11 +51,11 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-          cache: "npm"
+          node-version: '16'
+          cache: 'npm'
       - run: yarn install --frozen-lockfile
       - run: export NEW_VERSION="$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}" && yarn version --new-version $NEW_VERSION --no-git-tag-version && cd projects/ngx-formentry && yarn version --new-version $NEW_VERSION --no-git-tag-version
-      - run: yarn turbo build:lib --color --concurrency=5 
+      - run: yarn turbo build:lib --color --concurrency=5
       - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
       - run: git add . && git commit -m "Prerelease version" --no-verify
       - run: yarn publish dist/ngx-formentry --tag next --access public
@@ -74,8 +78,8 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-          cache: "npm"
+          node-version: '16'
+          cache: 'npm'
       - run: yarn install --frozen-lockfile
 
       - name: Build
