@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { FormFactory } from '../form-factory/form.factory';
 import { FormControlService } from '../form-factory/form-control.service';
 import { ValidationFactory } from '../form-factory/validation.factory';
@@ -19,6 +20,9 @@ describe('Patient identifier Value Adapter:', () => {
     beforeEach(() => {
         adultFormSchema = JSON.parse(JSON.stringify(adultForm));
         TestBed.configureTestingModule({
+            imports: [TranslateModule.forRoot({
+                defaultLanguage: 'en',
+            })],
             providers: [
                 FormFactory,
                 FormControlService,
