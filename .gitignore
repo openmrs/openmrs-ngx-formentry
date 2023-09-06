@@ -16,7 +16,6 @@
 *.launch
 .settings/
 *.sublime-workspace
-.yarn
 
 # IDE - VSCode
 .vscode/*
@@ -42,7 +41,7 @@ Thumbs.db
 
 .turbo
 
-# Yarn 3 files
+# Yarn 3
 .pnp.*
 .yarn/*
 !.yarn/patches
