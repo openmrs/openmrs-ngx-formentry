@@ -95,5 +95,6 @@
       "pre-commit": "yarn run prettier && yarn run lint",
       "pre-push": "yarn run test"
     }
-  }
+  },
+  "packageManager": "yarn@3.6.3"
 }

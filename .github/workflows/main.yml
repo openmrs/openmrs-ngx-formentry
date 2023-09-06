@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: '16'
           cache: 'npm'
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
 
       - name: Setup a local cache server for Turborepo
         uses: felixmosh/turborepo-gh-artifacts@v2
@@ -53,7 +53,7 @@ jobs:
         with:
           node-version: '16'
           cache: 'npm'
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
       - run: export NEW_VERSION="$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}" && yarn version --new-version $NEW_VERSION --no-git-tag-version && cd projects/ngx-formentry && yarn version --new-version $NEW_VERSION --no-git-tag-version
       - run: yarn turbo build:lib --color --concurrency=5
       - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
@@ -80,7 +80,7 @@ jobs:
         with:
           node-version: '16'
           cache: 'npm'
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
 
       - name: Build
         run: yarn turbo build:lib --color --concurrency=5
