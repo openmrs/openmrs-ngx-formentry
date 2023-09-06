@@ -12,6 +12,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TURBO_API: 'http://127.0.0.1:9080'
+      TURBO_TOKEN: ${{ secrets.TURBO_SERVER_TOKEN }}
+      TURBO_TEAM: ${{ github.repository_owner }}
 
     steps:
       - uses: actions/checkout@v3
@@ -29,13 +33,13 @@ jobs:
           server-token: ${{ secrets.TURBO_SERVER_TOKEN }}
 
       - name: Run lint
-        run: yarn turbo lint --color --concurrency=5 --api="http://127.0.0.1:9080" --token="${{ secrets.TURBO_SERVER_TOKEN }}" --team="${{ github.repository_owner }}"
+        run: yarn turbo lint --color
 
       - name: Run tests
-        run: yarn turbo test --color --concurrency=5 --api="http://127.0.0.1:9080" --token="${{ secrets.TURBO_SERVER_TOKEN }}" --team="${{ github.repository_owner }}"
+        run: yarn turbo test --color
 
       - name: Run build
-        run: yarn turbo build:lib --color --concurrency=5 --api="http://127.0.0.1:9080" --token="${{ secrets.TURBO_SERVER_TOKEN }}" --team="${{ github.repository_owner }}"
+        run: yarn turbo build:lib --color --concurrency=5
 
   pre_release:
     runs-on: ubuntu-latest
