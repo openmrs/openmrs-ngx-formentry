@@ -8077,6 +8077,81 @@
           ]
         }
       ]
+    },
+    {
+      "label": "Combined Diagnosis, Certainty, and Rank",
+      "sections": [
+        {
+          "label": "Diagnosis Group",
+          "isExpanded": "true",
+          "questions": [
+            {
+              "isExpanded": "true",
+              "questions": [
+                {
+                  "label": "Diagnoses",
+                  "type": "diagnosisGroup",
+                  "questionOptions": {
+                    "rendering": "repeating"
+                  },
+                  "questions": [
+                    {
+                      "label": "Diagnosis",
+                      "id": "primaryDiagnosisId",
+                      "type": "diagnosis",
+                      "questionOptions": {
+                        "rendering": "diagnosis",
+                        "diagnosisType": "diagnosis"
+                      },
+                      "validators": []
+                    },
+                    {
+                      "id": "DiagnosisCertainty",
+                      "label": "Diagnosis Certainty",
+                      "type": "diagnosis",
+                      "questionOptions": {
+                        "rendering": "radio",
+                        "diagnosisType": "certainty",
+                        "answers": [
+                          {
+                            "concept": "CONFIRMED",
+                            "label": "Confirmed"
+                          },
+                          {
+                            "concept": "PROVISIONAL",
+                            "label": "Provisional"
+                          }
+                        ]
+                      },
+                      "validators": []
+                    },
+                    {
+                      "id": "DiagnosisRank",
+                      "label": "Diagnosis Rank",
+                      "type": "diagnosis",
+                      "questionOptions": {
+                        "rendering": "radio",
+                        "diagnosisType": "rank",
+                        "answers": [
+                          {
+                            "concept": 1,
+                            "label": "Primary"
+                          },
+                          {
+                            "concept": 2,
+                            "label": "Secondary"
+                          }
+                        ]
+                      },
+                      "validators": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
