@@ -31,6 +31,7 @@
     "@carbon/styles": "1.x",
     "@ng-select/ng-select": "^7.4.0",
     "@ngx-translate/core": "^13.0.0",
+    "@openmrs/ngx-formentry": "/home/thembo/openmrs3/openmrs-ngx-formentry/dist/ngx-formentry",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",

@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 
 import { Subscriber, Observable, Subject, of, Observer } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { FileUploadService } from '../../projects/ngx-formentry/src/components/diagram-embed/file-upload.service';
 
 import {
   QuestionFactory,
@@ -41,6 +42,8 @@ export class AppComponent implements OnInit {
   public header = 'UMD Demo';
   currentLanguage = 'en';
   labelMap = {};
+  diagramUrl: string = ''; // Variable to store the diagram URL
+  selectedDiagramFile: File | null = null;
 
   constructor(
     private questionFactory: QuestionFactory,
@@ -53,10 +56,34 @@ export class AppComponent implements OnInit {
     private http: HttpClient,
     private translate: TranslateService,
     private personAttributeAdapter: PersonAttribuAdapter,
+    private fileUploadService: FileUploadService,
     private patientIdenfierAdapter: PatientIdentifierAdapter
   ) {
     this.schema = adultForm;
   }
+
+  // Add a method to handle diagram file upload
+  onDiagramUpload(file: File) {
+    // Set the selected diagram file
+    this.selectedDiagramFile = file;
+    //TODOD: Handle the uploaded diagram file and send it to the server for processing
+    // Upon successful upload and processing, set the diagramUrl with the URL of the diagram
+    // Example
+    this.uploadDiagramToServer(file);
+}
+
+// Add a method to upload the diagram file to the server
+private uploadDiagramToServer(file: File) {
+    // TODO: Implement logic to upload the diagram file to your server
+    // Upon successful upload, set this.diagramUrl with the URL of the uploaded diagram
+    // For example:
+    const formData = new FormData();
+    formData.append('file', file);
+    //TODO:Api
+    this.http.post('api', formData).subscribe((response: any) => {
+        this.diagramUrl = response.diagramUrl;
+    });
+}
 
   ngOnInit() {
     this.dataSources.registerDataSource('drug', {
