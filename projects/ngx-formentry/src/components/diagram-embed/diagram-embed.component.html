@@ -1,0 +1,9 @@
+<div>
+  <!-- Include the FileUploadComponent for uploading diagrams -->
+  <app-file-upload (uploadData)="onFileChange($event)"></app-file-upload>
+</div>
+
+<div>
+  <!-- Display the embedded diagram using the DiagramEmbedComponent -->
+  <app-diagram-embed [diagramUrl]="diagramUrl"></app-diagram-embed>
+</div>

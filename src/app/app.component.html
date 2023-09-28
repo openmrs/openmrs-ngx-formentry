@@ -4,6 +4,9 @@
       [node]="form.rootNode"
       [labelMap]="labelMap"
     ></ofe-form-renderer>
+    <app-diagram-embed [diagramUrl]="diagramUrl"></app-diagram-embed>
+
+    <input type="file" (change)="onDiagramUpload($event.target.files[0])">
   </form>
 
   <div class="cds--offset-md-2">
