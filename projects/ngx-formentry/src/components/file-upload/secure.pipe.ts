@@ -2,7 +2,6 @@ import {
   Pipe,
   PipeTransform,
   OnDestroy,
-  WrappedValue,
   ChangeDetectorRef
 } from '@angular/core';
 import { Subscription, Observable, BehaviorSubject } from 'rxjs';
@@ -74,7 +73,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
       return this._latestReturnedValue;
     }
     this._latestReturnedValue = this._latestValue;
-    return WrappedValue.wrap(this._latestValue);
+    return this._latestValue;
   }
 
   private _subscribe(obj: Observable<any>) {

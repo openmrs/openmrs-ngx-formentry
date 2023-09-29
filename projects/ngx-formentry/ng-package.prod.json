@@ -3,14 +3,6 @@
   "dest": "../../dist/ngx-formentry",
   "assets": ["./styles/**/*.css"],
   "lib": {
-    "entryFile": "src/public_api.ts",
-    "umdModuleIds": {
-      "@angular-extensions/elements": "@angular-extensions/elements",
-      "@ng-select/ng-select": "@ng-select/ng-select",
-      "lodash": "lodash",
-      "moment": "moment",
-      "ngx-file-uploader-openmrs": "ngx-file-uploader-openmrs",
-      "ngx-webcam": "ngx-webcam"
-    }
+    "entryFile": "src/public_api.ts"
   }
 }
