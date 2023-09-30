@@ -1,5 +1,5 @@
 import {
-  FormArray,
+  UntypedFormArray,
   ValidatorFn,
   AsyncValidatorFn,
   AbstractControl
@@ -24,7 +24,7 @@ import { AlertHelper } from '../form-entry/control-alerts/alert-helpers';
 import { DisablerHelper } from '../form-entry/control-hiders-disablers/disabler-helper';
 
 export class AfeFormArray
-  extends FormArray
+  extends UntypedFormArray
   implements CanHide, CanDisable, CanGenerateAlert, ValueChangeListener {
   private _controlRelations: ControlRelations;
   private _valueChangeListener: any;

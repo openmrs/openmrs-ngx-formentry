@@ -1,6 +1,6 @@
 <lib-ngx-file-uploader
   [srcUrl]="pdfUrl"
-  [formEntry]="formEntryMode"
+  [isFormEntryMode]="formEntryMode"
   [(ngModel)]="fileUuid"
   (_onClear)="clearValue()"
   (uploadData)="onFileChange($event)"

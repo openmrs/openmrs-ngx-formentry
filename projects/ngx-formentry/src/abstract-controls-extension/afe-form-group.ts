@@ -1,5 +1,5 @@
 import {
-  FormGroup,
+  UntypedFormGroup,
   ValidatorFn,
   AsyncValidatorFn,
   AbstractControl
@@ -24,7 +24,7 @@ import { DisablerHelper } from '../form-entry/control-hiders-disablers/disabler-
 import { AlertHelper } from '../form-entry/control-alerts/alert-helpers';
 
 export class AfeFormGroup
-  extends FormGroup
+  extends UntypedFormGroup
   implements CanHide, CanDisable, CanGenerateAlert {
   private _controlRelations: ControlRelations;
 

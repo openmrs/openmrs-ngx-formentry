@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {
-  FormGroup,
-  FormArray,
-  FormBuilder,
+  UntypedFormGroup,
+  UntypedFormArray,
+  UntypedFormBuilder,
   AbstractControl,
   ValidatorFn
 } from '@angular/forms';
@@ -13,20 +13,20 @@ import { AfeFormControl } from '../../abstract-controls-extension/afe-form-contr
   templateUrl: 'sample-form.component.html'
 })
 export class SampleFormComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   payLoad = '';
-  fb: FormBuilder;
+  fb: UntypedFormBuilder;
 
-  group1: FormGroup;
-  array1: FormArray;
-  group2: FormGroup;
-  array2: FormArray;
+  group1: UntypedFormGroup;
+  array1: UntypedFormArray;
+  group2: UntypedFormGroup;
+  array2: UntypedFormArray;
 
-  array3: FormArray;
-  group3: FormGroup;
+  array3: UntypedFormArray;
+  group3: UntypedFormGroup;
 
-  group4: FormGroup;
-  array4: FormArray;
+  group4: UntypedFormGroup;
+  array4: UntypedFormArray;
 
   control1: AfeFormControl;
   control2: AfeFormControl;
@@ -45,7 +45,7 @@ export class SampleFormComponent implements OnInit {
   // control5LastUpdate: any;
   // control4LastUpdate: any;
 
-  constructor(@Inject(FormBuilder) fb: FormBuilder) {
+  constructor(@Inject(UntypedFormBuilder) fb: UntypedFormBuilder) {
     this.fb = fb;
   }
   ngOnInit() {
@@ -253,12 +253,12 @@ export class SampleFormComponent implements OnInit {
     return new AfeFormControl();
   }
 
-  private getNewControlArray(): FormArray {
-    return new FormArray([]);
+  private getNewControlArray(): UntypedFormArray {
+    return new UntypedFormArray([]);
   }
 
-  private getNewGroupControl(): FormGroup {
-    return new FormGroup({});
+  private getNewGroupControl(): UntypedFormGroup {
+    return new UntypedFormGroup({});
   }
 
   public setControlOneValue() {
@@ -283,7 +283,7 @@ export class SampleFormComponent implements OnInit {
   }
 
   private formArrayMissingValueValidator(
-    refControl: FormArray,
+    refControl: UntypedFormArray,
     controlName: string
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
