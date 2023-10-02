@@ -170,7 +170,8 @@ ng-select.form-control {
 .accordion-content-override {
   box-sizing: content-box;
   border-bottom: none;
-  padding: 0 10px;
+  padding: 0 0;
+  text-wrap: wrap;
 }
 .accordion-content-override:hover {
   opacity: unset;
@@ -178,11 +179,22 @@ ng-select.form-control {
 }
 
 .question-area {
-  width: 100%;
-  max-width: 95%;
+  width: 18rem;
+  max-width: 18rem; // Design specification for the questions
+  & > label {
+    text-wrap: wrap;
+  }
 }
 
 .in-line {
   display: inline-block;
   padding-right: 0.5rem;
+}
+
+.use-value {
+  text-wrap: wrap;
+}
+
+.custom-text-area {
+  width: 100%;
 }

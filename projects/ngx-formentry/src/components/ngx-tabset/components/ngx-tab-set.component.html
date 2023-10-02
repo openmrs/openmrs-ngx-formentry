@@ -1,6 +1,11 @@
-<div class="tab-container">
-  <section>
-    <div class="tab" *ngIf="tabs.length > 1">
+<div
+  [ngClass]="{
+    'tab-container': tabs.length > 1,
+    'tab-container-one-column': tabs.length === 1
+  }"
+>
+  <section *ngIf="tabs.length > 1">
+    <div class="tab">
       <button
         ofeHoverClass="hover"
         class="tablinks completed"
@@ -12,15 +17,13 @@
       </button>
     </div>
   </section>
-  <section>
-    <div
-      id="tab"
-      [ngClass]="{
-        'tab-content': tabs.length > 1,
-        'tab-content-no-margin': tabs.length === 1
-      }"
-    >
-      <ng-content></ng-content>
-    </div>
+  <section
+    id="tab"
+    [ngClass]="{
+      'tab-content': tabs.length > 1,
+      'tab-content-no-margin': tabs.length === 1
+    }"
+  >
+    <ng-content></ng-content>
   </section>
 </div>
