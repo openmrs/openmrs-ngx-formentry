@@ -90,6 +90,10 @@
   "browserslist": [
     "extends browserslist-config-openmrs"
   ],
+  "files": [
+    "dist",
+    "src"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "yarn run prettier && yarn run lint",
