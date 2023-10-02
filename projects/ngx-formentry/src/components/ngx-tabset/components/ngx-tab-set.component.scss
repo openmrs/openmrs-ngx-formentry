@@ -1,7 +1,4 @@
-.tab-container {
-  overflow-x: hidden;
-  display: flex;
-}
+
 
 .tab {
   width: 10rem;
@@ -119,9 +116,13 @@
   color: #da1e28;
 }
 
+.tab-container {
+  display: grid;
+  grid-template-columns: 179px 1fr;
+}
+
 .tab-content {
-  width: 100%;
-  margin-left: 10rem;
+  width: 179px
 }
 
 .tab-content-no-margin {
