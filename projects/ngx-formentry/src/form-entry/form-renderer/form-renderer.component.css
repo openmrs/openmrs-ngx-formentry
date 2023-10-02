@@ -172,11 +172,10 @@ ng-select.form-control {
   border-bottom: none;
   padding: 0 10px;
 }
-.accordion-content-override:hover{
+.accordion-content-override:hover {
   opacity: unset;
   border-bottom: none;
 }
-
 
 .question-area {
   width: 100%;
