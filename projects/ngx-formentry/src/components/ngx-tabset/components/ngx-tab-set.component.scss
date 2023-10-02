@@ -1,8 +1,3 @@
-.tab-container {
-  overflow-x: hidden;
-  display: flex;
-}
-
 .tab {
   width: 10rem;
   position: fixed;
@@ -119,11 +114,18 @@
   color: #da1e28;
 }
 
-.tab-content {
-  width: 100%;
-  margin-left: 10rem;
+.tab-container {
+  display: grid;
+  grid-template-columns: 179px auto;
+}
+
+.tab-container-one-column {
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 .tab-content-no-margin {
   width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
 }

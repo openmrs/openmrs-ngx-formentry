@@ -19,8 +19,8 @@ export class TextAreaDirective {
    * `light` or `dark` input theme
    */
   @Input() theme: 'light' | 'dark' = 'dark';
-
   @HostBinding('class.cds--text-area') baseClass = true;
+  @HostBinding('class.custom-text-area') customClass = true;
   @HostBinding('class.cds--text-area--invalid') @Input() invalid = false;
   @HostBinding('class.cds--skeleton') @Input() skeleton = false;
   @HostBinding('class.cds--text-area--light') get isLightTheme() {

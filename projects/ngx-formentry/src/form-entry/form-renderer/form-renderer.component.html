@@ -78,57 +78,47 @@
   ></ofe-form-renderer>
 </div>
 <div *ngIf="node.question.renderingType === 'section' && checkSection(node)">
-  <div
-    class="cds--accordion__item"
-    [ngClass]="{ 'cds--accordion__item--active': !isCollapsed }"
-  >
-    <button
-      class="cds--accordion__heading"
-      type="button"
-      [attr.aria-expanded]="isCollapsed ? 'false' : 'true'"
-      aria-controls="accordion-item-0"
-      (click)="isCollapsed = !isCollapsed"
-    >
-      <svg
-        class="cds--accordion__arrow"
-        ibmIcon="chevron--right"
-        size="16"
-        xmlns="http://www.w3.org/2000/svg"
-        focusable="false"
-        preserveAspectRatio="xMidYMid meet"
-        aria-hidden="true"
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
+  <div class="cds--layout">
+    <ul class="cds--accordion cds--accordion--end">
+      <li
+        class="cds--accordion__item accordion-content-override"
+        [ngClass]="{ 'cds--accordion__item--active': !isCollapsed }"
       >
-        <path d="M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
-      </svg>
-      <p class="cds--accordion__title">
-        {{ node.question.label | translate }}
-      </p>
-    </button>
-    <div ofeCollapse="isCollapsed">
-      <!--Section Components-->
-      <ofe-custom-component-wrapper
-        [dark]="theme === 'light'"
-        [componentConfigs]="node.question.componentConfigs"
-      >
-      </ofe-custom-component-wrapper>
-      <div
-        class="cds--accordion__content accordion-content-override"
-        [ngClass]="{
-          'accordion-content-dark': theme === 'light'
-        }"
-      >
-        <ofe-form-renderer
-          *ngFor="let question of node.question.questions"
-          [parentComponent]="this"
-          [node]="node.children[question.key]"
-          [parentGroup]="parentGroup"
-          [labelMap]="labelMap"
-        ></ofe-form-renderer>
-      </div>
-    </div>
+        <button
+          type="button"
+          aria-controls="accordion-item-:r27:"
+          aria-expanded="false"
+          (click)="isCollapsed = !isCollapsed"
+          class="cds--accordion__heading"
+        >
+          <svg
+            focusable="false"
+            preserveAspectRatio="xMidYMid meet"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            aria-hidden="true"
+            class="cds--accordion__arrow"
+          >
+            <path d="M11 8L6 13 5.3 12.3 9.6 8 5.3 3.7 6 3z"></path>
+          </svg>
+          <div class="cds--accordion__title">
+            {{ node.question.label | translate }}
+          </div>
+        </button>
+        <div id="accordion-item-:r27:" class="cds--accordion__content">
+          <ofe-form-renderer
+            *ngFor="let question of node.question.questions"
+            [parentComponent]="this"
+            [node]="node.children[question.key]"
+            [parentGroup]="parentGroup"
+            [labelMap]="labelMap"
+          ></ofe-form-renderer>
+        </div>
+      </li>
+    </ul>
   </div>
 </div>
 
@@ -346,7 +336,7 @@
             style="margin-top: 2px"
           >
             <div class="container-fluid">
-              <div class="row">
+              <div class="use-value">
                 <div class="col-xs-9">
                   <span class="text-warning"
                     >{{ 'previousValue' | translate }}:
@@ -448,13 +438,15 @@
               [labelMap]="labelMap"
             ></ofe-form-renderer>
             <div>{{ child.orderNumber }}</div>
-            <button
-              type="button "
-              class="cds--btn cds--btn--danger cds--btn--sm"
-              (click)="node.removeAt(i)"
-            >
-              {{ 'remove' | translate }}
-            </button>
+            <div class="cds--layout">
+              <button
+                type="button "
+                class="cds--btn cds--btn--danger cds--btn--sm"
+                (click)="node.removeAt(i)"
+              >
+                {{ 'remove' | translate }}
+              </button>
+            </div>
             <br />
             <hr
               style="

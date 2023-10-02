@@ -22,7 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'ofe-form-renderer',
   templateUrl: 'form-renderer.component.html',
-  styleUrls: ['../../style/app.css', './form-renderer.component.css']
+  styleUrls: ['../../style/app.css', './form-renderer.component.scss']
 })
 export class FormRendererComponent implements OnInit, OnChanges {
   @Input() public parentComponent: FormRendererComponent;
