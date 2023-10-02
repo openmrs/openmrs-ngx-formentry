@@ -33,7 +33,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install --immutable
+        run: yarn install --frozen-lockfile
 
       - name: Setup a local cache server for Turborepo
         uses: felixmosh/turborepo-gh-artifacts@v2
@@ -71,10 +71,10 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install --immutable
+        run: yarn install --frozen-lockfile
 
       - name: Version
-        run: yarn version "$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}"
+        run: export NEW_VERSION="$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}" && yarn version --new-version $NEW_VERSION --no-git-tag-version && cd projects/ngx-formentry && yarn version --new-version $NEW_VERSION --no-git-tag-version
 
       - name: Build
         run: yarn turbo build:lib --color --concurrency=5
@@ -83,10 +83,7 @@ jobs:
       - run: git add . && git commit -m "Prerelease version" --no-verify
 
       - name: Publish pre-release
-        run: |
-          yarn config set npmAlwaysAuth true
-          yarn config set npmAuthToken $NPM_AUTH_TOKEN
-          yarn npm publish --access public --tag next
+        run: yarn publish dist/ngx-formentry --tag next --access public
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
@@ -118,12 +115,10 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install --immutable
+        run: yarn install --frozen-lockfile
 
       - name: Build
         run: yarn turbo build:lib --color --concurrency=5
 
       - name: Publish release
-        run: |
-          yarn config set npmAuthToken $NPM_AUTH_TOKEN
-          yarn npm publish --access public --tag latest
+        run: yarn publish dist/ngx-formentry --tag latest --access public
