@@ -16,7 +16,6 @@ jobs:
       TURBO_API: 'http://127.0.0.1:9080'
       TURBO_TOKEN: ${{ secrets.TURBO_SERVER_TOKEN }}
       TURBO_TEAM: ${{ github.repository_owner }}
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
@@ -85,6 +84,8 @@ jobs:
 
       - name: Publish pre-release
         run: yarn config set npmAlwaysAuth true && yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" && npm publish --access public --tag next
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
@@ -121,3 +122,5 @@ jobs:
 
       - name: Publish release
         run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" && yarn npm publish --access public --tag latest
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
