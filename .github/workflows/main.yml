@@ -83,7 +83,10 @@ jobs:
       - run: git add . && git commit -m "Prerelease version" --no-verify
 
       - name: Publish pre-release
-        run: yarn config set npmAlwaysAuth true && yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" && npm publish --access public --tag next
+        run: |
+          yarn config set npmAlwaysAuth true
+          yarn config set npmAuthToken $NPM_AUTH_TOKEN
+          yarn npm publish --access public --tag next
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
