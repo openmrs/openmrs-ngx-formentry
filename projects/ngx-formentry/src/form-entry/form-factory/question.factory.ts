@@ -808,6 +808,8 @@ export class QuestionFactory {
     }
 
     switch (renderType) {
+      case 'diagnosis':
+        return this.toDiagnosisQuestion(schema);
       case 'select':
         return this.toSelectQuestion(schema);
       case 'single-select':

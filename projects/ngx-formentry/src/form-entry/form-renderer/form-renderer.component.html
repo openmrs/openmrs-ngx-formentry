@@ -310,7 +310,7 @@
 
           <div *ngSwitchCase="'radio'">
             <ofe-radio-button
-              [id]="node.question.key + 'id'"
+              [id]="node.question.key + 'id' + controlId"
               [formControlName]="node.question.key"
               [options]="node.question.options"
               [allowUnselect]="node.question.allowUnselect"
@@ -490,6 +490,36 @@
         </div>
 
         <div *ngSwitchCase="'obsGroup'" style="margin-bottom: 20px">
+          <div *ngFor="let child of node.children; let i = index">
+            <ofe-form-renderer
+              *ngFor="let question of child.question.questions"
+              [parentComponent]="this"
+              [node]="child.children[question.key]"
+              [parentGroup]="child.control"
+              [labelMap]="labelMap"
+              [controlId]="i"
+            ></ofe-form-renderer>
+            <button
+              type="button"
+              style="width: 100px"
+              class="cds--btn cds--btn--danger cds--btn--sm"
+              (click)="node.removeAt(i)"
+            >
+              {{ 'remove' | translate }}
+            </button>
+            <br />
+            <hr
+              style="
+                margin-left: -2px;
+                margin-right: -2px;
+                margin-bottom: 4px;
+                margin-top: 8px;
+                border-width: 1px;
+              "
+            />
+          </div>
+        </div>
+        <div *ngSwitchCase="'diagnosisGroup'" style="margin-bottom: 20px">
           <div *ngFor="let child of node.children; let i = index">
             <ofe-form-renderer
               *ngFor="let question of child.question.questions"

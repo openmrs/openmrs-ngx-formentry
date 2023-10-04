@@ -20,7 +20,6 @@ export class EncounterAdapter implements ValueAdapter {
 
   populateForm(form: Form, payload) {
     this.populateNode(form.rootNode, payload);
-
     if (Array.isArray(payload.orders)) {
       this.ordersAdapter.populateForm(form, payload);
     }
