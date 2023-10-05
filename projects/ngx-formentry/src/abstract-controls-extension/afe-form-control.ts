@@ -147,6 +147,7 @@ class AfeFormControl
     ) {
       this._valueChangeListener(value);
     }
+    this.alerts.length > 0 && this.updateAlert();
   }
 
   setValue(value: any) {
