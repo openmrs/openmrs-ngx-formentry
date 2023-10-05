@@ -3909,6 +3909,10 @@
                 "max": "43",
                 "min": "25"
               },
+              "alert": {
+                "alertWhenExpression": "myValue >= 40",
+                "message": "The patient temperature is too high"
+              },
               "type": "obs",
               "validators": [],
               "id": "__yuHJFKyxE"

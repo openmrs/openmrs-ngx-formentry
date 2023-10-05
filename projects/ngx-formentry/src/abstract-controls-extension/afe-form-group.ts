@@ -112,5 +112,8 @@ export class AfeFormGroup
   }
   setValue(value: any) {
     super.setValue(value);
+    if (this.alerts.length > 0) {
+      this.updateAlert();
+    }
   }
 }
