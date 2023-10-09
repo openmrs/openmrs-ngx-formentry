@@ -1,9 +1,9 @@
 import { TextInputQuestion } from '../form-entry/question-models/text-input-question';
 import { QuestionGroup } from '../form-entry/question-models/group-question';
 import { RepeatingQuestion } from '../form-entry/question-models/repeating-question';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 export class MockForm {
-  section1: FormGroup;
+  section1: UntypedFormGroup;
   data = {
     form: this.section1,
     questions: [
