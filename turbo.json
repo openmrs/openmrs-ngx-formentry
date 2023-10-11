@@ -4,15 +4,10 @@
     "build": {
       "outputs": ["dist/**"]
     },
-    "build:lib": {
+    "build\\:lib": {
       "outputs": ["dist/**"]
     },
-    "lint": {
-      "outputs": []
-    },
-    "test": {
-      "dependsOn": [],
-      "outputs": []
-    }
+    "lint": {},
+    "test": {}
   }
 }
