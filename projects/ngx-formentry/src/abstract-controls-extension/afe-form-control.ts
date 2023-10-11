@@ -1,5 +1,5 @@
 import {
-  FormControl,
+  UntypedFormControl,
   ValidatorFn,
   AsyncValidatorFn,
   AbstractControlOptions
@@ -26,7 +26,7 @@ import { CanCalculate } from '../form-entry/control-calculators/can-calculate';
 import { ExpressionRunner } from '../form-entry/expression-runner/expression-runner';
 
 class AfeFormControl
-  extends FormControl
+  extends UntypedFormControl
   implements
     CanHide,
     CanDisable,

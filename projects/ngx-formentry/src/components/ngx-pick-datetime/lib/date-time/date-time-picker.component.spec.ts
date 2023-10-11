@@ -13,7 +13,11 @@ import {
   ViewChild
 } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { ENTER, ESCAPE, RIGHT_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
@@ -2308,7 +2312,7 @@ class DateTimePickerWithNgModel {
   `
 })
 class DateTimePickerWithFormControl {
-  formControl = new FormControl();
+  formControl = new UntypedFormControl();
   @ViewChild('dt', { static: true })
   dateTimePicker: OwlDateTimeComponent<Date>;
   @ViewChild(OwlDateTimeInputDirective, { static: true })

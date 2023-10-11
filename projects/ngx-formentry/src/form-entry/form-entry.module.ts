@@ -2,7 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 // import { NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { DebugModeService } from '../form-entry/services/debug-mode.service';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
 
@@ -79,7 +79,7 @@ import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.ad
     CollapseDirective
   ],
   providers: [
-    FormBuilder,
+    UntypedFormBuilder,
     FormControlService,
     FormErrorsService,
     ValidationFactory,

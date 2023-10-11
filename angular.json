@@ -2,8 +2,8 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
     "analytics": false,
-    "defaultCollection": "@angular-eslint/schematics",
-    "packageManager": "yarn"
+    "packageManager": "yarn",
+    "schematicCollections": ["@angular-eslint/schematics"]
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -18,7 +18,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["core-js", "raf"],
+            "allowedCommonJsDependencies": [
+              "core-js",
+              "dompurify",
+              "html2canvas",
+              "moment",
+              "raf",
+              "rgbcolor"
+            ],
             "outputPath": "dist/ngx-openmrs-formentry",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -159,6 +166,5 @@
         }
       }
     }
-  },
-  "defaultProject": "ngx-formentry"
+  }
 }

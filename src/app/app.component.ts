@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { Subscriber, Observable, Subject, of, Observer } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
   data: any;
   schema: any;
   sections: {} = {};
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   activeTab = 0;
   form: Form;
   stack = [];
