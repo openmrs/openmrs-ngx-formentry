@@ -211,7 +211,8 @@ export class QuestionFactory {
     question.options = schemaQuestion.questionOptions.answers.map((obj) => {
       return {
         label: obj.label,
-        value: obj.concept
+        value: obj.concept,
+        disableWhenExpression: obj.disableWhenExpression
       };
     });
     question.options.splice(0, 0);

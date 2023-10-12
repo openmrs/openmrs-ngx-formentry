@@ -26,6 +26,7 @@ export class CheckboxControlComponent implements OnInit {
       if (this.selected.indexOf(option.value) !== -1) {
         Object.assign(option, { checked: true });
       }
+      option.isDisabled = this.evaluateDisabledExpression(option, option.value);
       return option;
     });
   }
@@ -61,16 +62,44 @@ export class CheckboxControlComponent implements OnInit {
   }
 
   public selectOpt(option, event) {
+    let myValue = option.value;
+
     if (event.target.checked) {
-      this.selected = [...this.selected, option.value];
+      this.selected = [...this.selected, myValue];
     } else {
-      this.selected = this.selected.filter(function (o) {
-        return o !== option.value;
-      });
+      this.selected = this.selected.filter((o) => o !== myValue);
+      myValue = null;
     }
 
+    this.options.forEach((opt) => {
+      opt.isDisabled = this.evaluateDisabledExpression(opt, myValue);
+
+      if (opt.isDisabled && this.selected.includes(opt.value)) {
+        this.selected = this.selected.filter((val) => val !== opt.value);
+        opt.checked = false;
+      } else if (!opt.isDisabled) {
+        opt.checked = this.selected.includes(opt.value);
+      }
+    });
+
+    // Update the component's internal value
     this._value = [...this.selected];
     this.onChange(this._value);
+  }
+
+  private evaluateExpression(expression: string, myValue: string): boolean {
+    const matches = expression.match(/^myValue\s*===\s*['"]([^'"]+)['"]$/);
+    if (matches && matches[1]) {
+      return myValue === matches[1];
+    }
+    return false;
+  }
+
+  private evaluateDisabledExpression(option: any, myValue: string): boolean {
+    if (option.disableWhenExpression) {
+      return this.evaluateExpression(option.disableWhenExpression, myValue);
+    }
+    return false;
   }
 
   private onChange = (change: any) => {};
