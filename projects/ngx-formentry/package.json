@@ -3,7 +3,6 @@
   "version": "4.0.0",
   "dependencies": {},
   "peerDependencies": {
-    "@angular-extensions/elements": "^14.1.0",
     "@angular/animations": "^14.3.0",
     "@angular/cdk": "^14.2.7",
     "@angular/common": "^14.3.0",
