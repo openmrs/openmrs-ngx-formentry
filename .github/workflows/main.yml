@@ -122,3 +122,5 @@ jobs:
 
       - name: Publish release
         run: yarn publish dist/ngx-formentry --tag latest --access public
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
