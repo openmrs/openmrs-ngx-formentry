@@ -514,38 +514,43 @@
             {
               "label": "Civil status:",
               "type": "obs",
-              "historicalExpression": "HD.getObject('prevEnc').getValue('a899a9f2-1350-11df-a1f1-0026b9348838')",
               "questionOptions": {
-                "rendering": "select",
+                "rendering": "checkbox",
                 "concept": "a899a9f2-1350-11df-a1f1-0026b9348838",
                 "answers": [
                   {
                     "concept": "a899af10-1350-11df-a1f1-0026b9348838",
-                    "label": "Cohabitating"
+                    "label": "Cohabitating",
+                    "disableWhenExpression":"myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
                   {
                     "concept": "a899ad58-1350-11df-a1f1-0026b9348838",
-                    "label": "Divorced"
+                    "label": "Divorced",
+                    "disableWhenExpression":"myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
                   {
                     "concept": "a8aa76b0-1350-11df-a1f1-0026b9348838",
-                    "label": "Married monogamous"
+                    "label": "Married monogamous",
+                    "disableWhenExpression":"myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
                   {
                     "concept": "a8b03712-1350-11df-a1f1-0026b9348838",
-                    "label": "Married polygamous"
+                    "label": "Married polygamous",
+                    "disableWhenExpression":"myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
                   {
                     "concept": "a899aba0-1350-11df-a1f1-0026b9348838",
-                    "label": "Separated"
+                    "label": "Separated",
+                    "disableWhenExpression":"myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
                   {
                     "concept": "a899ac7c-1350-11df-a1f1-0026b9348838",
-                    "label": "Single"
+                    "label": "Single",
+                    "disableWhenExpression":"myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
                   {
                     "concept": "a899ae34-1350-11df-a1f1-0026b9348838",
-                    "label": "Widowed"
+                    "label": "Other"
                   }
                 ]
               },

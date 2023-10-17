@@ -10,6 +10,7 @@
       [checked]="option.checked"
       (change)="selectOpt(option, $event)"
       [value]="option.value"
+      [disabled]="option.isDisabled"
     />
     <label [for]="i + id" class="cds--checkbox-label">
       <span class="cds--checkbox-label-text">{{ option.label }}</span>
