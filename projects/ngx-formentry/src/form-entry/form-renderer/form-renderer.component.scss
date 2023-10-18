@@ -14,7 +14,6 @@ ul {
 li {
   display: block;
   padding: 10px 20px;
-  white-space: nowrap;
   transition: all 0.3s ease-in;
   border-bottom: 4px solid transparent;
 }
@@ -56,11 +55,13 @@ li:hover {
   position: relative;
   min-height: 365px;
 }
+
 @media screen and (min-width: 767px) {
   .slick-initialized .swipe-tab-content {
     min-height: 500px;
   }
 }
+
 .slick-initialized .swipe-tab {
   display: flex;
   align-items: center;
@@ -74,9 +75,11 @@ li:hover {
   border-bottom: 2px solid rgba(51, 122, 183, 0);
   transition: all 0.5s;
 }
+
 .slick-initialized .swipe-tab:hover {
   color: #337ab7;
 }
+
 .slick-initialized .swipe-tab.active-tab {
   border-bottom-color: #337ab7;
   color: #337ab7;
@@ -100,6 +103,7 @@ li:hover {
   color: rgb(51, 122, 183);
   display: inline-block;
 }
+
 .question-info {
   opacity: 0;
   height: 0px;
@@ -114,15 +118,18 @@ li:hover {
   border-color: #337ab7;
   margin-top: 2px;
 }
+
 .hide-info {
   display: none;
   height: 0px;
 }
+
 .form-tooltip:hover ~ .question-info {
   display: block;
   opacity: 1;
   height: auto;
 }
+
 .form-tooltip .tooltipcontent::after {
   content: ' ';
   position: absolute;
@@ -147,10 +154,12 @@ ng-select.form-control {
   max-height: 450px;
   overflow-y: scroll;
 }
+
 .no-border {
   border: 0;
   box-shadow: none;
 }
+
 .text-danger {
   color: var(--cds-support-01, #da1e28);
 }
@@ -158,35 +167,41 @@ ng-select.form-control {
 .text-warn {
   color: #eea616;
 }
+
 .error {
   margin-bottom: 3rem;
 }
+
 .afe-control {
   margin-bottom: 0.125rem;
 }
+
 [hidden] {
   display: none !important;
 }
+
 .accordion-content-dark {
   background-color: #f4f4f4;
   padding-right: 1rem;
 }
+
 .accordion-content-override {
   box-sizing: content-box;
   border-bottom: none;
   padding: 0 0;
-  text-wrap: wrap;
+  overflow-wrap: break-word;
 }
+
 .accordion-content-override:hover {
   opacity: unset;
   border-bottom: none;
 }
 
 .question-area {
-  width: 18rem;
-  max-width: 18rem; // Design specification for the questions
+  margin-bottom: 0.5rem;
+
   & > label {
-    text-wrap: wrap;
+    overflow-wrap: break-word;
   }
 }
 
@@ -196,7 +211,7 @@ ng-select.form-control {
 }
 
 .use-value {
-  text-wrap: wrap;
+  overflow-wrap: break-word;
 }
 
 .custom-text-area {
