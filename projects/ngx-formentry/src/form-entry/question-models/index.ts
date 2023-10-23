@@ -20,3 +20,4 @@ export * from './text-area-input-question';
 export * from './text-input-question';
 export * from './ui-select-question';
 export * from './validation.model';
+export * from './workspace-launcher.model';

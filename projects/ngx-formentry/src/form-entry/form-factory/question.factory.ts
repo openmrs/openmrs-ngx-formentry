@@ -30,6 +30,7 @@ import { CustomControlQuestion } from '../question-models/custom-control-questio
 import { DiagnosisQuestion } from '../question-models/diagnosis-question';
 import { MaxLengthValidationModel } from '../question-models/max-length-validation.model';
 import { MinLengthValidationModel } from '../question-models/min-length-validation.model';
+import { WorkspaceLauncherQuestion } from '../question-models';
 
 @Injectable()
 export class QuestionFactory {
@@ -740,6 +741,13 @@ export class QuestionFactory {
     return question;
   }
 
+  toWorkspaceLauncher(schemaQuestion: any): WorkspaceLauncherQuestion {
+    console.log('schemaQuestion:', schemaQuestion);
+    const display = new WorkspaceLauncherQuestion({ type: '', key: '' });
+    display.extras = schemaQuestion;
+    return display;
+  }
+
   getSchemaQuestions(schema: any): any {
     const listQuestions = new Array();
     this.getQuestions(schema, listQuestions);
@@ -859,6 +867,8 @@ export class QuestionFactory {
         return this.toEncounterProviderQuestion(schema);
       case 'file':
         return this.toFileUploadQuestion(schema);
+      case 'workspace-launcher':
+        return this.toWorkspaceLauncher(schema);
       default:
         console.warn('New Schema Question Type found.........' + renderType);
         return this.toTextQuestion(schema);

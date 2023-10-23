@@ -288,6 +288,10 @@
           >
           </ofe-number-input>
 
+          <div *ngSwitchCase="'workspace-launcher'">
+            <ofe-workspace-launcher></ofe-workspace-launcher>
+          </div>
+
           <input
             [theme]="theme"
             class="cds--text-input"

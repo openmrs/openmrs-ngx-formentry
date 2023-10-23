@@ -38,6 +38,7 @@ import { NgxRemoteSelectModule } from '../components/ngx-remote-select/ngx-remot
 import { AppointmentsOverviewComponent } from '../components/appointments-overview/appointments-overview.component';
 import { CheckboxModule } from '../components/check-box/checkbox.module';
 import { RadioModule } from '../components/radio-button/radio.module';
+import { WorkspaceLauncherModule } from '../components/workspace-launcher/workspace-launcher.module';
 import { SharedModule } from '../shared.module';
 import { NgxTabSetModule } from '../components/ngx-tabset/modules/ngx-tabset.module';
 import { SelectModule as SelectModuleCarbon } from '../components/select/select.module';
@@ -62,6 +63,7 @@ import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.ad
     RemoteFileUploadModule,
     CheckboxModule,
     RadioModule,
+    WorkspaceLauncherModule,
     NgxDateTimePickerModule,
     SharedModule,
     CustomControlWrapperModule,
