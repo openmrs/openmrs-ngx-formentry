@@ -4,7 +4,7 @@
 
 <br />
 <p>
-  <img src="/src/assets/screen.webp" alt="App screenshot" height="600">
+  <img src="/src/assets/screen.webp" alt="App screenshot">
 </p>
 <br />
 
