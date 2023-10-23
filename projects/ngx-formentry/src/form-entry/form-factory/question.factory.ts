@@ -743,9 +743,15 @@ export class QuestionFactory {
 
   toWorkspaceLauncher(schemaQuestion: any): WorkspaceLauncherQuestion {
     console.log('schemaQuestion:', schemaQuestion);
-    const display = new WorkspaceLauncherQuestion({ type: '', key: '' });
-    display.extras = schemaQuestion;
-    return display;
+    const question = new WorkspaceLauncherQuestion({
+      type: '',
+      key: schemaQuestion.id,
+      label: schemaQuestion.label,
+      buttonLabel: schemaQuestion.questionOptions.buttonLabel,
+    });
+    question.questionIndex = this.quetionIndex;
+    question.extras = schemaQuestion;
+    return question;
   }
 
   getSchemaQuestions(schema: any): any {

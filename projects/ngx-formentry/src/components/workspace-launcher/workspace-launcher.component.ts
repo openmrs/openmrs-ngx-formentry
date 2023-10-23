@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class WorkspaceLauncherComponent implements OnInit {
   @Input() public id: string;
-  @Input() public label: any;
+  @Input() public buttonLabel: string;
 
   public ngOnInit() {
     // Initialize any properties if necessary
@@ -14,6 +14,6 @@ export class WorkspaceLauncherComponent implements OnInit {
 
   public handleClick(event: any) {
     console.log('You clicked the button!!!');
-    console.log('id', this.id, 'label', this.label);
+    console.log('id', this.id, 'buttonLabel', this.buttonLabel);
   }
 }

@@ -289,7 +289,10 @@
           </ofe-number-input>
 
           <div *ngSwitchCase="'workspace-launcher'">
-            <ofe-workspace-launcher></ofe-workspace-launcher>
+            <ofe-workspace-launcher
+              [id]="node.question.key + 'id'"
+              [buttonLabel]="node.question.extras.questionOptions.buttonLabel"
+            ></ofe-workspace-launcher>
           </div>
 
           <input
