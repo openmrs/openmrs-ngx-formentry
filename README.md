@@ -118,12 +118,16 @@ touch yarn.lock
 
 # Copy the absolute path to the built library
 pwd | pbcopy
+# Or if you're on Linux, run:
+pwd | xclip -selection clipboard 
 
 # Using the O3 Patient Chart's Form Entry app as an example
 cd ~/openmrs-esm-patient-chart/packages/esm-form-entry-app
 
 # Link the library
-yarn add `pbpaste`
+yarn link `pbpaste`
+# Or if you're on Linux, run:
+yarn link `xclip -out` 
 
 # Fire up a dev server
 cd ../..
