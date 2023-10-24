@@ -344,8 +344,8 @@ export class ObsAdapterHelper {
 
   // PAYLOAD GENERATION FUNCTIONS
   addFieldNameSpaceandPath(node, obs) {
-    obs.formFieldNamespace = this.formFieldNamespace;
-    obs.formFieldPath = `${node?.question?.extras?.id}~${this.obsIndex}`;
+    // obs.formFieldNamespace = this.formFieldNamespace;
+    // obs.formFieldPath = `${node?.question?.extras?.id}~${this.obsIndex}`;
     this.obsIndex++;
     return obs;
   }
