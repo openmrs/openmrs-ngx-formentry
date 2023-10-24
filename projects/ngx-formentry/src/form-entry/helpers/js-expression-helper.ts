@@ -303,8 +303,8 @@ export class JsExpressionHelper {
       let result;
       obs?.some(
         (o) =>
-        (result =
-          o?.concept?.uuid === uuid ? o : findObs(o.groupMembers || [], uuid))
+          (result =
+            o?.concept?.uuid === uuid ? o : findObs(o.groupMembers || [], uuid))
       );
       return result;
     };
@@ -331,7 +331,7 @@ export class JsExpressionHelper {
   async fetchData(url, objectPath, options = {}) {
     try {
       const response = await fetch(url, {
-        ...options,
+        ...options
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -385,16 +385,13 @@ export class JsExpressionHelper {
   }
 
   calculateZNutritionScore(zScore: number) {
-    if (zScore > -1) return "1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    if (zScore === -1) return "123814AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    if (zScore === -2) return "123815AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    if (zScore === -3) return "123815AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    if (zScore === -4) return "164131AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    return ""
+    if (zScore > -1) return '1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    if (zScore === -1) return '123814AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    if (zScore === -2) return '123815AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    if (zScore === -3) return '123815AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    if (zScore === -4) return '164131AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    return '';
   }
-
-
-
 
   get helperFunctions() {
     const helper = this;
@@ -414,7 +411,7 @@ export class JsExpressionHelper {
       doesNotMatchExpression: helper.doesNotMatchExpression,
       calcGravida: helper.calcGravida,
       fetchData: helper.fetchData,
-      calculateZNutritionScore: helper.calculateZNutritionScore,
+      calculateZNutritionScore: helper.calculateZNutritionScore
     };
   }
 }
