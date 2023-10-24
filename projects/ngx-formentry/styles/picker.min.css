@@ -8,7 +8,7 @@
 }
 .cdk-overlay-container {
   position: fixed;
-  z-index: 1000;
+  z-index: 9999;
 }
 .cdk-overlay-container:empty {
   display: none;
@@ -90,6 +90,7 @@
   width: 100%;
   overflow-y: scroll;
 }
+
 .owl-dialog-container {
   position: relative;
   pointer-events: auto;
