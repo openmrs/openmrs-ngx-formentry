@@ -6,7 +6,7 @@ export class WorkspaceLauncherQuestion extends QuestionBase {
   buttonLabel: string;
 
   constructor(options: WorkspaceLauncherOptions) {
-    console.log("constructing from ", options);
+    console.log('constructing from ', options);
     super(options);
     this.renderingType = 'workspace-launcher';
     this.label = options.label || '';
