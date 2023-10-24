@@ -89,6 +89,12 @@
   position: fixed;
   width: 100%;
   overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.cdk-global-scrollblock::-webkit-scrollbar {
+  display: none;
 }
 
 .owl-dialog-container {
