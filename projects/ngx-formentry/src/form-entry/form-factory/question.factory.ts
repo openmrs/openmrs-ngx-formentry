@@ -37,6 +37,7 @@ export class QuestionFactory {
   dataSources: any = {};
   historicalHelperService: HistoricalHelperService = new HistoricalHelperService();
   quetionIndex = 0;
+  checkedForEsmPatientCommonLib = false;
   constructor() {}
 
   createQuestionModel(formSchema: any, form?: Form): QuestionBase {
@@ -742,6 +743,21 @@ export class QuestionFactory {
   }
 
   toWorkspaceLauncher(schemaQuestion: any): WorkspaceLauncherQuestion {
+    if (!this.checkedForEsmPatientCommonLib) {
+      this.checkedForEsmPatientCommonLib = true;
+      if (!window['_openmrs_esm_patient_common_lib']) {
+        console.error(
+          "@openmrs/esm-patient-common-lib is not accessible. The 'workspace-launcher' question type can only be used in the context of the O3 patient chart, where the workspace is."
+        );
+      } else if (
+        typeof window['_openmrs_esm_patient_common_lib']
+          .launchPatientWorkspace !== 'function'
+      ) {
+        console.error(
+          '@openmrs/esm-patient-common-lib is accessible, but the `launchPatientWorkspace` function is missing. It is likely that the version of @openmrs/esm-patient-common-lib that is being used is not compatible with this version of ngx-formentry.'
+        );
+      }
+    }
     const question = new WorkspaceLauncherQuestion({
       type: '',
       key: schemaQuestion.id,
