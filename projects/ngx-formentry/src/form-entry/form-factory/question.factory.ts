@@ -742,7 +742,6 @@ export class QuestionFactory {
   }
 
   toWorkspaceLauncher(schemaQuestion: any): WorkspaceLauncherQuestion {
-    console.log('schemaQuestion:', schemaQuestion);
     const question = new WorkspaceLauncherQuestion({
       type: '',
       key: schemaQuestion.id,
