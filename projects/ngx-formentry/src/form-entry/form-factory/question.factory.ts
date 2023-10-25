@@ -747,7 +747,8 @@ export class QuestionFactory {
       type: '',
       key: schemaQuestion.id,
       label: schemaQuestion.label,
-      buttonLabel: schemaQuestion.questionOptions.buttonLabel
+      buttonLabel: schemaQuestion.questionOptions.buttonLabel,
+      workspaceName: schemaQuestion.questionOptions.workspaceName
     });
     question.questionIndex = this.quetionIndex;
     question.extras = schemaQuestion;

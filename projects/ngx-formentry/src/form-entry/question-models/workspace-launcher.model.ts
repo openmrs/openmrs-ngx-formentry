@@ -4,6 +4,7 @@ import { WorkspaceLauncherOptions } from './interfaces/workspace-launcher-option
 
 export class WorkspaceLauncherQuestion extends QuestionBase {
   buttonLabel: string;
+  workspaceName: string;
 
   constructor(options: WorkspaceLauncherOptions) {
     console.log('constructing from ', options);
@@ -11,6 +12,7 @@ export class WorkspaceLauncherQuestion extends QuestionBase {
     this.renderingType = 'workspace-launcher';
     this.label = options.label || '';
     this.buttonLabel = options.buttonLabel || '';
+    this.workspaceName = options.workspaceName || 'order-basket';
     this.controlType = AfeControlType.AfeFormControl;
   }
 }

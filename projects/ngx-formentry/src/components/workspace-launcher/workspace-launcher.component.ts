@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class WorkspaceLauncherComponent {
   @Input() public id: string;
   @Input() public buttonLabel: string;
+  @Input() public workspaceName: string;
 
   public handleClick() {
     if (!window['_openmrs_esm_patient_common_lib']) {
@@ -22,7 +23,7 @@ export class WorkspaceLauncherComponent {
       );
     } else {
       window['_openmrs_esm_patient_common_lib'].launchPatientWorkspace(
-        'add-drug-order'
+        this.workspaceName
       );
     }
   }
