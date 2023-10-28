@@ -3100,7 +3100,7 @@
                   "label": "Adherence (TB Prophylaxis): Other (specify):",
                   "questionOptions": {
                     "concept": "a8a06fc6-1350-11df-a1f1-0026b9348838",
-                    "rendering": "text"
+                    "rendering": "textarea"
                   },
                   "type": "obs",
                   "id": "tbProphylaxisOtherAdherence",
@@ -5486,7 +5486,7 @@
                   "id": "otherTestResult",
                   "questionOptions": {
                     "concept": "6f5207f4-6785-433b-943e-c2d03e7d3ea7",
-                    "rendering": "text"
+                    "rendering": "textarea"
                   },
                   "validators": []
                 }
