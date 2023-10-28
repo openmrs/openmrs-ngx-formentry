@@ -5520,7 +5520,7 @@
                   "id": "otherTestResult",
                   "questionOptions": {
                     "concept": "6f5207f4-6785-433b-943e-c2d03e7d3ea7",
-                    "rendering": "text"
+                    "rendering": "textarea"
                   },
                   "validators": []
                 }
