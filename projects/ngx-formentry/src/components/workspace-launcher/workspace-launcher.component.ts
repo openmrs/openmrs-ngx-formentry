@@ -10,10 +10,6 @@ export class WorkspaceLauncherComponent {
   @Input() public buttonType: string;
   @Input() public workspaceName: string;
 
-  ngOnInit() {
-    console.log('Button type:', this.buttonType);
-  }
-
   public handleClick() {
     // We check that this is defined in question.factory.ts `toWorkspaceLauncher`
     window['_openmrs_esm_patient_common_lib'].launchPatientWorkspace(
