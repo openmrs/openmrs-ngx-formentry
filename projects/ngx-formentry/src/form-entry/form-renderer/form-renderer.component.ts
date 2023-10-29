@@ -4,7 +4,8 @@ import {
   Input,
   Inject,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  TemplateRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import * as _ from 'lodash';
@@ -25,6 +26,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['../../style/app.css', './form-renderer.component.scss']
 })
 export class FormRendererComponent implements OnInit, OnChanges {
+  @Input() public formSubmissionTemplate: TemplateRef<unknown>;
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
   @Input() public parentGroup: AfeFormGroup;

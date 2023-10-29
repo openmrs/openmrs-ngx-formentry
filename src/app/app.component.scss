@@ -1,0 +1,14 @@
+.saveAndCloseButtons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 0.625rem;
+  margin-top: 0.25rem;
+  padding-top: 0.625rem;
+
+  border-top: 1px solid #a8a8a8;
+
+  & button {
+    width: 100%;
+  }
+}

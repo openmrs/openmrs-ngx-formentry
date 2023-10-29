@@ -8,7 +8,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import type { QueryList } from '@angular/core';
+import type { QueryList, TemplateRef } from '@angular/core';
 
 import { TabComponent } from './tab.component';
 
@@ -24,6 +24,7 @@ export class TabSetComponent implements AfterContentInit, OnChanges {
   @Input() public customNavClass: String = '';
   @Input() public customTabsClass: String = '';
   @Input() public selectedIndex: Number = 0;
+  @Input() formSubmissionTemplate: TemplateRef<unknown>;
 
   @Output() public tabSelect = new EventEmitter();
 
