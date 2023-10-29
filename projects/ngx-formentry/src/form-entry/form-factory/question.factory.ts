@@ -763,10 +763,14 @@ export class QuestionFactory {
       key: schemaQuestion.id,
       label: schemaQuestion.label,
       buttonLabel: schemaQuestion.questionOptions.buttonLabel,
+      buttonType: schemaQuestion.questionOptions.buttonType,
       workspaceName: schemaQuestion.questionOptions.workspaceName
     });
     question.questionIndex = this.quetionIndex;
     question.extras = schemaQuestion;
+    question.extras.questionOptions.buttonType = question.buttonType;
+    question.extras.questionOptions.workspaceName = question.workspaceName;
+
     return question;
   }
 

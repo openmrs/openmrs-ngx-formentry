@@ -2,7 +2,8 @@
   <div class="cds--form-item">
     <button
       type="button"
-      class="cds--btn cds--btn--primary"
+      class="cds--btn"
+      [ngClass]="'cds--btn--' + buttonType"
       [id]="id"
       (click)="handleClick()"
     >

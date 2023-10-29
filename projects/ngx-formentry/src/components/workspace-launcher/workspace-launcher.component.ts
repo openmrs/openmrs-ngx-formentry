@@ -7,7 +7,12 @@ import { Component, Input, OnInit } from '@angular/core';
 export class WorkspaceLauncherComponent {
   @Input() public id: string;
   @Input() public buttonLabel: string;
+  @Input() public buttonType: string;
   @Input() public workspaceName: string;
+
+  ngOnInit() {
+    console.log('Button type:', this.buttonType);
+  }
 
   public handleClick() {
     // We check that this is defined in question.factory.ts `toWorkspaceLauncher`

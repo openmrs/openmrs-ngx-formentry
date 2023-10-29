@@ -91,6 +91,12 @@ export class FormRendererComponent implements OnInit, OnChanges {
         this.node.createChildNode();
       }
     }
+    if (
+      this.node &&
+      this.node.question.renderingType === 'workspace-launcher'
+    ) {
+      console.log('Parent buttonType:', this.node.question);
+    }
   }
 
   public ngOnChanges(changes: SimpleChanges) {
