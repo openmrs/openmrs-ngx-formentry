@@ -1,0 +1,13 @@
+<fieldset class="cds--fieldset">
+  <div class="cds--form-item">
+    <button
+      type="button"
+      class="cds--btn"
+      [ngClass]="'cds--btn--' + buttonType"
+      [id]="id"
+      (click)="handleClick()"
+    >
+      {{ buttonLabel }}
+    </button>
+  </div>
+</fieldset>

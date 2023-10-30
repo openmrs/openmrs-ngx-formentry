@@ -30,12 +30,14 @@ import { CustomControlQuestion } from '../question-models/custom-control-questio
 import { DiagnosisQuestion } from '../question-models/diagnosis-question';
 import { MaxLengthValidationModel } from '../question-models/max-length-validation.model';
 import { MinLengthValidationModel } from '../question-models/min-length-validation.model';
+import { WorkspaceLauncherQuestion } from '../question-models';
 
 @Injectable()
 export class QuestionFactory {
   dataSources: any = {};
   historicalHelperService: HistoricalHelperService = new HistoricalHelperService();
   quetionIndex = 0;
+  checkedForEsmPatientCommonLib = false;
   constructor() {}
 
   createQuestionModel(formSchema: any, form?: Form): QuestionBase {
@@ -740,6 +742,38 @@ export class QuestionFactory {
     return question;
   }
 
+  toWorkspaceLauncher(schemaQuestion: any): WorkspaceLauncherQuestion {
+    if (!this.checkedForEsmPatientCommonLib) {
+      this.checkedForEsmPatientCommonLib = true;
+      if (!window['_openmrs_esm_patient_common_lib']) {
+        console.error(
+          "@openmrs/esm-patient-common-lib is not accessible. The 'workspace-launcher' question type can only be used in the context of the O3 patient chart, where the workspace is."
+        );
+      } else if (
+        typeof window['_openmrs_esm_patient_common_lib']
+          .launchPatientWorkspace !== 'function'
+      ) {
+        console.error(
+          '@openmrs/esm-patient-common-lib is accessible, but the `launchPatientWorkspace` function is missing. It is likely that the version of @openmrs/esm-patient-common-lib that is being used is not compatible with this version of ngx-formentry.'
+        );
+      }
+    }
+    const question = new WorkspaceLauncherQuestion({
+      type: '',
+      key: schemaQuestion.id,
+      label: schemaQuestion.label,
+      buttonLabel: schemaQuestion.questionOptions.buttonLabel,
+      buttonType: schemaQuestion.questionOptions.buttonType,
+      workspaceName: schemaQuestion.questionOptions.workspaceName
+    });
+    question.questionIndex = this.quetionIndex;
+    question.extras = schemaQuestion;
+    question.extras.questionOptions.buttonType = question.buttonType;
+    question.extras.questionOptions.workspaceName = question.workspaceName;
+
+    return question;
+  }
+
   getSchemaQuestions(schema: any): any {
     const listQuestions = new Array();
     this.getQuestions(schema, listQuestions);
@@ -859,6 +893,8 @@ export class QuestionFactory {
         return this.toEncounterProviderQuestion(schema);
       case 'file':
         return this.toFileUploadQuestion(schema);
+      case 'workspace-launcher':
+        return this.toWorkspaceLauncher(schema);
       default:
         console.warn('New Schema Question Type found.........' + renderType);
         return this.toTextQuestion(schema);
