@@ -1,6 +1,10 @@
 <!--CONTAINERS-->
 <div *ngIf="node.question.renderingType === 'form'">
-  <ofe-tab-set (tabSelect)="tabSelected($event)" [selectedIndex]="activeTab">
+  <ofe-tab-set
+    (tabSelect)="tabSelected($event)"
+    [selectedIndex]="activeTab"
+    [formSubmissionTemplate]="formSubmissionTemplate"
+  >
     <ofe-tab
       [tabTitle]="question.label | translate"
       *ngFor="let question of node.question.questions; let i = index"

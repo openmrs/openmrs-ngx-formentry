@@ -4,7 +4,8 @@ import {
   Input,
   Inject,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  TemplateRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import * as _ from 'lodash';
@@ -25,6 +26,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['../../style/app.css', './form-renderer.component.scss']
 })
 export class FormRendererComponent implements OnInit, OnChanges {
+  @Input() public formSubmissionTemplate: TemplateRef<unknown>;
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
   @Input() public parentGroup: AfeFormGroup;
@@ -43,13 +45,13 @@ export class FormRendererComponent implements OnInit, OnChanges {
   public isNavigation = true;
   public type = 'default';
   inlineDatePicker: Date = new Date();
-
+  private TAB_SELECTION_DELAY_MS = 100;
   constructor(
     private validationFactory: ValidationFactory,
     private dataSources: DataSources,
     private formErrorsService: FormErrorsService,
     public translate: TranslateService,
-    @Inject(DOCUMENT) private document: any
+    @Inject(DOCUMENT) private document: Document
   ) {
     this.activeTab = 0;
   }
@@ -194,6 +196,13 @@ export class FormRendererComponent implements OnInit, OnChanges {
   public tabSelected($event) {
     this.activeTab = $event;
     this.setPreviousTab();
+
+    setTimeout(() => {
+      const sectionHeader = this.document.querySelector('div.pane > h4');
+      if (sectionHeader) {
+        sectionHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, this.TAB_SELECTION_DELAY_MS);
   }
   public setPreviousTab() {
     if (this.node && this.node.form) {

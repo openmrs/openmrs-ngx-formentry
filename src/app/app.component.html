@@ -1,12 +1,15 @@
 <div *ngIf="form && form.rootNode">
   <form [formGroup]="form.rootNode.control">
     <ofe-form-renderer
+      [formSubmissionTemplate]="buttonsTemplate"
       [node]="form.rootNode"
       [labelMap]="labelMap"
-    ></ofe-form-renderer>
+    >
+    </ofe-form-renderer>
   </form>
-
-  <div class="cds--offset-md-2">
+</div>
+<ng-template #buttonsTemplate>
+  <div class="saveAndCloseButtons">
     <button
       (click)="reset($event)"
       class="cds--btn cds--btn--secondary"
@@ -22,4 +25,4 @@
       Save
     </button>
   </div>
-</div>
+</ng-template>
