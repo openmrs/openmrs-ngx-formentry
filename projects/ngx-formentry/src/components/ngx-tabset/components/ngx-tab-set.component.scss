@@ -119,13 +119,6 @@
   grid-template-columns: 179px auto;
 }
 
-.tab-container-one-column {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
-.tab-content-no-margin {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
+.tab-content {
+  overflow-x: hidden;
 }
