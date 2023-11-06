@@ -13,13 +13,23 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "importHelpers": true,
-    "target": "es2020",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2018", "dom"],
+    "target": "ES2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
     "paths": {
-      "@openmrs/ngx-formentry": ["projects/ngx-formentry/src/lib"],
-      "@openmrs/ngx-formentry/*": ["projects/ngx-formentry/src/lib*"]
-    }
+      "@openmrs/ngx-formentry": [
+        "projects/ngx-formentry/src/lib"
+      ],
+      "@openmrs/ngx-formentry/*": [
+        "projects/ngx-formentry/src/lib*"
+      ]
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "disableTypeScriptVersionCheck": true,
