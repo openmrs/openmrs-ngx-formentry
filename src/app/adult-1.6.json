@@ -328,6 +328,20 @@
               }
             },
             {
+              "questionOptions": {
+                "rendering": "workspace-launcher",
+                "workspaceName": "add-drug-order",
+                "buttonType": "ghost",
+                "buttonLabel": "Add +",
+                "id": "ordering-id"
+              },
+              "id": "orderDrugs",
+              "label": "Order for Drugs here:",
+              "hide": {
+                "hideWhenExpression": "isEmpty(nhif)"
+              }
+            },
+            {
               "type": "obs",
               "label": "Custom Control Test:",
               "id": "customCon",
@@ -521,32 +535,32 @@
                   {
                     "concept": "a899af10-1350-11df-a1f1-0026b9348838",
                     "label": "Cohabitating",
-                    "disableWhenExpression":"myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
+                    "disableWhenExpression": "myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
                   {
                     "concept": "a899ad58-1350-11df-a1f1-0026b9348838",
                     "label": "Divorced",
-                    "disableWhenExpression":"myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
+                    "disableWhenExpression": "myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
                   {
                     "concept": "a8aa76b0-1350-11df-a1f1-0026b9348838",
                     "label": "Married monogamous",
-                    "disableWhenExpression":"myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
+                    "disableWhenExpression": "myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
                   {
                     "concept": "a8b03712-1350-11df-a1f1-0026b9348838",
                     "label": "Married polygamous",
-                    "disableWhenExpression":"myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
+                    "disableWhenExpression": "myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
                   {
                     "concept": "a899aba0-1350-11df-a1f1-0026b9348838",
                     "label": "Separated",
-                    "disableWhenExpression":"myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
+                    "disableWhenExpression": "myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
                   {
                     "concept": "a899ac7c-1350-11df-a1f1-0026b9348838",
                     "label": "Single",
-                    "disableWhenExpression":"myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
+                    "disableWhenExpression": "myValue === 'a899ae34-1350-11df-a1f1-0026b9348838'"
                   },
                   {
                     "concept": "a899ae34-1350-11df-a1f1-0026b9348838",
@@ -3347,7 +3361,9 @@
                   "type": "obs",
                   "hide": {
                     "field": "tb_current",
-                    "value": ["b8aa06ca-93c6-40ea-b144-c74f841926f4"]
+                    "value": [
+                      "b8aa06ca-93c6-40ea-b144-c74f841926f4"
+                    ]
                   },
                   "id": "__ptxCzFD2s"
                 }
@@ -6976,7 +6992,9 @@
                   "type": "obs",
                   "hide": {
                     "field": "q26f",
-                    "value": ["b8aa06ca-93c6-40ea-b144-c74f841926f4"]
+                    "value": [
+                      "b8aa06ca-93c6-40ea-b144-c74f841926f4"
+                    ]
                   },
                   "id": "__Jywyp94Lw"
                 }
@@ -7997,7 +8015,16 @@
               "questionOptions": {
                 "concept": "318a5e8b-218c-4f66-9106-cd581dec1f95",
                 "rendering": "date",
-                "weeksList": [2, 4, 6, 8, 12, 16, 24, 36]
+                "weeksList": [
+                  2,
+                  4,
+                  6,
+                  8,
+                  12,
+                  16,
+                  24,
+                  36
+                ]
               },
               "validators": [
                 {
@@ -8027,7 +8054,17 @@
               "questionOptions": {
                 "concept": "a8a666ba-1350-11df-a1f1-0026b9348838",
                 "rendering": "date",
-                "weeksList": [2, 4, 6, 8, 12, 16, 20, 24, 36]
+                "weeksList": [
+                  2,
+                  4,
+                  6,
+                  8,
+                  12,
+                  16,
+                  20,
+                  24,
+                  36
+                ]
               },
               "validators": [
                 {

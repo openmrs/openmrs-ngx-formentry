@@ -770,7 +770,16 @@ export class QuestionFactory {
     question.extras = schemaQuestion;
     question.extras.questionOptions.buttonType = question.buttonType;
     question.extras.questionOptions.workspaceName = question.workspaceName;
-
+    const mappings = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
     return question;
   }
 
