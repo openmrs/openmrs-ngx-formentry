@@ -2597,7 +2597,7 @@
     read-package-json-fast "^3.0.0"
     which "^3.0.0"
 
-"@openmrs/ngx-file-uploader@^0.0.16-pre.19":
+"@openmrs/ngx-file-uploader@next":
   version "0.0.16-pre.19"
   resolved "https://registry.yarnpkg.com/@openmrs/ngx-file-uploader/-/ngx-file-uploader-0.0.16-pre.19.tgz#b72b0b0ff806ea2aae5b9f1afb08d8ecd827a192"
   integrity sha512-5TAT8oFNjLwDFrcKVruCnVDXgXDiacNVClOdRvBaBbcIU9meHjNP/JOxRNeKbKWOMaRzg35yjZIgtkmpUbsVug==
