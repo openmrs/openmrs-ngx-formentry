@@ -33,34 +33,41 @@ export class MachineLearningComponent implements OnInit {
 
   getRiskScore() {
     this.announceRequiredFields();
-    if(this.hasAllrequiredFields()){
-    this.isLoading = true;
-    const { sex, age } = this.node.form.dataSourcesContainer.dataSources[
-      'patient'
-    ];
-    const initialPayload = this.buildInitialPayload();
-    const questionConcepts = this.generateKeyValue();
-    const objMap = this.buildObjMap(initialPayload, questionConcepts);
-    const finalPayload = this.machineLearningService.mapToMLModel(objMap, age);
-    const machineLearningScore = generatePredictionPayload(finalPayload, sex);
-    const riskPayload = this.buildRiskPayload(machineLearningScore);
+    if (this.hasAllrequiredFields()) {
+      this.isLoading = true;
+      const { sex, age } = this.node.form.dataSourcesContainer.dataSources[
+        'patient'
+      ];
+      const initialPayload = this.buildInitialPayload();
+      const questionConcepts = this.generateKeyValue();
+      const objMap = this.buildObjMap(initialPayload, questionConcepts);
+      const finalPayload = this.machineLearningService.mapToMLModel(
+        objMap,
+        age
+      );
+      const machineLearningScore = generatePredictionPayload(finalPayload, sex);
+      const riskPayload = this.buildRiskPayload(machineLearningScore);
 
-    this.machineLearningService.fetchPredictionScore(riskPayload).subscribe(
-      (res) => {
-        const predictionMessage = this.machineLearningService.predictRisk(res);
-        this.setRiskScore(predictionMessage);
-        this.isLoading = false;
-      },
-      (error) => {
-        this.hasError = true;
-        this.isLoading = false;
-        this.errorMessage =
-          error.message ?? 'An error occurred while fetching risk score';
-        this.setRiskScore(this.errorMessage);
-      }
-    );
+      this.machineLearningService.fetchPredictionScore(riskPayload).subscribe(
+        (res) => {
+          const {
+            message,
+            riskScore
+          } = this.machineLearningService.predictRisk(res);
+          this.setRiskScore(message);
+          this.setAutoGenerateRiskScore(riskScore);
+          this.isLoading = false;
+        },
+        (error) => {
+          this.hasError = true;
+          this.isLoading = false;
+          this.errorMessage =
+            error.message ?? 'An error occurred while fetching risk score';
+          this.setRiskScore(this.errorMessage);
+        }
+      );
     } else {
-      alert("Please fill all required questions for Risk score to work well!")
+      alert('Please fill all required questions for Risk score to work well!');
     }
   }
 
@@ -165,5 +172,34 @@ export class MachineLearningComponent implements OnInit {
           this.node.form.searchNodeByQuestionId(field)[0]?.control?.valid
       )?.length > 0
     );
+  }
+
+  getRiskLevel = (probabilityForPositivity) => {
+    const highRiskThreshold = 0.1079255;
+    const mediumRiskThreshold = 0.02795569;
+    const lowRiskThreshold = 0.005011473;
+
+    if (probabilityForPositivity > highRiskThreshold) {
+      return '167164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    } else if (
+      probabilityForPositivity <= highRiskThreshold &&
+      probabilityForPositivity > mediumRiskThreshold
+    ) {
+      return '166674AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    } else if (
+      probabilityForPositivity <= mediumRiskThreshold &&
+      probabilityForPositivity > lowRiskThreshold
+    ) {
+      return '1499AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    } else if (probabilityForPositivity <= lowRiskThreshold) {
+      return '166675AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    }
+  };
+
+  // Set the autocalculate risk score
+  private setAutoGenerateRiskScore(riskScore: number) {
+    const genRisKQuestion = this.node.form.searchNodeByQuestionId('genRisK');
+    const riskLevel = this.getRiskLevel(riskScore);
+    genRisKQuestion?.[0]?.control?.setValue(riskLevel);
   }
 }
