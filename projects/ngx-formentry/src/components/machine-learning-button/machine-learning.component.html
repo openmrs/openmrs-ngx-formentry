@@ -1,7 +1,7 @@
-<div *ngIf="showMachineLearningButton">
+<div style="margin-top: 0.5rem;" *ngIf="showMachineLearningButton">
   <button
     (click)="getRiskScore()"
-    class="cds--btn cds--btn--primary"
+    class="cds--btn cds--btn--primary cds--layout--size-sm"
     type="button"
   >
     <span *ngIf="!isLoading">Get HIV risk category</span>

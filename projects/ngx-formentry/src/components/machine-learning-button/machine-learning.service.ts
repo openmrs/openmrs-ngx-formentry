@@ -18,39 +18,51 @@ export class MachineLearningService {
   }
 
   public predictRisk(res) {
-    const prediction = res.result.predictions['probability(1)'];
+    // Check if the prediction is available
+    const probabilityForPositivity = res?.result?.predictions['probability(1)'];
+    if (!probabilityForPositivity) {
+      return { message: 'No results found', riskScore: null };
+    }
 
-    const riskThresholds = {
-      lowRisk: 0.002625179,
-      mediumRisk: 0.010638781,
-      highRisk: 0.028924102
-    };
+    // Define risk thresholds
+    const highRiskThreshold = 0.1079255;
+    const mediumRiskThreshold = 0.02795569;
+    const lowRiskThreshold = 0.005011473;
 
+    // Define risk messages
     const riskMessages = {
       veryHigh:
-        'Client has a very high probability of a HIV positive test result. Testing is strongly recommended',
+        'This client has a very high probability of a HIV positive test result. Testing is strongly recommended',
       high:
-        'Client has a high probability of a HIV positive test result. Testing is strongly recommended',
+        'This client has a high probability of a HIV positive test result. Testing is strongly recommended',
       medium:
-        'Client has a medium probability of a HIV positive test result. Testing is recommended',
+        'This client has a medium probability of a HIV positive test result. Testing is recommended',
       low:
-        'Client has a low probability of a HIV positive test result. Testing may not be recommended',
-      noResults: 'No results found'
+        'This client has a low probability of a HIV positive test result. Testing may not be recommended'
     };
-
-    if (!prediction) {
-      return riskMessages.noResults;
+    0.1079255<=0.936823 && 0.1079255>0.02795569
+    // Determine risk level and corresponding message
+    let riskLevel;
+    if (probabilityForPositivity > highRiskThreshold) {
+      riskLevel = 'veryHigh';
+    } else if (
+      probabilityForPositivity <= highRiskThreshold &&
+      probabilityForPositivity > mediumRiskThreshold
+    ) {
+      riskLevel = 'high';
+    } else if (
+      probabilityForPositivity <= mediumRiskThreshold &&
+      probabilityForPositivity > lowRiskThreshold
+    ) {
+      riskLevel = 'medium';
+    } else if (probabilityForPositivity <= lowRiskThreshold) {
+      riskLevel = 'low';
     }
 
-    if (prediction > riskThresholds.highRisk) {
-      return riskMessages.veryHigh;
-    } else if (prediction > riskThresholds.mediumRisk) {
-      return riskMessages.high;
-    } else if (prediction > riskThresholds.lowRisk) {
-      return riskMessages.medium;
-    } else {
-      return riskMessages.low;
-    }
+    return {
+      message: riskMessages[riskLevel],
+      riskScore: probabilityForPositivity
+    };
   }
 
   public mapToMLModel(result: any, patientAge: number): PredictionObject {
