@@ -238,7 +238,6 @@
               {{ option.label | translate }}
             </option>
           </ofe-select>
-                  
 
           <div *ngSwitchCase="'file'">
             <ofe-file-upload
@@ -379,7 +378,9 @@
             [id]="node.question.key + 'id'"
             [readOnly]="node.question.extras.readOnly"
           />
-          <machine-learning-risk-score [node]="node"></machine-learning-risk-score>
+          <machine-learning-risk-score
+            [node]="node"
+          ></machine-learning-risk-score>
 
           <div *ngSwitchCase="'radio'">
             <ofe-radio-button
