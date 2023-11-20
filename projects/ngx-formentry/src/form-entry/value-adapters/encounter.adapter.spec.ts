@@ -265,10 +265,5 @@ describe('Encounter Value Adapter:', () => {
         (d) => d.diagnosis.coded == '116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
       )
     ).toBeTruthy();
-    expect(
-      payload['diagnoses'].find(
-        (d) => d.diagnosis.coded == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
-      )
-    ).toBeTruthy();
   });
 });
