@@ -127,7 +127,7 @@ describe('Diagnosis Value Adapter', () => {
       expect(
         payload.find(
           (p) =>
-            p.diagnosis.coded == '5945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' &&
+            p.uuid == '636bf840-a244-4e83-815f-3ba2b6ce35be' &&
             p.voided
         )
       ).toBeTruthy();

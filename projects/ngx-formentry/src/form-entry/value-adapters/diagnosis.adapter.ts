@@ -43,6 +43,8 @@ export class DiagnosisValueAdapter implements ValueAdapter {
   private _createDiagnosesPayload(diagnosisNodes, existingDiagnoses) {
     const payload: Array<DiagnosisPayload> = [];
     let deletedDiagnoses: Array<DiagnosisPayload> = [];
+
+    // Add new diagnosis to payload
     diagnosisNodes?.forEach((node) => {
       if (node instanceof ArrayNode) {
         node.control.value
@@ -53,8 +55,16 @@ export class DiagnosisValueAdapter implements ValueAdapter {
               value[node.question.key],
               node.question.extras
             );
-            // Validate if is new value
-            payload.push(payloadDiagnosis);
+
+            const isNewDiagnosis = existingDiagnoses.every((d) =>
+                d.diagnosis.coded.uuid !== value[node.question.key] ||
+                d.certainty !== "CONFIRMED" ||
+                d.rank !== node.question.extras.questionOptions.rank
+            );
+
+            if (isNewDiagnosis) {
+              payload.push(payloadDiagnosis);
+            }
           });
       }
 
@@ -115,22 +125,21 @@ export class DiagnosisValueAdapter implements ValueAdapter {
   }
 
   private _getDeletedDiagnoses(
-    payloadDiagnoses: Array<DiagnosisPayload>,
-    existingDiagnoses: Array<Diagnosis>
-  ): Array<DiagnosisPayload> {
-    return existingDiagnoses
-      ?.filter((e) => {
-        return !payloadDiagnoses.find((p) => {
-          let isSame =
-            !e.voided && p.diagnosis.coded === e.diagnosis.coded.uuid;
-          return isSame;
-        });
-      })
-      .map((d) => {
-        let diagnosisPayload = this._convert(d);
-        diagnosisPayload.voided = true;
-        return diagnosisPayload;
+      diagnosisNodes: Array<DiagnosisPayload>,
+      existingDiagnoses: Array<Diagnosis>
+  ): Array<any> {
+    return existingDiagnoses.filter(existingDiagnosis => {
+      return !diagnosisNodes?.some(node => {
+        if (node instanceof ArrayNode) {
+          return node.control.value.some(value => {
+            return value[node.question.key] === existingDiagnosis.diagnosis.coded.uuid &&
+                existingDiagnosis.rank === node.question.extras.questionOptions.rank &&
+                existingDiagnosis.certainty === 'CONFIRMED';
+          });
+        }
+        return false;
       });
+    }).map(existingDiagnosis => ({ uuid: existingDiagnosis.uuid, voided: true }));
   }
 
   private _updatedOldDiagnoses(
@@ -272,7 +281,7 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     >;
 
     for (let childNode of childrenNodes) {
-      if (childNode.control.value !== childNode.initialValue) {
+      if (childNode.control.value !== nodeAsGroup.initialValue?.primaryDiagnosisId) {
         return true;
       }
     }
