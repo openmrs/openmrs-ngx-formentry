@@ -21,5 +21,9 @@
     "shelljs": "^0.7.8",
     "slick-carousel": "^1.8.1",
     "tree-model": "^1.0.7"
+  },
+  "exports": {
+    "./styles/ngx-formentry.css": "./styles/ngx-formentry.css",
+    "./styles/picker.min.css": "./styles/picker.min.css"
   }
 }
