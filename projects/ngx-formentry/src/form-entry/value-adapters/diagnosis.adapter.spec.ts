@@ -126,9 +126,7 @@ describe('Diagnosis Value Adapter', () => {
       // Confirm deleted diagnoses were added to the payload
       expect(
         payload.find(
-          (p) =>
-            p.uuid == '636bf840-a244-4e83-815f-3ba2b6ce35be' &&
-            p.voided
+          (p) => p.uuid == '636bf840-a244-4e83-815f-3ba2b6ce35be' && p.voided
         )
       ).toBeTruthy();
     });

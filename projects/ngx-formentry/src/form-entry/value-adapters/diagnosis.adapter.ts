@@ -56,9 +56,10 @@ export class DiagnosisValueAdapter implements ValueAdapter {
               node.question.extras
             );
 
-            const isNewDiagnosis = existingDiagnoses.every((d) =>
+            const isNewDiagnosis = existingDiagnoses.every(
+              (d) =>
                 d.diagnosis.coded.uuid !== value[node.question.key] ||
-                d.certainty !== "CONFIRMED" ||
+                d.certainty !== 'CONFIRMED' ||
                 d.rank !== node.question.extras.questionOptions.rank
             );
 
@@ -125,21 +126,30 @@ export class DiagnosisValueAdapter implements ValueAdapter {
   }
 
   private _getDeletedDiagnoses(
-      diagnosisNodes: Array<DiagnosisPayload>,
-      existingDiagnoses: Array<Diagnosis>
+    diagnosisNodes: Array<DiagnosisPayload>,
+    existingDiagnoses: Array<Diagnosis>
   ): Array<any> {
-    return existingDiagnoses.filter(existingDiagnosis => {
-      return !diagnosisNodes?.some(node => {
-        if (node instanceof ArrayNode) {
-          return node.control.value.some(value => {
-            return value[node.question.key] === existingDiagnosis.diagnosis.coded.uuid &&
-                existingDiagnosis.rank === node.question.extras.questionOptions.rank &&
-                existingDiagnosis.certainty === 'CONFIRMED';
-          });
-        }
-        return false;
-      });
-    }).map(existingDiagnosis => ({ uuid: existingDiagnosis.uuid, voided: true }));
+    return existingDiagnoses
+      .filter((existingDiagnosis) => {
+        return !diagnosisNodes?.some((node) => {
+          if (node instanceof ArrayNode) {
+            return node.control.value.some((value) => {
+              return (
+                value[node.question.key] ===
+                  existingDiagnosis.diagnosis.coded.uuid &&
+                existingDiagnosis.rank ===
+                  node.question.extras.questionOptions.rank &&
+                existingDiagnosis.certainty === 'CONFIRMED'
+              );
+            });
+          }
+          return false;
+        });
+      })
+      .map((existingDiagnosis) => ({
+        uuid: existingDiagnosis.uuid,
+        voided: true
+      }));
   }
 
   private _updatedOldDiagnoses(
@@ -281,7 +291,9 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     >;
 
     for (let childNode of childrenNodes) {
-      if (childNode.control.value !== nodeAsGroup.initialValue?.primaryDiagnosisId) {
+      if (
+        childNode.control.value !== nodeAsGroup.initialValue?.primaryDiagnosisId
+      ) {
         return true;
       }
     }
