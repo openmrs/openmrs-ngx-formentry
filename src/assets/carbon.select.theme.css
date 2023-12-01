@@ -296,7 +296,7 @@
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
   line-height: 3em;
   min-height: 3em;
-  white-space: nowrap;
+  white-space: wrap !important;
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0 16px;
