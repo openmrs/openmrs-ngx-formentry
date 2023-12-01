@@ -297,7 +297,7 @@
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
   line-height: 3em;
   min-height: 3em;
-  white-space: nowrap;
+  white-space: wrap !important;
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0 16px;
@@ -305,6 +305,7 @@
   position: relative;
   color: rgba(0, 0, 0, 0.87);
   text-align: left;
+  border-bottom: 1px solid #eee;
 }
 
 [dir='rtl'] .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
