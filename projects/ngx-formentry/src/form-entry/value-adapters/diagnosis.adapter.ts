@@ -108,7 +108,7 @@ export class DiagnosisValueAdapter implements ValueAdapter {
       }
     });
     this._updatedOldDiagnoses(payload, existingDiagnoses);
-    deletedDiagnoses = this._getDeletedDiagnoses(payload, existingDiagnoses);
+    deletedDiagnoses = this._getDeletedDiagnoses(diagnosisNodes, existingDiagnoses);
     return payload.concat(deletedDiagnoses);
   }
 
