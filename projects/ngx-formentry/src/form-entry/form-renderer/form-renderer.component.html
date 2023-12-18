@@ -250,7 +250,7 @@
             [id]="node.question.key + 'id'"
             *ngSwitchCase="'multi-select'"
             [multiple]="true"
-            [appendTo]="'form'"
+            [appendTo]="'#' + node.question.key + 'id'"
             placeholder=""
             clearAllText="Clear"
             [formControlName]="node.question.key"
