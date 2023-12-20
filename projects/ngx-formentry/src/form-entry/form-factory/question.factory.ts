@@ -245,6 +245,7 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.prefix = schemaQuestion.prefix;
     question.extras = schemaQuestion;
+    question.readOnly = schemaQuestion.questionOptions.readOnly;
     question.allowUnselect = schemaQuestion.questionOptions.allowUnselect;
     question.orientation = schemaQuestion.questionOptions.orientation;
     question.options = schemaQuestion.questionOptions.answers.map((obj) => {
