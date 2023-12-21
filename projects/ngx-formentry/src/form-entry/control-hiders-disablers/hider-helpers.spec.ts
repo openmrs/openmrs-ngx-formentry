@@ -33,7 +33,8 @@ describe('Control Hider Helper Service:', () => {
       show: () => {},
       hiders: [],
       updateHiddenState: () => {},
-      setHidingFn: (newHider: Hider) => {}
+      setHidingFn: (newHider: Hider) => {},
+      setValue: (value: any) => {}
     };
 
     control.hide();
@@ -56,7 +57,8 @@ describe('Control Hider Helper Service:', () => {
       },
       hiders: [],
       updateHiddenState: () => {},
-      setHidingFn: (newHider: Hider) => {}
+      setHidingFn: (newHider: Hider) => {},
+      setValue: (value: any) => {}
     };
 
     control.show();
@@ -76,7 +78,8 @@ describe('Control Hider Helper Service:', () => {
       updateHiddenState: () => {},
       setHidingFn: (newHider: Hider) => {
         helper.setHiderForControl(control, newHider);
-      }
+      },
+      setValue: (value: any) => {}
     };
 
     const hider: Hider = {
@@ -103,7 +106,8 @@ describe('Control Hider Helper Service:', () => {
       show: () => {},
       hiders: [],
       updateHiddenState: () => {},
-      setHidingFn: (newHider: Hider) => {}
+      setHidingFn: (newHider: Hider) => {},
+      setValue: (value: any) => {}
     };
 
     const hider: Hider = {
@@ -138,7 +142,8 @@ describe('Control Hider Helper Service:', () => {
       updateHiddenState: () => {
         helper.evaluateControlHiders(control);
       },
-      setHidingFn: (newHider: Hider) => {}
+      setHidingFn: (newHider: Hider) => {},
+      setValue: (value: any) => {}
     };
 
     const hider1: Hider = {
@@ -186,7 +191,8 @@ describe('Control Hider Helper Service:', () => {
       updateHiddenState: () => {
         helper.evaluateControlHiders(control2);
       },
-      setHidingFn: (newHider: Hider) => {}
+      setHidingFn: (newHider: Hider) => {},
+      setValue: (value: any) => {}
     };
 
     const hider4: Hider = {
@@ -230,7 +236,8 @@ describe('Control Hider Helper Service:', () => {
         helper.evaluateControlHiders(control);
       },
       setHidingFn: (newHider: Hider) => {},
-      valueChanges: subject.asObservable()
+      valueChanges: subject.asObservable(),
+      setValue: (value: any) => {}
     };
 
     const hider1: Hider = {
