@@ -144,6 +144,8 @@ export class AfeFormArray
   }
 
   setValue(value: any) {
-    super.setValue(value);
+    if (value !== null) {
+      super.setValue(value);
+    }
   }
 }
