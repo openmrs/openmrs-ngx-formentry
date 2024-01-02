@@ -66,8 +66,7 @@ describe('OwlDateTimeComponent', () => {
   function createComponent(
     component: Type<any>,
     imports: Type<any>[] = [],
-    providers: (FactoryProvider | ValueProvider)[] = [],
-    entryComponents: Type<any>[] = []
+    providers: (FactoryProvider | ValueProvider)[] = []
   ): ComponentFixture<any> {
     TestBed.configureTestingModule({
       imports: [
@@ -79,13 +78,7 @@ describe('OwlDateTimeComponent', () => {
         ...imports
       ],
       providers,
-      declarations: [component, ...entryComponents]
-    });
-
-    TestBed.overrideModule(BrowserDynamicTestingModule, {
-      set: {
-        entryComponents: [entryComponents]
-      }
+      declarations: [component]
     }).compileComponents();
 
     return TestBed.createComponent(component);
