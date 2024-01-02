@@ -2905,7 +2905,7 @@
   resolved "https://registry.yarnpkg.com/@nx/nx-win32-x64-msvc/-/nx-win32-x64-msvc-16.5.1.tgz#d2f4a1b2bf675bceb6fb16174b836438293f9dca"
   integrity sha512-kUJBLakK7iyA9WfsGGQBVennA4jwf5XIgm0lu35oMOphtZIluvzItMt0EYBmylEROpmpEIhHq0P6J9FA+WH0Rg==
 
-"@openmrs/ngx-file-uploader@^0.0.16-pre.21":
+"@openmrs/ngx-file-uploader@next":
   version "0.0.16-pre.21"
   resolved "https://registry.yarnpkg.com/@openmrs/ngx-file-uploader/-/ngx-file-uploader-0.0.16-pre.21.tgz#47049ccd200f318a8d7b831e70129649ca9487e3"
   integrity sha512-xUMXQsTpI1ooqHdyd7Vqb1NkwKr8sX6XGy75+2DatGlhiDFpPROBDM5cL6CRsfITGvnk3e/vidYAXo/ylnInkg==
