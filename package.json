@@ -38,7 +38,7 @@
     "jspdf": "^2.5.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
-    "ngx-bootstrap": "^10.3.0",
+    "ngx-bootstrap": "^11.0.1",
     "ngx-webcam": "0.4.1",
     "pdfmake": "0.1.72",
     "reflect-metadata": "^0.1.13",

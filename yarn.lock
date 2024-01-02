@@ -2905,10 +2905,10 @@
   resolved "https://registry.yarnpkg.com/@nx/nx-win32-x64-msvc/-/nx-win32-x64-msvc-16.5.1.tgz#d2f4a1b2bf675bceb6fb16174b836438293f9dca"
   integrity sha512-kUJBLakK7iyA9WfsGGQBVennA4jwf5XIgm0lu35oMOphtZIluvzItMt0EYBmylEROpmpEIhHq0P6J9FA+WH0Rg==
 
-"@openmrs/ngx-file-uploader@next":
-  version "0.0.16-pre.19"
-  resolved "https://registry.yarnpkg.com/@openmrs/ngx-file-uploader/-/ngx-file-uploader-0.0.16-pre.19.tgz#b72b0b0ff806ea2aae5b9f1afb08d8ecd827a192"
-  integrity sha512-5TAT8oFNjLwDFrcKVruCnVDXgXDiacNVClOdRvBaBbcIU9meHjNP/JOxRNeKbKWOMaRzg35yjZIgtkmpUbsVug==
+"@openmrs/ngx-file-uploader@^0.0.16-pre.21":
+  version "0.0.16-pre.21"
+  resolved "https://registry.yarnpkg.com/@openmrs/ngx-file-uploader/-/ngx-file-uploader-0.0.16-pre.21.tgz#47049ccd200f318a8d7b831e70129649ca9487e3"
+  integrity sha512-xUMXQsTpI1ooqHdyd7Vqb1NkwKr8sX6XGy75+2DatGlhiDFpPROBDM5cL6CRsfITGvnk3e/vidYAXo/ylnInkg==
   dependencies:
     tslib "^2.3.0"
 
@@ -7790,10 +7790,10 @@ ng-packagr@~16.2.3:
   optionalDependencies:
     esbuild "^0.19.0"
 
-ngx-bootstrap@^10.3.0:
-  version "10.3.0"
-  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-10.3.0.tgz#688e7df7c8b4302ce342a13c4b49c4d67d117311"
-  integrity sha512-Ok9umbq4tqJSXMy/5/+2VZJHcwj7hD3a3x2KkF1A+f0e70BARY8rfr9QKjGgvywWNyZMf0Z5PvE1WEeEiMvCkA==
+ngx-bootstrap@^11.0.1:
+  version "11.0.2"
+  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-11.0.2.tgz#ed1d0e254ef16ba8245cd9a3450404dc81aabef6"
+  integrity sha512-McvQ72XB6692Jus47jahWWwjpSCa6EtHMIqoyMewKCEHMv0ybDgVnOAdEsWKvwfulowHn7Y/jDjeiURwYJG9cQ==
   dependencies:
     tslib "^2.3.0"
 
