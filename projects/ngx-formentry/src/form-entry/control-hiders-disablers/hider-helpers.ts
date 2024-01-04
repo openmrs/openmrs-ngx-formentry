@@ -26,6 +26,7 @@ export class HiderHelper {
       hider.reEvaluateHidingExpression();
       if (hider.toHide === true) {
         hiddenValue = true;
+        control.setValue(null);
       }
     });
 
