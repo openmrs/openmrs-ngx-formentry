@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@carbon/styles/css/styles.min.css';
+@import 'projects/ngx-formentry/styles/picker.min.css';
+@import 'projects/ngx-formentry/styles/ngx-formentry.css';
+
 :root {
   --brand-01: #005d5d;
   --brand-02: #004144;
