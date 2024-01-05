@@ -9,25 +9,17 @@
     "downlevelIteration": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "module": "es2020",
+    "forceConsistentCasingInFileNames": true,
+    "module": "ES2022",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "importHelpers": true,
     "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["ES2022", "dom"],
     "paths": {
-      "@openmrs/ngx-formentry": [
-        "projects/ngx-formentry/src/lib"
-      ],
-      "@openmrs/ngx-formentry/*": [
-        "projects/ngx-formentry/src/lib*"
-      ]
+      "@openmrs/ngx-formentry": ["projects/ngx-formentry/src/lib"],
+      "@openmrs/ngx-formentry/*": ["projects/ngx-formentry/src/lib*"]
     },
     "useDefineForClassFields": false
   },

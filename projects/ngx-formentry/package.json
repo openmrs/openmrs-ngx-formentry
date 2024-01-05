@@ -19,7 +19,6 @@
     "ngx-webcam": "^0.4.1",
     "reflect-metadata": "^0.1.13",
     "shelljs": "^0.7.8",
-    "slick-carousel": "^1.8.1",
     "tree-model": "^1.0.7"
   },
   "exports": {
