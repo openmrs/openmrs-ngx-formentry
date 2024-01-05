@@ -3122,9 +3122,9 @@
     "@types/node" "*"
 
 "@types/jasmine@*":
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-5.1.1.tgz#7d2a2a983e1e822858ea9e30d90e11a3fe408fc0"
-  integrity sha512-qL4GoZHHJl1JQ0vK31OtXMfkfGxYJnysmYz9kk0E8j5W96ThKykBF90uD3PcVmQUAzulbsaus2eFiBhCH5itfw==
+  version "5.1.4"
+  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-5.1.4.tgz#0de3f6ca753e10d1600ce1864ae42cfd47cf9924"
+  integrity sha512-px7OMFO/ncXxixDe1zR13V1iycqWae0MxTaw62RpFlksUi5QuNWgQJFkTQjIOvrmutJbI7Fp2Y2N1F6D2R4G6w==
 
 "@types/jasmine@~3.6.11":
   version "3.6.11"
@@ -3132,9 +3132,9 @@
   integrity sha512-S6pvzQDvMZHrkBz2Mcn/8Du7cpr76PlRJBAoHnSDNbulULsH5dp0Gns+WRyNX5LHejz/ljxK4/vIHK/caHt6SQ==
 
 "@types/jasminewd2@~2.0.11":
-  version "2.0.12"
-  resolved "https://registry.yarnpkg.com/@types/jasminewd2/-/jasminewd2-2.0.12.tgz#6482ae25eccfbb5c3b41e9a2759089b20d336d2a"
-  integrity sha512-C4rXKMnGqLqTw4mgfiT0fL91g5oFAUhreR8jeeYk4xYcgh1/CImqgn5pWcErnpJJS43XFUfHGit0sSPQ39G1Pg==
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/@types/jasminewd2/-/jasminewd2-2.0.13.tgz#0b60c1fcd06277ea97efbbad5a02e0c1a4a8996a"
+  integrity sha512-aJ3wj8tXMpBrzQ5ghIaqMisD8C3FIrcO6sDKHqFbuqAsI7yOxj0fA7MrRCPLZHIVUjERIwsMmGn/vB0UQ9u0Hg==
   dependencies:
     "@types/jasmine" "*"
 
@@ -9334,11 +9334,6 @@ slice-ansi@^4.0.0:
     ansi-styles "^4.0.0"
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
-
-slick-carousel@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/slick-carousel/-/slick-carousel-1.8.1.tgz#a4bfb29014887bb66ce528b90bd0cda262cc8f8d"
-  integrity sha512-XB9Ftrf2EEKfzoQXt3Nitrt/IPbT+f1fgqBdoxO3W/+JYvtEOW6EgxnWfr9GH6nmULv7Y2tPmEX3koxThVmebA==
 
 smart-buffer@^4.2.0:
   version "4.2.0"
