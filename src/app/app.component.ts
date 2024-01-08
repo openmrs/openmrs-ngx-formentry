@@ -6,41 +6,38 @@ import { Subscriber, Observable, Subject, of, Observer } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import {
-  QuestionFactory,
+  DataSources,
+  EncounterAdapter,
   Form,
+  FormErrorsService,
   FormFactory,
   ObsValueAdapter,
   OrderValueAdapter,
-  EncounterAdapter,
-  DataSources,
-  FormErrorsService,
-  PersonAttribuAdapter
+  PersonAttribuAdapter,
+  QuestionFactory
 } from '@openmrs/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
 import { mockTranslationsData } from './mock/mock-translations';
 import { PatientIdentifierAdapter } from 'projects/ngx-formentry/src/form-entry/value-adapters/patient-identifier.adapter';
 
-const adultForm = require('./adult-1.6.json');
-const adultFormObs = require('./mock/obs.json');
+const adultReturnVisitForm = require('./adult-1.6.json');
+const adultReturnVisitFormObs = require('./mock/obs.json');
 const formOrdersPayload = require('./mock/orders.json');
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  data: any;
+  activeTab = 0;
+  currentLanguage = 'en';
+  encounterObject = adultReturnVisitFormObs;
+  form: Form;
+  formGroup: UntypedFormGroup;
+  labelMap = {};
   schema: any;
   sections: {} = {};
-  formGroup: UntypedFormGroup;
-  activeTab = 0;
-  form: Form;
-  stack = [];
-  encounterObject = adultFormObs;
-  showingEncounterViewer = false;
-  public header = 'UMD Demo';
-  currentLanguage = 'en';
-  labelMap = {};
 
   constructor(
     private questionFactory: QuestionFactory,
@@ -55,7 +52,7 @@ export class AppComponent implements OnInit {
     private personAttributeAdapter: PersonAttribuAdapter,
     private patientIdenfierAdapter: PatientIdentifierAdapter
   ) {
-    this.schema = adultForm;
+    this.schema = adultReturnVisitForm;
   }
 
   ngOnInit() {
@@ -164,8 +161,8 @@ export class AppComponent implements OnInit {
     this.createForm();
 
     // Set encounter, obs, orders
-    adultFormObs.orders = formOrdersPayload.orders;
-    this.encAdapter.populateForm(this.form, adultFormObs);
+    adultReturnVisitFormObs.orders = formOrdersPayload.orders;
+    this.encAdapter.populateForm(this.form, adultReturnVisitFormObs);
 
     this.setUpCascadeSelectForWHOStaging();
     if (!this.form.valid) {
@@ -175,7 +172,7 @@ export class AppComponent implements OnInit {
 
     // Alternative is to set individually for obs and orders as show below
     // // Set obs
-    // this.obsValueAdapater.populateForm(this.form, adultFormObs.obs);
+    // this.obsValueAdapater.populateForm(this.form, adultReturnVisitFormObs.obs);
 
     // // Set orders
     // this.orderAdaptor.populateForm(this.form, formOrdersPayload);
@@ -404,11 +401,5 @@ export class AppComponent implements OnInit {
   public reset($event) {
     $event.preventDefault();
     this.form.rootNode.control.reset();
-  }
-
-  public toggleEncounterViewer() {
-    this.showingEncounterViewer === true
-      ? (this.showingEncounterViewer = false)
-      : (this.showingEncounterViewer = true);
   }
 }
