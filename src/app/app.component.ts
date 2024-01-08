@@ -6,41 +6,39 @@ import { Subscriber, Observable, Subject, of, Observer } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import {
-  QuestionFactory,
+  DataSources,
+  EncounterAdapter,
   Form,
+  FormErrorsService,
   FormFactory,
   ObsValueAdapter,
   OrderValueAdapter,
-  EncounterAdapter,
-  DataSources,
-  FormErrorsService,
-  PersonAttribuAdapter
+  PersonAttribuAdapter,
+  QuestionFactory
 } from '@openmrs/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
 import { mockTranslationsData } from './mock/mock-translations';
 import { PatientIdentifierAdapter } from 'projects/ngx-formentry/src/form-entry/value-adapters/patient-identifier.adapter';
 
-const adultForm = require('./adult-1.6.json');
-const adultFormObs = require('./mock/obs.json');
-const formOrdersPayload = require('./mock/orders.json');
+const adultForm = require('./schemas/adult-1.6.json');
+const adultFormObs = require('./schemas/obs.json');
+const formOrdersPayload = require('./schemas/orders.json');
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  data: any;
+  activeTab = 0;
+  currentLanguage = 'en';
+  encounterObject = adultFormObs;
+  form: Form;
+  formGroup: UntypedFormGroup;
+  labelMap = {};
   schema: any;
   sections: {} = {};
-  formGroup: UntypedFormGroup;
-  activeTab = 0;
-  form: Form;
-  stack = [];
-  encounterObject = adultFormObs;
   showingEncounterViewer = false;
-  public header = 'UMD Demo';
-  currentLanguage = 'en';
-  labelMap = {};
 
   constructor(
     private questionFactory: QuestionFactory,

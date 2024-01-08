@@ -1,9 +1,13 @@
-import { TextInputQuestion } from 'projects/ngx-formentry/src/public_api';
-import { QuestionGroup } from 'projects/ngx-formentry/src/public_api';
-import { RepeatingQuestion } from 'projects/ngx-formentry/src/public_api';
 import { FormGroup } from '@angular/forms';
+import {
+  TextInputQuestion,
+  QuestionGroup,
+  RepeatingQuestion
+} from 'projects/ngx-formentry/src/public_api';
+
 export class MockForm {
-  section1: FormGroup;
+  section1: FormGroup = new FormGroup({});
+
   data = {
     form: this.section1,
     questions: [
@@ -95,6 +99,7 @@ export class MockForm {
       })
     ]
   };
+
   getMockForm() {
     return this.data;
   }
