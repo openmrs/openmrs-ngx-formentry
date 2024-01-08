@@ -78,7 +78,7 @@ describe('CheckboxControlComponent', () => {
     labels = fieldset.querySelectorAll('label');
   });
 
-  it('should display by default', () => {
+  it('should create the checkbox component', () => {
     expect(component).toBeTruthy();
     expect(fieldset).toBeTruthy();
   });
