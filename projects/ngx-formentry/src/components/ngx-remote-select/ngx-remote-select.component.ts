@@ -19,6 +19,7 @@ import { SelectOption } from '../../form-entry/question-models/interfaces/select
 
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
 import * as _ from 'lodash';
+
 @Component({
   selector: 'ofe-remote-select',
   templateUrl: 'remote-select.component.html',
@@ -40,11 +41,12 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
   value = [];
   loading = false;
   searchText = '';
-  notFoundMsg = 'match no found';
+  notFoundMsg = 'Match not found';
   @Input() placeholder = 'Search...';
   @Input() componentID: string;
   @Input() disabled = false;
   @Input() theme = 'dark';
+  @Input() invalid = 'false';
   @Output() done: EventEmitter<any> = new EventEmitter<any>();
 
   private _dataSource: DataSource;

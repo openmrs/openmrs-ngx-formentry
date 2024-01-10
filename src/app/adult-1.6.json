@@ -3362,9 +3362,7 @@
                   "type": "obs",
                   "hide": {
                     "field": "tb_current",
-                    "value": [
-                      "b8aa06ca-93c6-40ea-b144-c74f841926f4"
-                    ]
+                    "value": ["b8aa06ca-93c6-40ea-b144-c74f841926f4"]
                   },
                   "id": "__ptxCzFD2s"
                 }
@@ -6993,9 +6991,7 @@
                   "type": "obs",
                   "hide": {
                     "field": "q26f",
-                    "value": [
-                      "b8aa06ca-93c6-40ea-b144-c74f841926f4"
-                    ]
+                    "value": ["b8aa06ca-93c6-40ea-b144-c74f841926f4"]
                   },
                   "id": "__Jywyp94Lw"
                 }
@@ -8016,16 +8012,7 @@
               "questionOptions": {
                 "concept": "318a5e8b-218c-4f66-9106-cd581dec1f95",
                 "rendering": "date",
-                "weeksList": [
-                  2,
-                  4,
-                  6,
-                  8,
-                  12,
-                  16,
-                  24,
-                  36
-                ]
+                "weeksList": [2, 4, 6, 8, 12, 16, 24, 36]
               },
               "validators": [
                 {
@@ -8055,17 +8042,7 @@
               "questionOptions": {
                 "concept": "a8a666ba-1350-11df-a1f1-0026b9348838",
                 "rendering": "date",
-                "weeksList": [
-                  2,
-                  4,
-                  6,
-                  8,
-                  12,
-                  16,
-                  20,
-                  24,
-                  36
-                ]
+                "weeksList": [2, 4, 6, 8, 12, 16, 20, 24, 36]
               },
               "validators": [
                 {

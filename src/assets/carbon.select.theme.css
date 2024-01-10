@@ -1,7 +1,7 @@
 .ng-select {
   font-family: 'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono',
     'Bitstream Vera Sans Mono', Courier, monospace;
-  padding-bottom: 1.25em;
+  padding-bottom: 0.25em;
 }
 
 .ng-select.ng-select-disabled .ng-select-container:after {
@@ -80,7 +80,7 @@
   transition: border-color 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
 }
 
-.ng-select .ng-select-container .ng-value-container {
+.ng-select .ng-select-container {
   align-items: stretch;
   padding: 0;
   border-top: 0.84375em solid transparent;
@@ -95,7 +95,7 @@
     width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.ng-select .ng-select-container .ng-value-container .ng-input {
+.ng-select .ng-select-container .ng-input {
   bottom: 0.4375em;
   padding: 0 1rem;
 }
@@ -128,11 +128,7 @@
   margin: 0 0.4375em 0.4375em 0;
 }
 
-[dir='rtl']
-  .ng-select.ng-select-multiple
-  .ng-select-container
-  .ng-value-container
-  .ng-value {
+[dir='rtl'] .ng-select.ng-select-multiple .ng-select-container .ng-value {
   margin: 0 0 0.4375em 0.4375em;
 }
 
