@@ -2,6 +2,7 @@ h4 {
   padding-left: 1rem;
   margin-bottom: 0.5rem;
 }
+
 h4:after {
   content: '';
   display: block;
