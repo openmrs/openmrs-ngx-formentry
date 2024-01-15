@@ -25,8 +25,8 @@
           type="button"
         >
           <a *ngIf="i > 0" (click)="tabSelected(i - 1)" class="nav-link">
-            <label>{{ 'previous' | translate }}</label>
-            <span class="nav-label">{{
+            <label class="nav-label">{{ 'previous' | translate }}</label>
+            <span class="nav-link-text">{{
               node.question.questions[i - 1].label
             }}</span>
           </a>
@@ -41,8 +41,8 @@
             (click)="tabSelected(i + 1)"
             class="nav-link"
           >
-            <label>{{ 'next' | translate }}</label>
-            <span class="nav-label">{{
+            <label class="nav-label">{{ 'next' | translate }}</label>
+            <span class="nav-link-text">{{
               node.question.questions[i + 1].label
             }}</span>
           </a>
