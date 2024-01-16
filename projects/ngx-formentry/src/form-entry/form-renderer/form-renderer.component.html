@@ -16,6 +16,38 @@
         [labelMap]="labelMap"
       >
       </ofe-form-renderer>
+
+      <!-- Buttons for navigating between tabs -->
+      <div class="cds--btn-set button-set">
+        <button
+          class="cds--btn cds--btn--ghost nav-button"
+          [disabled]="i === 0"
+          type="button"
+        >
+          <a *ngIf="i > 0" (click)="tabSelected(i - 1)" class="nav-link">
+            <label class="nav-label">{{ 'previous' | translate }}</label>
+            <span class="nav-link-text">{{
+              node.question.questions[i - 1].label
+            }}</span>
+          </a>
+        </button>
+        <button
+          class="cds--btn cds--btn--ghost nav-button"
+          [disabled]="i === node.question.questions.length - 1"
+          type="button"
+        >
+          <a
+            *ngIf="i < node.question.questions.length - 1"
+            (click)="tabSelected(i + 1)"
+            class="nav-link"
+          >
+            <label class="nav-label">{{ 'next' | translate }}</label>
+            <span class="nav-link-text">{{
+              node.question.questions[i + 1].label
+            }}</span>
+          </a>
+        </button>
+      </div>
     </ofe-tab>
     <div *ngIf="showErrors()" class="container">
       <div

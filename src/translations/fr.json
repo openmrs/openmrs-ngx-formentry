@@ -49,5 +49,7 @@
   "fix": "Corriger",
   "clearEntry": "Êtes-vous sûr(e) de vouloir effacer cette entrée ?",
   "deleteEntry": "Êtes-vous sûr(e) de vouloir supprimer cet élément ?",
-  "maxEntries":"Vous ne pouvez pas avoir plus de {max} entrées"
+  "maxEntries": "Vous ne pouvez pas avoir plus de {max} entrées",
+  "next": "Suivant",
+  "previous": "Précédent"
 }

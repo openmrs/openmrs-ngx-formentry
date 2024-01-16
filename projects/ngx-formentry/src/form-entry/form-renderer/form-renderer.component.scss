@@ -1,8 +1,32 @@
-a {
-  color: white;
-  text-decoration: none;
-  font-size: 12px;
-  text-transform: uppercase;
+@use '@carbon/styles/scss/type';
+
+.button-set {
+  margin-top: 1rem;
+}
+
+.nav-button {
+  border-top: 1px solid #dde1e6;
+  height: 5rem;
+  max-width: 50%;
+  min-width: 50%;
+  padding-block: 0.25rem;
+}
+
+.nav-link {
+  min-width: 100%;
+  display: flex;
+  align-content: flex-start;
+  align-items: baseline;
+  flex-direction: column;
+}
+
+.nav-link-text {
+  margin-top: 0.125rem;
+  @include type.type-style('heading-03');
+}
+
+.nav-label {
+  @include type.type-style('label-01');
 }
 
 ul {
