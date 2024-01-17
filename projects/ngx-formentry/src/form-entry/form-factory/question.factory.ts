@@ -163,6 +163,7 @@ export class QuestionFactory {
       required: 'required',
       id: 'key'
     };
+    question.datePickerFormat = schemaQuestion.datePickerFormat ?? 'calendar';
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
