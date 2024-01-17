@@ -401,6 +401,7 @@
               "label": "If unscheduled, actual scheduled date",
               "id": "actualDate",
               "type": "obs",
+              "datePickerFormat": "timer",
               "required": {
                 "type": "conditionalRequired",
                 "message": "Patient visit marked as unscheduled. Please provide the scheduled date.",
