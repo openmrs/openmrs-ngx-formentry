@@ -161,6 +161,16 @@ ng-select.form-control {
   margin-top: 0.25rem;
 }
 
+.warning {
+  display: flex;
+  align-items: center;
+  margin: 0 0.25rem 0.75rem;
+
+  svg {
+    margin-right: 0.25rem;
+  }
+}
+
 .afe-control {
   margin-bottom: 0.125rem;
 }
