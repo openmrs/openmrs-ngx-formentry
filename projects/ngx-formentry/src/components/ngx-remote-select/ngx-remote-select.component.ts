@@ -19,6 +19,8 @@ import { SelectOption } from '../../form-entry/question-models/interfaces/select
 
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
 import * as _ from 'lodash';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'ofe-remote-select',
   templateUrl: 'remote-select.component.html',
@@ -40,11 +42,12 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
   value = [];
   loading = false;
   searchText = '';
-  notFoundMsg = 'match no found';
-  @Input() placeholder = 'Search...';
+  notFoundMsg = this.translate.instant('matchNotFound');
+  @Input() placeholder = this.translate.instant('search');
   @Input() componentID: string;
   @Input() disabled = false;
   @Input() theme = 'dark';
+  @Input() invalid = 'false';
   @Output() done: EventEmitter<any> = new EventEmitter<any>();
 
   private _dataSource: DataSource;
@@ -59,7 +62,10 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    private renderer: Renderer2,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.loadOptions();
@@ -71,7 +77,7 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
         this.items = results;
         this.notFoundMsg = '';
       } else {
-        this.notFoundMsg = 'Not found';
+        this.notFoundMsg = 'Match not found';
         this.items = [];
       }
     });

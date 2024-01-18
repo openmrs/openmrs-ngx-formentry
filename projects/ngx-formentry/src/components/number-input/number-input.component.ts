@@ -61,9 +61,13 @@ export class NumberInputComponent implements ControlValueAccessor {
    */
   @Input() id = `number-${NumberInputComponent.numberCount}`;
   /**
+   * Sets the placeholder attribute on the `input` element.
+   */
+  @Input() placeholder = '';
+  /**
    * Number input field render size
    */
-  @Input() size: 'sm' | 'md' | 'xl' = 'md';
+  @Input() size: 'sm' | 'md' | 'lg' = 'md';
   /**
    * Reflects the required attribute of the `input` element.
    */
@@ -133,11 +137,11 @@ export class NumberInputComponent implements ControlValueAccessor {
   /**
    * Sets the decrement label text
    */
-  @Input() decrementLabel = 'Decrease';
+  @Input() decrementLabel = 'Decrement';
   /**
    * Sets the increment label text
    */
-  @Input() incrementLabel = 'Increase';
+  @Input() incrementLabel = 'Increment';
 
   protected _value = 0;
 

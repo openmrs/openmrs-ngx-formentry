@@ -49,6 +49,8 @@
         </button>
       </div>
     </ofe-tab>
+
+    <!-- TODO: Figure out why is this code doing the same thing as the ErrorRenderer component -->
     <div *ngIf="showErrors()" class="container">
       <div
         data-notification
@@ -98,13 +100,13 @@
     </div>
   </ofe-tab-set>
 </div>
+
 <div *ngIf="node.question.renderingType === 'page'">
   <!--Page Components-->
   <ofe-custom-component-wrapper
     [dark]="theme === 'light'"
     [componentConfigs]="node.question.componentConfigs"
-  >
-  </ofe-custom-component-wrapper>
+  ></ofe-custom-component-wrapper>
   <ofe-form-renderer
     *ngFor="let question of node.question.questions"
     [parentComponent]="this"
@@ -113,6 +115,7 @@
     [labelMap]="labelMap"
   ></ofe-form-renderer>
 </div>
+
 <div *ngIf="node.question.renderingType === 'section' && checkSection(node)">
   <div class="cds--layout">
     <ul class="cds--accordion cds--accordion--end">
@@ -169,8 +172,7 @@
   <ofe-custom-component-wrapper
     [dark]="!(theme === 'light')"
     [componentConfigs]="node.question.componentConfigs"
-  >
-  </ofe-custom-component-wrapper>
+  ></ofe-custom-component-wrapper>
   <div class="cds--form-item">
     <!--LEAF CONTROL-->
     <div class="question-area">
@@ -209,8 +211,7 @@
           [formControlName]="node.question.key"
           [id]="node.question.key + 'id'"
           [question]="node.question"
-        >
-        </ofe-custom-control-wrapper>
+        ></ofe-custom-control-wrapper>
       </div>
 
       <ng-template #nativeControls>
@@ -220,6 +221,7 @@
             *ngSwitchCase="'select'"
             [formControlName]="node.question.key"
             [id]="node.question.key + 'id'"
+            [invalid]="node.control.touched && !node.control.valid"
           >
             <option
               *ngFor="let option of node.question.options"
@@ -235,8 +237,7 @@
               [formControlName]="node.question.key"
               [id]="node.question.key + 'id'"
               (fileChanged)="upload($event)"
-            >
-            </ofe-file-upload>
+            ></ofe-file-upload>
           </div>
 
           <textarea
@@ -265,6 +266,7 @@
             [componentID]="node.question.key + 'id'"
             [formControlName]="node.question.key"
             [id]="node.question.key + 'id'"
+            [invalid]="node.control.touched && !node.control.valid"
           ></ofe-remote-select>
 
           <ofe-ngx-date-time-picker
@@ -275,10 +277,13 @@
             [formControlName]="node.question.key"
             *ngSwitchCase="'date'"
             [datePickerFormat]="node.question.datePickerFormat"
-          >
-          </ofe-ngx-date-time-picker>
+          ></ofe-ngx-date-time-picker>
+
           <ng-select
-            [ngClass]="{ 'afe-custom': theme === 'light' }"
+            [ngClass]="{
+              'afe-custom': theme === 'light',
+              invalid: node.control.touched && !node.control.valid ? true : null
+            }"
             [id]="node.question.key + 'id'"
             *ngSwitchCase="'multi-select'"
             [multiple]="true"
@@ -286,6 +291,7 @@
             placeholder=""
             clearAllText="Clear"
             [formControlName]="node.question.key"
+            [invalid]="node.control.touched && !node.control.valid"
           >
             <ng-option
               *ngFor="let option of node.question.options"
@@ -296,12 +302,16 @@
           </ng-select>
 
           <ng-select
-            [ngClass]="{ 'afe-custom': theme === 'light' }"
+            [ngClass]="{
+              'afe-custom': theme === 'light',
+              invalid: node.control.touched && !node.control.valid ? true : null
+            }"
             [id]="node.question.key + 'id'"
             *ngSwitchCase="'single-select'"
             placeholder=""
             clearAllText="Clear"
             [formControlName]="node.question.key"
+            [invalid]="node.control.touched && !node.control.valid"
           >
             <ng-option
               *ngFor="let option of node.question.options"
@@ -321,8 +331,8 @@
             [minlength]="node.question.extras.questionOptions.minLength"
             [formControlName]="node.question.key"
             [attr.placeholder]="node.question.placeholder | translate"
-          >
-          </ofe-number-input>
+            [invalid]="node.control.touched && !node.control.valid"
+          ></ofe-number-input>
 
           <div *ngSwitchCase="'workspace-launcher'">
             <ofe-workspace-launcher
@@ -410,7 +420,7 @@
             </div>
           </div>
           <ofe-appointments-overview [node]="node"></ofe-appointments-overview>
-          <div *ngIf="hasErrors()">
+          <div class="error" *ngIf="hasErrors()">
             <div *ngFor="let e of errors()">
               <span class="text-danger">{{ e }}</span>
             </div>
@@ -437,8 +447,7 @@
 <!-- MESSAGES -->
 <label
   *ngIf="node.control && node.control.alert && node.control.alert !== ''"
-  class="cds--label text-warn"
-  style="display: flex; align-items: center; margin: 0.125rem 0"
+  class="cds--label text-warn warning"
 >
   <svg
     focusable="false"
@@ -508,7 +517,9 @@
               [node]="child.children[question.key]"
               [parentGroup]="child.control"
               [labelMap]="labelMap"
-            ></ofe-form-renderer>
+            >
+            </ofe-form-renderer>
+
             <div>{{ child.orderNumber }}</div>
             <div class="cds--layout">
               <button
@@ -541,6 +552,7 @@
               [parentGroup]="child.control"
               [labelMap]="labelMap"
             ></ofe-form-renderer>
+
             <button
               type="button "
               class="cds--btn cds--btn--danger cds--btn--sm"
@@ -571,6 +583,7 @@
               [labelMap]="labelMap"
               [controlId]="i"
             ></ofe-form-renderer>
+
             <button
               type="button"
               style="width: 100px"
@@ -601,6 +614,7 @@
               [labelMap]="labelMap"
               [controlId]="i"
             ></ofe-form-renderer>
+
             <button
               type="button"
               style="width: 100px"
@@ -636,6 +650,7 @@
     </div>
   </div>
 </div>
+
 <div
   *ngIf="node.question.controlType === 2"
   [hidden]="node.control.hidden"

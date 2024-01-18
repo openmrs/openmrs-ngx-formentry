@@ -8,7 +8,8 @@
     'cds--number--helpertext': helperText,
     'cds--skeleton': skeleton,
     'cds--number--sm': size === 'sm',
-    'cds--number--xl': size === 'xl'
+    'cds--number--md': size === 'md',
+    'cds--number--lg': size === 'lg'
   }"
 >
   <div
@@ -18,9 +19,9 @@
     }"
   >
     <input
+      ofeNumberScroll
       type="number"
       [id]="id"
-      ofeNumberScroll
       [value]="value"
       [attr.min]="min"
       [attr.max]="max"
@@ -29,8 +30,22 @@
       [attr.step]="step"
       [disabled]="disabled"
       [required]="required"
+      [attr.data-invalid]="invalid ? invalid : null"
+      [placeholder]="placeholder"
       (input)="onNumberInputChange($event)"
     />
+    <svg
+      *ngIf="!skeleton && !warn && invalid"
+      cdsIcon="warning--filled"
+      size="16"
+      class="cds--number__invalid"
+    ></svg>
+    <svg
+      *ngIf="!skeleton && !invalid && warn"
+      cdsIcon="warning--alt--filled"
+      size="16"
+      class="cds--number__invalid cds--number__invalid--warning"
+    ></svg>
     <div class="cds--number__controls">
       <button
         type="button"
