@@ -53,4 +53,14 @@ export class NgxDatetimeComponent implements ControlValueAccessor {
     const currentDate: string = new Date().toString();
     this.onInput({ value: moment(currentDate).add(numberOfWeeks, 'weeks') });
   }
+
+  getPlaceholderValue(): string {
+    if (this.datePickerFormat === 'both') {
+      return 'dd/mm/yyyy hh:mm';
+    } else if (this.datePickerFormat === 'timer') {
+      return 'hh:mm';
+    } else {
+      return 'dd/mm/yyyy';
+    }
+  }
 }
