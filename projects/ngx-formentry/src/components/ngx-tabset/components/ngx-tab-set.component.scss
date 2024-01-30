@@ -115,11 +115,6 @@
 }
 
 .tab-container {
-  height: inherit;
   display: grid;
   grid-template-columns: 179px auto;
-}
-
-.tab-content {
-  overflow-x: hidden;
 }

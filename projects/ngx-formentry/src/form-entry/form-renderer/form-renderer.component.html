@@ -1,13 +1,9 @@
 <!--CONTAINERS-->
-<div
-  *ngIf="node.question.renderingType === 'form'"
-  class="form-renderer-container"
->
+<div *ngIf="node.question.renderingType === 'form'">
   <ofe-tab-set
     (tabSelect)="tabSelected($event)"
     [selectedIndex]="activeTab"
     [formSubmissionTemplate]="formSubmissionTemplate"
-    class="form-renderer-tab-set"
   >
     <ofe-tab
       [tabTitle]="question.label | translate"
