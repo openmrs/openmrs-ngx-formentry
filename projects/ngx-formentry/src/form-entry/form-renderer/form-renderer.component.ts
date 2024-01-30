@@ -44,8 +44,10 @@ export class FormRendererComponent implements OnInit, OnChanges {
   public cacheActive = false;
   public isNavigation = true;
   public type = 'default';
+  public hasMultiplePages = false;
   inlineDatePicker: Date = new Date();
   private TAB_SELECTION_DELAY_MS = 100;
+
   constructor(
     private validationFactory: ValidationFactory,
     private dataSources: DataSources,
@@ -92,6 +94,10 @@ export class FormRendererComponent implements OnInit, OnChanges {
       ) {
         this.node.createChildNode();
       }
+    }
+
+    if (this.node.form.schema.pages.length > 1) {
+      this.hasMultiplePages = true;
     }
   }
 
