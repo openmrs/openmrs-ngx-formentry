@@ -1,4 +1,5 @@
 @use '@carbon/styles/scss/type';
+@use '@carbon/styles/scss/spacing';
 
 .button-set {
   margin-top: 1rem;
@@ -9,19 +10,22 @@
   height: 5rem;
   max-width: 50%;
   min-width: 50%;
-  padding-block: 0.25rem;
+  padding-block: spacing.$spacing-02;
 }
 
 .nav-link {
   min-width: 100%;
   display: flex;
-  align-content: flex-start;
-  align-items: baseline;
+  align-items: flex-start;
   flex-direction: column;
 }
 
 .nav-link-text {
   margin-top: 0.125rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - #{spacing.$spacing-02});
   @include type.type-style('heading-03');
 }
 
