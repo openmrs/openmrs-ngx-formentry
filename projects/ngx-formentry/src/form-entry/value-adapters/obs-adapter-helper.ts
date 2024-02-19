@@ -506,9 +506,8 @@ export class ObsAdapterHelper {
               (obs) => obs.uuid == payload[0].uuid
             ).voided = true;
           } else {
-            childrenPayload.find(
-              (obs) => obs.uuid == payload[0].uuid
-            ).value = payload[0].value;
+            childrenPayload.find((obs) => obs.uuid == payload[0].uuid).value =
+              payload[0].value;
           }
         } else {
           childrenPayload = childrenPayload.concat(payload);

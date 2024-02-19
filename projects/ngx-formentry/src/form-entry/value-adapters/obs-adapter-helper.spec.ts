@@ -1103,6 +1103,9 @@ describe('Obs Value Adapter Helper: ', () => {
       groupMembers: [
         {
           uuid: 'some inner uuid',
+          concept: {
+            uuid: 'a899e5f2-1350-11df-a1f1-0026b9348838'
+          },
           value: moment('2016-04-21T16:17:46.000+0300').format(
             'YYYY-MM-DD HH:mm:ss'
           ),
@@ -1323,7 +1326,8 @@ describe('Obs Value Adapter Helper: ', () => {
         ],
         concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
         formFieldNamespace: jasmine.stringMatching(/\w+/),
-        formFieldPath: jasmine.stringMatching(/\w+/)
+        formFieldPath: jasmine.stringMatching(/\w+/),
+        voided: false
       }
     ]);
   });
