@@ -500,12 +500,16 @@ export class ObsAdapterHelper {
       const payload = this.getObsNodePayload(child);
       if (payload.length > 0) {
         isGroupChanged = true;
-        console.warn('payload', payload);
-        console.warn('isGroupChanged', isGroupChanged);
-        if (payload[0].voided) {
-          childrenPayload.find(
-            (obs) => obs.uuid == payload[0].uuid
-          ).voided = true;
+        if (payload[0].uuid) {
+          if (payload[0].voided) {
+            childrenPayload.find(
+              (obs) => obs.uuid == payload[0].uuid
+            ).voided = true;
+          } else {
+            childrenPayload.find(
+              (obs) => obs.uuid == payload[0].uuid
+            ).value = payload[0].value;
+          }
         } else {
           childrenPayload = childrenPayload.concat(payload);
         }
