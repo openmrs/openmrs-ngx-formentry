@@ -1143,7 +1143,8 @@ describe('Obs Value Adapter Helper: ', () => {
       ],
       concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
       formFieldNamespace: jasmine.stringMatching(/\w+/),
-      formFieldPath: jasmine.stringMatching(/\w+/)
+      formFieldPath: jasmine.stringMatching(/\w+/),
+      voided: false
     });
   });
 
