@@ -494,9 +494,14 @@ export class ObsAdapterHelper {
       nodeAsGroup?.initialValue?.groupMembers?.map((node) =>
         this.getOldObsPayload(node)
       ) || [];
+
+    let isGroupChanged: boolean = false;
     _.each(nodeAsGroup.children, (child) => {
       const payload = this.getObsNodePayload(child);
       if (payload.length > 0) {
+        isGroupChanged = true;
+        console.warn('payload', payload);
+        console.warn('isGroupChanged', isGroupChanged);
         if (payload[0].voided) {
           childrenPayload.find(
             (obs) => obs.uuid == payload[0].uuid
@@ -507,7 +512,7 @@ export class ObsAdapterHelper {
       }
     });
 
-    if (childrenPayload.length === 0) {
+    if (!isGroupChanged) {
       return null;
     }
 
