@@ -116,5 +116,5 @@
 
 .tab-container {
   display: grid;
-  grid-template-columns: 179px auto;
+  grid-template-columns: 179px minmax(0, 1fr);
 }

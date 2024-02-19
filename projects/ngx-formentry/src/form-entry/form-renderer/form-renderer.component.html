@@ -19,13 +19,18 @@
 
       <!-- Buttons for navigating between tabs -->
       <section *ngIf="this.hasMultiplePages">
-        <div class="cds--btn-set button-set">
+        <div class="button-set">
           <button
             class="cds--btn cds--btn--ghost nav-button"
             [disabled]="i === 0"
             type="button"
           >
-            <a *ngIf="i > 0" (click)="tabSelected(i - 1)" class="nav-link">
+            <a
+              *ngIf="i > 0"
+              (click)="tabSelected(i - 1)"
+              class="nav-link"
+              [title]='node.question.questions[i - 1].label | translate'
+            >
               <label class="nav-label">{{ 'previous' | translate }}</label>
               <span class="nav-link-text">{{
                 node.question.questions[i - 1].label | translate
@@ -41,6 +46,7 @@
               *ngIf="i < node.question.questions.length - 1"
               (click)="tabSelected(i + 1)"
               class="nav-link"
+              [title]='node.question.questions[i + 1].label | translate'
             >
               <label class="nav-label">{{ 'next' | translate }}</label>
               <span class="nav-link-text">{{
