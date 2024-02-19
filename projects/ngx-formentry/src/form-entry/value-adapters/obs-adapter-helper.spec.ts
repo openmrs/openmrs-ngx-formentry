@@ -1275,6 +1275,9 @@ describe('Obs Value Adapter Helper: ', () => {
           {
             value: 21,
             uuid: 'uuid 2',
+            concept: {
+              uuid: 'a8afdb8c-1350-11df-a1f1-0026b9348838'
+            },
             formFieldNamespace: jasmine.stringMatching(/\w+/),
             formFieldPath: jasmine.stringMatching(/\w+/)
           }
