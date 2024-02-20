@@ -6,7 +6,6 @@
 
 .nav-button {
   border-top: 1px solid #dde1e6;
-  height: 5rem;
   max-width: 50%;
   min-width: 50%;
   padding-block: 0.25rem;
@@ -22,10 +21,11 @@
 
 .nav-link-text {
   margin-top: 0.125rem;
-  @include type.type-style('heading-03');
+  @include type.type-style('label-02');
 }
 
 .nav-label {
+  color: var(--cds-text-secondary, #525252);
   @include type.type-style('label-01');
 }
 
