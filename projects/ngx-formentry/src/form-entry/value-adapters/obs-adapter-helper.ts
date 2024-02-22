@@ -491,7 +491,7 @@ export class ObsAdapterHelper {
 
     // Get existing obs
     let childrenPayload =
-      nodeAsGroup?.initialValue?.groupMembers?.map((node) =>
+      nodeAsGroup.initialValue?.groupMembers?.map((node) =>
         this.getOldObsPayload(node)
       ) || [];
 
