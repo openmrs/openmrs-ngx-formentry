@@ -579,6 +579,7 @@ export class ObsAdapterHelper {
       formFieldPath: oldObs.formFieldPath
     };
   }
+  
   getObsNodePayload(node: NodeBase): Array<any> {
     let payload = [];
     switch (this.getObsNodeType(node)) {
