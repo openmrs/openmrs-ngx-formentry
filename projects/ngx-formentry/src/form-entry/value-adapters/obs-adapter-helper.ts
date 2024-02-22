@@ -519,7 +519,7 @@ export class ObsAdapterHelper {
       return null;
     }
 
-    const groupPayload: any = {
+    const groupPayload = {
       groupMembers: childrenPayload,
       voided: childrenPayload?.every((member) => member.voided === true)
     };
