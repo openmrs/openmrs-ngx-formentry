@@ -13,6 +13,7 @@
         [value]="option.value"
         (click)="handleClick(option)"
         (change)="handleChange(option)"
+        [disabled]="readonly"
       />
       {{ option.label }}
     </label>

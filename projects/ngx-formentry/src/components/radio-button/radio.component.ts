@@ -27,6 +27,7 @@ export class RadioButtonControlComponent
   @Input() public selected: any;
   @Input() public allowUnselect: boolean;
   @Input() public orientation: string;
+  @Input() public readonly: boolean;
 
   private _value: any = undefined;
 
