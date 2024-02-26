@@ -210,11 +210,13 @@ export class FormRendererComponent implements OnInit, OnChanges {
       }
     }, this.TAB_SELECTION_DELAY_MS);
   }
+
   public setPreviousTab() {
     if (this.node && this.node.form) {
       this.node.form.valueProcessingInfo['lastFormTab'] = this.activeTab;
     }
   }
+
   public hasErrors() {
     return (
       this.node.control.touched &&

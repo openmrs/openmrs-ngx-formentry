@@ -342,6 +342,17 @@
             [invalid]="node.control.touched && !node.control.valid"
           ></ofe-number-input>
 
+          <ofe-number-input
+            [theme]="theme"
+            *ngSwitchCase="'decimal'"
+            [id]="node.question.key + 'id'"
+            [min]="node.question.extras.questionOptions.min"
+            [max]="node.question.extras.questionOptions.max"
+            [formControlName]="node.question.key"
+            [attr.placeholder]="node.question.placeholder | translate"
+            [invalid]="node.control.touched && !node.control.valid"
+          ></ofe-number-input>
+
           <div *ngSwitchCase="'workspace-launcher'">
             <ofe-workspace-launcher
               [id]="node.question.key + 'id'"

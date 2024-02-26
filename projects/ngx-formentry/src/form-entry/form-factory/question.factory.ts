@@ -31,6 +31,7 @@ import { DiagnosisQuestion } from '../question-models/diagnosis-question';
 import { MaxLengthValidationModel } from '../question-models/max-length-validation.model';
 import { MinLengthValidationModel } from '../question-models/min-length-validation.model';
 import { WorkspaceLauncherQuestion } from '../question-models';
+import { DecimalValidationModel } from '../question-models/decimal-validation.model';
 
 @Injectable()
 export class QuestionFactory {
@@ -744,6 +745,35 @@ export class QuestionFactory {
     return question;
   }
 
+  toDecimalQuestion(schemaQuestion: any): TextInputQuestion {
+    const question = new TextInputQuestion({
+      placeholder: '',
+      type: '',
+      key: ''
+    });
+
+    question.renderingType = 'decimal';
+    question.label = schemaQuestion.label;
+    question.key = schemaQuestion.id;
+    question.placeholder = schemaQuestion.questionOptions.placeholder || '';
+    question.extras = schemaQuestion;
+
+    const mappings = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+
+    this.copyProperties(mappings, schemaQuestion, question);
+    question.validators = this.addValidators(schemaQuestion);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
+
+    return question;
+  }
+
   toWorkspaceLauncher(schemaQuestion: any): WorkspaceLauncherQuestion {
     if (!this.checkedForEsmPatientCommonLib) {
       this.checkedForEsmPatientCommonLib = true;
@@ -866,6 +896,8 @@ export class QuestionFactory {
         return this.toNumericQuestion(schema);
       case 'number':
         return this.toNumberQuestion(schema);
+      case 'decimal':
+        return this.toDecimalQuestion(schema);
       case 'encounterDatetime':
         return this.toEncounterDatetimeQuestion(schema);
       case 'date':
@@ -978,6 +1010,9 @@ export class QuestionFactory {
           case 'conditionalAnswered':
             validators.push(new ConditionalValidationModel(validator));
             break;
+          case 'decimal':
+            validators.push(new DecimalValidationModel(validator));
+            break;
           default:
             validators.push(new ValidationModel(validator));
             break;
@@ -988,6 +1023,7 @@ export class QuestionFactory {
     const questionOptions = schemaQuestion.questionOptions;
     const renderingType = questionOptions ? questionOptions.rendering : '';
     switch (renderingType) {
+      case 'decimal':
       case 'number':
         if (questionOptions.max && questionOptions.min) {
           validators.push(
