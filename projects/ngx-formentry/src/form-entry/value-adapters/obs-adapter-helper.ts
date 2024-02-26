@@ -497,18 +497,20 @@ export class ObsAdapterHelper {
       const payload = this.getObsNodePayload(child);
       if (payload.length > 0) {
         isGroupChanged = true;
-        if (payload[0].uuid) {
-          if (payload[0].voided) {
-            childrenPayload.find(
-              (obs) => obs.uuid == payload[0].uuid
-            ).voided = true;
+        payload.forEach(obs => {
+          if (obs.uuid) {
+            if (obs.voided) {
+              childrenPayload.find(
+                (obs) => obs.uuid == obs.uuid
+              ).voided = true;
+            } else {
+              childrenPayload.find((obs) => obs.uuid == obs.uuid).value =
+                obs.value;
+            }
           } else {
-            childrenPayload.find((obs) => obs.uuid == payload[0].uuid).value =
-              payload[0].value;
+            childrenPayload = childrenPayload.concat(payload);
           }
-        } else {
-          childrenPayload = childrenPayload.concat(payload);
-        }
+        });
       }
     });
 
@@ -576,7 +578,7 @@ export class ObsAdapterHelper {
       formFieldPath: oldObs.formFieldPath
     };
   }
-  
+
   getObsNodePayload(node: NodeBase): Array<any> {
     let payload = [];
     switch (this.getObsNodeType(node)) {
