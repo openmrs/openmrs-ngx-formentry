@@ -10,7 +10,7 @@
     "test": "ng test ngx-formentry --watch=false",
     "test:watch": "ng test ngx-formentry",
     "lint": "TIMING=1 ng lint",
-    "prettier": "prettier --config .prettierrc --write \"projects/**/*.{html,js,ts,css,scss}\" \"src/**/*.{html,js,ts,css,scss}\" --ignore-unknown",
+    "prettier": "prettier --config .prettierrc --write \"projects/**/*.{html,js,ts,css,scss}\" \"src/**/*.{html,js,ts,css,scss}\" --list-different --ignore-unknown",
     "e2e": "ng e2e"
   },
   "peerDependencies": {
