@@ -1103,6 +1103,9 @@ describe('Obs Value Adapter Helper: ', () => {
       groupMembers: [
         {
           uuid: 'some inner uuid',
+          concept: {
+            uuid: 'a899e5f2-1350-11df-a1f1-0026b9348838'
+          },
           value: moment('2016-04-21T16:17:46.000+0300').format(
             'YYYY-MM-DD HH:mm:ss'
           ),
@@ -1112,7 +1115,8 @@ describe('Obs Value Adapter Helper: ', () => {
       ],
       uuid: 'some uuid',
       formFieldNamespace: jasmine.stringMatching(/\w+/),
-      formFieldPath: jasmine.stringMatching(/\w+/)
+      formFieldPath: jasmine.stringMatching(/\w+/),
+      voided: false
     });
 
     // CASE 3: New group
@@ -1139,7 +1143,8 @@ describe('Obs Value Adapter Helper: ', () => {
       ],
       concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
       formFieldNamespace: jasmine.stringMatching(/\w+/),
-      formFieldPath: jasmine.stringMatching(/\w+/)
+      formFieldPath: jasmine.stringMatching(/\w+/),
+      voided: false
     });
   });
 
@@ -1257,15 +1262,30 @@ describe('Obs Value Adapter Helper: ', () => {
       {
         groupMembers: [
           {
+            uuid: 'uuid 1',
+            concept: {
+              uuid: 'a899e444-1350-11df-a1f1-0026b9348838'
+            },
+            value: {
+              uuid: 'a899f51a-1350-11df-a1f1-0026b9348838'
+            },
+            formFieldNamespace: jasmine.stringMatching(/\w+/),
+            formFieldPath: jasmine.stringMatching(/\w+/)
+          },
+          {
             value: 21,
             uuid: 'uuid 2',
+            concept: {
+              uuid: 'a8a07386-1350-11df-a1f1-0026b9348838'
+            },
             formFieldNamespace: jasmine.stringMatching(/\w+/),
             formFieldPath: jasmine.stringMatching(/\w+/)
           }
         ],
         uuid: 'some uuid 1',
         formFieldNamespace: jasmine.stringMatching(/\w+/),
-        formFieldPath: jasmine.stringMatching(/\w+/)
+        formFieldPath: jasmine.stringMatching(/\w+/),
+        voided: false
       },
       {
         groupMembers: [
@@ -1278,7 +1298,8 @@ describe('Obs Value Adapter Helper: ', () => {
         ],
         concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
         formFieldNamespace: jasmine.stringMatching(/\w+/),
-        formFieldPath: jasmine.stringMatching(/\w+/)
+        formFieldPath: jasmine.stringMatching(/\w+/),
+        voided: false
       },
       {
         uuid: 'some uuid 3',
@@ -1309,7 +1330,8 @@ describe('Obs Value Adapter Helper: ', () => {
         ],
         concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
         formFieldNamespace: jasmine.stringMatching(/\w+/),
-        formFieldPath: jasmine.stringMatching(/\w+/)
+        formFieldPath: jasmine.stringMatching(/\w+/),
+        voided: false
       }
     ]);
   });
@@ -1369,7 +1391,8 @@ describe('Obs Value Adapter Helper: ', () => {
         ],
         concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
         formFieldNamespace: jasmine.stringMatching(/\w+/),
-        formFieldPath: jasmine.stringMatching(/\w+/)
+        formFieldPath: jasmine.stringMatching(/\w+/),
+        voided: false
       },
       {
         groupMembers: [
@@ -1382,7 +1405,8 @@ describe('Obs Value Adapter Helper: ', () => {
         ],
         concept: 'a8afdb8c-1350-11df-a1f1-0026b9348838',
         formFieldNamespace: jasmine.stringMatching(/\w+/),
-        formFieldPath: jasmine.stringMatching(/\w+/)
+        formFieldPath: jasmine.stringMatching(/\w+/),
+        voided: false
       },
       {
         concept: 'a8982474-1350-11df-a1f1-0026b9348838',

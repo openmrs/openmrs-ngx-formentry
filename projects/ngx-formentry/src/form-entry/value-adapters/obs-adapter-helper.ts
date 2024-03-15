@@ -489,20 +489,35 @@ export class ObsAdapterHelper {
   getGroupPayload(node: NodeBase) {
     const nodeAsGroup: GroupNode = node as GroupNode;
 
-    let childrenPayload = [];
+    // Get existing obs
+    let childrenPayload = nodeAsGroup.initialValue?.groupMembers?.map((node) => this.getOldObsPayload(node)) || [];
+
+    let isGroupChanged: boolean = false;
     _.each(nodeAsGroup.children, (child) => {
       const payload = this.getObsNodePayload(child);
       if (payload.length > 0) {
-        childrenPayload = childrenPayload.concat(payload);
+        isGroupChanged = true;
+        payload.forEach((obsPayload, index) => {
+          if (obsPayload.uuid) {
+            if (obsPayload.voided) {
+              childrenPayload.find((obs) => obs.uuid == obs.uuid).voided = true;
+            } else {
+              childrenPayload.find((obs) => obs.uuid == obsPayload.uuid).value = obsPayload.value;
+            }
+          } else {
+            childrenPayload = childrenPayload.concat(payload);
+          }
+        });
       }
     });
 
-    if (childrenPayload.length === 0) {
+    if (!isGroupChanged) {
       return null;
     }
 
     const groupPayload: any = {
-      groupMembers: childrenPayload
+      groupMembers: childrenPayload,
+      voided: childrenPayload?.every((member) => member.voided === true)
     };
 
     if (nodeAsGroup.initialValue) {
@@ -549,6 +564,16 @@ export class ObsAdapterHelper {
       return null;
     }
     return childrenPayload;
+  }
+
+  getOldObsPayload(oldObs) {
+    return {
+      uuid: oldObs.uuid,
+      concept: oldObs.concept,
+      value: oldObs.value,
+      formFieldNamespace: oldObs.formFieldNamespace,
+      formFieldPath: oldObs.formFieldPath
+    };
   }
 
   getObsNodePayload(node: NodeBase): Array<any> {
