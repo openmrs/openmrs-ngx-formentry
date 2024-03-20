@@ -67,7 +67,8 @@ export class PatientIdentifierAdapter {
   ) {
     if (
       rootNode.question.extras &&
-      rootNode.question.extras.type === 'patientIdentifier'
+      rootNode.question.extras.type === 'patientIdentifier' &&
+      rootNode.control.hidden === false
     ) {
       array.push(rootNode);
     }
