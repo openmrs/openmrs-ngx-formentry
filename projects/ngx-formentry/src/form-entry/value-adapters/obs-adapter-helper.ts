@@ -497,15 +497,15 @@ export class ObsAdapterHelper {
       const payload = this.getObsNodePayload(child);
       if (payload.length > 0) {
         isGroupChanged = true;
-        payload.forEach((obsPayload, index) => {
+        payload.forEach((obsPayload) => {
           if (obsPayload.uuid) {
             if (obsPayload.voided) {
-              childrenPayload.find((obs) => obs.uuid == obs.uuid).voided = true;
+              childrenPayload.find((obs) => obs.uuid == obsPayload.uuid).voided = true;
             } else {
               childrenPayload.find((obs) => obs.uuid == obsPayload.uuid).value = obsPayload.value;
             }
           } else {
-            childrenPayload = childrenPayload.concat(payload);
+            childrenPayload = childrenPayload.concat(obsPayload);
           }
         });
       }
@@ -527,6 +527,7 @@ export class ObsAdapterHelper {
         nodeAsGroup.question.extras.questionOptions.concept;
     }
     this.addFieldNameSpaceandPath(node, groupPayload);
+    console.warn('groupPayload', groupPayload);
     return groupPayload;
   }
 
