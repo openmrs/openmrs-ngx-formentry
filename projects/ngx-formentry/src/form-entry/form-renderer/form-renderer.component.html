@@ -29,7 +29,7 @@
               *ngIf="i > 0"
               (click)="tabSelected(i - 1)"
               class="nav-link"
-              [title]='node.question.questions[i - 1].label | translate'
+              [title]="node.question.questions[i - 1].label | translate"
             >
               <label class="nav-label">{{ 'previous' | translate }}</label>
               <span class="nav-link-text">{{
@@ -46,7 +46,7 @@
               *ngIf="i < node.question.questions.length - 1"
               (click)="tabSelected(i + 1)"
               class="nav-link"
-              [title]='node.question.questions[i + 1].label | translate'
+              [title]="node.question.questions[i + 1].label | translate"
             >
               <label class="nav-label">{{ 'next' | translate }}</label>
               <span class="nav-link-text">{{
@@ -342,6 +342,17 @@
             [invalid]="node.control.touched && !node.control.valid"
           ></ofe-number-input>
 
+          <ofe-number-input
+            [theme]="theme"
+            *ngSwitchCase="'decimal'"
+            [id]="node.question.key + 'id'"
+            [min]="node.question.extras.questionOptions.min"
+            [max]="node.question.extras.questionOptions.max"
+            [formControlName]="node.question.key"
+            [attr.placeholder]="node.question.placeholder | translate"
+            [invalid]="node.control.touched && !node.control.valid"
+          ></ofe-number-input>
+
           <div *ngSwitchCase="'workspace-launcher'">
             <ofe-workspace-launcher
               [id]="node.question.key + 'id'"
@@ -373,6 +384,7 @@
               [allowUnselect]="node.question.allowUnselect"
               [selected]="node.control.value"
               [orientation]="node.question.orientation"
+              [readonly]="node.question.readOnly"
             ></ofe-radio-button>
           </div>
 
@@ -490,7 +502,7 @@
 >
   <!--ARRAY CONTROL-->
   <div [ngSwitch]="node.question.renderingType">
-    <div class="well" style="padding: 2px" *ngSwitchCase="'repeating'">
+    <div class="well" *ngSwitchCase="'repeating'">
       <h4 style="margin: 2px; font-weight: bold">
         {{ node.question.label | translate }}
       </h4>
@@ -507,15 +519,7 @@
           >max: {{ node.question.extras.questionOptions.max }}</label
         >
       </div>
-      <hr
-        style="
-          margin-left: -2px;
-          margin-right: -2px;
-          margin-bottom: 4px;
-          margin-top: 8px;
-          border-width: 2px;
-        "
-      />
+      <hr class="divider" />
       <div [ngSwitch]="node.question.extras.type">
         <div *ngSwitchCase="'testOrder'">
           <div *ngFor="let child of node.children; let i = index">
@@ -527,8 +531,11 @@
               [labelMap]="labelMap"
             >
             </ofe-form-renderer>
-
-            <div>{{ child.orderNumber }}</div>
+            <div *ngIf="child.orderNumber" class="order-number">
+              <span
+                >{{ 'orderNumber' | translate }}: {{ child.orderNumber }}
+              </span>
+            </div>
             <div class="cds--layout">
               <button
                 type="button "
@@ -539,15 +546,7 @@
               </button>
             </div>
             <br />
-            <hr
-              style="
-                margin-left: -2px;
-                margin-right: -2px;
-                margin-bottom: 4px;
-                margin-top: 8px;
-                border-width: 1px;
-              "
-            />
+            <hr class="divider" />
           </div>
         </div>
 
@@ -569,15 +568,7 @@
               {{ 'remove' | translate }}
             </button>
             <br />
-            <hr
-              style="
-                margin-left: -2px;
-                margin-right: -2px;
-                margin-bottom: 4px;
-                margin-top: 8px;
-                border-width: 1px;
-              "
-            />
+            <hr class="divider" />
           </div>
         </div>
 
@@ -601,15 +592,7 @@
               {{ 'remove' | translate }}
             </button>
             <br />
-            <hr
-              style="
-                margin-left: -2px;
-                margin-right: -2px;
-                margin-bottom: 4px;
-                margin-top: 8px;
-                border-width: 1px;
-              "
-            />
+            <hr class="divider" />
           </div>
         </div>
         <div *ngSwitchCase="'diagnosisGroup'" style="margin-bottom: 20px">
@@ -632,15 +615,7 @@
               {{ 'remove' | translate }}
             </button>
             <br />
-            <hr
-              style="
-                margin-left: -2px;
-                margin-right: -2px;
-                margin-bottom: 4px;
-                margin-top: 8px;
-                border-width: 1px;
-              "
-            />
+            <hr class="divider" />
           </div>
         </div>
       </div>
