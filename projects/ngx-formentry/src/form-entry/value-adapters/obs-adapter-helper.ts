@@ -527,7 +527,6 @@ export class ObsAdapterHelper {
         nodeAsGroup.question.extras.questionOptions.concept;
     }
     this.addFieldNameSpaceandPath(node, groupPayload);
-    console.warn('groupPayload', groupPayload);
     return groupPayload;
   }
 
