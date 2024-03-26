@@ -10,7 +10,7 @@ interface Payload {
 }
 
 @Component({
-  selector: 'machine-learning-risk-score',
+  selector: 'ofe-machine-learning-risk-score',
   templateUrl: './machine-learning.component.html'
 })
 export class MachineLearningComponent implements OnInit {
@@ -132,7 +132,9 @@ export class MachineLearningComponent implements OnInit {
   }
 
   private setRiskScore(scoreMessage: string) {
-    const riskScoreMessage = this.node.form.searchNodeByQuestionId('riskScore')[0];
+    const riskScoreMessage = this.node.form.searchNodeByQuestionId(
+      'riskScore'
+    )[0];
     riskScoreMessage.control.setValue(scoreMessage);
   }
 
@@ -194,7 +196,7 @@ export class MachineLearningComponent implements OnInit {
     const lowRiskThreshold = 0.005011473;
 
     if (probabilityForPositivity === 0) {
-      this.riskScore = 'No Risk Score Available';
+      this.riskScore = 'No risk score available';
       return '';
     }
 
