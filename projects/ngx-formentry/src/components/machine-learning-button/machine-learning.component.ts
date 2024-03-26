@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-
 import { LeafNode } from '../../form-entry/form-factory/form-node';
 import { ObsAdapterHelper } from '../../form-entry/value-adapters/obs-adapter-helper';
 import { generatePredictionPayload } from './model-helper';
@@ -17,9 +16,11 @@ interface Payload {
 export class MachineLearningComponent implements OnInit {
   @Input() node: LeafNode;
   showMachineLearningButton = false;
-  isLoading: boolean;
-  hasError: boolean;
-  errorMessage: string;
+  isLoading = false;
+  hasError = false;
+  errorMessage = '';
+  riskScoreMessage = '';
+  riskScore = '';
 
   constructor(
     private obsAdapter: ObsAdapterHelper,
@@ -28,7 +29,7 @@ export class MachineLearningComponent implements OnInit {
 
   ngOnInit() {
     this.showMachineLearningButton =
-      this.node.question.extras?.questionOptions['machineLearning'] || false;
+      this.node.question.extras?.questionOptions?.machineLearning || false;
   }
 
   getRiskScore() {
@@ -50,12 +51,20 @@ export class MachineLearningComponent implements OnInit {
 
       this.machineLearningService.fetchPredictionScore(riskPayload).subscribe(
         (res) => {
+          if (!res) {
+            this.isLoading = false;
+            this.errorMessage = 'An error occurred while fetching risk score';
+            this.setRiskScore(this.errorMessage);
+            this.setAutoGenerateRiskScore(0, this.errorMessage);
+            return;
+          }
+
           const {
             message,
             riskScore
           } = this.machineLearningService.predictRisk(res);
           this.setRiskScore(message);
-          this.setAutoGenerateRiskScore(riskScore);
+          this.setAutoGenerateRiskScore(riskScore, message);
           this.isLoading = false;
         },
         (error) => {
@@ -75,7 +84,7 @@ export class MachineLearningComponent implements OnInit {
     return this.obsAdapter
       .getObsNodePayload(this.node.form.rootNode)
       .reduce((acc, item) => {
-        acc[item.concept] = item['value'];
+        acc[item.concept] = item.value;
         return acc;
       }, {});
   }
@@ -87,7 +96,7 @@ export class MachineLearningComponent implements OnInit {
         return { key, value: payload[valueKey] ?? '' };
       })
       .reduce((acc, item) => {
-        acc[item.key] = this.extractNumbersOrUuid(item['value']);
+        acc[item.key] = this.extractNumbersOrUuid(item.value);
         return acc;
       }, {});
   }
@@ -107,7 +116,7 @@ export class MachineLearningComponent implements OnInit {
   }
 
   private generateKeyValue(): Payload {
-    let questionConcepts = {};
+    let questionConcepts: Payload = {};
     this.node.form.schema.pages.forEach((page) => {
       page.sections.forEach((section) => {
         section.questions.forEach((question) => {
@@ -125,7 +134,7 @@ export class MachineLearningComponent implements OnInit {
     riskScore.control.setValue(score);
   }
 
-  extractNumbersOrUuid(inputStr) {
+  private extractNumbersOrUuid(inputStr: string) {
     inputStr = String(inputStr); // Convert to string just in case
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     if (uuidPattern.test(inputStr)) {
@@ -136,7 +145,7 @@ export class MachineLearningComponent implements OnInit {
     }
   }
 
-  announceRequiredFields() {
+  private announceRequiredFields() {
     const requiredFields = [
       'populationType',
       'facilityHTStrategy',
@@ -155,7 +164,7 @@ export class MachineLearningComponent implements OnInit {
       });
   }
 
-  hasAllrequiredFields() {
+  private hasAllrequiredFields() {
     const requiredFields = [
       'populationType',
       'facilityHTStrategy',
@@ -174,32 +183,45 @@ export class MachineLearningComponent implements OnInit {
     );
   }
 
-  getRiskLevel = (probabilityForPositivity) => {
+  private getRiskLevel = (
+    probabilityForPositivity: number,
+    message: string
+  ) => {
     const highRiskThreshold = 0.1079255;
     const mediumRiskThreshold = 0.02795569;
     const lowRiskThreshold = 0.005011473;
 
+    if (probabilityForPositivity === 0) {
+      this.riskScore = 'No Risk Score Available';
+      return '';
+    }
+
     if (probabilityForPositivity > highRiskThreshold) {
+      this.riskScore = 'Highest Risk Client';
       return '167164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     } else if (
       probabilityForPositivity <= highRiskThreshold &&
       probabilityForPositivity > mediumRiskThreshold
     ) {
+      this.riskScore = 'High Risk Client';
       return '166674AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     } else if (
       probabilityForPositivity <= mediumRiskThreshold &&
       probabilityForPositivity > lowRiskThreshold
     ) {
+      this.riskScore = 'Medium Risk Client';
       return '1499AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     } else if (probabilityForPositivity <= lowRiskThreshold) {
+      this.riskScore = 'Low Risk Client';
       return '166675AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     }
   };
 
   // Set the autocalculate risk score
-  private setAutoGenerateRiskScore(riskScore: number) {
+  private setAutoGenerateRiskScore(riskScore: number, message: string) {
+    this.riskScoreMessage = message;
     const genRisKQuestion = this.node.form.searchNodeByQuestionId('genRisK');
-    const riskLevel = this.getRiskLevel(riskScore);
+    const riskLevel = this.getRiskLevel(riskScore, message);
     genRisKQuestion?.[0]?.control?.setValue(riskLevel);
   }
 }
