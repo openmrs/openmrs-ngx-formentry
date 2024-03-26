@@ -33,6 +33,8 @@ import { MinLengthValidationModel } from '../question-models/min-length-validati
 import { WorkspaceLauncherQuestion } from '../question-models';
 import { DecimalValidationModel } from '../question-models/decimal-validation.model';
 import { DisallowDecimalsValidationModel } from '../question-models/disallow-decimals-validation.model';
+import { MachineLearningQuestion } from '../question-models/machine-learning.model';
+
 @Injectable()
 export class QuestionFactory {
   dataSources: any = {};
@@ -745,6 +747,28 @@ export class QuestionFactory {
     return question;
   }
 
+  toMachineLearningQuestion(schemaQuestion: any): MachineLearningQuestion {
+    const question = new MachineLearningQuestion({
+      type: '',
+      key: schemaQuestion.id,
+      label: schemaQuestion.label
+    });
+    question.questionIndex = this.quetionIndex;
+    question.prefix = schemaQuestion.prefix;
+    question.renderingType = 'machine-learning';
+    question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
+    question.dataSource = schemaQuestion.questionOptions.dataSource;
+    const mappings = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
+    this.copyProperties(mappings, schemaQuestion, question);
+    return question;
+  }
+
   toDecimalQuestion(schemaQuestion: any): TextInputQuestion {
     const question = new TextInputQuestion({
       placeholder: '',
@@ -938,6 +962,8 @@ export class QuestionFactory {
         return this.toFileUploadQuestion(schema);
       case 'workspace-launcher':
         return this.toWorkspaceLauncher(schema);
+      case 'machine-learning':
+        return this.toMachineLearningQuestion(schema);
       default:
         console.warn('New Schema Question Type found.........' + renderType);
         return this.toTextQuestion(schema);
