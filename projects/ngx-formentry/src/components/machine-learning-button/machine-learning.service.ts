@@ -21,7 +21,7 @@ export class MachineLearningService {
     // Check if the prediction is available
     const probabilityForPositivity = res?.result?.predictions['probability(1)'];
     if (!probabilityForPositivity) {
-      return { message: 'No results found', riskScore: null };
+      return { message: 'No results found', riskScore: 0 };
     }
 
     // Define risk thresholds
@@ -40,7 +40,7 @@ export class MachineLearningService {
       low:
         'This client has a low probability of a HIV positive test result. Testing may not be recommended'
     };
-    0.1079255<=0.936823 && 0.1079255>0.02795569
+
     // Determine risk level and corresponding message
     let riskLevel;
     if (probabilityForPositivity > highRiskThreshold) {
@@ -55,7 +55,10 @@ export class MachineLearningService {
       probabilityForPositivity > lowRiskThreshold
     ) {
       riskLevel = 'medium';
-    } else if (probabilityForPositivity <= lowRiskThreshold) {
+    } else if (
+      probabilityForPositivity <= lowRiskThreshold &&
+      probabilityForPositivity !== 0
+    ) {
       riskLevel = 'low';
     }
 

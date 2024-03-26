@@ -106,6 +106,16 @@ export class EncounterAdapter implements ValueAdapter {
             const dateValue = moment(node.control.value).utcOffset(
               rootNode.form.valueProcessingInfo.utcOffset || '+0300'
             );
+            // If the dateValue is same as new Date() then we are not going to send the encounterDatetime
+            // to the server. This is to avoid sending the encounterDatetime to the server when the user
+            // has not changed the encounterDatetime
+            console.log(
+              dateValue.format() + ' === ' + moment(new Date()).format()
+            );
+
+            if (dateValue.isSame(moment(new Date()), 'day')) {
+              break;
+            }
             payload['encounterDatetime'] = dateValue.format();
             break;
           case 'encounterProvider':
