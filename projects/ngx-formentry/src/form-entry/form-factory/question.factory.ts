@@ -35,7 +35,7 @@ import { DecimalValidationModel } from '../question-models/decimal-validation.mo
 import { DisallowDecimalsValidationModel } from '../question-models/disallow-decimals-validation.model';
 import { RemoteSelectQuestion } from '../question-models/remote-select-question';
 import { MachineLearningQuestion } from '../question-models/machine-learning.model';
-import { DisallowDecimalsValidationModel } from '../question-models/disallow-decimals-validation.model';
+
 @Injectable()
 export class QuestionFactory {
   dataSources: any = {};
