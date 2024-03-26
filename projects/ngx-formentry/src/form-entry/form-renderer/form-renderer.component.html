@@ -378,9 +378,12 @@
             [id]="node.question.key + 'id'"
             [readOnly]="node.question.extras.readOnly"
           />
-          <machine-learning-risk-score
-            [node]="node"
-          ></machine-learning-risk-score>
+
+          <div *ngSwitchCase="'machine-learning'">
+            <machine-learning-risk-score
+              [node]="node"
+            ></machine-learning-risk-score>
+          </div>
 
           <div *ngSwitchCase="'radio'">
             <ofe-radio-button
