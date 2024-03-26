@@ -20,6 +20,8 @@ export class MachineLearningComponent implements OnInit {
   isLoading: boolean;
   hasError: boolean;
   errorMessage: string;
+  riskScoreMessage: string;
+  riskScore: string;
 
   constructor(
     private obsAdapter: ObsAdapterHelper,
@@ -55,7 +57,7 @@ export class MachineLearningComponent implements OnInit {
             riskScore
           } = this.machineLearningService.predictRisk(res);
           this.setRiskScore(message);
-          this.setAutoGenerateRiskScore(riskScore);
+          this.setAutoGenerateRiskScore(riskScore, message);
           this.isLoading = false;
         },
         (error) => {
@@ -174,32 +176,37 @@ export class MachineLearningComponent implements OnInit {
     );
   }
 
-  getRiskLevel = (probabilityForPositivity) => {
+  getRiskLevel = (probabilityForPositivity, message) => {
     const highRiskThreshold = 0.1079255;
     const mediumRiskThreshold = 0.02795569;
     const lowRiskThreshold = 0.005011473;
 
     if (probabilityForPositivity > highRiskThreshold) {
+      this.riskScore = 'Highest Risk Client';
       return '167164AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     } else if (
       probabilityForPositivity <= highRiskThreshold &&
       probabilityForPositivity > mediumRiskThreshold
     ) {
+      this.riskScore = 'High Risk Client';
       return '166674AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     } else if (
       probabilityForPositivity <= mediumRiskThreshold &&
       probabilityForPositivity > lowRiskThreshold
     ) {
+      this.riskScore = 'Medium Risk Client';
       return '1499AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     } else if (probabilityForPositivity <= lowRiskThreshold) {
+      this.riskScore = 'Low Risk Client';
       return '166675AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     }
   };
 
   // Set the autocalculate risk score
-  private setAutoGenerateRiskScore(riskScore: number) {
+  private setAutoGenerateRiskScore(riskScore: number, message: string) {
+    this.riskScoreMessage = message;
     const genRisKQuestion = this.node.form.searchNodeByQuestionId('genRisK');
-    const riskLevel = this.getRiskLevel(riskScore);
+    const riskLevel = this.getRiskLevel(riskScore, message);
     genRisKQuestion?.[0]?.control?.setValue(riskLevel);
   }
 }

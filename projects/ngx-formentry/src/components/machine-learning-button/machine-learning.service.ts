@@ -40,7 +40,7 @@ export class MachineLearningService {
       low:
         'This client has a low probability of a HIV positive test result. Testing may not be recommended'
     };
-    0.1079255<=0.936823 && 0.1079255>0.02795569
+
     // Determine risk level and corresponding message
     let riskLevel;
     if (probabilityForPositivity > highRiskThreshold) {
