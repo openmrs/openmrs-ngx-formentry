@@ -134,7 +134,7 @@ export class ObsAdapterHelper {
 
       const obsUuids = [];
       for (const m of obs) {
-        obsUuids.push(m.value.uuid);
+        m.value?.uuid && obsUuids.push(m.value?.uuid);
       }
 
       this.setNodeFormControlValue(node, obsUuids);
