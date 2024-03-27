@@ -23,15 +23,15 @@
 
 .nav-link-text {
   margin-top: 0.125rem;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: calc(100% - #{spacing.$spacing-02});
-  @include type.type-style('heading-03');
+  @include type.type-style('label-01');
 }
 
 .nav-label {
   @include type.type-style('label-01');
+  color: #696969;
 }
 
 ul {
