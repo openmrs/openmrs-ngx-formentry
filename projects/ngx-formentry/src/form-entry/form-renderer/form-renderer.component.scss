@@ -1,5 +1,6 @@
 @use '@carbon/styles/scss/type';
 @use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/colors';
 
 .button-set {
   margin-top: 1rem;
@@ -23,15 +24,16 @@
 
 .nav-link-text {
   margin-top: 0.125rem;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: calc(100% - #{spacing.$spacing-02});
-  @include type.type-style('label-01');
+  @include type.type-style('body-01');
 }
 
 .nav-label {
   @include type.type-style('label-01');
-  color: #696969;
+  color: colors.$gray-70;
 }
 
 ul {
