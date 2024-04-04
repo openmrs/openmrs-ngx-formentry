@@ -189,7 +189,6 @@ export class EncounterAdapter implements ValueAdapter {
     encounterDatetime: string,
     utcOffset: string
   ) {
-    console.log({ encounterDatetime });
     if (!encounterDatetime) {
       // Not sending encounter datetime from the UI if no encounter datetime is specified
       return;
