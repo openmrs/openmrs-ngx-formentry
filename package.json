@@ -10,7 +10,6 @@
     "test": "ng test ngx-formentry --watch=false",
     "test:watch": "ng test ngx-formentry",
     "lint": "TIMING=1 ng lint",
-    "prettier": "prettier --config .prettierrc --write \"projects/**/*.{html,js,ts,css,scss}\" \"src/**/*.{html,js,ts,css,scss}\" --list-different --ignore-unknown",
     "e2e": "ng e2e"
   },
   "peerDependencies": {
@@ -68,7 +67,6 @@
     "@typescript-eslint/parser": "^5.0.0",
     "browserslist-config-openmrs": "^1.0.1",
     "eslint": "^7.32.0",
-    "eslint-config-prettier": "^9.0.0",
     "husky": "^4.3.8",
     "jasmine-core": "~5.1.1",
     "jasmine-spec-reporter": "~7.0.0",
@@ -78,6 +76,7 @@
     "karma-firefox-launcher": "^2.1.2",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
+    "lint-staged": "^15.2.2",
     "ng-packagr": "~16.2.3",
     "prettier": "2.1.2",
     "protractor": "~7.0.0",
@@ -91,9 +90,15 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "yarn turbo prettier && yarn turbo lint",
+      "pre-commit": "npx lint-staged",
       "pre-push": "yarn turbo test --color"
     }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --cache --fix",
+      "prettier --cache --write --ignore-unknown --list-different"
+    ]
   },
   "packageManager": "yarn@1.22.1"
 }
