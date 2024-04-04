@@ -62,11 +62,8 @@ To use the library in an Angular application, import the `FormEntryModule` in yo
 import { FormEntryModule } from '@openmrs/ngx-formentry';
 
 @NgModule({
-  imports: [
-    FormEntryModule
-  ]
+  imports: [FormEntryModule]
 })
-
 export class AppModule {}
 ```
 
@@ -74,7 +71,7 @@ Then add the following code to your template:
 
 ```html
 <form>
-  <ofe-form-renderer 
+  <ofe-form-renderer
     [node]="form.rootNode"
     [labelMap]="labelMap"
   ></ofe-form-renderer>
@@ -86,7 +83,7 @@ Here, `node` refers to the form's rootNode, and `labelMap` is an object that map
 - The form schema is loaded and parsed.
 - Sample data is loaded and injected into the form (via data sources).
 - Translations and concepts get resolved.
-- 
+-
 
 ## Development
 
@@ -119,7 +116,7 @@ touch yarn.lock
 # Copy the absolute path to the built library
 pwd | pbcopy
 # Or if you're on Linux, run:
-pwd | xclip -selection clipboard 
+pwd | xclip -selection clipboard
 
 # Using the O3 Patient Chart's Form Entry app as an example
 cd ~/openmrs-esm-patient-chart/packages/esm-form-entry-app
@@ -127,7 +124,7 @@ cd ~/openmrs-esm-patient-chart/packages/esm-form-entry-app
 # Link the library
 yarn link `pbpaste`
 # Or if you're on Linux, run:
-yarn link `xclip -out` 
+yarn link `xclip -out`
 
 # Fire up a dev server
 cd ../..
