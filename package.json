@@ -10,7 +10,8 @@
     "test": "ng test ngx-formentry --watch=false",
     "test:watch": "ng test ngx-formentry",
     "lint": "TIMING=1 ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "prepare": "husky install"
   },
   "peerDependencies": {
     "@carbon/styles": "1.x"
@@ -67,7 +68,7 @@
     "@typescript-eslint/parser": "^5.0.0",
     "browserslist-config-openmrs": "^1.0.1",
     "eslint": "^7.32.0",
-    "husky": "^4.3.8",
+    "husky": "^8.0.0",
     "jasmine-core": "~5.1.1",
     "jasmine-spec-reporter": "~7.0.0",
     "karma": "~6.4.2",
@@ -88,17 +89,9 @@
   "browserslist": [
     "extends browserslist-config-openmrs"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "npx lint-staged",
-      "pre-push": "yarn turbo test --color"
-    }
-  },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --cache --fix",
-      "prettier --cache --write --ignore-unknown --list-different"
-    ]
+    "*.{ts,tsx}": "eslint --cache --fix --max-warnings 0",
+    "*.{css,scss,ts,tsx}": "prettier --write --list-different"
   },
   "packageManager": "yarn@1.22.1"
 }
