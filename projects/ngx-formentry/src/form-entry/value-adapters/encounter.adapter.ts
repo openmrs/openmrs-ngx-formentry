@@ -155,7 +155,7 @@ export class EncounterAdapter implements ValueAdapter {
     if (!payload.encounterDatetime) {
       this.setPayloadEncounterDate(
         payload,
-        form.valueProcessingInfo.encounterDatetime ?? new Date().toISOString(),
+        form.valueProcessingInfo.encounterDatetime,
         form.valueProcessingInfo.utcOffset
       );
     }
@@ -189,6 +189,10 @@ export class EncounterAdapter implements ValueAdapter {
     encounterDatetime: string,
     utcOffset: string
   ) {
+    if (!encounterDatetime) {
+      // Not sending encounter datetime from the UI if no encounter datetime is specified
+      return;
+    }
     const dateValue = moment(encounterDatetime).utcOffset(utcOffset || '+0300');
     payload['encounterDatetime'] = dateValue.format();
   }
