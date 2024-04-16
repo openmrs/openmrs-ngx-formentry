@@ -4,7 +4,7 @@
   "license": "MPL-2.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -o",
     "build": "ng build --configuration production",
     "build:lib": "ng build ngx-formentry --configuration production",
     "test": "ng test ngx-formentry --watch=false",
