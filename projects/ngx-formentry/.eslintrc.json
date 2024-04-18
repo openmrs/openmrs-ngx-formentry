@@ -1,10 +1,6 @@
 {
   "extends": "../../.eslintrc.json",
-  "ignorePatterns": [
-    "!**/*",
-    "**/*.spec.ts",
-    "**/date-time-picker-input.directive.ts"
-  ],
+  "ignorePatterns": ["!**/*", "**/date-time-picker-input.directive.ts"],
   "overrides": [
     {
       "files": ["*.ts"],

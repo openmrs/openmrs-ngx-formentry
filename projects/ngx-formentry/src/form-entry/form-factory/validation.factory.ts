@@ -24,6 +24,7 @@ import { MaxLengthValidator } from '../validators/max-length.validator';
 import { MaxLengthValidationModel } from '../question-models/max-length-validation.model';
 import { MinLengthValidationModel } from '../question-models/min-length-validation.model';
 import { MinLengthValidator } from '../validators/min-length.validator';
+import { DisallowDecimalsValidator } from '../validators/disallow-decimals.validator';
 
 @Injectable()
 export class ValidationFactory {
@@ -56,6 +57,9 @@ export class ValidationFactory {
             list.push(
               this.getMaxValueValidator((<MaxValidationModel>validator).max)
             );
+            break;
+          case 'disallowDecimals':
+            list.push(this.getDisallowedDecimalsValidator());
             break;
           case 'maxlength':
             list.push(
@@ -115,6 +119,10 @@ export class ValidationFactory {
     return new ConditionalAnsweredValidator();
   }
 
+  get disallowDecimalsValidator(): DisallowDecimalsValidator {
+    return new DisallowDecimalsValidator();
+  }
+
   get requiredValidator(): any {
     return new RequiredValidator().validate;
   }
@@ -151,6 +159,10 @@ export class ValidationFactory {
     return new MaxValidator().validate(max);
   }
 
+  public getDisallowedDecimalsValidator() {
+    return new DisallowDecimalsValidator().validate();
+  }
+
   get jsExpressionValidator() {
     return new JsExpressionValidator();
   }
@@ -169,6 +181,9 @@ export class ValidationFactory {
             break;
           case 'futureDateRestriction':
             messages.push(this.translate.instant('futureDateRestriction'));
+            break;
+          case 'disallowDecimals':
+            messages.push(this.translate.instant('disallowDecimals'));
             break;
           case 'minlength':
             messages.push(
