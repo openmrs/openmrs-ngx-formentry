@@ -32,7 +32,7 @@ import { MaxLengthValidationModel } from '../question-models/max-length-validati
 import { MinLengthValidationModel } from '../question-models/min-length-validation.model';
 import { WorkspaceLauncherQuestion } from '../question-models';
 import { DecimalValidationModel } from '../question-models/decimal-validation.model';
-
+import { DisallowDecimalsValidationModel } from '../question-models/disallow-decimals-validation.model';
 @Injectable()
 export class QuestionFactory {
   dataSources: any = {};
@@ -1052,6 +1052,14 @@ export class QuestionFactory {
             new MinLengthValidationModel({
               type: 'minlength',
               minlength: questionOptions.minLength
+            })
+          );
+        }
+        if (questionOptions.disallowDecimals) {
+          validators.push(
+            new DisallowDecimalsValidationModel({
+              type: 'disallowDecimals',
+              disallowDecimals: questionOptions.disallowDecimals
             })
           );
         }

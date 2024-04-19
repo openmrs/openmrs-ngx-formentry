@@ -24,4 +24,6 @@ export class Messages {
 
   public static readonly min =
     'Please enter a value greater than or equal to {min}';
+
+  public static readonly disallowDecimals = 'Decimals values are not allowed';
 }
