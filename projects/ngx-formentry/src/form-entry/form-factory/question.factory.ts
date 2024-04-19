@@ -34,7 +34,7 @@ import { WorkspaceLauncherQuestion } from '../question-models';
 import { DecimalValidationModel } from '../question-models/decimal-validation.model';
 import { DisallowDecimalsValidationModel } from '../question-models/disallow-decimals-validation.model';
 import { MachineLearningQuestion } from '../question-models/machine-learning.model';
-
+import { DisallowDecimalsValidationModel } from '../question-models/disallow-decimals-validation.model';
 @Injectable()
 export class QuestionFactory {
   dataSources: any = {};
