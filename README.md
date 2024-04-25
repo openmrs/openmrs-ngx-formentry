@@ -83,7 +83,6 @@ Here, `node` refers to the form's rootNode, and `labelMap` is an object that map
 - The form schema is loaded and parsed.
 - Sample data is loaded and injected into the form (via data sources).
 - Translations and concepts get resolved.
--
 
 ## Development
 
