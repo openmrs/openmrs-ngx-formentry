@@ -148,7 +148,14 @@ Then update the version in the `package.json` file:
 yarn version --new-version <major|minor|patch> --no-git-tag-version
 ```
 
-Commit the change and push it to the repository:
+Note that this command only updates the version in the root-level `package.json` file. You must ensure to bump the version in the `package.json` file in the `projects/ngx-formentry` directory as well. To do so, run:
+
+```sh
+cd projects/ngx-formentry
+yarn version --new-version <major|minor|patch> --no-git-tag-version
+```
+
+Commit the changes and push them:
 
 ```sh
 git add .
