@@ -132,9 +132,7 @@ export class MachineLearningComponent implements OnInit {
   }
 
   private setRiskScore(scoreMessage: string) {
-    const riskScoreMessage = this.node.form.searchNodeByQuestionId(
-      'riskScore'
-    )[0];
+    const riskScoreMessage = this.node.form.searchNodeByQuestionId('riskScore')[0];
     riskScoreMessage.control.setValue(scoreMessage);
   }
 
