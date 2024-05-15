@@ -132,7 +132,31 @@ yarn start --sources packages/esm-form-entry-app
 
 ## Contributing
 
-Contributions are welcome. Please read through the [technical roadmap](https://github.com/openmrs/openmrs-ngx-formentry/issues/1) first to see what features are planned for the library.
+Contributions are welcome. Please read through the [technical roadmap](https://github.com/openmrs/openmrs-ngx-formentry/issues/1) first to see what features are planned for the library. Read through our [Contributing Guidelines](https://o3-docs.openmrs.org/docs/frontend-modules/contributing) to get a better understanding of how to contribute.
+
+## Cutting a new release
+
+To cut a new release, start by creating a release branch:
+
+```sh
+git checkout -b chore/release-vX.Y.Z
+```
+
+Then update the version in the `package.json` file:
+
+```sh
+yarn version --new-version <major|minor|patch> --no-git-tag-version
+```
+
+Commit the change and push it to the repository:
+
+```sh
+git add .
+git commit -m '(chore) Release vX.Y.Z'
+git push
+```
+
+Then create a pull request and merge it into the `main` branch. Once the PR is merged, create a new release in the GitHub releases UI and publish it. This should run the [release](https://github.com/openmrs/openmrs-ngx-formentry/blob/main/.github/workflows/main.yml#L97-L98) job in our main CI workflow. Once the job completes successfully, the new release will be published to NPM and will automatically appear on our [Changelog page](https://o3-docs.openmrs.org/docs/changelog) in the docs.
 
 ## Credits
 
