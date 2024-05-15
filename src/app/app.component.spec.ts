@@ -8,7 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-const adultReturnVisitForm = require('./adult-1.6.json');
+const adultReturnVisitForm = require('./adult-1.8.json');
 
 describe('AppComponent', () => {
   let component: AppComponent;
