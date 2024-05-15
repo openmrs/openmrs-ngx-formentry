@@ -142,13 +142,13 @@ To cut a new release, start by creating a release branch:
 git checkout -b chore/release-vX.Y.Z
 ```
 
-Then update the version in the `package.json` file:
+Then update the version in the root-level `package.json` file:
 
 ```sh
 yarn version --new-version <major|minor|patch> --no-git-tag-version
 ```
 
-Note that this command only updates the version in the root-level `package.json` file. You must ensure to bump the version in the `package.json` file in the `projects/ngx-formentry` directory as well. To do so, run:
+Note that this command only updates the version of the Angular wrapper app that consumes the library. To bump the library version, you must bump the version in the `package.json` file in the `projects/ngx-formentry` directory as well. To do so, run:
 
 ```sh
 cd projects/ngx-formentry
