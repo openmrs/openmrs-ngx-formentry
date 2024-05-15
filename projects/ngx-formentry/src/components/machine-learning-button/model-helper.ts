@@ -466,7 +466,7 @@ export function generatePredictionPayload(
 
   // convert Sexually Active
 
-  if (everHadSex == 1065) {
+  if (everHadSex == 1) {
     if (activeSexually == 1065) {
       predictionVariables.SexuallyActiveYES = 1;
     } else if (activeSexually == 1066) {
@@ -479,7 +479,7 @@ export function generatePredictionPayload(
       predictionVariables.SexuallyActiveDECLINE = -10000.0;
       predictionVariables.SexuallyActiveNR = -10000.0;
     }
-  } else if (everHadSex == 1066) {
+  } else if (everHadSex == 0) {
     predictionVariables.SexuallyActiveNR = 1;
   } else {
     predictionVariables.SexuallyActiveYES = -10000.0;
@@ -489,7 +489,7 @@ export function generatePredictionPayload(
   }
 
   // Multiple Sexual Partners
-  if (everHadSex == 1065) {
+  if (everHadSex == 1) {
     if (multipleSexPartners == 'true') {
       predictionVariables.MultiplePartnersYES = 1;
     } else if (multipleSexPartners == 'false') {
@@ -499,7 +499,7 @@ export function generatePredictionPayload(
       predictionVariables.MultiplePartnersNO = -10000.0;
       predictionVariables.MultiplePartnersNR = -10000.0;
     }
-  } else if (everHadSex == 1066) {
+  } else if (everHadSex == 0) {
     predictionVariables.MultiplePartnersNR = 1;
   } else {
     predictionVariables.MultiplePartnersYES = -10000.0;
@@ -517,7 +517,7 @@ export function generatePredictionPayload(
 
   // convert New Partner
 
-  if (everHadSex == 1065) {
+  if (everHadSex == 1) {
     if (newPartner == 1065) {
       predictionVariables.NewPartnerYES = 1;
     } else if (newPartner == 1066) {
@@ -530,7 +530,7 @@ export function generatePredictionPayload(
       predictionVariables.NewPartnerDECLINE = -10000.0;
       predictionVariables.NewPartnerNR = -10000.0;
     }
-  } else if (everHadSex == 1066) {
+  } else if (everHadSex == 0) {
     predictionVariables.NewPartnerNR = 1;
   } else {
     predictionVariables.NewPartnerYES = -10000.0;
@@ -541,7 +541,7 @@ export function generatePredictionPayload(
 
   // Partner HIV Status
 
-  if (everHadSex == 1065) {
+  if (everHadSex == 1) {
     if (partnerHIVStatus == 703) {
       predictionVariables.PartnerHIVStatusPOSITIVE = 1;
     } else if (partnerHIVStatus == 664) {
@@ -557,7 +557,7 @@ export function generatePredictionPayload(
       predictionVariables.PartnerHIVStatusDECLINE = -10000.0;
       predictionVariables.PartnerHIVStatusNR = -10000.0;
     }
-  } else if (everHadSex == 1066) {
+  } else if (everHadSex == 0) {
     predictionVariables.PartnerHIVStatusNR = 1;
   } else {
     predictionVariables.PartnerHIVStatusPOSITIVE = -10000.0;
@@ -569,7 +569,7 @@ export function generatePredictionPayload(
 
   // Number of Partners
 
-  if (everHadSex == 1065) {
+  if (everHadSex == 1) {
     if (numberOfPartnersInt > 1) {
       predictionVariables.NumberOfPartnersMULTIPLE = 1;
     } else if (numberOfPartnersInt == 1 || numberOfPartnersInt == 0) {
@@ -579,7 +579,7 @@ export function generatePredictionPayload(
       predictionVariables.NumberOfPartnersSINGLE = -10000.0;
       predictionVariables.NumberOfPartnersNR = -10000.0;
     }
-  } else if (everHadSex == 1066) {
+  } else if (everHadSex == 0) {
     predictionVariables.NumberOfPartnersNR = 1;
   } else {
     predictionVariables.NumberOfPartnersMULTIPLE = -10000.0;
@@ -589,7 +589,7 @@ export function generatePredictionPayload(
 
   // Alcoholic Sex
 
-  if (everHadSex == 1065) {
+  if (everHadSex == 1) {
     if (alcoholicSex == 1066) {
       predictionVariables.AlcoholSexNEVER = 1;
     } else if (alcoholicSex == 1385) {
@@ -602,7 +602,7 @@ export function generatePredictionPayload(
       predictionVariables.AlcoholSexALWAYS = -10000.0;
       predictionVariables.AlcoholSexNR = -10000.0;
     }
-  } else if (everHadSex == 1066) {
+  } else if (everHadSex == 0) {
     predictionVariables.AlcoholSexNR = 1;
   } else {
     predictionVariables.AlcoholSexNEVER = -10000.0;
@@ -613,7 +613,7 @@ export function generatePredictionPayload(
 
   // Money Sex
 
-  if (everHadSex == 1065) {
+  if (everHadSex == 1) {
     if (moneySex == 1065) {
       predictionVariables.MoneySexYES = 1;
     } else if (moneySex == 1066) {
@@ -626,7 +626,7 @@ export function generatePredictionPayload(
       predictionVariables.MoneySexDECLINE = -10000.0;
       predictionVariables.MoneySexNR = -10000.0;
     }
-  } else if (everHadSex == 1066) {
+  } else if (everHadSex == 0) {
     predictionVariables.MoneySexNR = 1;
   } else {
     predictionVariables.MoneySexYES = -10000.0;
@@ -637,7 +637,7 @@ export function generatePredictionPayload(
 
   // unknown status partner
 
-  if (everHadSex == 1065) {
+  if (everHadSex == 1) {
     if (strangerSex == 1065) {
       predictionVariables.UnknownStatusPartnerYES = 1;
     } else if (strangerSex == 1066) {
@@ -650,7 +650,7 @@ export function generatePredictionPayload(
       predictionVariables.UnknownStatusPartnerDECLINE = -10000.0;
       predictionVariables.UnknownStatusPartnerNR = -10000.0;
     }
-  } else if (everHadSex == 1066) {
+  } else if (everHadSex == 0) {
     predictionVariables.UnknownStatusPartnerNR = 1;
   } else {
     predictionVariables.UnknownStatusPartnerYES = -10000.0;
@@ -661,7 +661,7 @@ export function generatePredictionPayload(
 
   //known status partner
 
-  if (everHadSex == 1065) {
+  if (everHadSex == 1) {
     if (positiveSex == 163289) {
       predictionVariables.KnownStatusPartnerYES = 1;
     } else if (positiveSex == 1066) {
@@ -674,7 +674,7 @@ export function generatePredictionPayload(
       predictionVariables.KnownStatusPartnerDECLINE = -10000.0;
       predictionVariables.KnownStatusPartnerNR = -10000.0;
     }
-  } else if (everHadSex == 1066) {
+  } else if (everHadSex == 0) {
     predictionVariables.KnownStatusPartnerNR = 1;
   } else {
     predictionVariables.KnownStatusPartnerYES = -10000.0;
@@ -723,7 +723,7 @@ export function generatePredictionPayload(
 
   // Discordant Couple
 
-  if (everHadSex == 1065) {
+  if (everHadSex == 1) {
     if (discordantCouple == 1065) {
       predictionVariables.CoupleDiscordantYES = 1;
     } else if (discordantCouple == 1066) {
@@ -733,7 +733,7 @@ export function generatePredictionPayload(
       predictionVariables.CoupleDiscordantNO = -10000.0;
       predictionVariables.CoupleDiscordantNR = -10000.0;
     }
-  } else if (everHadSex == 1066) {
+  } else if (everHadSex == 0) {
     predictionVariables.CoupleDiscordantNR = 1;
   } else {
     predictionVariables.CoupleDiscordantYES = -10000.0;
