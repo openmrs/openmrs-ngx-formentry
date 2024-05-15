@@ -17,19 +17,29 @@ export class MachineLearningService {
     return this.http.post(url, predicationPayload, { headers: headers });
   }
 
+  // Predict the risk
   public predictRisk(res) {
     // Check if the prediction is available
-    const probabilityForPositivity = res?.result?.predictions['probability(1)'];
+    const probabilityForPositivity = res?.result?.predictions['probability(Positive)'];
     if (!probabilityForPositivity) {
       return { message: 'No results found', riskScore: 0 };
     }
 
-    // Define risk thresholds
-    const highRiskThreshold = 0.1079255;
-    const mediumRiskThreshold = 0.02795569;
-    const lowRiskThreshold = 0.005011473;
+    const lowRiskThreshold = res.result.thresholds['Medium'];
+    const mediumRiskThreshold = res.result.thresholds['High'];
+    const highRiskThreshold = res.result.thresholds['Very_High'];
 
-    // Define risk messages
+    const riskThresholds = {
+      lowRisk: lowRiskThreshold,
+      mediumRisk: mediumRiskThreshold,
+      highRisk: highRiskThreshold
+    };
+
+    console.warn("Low Risk Threshold is: ", lowRiskThreshold);
+    console.warn("Medium Risk Threshold is: ", mediumRiskThreshold);
+    console.warn("High Risk Threshold is: ", highRiskThreshold);
+    console.warn("Got prediction as: ", probabilityForPositivity);
+
     const riskMessages = {
       veryHigh:
         'This client has a very high probability of a HIV positive test result. Testing is strongly recommended',
@@ -90,6 +100,13 @@ export class MachineLearningService {
       testStrategy: result['facilityHTStrategy'] ?? '',
       selfTested: result['teSteR'] ?? '',
       tbScreening: result['screenedTB'] ?? '',
+      tbFever: result['fever'] ?? '',
+      tbNightSweats: result['experiencingSweats'] ?? '',
+      tbCough: result['coughDuration'] ?? '',
+      tbScreeningStatus: result['tbResultstaTuS'] ?? '',
+      everHadSex: result['sexuallyActive'] ?? '',
+      multipleSexPartners: result['multipleSexPartners'] ?? '',
+      patientType: result['patienTyPe'] ?? '',
       onPREP: result['currentlyPrep'] ?? '',
       hasSTI: result['currentlySti'] ?? '',
       activeSexually: result['activeSexually'] ?? '',

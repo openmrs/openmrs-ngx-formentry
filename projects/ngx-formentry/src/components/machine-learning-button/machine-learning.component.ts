@@ -66,6 +66,7 @@ export class MachineLearningComponent implements OnInit {
           this.setRiskScore(message);
           this.setAutoGenerateRiskScore(riskScore, message);
           this.isLoading = false;
+          // this.restoreRequiredFields();
         },
         (error) => {
           this.hasError = true;
@@ -73,6 +74,7 @@ export class MachineLearningComponent implements OnInit {
           this.errorMessage =
             error.message ?? 'An error occurred while fetching risk score';
           this.setRiskScore(this.errorMessage);
+          // this.restoreRequiredFields();
         }
       );
     } else {
@@ -103,7 +105,7 @@ export class MachineLearningComponent implements OnInit {
 
   private buildRiskPayload(machineLearningScore: any): object {
     const modelConfigs = {
-      modelId: 'hts_xgb_1211_jan_2023',
+      modelId: 'hts_xgb_01052024_may_2024',
       encounterDate: new Date().toISOString().slice(0, 10),
       facilityId: '',
       debug: 'true'
@@ -129,9 +131,9 @@ export class MachineLearningComponent implements OnInit {
     return questionConcepts;
   }
 
-  private setRiskScore(score: string) {
-    const riskScore = this.node.form.searchNodeByQuestionId('riskScore')[0];
-    riskScore.control.setValue(score);
+  private setRiskScore(scoreMessage: string) {
+    const riskScoreMessage = this.node.form.searchNodeByQuestionId('riskScore')[0];
+    riskScoreMessage.control.setValue(scoreMessage);
   }
 
   private extractNumbersOrUuid(inputStr: string) {

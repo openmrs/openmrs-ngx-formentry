@@ -12,6 +12,13 @@ export interface PredictionObject {
   testStrategy: number | string | '';
   selfTested: number | string | '';
   tbScreening: number | string | '';
+  tbFever: number | string | '';
+  tbNightSweats: number | string | '';
+  tbCough: number | string | '';
+  tbScreeningStatus: number | string | '';
+  everHadSex: number | string | '';
+  multipleSexPartners: number | string | '';
+  patientType: number | string | '';
   onPREP: number | string | '';
   hasSTI: number | string | '';
   activeSexually: number | string | '';
@@ -50,8 +57,8 @@ export interface MachineResponsePayload {
   result: {
     ModelInputs: PredictionObject;
     predictions: {
-      'probability(0)': number;
-      'probability(1)': number;
+      'probability(Negative)': number;
+      'probability(Positive)': number;
     };
   };
 }
