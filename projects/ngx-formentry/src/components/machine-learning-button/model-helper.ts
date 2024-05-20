@@ -685,7 +685,7 @@ export function generatePredictionPayload(
 
   //pregnant
 
-  if (pgender == 'F') {
+  if (pgender == 'F' && pAge >= 10 && pAge <= 50) {
     if (patientPregnant == 1065) {
       predictionVariables.PregnantYES = 1;
     } else if (patientPregnant == 1066) {
@@ -704,7 +704,7 @@ export function generatePredictionPayload(
 
   //breastfeeding
 
-  if (pgender == 'F') {
+  if (pgender == 'F' && pAge >= 10 && pAge <= 50) {
     if (patientBreastFeeding == 1065) {
       predictionVariables.BreastfeedingMotherYES = 1;
     } else if (patientBreastFeeding == 1066) {
