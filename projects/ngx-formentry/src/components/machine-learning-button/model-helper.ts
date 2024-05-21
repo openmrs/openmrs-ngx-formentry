@@ -466,45 +466,53 @@ export function generatePredictionPayload(
 
   // convert Sexually Active
 
-  if (everHadSex == 1) {
-    if (activeSexually == 1065) {
-      predictionVariables.SexuallyActiveYES = 1;
-    } else if (activeSexually == 1066) {
-      predictionVariables.SexuallyActiveNO = 1;
-    } else if (activeSexually == 162570) {
-      predictionVariables.SexuallyActiveDECLINE = 1;
+  if (pAge > 10) {
+    if (everHadSex == 1) {
+      if (activeSexually == 1065) {
+        predictionVariables.SexuallyActiveYES = 1;
+      } else if (activeSexually == 1066) {
+        predictionVariables.SexuallyActiveNO = 1;
+      } else if (activeSexually == 162570) {
+        predictionVariables.SexuallyActiveDECLINE = 1;
+      } else {
+        predictionVariables.SexuallyActiveYES = -10000.0;
+        predictionVariables.SexuallyActiveNO = -10000.0;
+        predictionVariables.SexuallyActiveDECLINE = -10000.0;
+        predictionVariables.SexuallyActiveNR = -10000.0;
+      }
+    } else if (everHadSex == 0) {
+      predictionVariables.SexuallyActiveNR = 1;
     } else {
       predictionVariables.SexuallyActiveYES = -10000.0;
       predictionVariables.SexuallyActiveNO = -10000.0;
       predictionVariables.SexuallyActiveDECLINE = -10000.0;
       predictionVariables.SexuallyActiveNR = -10000.0;
     }
-  } else if (everHadSex == 0) {
-    predictionVariables.SexuallyActiveNR = 1;
   } else {
-    predictionVariables.SexuallyActiveYES = -10000.0;
-    predictionVariables.SexuallyActiveNO = -10000.0;
-    predictionVariables.SexuallyActiveDECLINE = -10000.0;
-    predictionVariables.SexuallyActiveNR = -10000.0;
+    predictionVariables.SexuallyActiveNR = 1;
   }
 
   // Multiple Sexual Partners
-  if (everHadSex == 1) {
-    if (multipleSexPartners == 'true') {
-      predictionVariables.MultiplePartnersYES = 1;
-    } else if (multipleSexPartners == 'false') {
-      predictionVariables.MultiplePartnersNO = 1;
+  if (pAge > 10) {
+    if (everHadSex == 1) {
+      if (multipleSexPartners == 'true') {
+        predictionVariables.MultiplePartnersYES = 1;
+      } else if (multipleSexPartners == 'false') {
+        predictionVariables.MultiplePartnersNO = 1;
+      } else {
+        predictionVariables.MultiplePartnersYES = -10000.0;
+        predictionVariables.MultiplePartnersNO = -10000.0;
+        predictionVariables.MultiplePartnersNR = -10000.0;
+      }
+    } else if (everHadSex == 0) {
+      predictionVariables.MultiplePartnersNR = 1;
     } else {
       predictionVariables.MultiplePartnersYES = -10000.0;
       predictionVariables.MultiplePartnersNO = -10000.0;
       predictionVariables.MultiplePartnersNR = -10000.0;
     }
-  } else if (everHadSex == 0) {
-    predictionVariables.MultiplePartnersNR = 1;
   } else {
-    predictionVariables.MultiplePartnersYES = -10000.0;
-    predictionVariables.MultiplePartnersNO = -10000.0;
-    predictionVariables.MultiplePartnersNR = -10000.0;
+    predictionVariables.MultiplePartnersNR = 1;
   }
 
   // Patient Type
@@ -517,39 +525,53 @@ export function generatePredictionPayload(
 
   // convert New Partner
 
-  if (everHadSex == 1) {
-    if (newPartner == 1065) {
-      predictionVariables.NewPartnerYES = 1;
-    } else if (newPartner == 1066) {
-      predictionVariables.NewPartnerNO = 1;
-    } else if (newPartner == 162570) {
-      predictionVariables.NewPartnerDECLINE = 1;
+  if (pAge > 10) {
+    if (everHadSex == 1) {
+      if (newPartner == 1065) {
+        predictionVariables.NewPartnerYES = 1;
+      } else if (newPartner == 1066) {
+        predictionVariables.NewPartnerNO = 1;
+      } else if (newPartner == 162570) {
+        predictionVariables.NewPartnerDECLINE = 1;
+      } else {
+        predictionVariables.NewPartnerYES = -10000.0;
+        predictionVariables.NewPartnerNO = -10000.0;
+        predictionVariables.NewPartnerDECLINE = -10000.0;
+        predictionVariables.NewPartnerNR = -10000.0;
+      }
+    } else if (everHadSex == 0) {
+      predictionVariables.NewPartnerNR = 1;
     } else {
       predictionVariables.NewPartnerYES = -10000.0;
       predictionVariables.NewPartnerNO = -10000.0;
       predictionVariables.NewPartnerDECLINE = -10000.0;
       predictionVariables.NewPartnerNR = -10000.0;
     }
-  } else if (everHadSex == 0) {
-    predictionVariables.NewPartnerNR = 1;
   } else {
-    predictionVariables.NewPartnerYES = -10000.0;
-    predictionVariables.NewPartnerNO = -10000.0;
-    predictionVariables.NewPartnerDECLINE = -10000.0;
-    predictionVariables.NewPartnerNR = -10000.0;
+    predictionVariables.NewPartnerNR = 1;
   }
 
   // Partner HIV Status
 
-  if (everHadSex == 1) {
-    if (partnerHIVStatus == 703) {
-      predictionVariables.PartnerHIVStatusPOSITIVE = 1;
-    } else if (partnerHIVStatus == 664) {
-      predictionVariables.PartnerHIVStatusNEGATIVE = 1;
-    } else if (partnerHIVStatus == 1067) {
-      predictionVariables.PartnerHIVStatusUNKNOWN = 1;
-    } else if (partnerHIVStatus == 162570) {
-      predictionVariables.PartnerHIVStatusDECLINE = 1;
+  if (pAge > 10) {
+    if (everHadSex == 1) {
+      if (partnerHIVStatus == 703) {
+        predictionVariables.PartnerHIVStatusPOSITIVE = 1;
+      } else if (partnerHIVStatus == 664) {
+        predictionVariables.PartnerHIVStatusNEGATIVE = 1;
+      } else if (partnerHIVStatus == 1067) {
+        predictionVariables.PartnerHIVStatusUNKNOWN = 1;
+      } else if (partnerHIVStatus == 162570) {
+        predictionVariables.PartnerHIVStatusDECLINE = 1;
+      } else {
+        predictionVariables.PartnerHIVStatusPOSITIVE = -10000.0;
+        predictionVariables.PartnerHIVStatusNEGATIVE = -10000.0;
+        predictionVariables.PartnerHIVStatusUNKNOWN = -10000.0;
+        predictionVariables.PartnerHIVStatusDECLINE = -10000.0;
+        predictionVariables.PartnerHIVStatusNR = -10000.0;
+      }
+    } else if (everHadSex == 0) {
+      predictionVariables.PartnerHIVStatusNR = 1;
     } else {
       predictionVariables.PartnerHIVStatusPOSITIVE = -10000.0;
       predictionVariables.PartnerHIVStatusNEGATIVE = -10000.0;
@@ -557,130 +579,144 @@ export function generatePredictionPayload(
       predictionVariables.PartnerHIVStatusDECLINE = -10000.0;
       predictionVariables.PartnerHIVStatusNR = -10000.0;
     }
-  } else if (everHadSex == 0) {
-    predictionVariables.PartnerHIVStatusNR = 1;
   } else {
-    predictionVariables.PartnerHIVStatusPOSITIVE = -10000.0;
-    predictionVariables.PartnerHIVStatusNEGATIVE = -10000.0;
-    predictionVariables.PartnerHIVStatusUNKNOWN = -10000.0;
-    predictionVariables.PartnerHIVStatusDECLINE = -10000.0;
-    predictionVariables.PartnerHIVStatusNR = -10000.0;
+    predictionVariables.PartnerHIVStatusNR = 1;
   }
 
   // Number of Partners
 
-  if (everHadSex == 1) {
-    if (numberOfPartnersInt > 1) {
-      predictionVariables.NumberOfPartnersMULTIPLE = 1;
-    } else if (numberOfPartnersInt == 1 || numberOfPartnersInt == 0) {
-      predictionVariables.NumberOfPartnersSINGLE = 1;
+  if (pAge > 10) {
+    if (everHadSex == 1) {
+      if (numberOfPartnersInt > 1) {
+        predictionVariables.NumberOfPartnersMULTIPLE = 1;
+      } else if (numberOfPartnersInt == 1 || numberOfPartnersInt == 0) {
+        predictionVariables.NumberOfPartnersSINGLE = 1;
+      } else {
+        predictionVariables.NumberOfPartnersMULTIPLE = -10000.0;
+        predictionVariables.NumberOfPartnersSINGLE = -10000.0;
+        predictionVariables.NumberOfPartnersNR = -10000.0;
+      }
+    } else if (everHadSex == 0) {
+      predictionVariables.NumberOfPartnersNR = 1;
     } else {
       predictionVariables.NumberOfPartnersMULTIPLE = -10000.0;
       predictionVariables.NumberOfPartnersSINGLE = -10000.0;
       predictionVariables.NumberOfPartnersNR = -10000.0;
     }
-  } else if (everHadSex == 0) {
-    predictionVariables.NumberOfPartnersNR = 1;
   } else {
-    predictionVariables.NumberOfPartnersMULTIPLE = -10000.0;
-    predictionVariables.NumberOfPartnersSINGLE = -10000.0;
-    predictionVariables.NumberOfPartnersNR = -10000.0;
+    predictionVariables.NumberOfPartnersNR = 1;
   }
 
   // Alcoholic Sex
 
-  if (everHadSex == 1) {
-    if (alcoholicSex == 1066) {
-      predictionVariables.AlcoholSexNEVER = 1;
-    } else if (alcoholicSex == 1385) {
-      predictionVariables.AlcoholSexSOMETIMES = 1;
-    } else if (alcoholicSex == 165027) {
-      predictionVariables.AlcoholSexALWAYS = 1;
+  if (pAge > 10) {
+    if (everHadSex == 1) {
+      if (alcoholicSex == 1066) {
+        predictionVariables.AlcoholSexNEVER = 1;
+      } else if (alcoholicSex == 1385) {
+        predictionVariables.AlcoholSexSOMETIMES = 1;
+      } else if (alcoholicSex == 165027) {
+        predictionVariables.AlcoholSexALWAYS = 1;
+      } else {
+        predictionVariables.AlcoholSexNEVER = -10000.0;
+        predictionVariables.AlcoholSexSOMETIMES = -10000.0;
+        predictionVariables.AlcoholSexALWAYS = -10000.0;
+        predictionVariables.AlcoholSexNR = -10000.0;
+      }
+    } else if (everHadSex == 0) {
+      predictionVariables.AlcoholSexNR = 1;
     } else {
       predictionVariables.AlcoholSexNEVER = -10000.0;
       predictionVariables.AlcoholSexSOMETIMES = -10000.0;
       predictionVariables.AlcoholSexALWAYS = -10000.0;
       predictionVariables.AlcoholSexNR = -10000.0;
     }
-  } else if (everHadSex == 0) {
-    predictionVariables.AlcoholSexNR = 1;
   } else {
-    predictionVariables.AlcoholSexNEVER = -10000.0;
-    predictionVariables.AlcoholSexSOMETIMES = -10000.0;
-    predictionVariables.AlcoholSexALWAYS = -10000.0;
-    predictionVariables.AlcoholSexNR = -10000.0;
+    predictionVariables.AlcoholSexNR = 1;
   }
 
   // Money Sex
 
-  if (everHadSex == 1) {
-    if (moneySex == 1065) {
-      predictionVariables.MoneySexYES = 1;
-    } else if (moneySex == 1066) {
-      predictionVariables.MoneySexNO = 1;
-    } else if (moneySex == 162570) {
-      predictionVariables.MoneySexDECLINE = 1;
+  if (pAge > 10) {
+    if (everHadSex == 1) {
+      if (moneySex == 1065) {
+        predictionVariables.MoneySexYES = 1;
+      } else if (moneySex == 1066) {
+        predictionVariables.MoneySexNO = 1;
+      } else if (moneySex == 162570) {
+        predictionVariables.MoneySexDECLINE = 1;
+      } else {
+        predictionVariables.MoneySexYES = -10000.0;
+        predictionVariables.MoneySexNO = -10000.0;
+        predictionVariables.MoneySexDECLINE = -10000.0;
+        predictionVariables.MoneySexNR = -10000.0;
+      }
+    } else if (everHadSex == 0) {
+      predictionVariables.MoneySexNR = 1;
     } else {
       predictionVariables.MoneySexYES = -10000.0;
       predictionVariables.MoneySexNO = -10000.0;
       predictionVariables.MoneySexDECLINE = -10000.0;
       predictionVariables.MoneySexNR = -10000.0;
     }
-  } else if (everHadSex == 0) {
-    predictionVariables.MoneySexNR = 1;
   } else {
-    predictionVariables.MoneySexYES = -10000.0;
-    predictionVariables.MoneySexNO = -10000.0;
-    predictionVariables.MoneySexDECLINE = -10000.0;
-    predictionVariables.MoneySexNR = -10000.0;
+    predictionVariables.MoneySexNR = 1;
   }
 
   // unknown status partner
 
-  if (everHadSex == 1) {
-    if (strangerSex == 1065) {
-      predictionVariables.UnknownStatusPartnerYES = 1;
-    } else if (strangerSex == 1066) {
-      predictionVariables.UnknownStatusPartnerNO = 1;
-    } else if (positiveSex == 162570) {
-      predictionVariables.UnknownStatusPartnerDECLINE = 1;
+  if (pAge > 10) {
+    if (everHadSex == 1) {
+      if (strangerSex == 1065) {
+        predictionVariables.UnknownStatusPartnerYES = 1;
+      } else if (strangerSex == 1066) {
+        predictionVariables.UnknownStatusPartnerNO = 1;
+      } else if (positiveSex == 162570) {
+        predictionVariables.UnknownStatusPartnerDECLINE = 1;
+      } else {
+        predictionVariables.UnknownStatusPartnerYES = -10000.0;
+        predictionVariables.UnknownStatusPartnerNO = -10000.0;
+        predictionVariables.UnknownStatusPartnerDECLINE = -10000.0;
+        predictionVariables.UnknownStatusPartnerNR = -10000.0;
+      }
+    } else if (everHadSex == 0) {
+      predictionVariables.UnknownStatusPartnerNR = 1;
     } else {
       predictionVariables.UnknownStatusPartnerYES = -10000.0;
       predictionVariables.UnknownStatusPartnerNO = -10000.0;
       predictionVariables.UnknownStatusPartnerDECLINE = -10000.0;
       predictionVariables.UnknownStatusPartnerNR = -10000.0;
     }
-  } else if (everHadSex == 0) {
-    predictionVariables.UnknownStatusPartnerNR = 1;
   } else {
-    predictionVariables.UnknownStatusPartnerYES = -10000.0;
-    predictionVariables.UnknownStatusPartnerNO = -10000.0;
-    predictionVariables.UnknownStatusPartnerDECLINE = -10000.0;
-    predictionVariables.UnknownStatusPartnerNR = -10000.0;
+    predictionVariables.UnknownStatusPartnerNR = 1;
   }
 
   //known status partner
 
-  if (everHadSex == 1) {
-    if (positiveSex == 163289) {
-      predictionVariables.KnownStatusPartnerYES = 1;
-    } else if (positiveSex == 1066) {
-      predictionVariables.KnownStatusPartnerNO = 1;
-    } else if (positiveSex == 162570) {
-      predictionVariables.KnownStatusPartnerDECLINE = 1;
+  if (pAge > 10) {
+    if (everHadSex == 1) {
+      if (positiveSex == 163289) {
+        predictionVariables.KnownStatusPartnerYES = 1;
+      } else if (positiveSex == 1066) {
+        predictionVariables.KnownStatusPartnerNO = 1;
+      } else if (positiveSex == 162570) {
+        predictionVariables.KnownStatusPartnerDECLINE = 1;
+      } else {
+        predictionVariables.KnownStatusPartnerYES = -10000.0;
+        predictionVariables.KnownStatusPartnerNO = -10000.0;
+        predictionVariables.KnownStatusPartnerDECLINE = -10000.0;
+        predictionVariables.KnownStatusPartnerNR = -10000.0;
+      }
+    } else if (everHadSex == 0) {
+      predictionVariables.KnownStatusPartnerNR = 1;
     } else {
       predictionVariables.KnownStatusPartnerYES = -10000.0;
       predictionVariables.KnownStatusPartnerNO = -10000.0;
       predictionVariables.KnownStatusPartnerDECLINE = -10000.0;
       predictionVariables.KnownStatusPartnerNR = -10000.0;
     }
-  } else if (everHadSex == 0) {
-    predictionVariables.KnownStatusPartnerNR = 1;
   } else {
-    predictionVariables.KnownStatusPartnerYES = -10000.0;
-    predictionVariables.KnownStatusPartnerNO = -10000.0;
-    predictionVariables.KnownStatusPartnerDECLINE = -10000.0;
-    predictionVariables.KnownStatusPartnerNR = -10000.0;
+    predictionVariables.KnownStatusPartnerNR = 1;
   }
 
   //pregnant
@@ -723,22 +759,26 @@ export function generatePredictionPayload(
 
   // Discordant Couple
 
-  if (everHadSex == 1) {
-    if (discordantCouple == 1065) {
-      predictionVariables.CoupleDiscordantYES = 1;
-    } else if (discordantCouple == 1066) {
-      predictionVariables.CoupleDiscordantNO = 1;
+  if (pAge > 10) {
+    if (everHadSex == 1) {
+      if (discordantCouple == 1065) {
+        predictionVariables.CoupleDiscordantYES = 1;
+      } else if (discordantCouple == 1066) {
+        predictionVariables.CoupleDiscordantNO = 1;
+      } else {
+        predictionVariables.CoupleDiscordantYES = -10000.0;
+        predictionVariables.CoupleDiscordantNO = -10000.0;
+        predictionVariables.CoupleDiscordantNR = -10000.0;
+      }
+    } else if (everHadSex == 0) {
+      predictionVariables.CoupleDiscordantNR = 1;
     } else {
       predictionVariables.CoupleDiscordantYES = -10000.0;
       predictionVariables.CoupleDiscordantNO = -10000.0;
       predictionVariables.CoupleDiscordantNR = -10000.0;
     }
-  } else if (everHadSex == 0) {
-    predictionVariables.CoupleDiscordantNR = 1;
   } else {
-    predictionVariables.CoupleDiscordantYES = -10000.0;
-    predictionVariables.CoupleDiscordantNO = -10000.0;
-    predictionVariables.CoupleDiscordantNR = -10000.0;
+    predictionVariables.CoupleDiscordantNR = 1;
   }
 
   // Relationship with Contact - Sexual
