@@ -62,3 +62,8 @@ export interface MachineResponsePayload {
     };
   };
 }
+
+export interface latestObs {
+  conceptId: number;
+  conceptUuid: string;
+}
