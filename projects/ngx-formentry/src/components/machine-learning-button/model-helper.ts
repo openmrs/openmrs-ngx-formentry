@@ -42,6 +42,7 @@ export function generatePredictionPayload(
     ScreenedTBDECLINE: 0,
     ScreenedTBNO: 0,
     ScreenedTBYES: 0,
+    ScreenedTBNR: 0,
     HTSStrategyHB: 0,
     HTSStrategyHP: 0,
     HTSStrategyINDEX: 0,
@@ -371,19 +372,25 @@ export function generatePredictionPayload(
 
   // Screened For TB
 
-  if (tbScreening == 1065) {
-    // YES
-    predictionVariables.ScreenedTBYES = 1;
-  } else if (tbScreening == 1066) {
-    // NO
-    predictionVariables.ScreenedTBNO = 1;
-  } else if (tbScreening == 162570) {
-    // DECLINED
-    predictionVariables.ScreenedTBDECLINE = 1;
+  // (patient under or = 10 yrs && hivBefore == yes) || (patient over 10 yrs) else NR
+  if ((pAge <= 10 && testHistory == 1065) || pAge > 10) {
+    if (tbScreening == 1065) {
+      // YES
+      predictionVariables.ScreenedTBYES = 1;
+    } else if (tbScreening == 1066) {
+      // NO
+      predictionVariables.ScreenedTBNO = 1;
+    } else if (tbScreening == 162570) {
+      // DECLINED
+      predictionVariables.ScreenedTBDECLINE = 1;
+    } else {
+      predictionVariables.ScreenedTBYES = -10000.0;
+      predictionVariables.ScreenedTBNO = -10000.0;
+      predictionVariables.ScreenedTBDECLINE = -10000.0;
+      predictionVariables.ScreenedTBNR = -10000.0;
+    }
   } else {
-    predictionVariables.ScreenedTBYES = -10000.0;
-    predictionVariables.ScreenedTBNO = -10000.0;
-    predictionVariables.ScreenedTBDECLINE = -10000.0;
+    predictionVariables.ScreenedTBNR = 1;
   }
 
   // Has Fever

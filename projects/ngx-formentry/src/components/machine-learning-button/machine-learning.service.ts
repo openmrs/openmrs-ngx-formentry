@@ -59,7 +59,7 @@ export class MachineLearningService {
           error.message
         );
       },
-      complete: () => console.info('Get Latest Obs complete')
+      complete: () => console.warn('Get Latest Obs complete')
     });
     return {};
   }

@@ -64,7 +64,7 @@ export class MachineLearningComponent implements OnInit {
             const finalPayload = this.machineLearningService.mapToMLModel(
               objMap,
               age,
-              res.conceptId
+              res?.conceptId
             );
             const machineLearningScore = generatePredictionPayload(
               finalPayload,
@@ -74,8 +74,8 @@ export class MachineLearningComponent implements OnInit {
 
             this.machineLearningService
               .fetchPredictionScore(riskPayload)
-              .subscribe(
-                (res) => {
+              .subscribe({
+                next: (res) => {
                   if (!res) {
                     this.isLoading = false;
                     this.errorMessage =
@@ -94,7 +94,7 @@ export class MachineLearningComponent implements OnInit {
                   this.isLoading = false;
                   // this.restoreRequiredFields();
                 },
-                (error) => {
+                error: (error) => {
                   this.hasError = true;
                   this.isLoading = false;
                   this.errorMessage =
@@ -102,8 +102,9 @@ export class MachineLearningComponent implements OnInit {
                     'An error occurred while fetching risk score';
                   this.setRiskScore(this.errorMessage);
                   // this.restoreRequiredFields();
-                }
-              );
+                },
+                complete: () => console.warn('Get Risk Score complete')
+              });
             ///////////
           },
           error: (error) => {
@@ -142,7 +143,7 @@ export class MachineLearningComponent implements OnInit {
 
   private buildRiskPayload(machineLearningScore: any): object {
     const modelConfigs = {
-      modelId: 'hts_xgb_01052024_may_2024',
+      modelId: 'hts_xgb_28052024_may_2024',
       encounterDate: new Date().toISOString().slice(0, 10),
       facilityId: '',
       debug: 'true'
