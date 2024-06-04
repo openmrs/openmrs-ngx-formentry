@@ -394,81 +394,96 @@ export function generatePredictionPayload(
   }
 
   // Has Fever
-
-  if (tbScreening == 1065) {
-    if (tbFever == 1066) {
-      predictionVariables.FeverNO = 1;
-    } else if (tbFever == 1494) {
-      predictionVariables.FeverYES = 1;
+  if ((pAge <= 10 && testHistory == 1065) || pAge > 10) {
+    if (tbScreening == 1065) {
+      if (tbFever == 1066) {
+        predictionVariables.FeverNO = 1;
+      } else if (tbFever == 1494) {
+        predictionVariables.FeverYES = 1;
+      } else {
+        predictionVariables.FeverNO = -10000.0;
+        predictionVariables.FeverYES = -10000.0;
+      }
+    } else if (tbScreening == 1066) {
+      predictionVariables.FeverNR = 1;
     } else {
       predictionVariables.FeverNO = -10000.0;
       predictionVariables.FeverYES = -10000.0;
     }
-  } else if (tbScreening == 1066) {
-    predictionVariables.FeverNR = 1;
   } else {
-    predictionVariables.FeverNO = -10000.0;
-    predictionVariables.FeverYES = -10000.0;
+    predictionVariables.FeverNR = 1;
   }
 
   // Has Night Sweats
 
-  if (tbScreening == 1065) {
-    if (tbNightSweats == 1066) {
-      predictionVariables.NightSweatsNO = 1;
-    } else if (tbNightSweats == 133027) {
-      predictionVariables.NightSweatsYES = 1;
+  if ((pAge <= 10 && testHistory == 1065) || pAge > 10) {
+    if (tbScreening == 1065) {
+      if (tbNightSweats == 1066) {
+        predictionVariables.NightSweatsNO = 1;
+      } else if (tbNightSweats == 133027) {
+        predictionVariables.NightSweatsYES = 1;
+      } else {
+        predictionVariables.NightSweatsNO = -10000.0;
+        predictionVariables.NightSweatsYES = -10000.0;
+      }
+    } else if (tbScreening == 1066) {
+      predictionVariables.NightSweatsNR = 1;
     } else {
       predictionVariables.NightSweatsNO = -10000.0;
       predictionVariables.NightSweatsYES = -10000.0;
     }
-  } else if (tbScreening == 1066) {
-    predictionVariables.NightSweatsNR = 1;
   } else {
-    predictionVariables.NightSweatsNO = -10000.0;
-    predictionVariables.NightSweatsYES = -10000.0;
+    predictionVariables.NightSweatsNR = 1;
   }
 
   // Has Cough
 
-  if (tbScreening == 1065) {
-    if (tbCough == 1066) {
-      predictionVariables.CoughNO = 1;
-    } else if (tbCough == 159799) {
-      predictionVariables.CoughYES = 1;
+  if ((pAge <= 10 && testHistory == 1065) || pAge > 10) {
+    if (tbScreening == 1065) {
+      if (tbCough == 1066) {
+        predictionVariables.CoughNO = 1;
+      } else if (tbCough == 159799) {
+        predictionVariables.CoughYES = 1;
+      } else {
+        predictionVariables.CoughNO = -10000.0;
+        predictionVariables.CoughYES = -10000.0;
+      }
+    } else if (tbScreening == 1066) {
+      predictionVariables.CoughNR = 1;
     } else {
       predictionVariables.CoughNO = -10000.0;
       predictionVariables.CoughYES = -10000.0;
     }
-  } else if (tbScreening == 1066) {
-    predictionVariables.CoughNR = 1;
   } else {
-    predictionVariables.CoughNO = -10000.0;
-    predictionVariables.CoughYES = -10000.0;
+    predictionVariables.CoughNR = 1;
   }
 
   // TB Screening Results
 
-  if (tbScreening == 1065) {
-    if (tbScreeningStatus == 1660) {
-      predictionVariables.TBStatusNO_TBSIGNS = 1;
-    } else if (tbScreeningStatus == 1662) {
-      predictionVariables.TBStatusTBCONFIRMED = 1;
-    } else if (tbScreeningStatus == 142177) {
-      predictionVariables.TBStatusTBPRESUMED = 1;
+  if ((pAge <= 10 && testHistory == 1065) || pAge > 10) {
+    if (tbScreening == 1065) {
+      if (tbScreeningStatus == 1660) {
+        predictionVariables.TBStatusNO_TBSIGNS = 1;
+      } else if (tbScreeningStatus == 1662) {
+        predictionVariables.TBStatusTBCONFIRMED = 1;
+      } else if (tbScreeningStatus == 142177) {
+        predictionVariables.TBStatusTBPRESUMED = 1;
+      } else {
+        predictionVariables.TBStatusNO_TBSIGNS = -10000.0;
+        predictionVariables.TBStatusTBCONFIRMED = -10000.0;
+        predictionVariables.TBStatusTBPRESUMED = -10000.0;
+        predictionVariables.TBStatusNR = -10000.0;
+      }
+    } else if (tbScreening == 1066) {
+      predictionVariables.TBStatusNR = 1;
     } else {
       predictionVariables.TBStatusNO_TBSIGNS = -10000.0;
       predictionVariables.TBStatusTBCONFIRMED = -10000.0;
       predictionVariables.TBStatusTBPRESUMED = -10000.0;
       predictionVariables.TBStatusNR = -10000.0;
     }
-  } else if (tbScreening == 1066) {
-    predictionVariables.TBStatusNR = 1;
   } else {
-    predictionVariables.TBStatusNO_TBSIGNS = -10000.0;
-    predictionVariables.TBStatusTBCONFIRMED = -10000.0;
-    predictionVariables.TBStatusTBPRESUMED = -10000.0;
-    predictionVariables.TBStatusNR = -10000.0;
+    predictionVariables.TBStatusNR = 1;
   }
 
   // convert Sexually Active
