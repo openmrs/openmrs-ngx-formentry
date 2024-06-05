@@ -8,34 +8,21 @@ import moment from 'moment';
 export class MachineLearningService {
   constructor(private http: HttpClient) {}
 
-  // public fetchPredictionScore(predicationPayload) {
-  //   const url = `/openmrs/ws/rest/v1/keml/casefindingscore`;
-  //   const headers = new HttpHeaders()
-  //     .set('Content-Type', 'application/json')
-  //     .set('Accept', 'application/json')
-  //     .set('Access-Control-Allow-Origin', '*');
-  //   return this.http.post(url, predicationPayload, { headers: headers });
-  // }
-
   public fetchPredictionScore(predicationPayload) {
-    // const url = `/openmrs/ws/rest/v1/keml/casefindingscore`;
-    const url = `http://localhost:9677/openmrs/ws/rest/v1/keml/casefindingscore`;
+    const url = `/openmrs/ws/rest/v1/keml/casefindingscore`;
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('Access-Control-Allow-Origin', '*')
-      .set('Authorization', 'Basic YWRtaW46QWRtaW4xMjM=');
+      .set('Access-Control-Allow-Origin', '*');
     return this.http.post(url, predicationPayload, { headers: headers });
   }
 
   public fetchLatestObs(patientUuid, concept) {
-    // const url = `/ws/rest/v1/kenyaemr/latestobs?patientUuid=${patientUuid}&concept=${concept}`;
-    const url = `http://localhost:9677/openmrs/ws/rest/v1/kenyaemr/latestobs?patientUuid=${patientUuid}&concept=${concept}`;
+    const url = `/openmrs/ws/rest/v1/kenyaemr/latestobs?patientUuid=${patientUuid}&concept=${concept}`;
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('Access-Control-Allow-Origin', '*')
-      .set('Authorization', 'Basic YWRtaW46QWRtaW4xMjM=');
+      .set('Access-Control-Allow-Origin', '*');
     return this.http.get(url, { headers: headers });
   }
 
