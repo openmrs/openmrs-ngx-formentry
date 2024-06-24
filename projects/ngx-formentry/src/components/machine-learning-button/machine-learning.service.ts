@@ -109,7 +109,8 @@ export class MachineLearningService {
 
     return {
       message: riskMessages[riskLevel],
-      riskScore: probabilityForPositivity
+      riskScore: probabilityForPositivity,
+      thresholds: riskThresholds
     };
   }
 

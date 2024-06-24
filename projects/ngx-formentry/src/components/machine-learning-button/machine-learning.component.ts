@@ -4,7 +4,7 @@ import { ObsAdapterHelper } from '../../form-entry/value-adapters/obs-adapter-he
 import { generatePredictionPayload } from './model-helper';
 import { MachineLearningService } from './machine-learning.service';
 import * as _ from 'lodash';
-import { latestObs } from './types';
+import { latestObs, riskThresholds } from './types';
 
 interface Payload {
   [key: string]: string;
@@ -81,16 +81,26 @@ export class MachineLearningComponent implements OnInit {
                     this.errorMessage =
                       'An error occurred while fetching risk score';
                     this.setRiskScore(this.errorMessage);
-                    this.setAutoGenerateRiskScore(0, this.errorMessage);
+                    const riskThresholds = {
+                      lowRisk: 0,
+                      mediumRisk: 0,
+                      highRisk: 0
+                    };
+                    this.setAutoGenerateRiskScore(
+                      0,
+                      this.errorMessage,
+                      riskThresholds
+                    );
                     return;
                   }
 
                   const {
                     message,
-                    riskScore
+                    riskScore,
+                    thresholds
                   } = this.machineLearningService.predictRisk(res);
                   this.setRiskScore(message);
-                  this.setAutoGenerateRiskScore(riskScore, message);
+                  this.setAutoGenerateRiskScore(riskScore, message, thresholds);
                   this.isLoading = false;
                   // this.restoreRequiredFields();
                 },
@@ -227,11 +237,12 @@ export class MachineLearningComponent implements OnInit {
 
   private getRiskLevel = (
     probabilityForPositivity: number,
-    message: string
+    message: string,
+    thresholds: riskThresholds
   ) => {
-    const highRiskThreshold = 0.1079255;
-    const mediumRiskThreshold = 0.02795569;
-    const lowRiskThreshold = 0.005011473;
+    const highRiskThreshold = thresholds.highRisk;
+    const mediumRiskThreshold = thresholds.mediumRisk;
+    const lowRiskThreshold = thresholds.lowRisk;
 
     if (probabilityForPositivity === 0) {
       this.riskScore = 'No risk score available';
@@ -260,10 +271,14 @@ export class MachineLearningComponent implements OnInit {
   };
 
   // Set the autocalculate risk score
-  private setAutoGenerateRiskScore(riskScore: number, message: string) {
+  private setAutoGenerateRiskScore(
+    riskScore: number,
+    message: string,
+    thresholds: riskThresholds
+  ) {
     this.riskScoreMessage = message;
     const genRisKQuestion = this.node.form.searchNodeByQuestionId('genRisK');
-    const riskLevel = this.getRiskLevel(riskScore, message);
+    const riskLevel = this.getRiskLevel(riskScore, message, thresholds);
     genRisKQuestion?.[0]?.control?.setValue(riskLevel);
   }
 }
