@@ -58,15 +58,15 @@
                 "concept": "cf543666-ce76-4e91-8b8d-c0b54a436a2e",
                 "answers": [
                   {
-                    "concept": "5d308c8c-ad49-45e1-9885-e5d09a8e5587",
+                    "concept": "164928",
                     "label": "General Population"
                   },
                   {
-                    "concept": "bf850dd4-309b-4cbd-9470-9d8110ea5550",
+                    "concept": "164929",
                     "label": "Key Population"
                   },
                   {
-                    "concept": "138643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "138643",
                     "label": "Priority Population"
                   }
                 ]
@@ -481,55 +481,55 @@
                 "concept": "160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "answers": [
                   {
-                    "concept": "5485AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "5485",
                     "label": "In Patient Department(IPD)"
                   },
                   {
-                    "concept": "160542AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "160542",
                     "label": "Out Patient Department(OPD)"
                   },
                   {
-                    "concept": "162181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "162181",
                     "label": "Peadiatric Clinic"
                   },
                   {
-                    "concept": "160552AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "160552",
                     "label": "Nutrition Clinic"
                   },
                   {
-                    "concept": "160538AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "160538",
                     "label": "PMTCT - ANC"
                   },
                   {
-                    "concept": "160456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "160456",
                     "label": "PMTCT - MAT"
                   },
                   {
-                    "concept": "1623AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "1623",
                     "label": "PMTCT - PNC"
                   },
                   {
-                    "concept": "160541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "160541",
                     "label": "TB"
                   },
                   {
-                    "concept": "159940AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "159940",
                     "label": "VCT"
                   },
                   {
-                    "concept": "162223AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "162223",
                     "label": "VMMC"
                   },
                   {
-                    "concept": "160546AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "160546",
                     "label": "STI Clinic"
                   },
                   {
-                    "concept": "160522AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "160522",
                     "label": "Emergency"
                   },
                   {
-                    "concept": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "concept": "5622",
                     "label": "Other"
                   }
                 ]
