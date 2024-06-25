@@ -17,10 +17,45 @@ export class MachineLearningService {
     return this.http.post(url, predicationPayload, { headers: headers });
   }
 
+  public fetchLatestObs(patientUuid, concept) {
+    const url = `/openmrs/ws/rest/v1/kenyaemr/latestobs?patientUuid=${patientUuid}&concept=${concept}`;
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Access-Control-Allow-Origin', '*');
+    return this.http.get(url, { headers: headers });
+  }
+
+  public getLatestObs(patientUuid, concept): any {
+    this.fetchLatestObs(patientUuid, concept).subscribe({
+      next: (res) => {
+        if (!res) {
+          console.warn(
+            'An error occurred while fetching latest obs for patient'
+          );
+          return 0;
+        }
+
+        console.warn('Got latest obs as: ', res);
+        // Extract data from res
+        return res;
+      },
+      error: (error) => {
+        console.warn(
+          'An error occurred while fetching latest obs for patient',
+          error.message
+        );
+      },
+      complete: () => console.warn('Get Latest Obs complete')
+    });
+    return {};
+  }
+
   // Predict the risk
   public predictRisk(res) {
     // Check if the prediction is available
-    const probabilityForPositivity = res?.result?.predictions['probability(Positive)'];
+    const probabilityForPositivity =
+      res?.result?.predictions['probability(Positive)'];
     if (!probabilityForPositivity) {
       return { message: 'No results found', riskScore: 0 };
     }
@@ -35,10 +70,10 @@ export class MachineLearningService {
       highRisk: highRiskThreshold
     };
 
-    console.warn("Low Risk Threshold is: ", lowRiskThreshold);
-    console.warn("Medium Risk Threshold is: ", mediumRiskThreshold);
-    console.warn("High Risk Threshold is: ", highRiskThreshold);
-    console.warn("Got prediction as: ", probabilityForPositivity);
+    console.warn('Low Risk Threshold is: ', lowRiskThreshold);
+    console.warn('Medium Risk Threshold is: ', mediumRiskThreshold);
+    console.warn('High Risk Threshold is: ', highRiskThreshold);
+    console.warn('Got prediction as: ', probabilityForPositivity);
 
     const riskMessages = {
       veryHigh:
@@ -74,11 +109,16 @@ export class MachineLearningService {
 
     return {
       message: riskMessages[riskLevel],
-      riskScore: probabilityForPositivity
+      riskScore: probabilityForPositivity,
+      thresholds: riskThresholds
     };
   }
 
-  public mapToMLModel(result: any, patientAge: number): PredictionObject {
+  public mapToMLModel(
+    result: any,
+    patientAge: number,
+    maritalStatus: number
+  ): PredictionObject {
     const dateSelf = result['dateSelf']
       ? moment(result['dateSelf']).diff(new Date())
       : 0;
@@ -88,13 +128,13 @@ export class MachineLearningService {
 
     return {
       pAge: patientAge,
-      latestMaritalStatus: '',
+      latestMaritalStatus: maritalStatus,
       populationType: result['populationType'] ?? '',
       keyPopulationVal: result['kpTypeMale'] ?? result['kpTypeFemale'] ?? '',
       priPopulationVal: result['ppType'] ?? '',
       testHistory: result['testHistory'] ?? '',
       testedAs: '',
-      htsEntryPoint: result['facilityHTStrategy'] ?? '',
+      htsEntryPoint: result['htsFacilityEntryPoint'] ?? '',
       htsDepartment: result['patDepart'] ?? '',
       monthsSinceLastTestInt: dateProvider ?? dateSelf ?? 0,
       testStrategy: result['facilityHTStrategy'] ?? '',
