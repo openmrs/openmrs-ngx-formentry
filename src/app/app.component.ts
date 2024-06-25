@@ -116,7 +116,11 @@ export class AppComponent implements OnInit {
     this.dataSources.registerDataSource('rawPrevEnc', obs.getObs());
     this.dataSources.registerDataSource('rawPrevObs', obs.getObs());
 
-    this.dataSources.registerDataSource('patient', { sex: 'M', age: 50 }, true);
+    this.dataSources.registerDataSource(
+      'patient',
+      { sex: 'M', age: 50, uuid: 'bc0ad4a9-f794-11ea-b693-24770374d658' },
+      true
+    );
 
     this.dataSources.registerDataSource('patientInfo', {
       name: 'Test Patient',
