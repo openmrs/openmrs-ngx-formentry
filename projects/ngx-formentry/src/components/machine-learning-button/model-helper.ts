@@ -184,10 +184,11 @@ export function generatePredictionPayload(
     predictionVariables.MaritalStatusMINOR = 1;
   }
 
+  console.warn('Population Type: ', populationType);
   // convert population type
-  if (populationType == 164928) {
+  if (populationType == 166430) {
     predictionVariables.PopulationTypeGP = 1;
-  } else if (populationType == 164929) {
+  } else if (populationType === 'bf850dd4-309b-4cbd-9470-9d8110ea5550') {
     predictionVariables.PopulationTypeKP = 1;
   } else if (populationType == 138643) {
     predictionVariables.PopulationTypePRIORITY = 1;
