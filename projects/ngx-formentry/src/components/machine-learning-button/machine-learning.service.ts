@@ -24,7 +24,7 @@ export class MachineLearningService {
       .set('Accept', 'application/json')
       .set('Access-Control-Allow-Origin', '*');
     return this.http.get(url, { headers: headers });
-  }
+  } 
 
   public getLatestObs(patientUuid, concept): any {
     this.fetchLatestObs(patientUuid, concept).subscribe({
