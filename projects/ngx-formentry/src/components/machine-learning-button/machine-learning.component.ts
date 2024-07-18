@@ -201,11 +201,9 @@ export class MachineLearningComponent implements OnInit {
     const requiredFields = [
       'populationType',
       'facilityHTStrategy',
-      'facilityHTStrategy',
       'patDepart',
       'patienTyPe',
       'hcwCare',
-      'cricChild',
       'testHistory'
     ];
 
@@ -220,18 +218,14 @@ export class MachineLearningComponent implements OnInit {
     const requiredFields = [
       'populationType',
       'facilityHTStrategy',
-      'facilityHTStrategy',
       'patDepart',
       'patienTyPe',
       'hcwCare',
-      'cricChild',
       'testHistory'
     ];
-    return (
-      requiredFields.filter(
-        (field) =>
-          this.node.form.searchNodeByQuestionId(field)[0]?.control?.valid
-      )?.length > 0
+    return requiredFields.every(
+      (field) =>
+        this.node.form.searchNodeByQuestionId(field)[0]?.control?.valid
     );
   }
 
