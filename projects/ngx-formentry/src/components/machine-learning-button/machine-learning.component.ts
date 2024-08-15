@@ -72,6 +72,9 @@ export class MachineLearningComponent implements OnInit {
             );
             const riskPayload = this.buildRiskPayload(machineLearningScore);
 
+            console.warn("Form Entry Module version: ", "5.0.0a");
+            console.warn("HTS ML Payload: ", riskPayload);
+
             this.machineLearningService
               .fetchPredictionScore(riskPayload)
               .subscribe({
@@ -156,7 +159,7 @@ export class MachineLearningComponent implements OnInit {
       modelId: 'hts_xgb_28052024_may_2024',
       encounterDate: new Date().toISOString().slice(0, 10),
       facilityId: '',
-      debug: 'true'
+      debug: 'false'
     };
 
     return {

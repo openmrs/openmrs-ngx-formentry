@@ -159,7 +159,8 @@ export function generatePredictionPayload(
     KeyPopulationMSM: 0,
     KeyPopulationNR: 0,
     KeyPopulationOther: 0,
-    KeyPopulationPWID: 0
+    KeyPopulationPWID: 0,
+    ModuleVersion: "5.0.0a"
   };
 
   // convert marital status
