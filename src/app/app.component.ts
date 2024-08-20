@@ -118,7 +118,7 @@ export class AppComponent implements OnInit {
 
     this.dataSources.registerDataSource(
       'patient',
-      { sex: 'M', age: 50, uuid: 'bc0ad4a9-f794-11ea-b693-24770374d658' },
+      { sex: 'M', age: 5, uuid: 'bc0ad4a9-f794-11ea-b693-24770374d658' },
       true
     );
 

@@ -160,7 +160,7 @@ export function generatePredictionPayload(
     KeyPopulationNR: 0,
     KeyPopulationOther: 0,
     KeyPopulationPWID: 0,
-    ModuleVersion: "5.0.0a"
+    ModuleVersion: "5.0.0b"
   };
 
   // convert marital status
@@ -187,7 +187,7 @@ export function generatePredictionPayload(
 
   console.warn('Population Type: ', populationType);
   // convert population type
-  if (populationType == 166430) {
+  if (populationType == '5d308c8c-ad49-45e1-9885-e5d09a8e5587') {
     predictionVariables.PopulationTypeGP = 1;
   } else if (populationType === 'bf850dd4-309b-4cbd-9470-9d8110ea5550') {
     predictionVariables.PopulationTypeKP = 1;
@@ -195,8 +195,9 @@ export function generatePredictionPayload(
     predictionVariables.PopulationTypePRIORITY = 1;
   }
 
+  console.warn("Key Pop Type: ", keyPopulationVal);
   //Key Population
-  if (populationType == 164929) {
+  if (populationType === 'bf850dd4-309b-4cbd-9470-9d8110ea5550') {
     if (keyPopulationVal == 105) {
       //INJECT DRUGS
       predictionVariables.KeyPopulationPWID = 1;
