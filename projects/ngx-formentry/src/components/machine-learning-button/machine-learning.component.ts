@@ -35,13 +35,19 @@ export class MachineLearningComponent implements OnInit {
 
   getRiskScore() {
     this.announceRequiredFields();
-    if (this.hasAllrequiredFields()) {
+    const {
+      sex,
+      age,
+      uuid
+    } = this.node.form.dataSourcesContainer.dataSources['patient'];
+    console.warn("Patient age is: " + age);
+    if ((age >= 18 && this.hasAllAdultrequiredFields()) || (age < 18 && this.hasAllChildrequiredFields())) {
       this.isLoading = true;
-      const {
-        sex,
-        age,
-        uuid
-      } = this.node.form.dataSourcesContainer.dataSources['patient'];
+      // const {
+      //   sex,
+      //   age,
+      //   uuid
+      // } = this.node.form.dataSourcesContainer.dataSources['patient'];
       const initialPayload = this.buildInitialPayload();
       const questionConcepts = this.generateKeyValue();
       const objMap = this.buildObjMap(initialPayload, questionConcepts);
@@ -217,7 +223,23 @@ export class MachineLearningComponent implements OnInit {
       });
   }
 
-  private hasAllrequiredFields() {
+
+  private hasAllChildrequiredFields() {
+    const requiredFields = [
+      'populationType',
+      'facilityHTStrategy',
+      'patDepart',
+      // 'patienTyPe',
+      // 'hcwCare',
+      'testHistory'
+    ];
+    return requiredFields.every(
+      (field) =>
+        this.node.form.searchNodeByQuestionId(field)[0]?.control?.valid
+    );
+  }
+
+  private hasAllAdultrequiredFields() {
     const requiredFields = [
       'populationType',
       'facilityHTStrategy',
