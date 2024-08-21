@@ -160,29 +160,29 @@ export function generatePredictionPayload(
     KeyPopulationNR: 0,
     KeyPopulationOther: 0,
     KeyPopulationPWID: 0,
-    ModuleVersion: "5.0.0b"
+    ModuleVersion: "5.0.0c"
   };
 
   // convert marital status
-  if (latestMaritalStatus == 5555) {
-    // married monogamous
-    predictionVariables.MaritalStatusMARRIED = 1;
-  } else if (latestMaritalStatus == 159715) {
-    // married polygamous
-    predictionVariables.MaritalStatusPOLYGAMOUS = 1;
-  } else if (latestMaritalStatus == 1058) {
-    // divorced
-    predictionVariables.MaritalStatusDIVORCED = 1;
-  } else if (latestMaritalStatus == 1059 || latestMaritalStatus == 1057) {
-    // widowed=single
-    predictionVariables.MaritalStatusSINGLE = 1;
-  } else if (latestMaritalStatus == 5622) {
-    // other
-    predictionVariables.MaritalStatusOTHER = 1;
-  }
-
   if (pAge <= 15) {
     predictionVariables.MaritalStatusMINOR = 1;
+  } else {
+    if (latestMaritalStatus == 5555) {
+      // married monogamous
+      predictionVariables.MaritalStatusMARRIED = 1;
+    } else if (latestMaritalStatus == 159715) {
+      // married polygamous
+      predictionVariables.MaritalStatusPOLYGAMOUS = 1;
+    } else if (latestMaritalStatus == 1058) {
+      // divorced
+      predictionVariables.MaritalStatusDIVORCED = 1;
+    } else if (latestMaritalStatus == 1059 || latestMaritalStatus == 1057) {
+      // widowed=single
+      predictionVariables.MaritalStatusSINGLE = 1;
+    } else if (latestMaritalStatus == 5622) {
+      // other
+      predictionVariables.MaritalStatusOTHER = 1;
+    }  
   }
 
   console.warn('Population Type: ', populationType);
@@ -353,10 +353,10 @@ export function generatePredictionPayload(
   } else if (testStrategy == 164163) {
     // HP
     predictionVariables.HTSStrategyHP = 1;
-  } else if (testStrategy == 164953) {
+  } else if (testStrategy === "06f16792-9611-40d4-82ec-9615930cc486") {
     // NP
     predictionVariables.HTSStrategyNP = 1;
-  } else if (testStrategy == 164954) {
+  } else if (testStrategy === "d650368d-0228-4493-b7c3-25bd1c74b462") {
     // Integrated VCT sites
     predictionVariables.HTSStrategyVI = 1;
   } else if (testStrategy == 164955) {
@@ -401,7 +401,7 @@ export function generatePredictionPayload(
     if (tbScreening == 1065) {
       if (tbFever == 1066) {
         predictionVariables.FeverNO = 1;
-      } else if (tbFever == 1494) {
+      } else if (tbFever == 1065) {
         predictionVariables.FeverYES = 1;
       } else {
         predictionVariables.FeverNO = -10000.0;
@@ -421,9 +421,9 @@ export function generatePredictionPayload(
 
   if ((pAge <= 10 && testHistory == 1065) || pAge > 10) {
     if (tbScreening == 1065) {
-      if (tbNightSweats == 1066) {
+      if (tbNightSweats == 0) {
         predictionVariables.NightSweatsNO = 1;
-      } else if (tbNightSweats == 133027) {
+      } else if (tbNightSweats == 1) {
         predictionVariables.NightSweatsYES = 1;
       } else {
         predictionVariables.NightSweatsNO = -10000.0;
@@ -445,7 +445,7 @@ export function generatePredictionPayload(
     if (tbScreening == 1065) {
       if (tbCough == 1066) {
         predictionVariables.CoughNO = 1;
-      } else if (tbCough == 159799) {
+      } else if (tbCough == 1065) {
         predictionVariables.CoughYES = 1;
       } else {
         predictionVariables.CoughNO = -10000.0;
