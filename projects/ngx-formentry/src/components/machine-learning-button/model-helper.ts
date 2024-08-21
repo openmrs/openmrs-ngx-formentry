@@ -1,4 +1,5 @@
 import { PredictionObject } from './types';
+import concepts from './concepts';
 
 export function generatePredictionPayload(
   model: PredictionObject,
@@ -160,7 +161,7 @@ export function generatePredictionPayload(
     KeyPopulationNR: 0,
     KeyPopulationOther: 0,
     KeyPopulationPWID: 0,
-    ModuleVersion: "5.0.0c"
+    ModuleVersion: "5.0.0d"
   };
 
   // convert marital status
@@ -210,7 +211,7 @@ export function generatePredictionPayload(
     } else if (
       keyPopulationVal == 5622 ||
       keyPopulationVal == 162277 ||
-      keyPopulationVal == 165100
+      keyPopulationVal === "bd370cad-06fe-4950-a36f-ed991b280ce6"
     ) {
       // Other|PRISONER|TRANS
       predictionVariables.KeyPopulationOther = 1;
@@ -226,7 +227,7 @@ export function generatePredictionPayload(
     predictionVariables.KeyPopulationNR = 1;
   }
 
-  //Priority Population
+  //Priority Population Types
 
   if (populationType == 138643) {
     if (priPopulationVal == 159674) {
@@ -238,7 +239,8 @@ export function generatePredictionPayload(
     } else if (
       priPopulationVal == 165192 ||
       priPopulationVal == 162277 ||
-      priPopulationVal == 162198
+      priPopulationVal == 162198 ||
+      priPopulationVal === "253b40ec-54da-4e92-9ab1-2d99075b19e8"
     ) {
       //MILITARY|PRISONER|TRUCK
       predictionVariables.PriorityPopulationOTHER = 1;
@@ -315,7 +317,7 @@ export function generatePredictionPayload(
   } else if (htsDepartment == 160542) {
     // OPD
     predictionVariables.DepartmentOPD = 1;
-  } else if (htsDepartment == 160456 || htsDepartment == 1623) {
+  } else if (htsDepartment == 160538 || htsDepartment == 1623) {
     // Maternity
     predictionVariables.DepartmentPMTCT = 1;
   } else if (htsDepartment == 5485) {
@@ -328,18 +330,22 @@ export function generatePredictionPayload(
 
   // convert months since last test
 
-  if (monthsSinceLastTestInt > 0) {
-    if (monthsSinceLastTestInt <= 6) {
-      predictionVariables.MonthsSinceLastTestLASTSIXMONTHS = 1;
-    } else if (monthsSinceLastTestInt >= 24) {
-      predictionVariables.MonthsSinceLastTestMORETHANTWOYEARS = 1;
-    } else if (monthsSinceLastTestInt >= 7 && monthsSinceLastTestInt <= 12) {
-      predictionVariables.MonthsSinceLastTestSEVENTOTWELVE = 1;
-    } else if (monthsSinceLastTestInt >= 12 && monthsSinceLastTestInt <= 24) {
-      predictionVariables.MonthsSinceLastTestONETOTWOYEARS = 1;
+  if(testHistory == concepts.YES) { // Tested for HIV before?
+    if (monthsSinceLastTestInt > 0) {
+      if (monthsSinceLastTestInt <= 6) {
+        predictionVariables.MonthsSinceLastTestLASTSIXMONTHS = 1;
+      } else if (monthsSinceLastTestInt >= 24) {
+        predictionVariables.MonthsSinceLastTestMORETHANTWOYEARS = 1;
+      } else if (monthsSinceLastTestInt >= 7 && monthsSinceLastTestInt <= 12) {
+        predictionVariables.MonthsSinceLastTestSEVENTOTWELVE = 1;
+      } else if (monthsSinceLastTestInt >= 12 && monthsSinceLastTestInt <= 24) {
+        predictionVariables.MonthsSinceLastTestONETOTWOYEARS = 1;
+      }
+    } else {
+      predictionVariables.MonthsSinceLastTestNR = 1;
     }
-  } else {
-    predictionVariables.MonthsSinceLastTestNR = 1;
+  } else if(testHistory == concepts.NO) {
+    predictionVariables.MonthsSinceLastTestNR = 0;
   }
 
   // convert testing strategy
@@ -518,11 +524,12 @@ export function generatePredictionPayload(
   }
 
   // Multiple Sexual Partners
+  console.warn("Multiple sex partners: ", multipleSexPartners);
   if (pAge > 10) {
     if (everHadSex == 1) {
-      if (multipleSexPartners == 'true') {
+      if (multipleSexPartners == 1) {
         predictionVariables.MultiplePartnersYES = 1;
-      } else if (multipleSexPartners == 'false') {
+      } else if (multipleSexPartners == 0) {
         predictionVariables.MultiplePartnersNO = 1;
       } else {
         predictionVariables.MultiplePartnersYES = -10000.0;
@@ -544,7 +551,7 @@ export function generatePredictionPayload(
 
   if (patientType == 164163) {
     predictionVariables.PatientTypeHP = 1;
-  } else if (patientType == 164953) {
+  } else if (patientType === concepts.NPNonHospitalPatient) {
     predictionVariables.PatientTypeNon_HP = 1;
   }
 
@@ -640,7 +647,7 @@ export function generatePredictionPayload(
         predictionVariables.AlcoholSexNEVER = 1;
       } else if (alcoholicSex == 1385) {
         predictionVariables.AlcoholSexSOMETIMES = 1;
-      } else if (alcoholicSex == 165027) {
+      } else if (alcoholicSex === concepts.AlcoholicSexAlways) {
         predictionVariables.AlcoholSexALWAYS = 1;
       } else {
         predictionVariables.AlcoholSexNEVER = -10000.0;
@@ -720,7 +727,7 @@ export function generatePredictionPayload(
 
   if (pAge > 10) {
     if (everHadSex == 1) {
-      if (positiveSex == 163289) {
+      if (positiveSex == 1065) {
         predictionVariables.KnownStatusPartnerYES = 1;
       } else if (positiveSex == 1066) {
         predictionVariables.KnownStatusPartnerNO = 1;
