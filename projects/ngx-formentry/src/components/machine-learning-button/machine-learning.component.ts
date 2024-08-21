@@ -43,11 +43,6 @@ export class MachineLearningComponent implements OnInit {
     console.warn("Patient age is: " + age);
     if ((age >= 18 && this.hasAllAdultrequiredFields()) || (age < 18 && this.hasAllChildrequiredFields())) {
       this.isLoading = true;
-      // const {
-      //   sex,
-      //   age,
-      //   uuid
-      // } = this.node.form.dataSourcesContainer.dataSources['patient'];
       const initialPayload = this.buildInitialPayload();
       const questionConcepts = this.generateKeyValue();
       const objMap = this.buildObjMap(initialPayload, questionConcepts);
