@@ -190,19 +190,19 @@ export class MachineLearningService {
       patientReferred: result['clientReferred'] ?? '',
       discordantCouple: result['coupleDiscordant'] ?? '',
       sexualContactChecked:
-        result['cricAdulT'] === '163565AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+        (result['cricAdulT'] === '163565AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || result['cricChild'] === '163565AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
           ? true
           : false,
       socialContactChecked:
-        result['cricAdulT'] === '166606AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+        (result['cricAdulT'] === '166606AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || result['cricChild'] === '166606AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
           ? true
           : false,
       noneContactChecked:
-        result['cricAdulT'] === '1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+        (result['cricAdulT'] === '1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || result['cricChild'] === '1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
           ? true
           : false,
       needleSharingContactChecked:
-        result['cricAdulT'] === '166517AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+        (result['cricAdulT'] === '166517AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || result['cricChild'] === '166517AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
           ? true
           : false,
       prepServiceChecked: result['prepService'] ? true : false,
