@@ -36,7 +36,8 @@ export function generatePredictionPayload(
     patientBreastFeeding,
     discordantCouple,
     sexualContactChecked,
-    noneContactChecked
+    noneContactChecked,
+    mothersStatus
   } = model;
   let predictionVariables = {
     Age: pAge,
@@ -161,7 +162,7 @@ export function generatePredictionPayload(
     KeyPopulationNR: 0,
     KeyPopulationOther: 0,
     KeyPopulationPWID: 0,
-    ModuleVersion: "5.0.0d"
+    ModuleVersion: "5.0.0e"
   };
 
   // convert marital status
@@ -398,6 +399,8 @@ export function generatePredictionPayload(
       predictionVariables.ScreenedTBDECLINE = -10000.0;
       predictionVariables.ScreenedTBNR = -10000.0;
     }
+  } else if ((pAge <= 10 && testHistory == concepts.NO && mothersStatus == concepts.HIVPOSITIVE)) {
+    predictionVariables.ScreenedTBNR = 1;
   } else {
     predictionVariables.ScreenedTBNR = 1;
   }
