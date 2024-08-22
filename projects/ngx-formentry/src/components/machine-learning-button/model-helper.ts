@@ -399,7 +399,7 @@ export function generatePredictionPayload(
       predictionVariables.ScreenedTBDECLINE = -10000.0;
       predictionVariables.ScreenedTBNR = -10000.0;
     }
-  } else if ((pAge <= 10 && testHistory == 1066 && mothersStatus == 703)) {
+  } else if ((pAge <= 10 && testHistory == concepts.NO && mothersStatus == concepts.HIVPOSITIVE)) {
     predictionVariables.ScreenedTBNR = 1;
   } else {
     predictionVariables.ScreenedTBNR = 1;
