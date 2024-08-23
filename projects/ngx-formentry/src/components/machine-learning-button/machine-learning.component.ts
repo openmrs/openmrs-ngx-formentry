@@ -271,7 +271,7 @@ export class MachineLearningComponent implements OnInit {
       probabilityForPositivity > mediumRiskThreshold
     ) {
       this.riskScore = 'High Risk Client';
-      return '166674AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+      return '1408AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     } else if (
       probabilityForPositivity <= mediumRiskThreshold &&
       probabilityForPositivity > lowRiskThreshold
@@ -280,7 +280,7 @@ export class MachineLearningComponent implements OnInit {
       return '1499AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     } else if (probabilityForPositivity <= lowRiskThreshold) {
       this.riskScore = 'Low Risk Client';
-      return '166675AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+      return '1407AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     }
   };
 
