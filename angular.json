@@ -76,19 +76,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-openmrs-formentry:build",
-            "open": true
+            "open": true,
+            "buildTarget": "ngx-openmrs-formentry:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-openmrs-formentry:build:production"
+              "buildTarget": "ngx-openmrs-formentry:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-openmrs-formentry:build"
+            "buildTarget": "ngx-openmrs-formentry:build"
           }
         },
         "test": {
