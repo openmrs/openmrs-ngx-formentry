@@ -1,6 +1,6 @@
 {
   "name": "@openmrs/ngx-formentry",
-  "version": "5.1.0",
+  "version": "17.0.0",
   "dependencies": {},
   "peerDependencies": {
     "@angular/animations": "^17.3.12",
