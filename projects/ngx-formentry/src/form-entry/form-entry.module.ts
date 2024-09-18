@@ -47,6 +47,7 @@ import { CustomControlWrapperModule } from '../components/custom-control-wrapper
 import { CustomComponentWrapperModule } from '../components/custom-component-wrapper/custom-component-wrapper..module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.adapter';
+import { AppointmentAdapter } from './value-adapters/appointment.adapter';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -102,7 +103,8 @@ import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.ad
     OrderValueAdapter,
     DiagnosisValueAdapter,
     DebugModeService,
-    PatientIdentifierAdapter
+    PatientIdentifierAdapter,
+    AppointmentAdapter
   ],
   exports: [
     FormRendererComponent,

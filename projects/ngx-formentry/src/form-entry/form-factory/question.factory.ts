@@ -162,10 +162,10 @@ export class QuestionFactory {
     const mappings: any = {
       label: 'label',
       required: 'required',
-      id: 'key'
+      id: 'key',
+      type: ''
     };
     question.datePickerFormat = schemaQuestion.datePickerFormat ?? 'calendar';
-
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
     this.addAlertProperty(schemaQuestion, question);
@@ -225,7 +225,8 @@ export class QuestionFactory {
     const mappings = {
       label: 'label',
       required: 'required',
-      id: 'key'
+      id: 'key',
+      type: ''
     };
     question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
@@ -681,6 +682,42 @@ export class QuestionFactory {
     return question;
   }
 
+  toRemoteSelect(schemaQuestion: any): UiSelectQuestion {
+    const question = new UiSelectQuestion({
+      options: [],
+      type: '',
+      key: '',
+      searchFunction: function () {},
+      resolveFunction: function () {}
+    });
+    question.questionIndex = this.quetionIndex;
+    question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
+    question.key = schemaQuestion.id;
+    question.renderingType = schemaQuestion.type;
+    question.renderingType = 'remote-select';
+    question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
+    question.dataSource = schemaQuestion.questionOptions.dataSource;
+
+    if (question.dataSource === undefined) {
+      console.error(`No data source provided for question ${question.label}`);
+    }
+
+    const mappings: any = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
+    return question;
+  }
+
   toTestOrderQuestion(schemaQuestion: any): TestOrderQuestion {
     const question = new TestOrderQuestion({
       type: '',
@@ -938,6 +975,8 @@ export class QuestionFactory {
         return this.toFileUploadQuestion(schema);
       case 'workspace-launcher':
         return this.toWorkspaceLauncher(schema);
+      case 'remote-select':
+        return this.toRemoteSelect(schema);
       default:
         console.warn('New Schema Question Type found.........' + renderType);
         return this.toTextQuestion(schema);

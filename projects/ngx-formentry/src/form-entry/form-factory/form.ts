@@ -146,6 +146,14 @@ export class Form {
     }
   }
 
+  get value() {
+    return this.rootNode.control.value;
+  }
+
+  get isDirty() {
+    return this.rootNode.control.dirty;
+  }
+
   get valid() {
     return this.rootNode.control.valid;
   }
