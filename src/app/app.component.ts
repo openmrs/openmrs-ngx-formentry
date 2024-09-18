@@ -19,6 +19,7 @@ import {
 import { MockObs } from './mock/mock-obs';
 import { mockTranslationsData } from './mock/mock-translations';
 import { PatientIdentifierAdapter } from 'projects/ngx-formentry/src/form-entry/value-adapters/patient-identifier.adapter';
+import { AppointmentAdapter } from 'projects/ngx-formentry/src/form-entry/value-adapters/appointment.adapter';
 
 const adultReturnVisitForm = require('./adult-1.6.json');
 const adultReturnVisitFormObs = require('./mock/obs.json');
@@ -50,7 +51,8 @@ export class AppComponent implements OnInit {
     private http: HttpClient,
     private translate: TranslateService,
     private personAttributeAdapter: PersonAttribuAdapter,
-    private patientIdenfierAdapter: PatientIdentifierAdapter
+    private patientIdenfierAdapter: PatientIdentifierAdapter,
+    private appointmentsAdapter: AppointmentAdapter
   ) {
     this.schema = adultReturnVisitForm;
   }
@@ -81,6 +83,10 @@ export class AppComponent implements OnInit {
       resolveSelectedValue: this.sampleResolve
     });
     this.dataSources.registerDataSource('diagnoses', {
+      searchOptions: this.sampleSearch,
+      resolveSelectedValue: this.sampleResolve
+    });
+    this.dataSources.registerDataSource('services', {
       searchOptions: this.sampleSearch,
       resolveSelectedValue: this.sampleResolve
     });
@@ -173,6 +179,7 @@ export class AppComponent implements OnInit {
       this.form.showErrors = false;
       this.form.rootNode.control.markAsDirty();
     }
+    // this.appointmentsAdapter.populateForm(this.form, appointmentPayload as any);
 
     // Alternative is to set individually for obs and orders as show below
     // // Set obs
