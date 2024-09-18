@@ -55,3 +55,17 @@ export interface AppointmentResponsePayload {
   priority: unknown | null;
   recurring: boolean;
 }
+/**
+ * Interface representing the structure of an appointment payload.
+ */
+export interface AppointmentPayload {
+  status: string;
+  appointmentKind: string;
+  locationUuid: string;
+  serviceUuid: string;
+  providers: { uuid: string }[];
+  startDateTime: string;
+  endDateTime: string;
+  dateAppointmentIssued?: string;
+  uuid?: string;
+}
