@@ -384,8 +384,10 @@ export class AppComponent implements OnInit {
       encounterUuid: 'encounterUuid',
       providerUuid: 'providerUuid',
       utcOffset: '+0300',
-      locationUuid: 'some-location-uuid'
+      locationUuid: 'some-location-uuid',
+      dateAppointmentIssued: new Date().toISOString()
     };
+
     if (this.form.valid) {
       this.form.showErrors = false;
       // const payload = this.encAdapter.generateFormPayload(this.form);
@@ -399,6 +401,11 @@ export class AppComponent implements OnInit {
 
       // generate patient identifiers
       //const patientIdenfitiers = this.patientIdenfierAdapter.generateFormPayload(this.form,this.form.valueProcessingInfo['locationUuid']);
+      // generate appointment payload
+      // const appointmentPayload = this.appointmentsAdapter.generateFormPayload(
+      //   this.form
+      // );
+      // console.log('Appointment Payload', appointmentPayload);
     } else {
       this.form.showErrors = true;
       this.form.markInvalidControls(this.form.rootNode);
