@@ -3,27 +3,39 @@ import { ValueAdapter } from './value.adapter';
 import { Form } from '../form-factory';
 import { GroupNode, LeafNode } from '../form-factory/form-node';
 import moment from 'moment';
-import { AppointmentResponsePayload } from './appointment-helper';
-
-interface AppointmentPayload {
-  [key: string]: string | { uuid: string }[];
-  providers: Array<{ uuid: string }>;
-  locationUuid: string;
-  serviceUuid: string;
-  endDateTime: string;
-}
+import {
+  AppointmentPayload,
+  AppointmentResponsePayload
+} from './appointment-helper';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppointmentAdapter implements ValueAdapter {
+  /**
+   * Generates the form payload for an appointment.
+   * @param {Form} form - The form object.
+   * @returns {AppointmentPayload} The generated appointment payload.
+   */
   public generateFormPayload(form: Form): AppointmentPayload {
     const uuid = form?.valueProcessingInfo?.appointmentUuid;
+    const dateAppointmentIssued =
+      form?.valueProcessingInfo?.dateAppointmentIssued;
 
     const questionNodes = this.findAppointmentQuestionNodes(form.rootNode);
     const payload = this.generateFormPayloadForQuestion(questionNodes);
-    const appointmentPayload = uuid ? { ...payload, uuid } : payload;
-    return appointmentPayload;
+
+    // If in edit mode, add the uuid to the payload
+    if (uuid) {
+      payload.uuid = uuid;
+    }
+
+    // Add dateAppointmentIssued to the payload if it exists
+    if (dateAppointmentIssued) {
+      payload.dateAppointmentIssued = dateAppointmentIssued;
+    }
+
+    return payload;
   }
 
   public populateForm(form: Form, payload: AppointmentResponsePayload): void {
@@ -86,13 +98,17 @@ export class AppointmentAdapter implements ValueAdapter {
     return appointmentNodes;
   }
 
+  /**
+   * Generates the form payload for appointment questions.
+   * @param {LeafNode[]} appointmentQuestionNodes - An array of leaf nodes representing appointment questions.
+   * @returns {AppointmentPayload} The generated appointment payload.
+   */
   private generateFormPayloadForQuestion(
     appointmentQuestionNodes: LeafNode[]
   ): AppointmentPayload {
     const formPayload = appointmentQuestionNodes.reduce<Record<string, string>>(
       (payload, node) => {
-        const appointmentKey =
-          node.question.extras.questionOptions.appointmentKey;
+        const { appointmentKey } = node.question.extras.questionOptions;
         payload[appointmentKey] = node.control.value;
         return payload;
       },
@@ -105,26 +121,37 @@ export class AppointmentAdapter implements ValueAdapter {
       duration,
       service,
       location,
-      ...restPayload
+      status = 'Scheduled',
+      appointmentKind = 'Scheduled',
+      ...restOfPayload
     } = formPayload;
 
+    const endDateTime = duration
+      ? this.calculateEndDateTime(startDateTime, parseInt(duration, 10))
+      : moment(startDateTime).endOf('day').toISOString();
+
     return {
-      ...restPayload,
+      ...restOfPayload,
+      status,
+      appointmentKind,
       locationUuid: location,
       serviceUuid: service,
       providers: [{ uuid: providers }],
       startDateTime: moment(startDateTime).toISOString(),
-      endDateTime: this.calculateEndDateTime(
-        startDateTime,
-        parseInt(duration, 10)
-      )
+      endDateTime
     };
   }
 
+  /**
+   * Calculates the end date and time based on the start date and time and duration.
+   * @param {string} startDateTime - The start date and time in ISO format.
+   * @param {number} durationMinutes - The duration in minutes.
+   * @returns {string} The calculated end date and time in ISO format.
+   */
   private calculateEndDateTime(
-    startDatetime: string,
+    startDateTime: string,
     durationMinutes: number
   ): string {
-    return moment(startDatetime).add(durationMinutes, 'minutes').toISOString();
+    return moment(startDateTime).add(durationMinutes, 'minutes').toISOString();
   }
 }

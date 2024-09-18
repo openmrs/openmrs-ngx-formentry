@@ -952,7 +952,6 @@ export class QuestionFactory {
   toModel(schema: any, renderType: string): any {
     this.quetionIndex++;
     if (renderType === 'ui-select-extended') {
-      console.log(schema.type);
       renderType = schema.type;
     }
     if (!schema.id) {
