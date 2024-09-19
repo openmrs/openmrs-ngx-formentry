@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormEntryModule } from '@openmrs/ngx-formentry';
 import { AppComponent } from './app.component';
 import { NgxTranslateModule } from './translate/translate.module';
+import { AppointmentSummaryService } from './appointment.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,9 +17,10 @@ import { NgxTranslateModule } from './translate/translate.module';
     FormEntryModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgxTranslateModule
+    NgxTranslateModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [AppointmentSummaryService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

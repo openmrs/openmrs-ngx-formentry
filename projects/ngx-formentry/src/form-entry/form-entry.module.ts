@@ -48,6 +48,7 @@ import { CustomComponentWrapperModule } from '../components/custom-component-wra
 import { TranslateModule } from '@ngx-translate/core';
 import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.adapter';
 import { AppointmentAdapter } from './value-adapters/appointment.adapter';
+import { MonthlyCalendarComponent } from '../components/appointments-overview/monthly-calendar.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -76,6 +77,7 @@ import { AppointmentAdapter } from './value-adapters/appointment.adapter';
     FormRendererComponent,
     AfeNgSelectComponent,
     AppointmentsOverviewComponent,
+    MonthlyCalendarComponent,
     HistoricalValueDirective,
     ErrorRendererComponent,
     TimeAgoPipe,

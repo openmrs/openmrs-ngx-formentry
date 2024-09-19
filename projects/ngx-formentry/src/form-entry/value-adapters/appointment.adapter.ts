@@ -22,17 +22,23 @@ export class AppointmentAdapter implements ValueAdapter {
     const dateAppointmentIssued =
       form?.valueProcessingInfo?.dateAppointmentIssued;
 
-    const questionNodes = this.findAppointmentQuestionNodes(form.rootNode);
-    const payload = this.generateFormPayloadForQuestion(questionNodes);
+    const questionNodes =
+      this.findAppointmentQuestionNodes(form.rootNode) ?? [];
+    const payload =
+      questionNodes?.length > 0
+        ? this.generateFormPayloadForQuestion(questionNodes)
+        : ({} as AppointmentPayload);
 
-    // If in edit mode, add the uuid to the payload
-    if (uuid) {
-      payload.uuid = uuid;
-    }
+    if (Object.keys(payload).length > 0) {
+      // If in edit mode, add the uuid to the payload
+      if (uuid) {
+        payload.uuid = uuid;
+      }
 
-    // Add dateAppointmentIssued to the payload if it exists
-    if (dateAppointmentIssued) {
-      payload.dateAppointmentIssued = dateAppointmentIssued;
+      // Add dateAppointmentIssued to the payload if it exists
+      if (dateAppointmentIssued) {
+        payload.dateAppointmentIssued = dateAppointmentIssued;
+      }
     }
 
     return payload;
