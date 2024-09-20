@@ -134,7 +134,7 @@ export class ObsAdapterHelper {
 
       const obsUuids = [];
       for (const m of obs) {
-        obsUuids.push(m.value.uuid);
+        m.value?.uuid && obsUuids.push(m.value?.uuid);
       }
 
       this.setNodeFormControlValue(node, obsUuids);
@@ -344,8 +344,8 @@ export class ObsAdapterHelper {
 
   // PAYLOAD GENERATION FUNCTIONS
   addFieldNameSpaceandPath(node, obs) {
-    obs.formFieldNamespace = this.formFieldNamespace;
-    obs.formFieldPath = `${node?.question?.extras?.id}~${this.obsIndex}`;
+    // obs.formFieldNamespace = this.formFieldNamespace;
+    // obs.formFieldPath = `${node?.question?.extras?.id}~${this.obsIndex}`;
     this.obsIndex++;
     return obs;
   }

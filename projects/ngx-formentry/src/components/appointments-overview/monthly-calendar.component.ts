@@ -1,5 +1,3 @@
-// monthly-calendar.component.ts
-
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import moment from 'moment';
 
@@ -40,6 +38,7 @@ interface Appointment {
             day.date.getMonth() === currentMonth.getMonth()
           "
           [class.today]="isToday(day.date)"
+          [class.selected]="isSameDay(day.date, currentMonth)"
           (click)="onDayClick(day)"
         >
           <span class="date">{{ day.date.getDate() }}</span>

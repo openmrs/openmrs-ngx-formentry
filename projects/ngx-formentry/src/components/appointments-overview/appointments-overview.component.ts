@@ -50,18 +50,29 @@ export class AppointmentsOverviewComponent implements OnChanges, OnDestroy {
    * @private
    */
   private handleAppointmentDateChange(appointmentDate: string) {
-    this.resetProperties();
-    const { startDate, endDate } = this.getDateRange(appointmentDate);
-    const serviceTypeUuid = this.getServiceTypeUuid();
-    const appointmentDataSource = this.getAppointmentDataSource();
+    const nodeExtras = this.node.question.extras;
 
-    if (startDate && endDate && appointmentDataSource && serviceTypeUuid) {
-      this.fetchAppointments(
-        appointmentDataSource,
-        startDate,
-        endDate,
-        serviceTypeUuid
-      );
+    if (nodeExtras.type !== 'appointment') {
+      return;
+    }
+
+    if (
+      nodeExtras.type === 'appointment' &&
+      nodeExtras.questionOptions?.appointmentKey === 'startDateTime'
+    ) {
+      this.resetProperties();
+      const { startDate, endDate } = this.getDateRange(appointmentDate);
+      const serviceTypeUuid = this.getServiceTypeUuid(this.node);
+      const appointmentDataSource = this.getAppointmentDataSource();
+
+      if (startDate && endDate && appointmentDataSource && serviceTypeUuid) {
+        this.fetchAppointments(
+          appointmentDataSource,
+          startDate,
+          endDate,
+          serviceTypeUuid
+        );
+      }
     }
   }
 
@@ -84,14 +95,25 @@ export class AppointmentsOverviewComponent implements OnChanges, OnDestroy {
    * @returns {string | undefined} The service type UUID, or undefined if not found
    * @private
    */
-  private getServiceTypeUuid() {
-    const serviceTypeNode = this.node.form.searchNodeByQuestionId(
-      'service'
-    )[0] as LeafNode;
-    if (!serviceTypeNode) {
-      return;
-    }
-    return serviceTypeNode?.control.value;
+  private getServiceTypeUuid(currentNode: LeafNode) {
+    let serviceTypeUuid = '';
+    const rootNode = this.node.form.rootNode;
+    const questionNodes: Array<LeafNode> = [];
+    this.node.form.searchNodeByQuestionType(
+      rootNode,
+      'appointment',
+      questionNodes
+    );
+
+    questionNodes.forEach((node) => {
+      if (node.question.extras.questionOptions?.appointmentKey === 'service') {
+        const currentNodeIndex = parseInt(currentNode.nodeIndex.toString()) - 1;
+        if (node.nodeIndex === currentNodeIndex) {
+          serviceTypeUuid = node.control.value;
+        }
+      }
+    });
+    return serviceTypeUuid;
   }
 
   /**

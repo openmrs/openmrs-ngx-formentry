@@ -22,7 +22,7 @@ import { PatientIdentifierAdapter } from 'projects/ngx-formentry/src/form-entry/
 import { AppointmentAdapter } from 'projects/ngx-formentry/src/form-entry/value-adapters/appointment.adapter';
 import { AppointmentSummaryService } from './appointment.service';
 
-const adultReturnVisitForm = require('./adult-1.6.json');
+const adultReturnVisitForm = require('./adult-1.8.json');
 const adultReturnVisitFormObs = require('./mock/obs.json');
 const formOrdersPayload = require('./mock/orders.json');
 
@@ -128,7 +128,11 @@ export class AppComponent implements OnInit {
     this.dataSources.registerDataSource('rawPrevEnc', obs.getObs());
     this.dataSources.registerDataSource('rawPrevObs', obs.getObs());
 
-    this.dataSources.registerDataSource('patient', { sex: 'M', age: 50 }, true);
+    this.dataSources.registerDataSource(
+      'patient',
+      { sex: 'F', age: 35, uuid: 'bc0ad4a9-f794-11ea-b693-24770374d658' },
+      true
+    );
 
     this.dataSources.registerDataSource('patientInfo', {
       name: 'Test Patient',
@@ -181,7 +185,128 @@ export class AppComponent implements OnInit {
       this.form.showErrors = false;
       this.form.rootNode.control.markAsDirty();
     }
-    // this.appointmentsAdapter.populateForm(this.form, appointmentPayload as any);
+
+    const appointmentPayload = [
+      {
+        uuid: 'be9eeaeb-a262-48a6-b927-a57edad1ba94',
+        appointmentNumber: '0000',
+        dateCreated: 1727703195000,
+        dateAppointmentScheduled: 1727703195000,
+        patient: {
+          OpenMRSID: 'MGVF3D',
+          identifier: 'MGVF3D',
+          UniquePatientNumber: '1200402312',
+          gender: 'F',
+          name: 'sisternice ATIONO CATHERINE',
+          uuid: 'e2bb0e81-852b-4ddf-9a71-6cee5add4907',
+          age: 24,
+          customAttributes: {}
+        },
+        service: {
+          appointmentServiceId: 2,
+          name: 'Drug Refill',
+          description: null,
+          speciality: {},
+          startTime: '',
+          endTime: '',
+          maxAppointmentsLimit: null,
+          durationMins: null,
+          location: {},
+          uuid: 'a96921a1-b89e-4dd2-b6b4-7310f13bbabe',
+          color: '#e2a8d4',
+          initialAppointmentStatus: null,
+          creatorName: null
+        },
+        serviceType: null,
+        provider: null,
+        location: {
+          name: 'Wamagana Health Centre',
+          uuid: '233de33e-2778-4f9a-a398-fa09da9daa14'
+        },
+        startDateTime: 1729026000000,
+        endDateTime: 1729112399000,
+        appointmentKind: 'Scheduled',
+        status: 'Scheduled',
+        comments: 'Drug refill',
+        additionalInfo: null,
+        teleconsultation: null,
+        providers: [
+          {
+            uuid: '341a8c3f-2fe9-4a17-9b6d-1c9d106881bd',
+            comments: null,
+            response: 'ACCEPTED',
+            name: 'NJERI WANGARI NJERI WANGARI NJERI WANGARI'
+          }
+        ],
+        voided: false,
+        extensions: {
+          patientEmailDefined: false
+        },
+        teleconsultationLink: null,
+        priority: null,
+        recurring: false
+      },
+      {
+        uuid: '7aa90c60-bd0a-4ccb-bfe2-ee2984c8e7b5',
+        appointmentNumber: '0000',
+        dateCreated: 1727703195000,
+        dateAppointmentScheduled: 1727703195000,
+        patient: {
+          OpenMRSID: 'MGVF3D',
+          identifier: 'MGVF3D',
+          UniquePatientNumber: '1200402312',
+          gender: 'F',
+          name: 'sisternice ATIONO CATHERINE',
+          uuid: 'e2bb0e81-852b-4ddf-9a71-6cee5add4907',
+          age: 24,
+          customAttributes: {}
+        },
+        service: {
+          appointmentServiceId: 1,
+          name: 'HIV Consultation',
+          description: null,
+          speciality: {},
+          startTime: '',
+          endTime: '',
+          maxAppointmentsLimit: null,
+          durationMins: null,
+          location: {},
+          uuid: '885b4ad3-fd4c-4a16-8ed3-08813e6b01fa',
+          color: '#a8d5e2',
+          initialAppointmentStatus: null,
+          creatorName: null
+        },
+        serviceType: null,
+        provider: null,
+        location: {
+          name: 'Asad Medical Centre',
+          uuid: 'cc7a61f2-0ec9-4316-9955-8ae5c4a000ba'
+        },
+        startDateTime: 1730381549000,
+        endDateTime: 1730408399000,
+        appointmentKind: 'Scheduled',
+        status: 'Scheduled',
+        comments: 'HIV Consult',
+        additionalInfo: null,
+        teleconsultation: null,
+        providers: [
+          {
+            uuid: '341a8c3f-2fe9-4a17-9b6d-1c9d106881bd',
+            comments: null,
+            response: 'ACCEPTED',
+            name: 'NJERI WANGARI NJERI WANGARI NJERI WANGARI'
+          }
+        ],
+        voided: false,
+        extensions: {
+          patientEmailDefined: false
+        },
+        teleconsultationLink: null,
+        priority: null,
+        recurring: false
+      }
+    ];
+    this.appointmentsAdapter.populateForm(this.form, []);
 
     // Alternative is to set individually for obs and orders as show below
     // // Set obs
@@ -391,12 +516,15 @@ export class AppComponent implements OnInit {
       providerUuid: 'providerUuid',
       utcOffset: '+0300',
       locationUuid: 'some-location-uuid',
-      dateAppointmentIssued: new Date().toISOString()
+      dateAppointmentScheduled: new Date().toISOString(),
+      age: 37
     };
+
     const appointmentPayload = this.appointmentsAdapter.generateFormPayload(
       this.form
     );
     console.log('Appointment Payload', appointmentPayload);
+
     if (this.form.valid) {
       this.form.showErrors = false;
       // const payload = this.encAdapter.generateFormPayload(this.form);
@@ -411,10 +539,6 @@ export class AppComponent implements OnInit {
       // generate patient identifiers
       //const patientIdenfitiers = this.patientIdenfierAdapter.generateFormPayload(this.form,this.form.valueProcessingInfo['locationUuid']);
       // generate appointment payload
-      // const appointmentPayload = this.appointmentsAdapter.generateFormPayload(
-      //   this.form
-      // );
-      // console.log('Appointment Payload', appointmentPayload);
     } else {
       this.form.showErrors = true;
       this.form.markInvalidControls(this.form.rootNode);

@@ -49,6 +49,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.adapter';
 import { AppointmentAdapter } from './value-adapters/appointment.adapter';
 import { MonthlyCalendarComponent } from '../components/appointments-overview/monthly-calendar.component';
+import { MachineLearningComponent } from '../components/machine-learning-button/machine-learning.component';
+import { MachineLearningService } from '../components/machine-learning-button/machine-learning.service';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -81,7 +83,8 @@ import { MonthlyCalendarComponent } from '../components/appointments-overview/mo
     HistoricalValueDirective,
     ErrorRendererComponent,
     TimeAgoPipe,
-    CollapseDirective
+    CollapseDirective,
+    MachineLearningComponent
   ],
   providers: [
     UntypedFormBuilder,
@@ -106,7 +109,8 @@ import { MonthlyCalendarComponent } from '../components/appointments-overview/mo
     DiagnosisValueAdapter,
     DebugModeService,
     PatientIdentifierAdapter,
-    AppointmentAdapter
+    AppointmentAdapter,
+    MachineLearningService
   ],
   exports: [
     FormRendererComponent,

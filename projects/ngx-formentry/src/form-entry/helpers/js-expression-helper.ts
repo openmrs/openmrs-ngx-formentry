@@ -310,6 +310,38 @@ export class JsExpressionHelper {
       : null;
   }
 
+  /**
+   * Fetches data from a given URL and extracts a nested object based on the provided objectPath.
+   * @async
+   * @param {string} url - The URL from which to fetch data.
+   * @param {string} objectPath - The dot-separated path to the nested object to extract.
+   * @returns {Promise<object>} A promise that resolves with the extracted nested object.
+   * @throws {Error} Will throw an error if the arguments are invalid, the fetch fails, or if the object path cannot be resolved.
+   */
+  async fetchData(url, objectPath, options = {}) {
+    try {
+      const response = await fetch(url, {
+        ...options
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      const nestedObject = objectPath.split('.').reduce((obj, key) => {
+        if (obj && obj.hasOwnProperty(key)) {
+          return obj[key];
+        }
+        return `Unable to access the property '${key}' in your object.`;
+      }, data);
+
+      return nestedObject;
+    } catch (error) {
+      console.error(`An error occurred: ${error}`);
+      throw error;
+    }
+  }
+
   doesNotMatchExpression(
     regexString: string,
     val: string | null | undefined
@@ -342,6 +374,15 @@ export class JsExpressionHelper {
     return gravida;
   }
 
+  calculateZNutritionScore(zScore: number) {
+    if (zScore > -1) return '1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    if (zScore === -1) return '123814AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    if (zScore === -2) return '123815AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    if (zScore === -3) return '123815AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    if (zScore === -4) return '164131AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    return '';
+  }
+
   get helperFunctions() {
     const helper = this;
     return {
@@ -356,7 +397,9 @@ export class JsExpressionHelper {
       extractRepeatingGroupValues: helper.extractRepeatingGroupValues,
       getObsFromControlOrEncounter: helper.getObsFromControlOrEncounter,
       doesNotMatchExpression: helper.doesNotMatchExpression,
-      calcGravida: helper.calcGravida
+      calcGravida: helper.calcGravida,
+      fetchData: helper.fetchData,
+      calculateZNutritionScore: helper.calculateZNutritionScore
     };
   }
 }
