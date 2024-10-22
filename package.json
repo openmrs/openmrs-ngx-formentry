@@ -83,7 +83,7 @@
     "protractor": "~7.0.0",
     "sass": "^1.68.0",
     "ts-node": "~5.0.1",
-    "turbo": "^2.0.9",
+    "turbo": "^2.2.3",
     "typescript": "~5.4.5"
   },
   "browserslist": [
