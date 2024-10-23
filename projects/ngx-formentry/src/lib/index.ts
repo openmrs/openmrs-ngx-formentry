@@ -60,3 +60,4 @@ export { DatePickerComponent } from '../components/date-time-picker';
 export { TimePickerComponent } from '../components/date-time-picker';
 export { MomentPipe } from '../components/date-time-picker';
 export { PatientIdentifierAdapter } from '../form-entry/value-adapters/patient-identifier.adapter';
+export { AppointmentAdapter } from '../form-entry/value-adapters/appointment.adapter';
