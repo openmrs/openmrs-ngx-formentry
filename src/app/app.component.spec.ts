@@ -2,10 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { FormEntryModule } from 'projects/ngx-formentry/src/public_api';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 const adultReturnVisitForm = require('./adult-1.6.json');
 
@@ -20,15 +21,13 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      imports: [
-        BrowserModule,
+    declarations: [AppComponent],
+    imports: [BrowserModule,
         FormEntryModule,
-        HttpClientTestingModule,
         ReactiveFormsModule,
-        TranslateModule.forRoot()
-      ]
-    });
+        TranslateModule.forRoot()],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;

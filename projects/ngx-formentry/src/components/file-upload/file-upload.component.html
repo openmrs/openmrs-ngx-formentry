@@ -1,7 +1,8 @@
 <lib-ngx-file-uploader
   [srcUrl]="pdfUrl"
   [formEntry]="formEntryMode"
-  [(ngModel)]="fileUuid"
+  [ngModel]="fileUuid"
+  (ngModelChange)="fileUuid = $event"
   (_onClear)="clearValue()"
   (uploadData)="onFileChange($event)"
 >
@@ -10,7 +11,7 @@
   <img
     *ngIf="!pdfUploaded"
     class="img-responsive"
-    [src]="fileUuid | secure: this.dataSource.fetchFile"
+    [src]="fileUuid | secure: dataSource.fetchFile"
     alt=""
   />
 </div>

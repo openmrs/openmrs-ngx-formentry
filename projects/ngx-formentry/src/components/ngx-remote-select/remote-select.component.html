@@ -1,8 +1,8 @@
 <ng-select
   [ngClass]="{
-      'afe-custom': theme === 'light',
-      'invalid': invalid ? true : null,
-    }"
+    'afe-custom': theme === 'light',
+    'invalid': invalid ?? false
+  }"
   [disabled]="disabled"
   [items]="remoteOptions$ | async"
   bindLabel="label"
@@ -12,10 +12,10 @@
   [compareWith]="compareItems"
   [trackByFn]="trackByFn"
   [loading]="loading"
-  typeToSearchText="{{ 'enterMoreCharacters' | translate }}"
+  [typeToSearchText]="'enterMoreCharacters' | translate"
   [typeahead]="remoteOptionInput$"
-  [(ngModel)]="selectedRemoteOptions"
+  [ngModel]="selectedRemoteOptions"
+  (ngModelChange)="selectedRemoteOptions = $event; selected($event)"
   [appendTo]="'form'"
-  (ngModelChange)="selected($event)"
 >
 </ng-select>

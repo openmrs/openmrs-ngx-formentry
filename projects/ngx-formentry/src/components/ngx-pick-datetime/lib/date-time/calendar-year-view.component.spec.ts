@@ -1,9 +1,4 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  waitForAsync
-} from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
 import { OwlDateTimeModule } from './date-time.module';
