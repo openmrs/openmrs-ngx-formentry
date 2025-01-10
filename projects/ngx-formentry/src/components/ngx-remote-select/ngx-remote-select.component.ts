@@ -138,17 +138,22 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
 
   private loadOptions() {
     this.remoteOptions$ = concat(
-      of([]), // default items
+      this.dataSource.searchOptions(
+        '',
+        this.dataSource?.dataSourceOptions ?? {}
+      ) ?? of([]), // default items
       this.remoteOptionInput$.pipe(
         distinctUntilChanged(),
         tap(() => {
           this.loading = true;
         }),
         switchMap((term) =>
-          this.dataSource.searchOptions(term).pipe(
-            catchError(() => of([])), // empty list on error
-            tap(() => (this.loading = false))
-          )
+          this.dataSource
+            .searchOptions(term, this.dataSource?.dataSourceOptions ?? {})
+            .pipe(
+              catchError(() => of([])), // empty list on error
+              tap(() => (this.loading = false))
+            )
         )
       )
     );

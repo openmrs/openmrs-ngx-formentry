@@ -33,6 +33,7 @@ import { MinLengthValidationModel } from '../question-models/min-length-validati
 import { WorkspaceLauncherQuestion } from '../question-models';
 import { DecimalValidationModel } from '../question-models/decimal-validation.model';
 import { DisallowDecimalsValidationModel } from '../question-models/disallow-decimals-validation.model';
+import { RemoteSelectQuestion } from '../question-models/remote-select-question';
 @Injectable()
 export class QuestionFactory {
   dataSources: any = {};
@@ -745,6 +746,52 @@ export class QuestionFactory {
     return question;
   }
 
+  toRemoteSelectQuestion(schemaQuestion: any): RemoteSelectQuestion {
+    const dataSource = this.getDataSourceConfig(schemaQuestion);
+    const question = new RemoteSelectQuestion({
+      dataSource: dataSource.name,
+      dataSourceOptions: dataSource.options,
+      type: '',
+      key: ''
+    });
+    question.questionIndex = this.quetionIndex;
+    question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
+    question.key = schemaQuestion.id;
+    question.renderingType = 'remote-select';
+    question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
+
+    const mappings: any = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
+
+    return question;
+  }
+
+  private getDataSourceConfig(
+    schemaQuestion: any
+  ): { name: string; options: any } {
+    const dataSourceName = schemaQuestion.questionOptions?.dataSource;
+    const dataSourceOptions = schemaQuestion.questionOptions?.dataSourceOptions;
+    // See https://github.com/openmrs/openmrs-contrib-json-schemas/blob/main/form.schema.json
+    const openMrs3DataSource = schemaQuestion.questionOptions?.datasource;
+
+    return {
+      name: dataSourceName ?? openMrs3DataSource?.name ?? '',
+      options: dataSourceOptions ?? openMrs3DataSource?.config ?? {}
+    };
+  }
+
   toDecimalQuestion(schemaQuestion: any): TextInputQuestion {
     const question = new TextInputQuestion({
       placeholder: '',
@@ -938,6 +985,8 @@ export class QuestionFactory {
         return this.toFileUploadQuestion(schema);
       case 'workspace-launcher':
         return this.toWorkspaceLauncher(schema);
+      case 'remote-select':
+        return this.toRemoteSelectQuestion(schema);
       default:
         console.warn('New Schema Question Type found.........' + renderType);
         return this.toTextQuestion(schema);

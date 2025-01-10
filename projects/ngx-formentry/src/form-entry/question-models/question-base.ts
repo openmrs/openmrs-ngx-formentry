@@ -30,7 +30,7 @@ export class QuestionBase implements BaseOptions {
   historicalDataValue?: any;
   extras?: any;
   dataSource?: string;
-  dataSourceOptions?: any;
+  dataSourceOptions?: Record<string, unknown>;
 
   controlType?: AfeControlType;
   validators?: Array<ValidationModel>;
