@@ -213,6 +213,7 @@
             [type]="node.question.renderingType" [id]="node.question.key + 'id'"
             [readOnly]="node.question.extras.readOnly" />
           <input
+            [ofePatientIdentifierValidator]="node"
             [theme]="theme"
             class="cds--text-input"
             ofeTextInput

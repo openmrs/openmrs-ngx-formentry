@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { NodeBase, GroupNode, ArrayNode } from '../form-factory/form-node';
 import { Form } from '../form-factory';
+import { Identifier } from './types';
 
 @Injectable()
 export class PatientIdentifierAdapter {
@@ -29,13 +30,13 @@ export class PatientIdentifierAdapter {
     return payload;
   }
 
-  populateForm(form: Form, payload) {
+  populateForm(form: Form, payload: Array<Identifier>) {
     this.populateNode(form.rootNode, payload);
   }
 
   populateNode(rootNode: NodeBase, payload) {
     if (!Array.isArray(payload)) {
-      throw new Error('Expected an array of patient identfiers');
+      throw new Error('Expected an array of patient identifiers');
     }
 
     const nodes = this.getPatientIdentifierNodes(rootNode);
@@ -58,6 +59,14 @@ export class PatientIdentifierAdapter {
   getPatientIdentifierNodes(rootNode: NodeBase): Array<NodeBase> {
     const results: Array<NodeBase> = [];
     this.getPatientIdentifierTypeNodes(rootNode, results);
+
+    results.forEach((node) => {
+      if (!node.question.extras?.questionOptions?.identifierType) {
+        console.warn(
+          `Patient identifier node "${node.question.extras.label}" is missing required identifierType property`
+        );
+      }
+    });
     return results;
   }
 

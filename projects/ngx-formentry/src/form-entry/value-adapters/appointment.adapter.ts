@@ -79,7 +79,7 @@ export class AppointmentAdapter implements ValueAdapter {
     return duration.toString();
   }
 
-  private findAppointmentQuestionNodes(formNode: GroupNode): LeafNode[] {
+  public findAppointmentQuestionNodes(formNode: GroupNode): LeafNode[] {
     const appointmentNodes: LeafNode[] = [];
 
     const traverseNode = (node: GroupNode | LeafNode): void => {
