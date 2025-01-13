@@ -23,6 +23,8 @@
   "futureDateRestriction": "Dates in the future are not allowed",
   "hoursAgo": " hours ago",
   "invalidDate": "Invalid date. Please select a valid date",
+  "identifierTaken": "This identifier is already assigned to another patient",
+  "identifierError": "An error occurred while validating the identifier",
   "loadingComponent": "Loading component...",
   "max": "Please enter a value less than or equal to {max}",
   "maxDate": "Please select a date that is on or before {maxDate}",
