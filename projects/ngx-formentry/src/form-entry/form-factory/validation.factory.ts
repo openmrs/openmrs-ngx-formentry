@@ -169,7 +169,6 @@ export class ValidationFactory {
 
   public errors(errors: any, question: QuestionBase): Array<string> {
     const messages: Array<string> = [];
-
     for (const property in errors) {
       if (errors.hasOwnProperty(property)) {
         switch (property) {
@@ -235,6 +234,19 @@ export class ValidationFactory {
             break;
           case 'conditional_answered':
             messages.push(errors['conditional_answered'].message);
+          case 'identifierTaken':
+            messages.push(
+              this.translate
+                .instant('identifierTaken')
+                .replace('{identifierTaken}', errors?.identifierTaken?.message)
+            );
+            break;
+          case 'identifierError':
+            messages.push(
+              this.translate
+                .instant('identifierError')
+                .replace('{identifierError}', errors?.identifierError?.message)
+            );
             break;
         }
       }

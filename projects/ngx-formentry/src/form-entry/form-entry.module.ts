@@ -50,6 +50,7 @@ import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.ad
 import { AppointmentAdapter } from './value-adapters/appointment.adapter';
 import { MachineLearningComponent } from '../components/machine-learning-button/machine-learning.component';
 import { MachineLearningService } from '../components/machine-learning-button/machine-learning.service';
+import { PatientIdentifierValidatorDirective } from './directives/patient-identifier.directive';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -82,7 +83,8 @@ import { MachineLearningService } from '../components/machine-learning-button/ma
     ErrorRendererComponent,
     TimeAgoPipe,
     CollapseDirective,
-    MachineLearningComponent
+    MachineLearningComponent,
+    PatientIdentifierValidatorDirective
   ],
   providers: [
     UntypedFormBuilder,
