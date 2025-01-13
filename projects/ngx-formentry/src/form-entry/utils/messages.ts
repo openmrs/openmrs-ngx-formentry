@@ -26,4 +26,8 @@ export class Messages {
     'Please enter a value greater than or equal to {min}';
 
   public static readonly disallowDecimals = 'Decimals values are not allowed';
+  public static readonly identifierTaken =
+    'This identifier is already assigned to another patient';
+  public static readonly identifierError =
+    'An error occurred while validating the identifier';
 }
