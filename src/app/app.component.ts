@@ -52,7 +52,8 @@ export class AppComponent implements OnInit {
     private translate: TranslateService,
     private personAttributeAdapter: PersonAttribuAdapter,
     private patientIdenfierAdapter: PatientIdentifierAdapter,
-    private appointmentsAdapter: AppointmentAdapter
+    private appointmentsAdapter: AppointmentAdapter,
+    private patientIdentifierAdapter: PatientIdentifierAdapter
   ) {
     this.schema = adultReturnVisitForm;
   }
@@ -184,6 +185,27 @@ export class AppComponent implements OnInit {
       this.form.rootNode.control.markAsDirty();
     }
     // this.appointmentsAdapter.populateForm(this.form, appointmentPayload as any);
+
+    // populate identifiers
+    const patientIdentifiers = [
+      {
+        uuid: 'ad8da7d9-d760-4b43-80d6-a9a1429c3432',
+        identifierType: {
+          uuid: 'dfacd928-0370-4315-99d7-6ec1c9f7ae76',
+          display: 'OpenMRS ID'
+        },
+        identifier: 'M4X79',
+        location: {
+          uuid: '7537b643-6196-4472-a53c-b11f43efc067',
+          display: 'Wema Centre Medical Clinic'
+        }
+      }
+    ];
+
+    this.patientIdentifierAdapter.populateForm(this.form, patientIdentifiers);
+    this.form.valueProcessingInfo = {
+      patientIdentifiers: patientIdentifiers
+    };
 
     // Alternative is to set individually for obs and orders as show below
     // // Set obs
@@ -450,6 +472,10 @@ export class AppComponent implements OnInit {
       //   this.form
       // );
       // console.log('Appointment Payload', appointmentPayload);
+      // const patientIdentifiers = this.patientIdentifierAdapter.generateFormPayload(
+      //   this.form,
+      //   this.form.valueProcessingInfo['locationUuid']
+      // );
     } else {
       this.form.showErrors = true;
       this.form.markInvalidControls(this.form.rootNode);
