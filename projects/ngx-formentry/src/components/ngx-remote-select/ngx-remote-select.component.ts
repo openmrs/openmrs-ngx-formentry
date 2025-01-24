@@ -5,13 +5,14 @@ import {
   forwardRef,
   Output,
   EventEmitter,
-  Renderer2
+  Renderer2, OnDestroy
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { concat, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
+  finalize,
   switchMap,
   tap
 } from 'rxjs/operators';
@@ -32,7 +33,7 @@ import { TranslateService } from '@ngx-translate/core';
     }
   ]
 })
-export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
+export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDestroy {
   // @Input() dataSource: DataSource;
   remoteOptions$: Observable<SelectOption[]>;
   remoteOptionsLoading = false;
@@ -138,10 +139,14 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
 
   private loadOptions() {
     this.remoteOptions$ = concat(
-      this.dataSource.searchOptions(
-        '',
-        this.dataSource?.dataSourceOptions ?? {}
-      ) ?? of([]), // default items
+      this.dataSource
+        .searchOptions('', this.dataSource?.dataSourceOptions ?? {})
+        ?.pipe(
+          catchError((error) => {
+            console.error('Error loading initial options:', error);
+            return of([]);
+          })
+        ) ?? of([]), // default items
       this.remoteOptionInput$.pipe(
         distinctUntilChanged(),
         tap(() => {
@@ -151,11 +156,20 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor {
           this.dataSource
             .searchOptions(term, this.dataSource?.dataSourceOptions ?? {})
             .pipe(
-              catchError(() => of([])), // empty list on error
-              tap(() => (this.loading = false))
+              catchError((error) => {
+                console.error('Error loading options:', error);
+                return of([]);
+              }),
+              finalize(() => {
+                this.loading = false;
+              })
             )
         )
       )
     );
+  }
+
+  ngOnDestroy() {
+    this.remoteOptionInput$.complete();
   }
 }

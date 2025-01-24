@@ -379,15 +379,14 @@ export class AppComponent implements OnInit {
         label: 'Duplix'
       }
     ];
-    if (searchText) {
-      return of(
-        locations.filter((location) =>
-          location.label.toLowerCase().includes(searchText.toLowerCase())
-        )
-      );
+    if (!searchText) {
+      return of(locations);
     }
-
-    return of(locations);
+    return of(
+      locations.filter((location) =>
+        location.label.toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
   }
 
   public sampleSearch(searchText: string): Observable<any> {

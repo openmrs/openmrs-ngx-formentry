@@ -762,7 +762,7 @@ export class QuestionFactory {
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
 
-    const mappings: any = {
+    const mappings: Record<string, string> = {
       label: 'label',
       required: 'required',
       id: 'key'
@@ -780,15 +780,15 @@ export class QuestionFactory {
 
   private getDataSourceConfig(
     schemaQuestion: any
-  ): { name: string; options: any } {
+  ): { name: string; options: Record<string, unknown> } {
     const dataSourceName = schemaQuestion.questionOptions?.dataSource;
     const dataSourceOptions = schemaQuestion.questionOptions?.dataSourceOptions;
     // See https://github.com/openmrs/openmrs-contrib-json-schemas/blob/main/form.schema.json
-    const openMrs3DataSource = schemaQuestion.questionOptions?.datasource;
+    const openmrs3DataSource = schemaQuestion.questionOptions?.datasource;
 
     return {
-      name: dataSourceName ?? openMrs3DataSource?.name ?? '',
-      options: dataSourceOptions ?? openMrs3DataSource?.config ?? {}
+      name: dataSourceName ?? openmrs3DataSource?.name ?? '',
+      options: dataSourceOptions ?? openmrs3DataSource?.config ?? {}
     };
   }
 
