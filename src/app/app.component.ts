@@ -72,6 +72,10 @@ export class AppComponent implements OnInit {
       searchOptions: this.sampleSearch,
       resolveSelectedValue: this.sampleResolve
     });
+    this.dataSources.registerDataSource('location_datasource', {
+      searchOptions: this.sampleLocationSearch,
+      resolveSelectedValue: this.sampleResolve
+    });
     this.dataSources.registerDataSource('provider', {
       searchOptions: this.sampleSearch,
       resolveSelectedValue: this.sampleResolve
@@ -350,7 +354,42 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public sampleSearch(): Observable<any> {
+  public sampleLocationSearch(
+    searchText: string
+  ): Observable<Array<Record<string, string>>> {
+    const locations = [
+      {
+        value: 'ba685651-ed3b-4e63-9b35-78893060758a',
+        label: 'Inpatient Ward'
+      },
+      {
+        value: '184ac7d9-225a-41f8-bac7-c87b1327e1b0',
+        label: 'Ward 1'
+      },
+      {
+        value: '5a7f3c53-6bb4-448b-a966-5e65b397b9f3',
+        label: 'Ward 2'
+      },
+      {
+        value: '2272b8cd-b690-4878-a50c-40d22235b3f3',
+        label: 'Ward 3'
+      },
+      {
+        value: 'db0253bb-8e2e-4b2c-b60c-6c88110e3c2e',
+        label: 'Duplix'
+      }
+    ];
+    if (!searchText) {
+      return of(locations);
+    }
+    return of(
+      locations.filter((location) =>
+        location.label.toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
+  }
+
+  public sampleSearch(searchText: string): Observable<any> {
     const items: Array<any> = [
       { value: '0', label: 'Aech' },
       { value: '5b6e58ea-1359-11df-a1f1-0026b9348838', label: 'Art3mis' },
