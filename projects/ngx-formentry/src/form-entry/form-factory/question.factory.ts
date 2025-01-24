@@ -586,8 +586,8 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () {},
-      resolveFunction: function () {}
+      searchFunction: function () { },
+      resolveFunction: function () { }
     });
     question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
@@ -618,8 +618,8 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () {},
-      resolveFunction: function () {}
+      searchFunction: function () { },
+      resolveFunction: function () { }
     });
     question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
@@ -656,8 +656,8 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () {},
-      resolveFunction: function () {}
+      searchFunction: function () { },
+      resolveFunction: function () { }
     });
     question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
@@ -688,8 +688,8 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () {},
-      resolveFunction: function () {}
+      searchFunction: function () { },
+      resolveFunction: function () { }
     });
     question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
@@ -1263,7 +1263,7 @@ export class QuestionFactory {
       //if resetValueOnDisable doesn't exist on the config or no value is provided the default value will be passed (true)
       question.resetValueOnDisable =
         !schemaQuestion.hasOwnProperty('resetValueOnDisable') ||
-        this.isEmpty(schemaQuestion.resetValueOnDisable)
+          this.isEmpty(schemaQuestion.resetValueOnDisable)
           ? true
           : schemaQuestion.resetValueOnDisable;
     }
