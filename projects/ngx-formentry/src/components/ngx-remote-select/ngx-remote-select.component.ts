@@ -5,7 +5,8 @@ import {
   forwardRef,
   Output,
   EventEmitter,
-  Renderer2, OnDestroy
+  Renderer2,
+  OnDestroy
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { concat, Observable, of, Subject } from 'rxjs';
@@ -13,6 +14,7 @@ import {
   catchError,
   distinctUntilChanged,
   finalize,
+  startWith,
   switchMap,
   tap
 } from 'rxjs/operators';
@@ -33,7 +35,8 @@ import { TranslateService } from '@ngx-translate/core';
     }
   ]
 })
-export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDestroy {
+export class RemoteSelectComponent
+  implements OnInit, ControlValueAccessor, OnDestroy {
   // @Input() dataSource: DataSource;
   remoteOptions$: Observable<SelectOption[]>;
   remoteOptionsLoading = false;
@@ -138,33 +141,24 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDe
   }
 
   private loadOptions() {
-    this.remoteOptions$ = concat(
-      this.dataSource
-        .searchOptions('', this.dataSource?.dataSourceOptions ?? {})
-        ?.pipe(
-          catchError((error) => {
-            console.error('Error loading initial options:', error);
-            return of([]);
-          })
-        ) ?? of([]), // default items
-      this.remoteOptionInput$.pipe(
-        distinctUntilChanged(),
-        tap(() => {
-          this.loading = true;
-        }),
-        switchMap((term) =>
-          this.dataSource
-            .searchOptions(term, this.dataSource?.dataSourceOptions ?? {})
-            .pipe(
-              catchError((error) => {
-                console.error('Error loading options:', error);
-                return of([]);
-              }),
-              finalize(() => {
-                this.loading = false;
-              })
-            )
-        )
+    this.remoteOptions$ = this.remoteOptionInput$.pipe(
+      startWith(''), // Trigger initial load
+      distinctUntilChanged(),
+      tap(() => {
+        this.loading = true;
+      }),
+      switchMap((term) =>
+        this.dataSource
+          .searchOptions(term, this.dataSource?.dataSourceOptions ?? {})
+          .pipe(
+            catchError((error) => {
+              console.error('Error loading options:', error);
+              return of([]);
+            }),
+            finalize(() => {
+              this.loading = false;
+            })
+          )
       )
     );
   }

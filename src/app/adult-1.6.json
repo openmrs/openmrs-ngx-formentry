@@ -8113,8 +8113,13 @@
               "type": "diagnosis",
               "questionOptions": {
                 "rendering": "repeating",
-                "dataSource": "diagnoses",
-                "rank": 1
+                "rank": 1,
+                "datasource": {
+                  "name": "diagnoses",
+                  "config": {
+                    "conceptSourceUuid": "ICD-11-WHO-SOURCE-UUID"
+                  }
+                }
               }
             }
           ]
