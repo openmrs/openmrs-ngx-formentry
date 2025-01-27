@@ -757,23 +757,21 @@ export class QuestionFactory {
   }
 
   toDiagnosisQuestion(schemaQuestion: any): DiagnosisQuestion {
+    const dataSource = this.getDataSourceConfig(schemaQuestion);
     const question = new DiagnosisQuestion({
       type: '',
       key: schemaQuestion.id,
       label: schemaQuestion.label,
       rendering: '',
-      rank: schemaQuestion.questionOptions.rank
+      rank: schemaQuestion.questionOptions.rank,
+      dataSource: dataSource.name || 'diagnoses',
+      dataSourceOptions: dataSource.options || {}
     });
     question.questionIndex = this.quetionIndex;
     question.prefix = schemaQuestion.prefix;
     question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
-    const dataSourceConfig = this.getDataSourceConfig(schemaQuestion);
-    question.dataSource = dataSourceConfig.name || 'diagnoses';
-    if (Object.keys(dataSourceConfig.options).length > 0) {
-      question.dataSourceOptions = dataSourceConfig.options;
-    }
     const mappings: any = {
       label: 'label',
       required: 'required',
