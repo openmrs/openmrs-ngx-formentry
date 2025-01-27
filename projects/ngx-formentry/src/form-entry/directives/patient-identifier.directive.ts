@@ -37,6 +37,12 @@ export class PatientIdentifierValidatorDirective implements AsyncValidator {
   validate(
     control: AbstractControl
   ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
+    // We should not validate if the control has initial value and value is not changed
+    // This happens in edit mode
+    if (control?.value === this.node?.initialValue) {
+      return of(null);
+    }
+
     const identifier = control.value;
     const currentPatientExistingIdentifier: Array<Identifier> =
       this.node.form.valueProcessingInfo?.patientIdentifiers ?? [];
