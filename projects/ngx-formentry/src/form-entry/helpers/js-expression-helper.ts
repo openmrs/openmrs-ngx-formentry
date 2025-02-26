@@ -383,6 +383,14 @@ export class JsExpressionHelper {
     return '';
   }
 
+  getObsValue(
+    obs: Array<{ concept: { uuid: string }; value: any }>,
+    conceptUuid: string
+  ) {
+    const obsValue = obs.find((o) => o.concept.uuid === conceptUuid)?.value;
+    return obsValue;
+  }
+
   get helperFunctions() {
     const helper = this;
     return {
@@ -399,7 +407,8 @@ export class JsExpressionHelper {
       doesNotMatchExpression: helper.doesNotMatchExpression,
       calcGravida: helper.calcGravida,
       fetchData: helper.fetchData,
-      calculateZNutritionScore: helper.calculateZNutritionScore
+      calculateZNutritionScore: helper.calculateZNutritionScore,
+      getObsValue: helper.getObsValue
     };
   }
 }
