@@ -837,6 +837,10 @@ export class QuestionFactory {
     };
     question.componentConfigs = schemaQuestion.componentConfigs || [];
     this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
     return question;
   }
 
