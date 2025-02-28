@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
 import { southEastAsiaCvdRiskTables } from './risk-dataset-table';
+import { getAssessmentCode } from './depression-assessment';
 
 @Injectable()
 export class JsExpressionHelper {
@@ -408,7 +409,8 @@ export class JsExpressionHelper {
       calcGravida: helper.calcGravida,
       fetchData: helper.fetchData,
       calculateZNutritionScore: helper.calculateZNutritionScore,
-      getObsValue: helper.getObsValue
+      getObsValue: helper.getObsValue,
+      getAssessmentCode: getAssessmentCode
     };
   }
 }
