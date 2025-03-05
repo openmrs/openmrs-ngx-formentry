@@ -1,116 +1,199 @@
-import { Component, OnChanges, Input } from '@angular/core';
-
+import { Component, OnChanges, Input, OnDestroy } from '@angular/core';
 import { LeafNode } from '../../form-entry/form-factory/form-node';
 import moment from 'moment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ofe-appointments-overview',
   templateUrl: './appointments-overview.component.html',
   styleUrls: ['./appointments-overview.component.css']
 })
-export class AppointmentsOverviewComponent implements OnChanges {
+export class AppointmentsOverviewComponent implements OnChanges, OnDestroy {
+  private subscription: Subscription;
+
   @Input() node: LeafNode;
+
+  currentDate: Date = new Date();
   showAppointments = false;
   loadingAppointments = false;
   errorLoadingAppointments = false;
   appointmentsLoaded = false;
   appointments: Array<any> = [];
   today = '';
+
+  /**
+   * Lifecycle hook that is called when the component is destroyed.
+   * Unsubscribes from the subscription to prevent memory leaks.
+   */
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   constructor() {}
 
+  /**
+   * Lifecycle hook that is called when the component's data-bound properties change.
+   * Subscribes to changes in the node's control value.
+   */
   ngOnChanges() {
-    this.node.control.valueChanges.subscribe((appointmentDate) => {
+    this.subscription = this.node.control.valueChanges.subscribe(
+      this.handleAppointmentDateChange.bind(this)
+    );
+  }
+
+  /**
+   * Handles changes in the appointment date.
+   * Resets properties, gets date range and service type, and fetches appointments if all required data is available.
+   * @param {string} appointmentDate - The new appointment date
+   * @private
+   */
+  private handleAppointmentDateChange(appointmentDate: string) {
+    const nodeExtras = this.node.question.extras;
+
+    if (nodeExtras.type !== 'appointment') {
+      return;
+    }
+
+    if (
+      nodeExtras.type === 'appointment' &&
+      nodeExtras.questionOptions?.appointmentKey === 'startDateTime'
+    ) {
       this.resetProperties();
-      const node = this.node;
-      if (
-        node.question.extras.questionOptions.concept &&
-        (node.question.extras.questionOptions.concept ===
-          'a8a666ba-1350-11df-a1f1-0026b9348838' ||
-          node.question.extras.questionOptions.concept ===
-            'a89d2398-1350-11df-a1f1-0026b9348838')
-      ) {
-        if (!this.showAppointments) {
-          this.loadingAppointments = true;
-          this.showAppointments = true;
-          let dataSource;
-          if (node.form && node.form.dataSourcesContainer.dataSources) {
-            dataSource =
-              node.form.dataSourcesContainer.dataSources
-                .monthlyScheduleResourceService;
-          }
-          const locationUuid =
-            node.form.dataSourcesContainer.dataSources?.userLocation?.uuid;
-          if (dataSource && locationUuid) {
-            const startDate = moment(appointmentDate)
-              .startOf('week')
-              .add(1, 'day')
-              .format('YYYY-MM-DD');
-            const endDate = moment(appointmentDate)
-              .endOf('week')
-              .subtract(1, 'day')
-              .format('YYYY-MM-DD');
-            this.today = moment(appointmentDate).format('DD-MM-YYYY');
-            // create 5 week days
-            const scheduledAppointments: Array<{
-              date: string;
-              count: number;
-            }> = [];
-            const programTypes = [
-              '781d85b0-1359-11df-a1f1-0026b9348838',
-              '781d897a-1359-11df-a1f1-0026b9348838',
-              '96047aaf-7ab3-45e9-be6a-b61810fe617d',
-              'c19aec66-1a40-4588-9b03-b6be55a8dd1d',
-              'f7793d42-11ac-4cfd-9b35-e0a21a7a7c31',
-              '334c9e98-173f-4454-a8ce-f80b20b7fdf0',
-              '96ba279b-b23b-4e78-aba9-dcbd46a96b7b',
-              '781d8880-1359-11df-a1f1-0026b9348838'
-            ];
-            const programTypeParams = programTypes.join();
-            for (let i = 1; i <= 5; i++) {
-              scheduledAppointments.push({
-                date: moment(appointmentDate)
-                  .startOf('week')
-                  .add(i, 'day')
-                  .format('DD-MM-YYYY'),
-                count: 0
-              });
-            }
-            dataSource
-              .getMonthlySchedule({
-                startDate: startDate,
-                endDate: endDate,
-                limit: 5,
-                locationUuids: locationUuid,
-                programType: programTypeParams
-              })
-              .subscribe(
-                ({ results }) => {
-                  this.appointmentsLoaded = true;
-                  this.loadingAppointments = false;
-                  scheduledAppointments.map((appointment, index) => {
-                    appointment.count =
-                      results[index] !== undefined
-                        ? results[index].count.scheduled
-                        : 0;
-                  });
-                  this.appointments = scheduledAppointments;
-                },
-                (error) => {
-                  this.loadingAppointments = false;
-                  this.errorLoadingAppointments = true;
-                  this.showAppointments = false;
-                  console.error(error);
-                }
-              );
-          } else {
-            this.showAppointments = false;
-            this.errorLoadingAppointments = true;
-          }
+      const { startDate, endDate } = this.getDateRange(appointmentDate);
+      const serviceTypeUuid = this.getServiceTypeUuid(this.node);
+      const appointmentDataSource = this.getAppointmentDataSource();
+
+      if (startDate && endDate && appointmentDataSource && serviceTypeUuid) {
+        this.fetchAppointments(
+          appointmentDataSource,
+          startDate,
+          endDate,
+          serviceTypeUuid
+        );
+      }
+    }
+  }
+
+  /**
+   * Calculates the start and end date of the month for a given date.
+   * @param {string} date - The date to get the range for
+   * @returns {{ startDate: string, endDate: string }} An object containing the start and end dates of the month
+   * @private
+   */
+  private getDateRange(date: string) {
+    const momentDate = moment(date);
+    return {
+      startDate: momentDate.startOf('month').toISOString(),
+      endDate: momentDate.endOf('month').toISOString()
+    };
+  }
+
+  /**
+   * Retrieves the service type UUID from the form.
+   * @returns {string | undefined} The service type UUID, or undefined if not found
+   * @private
+   */
+  private getServiceTypeUuid(currentNode: LeafNode) {
+    let serviceTypeUuid = '';
+    const rootNode = this.node.form.rootNode;
+    const questionNodes: Array<LeafNode> = [];
+    this.node.form.searchNodeByQuestionType(
+      rootNode,
+      'appointment',
+      questionNodes
+    );
+
+    questionNodes.forEach((node) => {
+      if (node.question.extras.questionOptions?.appointmentKey === 'service') {
+        const currentNodeIndex = parseInt(currentNode.nodeIndex.toString()) - 1;
+        if (node.nodeIndex === currentNodeIndex) {
+          serviceTypeUuid = node.control.value;
         }
       }
     });
+    return serviceTypeUuid;
   }
 
+  /**
+   * Retrieves the appointment data source from the form's data sources container.
+   * @returns {any} The appointment data source, or undefined if not found
+   * @private
+   */
+  private getAppointmentDataSource() {
+    const dataSources = this.node?.form.dataSourcesContainer.dataSources ?? {};
+    return dataSources?.appointmentSummaryService;
+  }
+
+  /**
+   * Fetches appointments for the given date range and service type.
+   * @param {any} dataSource - The data source to fetch appointments from
+   * @param {string} startDate - The start date of the range
+   * @param {string} endDate - The end date of the range
+   * @param {string} serviceTypeUuid - The UUID of the service type
+   * @private
+   */
+  private fetchAppointments(
+    dataSource,
+    startDate: string,
+    endDate: string,
+    serviceTypeUuid: string
+  ) {
+    this.showAppointments = true;
+    this.loadingAppointments = true;
+    this.currentDate = new Date(this.node.control.value);
+
+    dataSource.fetchAppointmentSummaryByDateRange(startDate, endDate).subscribe(
+      (appointments) => this.processAppointments(appointments, serviceTypeUuid),
+      (error) => console.error(error)
+    );
+  }
+
+  /**
+   * Processes the fetched appointments and updates the component's state.
+   * @param {any[]} appointments - The fetched appointments
+   * @param {string} serviceTypeUuid - The UUID of the service type
+   * @private
+   */
+  private processAppointments(appointments, serviceTypeUuid: string) {
+    const appointmentCountMap =
+      appointments.find(
+        (appointment) =>
+          appointment.appointmentService?.uuid === serviceTypeUuid
+      )?.appointmentCountMap ?? [];
+
+    this.appointments = this.createCalendarDistribution(appointmentCountMap);
+    this.loadingAppointments = false;
+    this.appointmentsLoaded = true;
+  }
+
+  /**
+   * Creates a calendar distribution from the appointment count map.
+   * @param {Record<string, any>} appointmentCountMap - The map of appointment counts
+   * @returns {Array<{ date: string, count: number }>} An array of objects containing date and count
+   * @private
+   */
+  private createCalendarDistribution(appointmentCountMap: Record<string, any>) {
+    return Object.entries(appointmentCountMap)
+      .map(([date, value]) => ({
+        date,
+        count: value.allAppointmentsCount
+      }))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  }
+
+  /**
+   * Handles the selection of a date.
+   * @param {Date} date - The selected date
+   */
+  onDateSelected(date: Date) {
+    this.node.control.setValue(moment(date).toISOString());
+  }
+
+  /**
+   * Resets the component's properties to their initial state.
+   */
   resetProperties() {
     this.loadingAppointments = false;
     this.appointmentsLoaded = false;
