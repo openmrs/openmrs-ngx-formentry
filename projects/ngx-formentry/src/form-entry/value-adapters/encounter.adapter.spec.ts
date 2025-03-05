@@ -266,4 +266,241 @@ describe('Encounter Value Adapter:', () => {
       )
     ).toBeTruthy();
   });
+
+  it('should generate subform encounter payloads', () => {
+    const adapter = TestBed.inject(EncounterAdapter);
+    const factory: FormFactory = TestBed.inject(FormFactory);
+    
+    // Create a form with subforms
+    const formWithSubforms = {
+      name: "Test Form with Subforms",
+      pages: [
+        {
+          label: "Main Page",
+          sections: [
+            {
+              label: "Main Section",
+              questions: [
+                {
+                  label: "Test Question",
+                  type: "obs",
+                  questionOptions: {
+                    rendering: "text",
+                    concept: "test-concept"
+                  },
+                  id: "test_question"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          isSubform: true,
+          subform: {
+            name: "Subform 1",
+            form: {
+              name: "Subform 1",
+              uuid: "subform-1-uuid",
+              encounterType: "encounter-type-1",
+              pages: []
+            }
+          }
+        },
+        {
+          isSubform: true,
+          subform: {
+            name: "Subform 2",
+            form: {
+              name: "Subform 2",
+              uuid: "subform-2-uuid",
+              encounterType: "encounter-type-2",
+              pages: []
+            }
+          }
+        }
+      ],
+      encounterType: {
+        uuid: "main-encounter-type",
+        display: "Main Encounter"
+      },
+      uuid: "main-form-uuid"
+    };
+    
+    const form = factory.createForm(formWithSubforms);
+    
+    // Set valueProcessingInfo
+    form.valueProcessingInfo = {
+      patientUuid: 'patientUuid',
+      visitUuid: 'visitUuid',
+      encounterTypeUuid: 'main-encounter-type',
+      formUuid: 'main-form-uuid',
+      encounterUuid: 'encounterUuid',
+      providerUuid: 'providerUuid',
+      utcOffset: '+0300'
+    };
+
+    // Generate payloads with subforms
+    const payloads = adapter.generateFormPayloadWithSubforms(form);
+
+    // Should generate 3 encounters: main + 2 subforms (different encounter types)
+    expect(payloads.length).toBe(3);
+    
+    // Check main encounter
+    expect(payloads[0].encounterType).toBe('main-encounter-type');
+    expect(payloads[0].form).toBe('main-form-uuid');
+    
+    // Check subform encounters
+    const subformPayloads = payloads.slice(1);
+    const encounterTypes = subformPayloads.map(p => p.encounterType);
+    expect(encounterTypes).toContain('encounter-type-1');
+    expect(encounterTypes).toContain('encounter-type-2');
+    
+    const formUuids = subformPayloads.map(p => p.form);
+    expect(formUuids).toContain('subform-1-uuid');
+    expect(formUuids).toContain('subform-2-uuid');
+  });
+
+  it('should generate single encounter for form without subforms', () => {
+    const adapter = TestBed.inject(EncounterAdapter);
+    const factory: FormFactory = TestBed.inject(FormFactory);
+    
+    // Create a form without subforms
+    const formWithoutSubforms = {
+      name: "Test Form without Subforms",
+      pages: [
+        {
+          label: "Main Page",
+          sections: [
+            {
+              label: "Main Section",
+              questions: [
+                {
+                  label: "Test Question",
+                  type: "obs",
+                  questionOptions: {
+                    rendering: "text",
+                    concept: "test-concept"
+                  },
+                  id: "test_question"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      encounterType: {
+        uuid: "main-encounter-type",
+        display: "Main Encounter"
+      },
+      uuid: "main-form-uuid"
+    };
+    
+    const form = factory.createForm(formWithoutSubforms);
+    
+    // Set valueProcessingInfo
+    form.valueProcessingInfo = {
+      patientUuid: 'patientUuid',
+      visitUuid: 'visitUuid',
+      encounterTypeUuid: 'main-encounter-type',
+      formUuid: 'main-form-uuid',
+      encounterUuid: 'encounterUuid',
+      providerUuid: 'providerUuid',
+      utcOffset: '+0300'
+    };
+
+    // Generate payloads with subforms
+    const payloads = adapter.generateFormPayloadWithSubforms(form);
+
+    // Should generate 1 encounter (no subforms)
+    expect(payloads.length).toBe(1);
+    expect(payloads[0].encounterType).toBe('main-encounter-type');
+    expect(payloads[0].form).toBe('main-form-uuid');
+  });
+
+  it('should group subforms with same encounter type', () => {
+    const adapter = TestBed.inject(EncounterAdapter);
+    const factory: FormFactory = TestBed.inject(FormFactory);
+    
+    // Create a form with subforms having same encounter type
+    const formWithSameEncounterType = {
+      name: "Test Form with Same Encounter Type",
+      pages: [
+        {
+          label: "Main Page",
+          sections: [
+            {
+              label: "Main Section",
+              questions: [
+                {
+                  label: "Test Question",
+                  type: "obs",
+                  questionOptions: {
+                    rendering: "text",
+                    concept: "test-concept"
+                  },
+                  id: "test_question"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          isSubform: true,
+          subform: {
+            name: "Subform 1",
+            form: {
+              name: "Subform 1",
+              uuid: "subform-1-uuid",
+              encounterType: "same-encounter-type",
+              pages: []
+            }
+          }
+        },
+        {
+          isSubform: true,
+          subform: {
+            name: "Subform 2",
+            form: {
+              name: "Subform 2",
+              uuid: "subform-2-uuid",
+              encounterType: "same-encounter-type",
+              pages: []
+            }
+          }
+        }
+      ],
+      encounterType: {
+        uuid: "main-encounter-type",
+        display: "Main Encounter"
+      },
+      uuid: "main-form-uuid"
+    };
+    
+    const form = factory.createForm(formWithSameEncounterType);
+    
+    // Set valueProcessingInfo
+    form.valueProcessingInfo = {
+      patientUuid: 'patientUuid',
+      visitUuid: 'visitUuid',
+      encounterTypeUuid: 'main-encounter-type',
+      formUuid: 'main-form-uuid',
+      encounterUuid: 'encounterUuid',
+      providerUuid: 'providerUuid',
+      utcOffset: '+0300'
+    };
+
+    // Generate payloads with subforms
+    const payloads = adapter.generateFormPayloadWithSubforms(form);
+
+    // Should generate 2 encounters: main + 1 for both subforms (same encounter type)
+    expect(payloads.length).toBe(2);
+    
+    // Check main encounter
+    expect(payloads[0].encounterType).toBe('main-encounter-type');
+    expect(payloads[0].form).toBe('main-form-uuid');
+    
+    // Check subform encounter (should use first subform's form UUID)
+    expect(payloads[1].encounterType).toBe('same-encounter-type');
+    expect(payloads[1].form).toBe('subform-1-uuid');
+  });
 });

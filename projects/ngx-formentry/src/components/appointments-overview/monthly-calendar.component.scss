@@ -1,0 +1,68 @@
+.calendar {
+  width: 100%;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+
+  & > button {
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #fefefe;
+    }
+  }
+}
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: bold;
+}
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+.day {
+  height: 40px;
+  padding: 5px;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    color: #161616;
+    background-color: #e8e8e8;
+  }
+}
+.current-month {
+  background-color: #f0f0f0;
+}
+.date {
+  font-size: 14px;
+}
+.appointment-count {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.today {
+  color: #007bff;
+  font-weight: bold;
+
+  &:hover {
+    color: #007bff;
+  }
+}

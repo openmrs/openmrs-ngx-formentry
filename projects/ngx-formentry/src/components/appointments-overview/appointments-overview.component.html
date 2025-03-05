@@ -1,23 +1,17 @@
 <div *ngIf="showAppointments" class="container">
-  <div *ngIf="loadingAppointments">
-    <span *ngIf="!appointmentsLoaded && errorLoadingAppointments"
-      >Error checking appointments</span
-    >
-    <div
-      *ngIf="loadingAppointments"
-      class="cds--inline-loading"
-      aria-live="assertive"
-    >
+  <ng-container *ngIf="loadingAppointments; else appointmentsContent">
+    <div class="cds--inline-loading" aria-live="assertive">
       <div class="cds--inline-loading__animation">
         <div
           aria-atomic="true"
-          aria-labelledby="loading-id-2"
+          aria-labelledby="loading-id"
           aria-live="assertive"
           class="cds--loading cds--loading--small"
         >
-          <label id="loading-id-2" class="cds--visually-hidden"
-            >Active loading indicator</label
-          ><svg class="cds--loading__svg" viewBox="0 0 100 100">
+          <label id="loading-id" class="cds--visually-hidden">
+            Active loading indicator
+          </label>
+          <svg class="cds--loading__svg" viewBox="0 0 100 100">
             <title>Active loading indicator</title>
             <circle
               class="cds--loading__background"
@@ -34,36 +28,21 @@
           </svg>
         </div>
       </div>
-      <div class="cds--inline-loading__text">Loading...</div>
+      <div class="cds--inline-loading__text">Loading appointments...</div>
     </div>
-  </div>
+  </ng-container>
 
-  <div
-    class="cds--data-table-content"
-    *ngIf="appointmentsLoaded && !errorLoadingAppointments"
-  >
-    <table class="cds--data-table cds--data-table--no-border">
-      <thead>
-        <tr>
-          <th
-            *ngFor="let appointment of appointments"
-            scope="col"
-            [ngClass]="{ active: appointment.date === today }"
-          >
-            {{ appointment.date }}
-          </th>
-        </tr>
-      </thead>
-      <tbody aria-live="polite">
-        <tr>
-          <td
-            *ngFor="let appointment of appointments"
-            [ngClass]="{ active: appointment.date === today }"
-          >
-            {{ appointment.count }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <ng-template #appointmentsContent>
+    <div *ngIf="errorLoadingAppointments" class="error-message">
+      Error loading appointments. Please try again later.
+    </div>
+
+    <div *ngIf="!errorLoadingAppointments" class="cds--data-table-content">
+      <ofe-monthly-calendar
+        [currentMonth]="currentDate"
+        [appointments]="appointments"
+        (daySelected)="onDateSelected($event)"
+      ></ofe-monthly-calendar>
+    </div>
+  </ng-template>
 </div>

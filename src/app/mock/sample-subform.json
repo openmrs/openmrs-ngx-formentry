@@ -1,0 +1,123 @@
+{
+    "name": "Patient Visit Form",
+    "pages": [
+        {
+            "label": "Visit Information",
+            "sections": [
+                {
+                    "label": "Visit Details",
+                    "isExpanded": "true",
+                    "questions": [
+                        {
+                            "label": "Visit Date",
+                            "type": "encounterDatetime",
+                            "questionOptions": {
+                                "rendering": "date"
+                            },
+                            "id": "visit_date"
+                        },
+                        {
+                            "label": "Chief Complaint",
+                            "type": "obs",
+                            "questionOptions": {
+                                "rendering": "text",
+                                "concept": "160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                            },
+                            "id": "chief_complaint"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "isSubform": true,
+            "subform": {
+                "name": "Vital Signs Assessment",
+                "package": "clinical",
+                "form": {
+                    "name": "Vital Signs Assessment",
+                    "pages": [
+                        {
+                            "label": "Vital Signs",
+                            "sections": [
+                                {
+                                    "label": "Basic Measurements",
+                                    "isExpanded": "true",
+                                    "questions": [
+                                        {
+                                            "label": "Blood Pressure",
+                                            "type": "obsGroup",
+                                            "questionOptions": {
+                                                "rendering": "group",
+                                                "concept": "5085AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                            },
+                                            "id": "vitals_bp_group",
+                                            "questions": [
+                                                {
+                                                    "label": "Systolic",
+                                                    "type": "obs",
+                                                    "questionOptions": {
+                                                        "rendering": "number",
+                                                        "concept": "5085AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                    },
+                                                    "id": "vitals_systolic"
+                                                },
+                                                {
+                                                    "label": "Diastolic",
+                                                    "type": "obs",
+                                                    "questionOptions": {
+                                                        "rendering": "number",
+                                                        "concept": "5086AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                                    },
+                                                    "id": "vitals_diastolic"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "label": "Heart Rate",
+                                            "type": "obs",
+                                            "questionOptions": {
+                                                "rendering": "number",
+                                                "concept": "5087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                            },
+                                            "id": "vitals_heart_rate"
+                                        },
+                                        {
+                                            "label": "Temperature",
+                                            "type": "obs",
+                                            "questionOptions": {
+                                                "rendering": "number",
+                                                "concept": "5088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                            },
+                                            "id": "vitals_temperature"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "processor": "EncounterFormProcessor",
+                    "uuid": "bb430e49-1696-47eb-a33a-fbfc49edc3fd",
+                    "encounterType": "67a71486-1a54-468f-ac3e-7091a9a79584",
+                    "version": "1.0.0",
+                    "description": "Vital Signs Assessment"
+                }
+            }
+        }
+    ],
+    "processor": "EncounterFormProcessor",
+    "uuid": "43a294fc-8524-48af-bdbd-c940eac4388c",
+    "encounterType": {
+        "uuid": "dd528487-82a5-4082-9c72-ed246bd49591",
+        "display": "Consultation"
+    },
+    "version": "1.0.0",
+    "description": "V",
+    "translations": {},
+    "conceptReferences": {
+        "160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA": {
+            "uuid": "160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "display": "Chief complaint (text)"
+        }
+    }
+}

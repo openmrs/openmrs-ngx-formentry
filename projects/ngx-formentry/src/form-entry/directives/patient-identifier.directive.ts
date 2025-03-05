@@ -32,11 +32,16 @@ export class PatientIdentifierValidatorDirective implements AsyncValidator {
   @Input('ofePatientIdentifierValidator') node: LeafNode;
   @Input() currentPatientId?: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   validate(
     control: AbstractControl
   ): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
+    // should only validate control with type patientIdentifier
+    if (this.node?.question.type !== 'patientIdentifier') {
+      return of(null);
+    }
+
     // We should not validate if the control has initial value and value is not changed
     // This happens in edit mode
     if (control?.value === this.node?.initialValue) {
