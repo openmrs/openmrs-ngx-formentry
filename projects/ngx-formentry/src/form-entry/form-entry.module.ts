@@ -51,6 +51,7 @@ import { AppointmentAdapter } from './value-adapters/appointment.adapter';
 import { MachineLearningComponent } from '../components/machine-learning-button/machine-learning.component';
 import { MachineLearningService } from '../components/machine-learning-button/machine-learning.service';
 import { PatientIdentifierValidatorDirective } from './directives/patient-identifier.directive';
+import { MonthlyCalendarComponent } from '../components/appointments-overview/monthly-calendar.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -79,6 +80,7 @@ import { PatientIdentifierValidatorDirective } from './directives/patient-identi
     FormRendererComponent,
     AfeNgSelectComponent,
     AppointmentsOverviewComponent,
+    MonthlyCalendarComponent,
     HistoricalValueDirective,
     ErrorRendererComponent,
     TimeAgoPipe,

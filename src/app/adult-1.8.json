@@ -1,514 +1,250 @@
 {
-  "name": "Depression Screening PHQ-9",
-  "description": "Depression Screening PHQ-9",
-  "version": "2.0",
+  "name": "HIV Green Card",
+  "description": "HIV Green Card",
+  "version": "2.1",
   "published": true,
-  "uuid": "5fe533ee-0c40-4a1f-a071-dc4d0fbb0c17",
+  "uuid": "22c68f86-bbf0-49ba-b2d1-23fa7ccf0259",
   "retired": false,
-  "encounter": "KP Depression screening",
+  "encounter": "HIV Consultation",
   "pages": [
     {
-      "label": "Depression Screening PHQ9",
+      "label": "Patient Management",
       "sections": [
         {
-          "label": "Visit Details",
+          "label": "Return Visit",
           "isExpanded": "true",
           "questions": [
             {
-              "label": "Date:",
-              "type": "encounterDatetime",
-              "questionOptions": {
-                "rendering": "ui-select-extended"
-              },
-              "validators": [
-                {
-                  "type": "date",
-                  "allowFutureDates": "false"
-                }
-              ],
-              "id": "encDate"
-            },
-            {
-              "label": "Provider:",
-              "type": "encounterProvider",
-              "questionOptions": {
-                "rendering": "encounter-provider"
-              },
-              "id": "encProvider "
-            },
-            {
-              "label": "Location:",
-              "type": "encounterLocation",
-              "questionOptions": {
-                "rendering": "encounter-location"
-              },
-              "id": "encLocation"
-            }
-          ]
-        },
-        {
-          "label": "Over the last 2 weeks, how often have you been bothered by any of the following problems?",
-          "isExpanded": "true",
-          "questions": [
-            {
-              "label": "1. Little interest or pleasure in doing things",
-              "type": "control",
-              "required": true,
-              "id": "noInterest",
-              "questionOptions": {
-                "concept": "",
-                "rendering": "radio",
-                "answers": [
-                  {
-                    "concept": "163733AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Not at all"
-                  },
-                  {
-                    "concept": "163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Several days "
-                  },
-                  {
-                    "concept": "163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "More than half the days"
-                  },
-                  {
-                    "concept": "163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Nearly every day"
-                  }
-                ]
-              }
-            },
-            {
-              "label": "2. Feeling down, depressed, or hopeless",
-              "type": "control",
-              "id": "depressed",
-              "required": true,
-              "questionOptions": {
-                "concept": "",
-                "rendering": "radio",
-                "answers": [
-                  {
-                    "concept": "163733AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Not at all"
-                  },
-                  {
-                    "concept": "163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Several days "
-                  },
-                  {
-                    "concept": "163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "More than half the days"
-                  },
-                  {
-                    "concept": "163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Nearly every day"
-                  }
-                ]
-              }
-            },
-            {
-              "label": "3. Trouble falling or staying asleep, or sleeping too much ",
-              "type": "control",
-              "id": "sleep",
-              "questionOptions": {
-                "concept": "",
-                "rendering": "radio",
-                "answers": [
-                  {
-                    "concept": "163733AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Not at all"
-                  },
-                  {
-                    "concept": "163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Several days "
-                  },
-                  {
-                    "concept": "163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "More than half the days"
-                  },
-                  {
-                    "concept": "163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Nearly every day"
-                  }
-                ]
-              },
-              "hide": {
-                "hideWhenExpression": "isEmpty(noInterest) || noInterest !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-              }
-            },
-            {
-              "label": "4. Feeling tired or having little energy",
-              "type": "control",
-              "id": "feelingTired",
-              "questionOptions": {
-                "concept": "",
-                "rendering": "radio",
-                "answers": [
-                  {
-                    "concept": "163733AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Not at all"
-                  },
-                  {
-                    "concept": "163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Several days "
-                  },
-                  {
-                    "concept": "163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "More than half the days"
-                  },
-                  {
-                    "concept": "163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Nearly every day"
-                  }
-                ]
-              },
-              "hide": {
-                "hideWhenExpression": "isEmpty(noInterest) || noInterest !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-              }
-            },
-            {
-              "label": "5. Poor appetite or overeating",
-              "type": "control",
-              "id": "poorAppetite",
-              "questionOptions": {
-                "concept": "",
-                "rendering": "radio",
-                "answers": [
-                  {
-                    "concept": "163733AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Not at all"
-                  },
-                  {
-                    "concept": "163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Several days "
-                  },
-                  {
-                    "concept": "163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "More than half the days"
-                  },
-                  {
-                    "concept": "163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Nearly every day"
-                  }
-                ]
-              },
-              "hide": {
-                "hideWhenExpression": "isEmpty(noInterest) || noInterest !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-              }
-            },
-            {
-              "label": "6. Feeling bad about yourself, or that you are a failure,or that you have let yourself or your family down",
-              "type": "control",
-              "id": "feelingBad",
-              "questionOptions": {
-                "concept": "",
-                "rendering": "radio",
-                "answers": [
-                  {
-                    "concept": "163733AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Not at all"
-                  },
-                  {
-                    "concept": "163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Several days "
-                  },
-                  {
-                    "concept": "163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "More than half the days"
-                  },
-                  {
-                    "concept": "163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Nearly every day"
-                  }
-                ]
-              },
-              "hide": {
-                "hideWhenExpression": "isEmpty(noInterest) || noInterest !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-              }
-            },
-            {
-              "label": "7. Trouble concentrating on things (linked with patient usual activities,such as reading the newspaper or listening to a radio programme)",
-              "type": "control",
-              "id": "troubled",
-              "questionOptions": {
-                "concept": "",
-                "rendering": "radio",
-                "answers": [
-                  {
-                    "concept": "163733AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Not at all"
-                  },
-                  {
-                    "concept": "163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Several days "
-                  },
-                  {
-                    "concept": "163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "More than half the days"
-                  },
-                  {
-                    "concept": "163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Nearly every day"
-                  }
-                ]
-              },
-              "hide": {
-                "hideWhenExpression": "isEmpty(noInterest) || noInterest !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-              }
-            },
-            {
-              "label": "8. Moving or speaking so slowly that other people could have noticed.Or the opposite, being so fidgety or restless that you have been moving around a lot more than usual",
-              "type": "control",
-              "id": "speakingSlowly",
-              "questionOptions": {
-                "concept": "",
-                "rendering": "radio",
-                "answers": [
-                  {
-                    "concept": "163733AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Not at all"
-                  },
-                  {
-                    "concept": "163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Several days "
-                  },
-                  {
-                    "concept": "163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "More than half the days"
-                  },
-                  {
-                    "concept": "163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Nearly every day"
-                  }
-                ]
-              },
-              "hide": {
-                "hideWhenExpression": "isEmpty(noInterest) || noInterest !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-              }
-            },
-            {
-              "label": "9. Thoughts that you would be better off dead or of hurting yourself in some way",
-              "type": "control",
-              "id": "betterDead",
-              "questionOptions": {
-                "concept": "",
-                "rendering": "radio",
-                "answers": [
-                  {
-                    "concept": "163733AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Not at all"
-                  },
-                  {
-                    "concept": "163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Several days "
-                  },
-                  {
-                    "concept": "163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "More than half the days"
-                  },
-                  {
-                    "concept": "163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Nearly every day"
-                  }
-                ]
-              },
-              "hide": {
-                "hideWhenExpression": "isEmpty(noInterest) || noInterest !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && noInterest !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163735AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && depressed !== '163736AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-              }
-            }
-          ]
-        },
-        {
-          "label": "Depression Assessment Score",
-          "isExpanded": "true",
-          "questions": [
-            {
-              "label": "Depression Assessment Score",
+              "label": "Refill facility visited:",
               "type": "obs",
-              "id": "assessmentOutcome",
-              "questionOptions": {
-                "concept": "33bb96f8-e009-482a-ba68-212281780fb8",
-                "rendering": "radio",
-                "readOnly": "true",
-                "answers": [
-                  {
-                    "concept": "1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Depression unlikely"
-                  },
-                  {
-                    "concept": "157790AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Mild depression"
-                  },
-                  {
-                    "concept": "134011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Moderate depression"
-                  },
-                  {
-                    "concept": "134017AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Moderate severe depression"
-                  },
-                  {
-                    "concept": "126627AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Severe depression"
-                  }
-                ],
-                "calculate": {
-                  "calculateExpression": "getAssessmentCode(noInterest,depressed,speakingSlowly,betterDead,sleep,feelingTired,poorAppetite,troubled,feelingBad)"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "label": "Psychological First Aid",
-          "isExpanded": "true",
-          "questions": [
-            {
-              "label": "Psychological First Aid (PFA) offered?",
-              "type": "obs",
-              "required": false,
-              "id": "psychologicalFirstAidOffered",
-              "questionOptions": {
-                "rendering": "radio",
-                "concept": "63da4194-a26a-4aa5-b5d5-4125b4822cf7",
-                "answers": [
-                  {
-                    "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Yes"
-                  },
-                  {
-                    "concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "No"
-                  }
-                ]
-              },
-              "validators": [],
-              "hide": {
-                "hideWhenExpression": "isEmpty(assessmentOutcome) || assessmentOutcome === '1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-              }
-            }
-          ]
-        },
-        {
-          "label": "Referrals",
-          "isExpanded": "true",
-          "questions": [
-            {
-              "label": "Client referred? ",
-              "type": "obs",
-              "required": false,
-              "id": "clientReferred",
-              "questionOptions": {
-                "rendering": "radio",
-                "concept": "166656AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                "conceptMappings": [
-                  {
-                    "relationship": "NARROWER-THAN",
-                    "type": "SNOMED CT",
-                    "value": "309018005"
-                  },
-                  {
-                    "relationship": "SAME-AS",
-                    "type": "KenyaEMR",
-                    "value": "165093"
-                  },
-                  {
-                    "relationship": "SAME-AS",
-                    "type": "CIEL",
-                    "value": "166656"
-                  }
-                ],
-                "answers": [
-                  {
-                    "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Yes"
-                  },
-                  {
-                    "concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "No"
-                  }
-                ]
-              },
-              "validators": [],
-              "hide": {
-                "hideWhenExpression": "isEmpty(assessmentOutcome) || assessmentOutcome === '1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || assessmentOutcome === '157790AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' || psychologicalFirstAidOffered !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-              }
-            },
-            {
-              "label": "Facility referred?",
-              "type": "obs",
-              "required": true,
-              "id": "facilityReffered",
-              "questionOptions": {
-                "rendering": "radio",
-                "concept": "166636AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                "conceptMappings": [],
-                "answers": [
-                  {
-                    "concept": "163266AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "This facility"
-                  },
-                  {
-                    "concept": "164407AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Other health facility"
-                  }
-                ]
-              },
-              "validators": [],
-              "hide": {
-                "hideWhenExpression": "isEmpty(clientReferred) || clientReferred !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-              }
-            },
-            {
-              "label": "Other Facility:",
-              "type": "obs",
-              "id": "otherfacility",
+              "id": "refillFacilityName",
               "questionOptions": {
                 "concept": "162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "rendering": "text"
               },
-              "hide": {
-                "hideWhenExpression": "isEmpty(facilityReffered) || facilityReffered !== '164407AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
-              }
-            },
-            {
-              "label": "This Facility:",
-              "type": "obs",
-              "id": "thisfacility",
-              "questionOptions": {
-                "concept": "162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                "rendering": "text",
-                "calculate": {
-                  "calculateExpression": "facilityReffered === '163266AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' && userLocation.display"
+              "validators": [
+                {
+                  "type": "js_expression",
+                  "failsWhenExpression": "isEmpty(myValue) && personPresent === '159802AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'",
+                  "message": "Please specify refill facility visited"
                 }
-              },
+              ],
               "hide": {
-                "hideWhenExpression": "isEmpty(facilityReffered) || facilityReffered !== '163266AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+                "hideWhenExpression": "isEmpty(visitScheduled) || personPresent !== '159802AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
               }
             },
             {
-              "label": "Service referred for?",
-              "type": "obs",
-              "required": true,
-              "id": "serviceReferredFor",
+              "type": "appointment",
+              "questionInfo": "Location of the facility where the appointment was scheduled",
+              "label": "Location",
+              "id": "appointmentLocation1",
+              "required": "true",
               "questionOptions": {
-                "rendering": "checkbox",
-                "concept": "d7a3441d-6aeb-49be-b7d6-b2a3bb39e78d",
-                "conceptMappings": [],
+                "rendering": "remote-select",
+                "appointmentKey": "location",
+                "dataSource": "location"
+              }
+            },
+            {
+              "label": "Service",
+              "id": "service1",
+              "questionOptions": {
+                "rendering": "remote-select",
+                "appointmentKey": "service",
+                "dataSource": "services"
+              },
+              "required": "true",
+              "type": "appointment",
+              "validators": []
+            },
+            {
+              "label": "Appointment date & time",
+              "id": "appointmentDatetime1",
+              "datePickerFormat": "both",
+              "questionOptions": {
+                "placeholder": "Enter appointment date & time",
+                "rendering": "date",
+                "appointmentKey": "startDateTime"
+              },
+              "type": "appointment",
+              "validators": [],
+              "required": "true"
+            },
+            {
+              "label": "Provider",
+              "id": "provider1",
+              "questionOptions": {
+                "rendering": "remote-select",
+                "appointmentKey": "providers",
+                "dataSource": "provider"
+              },
+              "type": "appointment",
+              "validators": [],
+              "required": "true"
+            },
+            {
+              "label": "Notes",
+              "id": "appointmentNote1",
+              "questionOptions": {
+                "placeholder": "Enter appointment notes",
+                "rendering": "textarea",
+                "appointmentKey": "comments",
+                "rows": 5
+              },
+              "type": "appointment",
+              "validators": []
+            },
+            {
+              "label": "Does the client need a refill?",
+              "type": "obs",
+              "id": "rEfillReminder",
+              "required": "true",
+              "questionOptions": {
+                "concept": "63da4194-a26a-4aa5-b5d5-4125b4822cf7",
+                "rendering": "radio",
                 "answers": [
                   {
-                    "concept": "167061AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Psychiatric service"
+                    "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "label": "Yes"
                   },
                   {
-                    "concept": "163312AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Psychotherapy service "
+                    "concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "label": "No"
                   }
                 ]
               },
+              "validators": []
+            },
+            {
+              "type": "appointment",
+              "questionInfo": "Location of the facility where the appointment was scheduled",
+              "label": "Location",
+              "id": "appointmentLocation",
+              "required": "true",
+              "questionOptions": {
+                "rendering": "remote-select",
+                "appointmentKey": "location",
+                "dataSource": "location"
+              },
+              "hide": {
+                "hideWhenExpression": "isEmpty(rEfillReminder) || rEfillReminder !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+              }
+            },
+            {
+              "label": "Service",
+              "id": "service",
+              "questionOptions": {
+                "rendering": "remote-select",
+                "appointmentKey": "service",
+                "dataSource": "services"
+              },
+              "required": "true",
+              "type": "appointment",
               "validators": [],
               "hide": {
-                "hideWhenExpression": "isEmpty(clientReferred) || clientReferred !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+                "hideWhenExpression": "isEmpty(rEfillReminder) || rEfillReminder !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+              }
+            },
+            {
+              "label": "Refill Appointment date & time",
+              "id": "appointmentDatetime",
+              "datePickerFormat": "both",
+              "questionOptions": {
+                "placeholder": "Enter appointment date & time",
+                "rendering": "date",
+                "appointmentKey": "startDateTime"
+              },
+              "type": "appointment",
+              "validators": [],
+              "required": "true",
+              "hide": {
+                "hideWhenExpression": "isEmpty(rEfillReminder) || rEfillReminder !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+              }
+            },
+            {
+              "label": "Provider",
+              "id": "provider",
+              "questionOptions": {
+                "rendering": "remote-select",
+                "appointmentKey": "providers",
+                "dataSource": "provider"
+              },
+              "type": "appointment",
+              "validators": [],
+              "hide": {
+                "hideWhenExpression": "isEmpty(rEfillReminder) || rEfillReminder !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+              },
+              "required": "true"
+            },
+            {
+              "label": "Notes",
+              "id": "appointmentNote",
+              "questionOptions": {
+                "placeholder": "Enter appointment notes",
+                "rendering": "textarea",
+                "appointmentKey": "comments",
+                "rows": 5
+              },
+              "type": "appointment",
+              "validators": [],
+              "hide": {
+                "hideWhenExpression": "isEmpty(rEfillReminder) || rEfillReminder !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+              }
+            },
+            {
+              "label": "Willing to receive reminders/notifications about the appointments?",
+              "type": "obs",
+              "id": "appointmentReminder",
+              "required": "true",
+              "questionOptions": {
+                "concept": "166607AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "rendering": "radio",
+                "answers": [
+                  {
+                    "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "label": "Yes"
+                  },
+                  {
+                    "concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "label": "No"
+                  }
+                ]
+              },
+              "validators": []
+            },
+            {
+              "label": "Update client phone number?",
+              "type": "obs",
+              "id": "updateClientPhoneNumber",
+              "required": "true",
+              "questionOptions": {
+                "concept": "162189AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "rendering": "radio",
+                "answers": [
+                  {
+                    "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "label": "Yes"
+                  },
+                  {
+                    "concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "label": "No"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "personAttribute",
+              "label": "Telephone contact",
+              "questionInfo": "",
+              "id": "phoneNumber",
+              "required": "false",
+              "questionOptions": {
+                "rendering": "text",
+                "attributeType": "b2c38640-2603-4629-aebd-3b54f33f1e3a",
+                "isSimpleValue": true
+              },
+              "hide": {
+                "hideWhenExpression": "updateClientPhoneNumber !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
               }
             }
           ]
@@ -518,5 +254,5 @@
   ],
   "processor": "EncounterFormProcessor",
   "referencedForms": [],
-  "encounterType": "899d64ad-be13-4071-a879-2153847206b7"
+  "encounterType": "a0034eee-1940-4e35-847f-97537a35d05e"
 }

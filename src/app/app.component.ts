@@ -20,6 +20,7 @@ import { MockObs } from './mock/mock-obs';
 import { mockTranslationsData } from './mock/mock-translations';
 import { PatientIdentifierAdapter } from 'projects/ngx-formentry/src/form-entry/value-adapters/patient-identifier.adapter';
 import { AppointmentAdapter } from 'projects/ngx-formentry/src/form-entry/value-adapters/appointment.adapter';
+import { AppointmentSummaryService } from './appointment.service';
 
 const adultReturnVisitForm = require('./adult-1.8.json');
 const adultReturnVisitFormObs = require('./mock/obs.json');
@@ -53,7 +54,8 @@ export class AppComponent implements OnInit {
     private personAttributeAdapter: PersonAttribuAdapter,
     private patientIdenfierAdapter: PatientIdentifierAdapter,
     private appointmentsAdapter: AppointmentAdapter,
-    private patientIdentifierAdapter: PatientIdentifierAdapter
+    private patientIdentifierAdapter: PatientIdentifierAdapter,
+    private appointmentSummaryService: AppointmentSummaryService
   ) {
     this.schema = adultReturnVisitForm;
   }
@@ -91,6 +93,10 @@ export class AppComponent implements OnInit {
       searchOptions: this.sampleSearch,
       resolveSelectedValue: this.sampleResolve
     });
+    this.dataSources.registerDataSource(
+      'appointmentSummaryService',
+      this.appointmentSummaryService
+    );
 
     const ds = {
       dataSourceOptions: { concept: undefined },
@@ -424,8 +430,8 @@ export class AppComponent implements OnInit {
 
   public sampleSearch(searchText: string): Observable<any> {
     const items: Array<any> = [
-      { value: '0', label: 'Aech' },
-      { value: '5b6e58ea-1359-11df-a1f1-0026b9348838', label: 'Art3mis' },
+      { value: '885b4ad3-fd4c-4a16-8ed3-08813e6b01fR', label: 'Art3mis' },
+      { value: '885b4ad3-fd4c-4a16-8ed3-08813e6b01fa', label: 'Appointment' },
       { value: '2', label: 'Daito' },
       { value: '3', label: 'Parzival' },
       { value: '4', label: 'Shoto' }
@@ -453,7 +459,10 @@ export class AppComponent implements OnInit {
       dateAppointmentIssued: new Date().toISOString(),
       age: 37
     };
-
+    const appointmentPayload = this.appointmentsAdapter.generateFormPayload(
+      this.form
+    );
+    console.log('Appointment Payload', appointmentPayload);
     if (this.form.valid) {
       this.form.showErrors = false;
       // const payload = this.encAdapter.generateFormPayload(this.form);
