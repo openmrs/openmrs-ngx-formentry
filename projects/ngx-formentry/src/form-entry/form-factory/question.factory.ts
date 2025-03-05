@@ -59,17 +59,26 @@ export class QuestionFactory {
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.componentConfigs = schemaQuestion.componentConfigs || [];
-    question.options = schemaQuestion.questionOptions.answers.map((obj) => ({
-      label: obj.label,
-      value: obj.concept
-    }));
+    
+    // Add null checks for questionOptions and answers
+    if (schemaQuestion.questionOptions && schemaQuestion.questionOptions.answers && Array.isArray(schemaQuestion.questionOptions.answers)) {
+      question.options = schemaQuestion.questionOptions.answers.map((obj) => ({
+        label: obj.label,
+        value: obj.concept
+      }));
 
-    question.options.splice(0, 0, {
-      label: '',
-      value: ''
-    });
+      question.options.splice(0, 0, {
+        label: '',
+        value: ''
+      });
+    } else {
+      question.options = [{
+        label: '',
+        value: ''
+      }];
+    }
 
-    question.renderingType = schemaQuestion.questionOptions.rendering;
+    question.renderingType = schemaQuestion.questionOptions?.rendering || 'select';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
 
@@ -214,17 +223,23 @@ export class QuestionFactory {
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.extras = schemaQuestion;
-    question.orientation = schemaQuestion.questionOptions.orientation;
-    question.options = schemaQuestion.questionOptions.answers.map((obj) => {
-      return {
-        label: obj.label,
-        value: obj.concept,
-        disableWhenExpression: obj.disableWhenExpression
-      };
-    });
-    question.options.splice(0, 0);
+    question.orientation = schemaQuestion.questionOptions?.orientation;
+    
+    // Add null checks for questionOptions and answers
+    if (schemaQuestion.questionOptions && schemaQuestion.questionOptions.answers && Array.isArray(schemaQuestion.questionOptions.answers)) {
+      question.options = schemaQuestion.questionOptions.answers.map((obj) => {
+        return {
+          label: obj.label,
+          value: obj.concept,
+          disableWhenExpression: obj.disableWhenExpression
+        };
+      });
+      question.options.splice(0, 0);
+    } else {
+      question.options = [];
+    }
 
-    question.renderingType = schemaQuestion.questionOptions.rendering;
+    question.renderingType = schemaQuestion.questionOptions?.rendering || 'checkbox';
     const mappings = {
       label: 'label',
       required: 'required',
@@ -251,18 +266,24 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.prefix = schemaQuestion.prefix;
     question.extras = schemaQuestion;
-    question.readOnly = schemaQuestion.questionOptions.readOnly;
-    question.allowUnselect = schemaQuestion.questionOptions.allowUnselect;
-    question.orientation = schemaQuestion.questionOptions.orientation;
-    question.options = schemaQuestion.questionOptions.answers.map((obj) => {
-      return {
-        label: obj.label,
-        value: obj.concept
-      };
-    });
-    question.options.splice(0, 0);
+    question.readOnly = schemaQuestion.questionOptions?.readOnly;
+    question.allowUnselect = schemaQuestion.questionOptions?.allowUnselect;
+    question.orientation = schemaQuestion.questionOptions?.orientation;
+    
+    // Add null checks for questionOptions and answers
+    if (schemaQuestion.questionOptions && schemaQuestion.questionOptions.answers && Array.isArray(schemaQuestion.questionOptions.answers)) {
+      question.options = schemaQuestion.questionOptions.answers.map((obj) => {
+        return {
+          label: obj.label,
+          value: obj.concept
+        };
+      });
+      question.options.splice(0, 0);
+    } else {
+      question.options = [];
+    }
 
-    question.renderingType = schemaQuestion.questionOptions.rendering;
+    question.renderingType = schemaQuestion.questionOptions?.rendering || 'radio';
     const mappings = {
       label: 'label',
       required: 'required',
@@ -288,10 +309,17 @@ export class QuestionFactory {
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
-    question.options = schemaQuestion.questionOptions.answers.map((obj) => ({
-      label: obj.label,
-      value: obj.concept
-    }));
+    
+    // Add null checks for questionOptions and answers
+    if (schemaQuestion.questionOptions && schemaQuestion.questionOptions.answers && Array.isArray(schemaQuestion.questionOptions.answers)) {
+      question.options = schemaQuestion.questionOptions.answers.map((obj) => ({
+        label: obj.label,
+        value: obj.concept
+      }));
+    } else {
+      question.options = [];
+    }
+    
     question.validators = this.addValidators(schemaQuestion);
     question.dataSource = new DummyDataSource();
     question.extras = schemaQuestion;
@@ -357,6 +385,7 @@ export class QuestionFactory {
     question.placeholder = schemaQuestion.questionOptions.placeholder;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
+    question.extras.readOnly = schemaQuestion.questionOptions.readOnly;
     question.placeholder = schemaQuestion.questionOptions.placeholder || '';
     const mappings: any = {
       label: 'label',
@@ -541,15 +570,43 @@ export class QuestionFactory {
 
   toPageQuestion(schemaQuestion: any): QuestionGroup {
     const question = new QuestionGroup({ questions: [], type: '', key: '' });
-    question.label = schemaQuestion.label;
-    question.prefix = schemaQuestion.prefix;
-    question.key = schemaQuestion.label;
-    question.renderingType = 'page';
-    question.controlType = AfeControlType.None;
-    question.questions = [];
-    schemaQuestion.sections.forEach((element) => {
-      question.questions.push(this.toSectionQuestion(element));
-    });
+    
+    // Handle subform pages
+    if (schemaQuestion.isSubform && schemaQuestion.subform) {
+      question.label = schemaQuestion.subform.name || 'Subform';
+      question.prefix = schemaQuestion.subform.name || '';
+      question.key = schemaQuestion.subform.name || 'subform';
+      question.renderingType = 'page';
+      question.controlType = AfeControlType.None;
+      question.questions = [];
+      
+      // Process subform pages by extracting sections from the subform's form
+      const subformForm = schemaQuestion.subform.form;
+      if (subformForm && subformForm.pages && Array.isArray(subformForm.pages)) {
+        subformForm.pages.forEach((page) => {
+          if (page.sections && Array.isArray(page.sections)) {
+            page.sections.forEach((section) => {
+              question.questions.push(this.toSectionQuestion(section));
+            });
+          }
+        });
+      }
+    } else {
+      // Handle regular pages with sections
+      question.label = schemaQuestion.label || 'Page';
+      question.prefix = schemaQuestion.prefix || '';
+      question.key = schemaQuestion.label || 'page';
+      question.renderingType = 'page';
+      question.controlType = AfeControlType.None;
+      question.questions = [];
+      
+      if (schemaQuestion.sections && Array.isArray(schemaQuestion.sections)) {
+        schemaQuestion.sections.forEach((element) => {
+          question.questions.push(this.toSectionQuestion(element));
+        });
+      }
+    }
+    
     question.componentConfigs = schemaQuestion.componentConfigs || [];
     return question;
   }
@@ -563,9 +620,13 @@ export class QuestionFactory {
     question.controlType = AfeControlType.AfeFormGroup;
     question.extras = schemaQuestion;
     question.questions = [];
-    schemaQuestion.pages.forEach((element) => {
-      question.questions.push(this.toPageQuestion(element));
-    });
+    
+    if (schemaQuestion.pages && Array.isArray(schemaQuestion.pages)) {
+      schemaQuestion.pages.forEach((element) => {
+        question.questions.push(this.toPageQuestion(element));
+      });
+    }
+    
     question.componentConfigs = schemaQuestion.componentConfigs || [];
     return question;
   }

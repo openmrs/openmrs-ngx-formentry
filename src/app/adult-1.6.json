@@ -531,22 +531,6 @@
               "hide": {
                 "hideWhenExpression": "nhif !== 'a899e0ac-1350-11df-a1f1-0026b9348838'"
               }
-            },
-            {
-              "label": "Patient Identifier",
-              "isExpanded": "true",
-              "questions": [
-                {
-                  "label": "Unique Patient Number",
-                  "id": "uniquePatientNumber",
-                  "questionOptions": {
-                    "rendering": "text",
-                    "identifierType": "dfacd928-0370-4315-99d7-6ec1c9f7ae76"
-                  },
-                  "type": "patientIdentifier",
-                  "validators": []
-                }
-              ]
             }
           ]
         }
@@ -3395,9 +3379,7 @@
                   "type": "obs",
                   "hide": {
                     "field": "tb_current",
-                    "value": [
-                      "b8aa06ca-93c6-40ea-b144-c74f841926f4"
-                    ]
+                    "value": ["b8aa06ca-93c6-40ea-b144-c74f841926f4"]
                   },
                   "id": "__ptxCzFD2s"
                 }
@@ -7026,9 +7008,7 @@
                   "type": "obs",
                   "hide": {
                     "field": "q26f",
-                    "value": [
-                      "b8aa06ca-93c6-40ea-b144-c74f841926f4"
-                    ]
+                    "value": ["b8aa06ca-93c6-40ea-b144-c74f841926f4"]
                   },
                   "id": "__Jywyp94Lw"
                 }
@@ -8049,16 +8029,7 @@
               "questionOptions": {
                 "concept": "318a5e8b-218c-4f66-9106-cd581dec1f95",
                 "rendering": "date",
-                "weeksList": [
-                  2,
-                  4,
-                  6,
-                  8,
-                  12,
-                  16,
-                  24,
-                  36
-                ]
+                "weeksList": [2, 4, 6, 8, 12, 16, 24, 36]
               },
               "validators": [
                 {
@@ -8088,17 +8059,7 @@
               "questionOptions": {
                 "concept": "a8a666ba-1350-11df-a1f1-0026b9348838",
                 "rendering": "date",
-                "weeksList": [
-                  2,
-                  4,
-                  6,
-                  8,
-                  12,
-                  16,
-                  20,
-                  24,
-                  36
-                ]
+                "weeksList": [2, 4, 6, 8, 12, 16, 20, 24, 36]
               },
               "validators": [
                 {
@@ -8129,13 +8090,8 @@
               "type": "diagnosis",
               "questionOptions": {
                 "rendering": "repeating",
-                "rank": 1,
-                "datasource": {
-                  "name": "diagnoses",
-                  "config": {
-                    "conceptSourceUuid": "ICD-11-WHO-SOURCE-UUID"
-                  }
-                }
+                "dataSource": "diagnoses",
+                "rank": 1
               }
             }
           ]
@@ -8233,131 +8189,6 @@
                   ]
                 }
               ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "label": "Appointments",
-      "sections": [
-        {
-          "label": "Appointments",
-          "isExpanded": "true",
-          "questions": [
-            {
-              "type": "appointment",
-              "questionInfo": "Location of the facility where the appointment was scheduled",
-              "label": "Location",
-              "id": "appointmentLocation",
-              "required": "true",
-              "questionOptions": {
-                "rendering": "remote-select",
-                "appointmentKey": "location",
-                "dataSource": "location"
-              }
-            },
-            {
-              "label": "Date appointment issued",
-              "id": "dateAppointmentIssued",
-              "questionOptions": {
-                "rendering": "date",
-                "appointmentKey": "dateAppointmentScheduled"
-              },
-              "type": "appointment",
-              "validators": []
-            },
-            {
-              "label": "Service",
-              "id": "service",
-              "questionOptions": {
-                "rendering": "remote-select",
-                "appointmentKey": "service",
-                "dataSource": "services"
-              },
-              "type": "appointment",
-              "validators": []
-            },
-            {
-              "label": "Appointment type",
-              "id": "appointmentType",
-              "questionOptions": {
-                "placeholder": "Select appointment status",
-                "rendering": "select",
-                "appointmentKey": "appointmentKind",
-                "answers": [
-                  {
-                    "label": "Scheduled",
-                    "concept": "Scheduled"
-                  }
-                ]
-              },
-              "type": "appointment",
-              "validators": []
-            },
-            {
-              "label": "Appointment date & time",
-              "id": "appointmentDatetime",
-              "datePickerFormat": "both",
-              "questionOptions": {
-                "placeholder": "Enter appointment date & time",
-                "rendering": "date",
-                "appointmentKey": "startDateTime",
-                "answers": []
-              },
-              "type": "appointment",
-              "validators": []
-            },
-            {
-              "label": "Duration",
-              "id": "appointmentDuration",
-              "questionOptions": {
-                "placeholder": "Enter appointment duration",
-                "rendering": "number",
-                "appointmentKey": "duration"
-              },
-              "type": "appointment",
-              "validators": []
-            },
-            {
-              "label": "Appointment status",
-              "id": "appointmentStatus",
-              "questionOptions": {
-                "placeholder": "Select appointment status",
-                "rendering": "select",
-                "appointmentKey": "status",
-                "answers": [
-                  {
-                    "label": "Scheduled",
-                    "concept": "Scheduled"
-                  }
-                ]
-              },
-              "type": "appointment",
-              "validators": []
-            },
-            {
-              "label": "Provider",
-              "id": "provider",
-              "questionOptions": {
-                "rendering": "remote-select",
-                "appointmentKey": "providers",
-                "dataSource": "provider"
-              },
-              "type": "appointment",
-              "validators": []
-            },
-            {
-              "label": "Notes",
-              "id": "appointmentNote",
-              "questionOptions": {
-                "placeholder": "Enter appointment notes",
-                "rendering": "textarea",
-                "appointmentKey": "comments",
-                "rows": 5
-              },
-              "type": "appointment",
-              "validators": []
             }
           ]
         }

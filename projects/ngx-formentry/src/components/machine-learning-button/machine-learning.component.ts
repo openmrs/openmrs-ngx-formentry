@@ -103,7 +103,7 @@ export class MachineLearningComponent implements OnInit {
                     riskScore,
                     thresholds
                   } = this.machineLearningService.predictRisk(res);
-                  this.setRiskScore(message);
+                  this.setRiskScore(riskScore);
                   this.setAutoGenerateRiskScore(riskScore, message, thresholds);
                   this.isLoading = false;
                   // this.restoreRequiredFields();
