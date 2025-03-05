@@ -20,6 +20,7 @@ import { MockObs } from './mock/mock-obs';
 import { mockTranslationsData } from './mock/mock-translations';
 import { PatientIdentifierAdapter } from 'projects/ngx-formentry/src/form-entry/value-adapters/patient-identifier.adapter';
 import { AppointmentAdapter } from 'projects/ngx-formentry/src/form-entry/value-adapters/appointment.adapter';
+import { AppointmentSummaryService } from './appointment.service';
 
 const adultReturnVisitForm = require('./adult-1.8.json');
 const adultReturnVisitFormObs = require('./mock/obs.json');
@@ -74,7 +75,8 @@ export class AppComponent implements OnInit {
     private personAttributeAdapter: PersonAttributeAdapter,
     private patientIdenfierAdapter: PatientIdentifierAdapter,
     private appointmentsAdapter: AppointmentAdapter,
-    private patientIdentifierAdapter: PatientIdentifierAdapter
+    private patientIdentifierAdapter: PatientIdentifierAdapter,
+    private appointmentSummaryService: AppointmentSummaryService
   ) {
     this.schema = adultReturnVisitForm;
   }
@@ -112,6 +114,10 @@ export class AppComponent implements OnInit {
       searchOptions: this.sampleSearch,
       resolveSelectedValue: this.sampleResolve
     });
+    this.dataSources.registerDataSource(
+      'appointmentSummaryService',
+      this.appointmentSummaryService
+    );
 
     const ds = {
       dataSourceOptions: { concept: undefined },
@@ -299,6 +305,83 @@ export class AppComponent implements OnInit {
     });
   }
 
+  populateSampleData() {
+    // Set main form data
+    const mainFormControls = this.form.rootNode.control;
+
+    // Set visit date
+    const visitDateControl = mainFormControls.get(
+      'Visit Information.Visit Details.visit_date'
+    );
+    if (visitDateControl) {
+      visitDateControl.setValue(new Date('2016-12-01'));
+    }
+
+    // Set chief complaint
+    const chiefComplaintControl = mainFormControls.get(
+      'Visit Information.Visit Details.chief_complaint'
+    );
+    if (chiefComplaintControl) {
+      chiefComplaintControl.setValue(
+        'Patient reports chest pain and shortness of breath'
+      );
+    }
+
+    // Set subform data - Vital Signs Assessment
+    const vitalsSystolicControl = mainFormControls.get(
+      'Vital Signs Assessment.Vital Signs.Basic Measurements.vitals_bp_group.vitals_systolic'
+    );
+    if (vitalsSystolicControl) {
+      vitalsSystolicControl.setValue(140);
+    }
+
+    const vitalsDiastolicControl = mainFormControls.get(
+      'Vital Signs Assessment.Vital Signs.Basic Measurements.vitals_bp_group.vitals_diastolic'
+    );
+    if (vitalsDiastolicControl) {
+      vitalsDiastolicControl.setValue(90);
+    }
+
+    const heartRateControl = mainFormControls.get(
+      'Vital Signs Assessment.Vital Signs.Basic Measurements.vitals_heart_rate'
+    );
+    if (heartRateControl) {
+      heartRateControl.setValue(85);
+    }
+
+    const temperatureControl = mainFormControls.get(
+      'Vital Signs Assessment.Vital Signs.Basic Measurements.vitals_temperature'
+    );
+    if (temperatureControl) {
+      temperatureControl.setValue(37.2);
+    }
+
+    // Set subform data - Laboratory Tests
+    const hivTestControl = mainFormControls.get(
+      'Laboratory Tests.Lab Orders.Test Orders.hiv_test'
+    );
+    if (hivTestControl) {
+      hivTestControl.setValue('a8982474-1350-11df-a1f1-0026b9348838');
+    }
+
+    const cd4TestControl = mainFormControls.get(
+      'Laboratory Tests.Lab Orders.Test Orders.cd4_test'
+    );
+    if (cd4TestControl) {
+      cd4TestControl.setValue('a89dda72-1350-11df-a1f1-0026b9348838');
+    }
+
+    // Set subform data - Medication Review
+    const medicationListControl = mainFormControls.get(
+      'Medication Review.Medications.Current Medications.medication_list'
+    );
+    if (medicationListControl) {
+      medicationListControl.setValue(
+        'Aspirin 81mg daily, Lisinopril 10mg daily'
+      );
+    }
+  }
+
   fetchMockedTranslationsData() {
     const promise = new Promise(function (resolve, reject) {
       setTimeout(function () {
@@ -469,7 +552,7 @@ export class AppComponent implements OnInit {
 
   public onSubmit($event) {
     $event.preventDefault();
-    // Set valueProcessingInfo
+
     this.form.valueProcessingInfo = {
       patientUuid: 'patientUuid',
       visitUuid: 'visitUuid',
@@ -482,10 +565,14 @@ export class AppComponent implements OnInit {
       dateAppointmentIssued: new Date().toISOString(),
       age: 37
     };
-
     if (this.form.valid) {
       this.form.showErrors = false;
       // const payload = this.encAdapter.generateFormPayload(this.form);
+      // console.log('payload', payload);
+      // const encounterFromSubform = this.encAdapter.generateFormPayloadWithSubforms(
+      //   this.form
+      // );
+      // console.log('encounterFromSubform', encounterFromSubform);
 
       // Alternative is to populate for each as shown below
       // // generate obs payload
