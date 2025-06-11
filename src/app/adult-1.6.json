@@ -531,6 +531,22 @@
               "hide": {
                 "hideWhenExpression": "nhif !== 'a899e0ac-1350-11df-a1f1-0026b9348838'"
               }
+            },
+            {
+              "label": "Patient Identifier",
+              "isExpanded": "true",
+              "questions": [
+                {
+                  "label": "Unique Patient Number",
+                  "id": "uniquePatientNumber",
+                  "questionOptions": {
+                    "rendering": "text",
+                    "identifierType": "dfacd928-0370-4315-99d7-6ec1c9f7ae76"
+                  },
+                  "type": "patientIdentifier",
+                  "validators": []
+                }
+              ]
             }
           ]
         }
