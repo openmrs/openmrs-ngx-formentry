@@ -536,6 +536,7 @@ export class AppComponent implements OnInit {
       dateAppointmentIssued: new Date().toISOString(),
       age: 37
     };
+
     if (this.form.valid) {
       this.form.showErrors = false;
       // const payload = this.encAdapter.generateFormPayload(this.form);
