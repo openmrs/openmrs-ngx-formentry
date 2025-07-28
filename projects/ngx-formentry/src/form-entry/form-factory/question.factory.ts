@@ -41,8 +41,8 @@ export class QuestionFactory {
   dataSources: any = {};
   historicalHelperService: HistoricalHelperService = new HistoricalHelperService();
   quetionIndex = 0;
-  checkedForEsmPatientCommonLib = false;
-  constructor() { }
+  checkedForEsmFramework = false;
+  constructor() {}
 
   createQuestionModel(formSchema: any, form?: Form): QuestionBase {
     if (form) {
@@ -59,9 +59,13 @@ export class QuestionFactory {
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
     question.componentConfigs = schemaQuestion.componentConfigs || [];
-    
+
     // Add null checks for questionOptions and answers
-    if (schemaQuestion.questionOptions && schemaQuestion.questionOptions.answers && Array.isArray(schemaQuestion.questionOptions.answers)) {
+    if (
+      schemaQuestion.questionOptions &&
+      schemaQuestion.questionOptions.answers &&
+      Array.isArray(schemaQuestion.questionOptions.answers)
+    ) {
       question.options = schemaQuestion.questionOptions.answers.map((obj) => ({
         label: obj.label,
         value: obj.concept
@@ -72,13 +76,16 @@ export class QuestionFactory {
         value: ''
       });
     } else {
-      question.options = [{
-        label: '',
-        value: ''
-      }];
+      question.options = [
+        {
+          label: '',
+          value: ''
+        }
+      ];
     }
 
-    question.renderingType = schemaQuestion.questionOptions?.rendering || 'select';
+    question.renderingType =
+      schemaQuestion.questionOptions?.rendering || 'select';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
 
@@ -224,9 +231,13 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.extras = schemaQuestion;
     question.orientation = schemaQuestion.questionOptions?.orientation;
-    
+
     // Add null checks for questionOptions and answers
-    if (schemaQuestion.questionOptions && schemaQuestion.questionOptions.answers && Array.isArray(schemaQuestion.questionOptions.answers)) {
+    if (
+      schemaQuestion.questionOptions &&
+      schemaQuestion.questionOptions.answers &&
+      Array.isArray(schemaQuestion.questionOptions.answers)
+    ) {
       question.options = schemaQuestion.questionOptions.answers.map((obj) => {
         return {
           label: obj.label,
@@ -239,7 +250,8 @@ export class QuestionFactory {
       question.options = [];
     }
 
-    question.renderingType = schemaQuestion.questionOptions?.rendering || 'checkbox';
+    question.renderingType =
+      schemaQuestion.questionOptions?.rendering || 'checkbox';
     const mappings = {
       label: 'label',
       required: 'required',
@@ -269,9 +281,13 @@ export class QuestionFactory {
     question.readOnly = schemaQuestion.questionOptions?.readOnly;
     question.allowUnselect = schemaQuestion.questionOptions?.allowUnselect;
     question.orientation = schemaQuestion.questionOptions?.orientation;
-    
+
     // Add null checks for questionOptions and answers
-    if (schemaQuestion.questionOptions && schemaQuestion.questionOptions.answers && Array.isArray(schemaQuestion.questionOptions.answers)) {
+    if (
+      schemaQuestion.questionOptions &&
+      schemaQuestion.questionOptions.answers &&
+      Array.isArray(schemaQuestion.questionOptions.answers)
+    ) {
       question.options = schemaQuestion.questionOptions.answers.map((obj) => {
         return {
           label: obj.label,
@@ -283,7 +299,8 @@ export class QuestionFactory {
       question.options = [];
     }
 
-    question.renderingType = schemaQuestion.questionOptions?.rendering || 'radio';
+    question.renderingType =
+      schemaQuestion.questionOptions?.rendering || 'radio';
     const mappings = {
       label: 'label',
       required: 'required',
@@ -309,9 +326,13 @@ export class QuestionFactory {
     question.label = schemaQuestion.label;
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.id;
-    
+
     // Add null checks for questionOptions and answers
-    if (schemaQuestion.questionOptions && schemaQuestion.questionOptions.answers && Array.isArray(schemaQuestion.questionOptions.answers)) {
+    if (
+      schemaQuestion.questionOptions &&
+      schemaQuestion.questionOptions.answers &&
+      Array.isArray(schemaQuestion.questionOptions.answers)
+    ) {
       question.options = schemaQuestion.questionOptions.answers.map((obj) => ({
         label: obj.label,
         value: obj.concept
@@ -319,7 +340,7 @@ export class QuestionFactory {
     } else {
       question.options = [];
     }
-    
+
     question.validators = this.addValidators(schemaQuestion);
     question.dataSource = new DummyDataSource();
     question.extras = schemaQuestion;
@@ -570,7 +591,7 @@ export class QuestionFactory {
 
   toPageQuestion(schemaQuestion: any): QuestionGroup {
     const question = new QuestionGroup({ questions: [], type: '', key: '' });
-    
+
     // Handle subform pages
     if (schemaQuestion.isSubform && schemaQuestion.subform) {
       question.label = schemaQuestion.subform.name || 'Subform';
@@ -579,10 +600,14 @@ export class QuestionFactory {
       question.renderingType = 'page';
       question.controlType = AfeControlType.None;
       question.questions = [];
-      
+
       // Process subform pages by extracting sections from the subform's form
       const subformForm = schemaQuestion.subform.form;
-      if (subformForm && subformForm.pages && Array.isArray(subformForm.pages)) {
+      if (
+        subformForm &&
+        subformForm.pages &&
+        Array.isArray(subformForm.pages)
+      ) {
         subformForm.pages.forEach((page) => {
           if (page.sections && Array.isArray(page.sections)) {
             page.sections.forEach((section) => {
@@ -599,14 +624,14 @@ export class QuestionFactory {
       question.renderingType = 'page';
       question.controlType = AfeControlType.None;
       question.questions = [];
-      
+
       if (schemaQuestion.sections && Array.isArray(schemaQuestion.sections)) {
         schemaQuestion.sections.forEach((element) => {
           question.questions.push(this.toSectionQuestion(element));
         });
       }
     }
-    
+
     question.componentConfigs = schemaQuestion.componentConfigs || [];
     return question;
   }
@@ -620,13 +645,13 @@ export class QuestionFactory {
     question.controlType = AfeControlType.AfeFormGroup;
     question.extras = schemaQuestion;
     question.questions = [];
-    
+
     if (schemaQuestion.pages && Array.isArray(schemaQuestion.pages)) {
       schemaQuestion.pages.forEach((element) => {
         question.questions.push(this.toPageQuestion(element));
       });
     }
-    
+
     question.componentConfigs = schemaQuestion.componentConfigs || [];
     return question;
   }
@@ -649,8 +674,8 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () { },
-      resolveFunction: function () { }
+      searchFunction: function () {},
+      resolveFunction: function () {}
     });
     question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
@@ -681,8 +706,8 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () { },
-      resolveFunction: function () { }
+      searchFunction: function () {},
+      resolveFunction: function () {}
     });
     question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
@@ -719,8 +744,8 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () { },
-      resolveFunction: function () { }
+      searchFunction: function () {},
+      resolveFunction: function () {}
     });
     question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
@@ -751,8 +776,8 @@ export class QuestionFactory {
       options: [],
       type: '',
       key: '',
-      searchFunction: function () { },
-      resolveFunction: function () { }
+      searchFunction: function () {},
+      resolveFunction: function () {}
     });
     question.questionIndex = this.quetionIndex;
     question.label = schemaQuestion.label;
@@ -949,18 +974,17 @@ export class QuestionFactory {
   }
 
   toWorkspaceLauncher(schemaQuestion: any): WorkspaceLauncherQuestion {
-    if (!this.checkedForEsmPatientCommonLib) {
-      this.checkedForEsmPatientCommonLib = true;
-      if (!window['_openmrs_esm_patient_common_lib']) {
+    if (!this.checkedForEsmFramework) {
+      this.checkedForEsmFramework = true;
+      if (!window['_openmrs_esm_framework']) {
         console.error(
-          "@openmrs/esm-patient-common-lib is not accessible. The 'workspace-launcher' question type can only be used in the context of the O3 patient chart, where the workspace is."
+          "@openmrs/esm-framework is not accessible. The 'workspace-launcher' question type can only be used in the context of the O3 patient chart, where the workspace is."
         );
       } else if (
-        typeof window['_openmrs_esm_patient_common_lib']
-          .launchPatientWorkspace !== 'function'
+        typeof window['_openmrs_esm_framework'].launchWorkspace !== 'function'
       ) {
         console.error(
-          '@openmrs/esm-patient-common-lib is accessible, but the `launchPatientWorkspace` function is missing. It is likely that the version of @openmrs/esm-patient-common-lib that is being used is not compatible with this version of ngx-formentry.'
+          '@openmrs/esm-framework is accessible, but the `launchWorkspace` function is missing. It is likely that the version of @openmrs/esm-framework that is being used is not compatible with this version of ngx-formentry.'
         );
       }
     }
@@ -970,7 +994,8 @@ export class QuestionFactory {
       label: schemaQuestion.label,
       buttonLabel: schemaQuestion.questionOptions.buttonLabel,
       buttonType: schemaQuestion.questionOptions.buttonType,
-      workspaceName: schemaQuestion.questionOptions.workspaceName
+      workspaceName: schemaQuestion.questionOptions.workspaceName,
+      additionalProps: schemaQuestion.questionOptions?.additionalProps ?? {}
     });
     question.questionIndex = this.quetionIndex;
     question.extras = schemaQuestion;
@@ -1355,7 +1380,7 @@ export class QuestionFactory {
       //if resetValueOnDisable doesn't exist on the config or no value is provided the default value will be passed (true)
       question.resetValueOnDisable =
         !schemaQuestion.hasOwnProperty('resetValueOnDisable') ||
-          this.isEmpty(schemaQuestion.resetValueOnDisable)
+        this.isEmpty(schemaQuestion.resetValueOnDisable)
           ? true
           : schemaQuestion.resetValueOnDisable;
     }
