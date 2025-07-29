@@ -9,11 +9,13 @@ export class WorkspaceLauncherComponent {
   @Input() public buttonLabel: string;
   @Input() public buttonType: string;
   @Input() public workspaceName: string;
+  @Input() public additionalProps: Record<string, unknown>;
 
   public handleClick() {
     // We check that this is defined in question.factory.ts `toWorkspaceLauncher`
-    window['_openmrs_esm_patient_common_lib'].launchPatientWorkspace(
-      this.workspaceName
+    window['_openmrs_esm_framework'].launchWorkspace(
+      this.workspaceName,
+      this.additionalProps ?? {}
     );
   }
 }

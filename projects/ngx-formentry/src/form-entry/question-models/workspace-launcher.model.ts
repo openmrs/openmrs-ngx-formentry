@@ -6,6 +6,7 @@ export class WorkspaceLauncherQuestion extends QuestionBase {
   buttonLabel: string;
   buttonType: string;
   workspaceName: string;
+  additionalProps: Record<string, unknown>;
 
   constructor(options: WorkspaceLauncherOptions) {
     super(options);
@@ -14,6 +15,7 @@ export class WorkspaceLauncherQuestion extends QuestionBase {
     this.buttonLabel = options.buttonLabel || '';
     this.buttonType = options.buttonType || 'primary';
     this.workspaceName = options.workspaceName || 'order-basket';
+    this.additionalProps = options.additionalProps || {};
     this.controlType = AfeControlType.AfeFormControl;
   }
 }
