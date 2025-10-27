@@ -100,8 +100,7 @@ export class ValidationFactory {
 
     if (
       question.required &&
-      typeof question.required === 'string' &&
-      question.required === 'true'
+      (question.required === true || question.required === 'true')
     ) {
       list.push(this.requiredValidator);
     } else {
