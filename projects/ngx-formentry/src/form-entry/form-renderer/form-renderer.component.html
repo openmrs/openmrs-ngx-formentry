@@ -307,7 +307,7 @@
     </path>
     <title>Warning alt filled</title>
   </svg>
-  {{ node.control.alert | translate }}
+  <span [innerHTML]="getAlertMessage()"></span>
 </label>
 
 <div *ngIf="node.question.controlType === 1" [hidden]="node.control.hidden"

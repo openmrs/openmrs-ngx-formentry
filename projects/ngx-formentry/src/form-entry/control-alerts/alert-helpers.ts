@@ -1,4 +1,6 @@
 import { CanGenerateAlert, Alert } from './can-generate-alert';
+import { SafeHtml } from '@angular/platform-browser';
+
 export class AlertHelper {
   public hideAlert(control: Alert) {
     control.shown = false;
@@ -18,7 +20,7 @@ export class AlertHelper {
   }
 
   public evaluateControlAlerts(control: CanGenerateAlert) {
-    let messageValue = '';
+    let messageValue: string | SafeHtml = '';
     control.alerts.forEach((message) => {
       message.reEvaluateAlertExpression();
       if (message.shown === true) {

@@ -33,7 +33,7 @@ export class AfeFormGroup
 
   hidden: false;
   hiders: Hider[];
-  alert: string;
+  alert: string | any;
   alerts: Alert[];
 
   disablers: Disabler[];
