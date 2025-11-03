@@ -181,6 +181,19 @@ export class AppComponent implements OnInit {
     // Create form
     this.createForm();
 
+    this.form.valueProcessingInfo = {
+      patientUuid: '00357841-034d-49a5-9c53-b94bc3626eb2',
+      visitUuid: 'visitUuid',
+      encounterTypeUuid: 'encounterTypeUuid',
+      formUuid: 'formUuid',
+      encounterUuid: 'encounterUuid',
+      providerUuid: 'providerUuid',
+      utcOffset: '+0300',
+      locationUuid: 'some-location-uuid',
+      dateAppointmentIssued: new Date().toISOString(),
+      age: 37
+    };
+
     // Set encounter, obs, orders
     adultReturnVisitFormObs.orders = formOrdersPayload.orders;
     this.encAdapter.populateForm(this.form, adultReturnVisitFormObs);
@@ -263,6 +276,12 @@ export class AppComponent implements OnInit {
       this.schema,
       this.dataSources.dataSources
     );
+
+    // Ensure patientUuid is set at form creation so concept reference ranges can be fetched
+    this.form.valueProcessingInfo = {
+      ...(this.form.valueProcessingInfo || {}),
+      patientUuid: '00357841-034d-49a5-9c53-b94bc3626eb2'
+    };
 
     // Get concepts with no label
     const concepts = this.traverseForUnlabeledConcepts(this.form.rootNode);
@@ -525,7 +544,7 @@ export class AppComponent implements OnInit {
     $event.preventDefault();
 
     this.form.valueProcessingInfo = {
-      patientUuid: 'patientUuid',
+      patientUuid: '00357841-034d-49a5-9c53-b94bc3626eb2',
       visitUuid: 'visitUuid',
       encounterTypeUuid: 'encounterTypeUuid',
       formUuid: 'formUuid',

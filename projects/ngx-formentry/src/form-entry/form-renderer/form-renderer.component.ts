@@ -8,6 +8,7 @@ import {
   TemplateRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 import * as _ from 'lodash';
 
 import { DataSources } from '../data-sources/data-sources';
@@ -19,6 +20,7 @@ import { FormErrorsService } from '../services/form-errors.service';
 import { QuestionGroup } from '../question-models/group-question';
 import { ValidationErrors } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'ofe-form-renderer',
@@ -53,7 +55,8 @@ export class FormRendererComponent implements OnInit, OnChanges {
     private dataSources: DataSources,
     private formErrorsService: FormErrorsService,
     public translate: TranslateService,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    private sanitizer: DomSanitizer
   ) {
     this.activeTab = 0;
   }
@@ -322,5 +325,25 @@ export class FormRendererComponent implements OnInit, OnChanges {
     const questionGroup: QuestionGroup = this.node.form.rootNode
       .question as QuestionGroup;
     return questionGroup.questions.indexOf(node.question);
+  }
+
+  getAlertMessage(): string | SafeHtml | null {
+    if (!this.node.control || !this.node.control.alert) {
+      return null;
+    }
+    const alert = this.node.control.alert;
+    // If alert is already a SafeHtml object (from bypassSecurityTrustHtml), return it as is
+    if (
+      typeof alert === 'object' &&
+      'changingThisBreaksApplicationSecurity' in alert
+    ) {
+      return alert as SafeHtml;
+    }
+    // Translate and sanitize if the translated message contains HTML
+    const translated = this.translate.instant(alert as string);
+    if (translated && translated.includes('<')) {
+      return this.sanitizer.bypassSecurityTrustHtml(translated);
+    }
+    return translated;
   }
 }

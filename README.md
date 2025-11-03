@@ -84,6 +84,91 @@ Here, `node` refers to the form's rootNode, and `labelMap` is an object that map
 - Sample data is loaded and injected into the form (via data sources).
 - Translations and concepts get resolved.
 
+### Creating sub-forms (small example)
+
+Sub-forms let you embed another form inside a parent form and have it rendered as its own page. This library will also generate separate encounter payloads for sub-forms when requested.
+
+1) Add a sub-form page in your parent schema using `isSubform: true` and an embedded `subform.form`:
+
+```json
+{
+  "name": "Parent Form",
+  "pages": [
+    {
+      "label": "Main",
+      "sections": [
+        {
+          "label": "Basics",
+          "questions": [
+            {
+              "label": "Visit Date",
+              "type": "encounterDatetime",
+              "questionOptions": { "rendering": "date" },
+              "id": "visit_date"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "isSubform": true,
+      "subform": {
+        "name": "Vitals",
+        "package": "clinical",
+        "form": {
+          "name": "Vitals",
+          "pages": [
+            {
+              "label": "Vitals Page",
+              "sections": [
+                {
+                  "label": "Measurements",
+                  "questions": [
+                    {
+                      "label": "Temperature",
+                      "type": "obs",
+                      "questionOptions": {
+                        "rendering": "number",
+                        "concept": "5088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                      },
+                      "id": "vitals_temperature"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "processor": "EncounterFormProcessor",
+          "uuid": "11111111-1111-1111-1111-111111111111",
+          "encounterType": "67a71486-1a54-468f-ac3e-7091a9a79584",
+          "version": "1.0.0"
+        }
+      }
+    }
+  ],
+  "processor": "EncounterFormProcessor",
+  "uuid": "22222222-2222-2222-2222-222222222222",
+  "encounterType": "dd528487-82a5-4082-9c72-ed246bd49591",
+  "version": "1.0.0"
+}
+```
+
+2) Render as usual via `<ofe-form-renderer>`; the sub-form appears as its own page.
+
+3) Generate payloads. To get one payload for the parent only, use the regular encounter adapter. To get multiple payloads (parent + one per sub-form encounter type), call:
+
+```ts
+import { EncounterAdapter } from '@openmrs/ngx-formentry';
+
+// encounters[0] is the main form encounter; subsequent items are sub-form encounters
+const encounters = new EncounterAdapter(null as any, null as any, null as any)
+  .generateFormPayloadWithSubforms(form);
+```
+
+Notes:
+- Each sub-form should include its own `encounterType` and `form.uuid`.
+- The library automatically filters obs/orders/diagnoses into the correct encounter payload when using `generateFormPayloadWithSubforms`.
+
 ## Development
 
 To build the library, run:

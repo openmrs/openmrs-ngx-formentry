@@ -502,7 +502,7 @@
     ></path>
     <title>Warning alt filled</title>
   </svg>
-  {{ node.control.alert | translate }}
+  <span [innerHTML]="getAlertMessage()"></span>
 </label>
 
 <div
