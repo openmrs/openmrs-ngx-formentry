@@ -1,8 +1,9 @@
 import { Observable } from 'rxjs';
+import { SafeHtml } from '@angular/platform-browser';
 
 export interface CanGenerateAlert {
   alerts: Alert[];
-  alert: string;
+  alert: string | SafeHtml;
   valueChanges?: Observable<any>;
   setAlertFn(newMessage: Alert);
   clearMessageFns();
@@ -12,7 +13,7 @@ export interface CanGenerateAlert {
 export interface Alert {
   shown: boolean;
   alertWhenExpression: string;
-  alertMessage: string;
+  alertMessage: string | SafeHtml;
   reEvaluateAlertExpression: EvaluateExpressionFn;
 }
 

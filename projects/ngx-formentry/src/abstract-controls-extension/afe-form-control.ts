@@ -41,7 +41,7 @@ class AfeFormControl
 
   hidden = false;
   hiders: Hider[];
-  alert: string;
+  alert: string | any;
   alerts: Alert[];
   calculator: Function;
   disablers: Disabler[];
