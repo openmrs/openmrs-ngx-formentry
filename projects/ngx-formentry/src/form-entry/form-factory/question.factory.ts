@@ -117,6 +117,9 @@ export class QuestionFactory {
     question.placeholder = schemaQuestion.questionOptions.placeholder;
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
+    const readOnlyValue = schemaQuestion.questionOptions?.readOnly;
+    question.readOnly = readOnlyValue;
+    question.extras.readOnly = readOnlyValue;
     question.placeholder = schemaQuestion.questionOptions.placeholder || '';
     question.componentConfigs = schemaQuestion.componentConfigs || [];
     const mappings: any = {
@@ -146,6 +149,9 @@ export class QuestionFactory {
     question.renderingType = 'number';
     question.placeholder = schemaQuestion.questionOptions.placeholder || '';
     question.extras = schemaQuestion;
+    const readOnlyValue = schemaQuestion.questionOptions?.readOnly;
+    question.readOnly = readOnlyValue;
+    question.extras.readOnly = readOnlyValue;
     question.componentConfigs = schemaQuestion.componentConfigs || [];
 
     const mappings: any = {
@@ -547,6 +553,9 @@ export class QuestionFactory {
     } else if (schemaQuestion.type === 'diagnosis') {
       const diagnosisQuestion = this.toDiagnosisQuestion(schemaQuestion);
       question.questions = [diagnosisQuestion];
+    } else if (schemaQuestion.type === 'remote-select') {
+      const remoteSelectQuestion = this.toRemoteSelectQuestion(schemaQuestion);
+      question.questions = [remoteSelectQuestion];
     }
 
     const mappings: any = {
@@ -632,6 +641,10 @@ export class QuestionFactory {
       }
     }
 
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
     question.componentConfigs = schemaQuestion.componentConfigs || [];
     return question;
   }
@@ -956,6 +969,9 @@ export class QuestionFactory {
     question.key = schemaQuestion.id;
     question.placeholder = schemaQuestion.questionOptions.placeholder || '';
     question.extras = schemaQuestion;
+    const readOnlyValue = schemaQuestion.questionOptions?.readOnly;
+    question.readOnly = readOnlyValue;
+    question.extras.readOnly = readOnlyValue;
 
     const mappings = {
       label: 'label',

@@ -34,7 +34,6 @@ export class ConceptReferenceRangeService {
     patientUuid: string,
     conceptUuid: string
   ): Observable<ConceptReferenceRangeItem | null> {
-    console.log('getReferenceRange', patientUuid, conceptUuid);
 
     const cacheKey = `${patientUuid}::${conceptUuid}`;
     if (this.cache.has(cacheKey)) {

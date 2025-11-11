@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { Alert } from '../control-alerts/can-generate-alert';
 import { AlertsFactory } from './show-messages.factory';
@@ -14,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
 describe('Show Messages Factory:', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [AlertsFactory, ExpressionRunner, JsExpressionHelper]
     });
   });
