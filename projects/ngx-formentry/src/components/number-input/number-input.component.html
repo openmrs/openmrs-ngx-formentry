@@ -29,6 +29,7 @@
       [attr.minlength]="minlength"
       [attr.step]="step"
       [disabled]="disabled"
+      [attr.readonly]="readOnly ? true : null"
       [required]="required"
       [attr.data-invalid]="invalid ? invalid : null"
       [placeholder]="placeholder"
@@ -52,6 +53,7 @@
         class="cds--number__control-btn down-icon"
         (click)="onDecrement()"
         title="Decrement number"
+        [disabled]="disabled || readOnly"
         [attr.aria-label]="decrementLabel"
         tabindex="-1"
       >
@@ -75,6 +77,7 @@
         class="cds--number__control-btn up-icon"
         (click)="onIncrement()"
         title="Increment number"
+        [disabled]="disabled || readOnly"
         [attr.aria-label]="incrementLabel"
         tabindex="-1"
       >

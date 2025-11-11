@@ -168,4 +168,24 @@ describe('NumberInputComponent', () => {
     );
     expect(invalidText.textContent).toBe('Min value should be 10');
   });
+
+  it('should respect the readOnly state and prevent updates', () => {
+    component.value = 10;
+    (component as any).readOnly = 'true';
+
+    fixture.detectChanges();
+
+    expect(inputElement.getAttribute('readonly')).toBe('true');
+    expect(incrementButton.disabled).toBe(true);
+    expect(decrementButton.disabled).toBe(true);
+
+    incrementButton.click();
+    decrementButton.click();
+    fixture.detectChanges();
+
+    expect(component.value).toBe(10);
+
+    component.onNumberInputChange({ target: { value: 20 } });
+    expect(component.value).toBe(10);
+  });
 });

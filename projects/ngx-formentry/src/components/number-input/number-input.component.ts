@@ -112,6 +112,19 @@ export class NumberInputComponent implements ControlValueAccessor {
    */
   @Input() helperText: string | TemplateRef<any>;
   /**
+   * Set to `true` for a read-only number input.
+   */
+  private _readOnly = false;
+
+  @Input()
+  set readOnly(value: boolean | string) {
+    this._readOnly = this.coerceBooleanProperty(value);
+  }
+
+  get readOnly(): boolean {
+    return this._readOnly;
+  }
+  /**
    * Sets the invalid text.
    */
   @Input() invalidText: string | TemplateRef<any>;
@@ -202,6 +215,10 @@ export class NumberInputComponent implements ControlValueAccessor {
    * Adds `step` to the current `value`.
    */
   onIncrement(): void {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
+
     const val = this._value || 0;
 
     if (this.max === null || val + this.step <= this.max) {
@@ -222,6 +239,10 @@ export class NumberInputComponent implements ControlValueAccessor {
    * Subtracts `step` to the current `value`.
    */
   onDecrement(): void {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
+
     const val = this._value || 0;
 
     if (this.min === null || val - this.step >= this.min) {
@@ -251,11 +272,23 @@ export class NumberInputComponent implements ControlValueAccessor {
   }
 
   onNumberInputChange(event) {
+    if (this.readOnly) {
+      return;
+    }
+
     this.value = event.target.value;
     this.emitChangeEvent();
   }
 
   public isTemplate(value) {
     return value instanceof TemplateRef;
+  }
+
+  private coerceBooleanProperty(value: any): boolean {
+    if (typeof value === 'string') {
+      return value.toLowerCase() === 'true';
+    }
+
+    return !!value;
   }
 }

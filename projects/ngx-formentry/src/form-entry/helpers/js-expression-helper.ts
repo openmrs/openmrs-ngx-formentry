@@ -223,6 +223,10 @@ export class JsExpressionHelper {
   }
 
   arrayContains(array, members) {
+    if (array === null || array === undefined) {
+      return false;
+    }
+
     if (Array.isArray(members)) {
       if (members.length === 0) {
         return true;
@@ -273,6 +277,10 @@ export class JsExpressionHelper {
   }
 
   arrayContainsAny(array, members) {
+    if (array === null || array === undefined) {
+      return false;
+    }
+
     if (Array.isArray(members)) {
       if (members.length === 0) {
         return true;
@@ -400,6 +408,183 @@ export class JsExpressionHelper {
     return obsValue;
   }
 
+  // -------- Triage Early Warning Score (TEWS): South African model --------
+
+  calcSouthAfricanTEWS(
+    age: number | null,
+    heightCm: number | null,
+    respRate: number | null,
+    heartRate: number | null,
+    temperature: number | null,
+    systolicBP: number | null,
+    avpuLevelChild?: string | null,
+    avpuLevelAdult?: string | null,
+    mobilityChild?: string | null,
+    mobilityAdult?: string | null,
+    trauma?: string | null
+  ) {
+    const UUID = {
+      ROUTINE: '1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      URGENT: '1883AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      VERY_URGENT: '159409AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      EMERGENCY: '1882AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      TRAUMA_YES: '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+    };
+
+    const isValid = (num: any): boolean =>
+      num !== null && num !== undefined && num !== '' && !isNaN(num);
+
+    const isValidCode = (val: any): boolean =>
+      typeof val === 'string' && val.trim().length > 0;
+
+    const hasAnyInput =
+      [respRate, heartRate, temperature, systolicBP].some(isValid) ||
+      [
+        avpuLevelChild,
+        avpuLevelAdult,
+        mobilityChild,
+        mobilityAdult,
+        trauma
+      ].some(isValidCode);
+
+    if (!hasAnyInput) {
+      return {
+        score: 0,
+        priority: UUID.ROUTINE,
+        category: 'UNKNOWN'
+      };
+    }
+    // Determine patient category
+    const determineCategory = (): string => {
+      if (isValid(heightCm)) {
+        if (heightCm < 95) return 'YOUNGER_CHILD';
+        if (heightCm <= 150) return 'OLDER_CHILD';
+      } else if (isValid(age)) {
+        if (age < 3) return 'YOUNGER_CHILD';
+        if (age <= 12) return 'OLDER_CHILD';
+      }
+      return 'ADULT';
+    };
+
+    const category = determineCategory();
+    let score = 0;
+
+    // AVPU (Alert, Voice, Pain, Unresponsive)
+    const avpuScore = (val: string | null | undefined): number => {
+      const map: Record<string, number> = {
+        '160282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 0, // Alert
+        '162645AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 1, // Voice
+        '162644AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 2, // Pain
+        '120345AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 2, // Confused
+        '159508AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 3 // Unresponsive
+      };
+      return map[val ?? ''] ?? 0;
+    };
+
+    // Mobility scoring
+    const mobilityScore = (val: string | null | undefined): number => {
+      const map: Record<string, number> = {
+        '162750AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 0, // Walking
+        '1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 0, // Normal for age
+        '162751AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 1, // Assisted
+        '162752AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 2, // Immobile
+        'ebdcb8b4-8089-422c-a636-f8aeb44e6eed': 2 // Unable to move
+      };
+      return map[val ?? ''] ?? 0;
+    };
+
+    // Scoring per Category
+    switch (category) {
+      case 'YOUNGER_CHILD':
+        if (isValid(respRate)) {
+          if (respRate < 20) score += 3;
+          else if (respRate <= 25) score += 2;
+          else if (respRate <= 39) score += 0;
+          else if (respRate <= 49) score += 2;
+          else score += 3;
+        }
+        if (isValid(heartRate)) {
+          if (heartRate < 70) score += 3;
+          else if (heartRate <= 79) score += 2;
+          else if (heartRate <= 130) score += 0;
+          else if (heartRate <= 159) score += 2;
+          else score += 3;
+        }
+        if (isValid(temperature)) {
+          if (temperature < 35 || temperature > 38.4) score += 2;
+        }
+        score += avpuScore(avpuLevelChild);
+        score += mobilityScore(mobilityChild);
+        if (trauma === UUID.TRAUMA_YES) score += 1;
+        break;
+
+      case 'OLDER_CHILD':
+        if (isValid(respRate)) {
+          if (respRate < 15) score += 3;
+          else if (respRate <= 16) score += 2;
+          else if (respRate <= 21) score += 0;
+          else if (respRate <= 26) score += 1;
+          else score += 2;
+        }
+        if (isValid(heartRate)) {
+          if (heartRate < 60) score += 3;
+          else if (heartRate <= 79) score += 2;
+          else if (heartRate <= 99) score += 0;
+          else if (heartRate <= 129) score += 1;
+          else score += 2;
+        }
+        if (isValid(temperature)) {
+          if (temperature < 35 || temperature > 38.4) score += 2;
+        }
+        score += avpuScore(avpuLevelChild);
+        score += mobilityScore(mobilityChild);
+        if (trauma === UUID.TRAUMA_YES) score += 1;
+        break;
+
+      case 'ADULT':
+        if (isValid(respRate)) {
+          if (respRate < 9) score += 2;
+          else if (respRate <= 14) score += 0;
+          else if (respRate <= 20) score += 1;
+          else if (respRate <= 29) score += 2;
+          else score += 3;
+        }
+        if (isValid(heartRate)) {
+          if (heartRate < 41) score += 2;
+          else if (heartRate <= 50) score += 1;
+          else if (heartRate <= 100) score += 0;
+          else if (heartRate <= 110) score += 1;
+          else if (heartRate <= 129) score += 2;
+          else score += 3;
+        }
+        if (isValid(temperature)) {
+          if (temperature < 35 || temperature > 38.4) score += 2;
+        }
+        if (isValid(systolicBP)) {
+          if (systolicBP < 71) score += 3;
+          else if (systolicBP <= 80) score += 2;
+          else if (systolicBP <= 100) score += 1;
+          else if (systolicBP > 199) score += 2;
+        }
+        score += avpuScore(avpuLevelAdult);
+        score += mobilityScore(mobilityAdult);
+        if (trauma === UUID.TRAUMA_YES) score += 1;
+        break;
+    }
+
+    // Priority Mapping
+    const priority =
+      score >= 7
+        ? UUID.EMERGENCY
+        : score >= 5
+        ? UUID.VERY_URGENT
+        : score >= 3
+        ? UUID.URGENT
+        : UUID.ROUTINE;
+
+    return { score, priority, category };
+  }
+
   get helperFunctions() {
     const helper = this;
     return {
@@ -418,7 +603,8 @@ export class JsExpressionHelper {
       fetchData: helper.fetchData,
       calculateZNutritionScore: helper.calculateZNutritionScore,
       getObsValue: helper.getObsValue,
-      getAssessmentCode: getAssessmentCode
+      getAssessmentCode: getAssessmentCode,
+      calcSouthAfricanTEWS: helper.calcSouthAfricanTEWS
     };
   }
 }

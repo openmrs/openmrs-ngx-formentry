@@ -269,7 +269,25 @@ export class ControlRelationsFactory {
         }
       }
 
-      if (questionBase.alert && typeof questionBase.alert === 'object') {
+      /**
+       * ALERT RELATIONS
+       *
+       * Previously, any control with an `alert` object was treated as related to
+       * *all* other controls. This caused calculated fields with alerts
+       * (e.g. TEWS score) to be recalculated whenever *any* control in the form
+       * changed – including unrelated controls like repeating complaint groups.
+       *
+       * To avoid this, we now only treat alerts as creating a relation when
+       * we are evaluating relations within the same node context (i.e. when
+       * `nodeBase` is provided). Cross‑array relations (where `nodeBase` is
+       * not passed, e.g. in `createRelationsToArrayControls`) will no longer
+       * be triggered solely by the presence of an `alert` configuration.
+       */
+      if (
+        nodeBase &&
+        questionBase.alert &&
+        typeof questionBase.alert === 'object'
+      ) {
         hasRelation = true;
       }
 
