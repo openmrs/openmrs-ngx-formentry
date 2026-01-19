@@ -207,6 +207,18 @@ export class FormRendererComponent implements OnInit, OnChanges {
     this.activeTab = $event;
     this.setPreviousTab();
 
+    // When tab changes, ensure all control relations and calculations are refreshed
+    if (this.node && this.node.form) {
+      this.node.form.updateHiddenDisabledStateForAllControls();
+
+      // Re-run Angular validators (including js_expression validators) across the form
+      this.node.form.rootNode.control.updateValueAndValidity({
+        onlySelf: false,
+        emitEvent: false
+      });
+      this.recalculateAllCalculatedControls();
+    }
+
     setTimeout(() => {
       const sectionHeader = this.document.querySelector('div.pane > h4');
       if (sectionHeader) {
@@ -219,6 +231,27 @@ export class FormRendererComponent implements OnInit, OnChanges {
     if (this.node && this.node.form) {
       this.node.form.valueProcessingInfo['lastFormTab'] = this.activeTab;
     }
+  }
+  private recalculateAllCalculatedControls() {
+    if (!this.node || !this.node.form || !this.node.form.rootNode) {
+      return;
+    }
+
+    const walk = (node: any) => {
+      if (node.control && (node.control as any).updateCalculatedValue) {
+        (node.control as any).updateCalculatedValue();
+      }
+
+      if (node.children) {
+        if (Array.isArray(node.children)) {
+          node.children.forEach((child) => walk(child));
+        } else {
+          Object.keys(node.children).forEach((k) => walk(node.children[k]));
+        }
+      }
+    };
+
+    walk(this.node.form.rootNode);
   }
 
   public hasErrors() {

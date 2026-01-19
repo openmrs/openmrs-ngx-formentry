@@ -29,6 +29,16 @@ export class ExpressionRunner {
         // scope.moment = moment;
         scope['myValue'] = control.value;
         scope['FORM'] = {};
+        // Expose global form-level metadata (like lastFormTab) to JS expressions
+        if (form) {
+          // Backwards-compatible: full form object, so expressions can use
+          // FORM_CONTEXT.valueProcessingInfo.lastFormTab or other metadata.
+          scope['FORM_CONTEXT'] = form;
+          if (form.valueProcessingInfo) {
+            scope['FORM']['lastFormTab'] = form.valueProcessingInfo.lastFormTab;
+            scope['FORM']['valueProcessingInfo'] = form.valueProcessingInfo;
+          }
+        }
         runner.setControlQuestion(control, form, scope);
         runner.getControlRelationValueString(control, scope);
         runner.getHelperMethods(helper, scope);

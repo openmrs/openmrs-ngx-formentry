@@ -561,10 +561,10 @@ export class AppComponent implements OnInit {
       this.form.showErrors = false;
       // const payload = this.encAdapter.generateFormPayload(this.form);
       // console.log('payload', payload);
-      // const encounterFromSubform = this.encAdapter.generateFormPayloadWithSubforms(
-      //   this.form
-      // );
-      // console.log('encounterFromSubform', encounterFromSubform);
+      const encounterFromSubform = this.encAdapter.generateFormPayloadWithSubforms(
+        this.form
+      );
+      console.log('encounterFromSubform', encounterFromSubform);
 
       // Alternative is to populate for each as shown below
       // // generate obs payload

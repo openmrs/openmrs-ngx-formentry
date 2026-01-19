@@ -19,9 +19,10 @@ export class DiagnosisValueAdapter implements ValueAdapter {
   }
 
   populateForm(form: Form, diagnoses: Array<Diagnosis>) {
-    form.existingDiagnoses = diagnoses?.filter((d) => {
-      return !d.voided;
-    });
+    form.existingDiagnoses =
+      diagnoses?.filter((d) => {
+        return d && !d.voided;
+      }) || [];
     this.formDiagnosisNodes = [];
     this._findDiagnosisQuestionNodes(form.rootNode);
     this._setDiagnosesValues(
@@ -106,6 +107,28 @@ export class DiagnosisValueAdapter implements ValueAdapter {
           }
         });
       }
+
+      // Handle LeafNode diagnosis nodes (non-repeating, e.g., remote-select)
+      if (node instanceof LeafNode) {
+        const diagnosisValue = node.control.value;
+        if (diagnosisValue) {
+          const payloadDiagnosis = this._createPayloadDiagnosis(
+            diagnosisValue,
+            node.question.extras
+          );
+
+          const isNewDiagnosis = existingDiagnoses.every(
+            (d) =>
+              d.diagnosis.coded.uuid !== diagnosisValue ||
+              d.certainty !== 'CONFIRMED' ||
+              d.rank !== node.question.extras.questionOptions.rank
+          );
+
+          if (isNewDiagnosis) {
+            payload.push(payloadDiagnosis);
+          }
+        }
+      }
     });
     this._updatedOldDiagnoses(payload, existingDiagnoses);
     deletedDiagnoses = this._getDeletedDiagnoses(
@@ -146,6 +169,14 @@ export class DiagnosisValueAdapter implements ValueAdapter {
               );
             });
           }
+          if (node instanceof LeafNode) {
+            return (
+              node.control.value === existingDiagnosis.diagnosis.coded.uuid &&
+              existingDiagnosis.rank ===
+                node.question.extras.questionOptions.rank &&
+              existingDiagnosis.certainty === 'CONFIRMED'
+            );
+          }
           return false;
         });
       })
@@ -172,20 +203,41 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     existingDiagnoses: Array<Diagnosis>,
     rank: number
   ) {
+    if (!existingDiagnoses || !Array.isArray(existingDiagnoses)) {
+      return;
+    }
     formDiagnosisNodes
       ?.filter((node) => node.question.extras.questionOptions.rank == rank)
       .forEach((node) => {
         node['initialValue'] = existingDiagnoses;
-        existingDiagnoses
-          .filter((d) => d.rank == rank)
-          .forEach((diagnosis, index) => {
-            node.createChildNode();
+        const matchingDiagnoses = existingDiagnoses.filter(
+          (d) => d && d.rank == rank && d.diagnosis?.coded?.uuid
+        );
+
+        // Handle LeafNode (non-repeating diagnosis, e.g., remote-select)
+        if (node instanceof LeafNode) {
+          if (matchingDiagnoses.length > 0) {
+            // For single-value diagnosis nodes, use the first matching diagnosis
+            const diagnosis = matchingDiagnoses[0];
+            node.control.setValue(diagnosis.diagnosis.coded.uuid);
+            node['initialValue'] = diagnosis.diagnosis.coded.uuid;
+          }
+        } else if (node instanceof ArrayNode) {
+          // Handle ArrayNode (repeating diagnosis)
+          matchingDiagnoses.forEach((diagnosis, index) => {
+            const childNode = node.createChildNode();
+            if (!childNode) {
+              console.warn(
+                `Failed to create child node for diagnosis at index ${index}`
+              );
+              return;
+            }
             const value = {};
             value[node.question.key] = diagnosis.diagnosis.coded.uuid;
-            const childNode = node.children[index];
             childNode.control.setValue(value);
             childNode['initialValue'] = value;
           });
+        }
       });
   }
 
@@ -193,19 +245,34 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     formDiagnosisNodes,
     existingDiagnoses: Array<Diagnosis>
   ) {
+    if (!existingDiagnoses || !Array.isArray(existingDiagnoses)) {
+      return;
+    }
     for (const diagnosis of existingDiagnoses) {
+      if (!diagnosis) {
+        continue;
+      }
       for (const diagnosisNode of formDiagnosisNodes) {
         if (diagnosisNode.question.extras.type !== 'diagnosisGroup') break;
         const groupNode = diagnosisNode.createChildNode() as GroupNode;
+        if (!groupNode) {
+          console.warn(
+            `Failed to create group node for diagnosis ${diagnosis.uuid}`
+          );
+          continue;
+        }
 
         groupNode.question.defaultValue = { uuid: diagnosis.uuid };
         for (const child of Object.values(groupNode.children) as LeafNode[]) {
+          if (!child || !child.question?.extras?.questionOptions) {
+            continue;
+          }
           const diagnosisType =
             child.question.extras.questionOptions.diagnosisType;
           switch (diagnosisType) {
             case 'diagnosis':
-              child.initialValue = diagnosis.diagnosis.coded?.uuid;
-              child.control.setValue(diagnosis.diagnosis.coded?.uuid);
+              child.initialValue = diagnosis.diagnosis?.coded?.uuid;
+              child.control.setValue(diagnosis.diagnosis?.coded?.uuid);
               break;
             case 'rank':
               child.initialValue = diagnosis.rank;
@@ -226,15 +293,16 @@ export class DiagnosisValueAdapter implements ValueAdapter {
       if (formNode.children instanceof Object) {
         for (const key in formNode.children) {
           if (formNode.children.hasOwnProperty(key)) {
-            switch (formNode.children[key].question.renderingType) {
+            const childNode = formNode.children[key];
+            switch (childNode.question.renderingType) {
               case 'page':
-                this._findDiagnosisQuestionNodes(formNode.children[key]);
+                this._findDiagnosisQuestionNodes(childNode);
                 break;
               case 'section':
-                this._findDiagnosisQuestionNodes(formNode.children[key]);
+                this._findDiagnosisQuestionNodes(childNode);
                 break;
               case 'group':
-                this._findDiagnosisQuestionNodes(formNode.children[key]);
+                this._findDiagnosisQuestionNodes(childNode);
                 break;
               case 'repeating':
                 if (formNode.children) {
@@ -265,6 +333,15 @@ export class DiagnosisValueAdapter implements ValueAdapter {
 
                 break;
               default:
+                // Handle non-repeating diagnosis nodes (e.g., remote-select, select)
+                if (
+                  childNode.question.extras?.type === 'diagnosis' &&
+                  !this.formDiagnosisNodes.some(
+                    (x) => x.nodeIndex === childNode.nodeIndex
+                  )
+                ) {
+                  this.formDiagnosisNodes.push(childNode);
+                }
                 break;
             }
           }
