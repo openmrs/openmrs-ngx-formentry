@@ -285,6 +285,7 @@
             [formControlName]="node.question.key"
             *ngSwitchCase="'date'"
             [datePickerFormat]="node.question.datePickerFormat"
+            [dataSource]="dataSource"
           ></ofe-ngx-date-time-picker>
 
           <ng-select
