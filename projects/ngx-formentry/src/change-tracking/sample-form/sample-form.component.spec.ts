@@ -57,7 +57,7 @@ describe('Change tracking extensions:', () => {
     });
 
     it(
-      'Should detect form changes: CASE 3:  Deep contols: one leaf in one branch listens ' +
+      'Should detect form changes: CASE 3:  Deep controls: one leaf in one branch listens ' +
         'to another leaf in a separate branch',
       () => {
         const fixture = TestBed.createComponent(SampleFormComponent);

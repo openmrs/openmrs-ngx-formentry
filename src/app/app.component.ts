@@ -13,7 +13,7 @@ import {
   FormFactory,
   ObsValueAdapter,
   OrderValueAdapter,
-  PersonAttribuAdapter,
+  PersonAttributeAdapter,
   QuestionFactory
 } from '@openmrs/ngx-formentry';
 import { MockObs } from './mock/mock-obs';
@@ -42,15 +42,15 @@ export class AppComponent implements OnInit {
   constructor(
     private questionFactory: QuestionFactory,
     private formFactory: FormFactory,
-    private obsValueAdapater: ObsValueAdapter,
-    private orderAdaptor: OrderValueAdapter,
+    private obsValueAdapter: ObsValueAdapter,
+    private orderAdapter: OrderValueAdapter,
     private encAdapter: EncounterAdapter,
     private dataSources: DataSources,
     private formErrorsService: FormErrorsService,
     private http: HttpClient,
     private translate: TranslateService,
-    private personAttributeAdapter: PersonAttribuAdapter,
-    private patientIdenfierAdapter: PatientIdentifierAdapter
+    private personAttributeAdapter: PersonAttributeAdapter,
+    private patientIdentifierAdapter: PatientIdentifierAdapter
   ) {
     this.schema = adultReturnVisitForm;
   }
@@ -176,10 +176,10 @@ export class AppComponent implements OnInit {
 
     // Alternative is to set individually for obs and orders as show below
     // // Set obs
-    // this.obsValueAdapater.populateForm(this.form, adultReturnVisitFormObs.obs);
+    // this.obsValueAdapter.populateForm(this.form, adultReturnVisitFormObs.obs);
 
     // // Set orders
-    // this.orderAdaptor.populateForm(this.form, formOrdersPayload);
+    // this.orderAdapter.populateForm(this.form, formOrdersPayload);
   }
 
   public setUpCascadeSelectForWHOStaging() {
@@ -424,13 +424,13 @@ export class AppComponent implements OnInit {
 
       // Alternative is to populate for each as shown below
       // // generate obs payload
-      // let payload = this.obsValueAdapater.generateFormPayload(this.form);
+      // let payload = this.obsValueAdapter.generateFormPayload(this.form);
 
       // // generate orders payload
-      // let ordersPayload = this.orderAdaptor.generateFormPayload(this.form);
+      // let ordersPayload = this.orderAdapter.generateFormPayload(this.form);
 
       // generate patient identifiers
-      //const patientIdenfitiers = this.patientIdenfierAdapter.generateFormPayload(this.form,this.form.valueProcessingInfo['locationUuid']);
+      //const patientIdentifiers = this.patientIdentifierAdapter.generateFormPayload(this.form,this.form.valueProcessingInfo['locationUuid']);
     } else {
       this.form.showErrors = true;
       this.form.markInvalidControls(this.form.rootNode);

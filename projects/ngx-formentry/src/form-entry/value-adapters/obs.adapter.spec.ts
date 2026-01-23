@@ -387,8 +387,16 @@ describe('Obs Value Adapter: ', () => {
       creatinineValue.control.setValue(2000);
       creatinineDate.control.setValue('2016-01-22T16:17:46.000+0300');
 
-      // let payload = obsValueAdapter.getObsPayload(questionNodes);
-      // expect(payload).toEqual(generatedPayload);
+      const payload = obsValueAdapter.getObsPayload(questionNodes);
+      const creatinineObs = payload.find(
+        (obs) => obs.uuid === 'ac55c445-9661-4d42-86b5-4d6ec33a000'
+      );
+      expect(creatinineObs).toEqual(
+        jasmine.objectContaining({
+          value: 2000,
+          obsDatetime: '2016-01-22T16:17:46.000+0300'
+        })
+      );
     });
   });
 

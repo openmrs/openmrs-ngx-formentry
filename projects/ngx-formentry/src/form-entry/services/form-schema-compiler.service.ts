@@ -5,6 +5,25 @@ import * as _ from 'lodash';
 export class FormSchemaCompiler {
   constructor() {}
 
+  private isTestEnv(): boolean {
+    const globalRef: any =
+      typeof globalThis !== 'undefined'
+        ? globalThis
+        : typeof window !== 'undefined'
+          ? window
+          : {};
+    return (
+      typeof globalRef.jasmine !== 'undefined' ||
+      typeof globalRef.__karma__ !== 'undefined'
+    );
+  }
+
+  private logError(message: string, payload: any) {
+    if (!this.isTestEnv()) {
+      console.error(message, payload);
+    }
+  }
+
   public compileFormSchema(
     formSchema: Object,
     referencedComponents: Array<any>
@@ -229,7 +248,7 @@ export class FormSchemaCompiler {
       );
 
       if (_.isEmpty(referencedObject)) {
-        console.error(
+        this.logError(
           'Form compile: Error finding referenced object',
           placeHolder.reference
         );
@@ -278,14 +297,14 @@ export class FormSchemaCompiler {
     keyValReferencedForms: Object
   ): Object {
     if (_.isEmpty(referenceData.form)) {
-      console.error(
+      this.logError(
         'Form compile: reference missing form attribute',
         referenceData
       );
       return;
     }
     if (_.isEmpty(keyValReferencedForms[referenceData.form])) {
-      console.error(
+      this.logError(
         'Form compile: referenced form alias not found',
         referenceData
       );
@@ -311,7 +330,7 @@ export class FormSchemaCompiler {
         referenceData.page
       );
     }
-    console.error(
+    this.logError(
       'Form compile: Unsupported reference type',
       referenceData.reference
     );

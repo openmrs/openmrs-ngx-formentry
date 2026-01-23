@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-
-// import { ControlRelation } from  '../../change-tracking/control-relation';
 import { QuestionBase } from '../question-models/question-base';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
 import { ConditionalValidationModel } from '../question-models/conditional-validation.model';

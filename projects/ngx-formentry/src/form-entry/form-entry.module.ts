@@ -1,5 +1,4 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-// import { NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UntypedFormBuilder } from '@angular/forms';
@@ -29,7 +28,7 @@ import { FormFactory } from './form-factory/form.factory';
 import { QuestionFactory } from './form-factory/question.factory';
 import { ControlRelationsFactory } from './form-factory/control-relations.factory';
 import { EncounterAdapter } from './value-adapters/encounter.adapter';
-import { PersonAttribuAdapter } from './value-adapters/person-attribute.adapter';
+import { PersonAttributeAdapter } from './value-adapters/person-attribute.adapter';
 import { OrderValueAdapter } from './value-adapters/order.adapter';
 import { DiagnosisValueAdapter } from './value-adapters/diagnosis.adapter';
 import { ObsAdapterHelper } from './value-adapters/obs-adapter-helper';
@@ -43,8 +42,8 @@ import { SharedModule } from '../shared.module';
 import { NgxTabSetModule } from '../components/ngx-tabset/modules/ngx-tabset.module';
 import { SelectModule as SelectModuleCarbon } from '../components/select/select.module';
 import { InputModule } from '../components/input/input.module';
-import { CustomControlWrapperModule } from '../components/custom-control-wrapper/custom-control-wrapper..module';
-import { CustomComponentWrapperModule } from '../components/custom-component-wrapper/custom-component-wrapper..module';
+import { CustomControlWrapperModule } from '../components/custom-control-wrapper/custom-control-wrapper.module';
+import { CustomComponentWrapperModule } from '../components/custom-component-wrapper/custom-component-wrapper.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.adapter';
 
@@ -59,7 +58,6 @@ import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.ad
     InputModule,
     DateTimePickerModule,
     NgxRemoteSelectModule,
-    // NoopAnimationsModule,
     RemoteFileUploadModule,
     CheckboxModule,
     RadioModule,
@@ -93,12 +91,11 @@ import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.ad
     FormSchemaCompiler,
     FormFactory,
     QuestionFactory,
-    ValidationFactory,
     ControlRelationsFactory,
     ObsAdapterHelper,
     ObsValueAdapter,
     EncounterAdapter,
-    PersonAttribuAdapter,
+    PersonAttributeAdapter,
     OrderValueAdapter,
     DiagnosisValueAdapter,
     DebugModeService,

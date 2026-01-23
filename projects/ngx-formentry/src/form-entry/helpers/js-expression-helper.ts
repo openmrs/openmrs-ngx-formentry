@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
 import { southEastAsiaCvdRiskTables } from './risk-dataset-table';
+import moment from 'moment';
 
 @Injectable()
 export class JsExpressionHelper {
@@ -250,17 +251,24 @@ export class JsExpressionHelper {
     format = format || 'yyyy-MM-dd';
     offset = offset || '+0300';
 
-    if (!(value instanceof Date)) {
-      value = new Date(value);
-      if (value === null || value === undefined) {
-        throw new Error(
-          'DateFormatException: value passed ' + 'is not a valid date'
-        );
-      }
+    if (value === null || value === undefined || value === '') {
+      throw new Error('DateFormatException: value passed is not a valid date');
     }
 
-    return value; // TODO implement this
-    // return $filter('date')(value, format, offset);
+    const date = moment(value);
+    if (!date.isValid()) {
+      throw new Error('DateFormatException: value passed is not a valid date');
+    }
+
+    if (offset) {
+      date.utcOffset(offset);
+    }
+
+    const momentFormat = format
+      .replace(/yyyy/g, 'YYYY')
+      .replace(/yy/g, 'YY')
+      .replace(/dd/g, 'DD');
+    return date.format(momentFormat);
   }
 
   arrayContainsAny(array, members) {

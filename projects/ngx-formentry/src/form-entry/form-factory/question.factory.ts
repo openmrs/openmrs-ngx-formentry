@@ -863,7 +863,7 @@ export class QuestionFactory {
   }
 
   getSchemaQuestions(schema: any): any {
-    const listQuestions = new Array();
+    const listQuestions = [];
     this.getQuestions(schema, listQuestions);
     return listQuestions;
   }

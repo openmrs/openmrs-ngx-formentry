@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-
 import { NodeBase, GroupNode, ArrayNode } from '../form-factory/form-node';
 import { Form } from '../form-factory/form';
 import { ValueAdapter } from './value.adapter';
 
 @Injectable()
-export class PersonAttribuAdapter implements ValueAdapter {
+export class PersonAttributeAdapter implements ValueAdapter {
   constructor() {}
 
   generateFormPayload(form: Form) {

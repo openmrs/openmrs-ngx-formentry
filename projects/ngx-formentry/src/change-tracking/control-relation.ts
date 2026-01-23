@@ -1,8 +1,5 @@
 import { AbstractControl } from '@angular/forms';
 
-// import { CanHide } from '../form-entry/control-hiders-disablers/can-hide';
-// import { CanDisable } from '../form-entry/control-hiders-disablers/can-disable';
-
 export class ControlRelation {
   private _control: AbstractControl;
   private _relatedTo: AbstractControl;

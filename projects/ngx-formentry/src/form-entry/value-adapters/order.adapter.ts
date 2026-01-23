@@ -114,7 +114,7 @@ export class OrderValueAdapter implements ValueAdapter {
     return payload;
   }
 
-  private _createPayloadOrder(orderConcept, quesitonExtras): any {
+  private _createPayloadOrder(orderConcept, questionExtras): any {
     const order = {
       concept: '',
       type: '',
@@ -122,9 +122,9 @@ export class OrderValueAdapter implements ValueAdapter {
       careSetting: ''
     };
     order.concept = orderConcept;
-    order.type = quesitonExtras.questionOptions.orderType;
+    order.type = questionExtras.questionOptions.orderType;
     order.orderer = this.provider;
-    order.careSetting = quesitonExtras.questionOptions.orderSettingUuid;
+    order.careSetting = questionExtras.questionOptions.orderSettingUuid;
 
     // delete orderer if provider not provided
     if (order.orderer === '') {

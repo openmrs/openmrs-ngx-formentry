@@ -185,7 +185,7 @@ export class SampleFormComponent implements OnInit {
     // this.wireRelation(this.control3, this.control1);
     this.control3.controlRelations.addRelatedControls(this.control1);
 
-    // 3 Deep contols: one leaf in one branch listens to another leaf in a separate branch connected
+    // 3 Deep controls: one leaf in one branch listens to another leaf in a separate branch connected
     // to each other by the root
     // 2nd vs 6th
     this.control2.setValidators(

@@ -128,4 +128,19 @@ describe('JS Expression Helper Service:', () => {
     parityAbortion = 2;
     expect(helper.calcGravida(parityTerm, parityAbortion)).toBe(4);
   });
+
+  it('should format dates using the provided format and offset', () => {
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+
+    const value = '2016-01-22T16:17:46.000+0300';
+    expect(helper.formatDate(value, 'yyyy-MM-dd', '+0300')).toBe('2016-01-22');
+    expect(helper.formatDate(value, 'yyyy-MM-dd HH:mm', '+0300')).toBe(
+      '2016-01-22 16:17'
+    );
+  });
+
+  it('should throw when formatting an invalid date', () => {
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+    expect(() => helper.formatDate('not-a-date', 'yyyy-MM-dd', '+0300')).toThrow();
+  });
 });

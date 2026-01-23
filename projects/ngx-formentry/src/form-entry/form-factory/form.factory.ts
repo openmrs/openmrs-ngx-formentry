@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-// import { AbstractControl } from '@angular/forms';
-
 import { TranslateService } from '@ngx-translate/core';
 import { LeafNode, GroupNode, ArrayNode, NodeBase } from './form-node';
 import {
@@ -32,13 +30,13 @@ export class FormFactory {
 
   constructor(
     public controlService: FormControlService,
-    public questionFactroy: QuestionFactory,
+    public questionFactory: QuestionFactory,
     public controlRelationsFactory: ControlRelationsFactory,
     public translate: TranslateService
   ) {}
 
   createForm(schema: any, dataSource?: any): Form {
-    const form: Form = new Form(schema, this, this.questionFactroy);
+    const form: Form = new Form(schema, this, this.questionFactory);
     if (dataSource) {
       for (const key in dataSource) {
         if (dataSource.hasOwnProperty(key)) {
@@ -50,7 +48,7 @@ export class FormFactory {
         }
       }
     }
-    const question = this.questionFactroy.createQuestionModel(schema, form);
+    const question = this.questionFactory.createQuestionModel(schema, form);
     form.rootNode = this.createNode(question, null, null, form) as GroupNode;
 
     this.buildRelations(form.rootNode);
@@ -223,7 +221,7 @@ export class FormFactory {
     const nodeToRemove = node.children[index];
 
     node.children.splice(index, 1);
-    if (node.control !== null || node.control !== undefined) {
+    if (node.control !== null && node.control !== undefined) {
       if (node.control instanceof AfeFormArray) {
         const control = node.control as AfeFormArray;
         const controlIndexToRemove = control.controls.indexOf(

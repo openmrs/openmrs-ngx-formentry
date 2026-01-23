@@ -13,6 +13,18 @@ describe('FormSchemaCompiler Service:', () => {
     componentHosp,
     componentPreclinic
   ];
+  const hasReference = (value: any): boolean => {
+    if (!value || typeof value !== 'object') {
+      return false;
+    }
+    if (Object.prototype.hasOwnProperty.call(value, 'reference')) {
+      return true;
+    }
+    if (Array.isArray(value)) {
+      return value.some(hasReference);
+    }
+    return Object.values(value).some(hasReference);
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,7 +44,7 @@ describe('FormSchemaCompiler Service:', () => {
     const formSchemaCompiler: FormSchemaCompiler = TestBed.inject(
       FormSchemaCompiler
     );
-    const fs: any = formSchemaAdult;
+    const fs: any = _.cloneDeep(formSchemaAdult);
     const compiled: any = formSchemaCompiler.compileFormSchema(
       fs,
       referencedComponents
@@ -47,22 +59,21 @@ describe('FormSchemaCompiler Service:', () => {
     const formSchemaCompiler: FormSchemaCompiler = TestBed.inject(
       FormSchemaCompiler
     );
-    const fs: any = formSchemaAdult;
+    const fs: any = _.cloneDeep(formSchemaAdult);
     const compiledSchema: any = formSchemaCompiler.compileFormSchema(
       fs,
       referencedComponents
     );
 
-    // check if it is an exact replica of the expected schema
-    // FIX: The following expectation is flaky and needs fixing
-    // expect(_.isEqual(compiledSchema, expectedSchema)).toBeTruthy();
+    expect(compiledSchema.pages.length).toBe(expectedSchema.pages.length);
+    expect(hasReference(compiledSchema)).toBe(false);
   });
 
   it('should remove all excluded question defined in the base form', () => {
     const formSchemaCompiler: FormSchemaCompiler = TestBed.inject(
       FormSchemaCompiler
     );
-    const fs: any = formSchemaAdult;
+    const fs: any = _.cloneDeep(formSchemaAdult);
     const excludedQuestion: any = {
       label: 'Social History',
       sections: [
@@ -99,7 +110,7 @@ describe('FormSchemaCompiler Service:', () => {
     const formSchemaCompiler: FormSchemaCompiler = TestBed.inject(
       FormSchemaCompiler
     );
-    const fs: any = formSchemaAdult;
+    const fs: any = _.cloneDeep(formSchemaAdult);
     const compiled: any = formSchemaCompiler.compileFormSchema(fs, []);
     expect(_.isEqual(compiled, fs)).toBeTruthy();
     expect(compiled.pages.length > 0).toBeTruthy();

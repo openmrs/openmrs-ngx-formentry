@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { FormFactory } from '../form-factory/form.factory';
 import { FormControlService } from '../form-factory/form-control.service';
 import { ValidationFactory } from '../form-factory/validation.factory';
-import { PersonAttribuAdapter } from './person-attribute.adapter';
+import { PersonAttributeAdapter } from './person-attribute.adapter';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { HidersDisablersFactory } from '../form-factory/hiders-disablers.factory';
 import { AlertsFactory } from '../form-factory/show-messages.factory';
@@ -26,7 +26,7 @@ describe('Person Attribute Value Adapter:', () => {
         FormControlService,
         ValidationFactory,
         HidersDisablersFactory,
-        PersonAttribuAdapter,
+        PersonAttributeAdapter,
         ExpressionRunner,
         JsExpressionHelper,
         AlertsFactory,
@@ -38,7 +38,7 @@ describe('Person Attribute Value Adapter:', () => {
   });
 
   it('should be injectable', () => {
-    const adapter = TestBed.inject(PersonAttribuAdapter);
+    const adapter = TestBed.inject(PersonAttributeAdapter);
     const factory: FormFactory = TestBed.inject(FormFactory);
     expect(adapter).toBeTruthy();
     expect(factory).toBeTruthy();
@@ -48,7 +48,7 @@ describe('Person Attribute Value Adapter:', () => {
   });
 
   it('should return all person attribute nodes', () => {
-    const adapter = TestBed.inject(PersonAttribuAdapter);
+    const adapter = TestBed.inject(PersonAttributeAdapter);
     const factory: FormFactory = TestBed.inject(FormFactory);
     const form = factory.createForm(adultFormSchema);
 
@@ -65,7 +65,7 @@ describe('Person Attribute Value Adapter:', () => {
   });
 
   it('should populate form with existing person attribute', () => {
-    const adapter = TestBed.inject(PersonAttribuAdapter);
+    const adapter = TestBed.inject(PersonAttributeAdapter);
     const factory: FormFactory = TestBed.inject(FormFactory);
     const form = factory.createForm(adultFormSchema);
 
@@ -120,7 +120,7 @@ describe('Person Attribute Value Adapter:', () => {
   });
 
   it('should generate person attribute payload attachable to person object', () => {
-    const adapter = TestBed.inject(PersonAttribuAdapter);
+    const adapter = TestBed.inject(PersonAttributeAdapter);
     const factory: FormFactory = TestBed.inject(FormFactory);
     const form = factory.createForm(adultFormSchema);
 
