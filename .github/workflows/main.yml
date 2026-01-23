@@ -12,10 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      TURBO_API: 'http://127.0.0.1:9080'
-      TURBO_TOKEN: ${{ secrets.TURBO_SERVER_TOKEN }}
-      TURBO_TEAM: ${{ github.repository_owner }}
 
     steps:
       - uses: actions/checkout@v4
@@ -35,20 +31,14 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
 
-      - name: Setup a local cache server for Turborepo
-        uses: felixmosh/turborepo-gh-artifacts@v3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          server-token: ${{ secrets.TURBO_SERVER_TOKEN }}
-
       - name: Run lint
-        run: yarn turbo lint --color
+        run: yarn lint
 
       - name: Run tests
-        run: yarn turbo test --color
+        run: yarn test
 
       - name: Run build
-        run: yarn turbo build:lib --color --concurrency=5
+        run: yarn build:lib
 
   pre_release:
     runs-on: ubuntu-latest
@@ -79,7 +69,7 @@ jobs:
           yarn workspace @openmrs/ngx-formentry version $NEW_VERSION
 
       - name: Build
-        run: yarn turbo build:lib --color --concurrency=5
+        run: yarn build:lib
 
       - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
       - run: git add . && git commit -m "Prerelease version" --no-verify
@@ -120,7 +110,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Build
-        run: yarn turbo build:lib --color --concurrency=5
+        run: yarn build:lib
 
       - name: Publish release
         run: yarn npm publish dist/ngx-formentry --tag latest --access public
