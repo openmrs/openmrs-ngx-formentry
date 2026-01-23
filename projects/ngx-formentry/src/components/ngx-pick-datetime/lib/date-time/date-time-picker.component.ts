@@ -65,11 +65,12 @@ export const OWL_DTPICKER_SCROLL_STRATEGY_PROVIDER = {
 };
 
 @Component({
-  selector: 'ofe-owl-date-time',
-  exportAs: 'owlDateTime',
-  templateUrl: './date-time-picker.component.html',
-  styleUrls: ['./date-time-picker.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ofe-owl-date-time',
+    exportAs: 'owlDateTime',
+    templateUrl: './date-time-picker.component.html',
+    styleUrls: ['./date-time-picker.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OwlDateTimeComponent<T>
   extends OwlDateTime<T>

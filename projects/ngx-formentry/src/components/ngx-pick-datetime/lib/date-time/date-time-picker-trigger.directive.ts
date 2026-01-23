@@ -13,7 +13,8 @@ import { OwlDateTimeComponent } from './date-time-picker.component';
 import { merge, of as observableOf, Subscription } from 'rxjs';
 
 @Directive({
-  selector: '[ofeOwlDateTimeTrigger]'
+    selector: '[ofeOwlDateTimeTrigger]',
+    standalone: false
 })
 export class OwlDateTimeTriggerDirective<T>
   implements OnChanges, AfterContentInit, OnDestroy {

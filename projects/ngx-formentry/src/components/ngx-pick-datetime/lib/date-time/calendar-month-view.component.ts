@@ -41,11 +41,12 @@ const DAYS_PER_WEEK = 7;
 const WEEKS_PER_VIEW = 6;
 
 @Component({
-  selector: 'ofe-owl-date-time-month-view',
-  exportAs: 'owlYearView',
-  templateUrl: './calendar-month-view.component.html',
-  styleUrls: ['./calendar-month-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ofe-owl-date-time-month-view',
+    exportAs: 'owlYearView',
+    templateUrl: './calendar-month-view.component.html',
+    styleUrls: ['./calendar-month-view.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OwlMonthViewComponent<T>
   implements OnInit, AfterContentInit, OnDestroy {

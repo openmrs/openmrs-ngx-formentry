@@ -1,7 +1,8 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[ofeNumberScroll]'
+    selector: '[ofeNumberScroll]',
+    standalone: false
 })
 export class NumberInputDirective {
   constructor(private element: ElementRef) {}

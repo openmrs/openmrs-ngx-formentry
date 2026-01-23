@@ -23,15 +23,16 @@ import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'ofe-remote-select',
-  templateUrl: 'remote-select.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => RemoteSelectComponent),
-      multi: true
-    }
-  ]
+    selector: 'ofe-remote-select',
+    templateUrl: 'remote-select.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => RemoteSelectComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDestroy {
   // @Input() dataSource: DataSource;

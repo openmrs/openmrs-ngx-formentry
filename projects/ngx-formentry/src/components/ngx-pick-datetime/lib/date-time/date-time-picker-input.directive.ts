@@ -48,9 +48,10 @@ export const OWL_DATETIME_VALIDATORS: any = {
 };
 
 @Directive({
-  selector: 'input[owlDateTime]',
-  exportAs: 'owlDateTimeInput',
-  providers: [OWL_DATETIME_VALUE_ACCESSOR, OWL_DATETIME_VALIDATORS]
+    selector: 'input[owlDateTime]',
+    exportAs: 'owlDateTimeInput',
+    providers: [OWL_DATETIME_VALUE_ACCESSOR, OWL_DATETIME_VALIDATORS],
+    standalone: false
 })
 export class OwlDateTimeInputDirective<T>
   implements

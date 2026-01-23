@@ -4,15 +4,16 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'ofe-checkbox',
-  templateUrl: './checkbox.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CheckboxControlComponent),
-      multi: true
-    }
-  ]
+    selector: 'ofe-checkbox',
+    templateUrl: './checkbox.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => CheckboxControlComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class CheckboxControlComponent implements OnInit {
   @Input() public id: String;

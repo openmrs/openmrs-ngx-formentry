@@ -1,7 +1,8 @@
 import { Directive, HostListener, ElementRef, Input } from '@angular/core';
 
 @Directive({
-  selector: '[ofeHoverClass]'
+    selector: '[ofeHoverClass]',
+    standalone: false
 })
 export class HoverClassDirective {
   constructor(public elementRef: ElementRef) {}

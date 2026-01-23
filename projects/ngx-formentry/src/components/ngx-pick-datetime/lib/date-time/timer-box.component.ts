@@ -13,11 +13,12 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
-  exportAs: 'owlDateTimeTimerBox',
-  selector: 'ofe-owl-date-time-timer-box',
-  templateUrl: './timer-box.component.html',
-  styleUrls: ['./timer-box.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    exportAs: 'owlDateTimeTimerBox',
+    selector: 'ofe-owl-date-time-timer-box',
+    templateUrl: './timer-box.component.html',
+    styleUrls: ['./timer-box.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OwlTimerBoxComponent implements OnInit, OnDestroy {
   @HostBinding('class.owl-dt-timer-box')

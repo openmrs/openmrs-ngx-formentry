@@ -12,7 +12,8 @@ import { Directive, HostBinding, Input } from '@angular/core';
  * See the [vanilla carbon docs](http://www.carbondesignsystem.com/components/text-input/code) for more detail.
  */
 @Directive({
-  selector: '[ofeTextInput]'
+    selector: '[ofeTextInput]',
+    standalone: false
 })
 export class TextInputDirective {
   /**

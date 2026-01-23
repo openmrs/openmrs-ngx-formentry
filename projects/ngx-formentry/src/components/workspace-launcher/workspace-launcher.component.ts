@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'ofe-workspace-launcher',
-  templateUrl: './workspace-launcher.component.html'
+    selector: 'ofe-workspace-launcher',
+    templateUrl: './workspace-launcher.component.html',
+    standalone: false
 })
 export class WorkspaceLauncherComponent {
   @Input() public id: string;

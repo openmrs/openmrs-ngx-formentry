@@ -25,7 +25,8 @@ module.exports = {
             prefix: 'ofe',
             style: 'kebab-case'
           }
-        ]
+        ],
+        '@angular-eslint/prefer-standalone': 'off'
       }
     },
     {

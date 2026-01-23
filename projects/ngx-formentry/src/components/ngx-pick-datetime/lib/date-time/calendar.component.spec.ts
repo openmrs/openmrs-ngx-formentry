@@ -462,7 +462,7 @@ describe('OwlCalendarComponent', () => {
 });
 
 @Component({
-  template: `
+    template: `
     <ofe-owl-date-time-calendar
       [(selected)]="selected"
       [selectMode]="selectMode"
@@ -470,7 +470,8 @@ describe('OwlCalendarComponent', () => {
       (monthSelected)="selectedMonth = $event"
       (yearSelected)="selectedYear = $event"
     ></ofe-owl-date-time-calendar>
-  `
+  `,
+    standalone: false
 })
 class StandardCalendar {
   selectMode = 'single';
@@ -481,14 +482,15 @@ class StandardCalendar {
 }
 
 @Component({
-  template: `
+    template: `
     <ofe-owl-date-time-calendar
       [selectMode]="selectMode"
       [pickerMoment]="pickerMoment"
       [minDate]="minDate"
       [maxDate]="maxDate"
     ></ofe-owl-date-time-calendar>
-  `
+  `,
+    standalone: false
 })
 class CalendarWithMinMax {
   selectMode = 'single';
@@ -499,14 +501,15 @@ class CalendarWithMinMax {
 }
 
 @Component({
-  template: `
+    template: `
     <ofe-owl-date-time-calendar
       [(selected)]="selected"
       [selectMode]="selectMode"
       [pickerMoment]="pickerMoment"
       [dateFilter]="dateFilter"
     ></ofe-owl-date-time-calendar>
-  `
+  `,
+    standalone: false
 })
 class CalendarWithDateFilter {
   selectMode = 'single';

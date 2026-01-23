@@ -6,11 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { SelectComponent } from './select.component';
 
 @Component({
-  template: `
+    template: `
     <ofe-select (valueChange)="onChange($event)" [(ngModel)]="model">
       <option value="option1">Option 1</option>
     </ofe-select>
-  `
+  `,
+    standalone: false
 })
 class SelectComponentTest {
   model = null;

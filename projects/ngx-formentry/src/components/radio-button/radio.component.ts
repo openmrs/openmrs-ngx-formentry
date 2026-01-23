@@ -9,16 +9,17 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: 'ofe-radio-button',
-  templateUrl: './radio.component.html',
-  styleUrls: ['./radio.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => RadioButtonControlComponent),
-      multi: true
-    }
-  ]
+    selector: 'ofe-radio-button',
+    templateUrl: './radio.component.html',
+    styleUrls: ['./radio.component.css'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => RadioButtonControlComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class RadioButtonControlComponent
   implements ControlValueAccessor, OnInit, OnChanges {

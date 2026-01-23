@@ -24,15 +24,16 @@ export class NumberChangeEvent {
 }
 
 @Component({
-  selector: 'ofe-number-input',
-  templateUrl: 'number-input.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NumberInputComponent),
-      multi: true
-    }
-  ]
+    selector: 'ofe-number-input',
+    templateUrl: 'number-input.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => NumberInputComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class NumberInputComponent implements ControlValueAccessor {
   /**

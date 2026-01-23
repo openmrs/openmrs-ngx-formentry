@@ -32,7 +32,8 @@
         "@angular-eslint/no-empty-lifecycle-method": "warn",
         "@angular-eslint/no-input-rename": "warn",
         "@angular-eslint/no-output-native": "warn",
-        "@angular-eslint/no-output-on-prefix": "warn"
+        "@angular-eslint/no-output-on-prefix": "warn",
+        "@angular-eslint/prefer-standalone": "off"
       }
     },
     {

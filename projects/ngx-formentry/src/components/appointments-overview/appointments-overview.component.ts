@@ -4,9 +4,10 @@ import { LeafNode } from '../../form-entry/form-factory/form-node';
 import moment from 'moment';
 
 @Component({
-  selector: 'ofe-appointments-overview',
-  templateUrl: './appointments-overview.component.html',
-  styleUrls: ['./appointments-overview.component.css']
+    selector: 'ofe-appointments-overview',
+    templateUrl: './appointments-overview.component.html',
+    styleUrls: ['./appointments-overview.component.css'],
+    standalone: false
 })
 export class AppointmentsOverviewComponent implements OnChanges {
   @Input() node: LeafNode;

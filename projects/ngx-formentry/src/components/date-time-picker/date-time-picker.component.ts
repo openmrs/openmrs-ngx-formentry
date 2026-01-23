@@ -9,16 +9,17 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import moment from 'moment';
 
 @Component({
-  selector: 'ofe-date-time-picker',
-  templateUrl: './date-time-picker.component.html',
-  styleUrls: ['./date-time-picker.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DateTimePickerComponent),
-      multi: true
-    }
-  ]
+    selector: 'ofe-date-time-picker',
+    templateUrl: './date-time-picker.component.html',
+    styleUrls: ['./date-time-picker.component.css'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DateTimePickerComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class DateTimePickerComponent implements ControlValueAccessor {
   @Input() modelValue: any;

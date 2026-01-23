@@ -34,11 +34,12 @@ export const OWL_DATETIME_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  selector: 'ofe-owl-date-time-inline',
-  templateUrl: './date-time-inline.component.html',
-  styleUrls: ['./date-time-inline.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [OWL_DATETIME_VALUE_ACCESSOR]
+    selector: 'ofe-owl-date-time-inline',
+    templateUrl: './date-time-inline.component.html',
+    styleUrls: ['./date-time-inline.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [OWL_DATETIME_VALUE_ACCESSOR],
+    standalone: false
 })
 export class OwlDateTimeInlineComponent<T>
   extends OwlDateTime<T>

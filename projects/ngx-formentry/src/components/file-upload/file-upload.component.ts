@@ -4,24 +4,25 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
 
 @Component({
-  selector: 'ofe-file-upload',
-  templateUrl: 'file-upload.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FileUploadComponent),
-      multi: true
-    }
-  ],
-  styles: [
-    `
+    selector: 'ofe-file-upload',
+    templateUrl: 'file-upload.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FileUploadComponent),
+            multi: true
+        }
+    ],
+    styles: [
+        `
       img {
         margin-left: auto;
         margin-right: auto;
         display: block;
       }
     `
-  ]
+    ],
+    standalone: false
 })
 export class FileUploadComponent implements OnInit, ControlValueAccessor {
   uploading = false;

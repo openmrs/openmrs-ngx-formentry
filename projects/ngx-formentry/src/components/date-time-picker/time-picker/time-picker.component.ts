@@ -12,9 +12,10 @@ declare let require: any;
 // webpack2_
 
 @Component({
-  selector: 'ofe-time-picker',
-  templateUrl: './time-picker.component.html',
-  styleUrls: ['./time-picker.component.css']
+    selector: 'ofe-time-picker',
+    templateUrl: './time-picker.component.html',
+    styleUrls: ['./time-picker.component.css'],
+    standalone: false
 })
 export class TimePickerComponent implements OnInit {
   @Input() initTime: any;
