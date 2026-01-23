@@ -6,21 +6,22 @@ import { Option } from '../form-entry/question-models/select-option';
 import { DataSource } from '../form-entry/question-models/interfaces/data-source';
 
 @Component({
-  selector: 'ofe-ng-select',
-  template: `<ng-select
+    selector: 'ofe-ng-select',
+    template: `<ng-select
     (searchInputText)="getChangingText($event)"
     (ngModelChange)="onValueChange($event)"
     [options]="question_options"
     [multiple]="multiple"
   >
   </ng-select> `,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => AfeNgSelectComponent),
-      multi: true
-    }
-  ]
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => AfeNgSelectComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class AfeNgSelectComponent implements ControlValueAccessor, OnInit {
   subject: BehaviorSubject<Option[]>;

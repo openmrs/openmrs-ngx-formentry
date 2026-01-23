@@ -8,9 +8,10 @@ import { QuestionGroup } from '../question-models/group-question';
 import { FormErrorsService } from '../services/form-errors.service';
 
 @Component({
-  selector: 'ofe-error-renderer',
-  templateUrl: 'error-renderer.component.html',
-  styleUrls: ['./error-renderer.component.css']
+    selector: 'ofe-error-renderer',
+    templateUrl: 'error-renderer.component.html',
+    styleUrls: ['./error-renderer.component.css'],
+    standalone: false
 })
 export class ErrorRendererComponent {
   @Input() form: Form;

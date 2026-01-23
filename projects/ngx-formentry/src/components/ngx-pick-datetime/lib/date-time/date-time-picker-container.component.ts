@@ -28,15 +28,16 @@ import { owlDateTimePickerAnimations } from './date-time-picker.animations';
 import { OwlTimerComponent } from './timer.component';
 
 @Component({
-  exportAs: 'owlDateTimeContainer',
-  selector: 'ofe-owl-date-time-container',
-  templateUrl: './date-time-picker-container.component.html',
-  styleUrls: ['./date-time-picker-container.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    owlDateTimePickerAnimations.transformPicker,
-    owlDateTimePickerAnimations.fadeInPicker
-  ]
+    exportAs: 'owlDateTimeContainer',
+    selector: 'ofe-owl-date-time-container',
+    templateUrl: './date-time-picker-container.component.html',
+    styleUrls: ['./date-time-picker-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [
+        owlDateTimePickerAnimations.transformPicker,
+        owlDateTimePickerAnimations.fadeInPicker
+    ],
+    standalone: false
 })
 export class OwlDateTimeContainerComponent<T>
   implements AfterContentInit, AfterViewInit {

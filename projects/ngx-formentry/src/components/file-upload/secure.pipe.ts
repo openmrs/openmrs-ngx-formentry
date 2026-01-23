@@ -10,8 +10,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 // Using similarity from AsyncPipe to avoid having to pipe |secure|async in HTML.
 @Pipe({
-  name: 'secure',
-  pure: false
+    name: 'secure',
+    pure: false,
+    standalone: false
 })
 export class SecurePipe implements PipeTransform, OnDestroy {
   private _latestValue: any = null;

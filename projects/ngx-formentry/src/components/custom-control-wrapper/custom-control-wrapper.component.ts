@@ -3,15 +3,16 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CustomControlQuestion } from '../../form-entry/question-models/custom-control-question.model';
 
 @Component({
-  selector: 'ofe-custom-control-wrapper',
-  templateUrl: 'custom-control-wrapper.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: forwardRef(() => CustomControlWrapperComponent)
-    }
-  ]
+    selector: 'ofe-custom-control-wrapper',
+    templateUrl: 'custom-control-wrapper.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            multi: true,
+            useExisting: forwardRef(() => CustomControlWrapperComponent)
+        }
+    ],
+    standalone: false
 })
 export class CustomControlWrapperComponent
   implements ControlValueAccessor, OnInit {

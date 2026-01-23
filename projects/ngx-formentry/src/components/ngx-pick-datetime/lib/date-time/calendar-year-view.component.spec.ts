@@ -305,13 +305,14 @@ describe('OwlYearViewComponent', () => {
 });
 
 @Component({
-  template: `
+    template: `
     <ofe-owl-date-time-year-view
       [selected]="selected"
       [(pickerMoment)]="pickerMoment"
       (monthChange)="handleChange($event)"
     ></ofe-owl-date-time-year-view>
-  `
+  `,
+    standalone: false
 })
 class StandardYearViewComponent {
   selected = new Date(2018, JAN, 10);
@@ -323,12 +324,13 @@ class StandardYearViewComponent {
 }
 
 @Component({
-  template: `
+    template: `
     <ofe-owl-date-time-year-view
       [(pickerMoment)]="pickerMoment"
       [dateFilter]="dateFilter"
     ></ofe-owl-date-time-year-view>
-  `
+  `,
+    standalone: false
 })
 class YearViewWithDateFilterComponent {
   pickerMoment = new Date(2018, JAN, 1);

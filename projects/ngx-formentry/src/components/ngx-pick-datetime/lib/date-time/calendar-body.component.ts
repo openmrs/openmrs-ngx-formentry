@@ -23,12 +23,13 @@ export class CalendarCell {
 }
 
 @Component({
-  /* eslint-disable-next-line @angular-eslint/component-selector */
-  selector: '[ofe-owl-date-time-calendar-body]',
-  exportAs: 'owlDateTimeCalendarBody',
-  templateUrl: './calendar-body.component.html',
-  styleUrls: ['./calendar-body.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    /* eslint-disable-next-line @angular-eslint/component-selector */
+    selector: '[ofe-owl-date-time-calendar-body]',
+    exportAs: 'owlDateTimeCalendarBody',
+    templateUrl: './calendar-body.component.html',
+    styleUrls: ['./calendar-body.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OwlCalendarBodyComponent {
   @HostBinding('class.owl-dt-calendar-body') owlDTCalendarBodyClass = true;

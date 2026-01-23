@@ -350,7 +350,7 @@ describe('OwlTimerComponent', () => {
 });
 
 @Component({
-  template: `
+    template: `
     <ofe-owl-date-time-timer
       [hour12Timer]="hour12Timer"
       [showSecondsTimer]="showSecondsTimer"
@@ -362,7 +362,8 @@ describe('OwlTimerComponent', () => {
       [maxDateTime]="maxDateTime"
       (selectedChange)="handleSelectedChange($event)"
     ></ofe-owl-date-time-timer>
-  `
+  `,
+    standalone: false
 })
 class StandardTimer {
   stepHour = 1;

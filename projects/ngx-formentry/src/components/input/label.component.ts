@@ -35,8 +35,8 @@ import { TextAreaDirective } from './text-area.directive';
  * <example-url>../../iframe.html?id=input--label</example-url>
  */
 @Component({
-  selector: 'ofe-label',
-  template: `
+    selector: 'ofe-label',
+    template: `
     <label
       [for]="labelInputID"
       [attr.aria-label]="ariaLabel"
@@ -106,7 +106,8 @@ import { TextAreaDirective } from './text-area.directive';
         [ngTemplateOutlet]="warnText"
       ></ng-template>
     </div>
-  `
+  `,
+    standalone: false
 })
 export class LabelComponent implements AfterContentInit, AfterViewInit {
   /**

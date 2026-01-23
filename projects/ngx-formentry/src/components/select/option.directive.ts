@@ -1,7 +1,8 @@
 import { Directive, HostBinding } from '@angular/core';
 
 @Directive({
-  selector: '[ofeOption]'
+    selector: '[ofeOption]',
+    standalone: false
 })
 export class OptionDirective {
   @HostBinding('class') inputClass = 'cds--select-option';

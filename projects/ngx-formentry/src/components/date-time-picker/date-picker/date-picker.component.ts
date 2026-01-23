@@ -13,9 +13,10 @@ declare let require: any;
 // webpack2_
 
 @Component({
-  selector: 'ofe-date-picker',
-  templateUrl: './date-picker.component.html',
-  styleUrls: ['./date-picker.component.css']
+    selector: 'ofe-date-picker',
+    templateUrl: './date-picker.component.html',
+    styleUrls: ['./date-picker.component.css'],
+    standalone: false
 })
 export class DatePickerComponent implements OnInit {
   public dayNames: Array<string>;

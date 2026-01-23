@@ -16,11 +16,12 @@ declare let require: any;
 // webpack2_
 
 @Component({
-  selector: 'ofe-picker-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: []
+    selector: 'ofe-picker-modal',
+    templateUrl: './modal.component.html',
+    styleUrls: ['./modal.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [],
+    standalone: false
 })
 export class ModalComponent {
   @Output() overlayClick = new EventEmitter<boolean>();

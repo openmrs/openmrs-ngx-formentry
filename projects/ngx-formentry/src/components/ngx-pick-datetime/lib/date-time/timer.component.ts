@@ -15,11 +15,12 @@ import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 
 @Component({
-  exportAs: 'owlDateTimeTimer',
-  selector: 'ofe-owl-date-time-timer',
-  templateUrl: './timer.component.html',
-  styleUrls: ['./timer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    exportAs: 'owlDateTimeTimer',
+    selector: 'ofe-owl-date-time-timer',
+    templateUrl: './timer.component.html',
+    styleUrls: ['./timer.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OwlTimerComponent<T> {
   @HostBinding('attr.tabindex')

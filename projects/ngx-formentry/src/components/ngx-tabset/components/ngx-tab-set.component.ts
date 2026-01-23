@@ -13,9 +13,10 @@ import type { QueryList, TemplateRef } from '@angular/core';
 import { TabComponent } from './tab.component';
 
 @Component({
-  selector: 'ofe-tab-set',
-  styleUrls: ['ngx-tab-set.component.scss'],
-  templateUrl: 'ngx-tab-set.component.html'
+    selector: 'ofe-tab-set',
+    styleUrls: ['ngx-tab-set.component.scss'],
+    templateUrl: 'ngx-tab-set.component.html',
+    standalone: false
 })
 export class TabSetComponent implements AfterContentInit, OnChanges {
   @ContentChildren(TabComponent) public tabs: QueryList<TabComponent>;

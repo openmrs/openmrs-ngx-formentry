@@ -9,8 +9,9 @@ import {
 
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 @Component({
-  selector: 'ofe-sample-form',
-  templateUrl: 'sample-form.component.html'
+    selector: 'ofe-sample-form',
+    templateUrl: 'sample-form.component.html',
+    standalone: false
 })
 export class SampleFormComponent implements OnInit {
   form: UntypedFormGroup;

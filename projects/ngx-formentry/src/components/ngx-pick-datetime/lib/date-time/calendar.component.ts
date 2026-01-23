@@ -26,12 +26,12 @@ import {
 import { SelectMode } from './date-time.class';
 
 @Component({
-  selector: 'ofe-owl-date-time-calendar',
-  exportAs: 'owlDateTimeCalendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
-
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ofe-owl-date-time-calendar',
+    exportAs: 'owlDateTimeCalendar',
+    templateUrl: './calendar.component.html',
+    styleUrls: ['./calendar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OwlCalendarComponent<T>
   implements AfterContentInit, AfterViewChecked, OnDestroy {

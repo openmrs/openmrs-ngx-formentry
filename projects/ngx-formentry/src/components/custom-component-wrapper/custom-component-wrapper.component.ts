@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'ofe-custom-component-wrapper',
-  templateUrl: 'custom-component-wrapper.component.html'
+    selector: 'ofe-custom-component-wrapper',
+    templateUrl: 'custom-component-wrapper.component.html',
+    standalone: false
 })
 export class CustomComponentWrapperComponent {
   @Input()

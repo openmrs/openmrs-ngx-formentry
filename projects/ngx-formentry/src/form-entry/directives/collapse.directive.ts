@@ -17,8 +17,9 @@ import {
 import { collapseAnimation, expandAnimation } from './collapse-animations';
 
 @Directive({
-  selector: '[ofeCollapse]',
-  exportAs: 'bs-collapse'
+    selector: '[ofeCollapse]',
+    exportAs: 'bs-collapse',
+    standalone: false
 })
 export class CollapseDirective implements AfterViewChecked {
   // @HostBinding('class.collapse')

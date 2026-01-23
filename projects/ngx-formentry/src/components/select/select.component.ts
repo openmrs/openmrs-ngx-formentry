@@ -30,16 +30,17 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
  * <example-url>../../iframe.html?id=select--basic</example-url>
  */
 @Component({
-  selector: 'ofe-select',
-  templateUrl: 'select.component.html',
-  styleUrls: ['./select.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: SelectComponent,
-      multi: true
-    }
-  ]
+    selector: 'ofe-select',
+    templateUrl: 'select.component.html',
+    styleUrls: ['./select.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: SelectComponent,
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class SelectComponent implements ControlValueAccessor, AfterViewInit {
   /**

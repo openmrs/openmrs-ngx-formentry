@@ -1,9 +1,10 @@
 import { Component, Input, ContentChild, TemplateRef } from '@angular/core';
 
 @Component({
-  selector: 'ofe-tab',
-  templateUrl: 'tab.component.html',
-  styleUrls: ['./tab.component.css']
+    selector: 'ofe-tab',
+    templateUrl: 'tab.component.html',
+    styleUrls: ['./tab.component.css'],
+    standalone: false
 })
 export class TabComponent {
   @Input() public tabTitle: string;

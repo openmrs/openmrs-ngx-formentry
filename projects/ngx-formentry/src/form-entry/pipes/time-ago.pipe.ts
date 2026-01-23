@@ -7,8 +7,9 @@ import {
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 @Pipe({
-  name: 'timeAgo',
-  pure: false
+    name: 'timeAgo',
+    pure: false,
+    standalone: false
 })
 export class TimeAgoPipe implements PipeTransform, OnDestroy {
   private timer: number;

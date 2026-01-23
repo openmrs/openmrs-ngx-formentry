@@ -33,10 +33,11 @@ export const YEARS_PER_ROW = 3;
 export const YEAR_ROWS = 7;
 
 @Component({
-  selector: 'ofe-owl-date-time-multi-year-view',
-  templateUrl: './calendar-multi-year-view.component.html',
-  styleUrls: ['./calendar-multi-year-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ofe-owl-date-time-multi-year-view',
+    templateUrl: './calendar-multi-year-view.component.html',
+    styleUrls: ['./calendar-multi-year-view.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OwlMultiYearViewComponent<T> implements AfterContentInit {
   @HostBinding('class.owl-dt-calendar-view') get owlDTCalendarView() {
