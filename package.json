@@ -1,7 +1,11 @@
 {
-  "name": "@openmrs/ngx-formentry",
+  "name": "@openmrs/ngx-formentry-workspace",
   "version": "19.0.0",
+  "private": true,
   "license": "MPL-2.0",
+  "workspaces": [
+    "projects/ngx-formentry"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4200 --live-reload true",
@@ -95,5 +99,5 @@
     "*.{ts,tsx}": "eslint --cache --fix --max-warnings 0",
     "*.{css,scss,ts,tsx}": "prettier --write --list-different"
   },
-  "packageManager": "yarn@1.22.1"
+  "packageManager": "yarn@4.12.0"
 }
