@@ -12,10 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      TURBO_API: 'http://127.0.0.1:9080'
-      TURBO_TOKEN: ${{ secrets.TURBO_SERVER_TOKEN }}
-      TURBO_TEAM: ${{ github.repository_owner }}
 
     steps:
       - uses: actions/checkout@v4
@@ -33,22 +29,16 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
-
-      - name: Setup a local cache server for Turborepo
-        uses: felixmosh/turborepo-gh-artifacts@v3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          server-token: ${{ secrets.TURBO_SERVER_TOKEN }}
+        run: yarn install --immutable
 
       - name: Run lint
-        run: yarn turbo lint --color
+        run: yarn lint
 
       - name: Run tests
-        run: yarn turbo test --color
+        run: yarn test
 
       - name: Run build
-        run: yarn turbo build:lib --color --concurrency=5
+        run: yarn build:lib
 
   pre_release:
     runs-on: ubuntu-latest
@@ -71,19 +61,21 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Version
-        run: export NEW_VERSION="$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}" && yarn version --new-version $NEW_VERSION --no-git-tag-version && cd projects/ngx-formentry && yarn version --new-version $NEW_VERSION --no-git-tag-version
+        run: |
+          NEW_VERSION="$(node -e "console.log(require('semver').inc(require('./projects/ngx-formentry/package.json').version, 'patch'))")-pre.${{ github.run_number }}"
+          yarn workspace @openmrs/ngx-formentry version $NEW_VERSION
 
       - name: Build
-        run: yarn turbo build:lib --color --concurrency=5
+        run: yarn build:lib
 
       - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
       - run: git add . && git commit -m "Prerelease version" --no-verify
 
       - name: Publish pre-release
-        run: yarn publish dist/ngx-formentry --tag next --access public
+        run: yarn npm publish dist/ngx-formentry --tag next --access public
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
@@ -115,12 +107,12 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Build
-        run: yarn turbo build:lib --color --concurrency=5
+        run: yarn build:lib
 
       - name: Publish release
-        run: yarn publish dist/ngx-formentry --tag latest --access public
+        run: yarn npm publish dist/ngx-formentry --tag latest --access public
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
