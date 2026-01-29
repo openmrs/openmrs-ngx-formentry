@@ -15,7 +15,7 @@
     "test:watch": "ng test ngx-formentry",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "peerDependencies": {
     "@carbon/styles": "1.x"
@@ -74,7 +74,7 @@
     "@typescript-eslint/utils": "^8.0.0",
     "browserslist-config-openmrs": "^1.0.1",
     "eslint": "^8.57.0",
-    "husky": "^8.0.0",
+    "husky": "^9.1.7",
     "jasmine-core": "~5.1.1",
     "jasmine-spec-reporter": "~7.0.0",
     "karma": "~6.4.2",
