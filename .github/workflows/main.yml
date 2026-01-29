@@ -75,7 +75,7 @@ jobs:
       - run: git add . && git commit -m "Prerelease version" --no-verify
 
       - name: Publish pre-release
-        run: yarn --cwd dist/ngx-formentry npm publish --tag next --access public
+        run: touch dist/ngx-formentry/yarn.lock && yarn --cwd dist/ngx-formentry npm publish --tag next --access public
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
@@ -113,6 +113,6 @@ jobs:
         run: yarn build:lib
 
       - name: Publish release
-        run: yarn --cwd dist/ngx-formentry npm publish --tag latest --access public
+        run: touch dist/ngx-formentry/yarn.lock && yarn --cwd dist/ngx-formentry npm publish --tag latest --access public
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
