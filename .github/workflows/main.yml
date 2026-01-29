@@ -74,8 +74,14 @@ jobs:
       - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
       - run: git add . && git commit -m "Prerelease version" --no-verify
 
+      - name: Prepare publish directory
+        run: touch dist/ngx-formentry/yarn.lock && yarn --cwd dist/ngx-formentry install --mode=skip-build
+
+      - name: Publish pre-release (dry run)
+        run: yarn --cwd dist/ngx-formentry npm publish --tag next --access public --dry-run
+
       - name: Publish pre-release
-        run: touch dist/ngx-formentry/yarn.lock && yarn --cwd dist/ngx-formentry npm publish --tag next --access public
+        run: yarn --cwd dist/ngx-formentry npm publish --tag next --access public
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
@@ -112,7 +118,13 @@ jobs:
       - name: Build
         run: yarn build:lib
 
+      - name: Prepare publish directory
+        run: touch dist/ngx-formentry/yarn.lock && yarn --cwd dist/ngx-formentry install --mode=skip-build
+
+      - name: Publish release (dry run)
+        run: yarn --cwd dist/ngx-formentry npm publish --tag latest --access public --dry-run
+
       - name: Publish release
-        run: touch dist/ngx-formentry/yarn.lock && yarn --cwd dist/ngx-formentry npm publish --tag latest --access public
+        run: yarn --cwd dist/ngx-formentry npm publish --tag latest --access public
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
