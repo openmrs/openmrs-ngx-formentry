@@ -51,6 +51,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Cache dependencies
         id: cache
@@ -74,16 +75,15 @@ jobs:
       - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
       - run: git add . && git commit -m "Prerelease version" --no-verify
 
-      - name: Prepare publish directory
-        run: touch dist/ngx-formentry/yarn.lock && yarn --cwd dist/ngx-formentry install --mode=skip-build
-
       - name: Publish pre-release (dry run)
-        run: yarn --cwd dist/ngx-formentry npm publish --tag next --access public --dry-run
+        run: npm publish --tag next --access public --dry-run
+        working-directory: dist/ngx-formentry
 
       - name: Publish pre-release
-        run: yarn --cwd dist/ngx-formentry npm publish --tag next --access public
+        run: npm publish --tag next --access public
+        working-directory: dist/ngx-formentry
         env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
@@ -103,6 +103,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Cache dependencies
         id: cache
@@ -118,13 +119,12 @@ jobs:
       - name: Build
         run: yarn build:lib
 
-      - name: Prepare publish directory
-        run: touch dist/ngx-formentry/yarn.lock && yarn --cwd dist/ngx-formentry install --mode=skip-build
-
       - name: Publish release (dry run)
-        run: yarn --cwd dist/ngx-formentry npm publish --tag latest --access public --dry-run
+        run: npm publish --tag latest --access public --dry-run
+        working-directory: dist/ngx-formentry
 
       - name: Publish release
-        run: yarn --cwd dist/ngx-formentry npm publish --tag latest --access public
+        run: npm publish --tag latest --access public
+        working-directory: dist/ngx-formentry
         env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
