@@ -3,4 +3,4 @@
 
 set -e  # die on e
 
-yarn turbo test --color
+yarn test
