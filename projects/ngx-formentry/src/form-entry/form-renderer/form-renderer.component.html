@@ -155,14 +155,16 @@
             {{ node.question.label | translate }}
           </div>
         </button>
-        <div id="accordion-item-:r27:" class="cds--accordion__content">
-          <ofe-form-renderer
-            *ngFor="let question of node.question.questions"
-            [parentComponent]="this"
-            [node]="node.children[question.key]"
-            [parentGroup]="parentGroup"
-            [labelMap]="labelMap"
-          ></ofe-form-renderer>
+        <div class="cds--accordion__wrapper">
+          <div id="accordion-item-:r27:" class="cds--accordion__content">
+            <ofe-form-renderer
+              *ngFor="let question of node.question.questions"
+              [parentComponent]="this"
+              [node]="node.children[question.key]"
+              [parentGroup]="parentGroup"
+              [labelMap]="labelMap"
+            ></ofe-form-renderer>
+          </div>
         </div>
       </li>
     </ul>
