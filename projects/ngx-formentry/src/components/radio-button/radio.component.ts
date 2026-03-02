@@ -61,6 +61,9 @@ export class RadioButtonControlComponent
 
   set value(value: any) {
     this._value = value;
+    if (!value || value == '') {
+      this.options.forEach(opt => opt.checked = false);
+    }
   }
 
   public handleClick(option) {
