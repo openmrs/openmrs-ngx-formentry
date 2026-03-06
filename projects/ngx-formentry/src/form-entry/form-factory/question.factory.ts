@@ -166,6 +166,7 @@ export class QuestionFactory {
       id: 'key'
     };
     question.datePickerFormat = schemaQuestion.datePickerFormat ?? 'calendar';
+    question.dataSource = 'calendarEvents';
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);
@@ -196,6 +197,7 @@ export class QuestionFactory {
     question.showTime = true;
     question.componentConfigs = schemaQuestion.componentConfigs || [];
     question.datePickerFormat = schemaQuestion.datePickerFormat ?? 'calendar';
+    question.dataSource = 'calendarEvents';
 
     this.copyProperties(mappings, schemaQuestion, question);
     this.addDisableOrHideProperty(schemaQuestion, question);

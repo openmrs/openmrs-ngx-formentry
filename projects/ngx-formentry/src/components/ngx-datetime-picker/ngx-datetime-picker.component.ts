@@ -18,16 +18,76 @@ import moment from 'moment';
 export class NgxDatetimeComponent implements ControlValueAccessor {
   value = '';
   isDisabled = false;
+  // calendarEvents = [{ name: "Mashujaa Day", date: "2016-12-12" }, { name: "Christmas Day", date: "2016-12-25" }, { name: "Boxing Day", date: "2016-12-26" }, { name: "New Year Day", date: "2017-01-01" }]
   @Input() id = '';
   @Input() theme = 'dark';
   @Input() datePickerFormat = '';
   @Input() showWeeks = false;
   @Input() weeks: number[];
+  private observer: MutationObserver | null = null;
+  private _dataSource: Array<object>;
+  @Input()
+  public get dataSource(): any {
+    return this._dataSource || [];
+  }
+  public set dataSource(v: any) {
+    this._dataSource = v;
+  }
+
   onChange = (_: any) => {};
   onTouch = () => {};
   onInput($event: any) {
     this.onTouch();
     this.onChange(moment($event.value).format());
+  }
+
+  onPickerOpen($event: any) {
+    this.highlightEventDates();
+    const calendarBody = document.querySelector('.owl-dt-calendar-main');
+    if (calendarBody) {
+      this.observer = new MutationObserver(() => {
+        this.highlightEventDates();
+      });
+      this.observer.observe(calendarBody, {
+        childList: true,
+        subtree: true
+      });
+    }
+  }
+
+  onPickerClose($event: any) {
+    if (this.observer) {
+      this.observer.disconnect();
+      this.observer = null;
+    }
+  }
+
+  highlightEventDates(): void {
+    const isMultiYearView = !!document.querySelector(
+      '.owl-dt-calendar-multi-year-view'
+    );
+    if (isMultiYearView) {
+      return;
+    }
+
+    const cells = document.querySelectorAll('.owl-dt-calendar-cell');
+    for (let i = 0; i < cells.length; i++) {
+      const cell = cells[i];
+      const date = new Date(cell.getAttribute('aria-label'));
+      const cellDate = moment(date).format('YYYY-MM-DD');
+      const events = this.dataSource.filter(
+        (d) => moment(d.date).format('YYYY-MM-DD') === cellDate
+      );
+      if (events.length > 0) {
+        const eventName = events
+          .map((h) => h.name)
+          .sort()
+          .join('\n\n');
+
+        cell.classList.add('highlight-date');
+        cell.setAttribute('data-tooltip', eventName);
+      }
+    }
   }
 
   writeValue(value: any): void {

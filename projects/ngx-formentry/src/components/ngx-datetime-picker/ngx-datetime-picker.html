@@ -89,5 +89,7 @@
 <ofe-owl-date-time
   [pickerType]="datePickerFormat ? datePickerFormat : 'calendar'"
   [disabled]="isDisabled"
+  (afterPickerOpen)="onPickerOpen($event)"
+  (afterPickerClosed)="onPickerClose($event)"
   #dt1
 ></ofe-owl-date-time>

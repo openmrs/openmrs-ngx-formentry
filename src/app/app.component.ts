@@ -23,6 +23,7 @@ import { PatientIdentifierAdapter } from 'projects/ngx-formentry/src/form-entry/
 const adultReturnVisitForm = require('./adult-1.6.json');
 const adultReturnVisitFormObs = require('./mock/obs.json');
 const formOrdersPayload = require('./mock/orders.json');
+const calendarEvents = require('./mock/calendar-events.json');
 
 @Component({
     selector: 'app-root',
@@ -85,6 +86,7 @@ export class AppComponent implements OnInit {
       searchOptions: this.sampleSearch,
       resolveSelectedValue: this.sampleResolve
     });
+    this.dataSources.registerDataSource('calendarEvents', calendarEvents);
 
     const ds = {
       dataSourceOptions: { concept: undefined },

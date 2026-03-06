@@ -63,6 +63,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
     this.setUpRemoteSelect();
     this.setUpFileUpload();
     this.loadLabels();
+    this.setUpCalendarEvents();
     if (this.node && this.node.form) {
       const tab = this.node.form.valueProcessingInfo.lastFormTab;
       if (tab && tab !== this.activeTab) {
@@ -156,6 +157,12 @@ export class FormRendererComponent implements OnInit, OnChanges {
         }
       });
     }
+  }
+
+  public setUpCalendarEvents() {
+    this.dataSource = this.dataSources.dataSources[
+      this.node.question.dataSource
+    ];
   }
 
   checkSection(node: NodeBase) {
