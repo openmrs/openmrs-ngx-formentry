@@ -843,7 +843,10 @@ export class QuestionFactory {
       buttonLabel: schemaQuestion.questionOptions.buttonLabel,
       buttonType: schemaQuestion.questionOptions.buttonType,
       workspaceName: schemaQuestion.questionOptions.workspaceName,
-      additionalProps: schemaQuestion.questionOptions?.additionalProps ?? {}
+      additionalProps:
+        schemaQuestion.questionOptions?.workspaceProps ??
+        schemaQuestion.questionOptions?.additionalProps ??
+        {}
     });
     question.questionIndex = this.quetionIndex;
     question.extras = schemaQuestion;
