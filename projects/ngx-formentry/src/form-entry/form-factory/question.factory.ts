@@ -30,7 +30,10 @@ import { CustomControlQuestion } from '../question-models/custom-control-questio
 import { DiagnosisQuestion } from '../question-models/diagnosis-question';
 import { MaxLengthValidationModel } from '../question-models/max-length-validation.model';
 import { MinLengthValidationModel } from '../question-models/min-length-validation.model';
-import { WorkspaceLauncherQuestion } from '../question-models';
+import {
+  WorkspaceLauncherQuestion,
+  ModalLauncherQuestion
+} from '../question-models';
 import { DecimalValidationModel } from '../question-models/decimal-validation.model';
 import { DisallowDecimalsValidationModel } from '../question-models/disallow-decimals-validation.model';
 import { RemoteSelectQuestion } from '../question-models/remote-select-question';
@@ -42,6 +45,7 @@ export class QuestionFactory {
   historicalHelperService: HistoricalHelperService = new HistoricalHelperService();
   quetionIndex = 0;
   checkedForEsmFramework = false;
+  checkedForEsmFrameworkModal = false;
   constructor() {}
 
   createQuestionModel(formSchema: any, form?: Form): QuestionBase {
@@ -989,6 +993,52 @@ export class QuestionFactory {
     return question;
   }
 
+  toModalLauncher(schemaQuestion: any): ModalLauncherQuestion {
+    if (!this.checkedForEsmFrameworkModal) {
+      this.checkedForEsmFrameworkModal = true;
+      if (!window['_openmrs_esm_framework']) {
+        console.error(
+          "@openmrs/esm-framework is not accessible. The 'modal-launcher' question type can only be used in the context of an O3 frontend where the modal system is available."
+        );
+      } else if (
+        typeof window['_openmrs_esm_framework'].showModal !== 'function'
+      ) {
+        console.error(
+          '@openmrs/esm-framework is accessible, but the `showModal` function is missing. It is likely that the version of @openmrs/esm-framework that is being used is not compatible with this version of ngx-formentry.'
+        );
+      }
+    }
+
+    const question = new ModalLauncherQuestion({
+      type: '',
+      key: schemaQuestion.id,
+      label: schemaQuestion.label,
+      buttonLabel: schemaQuestion.questionOptions.buttonLabel,
+      buttonType: schemaQuestion.questionOptions.buttonType,
+      modalName: schemaQuestion.questionOptions.modalName,
+      additionalProps: schemaQuestion.questionOptions?.additionalProps ?? {}
+    });
+
+    question.questionIndex = this.quetionIndex;
+    question.extras = schemaQuestion;
+    question.extras.questionOptions.buttonType = question.buttonType;
+    question.extras.questionOptions.modalName = question.modalName;
+
+    const mappings = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
+
+    return question;
+  }
+
   toWorkspaceLauncher(schemaQuestion: any): WorkspaceLauncherQuestion {
     if (!this.checkedForEsmFramework) {
       this.checkedForEsmFramework = true;
@@ -1156,6 +1206,8 @@ export class QuestionFactory {
         return this.toFileUploadQuestion(schema);
       case 'workspace-launcher':
         return this.toWorkspaceLauncher(schema);
+      case 'modal-launcher':
+        return this.toModalLauncher(schema);
       case 'remote-select':
         return this.toRemoteSelectQuestion(schema);
       case 'machine-learning':

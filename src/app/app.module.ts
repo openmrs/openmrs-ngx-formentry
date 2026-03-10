@@ -14,13 +14,14 @@ import { NgxTranslateModule } from './translate/translate.module';
 import { AppointmentSummaryService } from './appointment.service';
 
 @NgModule({
-  declarations: [AppComponent, SubformDemoComponent],
+  declarations: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormEntryModule,
+    SubformDemoComponent,
     ReactiveFormsModule,
     NgxTranslateModule,
     HttpClientModule

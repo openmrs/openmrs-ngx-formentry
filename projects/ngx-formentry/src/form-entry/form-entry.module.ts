@@ -54,6 +54,7 @@ import { MachineLearningComponent } from '../components/machine-learning-button/
 import { MachineLearningService } from '../components/machine-learning-button/machine-learning.service';
 import { PatientIdentifierValidatorDirective } from './directives/patient-identifier.directive';
 import { MonthlyCalendarComponent } from '../components/appointments-overview/monthly-calendar.component';
+import { ModalLauncherComponent } from '../components/modal-launcher/modal-launcher.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -70,6 +71,10 @@ import { MonthlyCalendarComponent } from '../components/appointments-overview/mo
     CheckboxModule,
     RadioModule,
     WorkspaceLauncherModule,
+    MachineLearningComponent,
+    PatientIdentifierValidatorDirective,
+    MonthlyCalendarComponent,
+    ModalLauncherComponent,
     NgxDateTimePickerModule,
     SharedModule,
     CustomControlWrapperModule,
@@ -81,13 +86,10 @@ import { MonthlyCalendarComponent } from '../components/appointments-overview/mo
     FormRendererComponent,
     AfeNgSelectComponent,
     AppointmentsOverviewComponent,
-    MonthlyCalendarComponent,
     HistoricalValueDirective,
     ErrorRendererComponent,
     TimeAgoPipe,
-    CollapseDirective,
-    MachineLearningComponent,
-    PatientIdentifierValidatorDirective
+    CollapseDirective
   ],
   providers: [
     UntypedFormBuilder,
