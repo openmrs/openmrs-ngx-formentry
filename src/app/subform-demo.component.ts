@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Form, FormFactory, EncounterAdapter } from '@openmrs/ngx-formentry';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Form, FormFactory, EncounterAdapter, FormEntryModule } from '@openmrs/ngx-formentry';
 
 // Import the sample subform JSON
 const sampleSubformSchema = require('./mock/sample-subform.json');
 
 @Component({
   selector: 'app-subform-demo',
+  standalone: true,
+  imports: [ReactiveFormsModule, FormEntryModule],
   template: `
     <div *ngIf="form && form.rootNode">
       <h2>Subform Demo - Obs Separation Test</h2>

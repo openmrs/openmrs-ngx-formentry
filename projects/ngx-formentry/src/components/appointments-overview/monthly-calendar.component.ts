@@ -1,6 +1,8 @@
 // monthly-calendar.component.ts
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import moment from 'moment';
 
 interface CalendarDay {
@@ -15,6 +17,8 @@ interface Appointment {
 
 @Component({
   selector: 'ofe-monthly-calendar',
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
   template: `
     <div class="calendar">
       <div class="header">

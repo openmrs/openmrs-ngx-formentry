@@ -20,6 +20,7 @@ import { Messages } from '../utils/messages';
 
 @Directive({
   selector: '[ofePatientIdentifierValidator]',
+  standalone: true,
   providers: [
     {
       provide: NG_ASYNC_VALIDATORS,

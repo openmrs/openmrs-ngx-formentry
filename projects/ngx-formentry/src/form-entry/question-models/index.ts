@@ -21,3 +21,4 @@ export * from './text-input-question';
 export * from './ui-select-question';
 export * from './validation.model';
 export * from './workspace-launcher.model';
+export * from './modal-launcher.model';

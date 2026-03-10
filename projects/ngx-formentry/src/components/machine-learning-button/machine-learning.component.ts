@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { LeafNode } from '../../form-entry/form-factory/form-node';
 import { ObsAdapterHelper } from '../../form-entry/value-adapters/obs-adapter-helper';
 import { generatePredictionPayload } from './model-helper';
@@ -12,7 +13,9 @@ interface Payload {
 
 @Component({
   selector: 'ofe-machine-learning-risk-score',
-  templateUrl: './machine-learning.component.html'
+  templateUrl: './machine-learning.component.html',
+  standalone: true,
+  imports: [CommonModule]
 })
 export class MachineLearningComponent implements OnInit {
   @Input() node: LeafNode;

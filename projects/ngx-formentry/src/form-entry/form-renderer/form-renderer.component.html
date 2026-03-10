@@ -221,6 +221,18 @@
             [formControlName]="node.question.key" [attr.placeholder]="node.question.placeholder | translate"
             [type]="node.question.renderingType" [id]="node.question.key + 'id'"
             [readOnly]="node.question.extras.readOnly" />
+          <div *ngSwitchCase="'modal-launcher'">
+            <ofe-modal-launcher
+              [id]="node.question.key + 'id'"
+              [buttonLabel]="node.question.extras.questionOptions.buttonLabel"
+              [buttonType]="node.question.extras.questionOptions.buttonType"
+              [modalName]="node.question.extras.questionOptions.modalName"
+              [additionalProps]="
+                node.question.extras.questionOptions.additionalProps
+              "
+            ></ofe-modal-launcher>
+          </div>
+
           <input
             [ofePatientIdentifierValidator]="node"
             [theme]="theme"
