@@ -1047,10 +1047,12 @@ export class QuestionFactory {
           "@openmrs/esm-framework is not accessible. The 'workspace-launcher' question type can only be used in the context of the O3 patient chart, where the workspace is."
         );
       } else if (
+        typeof window['_openmrs_esm_framework'].launchWorkspace2 !==
+          'function' &&
         typeof window['_openmrs_esm_framework'].launchWorkspace !== 'function'
       ) {
         console.error(
-          '@openmrs/esm-framework is accessible, but the `launchWorkspace` function is missing. It is likely that the version of @openmrs/esm-framework that is being used is not compatible with this version of ngx-formentry.'
+          '@openmrs/esm-framework is accessible, but neither `launchWorkspace2` nor `launchWorkspace` is available. It is likely that the version of @openmrs/esm-framework that is being used is not compatible with this version of ngx-formentry.'
         );
       }
     }

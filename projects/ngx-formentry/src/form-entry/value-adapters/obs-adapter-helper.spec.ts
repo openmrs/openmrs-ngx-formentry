@@ -877,6 +877,12 @@ describe('Obs Value Adapter Helper: ', () => {
       formFieldNamespace: jasmine.stringMatching(/\w+/),
       formFieldPath: jasmine.stringMatching(/\w+/)
     });
+
+    // Sub-case 5: hidden controls are auto-cleared and should not be voided
+    field2.control.hidden = true;
+    field2.control.setValue(null);
+    payload = obsAdapterHelper.getSimpleObsPayload(field2);
+    expect(payload).toBeNull();
   });
 
   it('should generate payload obs for a complex obs node', () => {
