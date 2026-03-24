@@ -134,7 +134,7 @@ export class ObsAdapterHelper {
 
       const obsUuids = [];
       for (const m of obs) {
-        m.value?.uuid && obsUuids.push(m.value?.uuid);
+        obsUuids.push(m.value.uuid);
       }
 
       this.setNodeFormControlValue(node, obsUuids);
@@ -344,8 +344,8 @@ export class ObsAdapterHelper {
 
   // PAYLOAD GENERATION FUNCTIONS
   addFieldNameSpaceandPath(node, obs) {
-    // obs.formFieldNamespace = this.formFieldNamespace;
-    // obs.formFieldPath = `${node?.question?.extras?.id}~${this.obsIndex}`;
+    obs.formFieldNamespace = this.formFieldNamespace;
+    obs.formFieldPath = `${node?.question?.extras?.id}~${this.obsIndex}`;
     this.obsIndex++;
     return obs;
   }
@@ -360,6 +360,10 @@ export class ObsAdapterHelper {
     // check for empty values first
     if (this.isEmpty(node.control.value)) {
       if (node.initialValue) {
+        // Hidden controls are auto-cleared by hider logic; do not void on submit.
+        if (node.control?.hidden === true) {
+          return null;
+        }
         // Handle case for existing voided obs
         return {
           uuid: node.initialValue.uuid,

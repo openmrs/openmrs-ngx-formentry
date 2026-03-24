@@ -572,7 +572,7 @@
                   }
                 },
                 {
-                  "label": "Duration (Days)",
+                  "label": "Duration",
                   "type": "obs",
                   "id": "complaintduration",
                   "required": "true",
@@ -583,6 +583,36 @@
                   },
                   "hide": {
                     "hideWhenExpression": "complaintsToday !== '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+                  }
+                },
+                 {
+                  "label": "Duration of the complaint",
+                  "type": "obs",
+                  "id": "onsetTime",
+                  "questionOptions": {
+                    "concept": "1732AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                    "rendering": "select",
+                    "answers": [
+                      {
+                        "concept": "1072AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                        "label": "Days"
+                      },
+                      {
+                        "concept": "1073AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                        "label": "Weeks"
+                      },
+                      {
+                        "concept": "1074AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                        "label": "Months"
+                      },
+                      {
+                        "concept": "1734AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                        "label": "Years"
+                      }
+                    ]
+                  },
+                  "hide": {
+                    "hideWhenExpression": "isEmpty(complaintduration)"
                   }
                 },
                 {
@@ -902,7 +932,6 @@
                         "concept": "162301AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                         "label": "Cephalosporins"
                       },
-                     
                       {
                         "concept": "75948AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                         "label": "Ethambutol"
@@ -943,7 +972,7 @@
                         "concept": "162170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                         "label": "Sulfonamides"
                       },
-                       {
+                      {
                         "concept": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                         "label": "Other"
                       }
@@ -2416,9 +2445,11 @@
               "label": "Impression",
               "id": "clinicalDiagnosisId",
               "type": "diagnosis",
+              "required": true,
               "questionOptions": {
                 "rendering": "repeating",
                 "dataSource": "diagnoses",
+                "min": 1,
                 "rank": 1,
                 "datasource": {
                   "name": "diagnoses",
@@ -2498,38 +2529,15 @@
           "label": "Diagnosis",
           "isExpanded": "true",
           "questions": [
-          {
-             "label": "Main Diagnosis",
-             "id": "finalDiagnosisId",
-             "type": "diagnosis",
-             "questionOptions": {
-               "rendering": "remote-select",
-               "rank": 2,
-               "datasource": {
-                 "name": "diagnoses",
-                 "config": {
-                   "conceptSourceUuid": "39ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
-                 }
-               }
-             },
-             "validators": [
-               {
-                 "type": "js_expression",
-                 "failsWhenExpression": "isEmpty(myValue) && FORM_CONTEXT && FORM_CONTEXT.valueProcessingInfo && FORM_CONTEXT.valueProcessingInfo.lastFormTab >= 3",
-                 "message": "Main Diagnosis is required once you open Patient Management."
-               }
-             ]
-           },
-             {
-              "label": "Site affected",
-              "id": "siteOfDiagnosisFinal",
+            {
+              "label": "Main Diagnosis",
+              "id": "finalDiagnosisId",
               "type": "diagnosis",
               "questionOptions": {
-                "rendering": "repeating",
-                "dataSource": "diagnoses",
-                "rank": 1,
+                "rendering": "remote-select",
+                "rank": 2,
                 "datasource": {
-                  "name": "",
+                  "name": "diagnoses",
                   "config": {
                     "conceptSourceUuid": "39ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
                   }
@@ -2544,6 +2552,9 @@
               "questionOptions": {
                 "rendering": "radio",
                 "concept": "1f852fa4-caa6-4ad3-9f8e-551219af52ad",
+                "calculate": {
+                  "calculateExpression": "String(finalDiagnosisId) === '0de84a33-b845-449c-97c3-2bd81813c16d' ? '1687AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': String(finalDiagnosisId) === '041da219-3bb5-47dc-ab40-18b8b9a5fd8e' ? '1687AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': String(finalDiagnosisId) === '73040ad4-6fd2-47f3-b9b7-544a918e8a0f' ? '1687AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': String(finalDiagnosisId) === '9c8201b9-2db8-4561-8cbd-d917d3daf202' ? '1687AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': String(finalDiagnosisId) === '27035f79-7d16-4822-a3c6-e9a6bb82eceb' ? '1687AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': String(finalDiagnosisId) === '70574419-3325-404f-ada8-c59ac1681945' ? '1687AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': String(finalDiagnosisId) === '135361AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' ? '1687AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': String(finalDiagnosisId) === 'ba454659-c957-4593-acde-86222dae24e6' ? '1687AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': ''"
+                },
                 "answers": [
                   {
                     "concept": "1687AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
@@ -2557,6 +2568,9 @@
               },
               "hide": {
                 "hideWhenExpression": "isEmpty(finalDiagnosisId)"
+              },
+              "disable": {
+                "disableWhenExpression": "arrayContains(finalDiagnosisId, ['0de84a33-b845-449c-97c3-2bd81813c16d']) || arrayContains(finalDiagnosisId, ['041da219-3bb5-47dc-ab40-18b8b9a5fd8e']) || arrayContains(finalDiagnosisId, ['73040ad4-6fd2-47f3-b9b7-544a918e8a0f']) || arrayContains(finalDiagnosisId, ['9c8201b9-2db8-4561-8cbd-d917d3daf202']) || arrayContains(finalDiagnosisId, ['27035f79-7d16-4822-a3c6-e9a6bb82eceb']) || arrayContains(finalDiagnosisId, ['70574419-3325-404f-ada8-c59ac1681945']) || arrayContains(finalDiagnosisId, ['135361AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA']) || arrayContains(finalDiagnosisId, ['ba454659-c957-4593-acde-86222dae24e6'])"
               }
             },
             {
@@ -2565,25 +2579,9 @@
               "type": "diagnosis",
               "questionOptions": {
                 "rendering": "repeating",
-                "rank": 2,
+                "rank": 3,
                 "datasource": {
                   "name": "diagnoses",
-                  "config": {
-                    "conceptSourceUuid": "39ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
-                  }
-                }
-              }
-            },
-            {
-              "label": "Site affected",
-              "id": "siteOfDiagnosisFinal",
-              "type": "diagnosis",
-              "questionOptions": {
-                "rendering": "repeating",
-                "dataSource": "diagnoses",
-                "rank": 1,
-                "datasource": {
-                  "name": "",
                   "config": {
                     "conceptSourceUuid": "39ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
                   }
@@ -2627,7 +2625,7 @@
                 }
               }
             },
-             {
+            {
               "label": "Counseling offered",
               "type": "obs",
               "required": false,
@@ -2710,7 +2708,7 @@
               "questionOptions": {
                 "concept": "160433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                 "rendering": "radio",
-                 "answers": [
+                "answers": [
                   {
                     "concept": "1654AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                     "label": "Admit"
@@ -2726,7 +2724,7 @@
                 ]
               }
             },
-           {
+            {
               "label": "Next Appointment",
               "required": false,
               "id": "appointmentWorkspaceLauncher",
@@ -2913,7 +2911,8 @@
         }
       ]
     }
-    
   ],
   "encounterType": "465a92f2-baf8-42e9-9612-53064be868e8"
 }
+
+

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { type NodeBase } from '../../form-entry/form-factory/form-node';
 
 @Component({
   selector: 'ofe-modal-launcher',
@@ -13,15 +14,21 @@ export class ModalLauncherComponent {
   @Input() public buttonType: string;
   @Input() public modalName: string;
   @Input() public additionalProps: Record<string, unknown>;
+  @Input() public node: NodeBase;
 
   public handleClick() {
     const esmFramework = window['_openmrs_esm_framework'];
+    const valueProcessingInfo = this.node.form.valueProcessingInfo;
+    const formEntryState = valueProcessingInfo.formEntryState;
+
+    const modalProps = {
+      formEntryProps: formEntryState,
+      ...this.additionalProps ?? {},
+      formUuid: this.additionalProps?.formUuid,
+    }
 
     if (esmFramework && typeof esmFramework.showModal === 'function') {
-      esmFramework.showModal(
-        this.modalName,
-        this.additionalProps ?? {}
-      );
+      const dispose =esmFramework.showModal(this.modalName, {...modalProps, closeModal: () => dispose()});
     } else {
       // Fail silently in production; details are logged by the QuestionFactory checks
       // if used there. This is just a safeguard when used directly.
