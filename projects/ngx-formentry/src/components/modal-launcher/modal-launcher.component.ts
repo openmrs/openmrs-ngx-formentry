@@ -20,7 +20,7 @@ export class ModalLauncherComponent {
     const esmFramework = window['_openmrs_esm_framework'];
     const valueProcessingInfo = this.node.form.valueProcessingInfo;
     const formEntryState = valueProcessingInfo.formEntryState;
-
+    console.log('formEntryState',formEntryState)
     const modalProps = {
       formEntryProps: formEntryState,
       ...this.additionalProps ?? {},
