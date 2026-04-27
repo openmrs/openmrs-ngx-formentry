@@ -21,20 +21,25 @@ export class WorkspaceLauncherComponent {
       return;
     }
 
-    const workspaceProps = this.additionalProps ?? {};
+    const additionalProps = this.additionalProps ?? {};
 
     const info = this.node?.form?.valueProcessingInfo ?? {};
-    const windowProps = {
-      patient: info.patient,
-      patientUuid: info.patientUuid,
-      visitContext: info.visit,
-      visitUuid: info.visitUuid
-    };
 
+    // Merge additionalProps with patient/visit context from the current form.
+    // Pass null for windowProps and groupProps so arePropsCompatible always returns true,
+    // allowing the workspace to open alongside the form without prompting to close it.
     window['_openmrs_esm_framework'].launchWorkspace2(
       this.workspaceName,
-      workspaceProps,
-      windowProps
+      {
+        ...additionalProps,
+        patient: info.patient,
+        patientUuid: info.patientUuid,
+        visitUuid: info.visitUuid,
+        visitStartDatetime: info.visitStartDatetime,
+        visitStopDatetime: info.visitStopDatetime,
+      },
+      null,
+      null
     );
   }
 }
