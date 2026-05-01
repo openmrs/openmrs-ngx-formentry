@@ -4,14 +4,15 @@ import { DiagnosisQuestionOptions } from './interfaces/diagnosis-question-option
 
 export class DiagnosisQuestion extends QuestionBase {
   rendering: string;
-  options: any[];
-  dataSource?: any;
-
+  options: Array<Record<string, string>>;
+  dataSource?: string;
+  dataSourceOptions?: Record<string, unknown>;
   constructor(options: DiagnosisQuestionOptions) {
     super(options);
     this.renderingType = 'select';
     this.options = options.options;
     this.controlType = AfeControlType.AfeFormControl;
     this.dataSource = options.dataSource || '';
+    this.dataSourceOptions = options.dataSourceOptions || {};
   }
 }
