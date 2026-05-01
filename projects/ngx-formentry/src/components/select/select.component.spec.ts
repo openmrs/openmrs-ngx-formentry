@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { SelectComponent } from './select.component';
 
@@ -27,7 +28,7 @@ describe('SelectComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SelectComponent, SelectComponentTest],
-      imports: [FormsModule]
+      imports: [FormsModule, TranslateModule.forRoot()]
     });
   });
 

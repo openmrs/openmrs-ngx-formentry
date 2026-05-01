@@ -15,7 +15,7 @@
     }"
   >
     <label *ngIf="label" [for]="id" class="cds--label">
-      <ng-container *ngIf="!isTemplate(label)">{{ label }}</ng-container>
+      <ng-container *ngIf="!isTemplate(label)">{{ label | translate }}</ng-container>
       <ng-template
         *ngIf="isTemplate(label)"
         [ngTemplateOutlet]="label"
@@ -23,7 +23,7 @@
     </label>
     <div *ngIf="helperText" class="cds--form__helper-text">
       <ng-container *ngIf="!isTemplate(helperText)">{{
-        helperText
+        helperText | translate
       }}</ng-container>
       <ng-template
         *ngIf="isTemplate(helperText)"
@@ -102,7 +102,7 @@
     aria-live="polite"
   >
     <ng-container *ngIf="!isTemplate(invalidText)">{{
-      invalidText
+      invalidText | translate
     }}</ng-container>
     <ng-template
       *ngIf="isTemplate(invalidText)"
@@ -110,7 +110,7 @@
     ></ng-template>
   </div>
   <div *ngIf="!invalid && warn" class="cds--form-requirement">
-    <ng-container *ngIf="!isTemplate(warnText)">{{ warnText }}</ng-container>
+    <ng-container *ngIf="!isTemplate(warnText)">{{ warnText | translate }}</ng-container>
     <ng-template
       *ngIf="isTemplate(warnText)"
       [ngTemplateOutlet]="warnText"

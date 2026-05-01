@@ -1,5 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { CheckboxControlComponent } from './checkbox.component';
 
 describe('CheckboxControlComponent', () => {
@@ -13,7 +14,8 @@ describe('CheckboxControlComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CheckboxControlComponent]
+      declarations: [CheckboxControlComponent],
+      imports: [TranslateModule.forRoot()]
     });
 
     fixture = TestBed.createComponent(CheckboxControlComponent);

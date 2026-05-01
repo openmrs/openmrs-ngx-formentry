@@ -1,5 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { RadioButtonControlComponent } from './radio.component';
 
 describe('RadioButtonControlComponent', () => {
@@ -13,7 +14,8 @@ describe('RadioButtonControlComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RadioButtonControlComponent]
+      declarations: [RadioButtonControlComponent],
+      imports: [TranslateModule.forRoot()]
     });
 
     fixture = TestBed.createComponent(RadioButtonControlComponent);
