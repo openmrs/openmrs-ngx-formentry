@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared.module';
 import { FileUploadComponent } from './file-upload.component';
 import { WebcamModule } from 'ngx-webcam';
-import { NgxFileUploaderModule } from '@openmrs/ngx-file-uploader';
+import { NgxFileUploaderComponent } from '@openmrs/ngx-file-uploader';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { NgxFileUploaderModule } from '@openmrs/ngx-file-uploader';
     FormsModule,
     SharedModule,
     WebcamModule,
-    NgxFileUploaderModule
+    NgxFileUploaderComponent
   ],
   exports: [FileUploadComponent],
   declarations: [FileUploadComponent],

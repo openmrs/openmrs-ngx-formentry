@@ -1,5 +1,4 @@
-import { Injector } from '@angular/core';
-import { getTestBed, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import {
@@ -22,7 +21,6 @@ import { DebugModeService } from './../services/debug-mode.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('Form Factory Control Service Tests', () => {
-  let injector: Injector;
   let formControlService: FormControlService;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,12 +35,10 @@ describe('Form Factory Control Service Tests', () => {
         DebugModeService
       ]
     });
-    injector = getTestBed();
-    formControlService = injector.get(FormControlService);
+    formControlService = TestBed.inject(FormControlService);
   });
 
   afterEach(() => {
-    injector = undefined;
     formControlService = undefined;
   });
 
