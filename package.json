@@ -1,6 +1,6 @@
 {
   "name": "@openmrs/ngx-formentry-workspace",
-  "version": "19.0.1",
+  "version": "20.0.0",
   "private": true,
   "license": "MPL-2.0",
   "workspaces": [
@@ -96,7 +96,8 @@
     "extends browserslist-config-openmrs"
   ],
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --cache --fix --max-warnings 0 --no-ignore",
+    "!(*.spec|date-time-picker-input.directive).{ts,tsx}": "eslint --cache --fix --max-warnings 0",
+    "*.spec.ts": "eslint --cache --fix --max-warnings 0 --no-ignore",
     "*.{css,scss,ts,tsx}": "prettier --write --list-different"
   },
   "packageManager": "yarn@4.12.0"

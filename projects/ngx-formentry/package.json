@@ -1,6 +1,6 @@
 {
   "name": "@openmrs/ngx-formentry",
-  "version": "19.0.1",
+  "version": "20.0.0",
   "peerDependencies": {
     "@angular/animations": "^20.0.0",
     "@angular/cdk": "^20.0.0",
