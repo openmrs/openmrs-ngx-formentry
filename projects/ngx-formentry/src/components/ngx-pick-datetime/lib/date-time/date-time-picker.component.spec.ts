@@ -205,9 +205,8 @@ describe('OwlDateTimeComponent', () => {
         fixture.detectChanges();
         flush();
 
-        expect(
-          parseInt(getComputedStyle(popup).height as string, 10)
-        ).toBeNaN();
+        expect(testComponent.dateTimePicker.opened).toBe(false);
+        expect(document.querySelector('owl-date-time-container')).toBeNull();
       }));
 
       it('should close the popup when pressing ESCAPE', fakeAsync(() => {
@@ -2183,7 +2182,7 @@ describe('OwlDateTimeComponent', () => {
 });
 
 @Component({
-    template: `
+  template: `
     <input [owlDateTime]="dt" [value]="date" />
     <ofe-owl-date-time
       [opened]="opened"
@@ -2193,7 +2192,7 @@ describe('OwlDateTimeComponent', () => {
       #dt
     ></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class StandardDateTimePicker {
   date: Date | null = new Date(2020, JAN, 1);
@@ -2208,7 +2207,7 @@ class StandardDateTimePicker {
 }
 
 @Component({
-    template: `
+  template: `
     <input [owlDateTime]="dt" [selectMode]="selectMode" [values]="dates" />
     <ofe-owl-date-time
       [startAt]="startAt"
@@ -2216,7 +2215,7 @@ class StandardDateTimePicker {
       #dt
     ></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class RangeDateTimePicker {
   dates: Date[] | null = [new Date(2020, JAN, 1), new Date(2020, FEB, 1)];
@@ -2230,18 +2229,18 @@ class RangeDateTimePicker {
 }
 
 @Component({
-    template: `
+  template: `
     <input [owlDateTime]="dt" />
     <input [owlDateTime]="dt" />
     <ofe-owl-date-time #dt></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class MultiInputDateTimePicker {}
 
 @Component({
-    template: ` <ofe-owl-date-time #dt></ofe-owl-date-time> `,
-    standalone: false
+  template: ` <ofe-owl-date-time #dt></ofe-owl-date-time> `,
+  standalone: false
 })
 class NoInputDateTimePicker {
   @ViewChild('dt', { static: true })
@@ -2249,11 +2248,11 @@ class NoInputDateTimePicker {
 }
 
 @Component({
-    template: `
+  template: `
     <input [owlDateTime]="dt" [value]="date" />
     <ofe-owl-date-time #dt [startAt]="startDate"></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class DateTimePickerWithStartAt {
   date = new Date(2020, JAN, 1);
@@ -2263,7 +2262,7 @@ class DateTimePickerWithStartAt {
 }
 
 @Component({
-    template: `
+  template: `
     <input [owlDateTime]="dt" [value]="date" />
     <ofe-owl-date-time
       #dt
@@ -2272,7 +2271,7 @@ class DateTimePickerWithStartAt {
       (yearSelected)="onYearSelection()"
     ></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class DateTimePickerWithStartView {
   date = new Date(2020, JAN, 1);
@@ -2286,11 +2285,11 @@ class DateTimePickerWithStartView {
 }
 
 @Component({
-    template: `
+  template: `
     <input [(ngModel)]="moment" [selectMode]="selectMode" [owlDateTime]="dt" />
     <ofe-owl-date-time #dt></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class DateTimePickerWithNgModel {
   moment: Date[] | Date | null = null;
@@ -2302,7 +2301,7 @@ class DateTimePickerWithNgModel {
 }
 
 @Component({
-    template: `
+  template: `
     <input
       [formControl]="formControl"
       [owlDateTime]="dt"
@@ -2310,7 +2309,7 @@ class DateTimePickerWithNgModel {
     />
     <ofe-owl-date-time #dt></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class DateTimePickerWithFormControl {
   formControl = new UntypedFormControl();
@@ -2323,12 +2322,12 @@ class DateTimePickerWithFormControl {
 }
 
 @Component({
-    template: `
+  template: `
     <input [owlDateTime]="dt" />
     <button [ofeOwlDateTimeTrigger]="dt">Icon</button>
     <ofe-owl-date-time #dt></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class DateTimePickerWithTrigger {
   @ViewChild('dt', { static: true })
@@ -2338,7 +2337,7 @@ class DateTimePickerWithTrigger {
 }
 
 @Component({
-    template: `
+  template: `
     <input
       [(ngModel)]="date"
       [min]="min"
@@ -2348,7 +2347,7 @@ class DateTimePickerWithTrigger {
     />
     <ofe-owl-date-time [showSecondsTimer]="true" #dt></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class DateTimePickerWithMinAndMaxValidation {
   @ViewChild('dt', { static: true })
@@ -2364,7 +2363,7 @@ class DateTimePickerWithMinAndMaxValidation {
 }
 
 @Component({
-    template: `
+  template: `
     <input
       [(ngModel)]="date"
       [owlDateTimeFilter]="filter"
@@ -2373,7 +2372,7 @@ class DateTimePickerWithMinAndMaxValidation {
     />
     <ofe-owl-date-time [showSecondsTimer]="true" #dt></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class DateTimePickerWithFilterValidation {
   @ViewChild('dt', { static: true })
@@ -2387,7 +2386,7 @@ class DateTimePickerWithFilterValidation {
 }
 
 @Component({
-    template: `
+  template: `
     <input
       [owlDateTime]="dt"
       [ofeOwlDateTimeTrigger]="dt"
@@ -2398,7 +2397,7 @@ class DateTimePickerWithFilterValidation {
     />
     <ofe-owl-date-time [showSecondsTimer]="true" #dt></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class DateTimePickerWithChangeAndInputEvents {
   @ViewChild('dt', { static: true })
@@ -2418,11 +2417,11 @@ class DateTimePickerWithChangeAndInputEvents {
 }
 
 @Component({
-    template: `
+  template: `
     <input [owlDateTime]="dt" [(ngModel)]="value" [min]="min" [max]="max" />
     <ofe-owl-date-time #dt [startAt]="startAt"></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class DateTimePickerWithISOStrings {
   value = new Date(2017, JUN, 1).toISOString();
@@ -2436,7 +2435,7 @@ class DateTimePickerWithISOStrings {
 }
 
 @Component({
-    template: `
+  template: `
     <input [(ngModel)]="selected" [owlDateTime]="dt" />
     <ofe-owl-date-time
       (afterPickerOpen)="openedSpy()"
@@ -2444,7 +2443,7 @@ class DateTimePickerWithISOStrings {
       #dt
     ></ofe-owl-date-time>
   `,
-    standalone: false
+  standalone: false
 })
 class DateTimePickerWithEvents {
   selected: Date | null = null;

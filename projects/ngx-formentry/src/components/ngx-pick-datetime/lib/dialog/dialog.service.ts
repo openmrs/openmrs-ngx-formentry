@@ -26,11 +26,7 @@ import {
   OverlayRef,
   ScrollStrategy
 } from '@angular/cdk/overlay';
-import {
-  ComponentPortal,
-  ComponentType,
-  PortalInjector
-} from '@angular/cdk/portal';
+import { ComponentPortal, ComponentType } from '@angular/cdk/portal';
 
 export const OWL_DIALOG_DATA = new InjectionToken<any>('OwlDialogData');
 
@@ -219,13 +215,14 @@ export class OwlDialogService {
   ) {
     const userInjector =
       config && config.viewContainerRef && config.viewContainerRef.injector;
-    const injectionTokens = new WeakMap();
-
-    injectionTokens.set(OwlDialogRef, dialogRef);
-    injectionTokens.set(OwlDialogContainerComponent, dialogContainer);
-    injectionTokens.set(OWL_DIALOG_DATA, config.data);
-
-    return new PortalInjector(userInjector || this.injector, injectionTokens);
+    return Injector.create({
+      parent: userInjector || this.injector,
+      providers: [
+        { provide: OwlDialogRef, useValue: dialogRef },
+        { provide: OwlDialogContainerComponent, useValue: dialogContainer },
+        { provide: OWL_DIALOG_DATA, useValue: config.data }
+      ]
+    });
   }
 
   private createOverlay(config: OwlDialogConfig): OverlayRef {

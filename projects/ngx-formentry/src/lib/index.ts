@@ -12,6 +12,7 @@ export { FormFactory } from '../form-entry/form-factory/form.factory';
 export { Form } from '../form-entry/form-factory/form';
 export { QuestionFactory } from '../form-entry/form-factory/question.factory';
 export { ValidationFactory } from '../form-entry/form-factory/validation.factory';
+export { NodeBase } from '../form-entry/form-factory/form-node';
 export { FormSchemaCompiler } from '../form-entry/services/form-schema-compiler.service';
 export { HistoricalEncounterDataService } from '../form-entry/services/historical-encounter-data.service';
 export { FormErrorsService } from '../form-entry/services/form-errors.service';
