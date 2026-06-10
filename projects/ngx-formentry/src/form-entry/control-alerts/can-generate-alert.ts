@@ -10,6 +10,11 @@ export interface CanGenerateAlert {
   updateAlert();
 }
 
+export interface AlertConfig {
+  alertWhenExpression: string;
+  message: string;
+}
+
 export interface Alert {
   shown: boolean;
   alertWhenExpression: string;
