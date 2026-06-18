@@ -40,7 +40,7 @@ export class ConceptReferenceRangeAlertFactory {
     const alert: Alert = {
       shown: false,
       alertWhenExpression: 'conceptReferenceRange',
-      alertMessage: '',
+      message: '',
       reEvaluateAlertExpression: () => {
         const patientUuid = form?.valueProcessingInfo?.patientUuid;
         const value = this.parseNumericValue((control as any)?.value);
@@ -62,13 +62,13 @@ export class ConceptReferenceRangeAlertFactory {
 
         if (range == null || isNaN(value)) {
           alert.shown = false;
-          alert.alertMessage = '';
+          alert.message = '';
           return;
         }
 
         const evaluated = this.evaluateConceptRangeAlert(range, value);
         alert.shown = evaluated.shown;
-        alert.alertMessage = (evaluated.message as any) || '';
+        alert.message = (evaluated.message as any) || '';
       }
     };
 
@@ -180,4 +180,3 @@ export class ConceptReferenceRangeAlertFactory {
     return { shown: false, message: null };
   }
 }
-

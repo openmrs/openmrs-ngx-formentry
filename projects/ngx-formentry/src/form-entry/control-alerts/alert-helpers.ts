@@ -1,5 +1,4 @@
 import { CanGenerateAlert, Alert } from './can-generate-alert';
-import { SafeHtml } from '@angular/platform-browser';
 
 export class AlertHelper {
   public hideAlert(control: Alert) {
@@ -20,17 +19,10 @@ export class AlertHelper {
   }
 
   public evaluateControlAlerts(control: CanGenerateAlert) {
-    let messageValue: string | SafeHtml = '';
-    control.alerts.forEach((message) => {
-      message.reEvaluateAlertExpression();
-      if (message.shown === true) {
-        messageValue = message.alertMessage;
-      } else {
-        messageValue = '';
-      }
-    });
-
-    control.alert = messageValue;
+    // Re-evaluate all alerts so their `shown` state is current, then pick the first match.
+    control.alerts.forEach((a) => a.reEvaluateAlertExpression());
+    const first = control.alerts.find((a) => a.shown);
+    control.alert = first ? first.message : '';
     // if (control.message && control.disable) {
     //     control.disable();
     //     // control.setValue(null);

@@ -564,7 +564,6 @@ export class AppComponent implements OnInit {
       const encounterFromSubform = this.encAdapter.generateFormPayloadWithSubforms(
         this.form
       );
-      console.log('encounterFromSubform', encounterFromSubform);
 
       // Alternative is to populate for each as shown below
       // // generate obs payload

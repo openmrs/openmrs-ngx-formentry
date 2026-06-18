@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Alert } from '../control-alerts/can-generate-alert';
+import { Alert, AlertConfig } from '../control-alerts/can-generate-alert';
 
 import {
   ExpressionRunner,
@@ -25,14 +25,15 @@ export class AlertsFactory {
     private conceptRangeAlertFactory: ConceptReferenceRangeAlertFactory,
     private tewsAlertFactory: TewsAlertFactory
   ) {}
-  getJsExpressionshowAlert(
+
+  getJsExpressionAlerts(
     question: QuestionBase,
     control: AfeFormControl | AfeFormArray | AfeFormGroup,
     form?: Form
-  ): Alert {
+  ): Alert[] {
     const tewsAlert = this.tewsAlertFactory.buildAlert(question, control);
     if (tewsAlert) {
-      return tewsAlert;
+      return [tewsAlert];
     }
 
     const conceptRangeAlert = this.conceptRangeAlertFactory.buildAlert(
@@ -41,27 +42,40 @@ export class AlertsFactory {
       form
     );
     if (conceptRangeAlert) {
-      return conceptRangeAlert;
+      return [conceptRangeAlert];
     }
 
-    const expr = question?.alert?.alertWhenExpression;
-    const isValidExpr = typeof expr === 'string' && expr.trim().length > 0;
+    const alertConfigs = this.normalizeAlertConfigs(question.alert);
+    return alertConfigs.map((alertConfig) =>
+      this.createAlert(alertConfig, control, form)
+    );
+  }
 
-    if (!isValidExpr) {
-      const noop: Alert = {
-        shown: false,
-        alertWhenExpression: '',
-        alertMessage: '',
-        reEvaluateAlertExpression: () => {
-          noop.shown = false;
-          noop.alertMessage = '';
-        }
-      };
-      return noop;
+  /** @deprecated Use {@link getJsExpressionAlerts} instead. */
+  getJsExpressionshowAlert(
+    question: QuestionBase,
+    control: AfeFormControl | AfeFormArray | AfeFormGroup,
+    form?: Form
+  ): Alert {
+    return this.getJsExpressionAlerts(question, control, form)[0];
+  }
+
+  private normalizeAlertConfigs(
+    alert: AlertConfig | AlertConfig[] | null | undefined
+  ): AlertConfig[] {
+    if (!alert) {
+      return [];
     }
+    return Array.isArray(alert) ? alert : [alert];
+  }
 
+  private createAlert(
+    alertConfig: AlertConfig,
+    control: AfeFormControl | AfeFormArray | AfeFormGroup,
+    form?: Form
+  ): Alert {
     const runnable: Runnable = this.expressionRunner.getRunnable(
-      expr,
+      alertConfig.alertWhenExpression,
       control,
       this.expressionHelper.helperFunctions,
       {},
@@ -69,8 +83,8 @@ export class AlertsFactory {
     );
     const jsAlert: Alert = {
       shown: false,
-      alertWhenExpression: expr,
-      alertMessage: question.alert.message,
+      alertWhenExpression: alertConfig.alertWhenExpression,
+      message: alertConfig.message,
       reEvaluateAlertExpression: () => {
         const result = runnable.run();
         jsAlert.shown = result;

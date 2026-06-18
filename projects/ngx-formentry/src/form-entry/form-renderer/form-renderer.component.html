@@ -1,5 +1,5 @@
 <!--CONTAINERS-->
-<div *ngIf="node.question.renderingType === 'form'">
+<div *ngIf="node.question.renderingType === 'form'" class="form-root-container">
   <ofe-tab-set
     (tabSelect)="tabSelected($event)"
     [selectedIndex]="activeTab"

@@ -54,6 +54,7 @@ export class FormFactory {
     this.buildRelations(form.rootNode);
     form.updateHiddenDisabledStateForAllControls();
     form.updateAlertsForAllControls();
+    form.subscribeToReactiveDataSources();
     return form;
   }
 

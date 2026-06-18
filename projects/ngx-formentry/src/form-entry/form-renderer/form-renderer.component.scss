@@ -196,6 +196,13 @@ ng-select.form-control {
   border-bottom: none;
   padding: 0 0;
   overflow-wrap: break-word;
+
+  .cds--accordion__heading {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #ffffff;
+  }
 }
 
 .accordion-content-override:hover {

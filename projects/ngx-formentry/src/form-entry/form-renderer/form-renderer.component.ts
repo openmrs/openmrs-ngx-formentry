@@ -5,7 +5,9 @@ import {
   Inject,
   OnChanges,
   SimpleChanges,
-  TemplateRef
+  TemplateRef,
+  ElementRef,
+  HostBinding
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -48,6 +50,12 @@ export class FormRendererComponent implements OnInit, OnChanges {
   public isNavigation = true;
   public type = 'default';
   public hasMultiplePages = false;
+  private hasSelectedTab = false;
+
+  @HostBinding('class.ofe-form-root')
+  get isFormRoot(): boolean {
+    return this.node?.question?.renderingType === 'form';
+  }
   inlineDatePicker: Date = new Date();
   private TAB_SELECTION_DELAY_MS = 100;
 
@@ -57,7 +65,8 @@ export class FormRendererComponent implements OnInit, OnChanges {
     private formErrorsService: FormErrorsService,
     public translate: TranslateService,
     @Inject(DOCUMENT) private document: Document,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private elementRef: ElementRef<HTMLElement>
   ) {
     this.activeTab = 0;
   }
@@ -185,7 +194,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
   public loadPreviousTab() {
     if (!this.isCurrentTabFirst()) {
       this.clickTab(this.activeTab - 1);
-      document.body.scrollTop = 0;
+      this.scrollFormToTop();
     }
   }
 
@@ -200,10 +209,12 @@ export class FormRendererComponent implements OnInit, OnChanges {
   public loadNextTab() {
     if (!this.isCurrentTabLast()) {
       this.clickTab(this.activeTab + 1);
-      document.body.scrollTop = 0;
+      this.scrollFormToTop();
     }
   }
   public tabSelected($event) {
+    const isInitialSelection = !this.hasSelectedTab;
+    this.hasSelectedTab = true;
     this.activeTab = $event;
     this.setPreviousTab();
 
@@ -219,12 +230,42 @@ export class FormRendererComponent implements OnInit, OnChanges {
       this.recalculateAllCalculatedControls();
     }
 
-    setTimeout(() => {
-      const sectionHeader = this.document.querySelector('div.pane > h4');
-      if (sectionHeader) {
-        sectionHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (!isInitialSelection) {
+      setTimeout(() => {
+        this.scrollFormToTop();
+      }, this.TAB_SELECTION_DELAY_MS);
+    }
+  }
+
+  private scrollFormToTop() {
+    const host = this.elementRef.nativeElement;
+    const scrollParent = this.getScrollableParent(host);
+
+    // Only scroll when the form lives inside its own scroll container.
+    // Avoid touching the document/body so the host page doesn't jump.
+    if (!scrollParent) {
+      return;
+    }
+
+    const top =
+      host.getBoundingClientRect().top -
+      scrollParent.getBoundingClientRect().top +
+      scrollParent.scrollTop;
+    scrollParent.scrollTo({ top, behavior: 'smooth' });
+  }
+
+  private getScrollableParent(element: HTMLElement): HTMLElement | null {
+    const { body, documentElement } = this.document;
+    let parent = element.parentElement;
+    while (parent && parent !== body && parent !== documentElement) {
+      const { overflowY } = getComputedStyle(parent);
+      const isScrollable = overflowY === 'auto' || overflowY === 'scroll';
+      if (isScrollable && parent.scrollHeight > parent.clientHeight) {
+        return parent;
       }
-    }, this.TAB_SELECTION_DELAY_MS);
+      parent = parent.parentElement;
+    }
+    return null;
   }
 
   public setPreviousTab() {

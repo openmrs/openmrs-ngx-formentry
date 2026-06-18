@@ -1,8 +1,10 @@
 import * as _ from 'lodash';
+import { Subscription } from 'rxjs';
 
 import { FormFactory } from './form.factory';
 import { QuestionFactory } from './question.factory';
 import { DataSources } from '../data-sources/data-sources';
+import { isReactiveDataSource } from '../data-sources/reactive-data-source';
 import { NodeBase, GroupNode, LeafNode, ArrayNode } from './form-node';
 import { QuestionBase } from '../question-models/question-base';
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
@@ -16,6 +18,7 @@ export class Form {
   public existingDiagnoses: Array<Diagnosis> = [];
   private _dataSourcesContainer: DataSources;
   private _showErrors = false;
+  private readonly _reactiveDataSourceSubscriptions = new Subscription();
   constructor(
     public schema: any,
     public formFactory: FormFactory,
@@ -216,6 +219,45 @@ export class Form {
 
   updateAlertsForAllControls() {
     this._updateAlertsForAllControls(this.rootNode);
+  }
+
+  /**
+   * Subscribes to every registered data source that implements
+   * {@link ReactiveDataSource}. When such a data source signals an async update,
+   * the form re-runs the expression-driven state (hide/disable/alert) so the
+   * newly-available data is reflected in the UI. Called once after the form tree
+   * is built. Remember to call {@link dispose} when the form is discarded.
+   */
+  subscribeToReactiveDataSources() {
+    const sources = this.dataSourcesContainer.dataSources;
+    for (const key of Object.keys(sources)) {
+      const dataSource = sources[key];
+      if (isReactiveDataSource(dataSource)) {
+        this._reactiveDataSourceSubscriptions.add(
+          dataSource.dataSourceChanges.subscribe(() =>
+            this.reEvaluateExpressionDependentState()
+          )
+        );
+      }
+    }
+  }
+
+  /**
+   * Re-runs every expression-driven control state. Mirrors the per-control flow
+   * that a value change triggers, but for the whole tree, so async data sources
+   * can refresh hide/disable/alert state without a user interaction.
+   */
+  reEvaluateExpressionDependentState() {
+    this.updateHiddenDisabledStateForAllControls();
+    this.updateAlertsForAllControls();
+  }
+
+  /**
+   * Tears down subscriptions created by {@link subscribeToReactiveDataSources}.
+   * Consumers should call this when the form instance is no longer used.
+   */
+  dispose() {
+    this._reactiveDataSourceSubscriptions.unsubscribe();
   }
 
   private _updateAlertsForAllControls(rootNode: NodeBase) {

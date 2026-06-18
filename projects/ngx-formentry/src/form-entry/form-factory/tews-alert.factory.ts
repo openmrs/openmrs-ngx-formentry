@@ -24,12 +24,12 @@ export class TewsAlertFactory {
     const alert: Alert = {
       shown: false,
       alertWhenExpression: 'tewsRange',
-      alertMessage: '',
+      message: '',
       reEvaluateAlertExpression: () => {
         const value = this.parseNumericValue((control as any)?.value);
         const evaluated = this.evaluateTewsRangeAlert(value);
         alert.shown = evaluated.shown;
-        alert.alertMessage = (evaluated.message as any) || '';
+        alert.message = (evaluated.message as any) || '';
       }
     };
 
@@ -60,7 +60,9 @@ export class TewsAlertFactory {
     };
   }
 
-  private getTewsCategory(score: number): {
+  private getTewsCategory(
+    score: number
+  ): {
     label: string;
     color: string;
     description: string;
@@ -135,8 +137,8 @@ export class TewsAlertFactory {
       category.icon === 'danger'
         ? dangerIcon
         : category.icon === 'success'
-          ? successIcon
-          : infoIcon;
+        ? successIcon
+        : infoIcon;
     const backgroundStyle = category.backgroundColor
       ? ` style="background-color: ${category.backgroundColor};"`
       : '';
@@ -144,4 +146,3 @@ export class TewsAlertFactory {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }
-
