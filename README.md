@@ -134,6 +134,10 @@ yarn start --sources packages/esm-form-entry-app
 
 Contributions are welcome. Please read through the [technical roadmap](https://github.com/openmrs/openmrs-ngx-formentry/issues/1) first to see what features are planned for the library. Read through our [Contributing Guidelines](https://o3-docs.openmrs.org/docs/frontend-modules/contributing) to get a better understanding of how to contribute.
 
+## Angular version policy
+
+This library ships Angular code to production as part of the O3 form engine stack, together with [openmrs-ngx-file-uploader](https://github.com/openmrs/openmrs-ngx-file-uploader) and [esm-form-entry-app](https://github.com/openmrs/openmrs-esm-patient-chart/tree/main/packages/esm-form-entry-app). All three must stay on the same Angular major, and that major must remain in support through the next RefApp release. By convention, this library's major version tracks the Angular major it supports: 20.x supports Angular 20, and an Angular migration lands as a major release. Before proposing or reviewing an Angular major version bump, read the [Angular version support policy](https://o3-docs.openmrs.org/en-US/docs/frontend-modules/angular-version-policy), which covers when to migrate, how the target version is chosen, and which toolchain packages gate the migration.
+
 ## Cutting a new release
 
 To cut a new release, start by creating a release branch:
