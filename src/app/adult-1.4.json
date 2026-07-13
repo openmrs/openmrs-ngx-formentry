@@ -88,7 +88,7 @@
           "tag": "afe-content-display",
           "url": "assets/web-components.bundled.js",
           "module": "true",
-          "detail": "This is custom component within a page it is displayed at the top of the page"
+          "detail": "This is a custom component within a page. It is displayed at the top of the page."
         }
       ],
       "sections": [
@@ -100,7 +100,7 @@
               "tag": "afe-content-display",
               "url": "assets/web-components.bundled.js",
               "module": "true",
-              "detail": "This is custom component within a section it is displayed at the top of the section"
+              "detail": "This is a custom component within a section. It is displayed at the top of the section."
             }
           ],
           "questions": [
@@ -113,7 +113,7 @@
                   "tag": "afe-content-display",
                   "url": "assets/web-components.bundled.js",
                   "module": "true",
-                  "detail": "This is custom component within a control it is displayed under the label"
+                  "detail": "This is a custom component within a control. It is displayed under the label."
                 }
               ],
               "default": "",
