@@ -93,7 +93,8 @@
     "typescript": "~5.8.3"
   },
   "browserslist": [
-    "extends browserslist-config-openmrs"
+    "extends browserslist-config-openmrs",
+    "not opera > 0"
   ],
   "lint-staged": {
     "!(*.spec|date-time-picker-input.directive).{ts,tsx}": "eslint --cache --fix --max-warnings 0",
