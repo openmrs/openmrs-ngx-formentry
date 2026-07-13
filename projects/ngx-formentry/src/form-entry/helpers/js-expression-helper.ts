@@ -355,6 +355,8 @@ export class JsExpressionHelper {
     return {
       arrayContainsAny: helper.arrayContainsAny,
       calcBMI: helper.calcBMI,
+      calcBSA: helper.calcBSA,
+      formatDate: helper.formatDate,
       calcBMIForAgeZscore: helper.calcBMIForAgeZscore,
       calcWeightForHeightZscore: helper.calcWeightForHeightZscore,
       calcHeightForAgeZscore: helper.calcHeightForAgeZscore,

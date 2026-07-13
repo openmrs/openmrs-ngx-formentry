@@ -1,11 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
 import { JsExpressionHelper } from './js-expression-helper';
+import {
+  ExpressionRunner,
+  Runnable
+} from '../expression-runner/expression-runner';
+import { AfeFormControl } from '../../abstract-controls-extension';
 
 describe('JS Expression Helper Service:', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [JsExpressionHelper]
+      providers: [JsExpressionHelper, ExpressionRunner]
     });
   });
 
@@ -142,5 +147,38 @@ describe('JS Expression Helper Service:', () => {
   it('should throw when formatting an invalid date', () => {
     const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
     expect(() => helper.formatDate('not-a-date', 'yyyy-MM-dd', '+0300')).toThrow();
+  });
+
+  it('should expose calcBSA and formatDate to runnable expressions', () => {
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+    const runner: ExpressionRunner = TestBed.inject(ExpressionRunner);
+
+    const control = new AfeFormControl();
+    control.uuid = 'a';
+    const height = new AfeFormControl();
+    height.uuid = 'height';
+    height.setValue(190.5);
+    const weight = new AfeFormControl();
+    weight.uuid = 'weight';
+    weight.setValue(95);
+
+    control.controlRelations.addRelatedControls(height);
+    control.controlRelations.addRelatedControls(weight);
+
+    let runnable: Runnable = runner.getRunnable(
+      'calcBSA(height, weight)',
+      control,
+      helper.helperFunctions,
+      {}
+    );
+    expect(runnable.run()).toBe(2.24);
+
+    runnable = runner.getRunnable(
+      `formatDate('2016-01-22T16:17:46.000+0300', 'yyyy-MM-dd', '+0300')`,
+      control,
+      helper.helperFunctions,
+      {}
+    );
+    expect(runnable.run()).toBe('2016-01-22');
   });
 });
