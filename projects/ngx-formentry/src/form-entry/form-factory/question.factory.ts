@@ -1077,6 +1077,7 @@ export class QuestionFactory {
     switch (renderingType) {
       case 'decimal':
       case 'number':
+      case 'numeric':
         if (questionOptions.max && questionOptions.min) {
           validators.push(
             new MaxValidationModel({

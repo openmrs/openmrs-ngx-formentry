@@ -308,12 +308,14 @@ export class JsExpressionHelper {
       );
       return result;
     };
+    const hasValue = (value) =>
+      value !== null && value !== undefined && value !== '';
     const obsValue = findObs(rawEncounter?.obs, uuid)?.value;
-    return !!targetControl
+    return hasValue(targetControl)
       ? targetControl
-      : typeof obsValue === 'object'
+      : obsValue !== null && typeof obsValue === 'object'
       ? obsValue.uuid
-      : !!obsValue
+      : hasValue(obsValue)
       ? obsValue
       : null;
   }

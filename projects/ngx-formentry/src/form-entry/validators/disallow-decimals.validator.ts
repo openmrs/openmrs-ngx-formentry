@@ -8,7 +8,7 @@ export class DisallowDecimalsValidator {
       }
 
       if (control.value && control.value.length !== 0) {
-        const test: boolean = !/^\d+$/.test(control.value);
+        const test: boolean = !/^-?\d+$/.test(control.value);
         return test ? { disallowDecimals: true } : null;
       }
 

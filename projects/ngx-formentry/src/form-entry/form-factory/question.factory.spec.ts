@@ -657,6 +657,27 @@ describe('Question Factory', () => {
     expect(converted.hide).toEqual(numericSchemaQuestion.hide);
   });
 
+  it('should derive numeric validators for numeric rendering questions', () => {
+    const schemaQuestion: any = {
+      label: 'Number of weeks on treatment:',
+      id: 'ArvWeeks',
+      type: 'obs',
+      questionOptions: {
+        rendering: 'numeric',
+        concept: 'a89add22-1350-11df-a1f1-0026b9348838',
+        min: '0',
+        max: '52',
+        disallowDecimals: true
+      }
+    };
+
+    const converted = factory.toNumericQuestion(schemaQuestion);
+    const types = converted.validators.map((v: any) => v.type);
+    expect(types).toContain('min');
+    expect(types).toContain('max');
+    expect(types).toContain('disallowDecimals');
+  });
+
   it('should convert schema number question to Number question model', () => {
     const converted = factory.toNumberQuestion(numberSchemaQuestion);
     expect(converted.label).toEqual(numberSchemaQuestion.label);
