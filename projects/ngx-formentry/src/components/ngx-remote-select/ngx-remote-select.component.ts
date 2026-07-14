@@ -5,7 +5,8 @@ import {
   forwardRef,
   Output,
   EventEmitter,
-  Renderer2, OnDestroy
+  Renderer2,
+  OnDestroy
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { concat, Observable, of, Subject } from 'rxjs';
@@ -14,6 +15,7 @@ import {
   distinctUntilChanged,
   finalize,
   switchMap,
+  take,
   tap
 } from 'rxjs/operators';
 import { SelectOption } from '../../form-entry/question-models/interfaces/select-option';
@@ -23,18 +25,20 @@ import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'ofe-remote-select',
-    templateUrl: 'remote-select.component.html',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => RemoteSelectComponent),
-            multi: true
-        }
-    ],
-    standalone: false
+  selector: 'ofe-remote-select',
+  templateUrl: 'remote-select.component.html',
+  styleUrls: ['./remote-select.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => RemoteSelectComponent),
+      multi: true
+    }
+  ],
+  standalone: false
 })
-export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDestroy {
+export class RemoteSelectComponent
+  implements OnInit, ControlValueAccessor, OnDestroy {
   // @Input() dataSource: DataSource;
   remoteOptions$: Observable<SelectOption[]>;
   remoteOptionsLoading = false;
@@ -47,10 +51,16 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDe
   notFoundMsg = this.translate.instant('matchNotFound');
   @Input() placeholder = this.translate.instant('search');
   @Input() componentID: string;
+  @Input() dataSourceOptions?: Record<string, unknown>;
   @Input() disabled = false;
   @Input() theme = 'dark';
   @Input() invalid = 'false';
   @Output() done: EventEmitter<any> = new EventEmitter<any>();
+
+  // Results come from server-side typeahead searches. Concept search matches
+  // synonyms and index terms whose display label may not contain the typed
+  // text, so ng-select must not re-filter results by label.
+  keepServerResults = () => true;
 
   private _dataSource: DataSource;
   @Input()
@@ -90,16 +100,18 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDe
     if (value && value !== '') {
       if (this.dataSource) {
         this.loading = true;
-        this.dataSource.resolveSelectedValue(value).subscribe(
-          (result: any) => {
-            this.items = [result];
-            this.selectedRemoteOptions = result;
-            this.loading = false;
-          },
-          (error) => {
-            this.loading = false;
-          }
-        );
+        this.dataSource
+          .resolveSelectedValue(value, this.effectiveDataSourceOptions())
+          .subscribe(
+            (result: any) => {
+              this.items = [result];
+              this.selectedRemoteOptions = result;
+              this.loading = false;
+            },
+            (error) => {
+              this.loading = false;
+            }
+          );
       }
     }
   }
@@ -141,8 +153,11 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDe
   private loadOptions() {
     this.remoteOptions$ = concat(
       this.dataSource
-        .searchOptions('', this.dataSource?.dataSourceOptions ?? {})
+        .searchOptions('', this.effectiveDataSourceOptions())
+        // concat only subscribes to the typeahead stream once the initial
+        // load completes, and not every datasource completes its observable
         ?.pipe(
+          take(1),
           catchError((error) => {
             console.error('Error loading initial options:', error);
             return of([]);
@@ -155,7 +170,7 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDe
         }),
         switchMap((term) =>
           this.dataSource
-            .searchOptions(term, this.dataSource?.dataSourceOptions ?? {})
+            .searchOptions(term, this.effectiveDataSourceOptions())
             .pipe(
               catchError((error) => {
                 console.error('Error loading options:', error);
@@ -168,6 +183,10 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDe
         )
       )
     );
+  }
+
+  private effectiveDataSourceOptions(): Record<string, unknown> {
+    return this.dataSourceOptions ?? this.dataSource?.dataSourceOptions ?? {};
   }
 
   ngOnDestroy() {

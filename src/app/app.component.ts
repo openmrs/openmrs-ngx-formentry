@@ -24,11 +24,31 @@ const adultReturnVisitForm = require('./adult-1.6.json');
 const adultReturnVisitFormObs = require('./mock/obs.json');
 const formOrdersPayload = require('./mock/orders.json');
 
+const sampleSearchItems: Array<any> = [
+  { value: '0', label: 'Aech' },
+  { value: '5b6e58ea-1359-11df-a1f1-0026b9348838', label: 'Art3mis' },
+  { value: '2', label: 'Daito' },
+  { value: '3', label: 'Parzival' },
+  { value: '4', label: 'Shoto' }
+];
+
+const sampleDiagnosesItems: Array<any> = [
+  { value: 'dx1', label: 'Cholera', code: '1A00' },
+  { value: 'dx2', label: 'Typhoid fever', code: '1A07' },
+  { value: 'dx3', label: 'Paratyphoid fever', code: '1A08' },
+  {
+    value: 'dx4',
+    label: 'Typhus fever due to Rickettsia prowazekii',
+    code: '1C30.0'
+  },
+  { value: 'dx5', label: 'Typhoid arthritis' }
+];
+
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  standalone: false
 })
 export class AppComponent implements OnInit {
   activeTab = 0;
@@ -82,7 +102,7 @@ export class AppComponent implements OnInit {
       resolveSelectedValue: this.sampleResolve
     });
     this.dataSources.registerDataSource('diagnoses', {
-      searchOptions: this.sampleSearch,
+      searchOptions: this.sampleDiagnosesSearch,
       resolveSelectedValue: this.sampleResolve
     });
 
@@ -346,8 +366,10 @@ export class AppComponent implements OnInit {
     return toReturn;
   }
 
-  public sampleResolve(): Observable<any> {
-    const item = { value: '1', label: 'Art3mis' };
+  public sampleResolve(value: string): Observable<any> {
+    const item = [...sampleDiagnosesItems, ...sampleSearchItems].find(
+      (candidate) => candidate.value === value
+    ) ?? { value, label: value };
     return Observable.create((observer: Subject<any>) => {
       setTimeout(() => {
         observer.next(item);
@@ -390,18 +412,24 @@ export class AppComponent implements OnInit {
     );
   }
 
-  public sampleSearch(searchText: string): Observable<any> {
-    const items: Array<any> = [
-      { value: '0', label: 'Aech' },
-      { value: '5b6e58ea-1359-11df-a1f1-0026b9348838', label: 'Art3mis' },
-      { value: '2', label: 'Daito' },
-      { value: '3', label: 'Parzival' },
-      { value: '4', label: 'Shoto' }
-    ];
+  public sampleDiagnosesSearch(searchText: string): Observable<any> {
+    const results = searchText
+      ? sampleDiagnosesItems.filter((item) =>
+          item.label.toLowerCase().includes(searchText.toLowerCase())
+        )
+      : sampleDiagnosesItems;
 
     return Observable.create((observer: Subject<any>) => {
       setTimeout(() => {
-        observer.next(items);
+        observer.next(results);
+      }, 300);
+    });
+  }
+
+  public sampleSearch(searchText: string): Observable<any> {
+    return Observable.create((observer: Subject<any>) => {
+      setTimeout(() => {
+        observer.next(sampleSearchItems);
       }, 1000);
     });
   }
