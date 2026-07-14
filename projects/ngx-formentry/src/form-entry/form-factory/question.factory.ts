@@ -781,6 +781,37 @@ export class QuestionFactory {
     return question;
   }
 
+  toCustomApiQuestion(schemaQuestion: any): UiSelectQuestion {
+    const question = new UiSelectQuestion({
+      options: [],
+      type: '',
+      key: '',
+      searchFunction: function () {},
+      resolveFunction: function () {}
+    });
+    question.questionIndex = this.quetionIndex;
+    question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
+    question.key = schemaQuestion.id;
+    question.renderingType = 'custom-api-dropdown';
+    question.validators = this.addValidators(schemaQuestion);
+    question.extras = schemaQuestion;
+    question.dataSource = '';
+
+    const mappings: any = {
+      label: 'label',
+      required: 'required',
+      id: 'key'
+    };
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
+    this.copyProperties(mappings, schemaQuestion, question);
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    this.addAlertProperty(schemaQuestion, question);
+    this.addHistoricalExpressions(schemaQuestion, question);
+    this.addCalculatorProperty(schemaQuestion, question);
+    return question;
+  }
+
   private getDataSourceConfig(
     schemaQuestion: any
   ): { name: string; options: Record<string, unknown> } {
@@ -993,6 +1024,8 @@ export class QuestionFactory {
         return this.toWorkspaceLauncher(schema);
       case 'remote-select':
         return this.toRemoteSelectQuestion(schema);
+      case 'custom-api-dropdown':
+        return this.toCustomApiQuestion(schema);
       default:
         console.warn('New Schema Question Type found.........' + renderType);
         return this.toTextQuestion(schema);

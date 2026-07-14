@@ -225,6 +225,15 @@
             <ofe-checkbox [id]="node.question.key + 'id' + controlId" [formControlName]="node.question.key"
               [options]="node.question.options" [selected]="node.control.value"></ofe-checkbox>
           </div>
+          <div *ngSwitchCase="'custom-api-dropdown'">
+            <ofe-custom-endpoint-dropdown
+            [theme]="theme"
+            [question]="node.question"
+            [id]="node.question.key + 'id' + controlId" 
+            [formControlName]="node.question.key"
+            >
+          </ofe-custom-endpoint-dropdown>
+          </div>
 
           <div *ngIf="
               node.question.enableHistoricalValue &&
