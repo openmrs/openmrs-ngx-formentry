@@ -18,4 +18,20 @@
   (ngModelChange)="selectedRemoteOptions = $event; selected($event)"
   [appendTo]="'form'"
 >
+  <ng-template ng-label-tmp let-item="item">
+    <span class="ofe-remote-select-item">
+      <span class="ofe-remote-select-item-code" *ngIf="item?.code">{{
+        item.code
+      }}</span>
+      <span class="ofe-remote-select-item-label">{{ item?.label }}</span>
+    </span>
+  </ng-template>
+  <ng-template ng-option-tmp let-item="item">
+    <span class="ofe-remote-select-item">
+      <span class="ofe-remote-select-item-code" *ngIf="item?.code">{{
+        item.code
+      }}</span>
+      <span class="ofe-remote-select-item-label">{{ item?.label }}</span>
+    </span>
+  </ng-template>
 </ng-select>

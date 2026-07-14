@@ -1,0 +1,23 @@
+.ofe-remote-select-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.ofe-remote-select-item-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ofe-remote-select-item-code {
+  flex: none;
+  min-width: 4rem;
+  max-width: 8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'IBM Plex Mono', 'Menlo', 'Consolas', monospace;
+  font-weight: 600;
+  color: inherit;
+}

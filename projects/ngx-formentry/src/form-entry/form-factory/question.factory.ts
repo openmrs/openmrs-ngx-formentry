@@ -730,8 +730,11 @@ export class QuestionFactory {
     question.renderingType = 'remote-select';
     question.validators = this.addValidators(schemaQuestion);
     question.extras = schemaQuestion;
-    question.dataSource =
-      schemaQuestion.questionOptions.dataSource || 'diagnoses';
+    const dataSourceConfig = this.getDataSourceConfig(schemaQuestion);
+    question.dataSource = dataSourceConfig.name || 'diagnoses';
+    if (Object.keys(dataSourceConfig.options).length > 0) {
+      question.dataSourceOptions = dataSourceConfig.options;
+    }
     const mappings: any = {
       label: 'label',
       required: 'required',

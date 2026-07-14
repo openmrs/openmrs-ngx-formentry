@@ -82,7 +82,7 @@ export class AppComponent implements OnInit {
       resolveSelectedValue: this.sampleResolve
     });
     this.dataSources.registerDataSource('diagnoses', {
-      searchOptions: this.sampleSearch,
+      searchOptions: this.sampleDiagnosesSearch,
       resolveSelectedValue: this.sampleResolve
     });
 
@@ -388,6 +388,31 @@ export class AppComponent implements OnInit {
         location.label.toLowerCase().includes(searchText.toLowerCase())
       )
     );
+  }
+
+  public sampleDiagnosesSearch(searchText: string): Observable<any> {
+    const items: Array<any> = [
+      { value: '1', label: 'Cholera', code: '1A00' },
+      { value: '2', label: 'Typhoid fever', code: '1A07' },
+      { value: '3', label: 'Paratyphoid fever', code: '1A08' },
+      {
+        value: '4',
+        label: 'Typhus fever due to Rickettsia prowazekii',
+        code: '1C30.0'
+      },
+      { value: '5', label: 'Typhoid arthritis' }
+    ];
+    const results = searchText
+      ? items.filter((item) =>
+          item.label.toLowerCase().includes(searchText.toLowerCase())
+        )
+      : items;
+
+    return Observable.create((observer: Subject<any>) => {
+      setTimeout(() => {
+        observer.next(results);
+      }, 300);
+    });
   }
 
   public sampleSearch(searchText: string): Observable<any> {

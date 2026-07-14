@@ -25,6 +25,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'ofe-remote-select',
     templateUrl: 'remote-select.component.html',
+    styleUrls: ['./remote-select.component.scss'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
