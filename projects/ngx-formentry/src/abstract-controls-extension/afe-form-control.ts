@@ -150,8 +150,16 @@ class AfeFormControl
     this.alerts.length > 0 && this.updateAlert();
   }
 
-  setValue(value: any) {
-    super.setValue(value);
+  setValue(
+    value: any,
+    options?: {
+      onlySelf?: boolean;
+      emitEvent?: boolean;
+      emitModelToViewChange?: boolean;
+      emitViewToModelChange?: boolean;
+    }
+  ) {
+    super.setValue(value, options);
   }
 }
 export { AfeFormControl };
