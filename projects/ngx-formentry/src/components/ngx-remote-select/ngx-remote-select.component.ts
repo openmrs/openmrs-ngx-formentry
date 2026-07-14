@@ -15,6 +15,7 @@ import {
   distinctUntilChanged,
   finalize,
   switchMap,
+  take,
   tap
 } from 'rxjs/operators';
 import { SelectOption } from '../../form-entry/question-models/interfaces/select-option';
@@ -55,6 +56,11 @@ export class RemoteSelectComponent
   @Input() theme = 'dark';
   @Input() invalid = 'false';
   @Output() done: EventEmitter<any> = new EventEmitter<any>();
+
+  // Results come from server-side typeahead searches. Concept search matches
+  // synonyms and index terms whose display label may not contain the typed
+  // text, so ng-select must not re-filter results by label.
+  keepServerResults = () => true;
 
   private _dataSource: DataSource;
   @Input()
@@ -148,7 +154,10 @@ export class RemoteSelectComponent
     this.remoteOptions$ = concat(
       this.dataSource
         .searchOptions('', this.effectiveDataSourceOptions())
+        // concat only subscribes to the typeahead stream once the initial
+        // load completes, and not every datasource completes its observable
         ?.pipe(
+          take(1),
           catchError((error) => {
             console.error('Error loading initial options:', error);
             return of([]);
