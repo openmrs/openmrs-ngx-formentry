@@ -8,9 +8,11 @@ import {
   TemplateRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
 
 import { DataSources } from '../data-sources/data-sources';
+import { EndpointDataSource } from '../data-sources/endpoint-data-source';
 import { NodeBase, LeafNode, GroupNode } from '../form-factory/form-node';
 import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
 import { ValidationFactory } from '../form-factory/validation.factory';
@@ -21,10 +23,10 @@ import { ValidationErrors } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'ofe-form-renderer',
-    templateUrl: 'form-renderer.component.html',
-    styleUrls: ['../../style/app.css', './form-renderer.component.scss'],
-    standalone: false
+  selector: 'ofe-form-renderer',
+  templateUrl: 'form-renderer.component.html',
+  styleUrls: ['../../style/app.css', './form-renderer.component.scss'],
+  standalone: false
 })
 export class FormRendererComponent implements OnInit, OnChanges {
   @Input() public formSubmissionTemplate: TemplateRef<unknown>;
@@ -54,6 +56,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
     private dataSources: DataSources,
     private formErrorsService: FormErrorsService,
     public translate: TranslateService,
+    private http: HttpClient,
     @Inject(DOCUMENT) private document: Document
   ) {
     this.activeTab = 0;
@@ -61,6 +64,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     this.setUpRemoteSelect();
+    this.setUpCustomApiDropdown();
     this.setUpFileUpload();
     this.loadLabels();
     if (this.node && this.node.form) {
@@ -125,6 +129,21 @@ export class FormRendererComponent implements OnInit, OnChanges {
       if (this.dataSource && this.node.question.dataSourceOptions) {
         this.dataSource.dataSourceOptions = this.node.question.dataSourceOptions;
       }
+    }
+  }
+
+  public setUpCustomApiDropdown() {
+    if (
+      this.node &&
+      this.node.question.extras &&
+      this.node.question.renderingType === 'custom-api-dropdown'
+    ) {
+      // Instantiate a fresh endpoint data source per question so that concurrent
+      // custom-api-dropdown controls with different endpoints don't share config.
+      this.dataSource = new EndpointDataSource(
+        this.http,
+        this.node.question.dataSourceOptions as any
+      );
     }
   }
 

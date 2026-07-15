@@ -226,13 +226,10 @@
               [options]="node.question.options" [selected]="node.control.value"></ofe-checkbox>
           </div>
           <div *ngSwitchCase="'custom-api-dropdown'">
-            <ofe-custom-endpoint-dropdown
-            [theme]="theme"
-            [question]="node.question"
-            [id]="node.question.key + 'id' + controlId" 
-            [formControlName]="node.question.key"
-            >
-          </ofe-custom-endpoint-dropdown>
+            <ofe-remote-select [theme]="theme" [placeholder]="node.question.placeholder | translate" tabindex="0"
+              [dataSource]="dataSource" [componentID]="node.question.key + 'id'"
+              [formControlName]="node.question.key" [id]="node.question.key + 'id'"
+              [invalid]="node.control.touched && !node.control.valid"></ofe-remote-select>
           </div>
 
           <div *ngIf="

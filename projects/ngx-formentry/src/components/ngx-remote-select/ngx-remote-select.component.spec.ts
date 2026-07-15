@@ -26,6 +26,8 @@ describe('RemoteSelectComponent', () => {
     return dataSource;
   };
 
+  // --- data source options plumbing ---
+
   it('passes control-specific options to searches on a shared data source', () => {
     const dataSource = createDataSource();
     const firstOptions = { conceptSourceUuid: 'source-a' };
@@ -81,5 +83,64 @@ describe('RemoteSelectComponent', () => {
     component.ngOnInit();
 
     expect(dataSource.searchOptions).toHaveBeenCalledWith('', options);
+  });
+
+  // --- ControlValueAccessor contract (relied on by the custom-api-dropdown control) ---
+
+  it('creates an instance', () => {
+    expect(createComponent()).toBeTruthy();
+  });
+
+  it('propagates the selected value to the parent form control', () => {
+    const component = createComponent();
+    const onChange = jasmine.createSpy('onChange');
+    component.registerOnChange(onChange);
+
+    component.selected('provider-uuid');
+
+    expect(onChange).toHaveBeenCalledWith('provider-uuid');
+  });
+
+  it('marks the control as touched on selection', () => {
+    const component = createComponent();
+    const onTouched = jasmine.createSpy('onTouched');
+    component.registerOnTouched(onTouched);
+
+    component.selected('provider-uuid');
+
+    expect(onTouched).toHaveBeenCalled();
+  });
+
+  it('resolves and displays a prepopulated value on writeValue', () => {
+    const dataSource = createDataSource();
+    const component = createComponent();
+    component.dataSource = dataSource;
+
+    component.writeValue('diagnosis-uuid');
+
+    const resolved = { value: 'diagnosis-uuid', label: 'Diagnosis' };
+    expect(dataSource.resolveSelectedValue).toHaveBeenCalled();
+    expect(component.items).toEqual([resolved] as any);
+    expect(component.selectedRemoteOptions).toEqual(resolved as any);
+  });
+
+  it('does not resolve when writeValue receives an empty value', () => {
+    const dataSource = createDataSource();
+    const component = createComponent();
+    component.dataSource = dataSource;
+
+    component.writeValue('');
+
+    expect(dataSource.resolveSelectedValue).not.toHaveBeenCalled();
+  });
+
+  it('disables the inner control via setDisabledState', () => {
+    const component = createComponent();
+
+    component.setDisabledState(true);
+    expect(component.disabled).toBe(true);
+
+    component.setDisabledState(false);
+    expect(component.disabled).toBe(false);
   });
 });

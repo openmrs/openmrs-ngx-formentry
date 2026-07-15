@@ -46,7 +46,6 @@ import { CustomControlWrapperModule } from '../components/custom-control-wrapper
 import { CustomComponentWrapperModule } from '../components/custom-component-wrapper/custom-component-wrapper.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.adapter';
-import { CustomEndpointDropdownModule } from '../components/custom-endpoint-dropdown/custom-endpoint-dropdown.module';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -68,8 +67,7 @@ import { CustomEndpointDropdownModule } from '../components/custom-endpoint-drop
     CustomControlWrapperModule,
     CustomComponentWrapperModule,
     NgxTabSetModule.forRoot(),
-    TranslateModule,
-    CustomEndpointDropdownModule
+    TranslateModule
   ],
   declarations: [
     FormRendererComponent,
