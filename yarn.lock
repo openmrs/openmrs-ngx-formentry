@@ -2025,6 +2025,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@carbon/icon-helpers@npm:10.37.0":
+  version: 10.37.0
+  resolution: "@carbon/icon-helpers@npm:10.37.0"
+  checksum: 10/875cad9bd16b394ea4135bfe824b8e5de39ca5559e70da9f5d3e31f4dceaf8b5b505b60b634619c23f710613969c1a15ced7d0965784f4e300d6fd6e91613d47
+  languageName: node
+  linkType: hard
+
+"@carbon/icons@npm:11.58.0":
+  version: 11.58.0
+  resolution: "@carbon/icons@npm:11.58.0"
+  dependencies:
+    "@ibm/telemetry-js": "npm:^1.5.0"
+  checksum: 10/34805dcfa9ef5e3965bd587e18c387f08cbba5c07e64cef8f442ef35eb45d515c6146ec38802710af9cd015937500440e1a8bd52584ce8cd7dafd20dd44adb5a
+  languageName: node
+  linkType: hard
+
+"@carbon/icons@npm:^11.73.0":
+  version: 11.84.0
+  resolution: "@carbon/icons@npm:11.84.0"
+  dependencies:
+    "@ibm/telemetry-js": "npm:^1.5.0"
+  checksum: 10/488d083cbdd8588b0b945f8fe31a7b641cae108c9176a04c86b7cda19c84615bdd8b478ac2c0367b3764e78dfe6722b7f69b1cdb0bb5dffc62b9cb851b92311e
+  languageName: node
+  linkType: hard
+
 "@carbon/layout@npm:^11.46.0":
   version: 11.46.0
   resolution: "@carbon/layout@npm:11.46.0"
@@ -2094,6 +2119,13 @@ __metadata:
     "@carbon/layout": "npm:^11.46.0"
     "@ibm/telemetry-js": "npm:^1.5.0"
   checksum: 10/57f5043dcf0377a763cf152f64b9b7bc96f990f6cae7974e90033f0f31fee64c02e1aca973121fe28c45fdc3b3a0a176f47a61bd030a94c9d0cefeea16f83725
+  languageName: node
+  linkType: hard
+
+"@carbon/utils-position@npm:1.1.4":
+  version: 1.1.4
+  resolution: "@carbon/utils-position@npm:1.1.4"
+  checksum: 10/2f67d5709e3a97c33fa51d01860edea423984bc9f26bcc6089f3cb4fdcd70c1c75f2df7cdc781918242ece965c5ddf0d6f718934cf3f2c36e36b16c430b52faa
   languageName: node
   linkType: hard
 
@@ -2696,6 +2728,32 @@ __metadata:
   version: 8.57.1
   resolution: "@eslint/js@npm:8.57.1"
   checksum: 10/7562b21be10c2adbfa4aa5bb2eccec2cb9ac649a3569560742202c8d1cb6c931ce634937a2f0f551e078403a1c1285d6c2c0aa345dafc986149665cd69fe8b59
+  languageName: node
+  linkType: hard
+
+"@floating-ui/core@npm:^1.6.0":
+  version: 1.8.0
+  resolution: "@floating-ui/core@npm:1.8.0"
+  dependencies:
+    "@floating-ui/utils": "npm:^0.2.12"
+  checksum: 10/762cd5677fd4e82597db2efdd8f1e81d248eac5615d8be755e1bbb5f12a14c56a6bccd735676374d4914db7ccb3f09ec405ec7433e8c48a5521f5d66dc8dd5d6
+  languageName: node
+  linkType: hard
+
+"@floating-ui/dom@npm:1.6.13":
+  version: 1.6.13
+  resolution: "@floating-ui/dom@npm:1.6.13"
+  dependencies:
+    "@floating-ui/core": "npm:^1.6.0"
+    "@floating-ui/utils": "npm:^0.2.9"
+  checksum: 10/4bb732baf3270007741bcdc91be1de767b2bb5d8b891eb838e5f1e7c4cccad998643dbdd4e8b8cec4c5d12c9898f80febc68e9793dd6e26a445283c4fb1b6a78
+  languageName: node
+  linkType: hard
+
+"@floating-ui/utils@npm:^0.2.12, @floating-ui/utils@npm:^0.2.9":
+  version: 0.2.12
+  resolution: "@floating-ui/utils@npm:0.2.12"
+  checksum: 10/ec4e176fb22d33d75df752c5acf82dcaacae40ed2d09c1a5015cb4081318fff20260db216678e952344b95f90c6b43214762b69eba7c51556ecd82c35a795cff
   languageName: node
   linkType: hard
 
@@ -3948,6 +4006,7 @@ __metadata:
     "@angular/platform-browser": "npm:^20.3.21"
     "@angular/platform-browser-dynamic": "npm:^20.3.21"
     "@angular/router": "npm:^20.3.21"
+    "@carbon/icons": "npm:^11.73.0"
     "@carbon/styles": "npm:1.x"
     "@ng-select/ng-select": "npm:^15.1.3"
     "@ngx-translate/core": "npm:^16.0.4"
@@ -3960,6 +4019,7 @@ __metadata:
     "@typescript-eslint/types": "npm:^8.0.0"
     "@typescript-eslint/utils": "npm:^8.0.0"
     browserslist-config-openmrs: "npm:^1.0.1"
+    carbon-components-angular: "npm:^5.62.1"
     core-js: "npm:^2.6.12"
     eslint: "npm:^8.57.0"
     font-awesome: "npm:^4.7.0"
@@ -6226,6 +6286,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"carbon-components-angular@npm:^5.62.1":
+  version: 5.72.2
+  resolution: "carbon-components-angular@npm:5.72.2"
+  dependencies:
+    "@carbon/icon-helpers": "npm:10.37.0"
+    "@carbon/icons": "npm:11.58.0"
+    "@carbon/utils-position": "npm:1.1.4"
+    "@floating-ui/dom": "npm:1.6.13"
+    "@ibm/telemetry-js": "npm:^1.5.0"
+    flatpickr: "npm:4.6.13"
+    lodash-es: "npm:4.18.1"
+    tslib: "npm:2.3.0"
+  peerDependencies:
+    "@carbon/styles": ^1.54.0
+  checksum: 10/e93a76dfd1e383ff375d9e033dca9d8474111d6beaafa4070482c3341b4dbb7439862bf6fee396b06076aefd19a8a54f733692f5d8ab5e186c1ba1e33e786ac2
+  languageName: node
+  linkType: hard
+
 "chalk@npm:^2.3.0":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
@@ -8055,6 +8133,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"flatpickr@npm:4.6.13":
+  version: 4.6.13
+  resolution: "flatpickr@npm:4.6.13"
+  checksum: 10/0e32f2fbd427aa8d838da8fb0cf2e56b65efc22783dcebcc32c11b7fbb6bbc8c3532f9410915f3acb7dc0feebb49202bea03e49cc80b9d4d11b3bdce49488bc0
+  languageName: node
+  linkType: hard
+
 "flatted@npm:^3.2.7, flatted@npm:^3.2.9":
   version: 3.3.3
   resolution: "flatted@npm:3.3.3"
@@ -9832,6 +9917,13 @@ __metadata:
   dependencies:
     p-locate: "npm:^5.0.0"
   checksum: 10/72eb661788a0368c099a184c59d2fee760b3831c9c1c33955e8a19ae4a21b4116e53fa736dc086cdeb9fce9f7cc508f2f92d2d3aae516f133e16a2bb59a39f5a
+  languageName: node
+  linkType: hard
+
+"lodash-es@npm:4.18.1":
+  version: 4.18.1
+  resolution: "lodash-es@npm:4.18.1"
+  checksum: 10/8bfad225ef09ef42b04283cdaf7830efcc2ba29ae41b56501c74422155ee1ccaa1f0f6e8319def3451a1fe54dec501c8e4bee622bae2b2d98ac993731e0a5cce
   languageName: node
   linkType: hard
 
@@ -13226,6 +13318,13 @@ __metadata:
   bin:
     ts-node: dist/bin.js
   checksum: 10/58d90dd5073f3d7d03caf5bf89c1c28e0ff477747eabc0547586bc3fa03ca0cd897090239626a91c9e4736c07f26618bd819bb03bd3ff8e43a16215b0185c20b
+  languageName: node
+  linkType: hard
+
+"tslib@npm:2.3.0":
+  version: 2.3.0
+  resolution: "tslib@npm:2.3.0"
+  checksum: 10/9c55c9abd5ecd94e5fd37573db27e26933fb6c33506431403fb4627dcb8aa9a45b772afa6d05dd2c25dc1de22a213193251e6303742f3bcdc179e523a9295bfd
   languageName: node
   linkType: hard
 
