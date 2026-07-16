@@ -10,7 +10,7 @@
     "@angular/core": "^20.0.0",
     "@angular/forms": "^20.0.0",
     "@carbon/styles": "1.x",
-    "@ng-select/ng-select": "^20.7.0",
+    "@ng-select/ng-select": "^20.4.0",
     "@ngx-translate/core": "^16.0.4",
     "@openmrs/ngx-file-uploader": "^20.0.0",
     "lodash": "^4.17.21",
