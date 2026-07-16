@@ -781,56 +781,6 @@ export class QuestionFactory {
     return question;
   }
 
-  toCustomApiQuestion(schemaQuestion: any): RemoteSelectQuestion {
-    // A schema-configurable dropdown backed by an arbitrary REST endpoint. It reuses the
-    // remote-select control (search, paging, saved-value resolution) via an inbuilt
-    // EndpointDataSource, so the endpoint config from the schema is carried on
-    // dataSourceOptions and the data source is instantiated by the renderer.
-    const dataSourceOptions = this.getCustomApiOptions(schemaQuestion);
-    const question = new RemoteSelectQuestion({
-      dataSource: 'endpoint',
-      dataSourceOptions,
-      type: '',
-      key: ''
-    });
-    question.questionIndex = this.quetionIndex;
-    question.label = schemaQuestion.label;
-    question.prefix = schemaQuestion.prefix;
-    question.key = schemaQuestion.id;
-    question.renderingType = 'custom-api-dropdown';
-    question.validators = this.addValidators(schemaQuestion);
-    question.extras = schemaQuestion;
-
-    const mappings: Record<string, string> = {
-      label: 'label',
-      required: 'required',
-      id: 'key'
-    };
-    question.componentConfigs = schemaQuestion.componentConfigs || [];
-    this.copyProperties(mappings, schemaQuestion, question);
-    this.addDisableOrHideProperty(schemaQuestion, question);
-    this.addAlertProperty(schemaQuestion, question);
-    this.addHistoricalExpressions(schemaQuestion, question);
-    this.addCalculatorProperty(schemaQuestion, question);
-    return question;
-  }
-
-  private getCustomApiOptions(schemaQuestion: any): Record<string, unknown> {
-    const questionOptions = schemaQuestion.questionOptions ?? {};
-    // `renderingOptions` is the schema shape for this control (endpointUrl plus any
-    // labelKey/valueKey/searchParam/limit/... overrides). `dataSourceOptions` is accepted too
-    // for consistency with remote-select and takes precedence when both supply the same key.
-    const renderingOptions = questionOptions.renderingOptions ?? {};
-    const extraOptions = questionOptions.dataSourceOptions ?? {};
-
-    return {
-      valueKey: 'uuid',
-      labelKey: 'display',
-      ...renderingOptions,
-      ...extraOptions
-    };
-  }
-
   private getDataSourceConfig(
     schemaQuestion: any
   ): { name: string; options: Record<string, unknown> } {
@@ -1043,8 +993,6 @@ export class QuestionFactory {
         return this.toWorkspaceLauncher(schema);
       case 'remote-select':
         return this.toRemoteSelectQuestion(schema);
-      case 'custom-api-dropdown':
-        return this.toCustomApiQuestion(schema);
       default:
         console.warn('New Schema Question Type found.........' + renderType);
         return this.toTextQuestion(schema);

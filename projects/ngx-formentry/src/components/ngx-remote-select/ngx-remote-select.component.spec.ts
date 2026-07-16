@@ -1,5 +1,5 @@
 import { Renderer2 } from '@angular/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
@@ -85,7 +85,7 @@ describe('RemoteSelectComponent', () => {
     expect(dataSource.searchOptions).toHaveBeenCalledWith('', options);
   });
 
-  // --- ControlValueAccessor contract (relied on by the custom-api-dropdown control) ---
+  // --- ControlValueAccessor contract ---
 
   it('creates an instance', () => {
     expect(createComponent()).toBeTruthy();
@@ -142,5 +142,49 @@ describe('RemoteSelectComponent', () => {
 
     component.setDisabledState(false);
     expect(component.disabled).toBe(false);
+  });
+
+  // --- error state: request failures are distinguishable from "no matches" ---
+
+  it('flags a failed initial load instead of presenting it as no matches', () => {
+    const dataSource = createDataSource();
+    dataSource.searchOptions.and.returnValue(
+      throwError(() => new Error('endpoint unreachable'))
+    );
+    const component = createComponent();
+    component.dataSource = dataSource;
+    component.ngOnInit();
+
+    let emitted: any;
+    component.remoteOptions$.subscribe((options) => (emitted = options));
+
+    expect(component.errorLoading).toBe(true);
+    expect(emitted).toEqual([]);
+  });
+
+  it('clears the error flag when a load succeeds', () => {
+    const dataSource = createDataSource();
+    const component = createComponent();
+    component.dataSource = dataSource;
+    component.errorLoading = true;
+    component.ngOnInit();
+
+    component.remoteOptions$.subscribe();
+
+    expect(component.errorLoading).toBe(false);
+  });
+
+  it('flags a failed saved-value resolution', () => {
+    const dataSource = createDataSource();
+    dataSource.resolveSelectedValue.and.returnValue(
+      throwError(() => new Error('endpoint unreachable'))
+    );
+    const component = createComponent();
+    component.dataSource = dataSource;
+
+    component.writeValue('saved-uuid');
+
+    expect(component.errorLoading).toBe(true);
+    expect(component.loading).toBe(false);
   });
 });

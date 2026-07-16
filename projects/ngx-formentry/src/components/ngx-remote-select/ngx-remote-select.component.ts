@@ -47,6 +47,7 @@ export class RemoteSelectComponent
   items = [];
   value = [];
   loading = false;
+  errorLoading = false;
   searchText = '';
   notFoundMsg = this.translate.instant('matchNotFound');
   @Input() placeholder = this.translate.instant('search');
@@ -107,9 +108,11 @@ export class RemoteSelectComponent
               this.items = [result];
               this.selectedRemoteOptions = result;
               this.loading = false;
+              this.errorLoading = false;
             },
             (error) => {
               this.loading = false;
+              this.errorLoading = true;
             }
           );
       }
@@ -169,8 +172,15 @@ export class RemoteSelectComponent
         // load completes, and not every datasource completes its observable
         ?.pipe(
           take(1),
+          tap(() => {
+            this.errorLoading = false;
+          }),
+          // A request failure is not the same as a successful empty search:
+          // surface it through errorLoading so the control can show an error
+          // state instead of a misleading "no matches".
           catchError((error) => {
             console.error('Error loading initial options:', error);
+            this.errorLoading = true;
             return of([]);
           })
         ) ?? of([]), // default items
@@ -183,8 +193,12 @@ export class RemoteSelectComponent
           this.dataSource
             .searchOptions(term, this.effectiveDataSourceOptions())
             .pipe(
+              tap(() => {
+                this.errorLoading = false;
+              }),
               catchError((error) => {
                 console.error('Error loading options:', error);
+                this.errorLoading = true;
                 return of([]);
               }),
               finalize(() => {

@@ -36,3 +36,10 @@
     </span>
   </ng-template>
 </ng-select>
+<div
+  *ngIf="errorLoading"
+  class="ofe-remote-select-error"
+  role="alert"
+>
+  {{ 'errorLoadingResults' | translate }}
+</div>

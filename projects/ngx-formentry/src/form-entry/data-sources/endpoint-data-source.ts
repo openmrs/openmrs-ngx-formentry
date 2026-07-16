@@ -1,14 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { DataSource } from '../question-models/interfaces/data-source';
 import { Option } from '../question-models/select-option';
 
+const DEFAULT_LIMIT = 20;
+
 /**
  * Schema-configurable options for an {@link EndpointDataSource}. These come from a
- * question's `questionOptions.renderingOptions` (or `questionOptions.dataSourceOptions`)
- * and are mapped onto the question by `QuestionFactory.toCustomApiQuestion`.
+ * question's `questionOptions.datasource.config` and reach the data source through the
+ * per-control dataSourceOptions that remote-select passes with every call.
  */
 export interface EndpointDataSourceOptions {
   /** REST endpoint returning the list of items to choose from. */
@@ -23,8 +25,11 @@ export interface EndpointDataSourceOptions {
   resultsKey?: string;
   /** Query parameter used for the page size. Defaults to `limit`. */
   limitParam?: string;
-  /** Page size. Only sent when defined. */
+  /** Page size. Defaults to 20 so the initial load stays bounded. */
   limit?: number;
+  /** Template used to resolve a saved value, with a `{value}` placeholder. Defaults to
+   * `{endpointUrl}/{value}`. */
+  resolveUrlTemplate?: string;
   /** Allows extra, endpoint-specific options and keeps the shape assignable to the
    * `Record<string, unknown>` used by the DataSource contract. */
   [key: string]: unknown;
@@ -37,27 +42,32 @@ interface ResolvedConfig {
   searchParam: string;
   resultsKey: string;
   limitParam: string;
-  limit?: number;
+  limit: number;
+  resolveUrlTemplate?: string;
 }
 
 /**
- * A reusable, inbuilt {@link DataSource} that reads its list of options from an arbitrary
- * REST endpoint declared in the form schema. Unlike the OpenMRS-specific data sources that a
- * consuming app registers by name, this one is instantiated per-question from schema config,
- * which lets it be rendered through the existing `ofe-remote-select` component — gaining
- * search, paging and saved-value resolution without duplicating any control logic.
+ * A built-in {@link DataSource} that reads its list of options from a REST endpoint
+ * declared in the form schema. Registered by FormEntryModule under the name 'endpoint',
+ * so a question can use it via the standard schema contract with no host-app code:
+ *
+ *   "rendering": "remote-select",
+ *   "datasource": { "name": "endpoint", "config": { "endpointUrl": "..." } }
+ *
+ * Request failures are propagated, not converted into empty results, so the control can
+ * distinguish an unreachable endpoint from a successful search with no matches.
  */
 export class EndpointDataSource implements DataSource {
   public dataSourceOptions: EndpointDataSourceOptions;
 
-  constructor(private http: HttpClient, options: EndpointDataSourceOptions) {
+  constructor(private http: HttpClient, options?: EndpointDataSourceOptions) {
     this.dataSourceOptions = options ?? ({} as EndpointDataSourceOptions);
   }
 
   /**
-   * Searches the endpoint. Called with an empty term for the initial load and with the typed
-   * term on subsequent typeahead events. Paging is expressed via the `limit` option so large
-   * directories return one page at a time rather than everything at once.
+   * Searches the endpoint. Called with an empty term for the initial load and with the
+   * typed term on subsequent typeahead events. The request always carries a limit so a
+   * generic endpoint never returns its complete collection.
    */
   public searchOptions(
     searchText: string,
@@ -72,25 +82,20 @@ export class EndpointDataSource implements DataSource {
     if (searchText) {
       params = params.set(config.searchParam, searchText);
     }
-    if (typeof config.limit === 'number') {
-      params = params.set(config.limitParam, String(config.limit));
-    }
+    params = params.set(config.limitParam, String(config.limit));
 
     return this.http.get(config.endpointUrl, { params }).pipe(
       map((response: any) => {
         const items = this.extractArray(response, config.resultsKey);
         return items.map((item) => this.toOption(item, config));
-      }),
-      catchError((error) => {
-        console.error('EndpointDataSource: failed to load options', error);
-        return of([]);
       })
     );
   }
 
   /**
    * Resolves a stored value (e.g. a saved uuid) back into a displayable option so that
-   * prepopulated/edited forms show the previously selected item.
+   * prepopulated/edited forms show the previously selected item. Uses
+   * `{endpointUrl}/{urlEncodedValue}` unless the config supplies a resolveUrlTemplate.
    */
   public resolveSelectedValue(
     value: any,
@@ -106,17 +111,16 @@ export class EndpointDataSource implements DataSource {
       return of((undefined as unknown) as Option);
     }
 
-    const url = `${this.trimTrailingSlash(config.endpointUrl)}/${value}`;
+    const encodedValue = encodeURIComponent(String(value));
+    const url = config.resolveUrlTemplate
+      ? config.resolveUrlTemplate.replace('{value}', encodedValue)
+      : `${this.trimTrailingSlash(config.endpointUrl)}/${encodedValue}`;
     return this.http.get(url).pipe(
       map((response: any) => {
         // Endpoints may return the item directly, wrapped under a results key, or as an array.
         const items = this.extractArray(response, config.resultsKey);
         const item = items.length ? items[0] : response;
         return (item ? this.toOption(item, config) : undefined) as Option;
-      }),
-      catchError((error) => {
-        console.error('EndpointDataSource: failed to resolve value', error);
-        return of((undefined as unknown) as Option);
       })
     );
   }
@@ -143,7 +147,8 @@ export class EndpointDataSource implements DataSource {
       searchParam: merged.searchParam ?? 'q',
       resultsKey: merged.resultsKey ?? 'results',
       limitParam: merged.limitParam ?? 'limit',
-      limit: merged.limit
+      limit: merged.limit ?? DEFAULT_LIMIT,
+      resolveUrlTemplate: merged.resolveUrlTemplate
     };
   }
 

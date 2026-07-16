@@ -76,26 +76,27 @@ describe('EndpointDataSource', () => {
     ]);
   });
 
-  it('appends the search term and paging params to the request', () => {
+  it('appends the search term and configured limit to the request', () => {
     const ds = new EndpointDataSource(http, {
       endpointUrl,
       searchParam: 'q',
-      limit: 20
+      limit: 50
     });
     ds.searchOptions('john').subscribe();
 
     const req = httpMock.expectOne((r) => r.url === endpointUrl);
     expect(req.request.params.get('q')).toBe('john');
-    expect(req.request.params.get('limit')).toBe('20');
+    expect(req.request.params.get('limit')).toBe('50');
     req.flush({ results: [] });
   });
 
-  it('does not send the search param for the initial (empty) load', () => {
+  it('bounds the initial (empty-term) load with the default limit', () => {
     const ds = new EndpointDataSource(http, { endpointUrl });
     ds.searchOptions('').subscribe();
 
     const req = httpMock.expectOne((r) => r.url === endpointUrl);
     expect(req.request.params.has('q')).toBe(false);
+    expect(req.request.params.get('limit')).toBe('20');
     req.flush({ results: [] });
   });
 
@@ -118,15 +119,66 @@ describe('EndpointDataSource', () => {
     });
   });
 
-  it('returns an empty array when a search request errors', () => {
+  it('url-encodes the saved value in the default resolution path', () => {
+    const ds = new EndpointDataSource(http, { endpointUrl });
+    ds.resolveSelectedValue('a/b c?d').subscribe();
+
+    const req = httpMock.expectOne(`${endpointUrl}/a%2Fb%20c%3Fd`);
+    req.flush({ uuid: 'a/b c?d', display: 'Odd Identifier' });
+  });
+
+  it('resolves through a configured resolveUrlTemplate', () => {
+    const ds = new EndpointDataSource(http, {
+      endpointUrl,
+      resolveUrlTemplate: 'https://example.org/lookup?id={value}'
+    });
+    let result: any;
+    ds.resolveSelectedValue('abc-123').subscribe((r) => (result = r));
+
+    const req = httpMock.expectOne('https://example.org/lookup?id=abc-123');
+    req.flush({ uuid: 'abc-123', display: 'Dr Template' });
+
+    expect(result.label).toBe('Dr Template');
+  });
+
+  it('emits an empty option list for a successful empty response', () => {
     const ds = new EndpointDataSource(http, { endpointUrl });
     let result: any;
-    ds.searchOptions('').subscribe((r) => (result = r));
+    ds.searchOptions('nobody').subscribe((r) => (result = r));
+
+    const req = httpMock.expectOne((r) => r.url === endpointUrl);
+    req.flush({ results: [] });
+
+    expect(result).toEqual([]);
+  });
+
+  it('propagates a failed search instead of converting it to empty results', () => {
+    const ds = new EndpointDataSource(http, { endpointUrl });
+    let succeeded = false;
+    let failed = false;
+    ds.searchOptions('').subscribe({
+      next: () => (succeeded = true),
+      error: () => (failed = true)
+    });
 
     const req = httpMock.expectOne((r) => r.url === endpointUrl);
     req.flush('boom', { status: 500, statusText: 'Server Error' });
 
-    expect(result).toEqual([]);
+    expect(succeeded).toBe(false);
+    expect(failed).toBe(true);
+  });
+
+  it('propagates a failed saved-value resolution', () => {
+    const ds = new EndpointDataSource(http, { endpointUrl });
+    let failed = false;
+    ds.resolveSelectedValue('abc-123').subscribe({
+      error: () => (failed = true)
+    });
+
+    const req = httpMock.expectOne(`${endpointUrl}/abc-123`);
+    req.flush('boom', { status: 500, statusText: 'Server Error' });
+
+    expect(failed).toBe(true);
   });
 
   it('resolves to undefined without a request for an empty saved value', () => {

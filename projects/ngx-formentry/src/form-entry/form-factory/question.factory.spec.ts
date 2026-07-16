@@ -784,6 +784,36 @@ describe('Question Factory', () => {
     expect(converted.renderingType).toEqual('remote-select');
   });
 
+  it('should map a remote-select question onto the built-in endpoint data source', () => {
+    const endpointSchemaQuestion: any = {
+      label: 'Doctor',
+      id: 'doctor',
+      type: 'obs',
+      questionOptions: {
+        concept: 'a8a666ba-1350-11df-a1f1-0026b9348838',
+        rendering: 'remote-select',
+        datasource: {
+          name: 'endpoint',
+          config: {
+            endpointUrl: '/ws/rest/v1/provider',
+            labelKey: 'display',
+            valueKey: 'uuid'
+          }
+        }
+      }
+    };
+
+    const converted = factory.toRemoteSelectQuestion(endpointSchemaQuestion);
+
+    expect(converted.renderingType).toEqual('remote-select');
+    expect(converted.dataSource).toEqual('endpoint');
+    expect(converted.dataSourceOptions).toEqual({
+      endpointUrl: '/ws/rest/v1/provider',
+      labelKey: 'display',
+      valueKey: 'uuid'
+    });
+  });
+
   it('should convert schema encounter Location question to Encounter Location question model', () => {
     const converted = factory.toEncounterLocationQuestion(
       encounterLocationSchemaQuestion
@@ -824,60 +854,6 @@ describe('Question Factory', () => {
     expect(converted.dataSource).toEqual('conceptAnswers');
     expect(converted.dataSourceOptions).toEqual({
       concept: 'a8ae88a4-1350-11df-a1f1-0026b9348838'
-    });
-  });
-
-  it('should convert custom-api-dropdown schema question to a remote-select-backed question with endpoint options', () => {
-    const customApiSchema: any = {
-      label: 'Doctor',
-      id: 'doctor',
-      type: 'obs',
-      required: 'true',
-      questionOptions: {
-        concept: 'a8a666ba-1350-11df-a1f1-0026b9348838',
-        rendering: 'custom-api-dropdown',
-        renderingOptions: {
-          endpointUrl: 'https://jsonplaceholder.typicode.com/users',
-          labelKey: 'name',
-          valueKey: 'id'
-        }
-      }
-    };
-
-    const converted = factory.toCustomApiQuestion(customApiSchema);
-
-    expect(converted).toBeDefined();
-    expect(converted.label).toEqual('Doctor');
-    expect(converted.key).toEqual('doctor');
-    expect(converted.renderingType).toEqual('custom-api-dropdown');
-    expect(converted.extras).toEqual(customApiSchema);
-    expect(converted.dataSource).toEqual('endpoint');
-    expect(converted.dataSourceOptions).toEqual({
-      endpointUrl: 'https://jsonplaceholder.typicode.com/users',
-      labelKey: 'name',
-      valueKey: 'id'
-    });
-  });
-
-  it('should default valueKey/labelKey for a custom-api-dropdown when not supplied', () => {
-    const customApiSchema: any = {
-      label: 'Provider',
-      id: 'provider_endpoint',
-      type: 'obs',
-      questionOptions: {
-        rendering: 'custom-api-dropdown',
-        renderingOptions: {
-          endpointUrl: 'https://example.org/ws/rest/v1/provider'
-        }
-      }
-    };
-
-    const converted = factory.toCustomApiQuestion(customApiSchema);
-
-    expect(converted.dataSourceOptions).toEqual({
-      endpointUrl: 'https://example.org/ws/rest/v1/provider',
-      valueKey: 'uuid',
-      labelKey: 'display'
     });
   });
 

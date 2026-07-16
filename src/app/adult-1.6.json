@@ -8203,11 +8203,14 @@
                       "type": "obs",
                       "questionOptions": {
                         "concept": "a8a666ba-1350-11df-a1f1-0026b9348838",
-                        "rendering": "custom-api-dropdown", 
-                        "renderingOptions": {
-                          "endpointUrl": "https://jsonplaceholder.typicode.com/users",
-                          "labelKey": "name",
-                          "valueKey": "id"
+                        "rendering": "remote-select",
+                        "datasource": {
+                          "name": "endpoint",
+                          "config": {
+                            "endpointUrl": "https://jsonplaceholder.typicode.com/users",
+                            "labelKey": "name",
+                            "valueKey": "id"
+                          }
                         }
                       }
                     }
