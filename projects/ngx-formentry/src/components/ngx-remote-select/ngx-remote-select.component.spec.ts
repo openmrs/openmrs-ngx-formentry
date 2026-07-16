@@ -1,6 +1,10 @@
 import { Renderer2 } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { of, throwError } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
+import { NgxRemoteSelectModule } from './ngx-remote-select.module';
 
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
 import { RemoteSelectComponent } from './ngx-remote-select.component';
@@ -186,5 +190,40 @@ describe('RemoteSelectComponent', () => {
 
     expect(component.errorLoading).toBe(true);
     expect(component.loading).toBe(false);
+  });
+});
+
+describe('RemoteSelectComponent template (error state)', () => {
+  const dataSourceStub: any = {
+    searchOptions: () => of([]),
+    resolveSelectedValue: () => of(undefined)
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [NgxRemoteSelectModule, TranslateModule.forRoot()]
+    });
+  });
+
+  it('renders the load-failure message as an alert and hides it on recovery', () => {
+    const fixture = TestBed.createComponent(RemoteSelectComponent);
+    fixture.componentInstance.dataSource = dataSourceStub;
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('[role="alert"]'))).toBeNull();
+
+    fixture.componentInstance.errorLoading = true;
+    fixture.detectChanges();
+
+    const alert = fixture.debugElement.query(By.css('[role="alert"]'));
+    expect(alert).not.toBeNull();
+    expect(alert.nativeElement.textContent).toContain('errorLoadingResults');
+    expect(
+      alert.nativeElement.classList.contains('ofe-remote-select-error')
+    ).toBe(true);
+
+    fixture.componentInstance.errorLoading = false;
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('[role="alert"]'))).toBeNull();
   });
 });

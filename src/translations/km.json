@@ -19,6 +19,7 @@
   "deleteEntry": "តើអ្នកពិតជាចង់លុបធាតុនេះទេ?",
   "discardButton": "បោះបង់",
   "enterMoreCharacters": "សូមបញ្ចូលតួអក្សរ ២ ឬច្រើន។",
+  "errorLoadingResults": "មិនអាចផ្ទុកលទ្ធផលបានទេ។ សូមព្យាយាមម្តងទៀត។",
   "errorFetchingFormData": "ការទាញយកទិន្នន័យពីទម្រង់មិនដំណើរការ។ ព័ត៌មានលម្អិត៖ {detail}",
   "errorLoadingForm": "ទម្រង់ចម្លងទិន្នន័យមិនដំណើរការ",
   "errorWithForm": "ទម្រង់នេះមិនដំណើរការ",
