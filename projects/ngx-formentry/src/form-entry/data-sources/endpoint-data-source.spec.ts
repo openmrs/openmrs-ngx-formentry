@@ -148,6 +148,7 @@ describe('EndpointDataSource', () => {
     ds.resolveSelectedValue('a/b c?d').subscribe();
 
     const req = httpMock.expectOne(`${endpointUrl}/a%2Fb%20c%3Fd`);
+    expect(req.request.method).toBe('GET');
     req.flush({ uuid: 'a/b c?d', display: 'Odd Identifier' });
   });
 
@@ -175,7 +176,30 @@ describe('EndpointDataSource', () => {
     const req = httpMock.expectOne(
       'https://example.org/lookup?id=abc-123&ref=abc-123'
     );
+    expect(req.request.method).toBe('GET');
     req.flush({ uuid: 'abc-123', display: 'Dr Twice' });
+  });
+
+  it('resolves to undefined for an empty bare-array response', () => {
+    const ds = new EndpointDataSource(http, { endpointUrl });
+    let result: any = 'sentinel';
+    ds.resolveSelectedValue('abc-123').subscribe((r) => (result = r));
+
+    const req = httpMock.expectOne(`${endpointUrl}/abc-123`);
+    req.flush([]);
+
+    expect(result).toBeUndefined();
+  });
+
+  it('resolves to undefined for an empty results-wrapped response', () => {
+    const ds = new EndpointDataSource(http, { endpointUrl });
+    let result: any = 'sentinel';
+    ds.resolveSelectedValue('abc-123').subscribe((r) => (result = r));
+
+    const req = httpMock.expectOne(`${endpointUrl}/abc-123`);
+    req.flush({ results: [] });
+
+    expect(result).toBeUndefined();
   });
 
   it('emits an empty option list for a successful empty response', () => {

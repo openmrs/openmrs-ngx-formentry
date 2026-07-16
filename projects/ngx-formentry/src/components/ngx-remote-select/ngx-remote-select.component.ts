@@ -109,10 +109,17 @@ export class RemoteSelectComponent
           .resolveSelectedValue(value, this.effectiveDataSourceOptions())
           .subscribe(
             (result: any) => {
-              this.items = [result];
-              this.selectedRemoteOptions = result;
+              // An undefined result means the stored value no longer resolves
+              // (for example a retired entry): surface it as a failure rather
+              // than silently showing an empty selection.
+              if (result) {
+                this.items = [result];
+                this.selectedRemoteOptions = result;
+                this.resolveFailed = false;
+              } else {
+                this.resolveFailed = true;
+              }
               this.loading = false;
-              this.resolveFailed = false;
             },
             (error) => {
               this.loading = false;
@@ -147,6 +154,9 @@ export class RemoteSelectComponent
     // this.propagateChange(this.data);
   }
   selected(event) {
+    // Picking a valid option supersedes any earlier saved-value resolution
+    // failure, so the error state must not outlive the recovery.
+    this.resolveFailed = false;
     this.propagateChange(event);
     this.propagateTouched();
   }

@@ -117,10 +117,19 @@ export class EndpointDataSource implements DataSource {
       : `${this.trimTrailingSlash(config.endpointUrl)}/${encodedValue}`;
     return this.http.get(url).pipe(
       map((response: any) => {
-        // Endpoints may return the item directly, wrapped under a results key, or as an array.
+        // Endpoints may return the item directly, wrapped under a results key,
+        // or as an array. An empty collection means the value did not resolve;
+        // it must not be mistaken for the item itself.
         const items = this.extractArray(response, config.resultsKey);
-        const item = items.length ? items[0] : response;
-        return (item ? this.toOption(item, config) : undefined) as Option;
+        if (items.length) {
+          return this.toOption(items[0], config);
+        }
+        const isCollection =
+          Array.isArray(response) ||
+          (response && Array.isArray(response[config.resultsKey]));
+        return (!isCollection && response
+          ? this.toOption(response, config)
+          : undefined) as Option;
       })
     );
   }

@@ -192,6 +192,28 @@ describe('RemoteSelectComponent', () => {
     expect(component.loading).toBe(false);
   });
 
+  it('clears a stale resolution failure when the user selects a valid option', () => {
+    const component = createComponent();
+    component.resolveFailed = true;
+
+    component.selected({ value: 'provider-uuid', label: 'Dr Valid' });
+
+    expect(component.resolveFailed).toBe(false);
+  });
+
+  it('treats an undefined resolution result as a failure, not an empty success', () => {
+    const dataSource = createDataSource();
+    dataSource.resolveSelectedValue.and.returnValue(of(undefined as any));
+    const component = createComponent();
+    component.dataSource = dataSource;
+
+    component.writeValue('saved-uuid');
+
+    expect(component.resolveFailed).toBe(true);
+    expect(component.selectedRemoteOptions).toBeUndefined();
+    expect(component.loading).toBe(false);
+  });
+
   it('keeps the resolution failure visible when the list load succeeds', () => {
     const dataSource = createDataSource();
     dataSource.resolveSelectedValue.and.returnValue(

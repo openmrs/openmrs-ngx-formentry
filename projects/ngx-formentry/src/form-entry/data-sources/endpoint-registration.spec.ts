@@ -74,6 +74,16 @@ describe('FormEntryModule endpoint data source registration', () => {
     ).toBe(true);
   });
 
+  it('defers to a data source a host registered before module construction', () => {
+    const dataSources = new DataSources();
+    const hostEndpoint: any = { searchOptions: () => null };
+    dataSources.registerDataSource('endpoint', hostEndpoint);
+
+    new FormEntryModule(dataSources, {} as any);
+
+    expect(dataSources.dataSources['endpoint']).toBe(hostEndpoint);
+  });
+
   it('lets a host override the endpoint data source by re-registering the name', () => {
     TestBed.configureTestingModule({
       imports: [FormEntryModule, TranslateModule.forRoot()],

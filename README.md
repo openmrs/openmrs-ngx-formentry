@@ -53,7 +53,20 @@ Most data sources are registered by the host application in code. The engine als
 }
 ```
 
-Typing sends the term through `searchParam`; every request is bounded by `limit` (default 20). Reopening a saved form resolves the stored value through `GET {endpointUrl}/{urlEncodedValue}`, overridable with a `resolveUrlTemplate` containing a `{value}` placeholder. Request failures surface as a visible error state distinct from "no matches". Prefer relative URLs so schemas stay portable across environments; the consuming application must provide Angular's `HttpClient` (the data source is skipped, without breaking anything else, when it doesn't). A host application can override the built-in by registering its own data source under the same name.
+Configuration keys, all optional except `endpointUrl`:
+
+| Key | Default | Purpose |
+| --- | --- | --- |
+| `endpointUrl` | (required) | The endpoint queried for options |
+| `labelKey` | `display` | Item property shown as the option label |
+| `valueKey` | `uuid` | Item property stored as the value |
+| `searchParam` | `q` | Query parameter carrying the typed search term |
+| `resultsKey` | `results` | Response property holding the item array (bare arrays also work) |
+| `limit` | `20` | Page size sent with every request |
+| `limitParam` | `limit` | Query parameter carrying the page size |
+| `resolveUrlTemplate` | `{endpointUrl}/{value}` | URL for resolving a saved value, with a `{value}` placeholder |
+
+Typing sends the term through `searchParam`; every request is bounded by `limit`. Reopening a saved form resolves the stored value through the resolution URL (the value is URL-encoded). Request failures surface as a visible error state distinct from "no matches". Prefer relative URLs so schemas stay portable across environments; the consuming application must provide Angular's `HttpClient` (the data source is skipped, without breaking anything else, when it doesn't). A host application can override the built-in by registering its own data source under the same name.
 
 ### Expression runner
 
