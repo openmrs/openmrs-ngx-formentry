@@ -1,8 +1,11 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, Optional } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UntypedFormBuilder } from '@angular/forms';
 import { DebugModeService } from '../form-entry/services/debug-mode.service';
+import { DataSources } from './data-sources/data-sources';
+import { EndpointDataSource } from './data-sources/endpoint-data-source';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
 
 import { FormErrorsService } from './services/form-errors.service';
@@ -110,4 +113,18 @@ import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.ad
     TranslateModule
   ]
 })
-export class FormEntryModule {}
+export class FormEntryModule {
+  constructor(
+    @Optional() dataSources: DataSources,
+    @Optional() http: HttpClient
+  ) {
+    // Registers the schema-configurable endpoint data source so forms can use
+    // datasource: { name: 'endpoint', config: {...} } without any host-app code.
+    // Both dependencies are optional: consumers that do not provide HttpClient
+    // keep working exactly as before, minus this one data source. A data source
+    // a host has already registered under this name is left in place.
+    if (dataSources && http && !dataSources.dataSources['endpoint']) {
+      dataSources.registerDataSource('endpoint', new EndpointDataSource(http));
+    }
+  }
+}

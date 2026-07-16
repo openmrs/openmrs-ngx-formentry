@@ -17,6 +17,7 @@
   "daysAgo": " jours",
   "deleteEntry": "Êtes-vous sûr(e) de vouloir supprimer cet élément ?",
   "enterMoreCharacters": "Veuillez entrer au moins 2 caractères",
+  "errorLoadingResults": "Impossible de charger les résultats. Veuillez réessayer.",
   "fix": "Corriger",
   "from": "A partir de",
   "futureDateRestriction": "Les dates futures ne sont pas autorisées",

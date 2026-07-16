@@ -47,6 +47,11 @@ export class RemoteSelectComponent
   items = [];
   value = [];
   loading = false;
+  // Load failures and saved-value resolution failures are tracked separately so a
+  // successful list load cannot silently clear the alert for a saved value that
+  // failed to resolve (the two requests race on edit-mode init).
+  loadFailed = false;
+  resolveFailed = false;
   searchText = '';
   notFoundMsg = this.translate.instant('matchNotFound');
   @Input() placeholder = this.translate.instant('search');
@@ -104,12 +109,21 @@ export class RemoteSelectComponent
           .resolveSelectedValue(value, this.effectiveDataSourceOptions())
           .subscribe(
             (result: any) => {
-              this.items = [result];
-              this.selectedRemoteOptions = result;
+              // An undefined result means the stored value no longer resolves
+              // (for example a retired entry): surface it as a failure rather
+              // than silently showing an empty selection.
+              if (result) {
+                this.items = [result];
+                this.selectedRemoteOptions = result;
+                this.resolveFailed = false;
+              } else {
+                this.resolveFailed = true;
+              }
               this.loading = false;
             },
             (error) => {
               this.loading = false;
+              this.resolveFailed = true;
             }
           );
       }
@@ -121,17 +135,30 @@ export class RemoteSelectComponent
     this.propagateChange = fn;
   }
 
-  // not used, used for touch input
-  public registerOnTouched() {}
+  // registers 'fn' fired when the control is touched so the parent control's
+  // touched/validation state stays in sync with user interaction
+  public registerOnTouched(fn: any) {
+    this.propagateTouched = fn;
+  }
+
+  // called by Angular reactive forms when the bound control is enabled/disabled
+  public setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+  }
   // change events from the textarea
   onChange(event) {
     this.propagateChange(event.id);
+    this.propagateTouched();
     // .....
     // update the form
     // this.propagateChange(this.data);
   }
   selected(event) {
+    // Picking a valid option supersedes any earlier saved-value resolution
+    // failure, so the error state must not outlive the recovery.
+    this.resolveFailed = false;
     this.propagateChange(event);
+    this.propagateTouched();
   }
 
   compareItems = (item, selected) => {
@@ -145,12 +172,20 @@ export class RemoteSelectComponent
   // a placeholder for a method that takes one parameter,
   // we use it to emit changes back to the form
   private propagateChange = (change: any) => {};
+  private propagateTouched = () => {};
 
   trackByFn(item: SelectOption) {
     return item.value;
   }
 
   private loadOptions() {
+    // A question can name a data source that was never registered (for example the
+    // built-in endpoint source when the consumer provides no HttpClient). Degrade to
+    // an empty option list instead of crashing the form render.
+    if (!this.dataSource) {
+      this.remoteOptions$ = of([]);
+      return;
+    }
     this.remoteOptions$ = concat(
       this.dataSource
         .searchOptions('', this.effectiveDataSourceOptions())
@@ -158,8 +193,15 @@ export class RemoteSelectComponent
         // load completes, and not every datasource completes its observable
         ?.pipe(
           take(1),
+          tap(() => {
+            this.loadFailed = false;
+          }),
+          // A request failure is not the same as a successful empty search:
+          // surface it through loadFailed so the control can show an error
+          // state instead of a misleading "no matches".
           catchError((error) => {
             console.error('Error loading initial options:', error);
+            this.loadFailed = true;
             return of([]);
           })
         ) ?? of([]), // default items
@@ -172,8 +214,12 @@ export class RemoteSelectComponent
           this.dataSource
             .searchOptions(term, this.effectiveDataSourceOptions())
             .pipe(
+              tap(() => {
+                this.loadFailed = false;
+              }),
               catchError((error) => {
                 console.error('Error loading options:', error);
+                this.loadFailed = true;
                 return of([]);
               }),
               finalize(() => {

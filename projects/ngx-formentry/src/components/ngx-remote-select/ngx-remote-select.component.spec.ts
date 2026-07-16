@@ -1,6 +1,10 @@
 import { Renderer2 } from '@angular/core';
-import { of } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { of, throwError } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
+import { NgxRemoteSelectModule } from './ngx-remote-select.module';
 
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
 import { RemoteSelectComponent } from './ngx-remote-select.component';
@@ -25,6 +29,8 @@ describe('RemoteSelectComponent', () => {
     );
     return dataSource;
   };
+
+  // --- data source options plumbing ---
 
   it('passes control-specific options to searches on a shared data source', () => {
     const dataSource = createDataSource();
@@ -81,5 +87,191 @@ describe('RemoteSelectComponent', () => {
     component.ngOnInit();
 
     expect(dataSource.searchOptions).toHaveBeenCalledWith('', options);
+  });
+
+  // --- ControlValueAccessor contract ---
+
+  it('creates an instance', () => {
+    expect(createComponent()).toBeTruthy();
+  });
+
+  it('propagates the selected value to the parent form control', () => {
+    const component = createComponent();
+    const onChange = jasmine.createSpy('onChange');
+    component.registerOnChange(onChange);
+
+    component.selected('provider-uuid');
+
+    expect(onChange).toHaveBeenCalledWith('provider-uuid');
+  });
+
+  it('marks the control as touched on selection', () => {
+    const component = createComponent();
+    const onTouched = jasmine.createSpy('onTouched');
+    component.registerOnTouched(onTouched);
+
+    component.selected('provider-uuid');
+
+    expect(onTouched).toHaveBeenCalled();
+  });
+
+  it('resolves and displays a prepopulated value on writeValue', () => {
+    const dataSource = createDataSource();
+    const component = createComponent();
+    component.dataSource = dataSource;
+
+    component.writeValue('diagnosis-uuid');
+
+    const resolved = { value: 'diagnosis-uuid', label: 'Diagnosis' };
+    expect(dataSource.resolveSelectedValue).toHaveBeenCalled();
+    expect(component.items).toEqual([resolved] as any);
+    expect(component.selectedRemoteOptions).toEqual(resolved as any);
+  });
+
+  it('does not resolve when writeValue receives an empty value', () => {
+    const dataSource = createDataSource();
+    const component = createComponent();
+    component.dataSource = dataSource;
+
+    component.writeValue('');
+
+    expect(dataSource.resolveSelectedValue).not.toHaveBeenCalled();
+  });
+
+  it('disables the inner control via setDisabledState', () => {
+    const component = createComponent();
+
+    component.setDisabledState(true);
+    expect(component.disabled).toBe(true);
+
+    component.setDisabledState(false);
+    expect(component.disabled).toBe(false);
+  });
+
+  // --- error state: request failures are distinguishable from "no matches" ---
+
+  it('flags a failed initial load instead of presenting it as no matches', () => {
+    const dataSource = createDataSource();
+    dataSource.searchOptions.and.returnValue(
+      throwError(() => new Error('endpoint unreachable'))
+    );
+    const component = createComponent();
+    component.dataSource = dataSource;
+    component.ngOnInit();
+
+    let emitted: any;
+    component.remoteOptions$.subscribe((options) => (emitted = options));
+
+    expect(component.loadFailed).toBe(true);
+    expect(emitted).toEqual([]);
+  });
+
+  it('clears the load-failure flag when a load succeeds', () => {
+    const dataSource = createDataSource();
+    const component = createComponent();
+    component.dataSource = dataSource;
+    component.loadFailed = true;
+    component.ngOnInit();
+
+    component.remoteOptions$.subscribe();
+
+    expect(component.loadFailed).toBe(false);
+  });
+
+  it('flags a failed saved-value resolution', () => {
+    const dataSource = createDataSource();
+    dataSource.resolveSelectedValue.and.returnValue(
+      throwError(() => new Error('endpoint unreachable'))
+    );
+    const component = createComponent();
+    component.dataSource = dataSource;
+
+    component.writeValue('saved-uuid');
+
+    expect(component.resolveFailed).toBe(true);
+    expect(component.loading).toBe(false);
+  });
+
+  it('clears a stale resolution failure when the user selects a valid option', () => {
+    const component = createComponent();
+    component.resolveFailed = true;
+
+    component.selected({ value: 'provider-uuid', label: 'Dr Valid' });
+
+    expect(component.resolveFailed).toBe(false);
+  });
+
+  it('treats an undefined resolution result as a failure, not an empty success', () => {
+    const dataSource = createDataSource();
+    dataSource.resolveSelectedValue.and.returnValue(of(undefined as any));
+    const component = createComponent();
+    component.dataSource = dataSource;
+
+    component.writeValue('saved-uuid');
+
+    expect(component.resolveFailed).toBe(true);
+    expect(component.selectedRemoteOptions).toBeUndefined();
+    expect(component.loading).toBe(false);
+  });
+
+  it('keeps the resolution failure visible when the list load succeeds', () => {
+    const dataSource = createDataSource();
+    dataSource.resolveSelectedValue.and.returnValue(
+      throwError(() => new Error('saved value gone'))
+    );
+    const component = createComponent();
+    component.dataSource = dataSource;
+
+    component.writeValue('saved-uuid');
+    component.ngOnInit();
+    component.remoteOptions$.subscribe();
+
+    expect(component.loadFailed).toBe(false);
+    expect(component.resolveFailed).toBe(true);
+  });
+
+  it('renders an empty option list instead of crashing when no data source resolves', () => {
+    const component = createComponent();
+
+    expect(() => component.ngOnInit()).not.toThrow();
+
+    let emitted: any;
+    component.remoteOptions$.subscribe((options) => (emitted = options));
+    expect(emitted).toEqual([]);
+  });
+});
+
+describe('RemoteSelectComponent template (error state)', () => {
+  const dataSourceStub: any = {
+    searchOptions: () => of([]),
+    resolveSelectedValue: () => of(undefined)
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [NgxRemoteSelectModule, TranslateModule.forRoot()]
+    });
+  });
+
+  it('renders the load-failure message as an alert and hides it on recovery', () => {
+    const fixture = TestBed.createComponent(RemoteSelectComponent);
+    fixture.componentInstance.dataSource = dataSourceStub;
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('[role="alert"]'))).toBeNull();
+
+    fixture.componentInstance.loadFailed = true;
+    fixture.detectChanges();
+
+    const alert = fixture.debugElement.query(By.css('[role="alert"]'));
+    expect(alert).not.toBeNull();
+    expect(alert.nativeElement.textContent).toContain('errorLoadingResults');
+    expect(
+      alert.nativeElement.classList.contains('ofe-remote-select-error')
+    ).toBe(true);
+
+    fixture.componentInstance.loadFailed = false;
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('[role="alert"]'))).toBeNull();
   });
 });

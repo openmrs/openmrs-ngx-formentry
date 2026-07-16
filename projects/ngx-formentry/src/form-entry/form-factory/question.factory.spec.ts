@@ -784,6 +784,36 @@ describe('Question Factory', () => {
     expect(converted.renderingType).toEqual('remote-select');
   });
 
+  it('should map a remote-select question onto the built-in endpoint data source', () => {
+    const endpointSchemaQuestion: any = {
+      label: 'Doctor',
+      id: 'doctor',
+      type: 'obs',
+      questionOptions: {
+        concept: 'a8a666ba-1350-11df-a1f1-0026b9348838',
+        rendering: 'remote-select',
+        datasource: {
+          name: 'endpoint',
+          config: {
+            endpointUrl: '/ws/rest/v1/provider',
+            labelKey: 'display',
+            valueKey: 'uuid'
+          }
+        }
+      }
+    };
+
+    const converted = factory.toRemoteSelectQuestion(endpointSchemaQuestion);
+
+    expect(converted.renderingType).toEqual('remote-select');
+    expect(converted.dataSource).toEqual('endpoint');
+    expect(converted.dataSourceOptions).toEqual({
+      endpointUrl: '/ws/rest/v1/provider',
+      labelKey: 'display',
+      valueKey: 'uuid'
+    });
+  });
+
   it('should convert schema encounter Location question to Encounter Location question model', () => {
     const converted = factory.toEncounterLocationQuestion(
       encounterLocationSchemaQuestion

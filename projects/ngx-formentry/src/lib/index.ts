@@ -23,6 +23,10 @@ export { ObsValueAdapter } from '../form-entry/value-adapters/obs.adapter';
 export { ObsAdapterHelper } from '../form-entry/value-adapters/obs-adapter-helper';
 export { ValueAdapter } from '../form-entry/value-adapters/value.adapter';
 export { DataSources } from '../form-entry/data-sources/data-sources';
+export {
+  EndpointDataSource,
+  EndpointDataSourceOptions
+} from '../form-entry/data-sources/endpoint-data-source';
 export { CheckBoxQuestion } from '../form-entry/question-models/checkbox.model';
 export { ConditionalValidationModel } from '../form-entry/question-models/conditional-validation.model';
 export { DateQuestion } from '../form-entry/question-models/date-question';
