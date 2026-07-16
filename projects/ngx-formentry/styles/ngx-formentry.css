@@ -127,7 +127,9 @@
   border-radius: 2px;
   color: #fff;
   padding: 2px 5px;
-  margin: 0 0.4375em 0.4375em 0;
+  /* Vertical margin is split evenly so chips sit centered in the field while
+     wrapped rows keep the same 0.4375em rhythm. */
+  margin: 0.21875em 0.4375em 0.21875em 0;
 }
 
 [dir='rtl']
@@ -135,7 +137,7 @@
   .ng-select-container
   .ng-value-container
   .ng-value {
-  margin: 0 0 0.4375em 0.4375em;
+  margin: 0.21875em 0 0.21875em 0.4375em;
 }
 
 .ng-select.ng-select-multiple
