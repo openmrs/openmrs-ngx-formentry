@@ -28,6 +28,33 @@ Example use-cases for data sources supported by the form engine include:
 - Uploading images and PDF files via the [file uploader](https://github.com/openmrs/openmrs-ngx-file-uploader) and associating them with an OpenMRS encounter.
 - Resolving form labels from a REST API. This is useful for supporting internationalization.
 
+#### The built-in `endpoint` data source
+
+Most data sources are registered by the host application in code. The engine also ships one built-in data source, registered under the name `endpoint`, that is configured entirely from the form schema. It backs a `remote-select` question with any browser-accessible HTTP GET endpoint that returns JSON (a bare array, or an array under a configurable results property):
+
+```json
+{
+  "label": "Doctor",
+  "type": "obs",
+  "questionOptions": {
+    "concept": "<concept-uuid>",
+    "rendering": "remote-select",
+    "datasource": {
+      "name": "endpoint",
+      "config": {
+        "endpointUrl": "/ws/rest/v1/provider",
+        "labelKey": "display",
+        "valueKey": "uuid",
+        "searchParam": "q",
+        "limit": 20
+      }
+    }
+  }
+}
+```
+
+Typing sends the term through `searchParam`; every request is bounded by `limit` (default 20). Reopening a saved form resolves the stored value through `GET {endpointUrl}/{urlEncodedValue}`, overridable with a `resolveUrlTemplate` containing a `{value}` placeholder. Request failures surface as a visible error state distinct from "no matches". Prefer relative URLs so schemas stay portable across environments; the consuming application must provide Angular's `HttpClient` (the data source is skipped, without breaking anything else, when it doesn't). A host application can override the built-in by registering its own data source under the same name.
+
 ### Expression runner
 
 The expression runner is a service that evaluates JavaScript expressions defined in the schema. Expressions can return booleans or arbitrary calculated values. The form engine uses it to:

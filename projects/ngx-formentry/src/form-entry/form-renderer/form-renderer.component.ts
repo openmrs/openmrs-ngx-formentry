@@ -121,6 +121,12 @@ export class FormRendererComponent implements OnInit, OnChanges {
       this.dataSource = this.dataSources.dataSources[
         this.node.question.dataSource
       ];
+      if (!this.dataSource && this.node.question.dataSource) {
+        console.warn(
+          `No data source registered under '${this.node.question.dataSource}' — ` +
+            `the '${this.node.question.key}' question will have no options.`
+        );
+      }
 
       if (this.dataSource && this.node.question.dataSourceOptions) {
         this.dataSource.dataSourceOptions = this.node.question.dataSourceOptions;

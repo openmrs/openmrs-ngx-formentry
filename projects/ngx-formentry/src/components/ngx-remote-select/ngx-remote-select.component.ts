@@ -47,7 +47,11 @@ export class RemoteSelectComponent
   items = [];
   value = [];
   loading = false;
-  errorLoading = false;
+  // Load failures and saved-value resolution failures are tracked separately so a
+  // successful list load cannot silently clear the alert for a saved value that
+  // failed to resolve (the two requests race on edit-mode init).
+  loadFailed = false;
+  resolveFailed = false;
   searchText = '';
   notFoundMsg = this.translate.instant('matchNotFound');
   @Input() placeholder = this.translate.instant('search');
@@ -108,11 +112,11 @@ export class RemoteSelectComponent
               this.items = [result];
               this.selectedRemoteOptions = result;
               this.loading = false;
-              this.errorLoading = false;
+              this.resolveFailed = false;
             },
             (error) => {
               this.loading = false;
-              this.errorLoading = true;
+              this.resolveFailed = true;
             }
           );
       }
@@ -165,6 +169,13 @@ export class RemoteSelectComponent
   }
 
   private loadOptions() {
+    // A question can name a data source that was never registered (for example the
+    // built-in endpoint source when the consumer provides no HttpClient). Degrade to
+    // an empty option list instead of crashing the form render.
+    if (!this.dataSource) {
+      this.remoteOptions$ = of([]);
+      return;
+    }
     this.remoteOptions$ = concat(
       this.dataSource
         .searchOptions('', this.effectiveDataSourceOptions())
@@ -173,14 +184,14 @@ export class RemoteSelectComponent
         ?.pipe(
           take(1),
           tap(() => {
-            this.errorLoading = false;
+            this.loadFailed = false;
           }),
           // A request failure is not the same as a successful empty search:
-          // surface it through errorLoading so the control can show an error
+          // surface it through loadFailed so the control can show an error
           // state instead of a misleading "no matches".
           catchError((error) => {
             console.error('Error loading initial options:', error);
-            this.errorLoading = true;
+            this.loadFailed = true;
             return of([]);
           })
         ) ?? of([]), // default items
@@ -194,11 +205,11 @@ export class RemoteSelectComponent
             .searchOptions(term, this.effectiveDataSourceOptions())
             .pipe(
               tap(() => {
-                this.errorLoading = false;
+                this.loadFailed = false;
               }),
               catchError((error) => {
                 console.error('Error loading options:', error);
-                this.errorLoading = true;
+                this.loadFailed = true;
                 return of([]);
               }),
               finalize(() => {

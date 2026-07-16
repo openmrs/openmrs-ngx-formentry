@@ -37,7 +37,7 @@
   </ng-template>
 </ng-select>
 <div
-  *ngIf="errorLoading"
+  *ngIf="loadFailed || resolveFailed"
   class="ofe-remote-select-error"
   role="alert"
 >

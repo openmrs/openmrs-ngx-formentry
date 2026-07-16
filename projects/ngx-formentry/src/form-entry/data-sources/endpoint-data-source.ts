@@ -113,7 +113,7 @@ export class EndpointDataSource implements DataSource {
 
     const encodedValue = encodeURIComponent(String(value));
     const url = config.resolveUrlTemplate
-      ? config.resolveUrlTemplate.replace('{value}', encodedValue)
+      ? config.resolveUrlTemplate.split('{value}').join(encodedValue)
       : `${this.trimTrailingSlash(config.endpointUrl)}/${encodedValue}`;
     return this.http.get(url).pipe(
       map((response: any) => {
@@ -147,9 +147,16 @@ export class EndpointDataSource implements DataSource {
       searchParam: merged.searchParam ?? 'q',
       resultsKey: merged.resultsKey ?? 'results',
       limitParam: merged.limitParam ?? 'limit',
-      limit: merged.limit ?? DEFAULT_LIMIT,
+      limit: this.sanitizeLimit(merged.limit),
       resolveUrlTemplate: merged.resolveUrlTemplate
     };
+  }
+
+  // Schema JSON can carry the limit as a string (or garbage); only a positive
+  // number is usable, anything else falls back to the bounded default.
+  private sanitizeLimit(configured: unknown): number {
+    const limit = Number(configured);
+    return Number.isFinite(limit) && limit > 0 ? limit : DEFAULT_LIMIT;
   }
 
   private extractArray(response: any, resultsKey: string): any[] {

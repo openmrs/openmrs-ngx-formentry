@@ -162,20 +162,20 @@ describe('RemoteSelectComponent', () => {
     let emitted: any;
     component.remoteOptions$.subscribe((options) => (emitted = options));
 
-    expect(component.errorLoading).toBe(true);
+    expect(component.loadFailed).toBe(true);
     expect(emitted).toEqual([]);
   });
 
-  it('clears the error flag when a load succeeds', () => {
+  it('clears the load-failure flag when a load succeeds', () => {
     const dataSource = createDataSource();
     const component = createComponent();
     component.dataSource = dataSource;
-    component.errorLoading = true;
+    component.loadFailed = true;
     component.ngOnInit();
 
     component.remoteOptions$.subscribe();
 
-    expect(component.errorLoading).toBe(false);
+    expect(component.loadFailed).toBe(false);
   });
 
   it('flags a failed saved-value resolution', () => {
@@ -188,8 +188,34 @@ describe('RemoteSelectComponent', () => {
 
     component.writeValue('saved-uuid');
 
-    expect(component.errorLoading).toBe(true);
+    expect(component.resolveFailed).toBe(true);
     expect(component.loading).toBe(false);
+  });
+
+  it('keeps the resolution failure visible when the list load succeeds', () => {
+    const dataSource = createDataSource();
+    dataSource.resolveSelectedValue.and.returnValue(
+      throwError(() => new Error('saved value gone'))
+    );
+    const component = createComponent();
+    component.dataSource = dataSource;
+
+    component.writeValue('saved-uuid');
+    component.ngOnInit();
+    component.remoteOptions$.subscribe();
+
+    expect(component.loadFailed).toBe(false);
+    expect(component.resolveFailed).toBe(true);
+  });
+
+  it('renders an empty option list instead of crashing when no data source resolves', () => {
+    const component = createComponent();
+
+    expect(() => component.ngOnInit()).not.toThrow();
+
+    let emitted: any;
+    component.remoteOptions$.subscribe((options) => (emitted = options));
+    expect(emitted).toEqual([]);
   });
 });
 
@@ -212,7 +238,7 @@ describe('RemoteSelectComponent template (error state)', () => {
 
     expect(fixture.debugElement.query(By.css('[role="alert"]'))).toBeNull();
 
-    fixture.componentInstance.errorLoading = true;
+    fixture.componentInstance.loadFailed = true;
     fixture.detectChanges();
 
     const alert = fixture.debugElement.query(By.css('[role="alert"]'));
@@ -222,7 +248,7 @@ describe('RemoteSelectComponent template (error state)', () => {
       alert.nativeElement.classList.contains('ofe-remote-select-error')
     ).toBe(true);
 
-    fixture.componentInstance.errorLoading = false;
+    fixture.componentInstance.loadFailed = false;
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('[role="alert"]'))).toBeNull();
   });

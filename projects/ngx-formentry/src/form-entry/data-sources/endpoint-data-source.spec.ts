@@ -100,6 +100,30 @@ describe('EndpointDataSource', () => {
     req.flush({ results: [] });
   });
 
+  it('falls back to the default limit for a non-numeric configured limit', () => {
+    const ds = new EndpointDataSource(http, {
+      endpointUrl,
+      limit: '' as any
+    });
+    ds.searchOptions('').subscribe();
+
+    const req = httpMock.expectOne((r) => r.url === endpointUrl);
+    expect(req.request.params.get('limit')).toBe('20');
+    req.flush({ results: [] });
+  });
+
+  it('honors a numeric limit carried as a string in schema JSON', () => {
+    const ds = new EndpointDataSource(http, {
+      endpointUrl,
+      limit: '35' as any
+    });
+    ds.searchOptions('').subscribe();
+
+    const req = httpMock.expectOne((r) => r.url === endpointUrl);
+    expect(req.request.params.get('limit')).toBe('35');
+    req.flush({ results: [] });
+  });
+
   it('resolves a saved value to a single option (saved-value resolution)', () => {
     const ds = new EndpointDataSource(http, {
       endpointUrl,
@@ -139,6 +163,19 @@ describe('EndpointDataSource', () => {
     req.flush({ uuid: 'abc-123', display: 'Dr Template' });
 
     expect(result.label).toBe('Dr Template');
+  });
+
+  it('replaces every {value} placeholder in a resolveUrlTemplate', () => {
+    const ds = new EndpointDataSource(http, {
+      endpointUrl,
+      resolveUrlTemplate: 'https://example.org/lookup?id={value}&ref={value}'
+    });
+    ds.resolveSelectedValue('abc-123').subscribe();
+
+    const req = httpMock.expectOne(
+      'https://example.org/lookup?id=abc-123&ref=abc-123'
+    );
+    req.flush({ uuid: 'abc-123', display: 'Dr Twice' });
   });
 
   it('emits an empty option list for a successful empty response', () => {
