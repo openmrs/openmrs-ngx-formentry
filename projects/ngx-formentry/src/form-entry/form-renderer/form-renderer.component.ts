@@ -4,13 +4,16 @@ import {
   Input,
   Inject,
   OnChanges,
+  Optional,
   SimpleChanges,
   TemplateRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
 
 import { DataSources } from '../data-sources/data-sources';
+import { EndpointDataSource } from '../data-sources/endpoint-data-source';
 import { NodeBase, LeafNode, GroupNode } from '../form-factory/form-node';
 import { AfeFormGroup } from '../../abstract-controls-extension/afe-form-group';
 import { ValidationFactory } from '../form-factory/validation.factory';
@@ -21,10 +24,10 @@ import { ValidationErrors } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'ofe-form-renderer',
-    templateUrl: 'form-renderer.component.html',
-    styleUrls: ['../../style/app.css', './form-renderer.component.scss'],
-    standalone: false
+  selector: 'ofe-form-renderer',
+  templateUrl: 'form-renderer.component.html',
+  styleUrls: ['../../style/app.css', './form-renderer.component.scss'],
+  standalone: false
 })
 export class FormRendererComponent implements OnInit, OnChanges {
   @Input() public formSubmissionTemplate: TemplateRef<unknown>;
@@ -54,7 +57,8 @@ export class FormRendererComponent implements OnInit, OnChanges {
     private dataSources: DataSources,
     private formErrorsService: FormErrorsService,
     public translate: TranslateService,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    @Optional() private http: HttpClient
   ) {
     this.activeTab = 0;
   }
@@ -118,20 +122,40 @@ export class FormRendererComponent implements OnInit, OnChanges {
       this.node.question.extras &&
       this.node.question.renderingType === 'remote-select'
     ) {
-      this.dataSource = this.dataSources.dataSources[
-        this.node.question.dataSource
-      ];
-      if (!this.dataSource && this.node.question.dataSource) {
-        console.warn(
-          `No data source registered under '${this.node.question.dataSource}' — ` +
-            `the '${this.node.question.key}' question will have no options.`
-        );
-      }
+      this.dataSource = this.resolveDataSource(this.node.question.dataSource);
 
       if (this.dataSource && this.node.question.dataSourceOptions) {
         this.dataSource.dataSourceOptions = this.node.question.dataSourceOptions;
       }
     }
+  }
+
+  /**
+   * Looks up a data source by name. Re-creates the built-in endpoint data source
+   * if a host application has removed it, and warns when the lookup fails.
+   */
+  private resolveDataSource(dataSourceName: string): DataSource | undefined {
+    if (!dataSourceName) {
+      return undefined;
+    }
+
+    let dataSource = this.dataSources.dataSources[dataSourceName];
+
+    if (!dataSource && dataSourceName === 'endpoint' && this.http) {
+      dataSource = new EndpointDataSource(this.http);
+      this.dataSources.registerDataSource(dataSourceName, dataSource);
+    }
+
+    if (!dataSource) {
+      const registered =
+        Object.keys(this.dataSources.dataSources).sort().join(', ') || '(none)';
+      console.warn(
+        `Data source '${dataSourceName}' required by question '${this.node.question.key}' ` +
+          `is unavailable at render time. Available data sources: ${registered}.`
+      );
+    }
+
+    return dataSource;
   }
 
   public setUpFileUpload() {
@@ -140,9 +164,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
       this.node.question.extras &&
       this.node.question.renderingType === 'file'
     ) {
-      this.dataSource = this.dataSources.dataSources[
-        this.node.question.dataSource
-      ];
+      this.dataSource = this.resolveDataSource(this.node.question.dataSource);
     }
   }
 
