@@ -14,6 +14,7 @@ export class QuestionBase implements BaseOptions {
   historicalDisplay?: any;
   rows?: any;
   showWeeksAdder?: any;
+  additionalProps?: Record<string, unknown>;
   datePickerFormat: string;
   key: string;
   alert?: any;
