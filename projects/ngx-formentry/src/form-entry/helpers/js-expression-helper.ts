@@ -321,10 +321,10 @@ export class JsExpressionHelper {
     return !!targetControl
       ? targetControl
       : typeof obsValue === 'object'
-      ? obsValue.uuid
-      : !!obsValue
-      ? obsValue
-      : null;
+        ? obsValue.uuid
+        : !!obsValue
+          ? obsValue
+          : null;
   }
 
   /**
@@ -421,7 +421,8 @@ export class JsExpressionHelper {
     avpuLevelAdult?: string | null,
     mobilityChild?: string | null,
     mobilityAdult?: string | null,
-    trauma?: string | null
+    trauma?: string | null,
+    behaviourChangeAssessment?: string[] | string | null
   ) {
     const UUID = {
       ROUTINE: '1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
@@ -431,21 +432,47 @@ export class JsExpressionHelper {
       TRAUMA_YES: '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
     };
 
+    // Behaviour Change Assessment answers, scored so that the worst selected
+    // finding alone pushes the additive score into the matching SATS bracket:
+    // routine -> ROUTINE, not urgent -> URGENT, urgent -> VERY_URGENT, emergency -> EMERGENCY
+    const BEHAVIOUR_CHANGE_SCORE: Record<string, number> = {
+      '1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 0, // None
+      '1855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 0, // Stable
+      '115689AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 3, // Mood instability
+      '128185AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Psychotic
+      '206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Recent convulsion
+      '114091AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Intoxicated
+      '164483AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Convulsing
+      '112412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 7, // Actively suicidal or homicidal
+      '13e69dbc-0bdc-42cb-a657-3175e66e9117': 7, // Severely agitated
+      '146092AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 7 // Catatonic
+    };
+
     const isValid = (num: any): boolean =>
       num !== null && num !== undefined && num !== '' && !isNaN(num);
 
     const isValidCode = (val: any): boolean =>
       typeof val === 'string' && val.trim().length > 0;
 
+    const behaviourChangeAssessmentValues = Array.isArray(
+      behaviourChangeAssessment
+    )
+      ? behaviourChangeAssessment
+      : behaviourChangeAssessment
+        ? [behaviourChangeAssessment]
+        : [];
+
+    const behaviourChangeScore = behaviourChangeAssessmentValues.reduce(
+      (worst, val) => Math.max(worst, BEHAVIOUR_CHANGE_SCORE[val] ?? 0),
+      0
+    );
+
     const hasAnyInput =
       [respRate, heartRate, temperature, systolicBP].some(isValid) ||
-      [
-        avpuLevelChild,
-        avpuLevelAdult,
-        mobilityChild,
-        mobilityAdult,
-        trauma
-      ].some(isValidCode);
+      [avpuLevelChild, avpuLevelAdult, mobilityChild, mobilityAdult, trauma].some(
+        isValidCode
+      ) ||
+      behaviourChangeAssessmentValues.length > 0;
 
     if (!hasAnyInput) {
       return {
@@ -572,15 +599,17 @@ export class JsExpressionHelper {
         break;
     }
 
+    score += behaviourChangeScore;
+
     // Priority Mapping
     const priority =
       score >= 7
         ? UUID.EMERGENCY
         : score >= 5
-        ? UUID.VERY_URGENT
-        : score >= 3
-        ? UUID.URGENT
-        : UUID.ROUTINE;
+          ? UUID.VERY_URGENT
+          : score >= 3
+            ? UUID.URGENT
+            : UUID.ROUTINE;
 
     return { score, priority, category };
   }
