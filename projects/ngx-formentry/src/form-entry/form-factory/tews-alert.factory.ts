@@ -110,7 +110,7 @@ export class TewsAlertFactory {
       return {
         label: 'Routine',
         color: '#24a148',
-        description: 'Routine (score 0-2)',
+        description: 'Routine (score 1-2)',
         icon: 'success',
         variant: 'info'
       };

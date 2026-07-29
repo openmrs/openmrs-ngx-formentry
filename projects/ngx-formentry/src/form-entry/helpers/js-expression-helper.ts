@@ -321,10 +321,10 @@ export class JsExpressionHelper {
     return !!targetControl
       ? targetControl
       : typeof obsValue === 'object'
-        ? obsValue.uuid
-        : !!obsValue
-          ? obsValue
-          : null;
+      ? obsValue.uuid
+      : !!obsValue
+      ? obsValue
+      : null;
   }
 
   /**
@@ -434,18 +434,23 @@ export class JsExpressionHelper {
 
     // Behaviour Change Assessment answers, scored so that the worst selected
     // finding alone pushes the additive score into the matching SATS bracket:
-    // routine -> ROUTINE, not urgent -> URGENT, urgent -> VERY_URGENT, emergency -> EMERGENCY
+    // None -> no classification (stays 0, no alert banner shown),
+    // Stable -> Routine (Green), Semi-Urgent (Yellow) -> URGENT,
+    // Urgent (Orange) -> VERY_URGENT, Immediate (Red) -> EMERGENCY.
+    // Stable is scored 1 rather than 0 so it's distinguishable from "no
+    // classification"/untouched (both of which are 0) by the TEWS score
+    // alert banner, which only has the numeric score to work with.
     const BEHAVIOUR_CHANGE_SCORE: Record<string, number> = {
-      '1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 0, // None
-      '1855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 0, // Stable
-      '115689AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 3, // Mood instability
-      '128185AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Psychotic
-      '206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Recent convulsion
-      '114091AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Intoxicated
-      '164483AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Convulsing
-      '112412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 7, // Actively suicidal or homicidal
-      '13e69dbc-0bdc-42cb-a657-3175e66e9117': 7, // Severely agitated
-      '146092AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 7 // Catatonic
+      '1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 0, // None (no classification)
+      '1855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 1, // Stable (Routine/Green)
+      '115689AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 3, // Mood instability (Semi-Urgent/Yellow)
+      '128185AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Psychotic (Urgent/Orange)
+      '206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Recent convulsion (Urgent/Orange)
+      '114091AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Intoxicated (Urgent/Orange)
+      '112412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 7, // Actively suicidal or homicidal (Immediate/Red)
+      '13e69dbc-0bdc-42cb-a657-3175e66e9117': 7, // Severely agitated (Immediate/Red)
+      '164483AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 7, // Convulsing (Immediate/Red)
+      '146092AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 7 // Catatonic (Immediate/Red)
     };
 
     const isValid = (num: any): boolean =>
@@ -459,8 +464,8 @@ export class JsExpressionHelper {
     )
       ? behaviourChangeAssessment
       : behaviourChangeAssessment
-        ? [behaviourChangeAssessment]
-        : [];
+      ? [behaviourChangeAssessment]
+      : [];
 
     const behaviourChangeScore = behaviourChangeAssessmentValues.reduce(
       (worst, val) => Math.max(worst, BEHAVIOUR_CHANGE_SCORE[val] ?? 0),
@@ -469,9 +474,13 @@ export class JsExpressionHelper {
 
     const hasAnyInput =
       [respRate, heartRate, temperature, systolicBP].some(isValid) ||
-      [avpuLevelChild, avpuLevelAdult, mobilityChild, mobilityAdult, trauma].some(
-        isValidCode
-      ) ||
+      [
+        avpuLevelChild,
+        avpuLevelAdult,
+        mobilityChild,
+        mobilityAdult,
+        trauma
+      ].some(isValidCode) ||
       behaviourChangeAssessmentValues.length > 0;
 
     if (!hasAnyInput) {
@@ -606,10 +615,10 @@ export class JsExpressionHelper {
       score >= 7
         ? UUID.EMERGENCY
         : score >= 5
-          ? UUID.VERY_URGENT
-          : score >= 3
-            ? UUID.URGENT
-            : UUID.ROUTINE;
+        ? UUID.VERY_URGENT
+        : score >= 3
+        ? UUID.URGENT
+        : UUID.ROUTINE;
 
     return { score, priority, category };
   }
