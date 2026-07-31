@@ -11,41 +11,35 @@
           "label": "Visit Details",
           "sections": [
               {
-                  "label": "Encounter Details",
-                  "isExpanded": "true",
-                  "questions": [
-                      {
-                          "label": "Visit date:",
-                          "type": "encounterDatetime",
-                          "required": "true",
-                          "id": "encDate",
-                          "questionOptions": {
-                              "rendering": "date"
-                          },
-                          "validators": [
-                              {
-                                  "type": "date",
-                                  "allowFutureDates": "false"
-                              }
-                          ]
-                      },
-                      {
-                          "label": "Provider:",
-                          "type": "encounterProvider",
-                          "required": "true",
-                          "questionOptions": {
-                              "rendering": "ui-select-extended"
-                          },
-                          "id": "encProvider "
-                      },
-                      {
-                          "label": "Location:",
-                          "type": "encounterLocation",
-                          "required": "true",
-                          "questionOptions": {
-                              "rendering": "ui-select-extended"
-                          },
-                          "id": "encLocation"
+              "type": "obsGroup",
+              "label": "Consulting Doctors",
+              "required":"true",
+              "questionOptions": {
+                "concept": "a8a003a6-1350-11df-a1f1-0026b9348838",
+                "rendering": "repeating"
+              },
+                "questions": [
+                   {
+                      "label": "Doctor",
+                      "id": "doctor",
+                      "type": "obs",
+                      "questionOptions": {
+                        "concept": "a8a666ba-1350-11df-a1f1-0026b9348838",
+                        "rendering": "remote-select",
+                        "datasource": {
+                          "name": "endpoint",
+                          "config": {
+                            "endpointUrl": "https://jsonplaceholder.typicode.com/users",
+                            "labelKey": "name",
+                            "valueKey": "id",
+                             "extraParams":{
+                               "patientUuid": {
+                                     "source":  "dataSources",
+                                     "sourceKey": "patientUuid"
+                               }
+                            }
+                          }
+                        }
                       }
                   ]
               },
