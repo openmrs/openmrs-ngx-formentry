@@ -142,7 +142,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
     let dataSource = this.dataSources.dataSources[dataSourceName];
 
     if (!dataSource && dataSourceName === 'endpoint' && this.http) {
-      dataSource = new EndpointDataSource(this.http);
+      dataSource = new EndpointDataSource(this.http, undefined ,this.dataSources);
       this.dataSources.registerDataSource(dataSourceName, dataSource);
     }
 
