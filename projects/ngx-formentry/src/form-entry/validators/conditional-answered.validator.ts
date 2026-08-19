@@ -33,13 +33,28 @@ export class ConditionalAnsweredValidator {
               }
             }
 
-            if (!relationValue) {
-              successCondition = false;
-            } else if (
-              typeof referenceQuestionAnswers === 'object' &&
-              referenceQuestionAnswers.indexOf(relationValue) === -1
+            if (
+              !relationValue ||
+              (Array.isArray(relationValue) && relationValue.length === 0)
             ) {
               successCondition = false;
+            } else if (typeof referenceQuestionAnswers === 'object') {
+              if (Array.isArray(relationValue)) {
+                const values = relationValue.map((v) =>
+                  v && typeof v === 'object' && v.value ? v.value : v
+                );
+                if (
+                  !values.some(
+                    (v) => referenceQuestionAnswers.indexOf(v) !== -1
+                  )
+                ) {
+                  successCondition = false;
+                }
+              } else if (
+                referenceQuestionAnswers.indexOf(relationValue) === -1
+              ) {
+                successCondition = false;
+              }
             }
           });
         }

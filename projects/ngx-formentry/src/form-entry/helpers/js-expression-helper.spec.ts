@@ -71,6 +71,41 @@ describe('JS Expression Helper Service:', () => {
     expect(obsValue).toBe(173);
   });
 
+  it('should preserve falsy control and observation values', () => {
+    const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+    const encounter = {
+      obs: [
+        {
+          concept: { uuid: '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' },
+          value: 0,
+          groupMembers: null
+        }
+      ]
+    };
+
+    // A falsy target control value is still a value
+    expect(
+      helper.getObsFromControlOrEncounter(0, encounter, 'irrelevant-uuid')
+    ).toBe(0);
+    expect(
+      helper.getObsFromControlOrEncounter(false, encounter, 'irrelevant-uuid')
+    ).toBe(false);
+
+    // A falsy observation value is returned rather than null
+    expect(
+      helper.getObsFromControlOrEncounter(
+        null,
+        encounter,
+        '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+      )
+    ).toBe(0);
+
+    // Nothing found still returns null
+    expect(
+      helper.getObsFromControlOrEncounter(null, encounter, 'missing-uuid')
+    ).toBeNull();
+  });
+
   it('should return true if value is empty, null or undefined', () => {
     const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
     let val = '';

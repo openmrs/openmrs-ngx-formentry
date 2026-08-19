@@ -19,4 +19,20 @@ describe('DisallowDecimalsValidator', () => {
 
     expect(formControl.errors['disallowDecimals']).toBe(true);
   });
+
+  it('should return null when a negative integer is provided', () => {
+    const validator: DisallowDecimalsValidator = new DisallowDecimalsValidator();
+
+    const formControl = new AfeFormControl('-42', [validator.validate()]);
+
+    expect(formControl.errors).toBe(null);
+  });
+
+  it('should return an error when a negative decimal is provided', () => {
+    const validator: DisallowDecimalsValidator = new DisallowDecimalsValidator();
+
+    const formControl = new AfeFormControl('-42.5', [validator.validate()]);
+
+    expect(formControl.errors['disallowDecimals']).toBe(true);
+  });
 });
