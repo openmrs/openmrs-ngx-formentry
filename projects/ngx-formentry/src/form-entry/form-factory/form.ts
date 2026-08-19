@@ -16,6 +16,7 @@ export class Form {
   public existingDiagnoses: Array<Diagnosis> = [];
   private _dataSourcesContainer: DataSources;
   private _showErrors = false;
+  private _nodeIndexByQuestionId: Map<string, Array<NodeBase>>;
   constructor(
     public schema: any,
     public formFactory: FormFactory,
@@ -69,13 +70,24 @@ export class Form {
     questionId: string,
     questionType?: string
   ): Array<NodeBase> {
-    const found = [];
     if (questionType) {
+      const found = [];
       this.searchNodeByQuestionType(this.rootNode, questionType, found);
-    } else {
-      this.findNodesByQuestionId(this.rootNode, questionId, found);
+      return found;
     }
-    return found;
+
+    if (!this._nodeIndexByQuestionId) {
+      const index = new Map<string, Array<NodeBase>>();
+      this.indexNodesByQuestionId(this.rootNode, index);
+      this._nodeIndexByQuestionId = index;
+    }
+
+    const found = this._nodeIndexByQuestionId.get(questionId);
+    return found ? found.slice() : [];
+  }
+
+  invalidateNodeIndex() {
+    this._nodeIndexByQuestionId = null;
   }
 
   searchNodeByQuestionType(
@@ -116,24 +128,23 @@ export class Form {
     }
   }
 
-  private findNodesByQuestionId(
+  private indexNodesByQuestionId(
     rootNode: NodeBase,
-    questionId: string,
-    results: Array<NodeBase>
+    index: Map<string, Array<NodeBase>>
   ) {
-    if (rootNode.question.key === questionId) {
-      results.push(rootNode);
+    const questionId = rootNode.question.key;
+    let nodes = index.get(questionId);
+    if (!nodes) {
+      nodes = [];
+      index.set(questionId, nodes);
     }
+    nodes.push(rootNode);
 
     if (rootNode instanceof GroupNode) {
       const nodeAsGroup = rootNode as GroupNode;
 
       for (const o in nodeAsGroup.children) {
-        this.findNodesByQuestionId(
-          nodeAsGroup.children[o],
-          questionId,
-          results
-        );
+        this.indexNodesByQuestionId(nodeAsGroup.children[o], index);
       }
     }
 
@@ -141,7 +152,7 @@ export class Form {
       const nodeAsArray = rootNode as ArrayNode;
 
       nodeAsArray.children.forEach((node) => {
-        this.findNodesByQuestionId(node, questionId, results);
+        this.indexNodesByQuestionId(node, index);
       });
     }
   }
