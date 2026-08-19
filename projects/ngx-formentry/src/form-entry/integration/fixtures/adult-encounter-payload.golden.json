@@ -1,0 +1,53 @@
+{
+    "encounterDatetime": "2016-11-23T14:32:54+03:00",
+    "encounterProviders": [
+        {
+            "provider": "provider-uuid",
+            "encounterRole": "a0b03050-c99b-11e0-9572-0800200c9a66"
+        }
+    ],
+    "location": "location-uuid",
+    "patient": "patient-uuid",
+    "visit": "visit-uuid",
+    "encounterType": "encounter-type-uuid",
+    "form": "form-uuid",
+    "uuid": "encounter-uuid",
+    "obs": [
+        {
+            "concept": "a89ae254-1350-11df-a1f1-0026b9348838",
+            "value": "a899b35c-1350-11df-a1f1-0026b9348838",
+            "formFieldNamespace": "O3",
+            "formFieldPath": "onArt~0"
+        },
+        {
+            "concept": "a8a6619c-1350-11df-a1f1-0026b9348838",
+            "value": 180,
+            "formFieldNamespace": "O3",
+            "formFieldPath": "height~1"
+        },
+        {
+            "concept": "a89ffbf4-1350-11df-a1f1-0026b9348838",
+            "value": "Golden master history of present illness.",
+            "formFieldNamespace": "O3",
+            "formFieldPath": "hpiText~2"
+        }
+    ],
+    "orders": [
+        {
+            "concept": "a8982474-1350-11df-a1f1-0026b9348838",
+            "type": "testorder",
+            "orderer": "provider-uuid",
+            "careSetting": "6f0c9a92-6f24-11e3-af88-005056821db0"
+        }
+    ],
+    "diagnoses": [
+        {
+            "diagnosis": {
+                "coded": "116125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            },
+            "certainty": "CONFIRMED",
+            "rank": 1,
+            "voided": false
+        }
+    ]
+}

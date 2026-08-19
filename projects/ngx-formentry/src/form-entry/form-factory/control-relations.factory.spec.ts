@@ -9,6 +9,7 @@ import {
 import { FormControlService } from './form-control.service';
 import { SampleSchema } from './sample-schema';
 
+import { QuestionBase } from '../question-models/question-base';
 import { QuestionFactory } from './question.factory';
 import { ValidationFactory } from './validation.factory';
 import { HidersDisablersFactory } from './hiders-disablers.factory';
@@ -55,6 +56,40 @@ describe('Control Relations Factory:', () => {
     expect(control.controlRelations.relations.length).toBe(0);
     factory.addRelationToControl(control, related);
     expect(control.controlRelations.relations.length).toBe(1);
+  });
+
+  it('should relate a question to controls referenced in its alert expression', () => {
+    const factory: ControlRelationsFactory = TestBed.inject(
+      ControlRelationsFactory
+    );
+
+    const question = new QuestionBase({
+      type: 'obs',
+      key: 'tempQuestion',
+      alert: {
+        alertWhenExpression: 'weightQuestion > 100',
+        message: 'Weight is too high'
+      }
+    });
+
+    expect(factory.hasRelation('weightQuestion', question)).toBe(true);
+  });
+
+  it('should not relate a question to controls its alert expression does not reference', () => {
+    const factory: ControlRelationsFactory = TestBed.inject(
+      ControlRelationsFactory
+    );
+
+    const question = new QuestionBase({
+      type: 'obs',
+      key: 'tempQuestion',
+      alert: {
+        alertWhenExpression: 'myValue >= 40',
+        message: 'Temperature is too high'
+      }
+    });
+
+    expect(factory.hasRelation('weightQuestion', question)).toBe(false);
   });
 
   it('should build control relations', () => {

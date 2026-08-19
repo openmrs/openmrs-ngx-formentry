@@ -5,7 +5,8 @@ import {
   forwardRef,
   Output,
   EventEmitter,
-  Renderer2, OnDestroy
+  Renderer2,
+  OnDestroy
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { concat, Observable, of, Subject } from 'rxjs';
@@ -14,6 +15,7 @@ import {
   distinctUntilChanged,
   finalize,
   switchMap,
+  take,
   tap
 } from 'rxjs/operators';
 import { SelectOption } from '../../form-entry/question-models/interfaces/select-option';
@@ -23,18 +25,20 @@ import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'ofe-remote-select',
-    templateUrl: 'remote-select.component.html',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => RemoteSelectComponent),
-            multi: true
-        }
-    ],
-    standalone: false
+  selector: 'ofe-remote-select',
+  templateUrl: 'remote-select.component.html',
+  styleUrls: ['./remote-select.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => RemoteSelectComponent),
+      multi: true
+    }
+  ],
+  standalone: false
 })
-export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDestroy {
+export class RemoteSelectComponent
+  implements OnInit, ControlValueAccessor, OnDestroy {
   // @Input() dataSource: DataSource;
   remoteOptions$: Observable<SelectOption[]>;
   remoteOptionsLoading = false;
@@ -43,14 +47,25 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDe
   items = [];
   value = [];
   loading = false;
+  // Load failures and saved-value resolution failures are tracked separately so a
+  // successful list load cannot silently clear the alert for a saved value that
+  // failed to resolve (the two requests race on edit-mode init).
+  loadFailed = false;
+  resolveFailed = false;
   searchText = '';
   notFoundMsg = this.translate.instant('matchNotFound');
   @Input() placeholder = this.translate.instant('search');
   @Input() componentID: string;
+  @Input() dataSourceOptions?: Record<string, unknown>;
   @Input() disabled = false;
   @Input() theme = 'dark';
   @Input() invalid = 'false';
   @Output() done: EventEmitter<any> = new EventEmitter<any>();
+
+  // Results come from server-side typeahead searches. Concept search matches
+  // synonyms and index terms whose display label may not contain the typed
+  // text, so ng-select must not re-filter results by label.
+  keepServerResults = () => true;
 
   private _dataSource: DataSource;
   @Input()
@@ -90,16 +105,27 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDe
     if (value && value !== '') {
       if (this.dataSource) {
         this.loading = true;
-        this.dataSource.resolveSelectedValue(value).subscribe(
-          (result: any) => {
-            this.items = [result];
-            this.selectedRemoteOptions = result;
-            this.loading = false;
-          },
-          (error) => {
-            this.loading = false;
-          }
-        );
+        this.dataSource
+          .resolveSelectedValue(value, this.effectiveDataSourceOptions())
+          .subscribe(
+            (result: any) => {
+              // An undefined result means the stored value no longer resolves
+              // (for example a retired entry): surface it as a failure rather
+              // than silently showing an empty selection.
+              if (result) {
+                this.items = [result];
+                this.selectedRemoteOptions = result;
+                this.resolveFailed = false;
+              } else {
+                this.resolveFailed = true;
+              }
+              this.loading = false;
+            },
+            (error) => {
+              this.loading = false;
+              this.resolveFailed = true;
+            }
+          );
       }
     }
   }
@@ -109,17 +135,30 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDe
     this.propagateChange = fn;
   }
 
-  // not used, used for touch input
-  public registerOnTouched() {}
+  // registers 'fn' fired when the control is touched so the parent control's
+  // touched/validation state stays in sync with user interaction
+  public registerOnTouched(fn: any) {
+    this.propagateTouched = fn;
+  }
+
+  // called by Angular reactive forms when the bound control is enabled/disabled
+  public setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+  }
   // change events from the textarea
   onChange(event) {
     this.propagateChange(event.id);
+    this.propagateTouched();
     // .....
     // update the form
     // this.propagateChange(this.data);
   }
   selected(event) {
+    // Picking a valid option supersedes any earlier saved-value resolution
+    // failure, so the error state must not outlive the recovery.
+    this.resolveFailed = false;
     this.propagateChange(event);
+    this.propagateTouched();
   }
 
   compareItems = (item, selected) => {
@@ -133,18 +172,36 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDe
   // a placeholder for a method that takes one parameter,
   // we use it to emit changes back to the form
   private propagateChange = (change: any) => {};
+  private propagateTouched = () => {};
 
   trackByFn(item: SelectOption) {
     return item.value;
   }
 
   private loadOptions() {
+    // A question can name a data source that was never registered (for example the
+    // built-in endpoint source when the consumer provides no HttpClient). Degrade to
+    // an empty option list instead of crashing the form render.
+    if (!this.dataSource) {
+      this.remoteOptions$ = of([]);
+      return;
+    }
     this.remoteOptions$ = concat(
       this.dataSource
-        .searchOptions('', this.dataSource?.dataSourceOptions ?? {})
+        .searchOptions('', this.effectiveDataSourceOptions())
+        // concat only subscribes to the typeahead stream once the initial
+        // load completes, and not every datasource completes its observable
         ?.pipe(
+          take(1),
+          tap(() => {
+            this.loadFailed = false;
+          }),
+          // A request failure is not the same as a successful empty search:
+          // surface it through loadFailed so the control can show an error
+          // state instead of a misleading "no matches".
           catchError((error) => {
             console.error('Error loading initial options:', error);
+            this.loadFailed = true;
             return of([]);
           })
         ) ?? of([]), // default items
@@ -155,10 +212,14 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDe
         }),
         switchMap((term) =>
           this.dataSource
-            .searchOptions(term, this.dataSource?.dataSourceOptions ?? {})
+            .searchOptions(term, this.effectiveDataSourceOptions())
             .pipe(
+              tap(() => {
+                this.loadFailed = false;
+              }),
               catchError((error) => {
                 console.error('Error loading options:', error);
+                this.loadFailed = true;
                 return of([]);
               }),
               finalize(() => {
@@ -168,6 +229,10 @@ export class RemoteSelectComponent implements OnInit, ControlValueAccessor, OnDe
         )
       )
     );
+  }
+
+  private effectiveDataSourceOptions(): Record<string, unknown> {
+    return this.dataSourceOptions ?? this.dataSource?.dataSourceOptions ?? {};
   }
 
   ngOnDestroy() {

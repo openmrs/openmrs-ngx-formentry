@@ -135,6 +135,23 @@ describe('Question Factory', () => {
     }
   };
 
+  const diagnosisSchemaQuestion: any = {
+    type: 'diagnosis',
+    label: 'Final diagnosis:',
+    id: 'finalDiagnosisId',
+    required: 'true',
+    questionOptions: {
+      rendering: 'repeating',
+      rank: 2,
+      datasource: {
+        name: 'diagnoses',
+        config: {
+          conceptSourceUuid: '43aaca5f-d623-43fd-993b-673b5d927cdd'
+        }
+      }
+    }
+  };
+
   const repeatingGroupSchemaQuestion: any = {
     label: 'Other Medications',
     questions: [
@@ -733,6 +750,31 @@ describe('Question Factory', () => {
     expect(converted.renderingType).toEqual('remote-select');
   });
 
+  it('should convert schema diagnosis question to Diagnosis question model', () => {
+    const converted = factory.toDiagnosisQuestion(diagnosisSchemaQuestion);
+    expect(converted.label).toEqual(diagnosisSchemaQuestion.label);
+    expect(converted.key).toEqual(diagnosisSchemaQuestion.id);
+    expect(converted.renderingType).toEqual('remote-select');
+    expect(converted.dataSource).toEqual('diagnoses');
+    expect(converted.dataSourceOptions).toEqual({
+      conceptSourceUuid: '43aaca5f-d623-43fd-993b-673b5d927cdd'
+    });
+  });
+
+  it('should default the diagnosis data source and leave options unset when the schema names none', () => {
+    const converted = factory.toDiagnosisQuestion({
+      type: 'diagnosis',
+      label: 'Primary diagnosis:',
+      id: 'primaryDiagnosisId',
+      questionOptions: {
+        rendering: 'repeating',
+        rank: 1
+      }
+    });
+    expect(converted.dataSource).toEqual('diagnoses');
+    expect(converted.dataSourceOptions).toBeUndefined();
+  });
+
   it('should convert schema group question to Group question model', () => {
     const converted = factory.toGroupQuestion(groupSchemaQuestion);
     expect(converted.label).toEqual(groupSchemaQuestion.label);
@@ -761,6 +803,36 @@ describe('Question Factory', () => {
     expect(converted.label).toEqual(encounterProviderSchemaQuestion.label);
     expect(converted.key).toEqual(encounterProviderSchemaQuestion.id);
     expect(converted.renderingType).toEqual('remote-select');
+  });
+
+  it('should map a remote-select question onto the built-in endpoint data source', () => {
+    const endpointSchemaQuestion: any = {
+      label: 'Doctor',
+      id: 'doctor',
+      type: 'obs',
+      questionOptions: {
+        concept: 'a8a666ba-1350-11df-a1f1-0026b9348838',
+        rendering: 'remote-select',
+        datasource: {
+          name: 'endpoint',
+          config: {
+            endpointUrl: '/ws/rest/v1/provider',
+            labelKey: 'display',
+            valueKey: 'uuid'
+          }
+        }
+      }
+    };
+
+    const converted = factory.toRemoteSelectQuestion(endpointSchemaQuestion);
+
+    expect(converted.renderingType).toEqual('remote-select');
+    expect(converted.dataSource).toEqual('endpoint');
+    expect(converted.dataSourceOptions).toEqual({
+      endpointUrl: '/ws/rest/v1/provider',
+      labelKey: 'display',
+      valueKey: 'uuid'
+    });
   });
 
   it('should convert schema encounter Location question to Encounter Location question model', () => {

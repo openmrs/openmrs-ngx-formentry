@@ -110,8 +110,8 @@ export class AfeFormGroup
   updateAlert() {
     this.AlertHelper.evaluateControlAlerts(this);
   }
-  setValue(value: any) {
-    super.setValue(value);
+  setValue(value: any, options?: { onlySelf?: boolean; emitEvent?: boolean }) {
+    super.setValue(value, options);
     if (this.alerts.length > 0) {
       this.updateAlert();
     }

@@ -9,6 +9,26 @@ import { ArrayNode } from '../form-factory/form-node';
 import { ControlRelationsFactory } from '../form-factory/control-relations.factory';
 import { Form } from '../form-factory/form';
 import moment from 'moment';
+
+const compiledExpressionCache = new Map<string, Function>();
+const COMPILED_EXPRESSION_CACHE_MAX_SIZE = 5000;
+
+function getCompiledExpression(
+  paramList: string,
+  expression: string
+): Function {
+  const key = paramList + '|' + expression;
+  let compiled = compiledExpressionCache.get(key);
+  if (!compiled) {
+    compiled = new Function(paramList, expression);
+    if (compiledExpressionCache.size >= COMPILED_EXPRESSION_CACHE_MAX_SIZE) {
+      compiledExpressionCache.clear();
+    }
+    compiledExpressionCache.set(key, compiled);
+  }
+  return compiled;
+}
+
 @Injectable()
 export class ExpressionRunner {
   getRunnable(
@@ -57,7 +77,7 @@ export class ExpressionRunner {
         }
 
         try {
-          const afeDynamicFunc = new Function(paramList, expression);
+          const afeDynamicFunc = getCompiledExpression(paramList, expression);
           scope[Symbol.iterator] = function* () {
             var k;
             for (k in this) {

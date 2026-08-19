@@ -143,9 +143,9 @@ export class AfeFormArray
     }
   }
 
-  setValue(value: any) {
+  setValue(value: any, options?: { onlySelf?: boolean; emitEvent?: boolean }) {
     if (value !== null) {
-      super.setValue(value);
+      super.setValue(value, options);
     }
   }
 }
