@@ -270,7 +270,15 @@ export class ControlRelationsFactory {
       }
 
       if (questionBase.alert && typeof questionBase.alert === 'object') {
-        hasRelation = true;
+        const alertWhenExpression: string =
+          questionBase.alert.alertWhenExpression;
+
+        if (
+          typeof alertWhenExpression === 'string' &&
+          alertWhenExpression.indexOf(id) !== -1
+        ) {
+          hasRelation = true;
+        }
       }
 
       if (typeof questionBase.disable === 'string') {
