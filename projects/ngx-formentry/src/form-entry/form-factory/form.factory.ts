@@ -209,6 +209,10 @@ export class FormFactory {
       node.children.push(group);
     }
 
+    if (node.form) {
+      node.form.invalidateNodeIndex();
+    }
+
     if (node.control instanceof AfeFormArray) {
       const nodeControl = node.control as AfeFormArray;
       nodeControl.setControl(nodeControl.controls.length, group.control);
@@ -221,6 +225,10 @@ export class FormFactory {
     const nodeToRemove = node.children[index];
 
     node.children.splice(index, 1);
+
+    if (node.form) {
+      node.form.invalidateNodeIndex();
+    }
     if (node.control !== null && node.control !== undefined) {
       if (node.control instanceof AfeFormArray) {
         const control = node.control as AfeFormArray;
