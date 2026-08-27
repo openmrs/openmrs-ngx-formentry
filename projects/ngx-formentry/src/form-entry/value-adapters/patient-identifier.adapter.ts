@@ -14,6 +14,11 @@ export class PatientIdentifierAdapter {
     const nodes = this.getPatientIdentifierNodes(rootNode);
     const payload = [];
     nodes.forEach((node) => {
+      // Skip hidden identifier fields when building the payload so we never
+      // submit a value the user cannot see.
+      if (node.control.hidden === true) {
+        return;
+      }
       if (
         node.control.value !== null &&
         node.control.value !== undefined &&
@@ -34,13 +39,12 @@ export class PatientIdentifierAdapter {
     this.populateNode(form.rootNode, payload);
   }
 
-  populateNode(rootNode: NodeBase, payload) {
+  populateNode(rootNode: NodeBase, payload: Array<Identifier>) {
     if (!Array.isArray(payload)) {
       throw new Error('Expected an array of patient identifiers');
     }
 
     const nodes = this.getPatientIdentifierNodes(rootNode);
-
     nodes.forEach((node) => {
       payload.forEach((element) => {
         if (
@@ -50,6 +54,12 @@ export class PatientIdentifierAdapter {
           if (element.identifier) {
             node.control.setValue(element.identifier);
             node.initialValue = element.identifier;
+            // Keep the existing identifier value even while the control is
+            // hidden. A hiding expression may hide the field at load time and
+            // only reveal it later; without this the hider would null the value
+            // and the field would appear empty once shown. Hidden identifiers
+            // are still excluded from the payload in generateNodePayload.
+            (node.control as any).retainValueWhenHidden = true;
           }
         }
       });
@@ -74,10 +84,15 @@ export class PatientIdentifierAdapter {
     rootNode: NodeBase,
     array: Array<NodeBase>
   ) {
+    // Collect every patient-identifier node regardless of its current hidden
+    // state. On edit a field may still be hidden at population time and only be
+    // revealed later once hiding expressions re-evaluate; if we skipped it here
+    // its value would never be set and it would appear empty when unhidden.
+    // Callers that must exclude hidden fields (e.g. payload generation) apply
+    // the hidden check themselves.
     if (
       rootNode.question.extras &&
-      rootNode.question.extras.type === 'patientIdentifier' &&
-      rootNode.control.hidden === false
+      rootNode.question.extras.type === 'patientIdentifier'
     ) {
       array.push(rootNode);
     }

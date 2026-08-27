@@ -26,7 +26,12 @@ export class HiderHelper {
       hider.reEvaluateHidingExpression();
       if (hider.toHide === true) {
         hiddenValue = true;
-        control.setValue(null);
+        // Some controls (e.g. patient identifiers populated on edit) must keep
+        // their value while hidden so it is still present when a hiding
+        // expression later reveals them. Only clear the value otherwise.
+        if (!control.retainValueWhenHidden) {
+          control.setValue(null);
+        }
       }
     });
 

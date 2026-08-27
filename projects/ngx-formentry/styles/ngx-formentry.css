@@ -189,6 +189,7 @@
   .ng-value-container
   .ng-input {
   line-height: 1.375em;
+  z-index: none !important;
 }
 
 .ng-select.ng-select-multiple .ng-select-container.ng-has-value {

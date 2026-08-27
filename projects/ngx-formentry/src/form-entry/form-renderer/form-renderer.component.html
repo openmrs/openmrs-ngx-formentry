@@ -226,6 +226,12 @@
 
       <ng-template #nativeControls>
         <div class="afe-control" [ngSwitch]="node.question.renderingType">
+          <markdown
+            class="afe-markdown"
+            *ngSwitchCase="'markdown'"
+            [data]="node.question.markdown"
+          ></markdown>
+
           <ofe-select
             [theme]="theme"
             *ngSwitchCase="'select'"

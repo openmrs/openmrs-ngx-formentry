@@ -28,6 +28,11 @@ const schema: any = {
           isExpanded: 'true',
           questions: [
             {
+              id: 'markDown',
+              questionOptions: { rendering: 'markdown' },
+              value: ['- bulleted item\n- second item\n\n1. first\n2. second']
+            },
+            {
               id: 'orderLauncher',
               label: 'Order drugs:',
               questionOptions: {
@@ -70,7 +75,11 @@ describe('FormRendererComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestHostComponent],
-      imports: [ReactiveFormsModule, FormEntryModule, TranslateModule.forRoot()],
+      imports: [
+        ReactiveFormsModule,
+        FormEntryModule,
+        TranslateModule.forRoot()
+      ],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
@@ -93,5 +102,21 @@ describe('FormRendererComponent', () => {
     expect(launcher.componentInstance.additionalProps).toEqual({
       patientUuid: 'test-patient-uuid'
     });
+  });
+
+  it('renders markdown unordered and ordered lists with markers', async () => {
+    await fixture.whenStable();
+
+    const unorderedList = fixture.nativeElement.querySelector(
+      '.afe-markdown ul'
+    );
+    const orderedList = fixture.nativeElement.querySelector('.afe-markdown ol');
+    const listItem = unorderedList.querySelector('li');
+
+    expect(unorderedList).toBeTruthy();
+    expect(orderedList).toBeTruthy();
+    expect(getComputedStyle(unorderedList).listStyleType).toBe('disc');
+    expect(getComputedStyle(orderedList).listStyleType).toBe('decimal');
+    expect(getComputedStyle(listItem).display).toBe('list-item');
   });
 });

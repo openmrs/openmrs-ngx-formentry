@@ -55,6 +55,7 @@ import { MachineLearningService } from '../components/machine-learning-button/ma
 import { PatientIdentifierValidatorDirective } from './directives/patient-identifier.directive';
 import { MonthlyCalendarComponent } from '../components/appointments-overview/monthly-calendar.component';
 import { ModalLauncherComponent } from '../components/modal-launcher/modal-launcher.component';
+import { MarkdownComponent, provideMarkdown } from 'ngx-markdown';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -80,7 +81,8 @@ import { ModalLauncherComponent } from '../components/modal-launcher/modal-launc
     CustomControlWrapperModule,
     CustomComponentWrapperModule,
     NgxTabSetModule.forRoot(),
-    TranslateModule
+    TranslateModule,
+    MarkdownComponent
   ],
   declarations: [
     FormRendererComponent,
@@ -114,7 +116,8 @@ import { ModalLauncherComponent } from '../components/modal-launcher/modal-launc
     DebugModeService,
     PatientIdentifierAdapter,
     AppointmentAdapter,
-    MachineLearningService
+    MachineLearningService,
+    ...provideMarkdown()
   ],
   exports: [
     FormRendererComponent,
