@@ -10,7 +10,11 @@ export class JsExpressionValidator {
   validate(model: JsExpressionValidationModel, form?: any) {
     // convert helper functions to string
     return (control: AfeFormControl): { [key: string]: any } => {
-      if (!Validations.JSExpressionValidatorsEnabled) {
+      if (
+        !Validations.JSExpressionValidatorsEnabled ||
+        control.disabled ||
+        control.hidden
+      ) {
         return null;
       }
 
