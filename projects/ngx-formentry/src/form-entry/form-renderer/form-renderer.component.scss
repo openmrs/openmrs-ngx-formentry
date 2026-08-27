@@ -182,6 +182,36 @@ ng-select.form-control {
   margin-bottom: 0.125rem;
 }
 
+.afe-markdown {
+  display: block;
+}
+
+:host ::ng-deep .afe-markdown {
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ul,
+  ol {
+    margin: spacing.$spacing-05 0;
+    padding-inline-start: spacing.$spacing-07;
+    position: static;
+  }
+
+  li {
+    border-bottom: 0;
+    cursor: inherit;
+    display: list-item;
+    opacity: 1;
+    padding: 0;
+    transition: none;
+  }
+}
+
 [hidden] {
   display: none !important;
 }
