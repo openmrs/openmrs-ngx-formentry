@@ -8,6 +8,7 @@ export class QuestionBase implements BaseOptions {
   questionOptions?: any;
   questions?: any;
   placeholder?: any;
+  markdown?: string;
   hidden?: any;
   showTime?: any;
   showWeek?: any;
