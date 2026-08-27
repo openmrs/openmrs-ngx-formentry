@@ -13,6 +13,6 @@ export class DiagnosisQuestion extends QuestionBase {
     this.options = options.options;
     this.controlType = AfeControlType.AfeFormControl;
     this.dataSource = options.dataSource || '';
-    this.dataSourceOptions = options.dataSourceOptions || {};
+    this.dataSourceOptions = options.dataSourceOptions;
   }
 }
