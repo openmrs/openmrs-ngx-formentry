@@ -76,7 +76,7 @@
     <ul class="cds--accordion cds--accordion--end">
       <li class="cds--accordion__item accordion-content-override"
         [ngClass]="{ 'cds--accordion__item--active': !isCollapsed }">
-        <button type="button" aria-controls="accordion-item-:r27:" aria-expanded="false"
+        <button type="button" aria-controls="accordion-item-:r27:" [attr.aria-expanded]="!isCollapsed"
           (click)="isCollapsed = !isCollapsed" class="cds--accordion__heading">
           <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
             fill="currentColor" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"
@@ -88,7 +88,7 @@
           </div>
         </button>
         <div class="cds--accordion__wrapper">
-          <div id="accordion-item-:r27:" class="cds--accordion__content">
+          <div id="accordion-item-:r27:" class="cds--accordion__content" [attr.aria-hidden]="isCollapsed">
             <ofe-form-renderer *ngFor="let question of node.question.questions" [parentComponent]="this"
               [node]="node.children[question.key]" [parentGroup]="parentGroup"
               [labelMap]="labelMap"></ofe-form-renderer>
