@@ -40,6 +40,44 @@ function calculateScore(variables) {
 }
 
 /**
+ * Calculates the total anxiety score from symptom inputs.
+ * @param {string|object} noInterest - Lack of interest symptom.
+ * @param {string|object} depressed - Depression symptom.
+ * @param {string|object} speakingSlowly - Slow speech symptom.
+ * @param {string|object} betterDead - Thoughts of being better off dead symptom.
+ * @param {string|object} sleep - Sleep issues symptom.
+ * @param {string|object} feelingTired - Fatigue symptom.
+ * @param {string|object} poorAppetite - Appetite issues symptom.
+ * @param {string|object} troubled - Feeling troubled symptom.
+ * @param {string|object} feelingBad - Feeling bad about oneself symptom.
+ * @returns {number} The total anxiety score.
+ */
+export function getAssessmentScore(
+  noInterest,
+  depressed,
+  speakingSlowly,
+  betterDead,
+  sleep,
+  feelingTired,
+  poorAppetite,
+  troubled,
+  feelingBad
+) {
+  const variables = [
+    noInterest,
+    depressed,
+    sleep,
+    feelingTired,
+    poorAppetite,
+    troubled,
+    feelingBad,
+    speakingSlowly,
+    betterDead
+  ];
+  return calculateScore(variables);
+}
+
+/**
  * Determines the anxiety assessment code based on symptom inputs.
  * @param {string|object} noInterest - Lack of interest symptom.
  * @param {string|object} depressed - Depression symptom.
