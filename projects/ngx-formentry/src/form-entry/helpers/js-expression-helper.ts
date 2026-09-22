@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
 import { southEastAsiaCvdRiskTables } from './risk-dataset-table';
 import moment from 'moment';
-import { getAssessmentCode } from './depression-assessment';
+import { getAssessmentCode, getAssessmentScore } from './depression-assessment';
 
 @Injectable()
 export class JsExpressionHelper {
@@ -623,6 +623,88 @@ export class JsExpressionHelper {
     return { score, priority, category };
   }
 
+  // -------- Triage Early Warning Score (TEWS): Mental health model --------
+
+  calcMentalHealthTews(
+    noInterest?: string | { uuid: string } | null,
+    depressed?: string | { uuid: string } | null,
+    speakingSlowly?: string | { uuid: string } | null,
+    betterDead?: string | { uuid: string } | null,
+    sleep?: string | { uuid: string } | null,
+    feelingTired?: string | { uuid: string } | null,
+    poorAppetite?: string | { uuid: string } | null,
+    troubled?: string | { uuid: string } | null,
+    feelingBad?: string | { uuid: string } | null
+  ) {
+    // Priority UUIDs shared with calcSouthAfricanTEWS so both feed the same
+    // triage category answer.
+    const UUID = {
+      ROUTINE: '1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      URGENT: '1883AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      VERY_URGENT: '159409AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      EMERGENCY: '1882AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+    };
+
+    // Maps each depression severity code from getAssessmentCode to its
+    // TEWS triage category and priority.
+    const ASSESSMENT_TO_TEWS: Record<
+      string,
+      { category: string; priority: string }
+    > = {
+      '1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': {
+        category: 'Depression unlikely',
+        priority: UUID.ROUTINE
+      },
+      '157790AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': {
+        category: 'Mild depression',
+        priority: UUID.URGENT
+      },
+      '134011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': {
+        category: 'Moderate depression',
+        priority: UUID.VERY_URGENT
+      },
+      '134017AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': {
+        category: 'Moderate severe depression',
+        priority: UUID.EMERGENCY
+      },
+      '126627AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': {
+        category: 'Severe depression',
+        priority: UUID.EMERGENCY
+      }
+    };
+
+    const assessmentCode = getAssessmentCode(
+      noInterest,
+      depressed,
+      speakingSlowly,
+      betterDead,
+      sleep,
+      feelingTired,
+      poorAppetite,
+      troubled,
+      feelingBad
+    );
+
+    const score = getAssessmentScore(
+      noInterest,
+      depressed,
+      speakingSlowly,
+      betterDead,
+      sleep,
+      feelingTired,
+      poorAppetite,
+      troubled,
+      feelingBad
+    );
+
+    const { category, priority } = ASSESSMENT_TO_TEWS[assessmentCode] || {
+      category: '',
+      priority: ''
+    };
+
+    return { score, category, priority };
+  }
+
   get helperFunctions() {
     const helper = this;
     return {
@@ -642,7 +724,8 @@ export class JsExpressionHelper {
       calculateZNutritionScore: helper.calculateZNutritionScore,
       getObsValue: helper.getObsValue,
       getAssessmentCode: getAssessmentCode,
-      calcSouthAfricanTEWS: helper.calcSouthAfricanTEWS
+      calcSouthAfricanTEWS: helper.calcSouthAfricanTEWS,
+      calcMentalHealthTews: helper.calcMentalHealthTews
     };
   }
 }
