@@ -71,4 +71,127 @@ describe('Show Messages Factory:', () => {
     control.updateAlert();
     expect(control.alert).toEqual('');
   });
+
+  it('should show the first matching message when multiple alerts are defined', () => {
+    const factory: AlertsFactory = TestBed.inject(AlertsFactory);
+
+    const model: QuestionBase = new QuestionBase({
+      type: 'obs',
+      key: 'temperature',
+      alert: [
+        {
+          alertWhenExpression: 'myValue >= 50',
+          message: 'Very High'
+        },
+        {
+          alertWhenExpression: 'myValue >= 40',
+          message: 'High'
+        }
+      ]
+    });
+
+    const control = new AfeFormControl(55);
+    control.uuid = 'temperature';
+
+    factory.getJsExpressionAlerts(model, control).forEach((alert) => {
+      control.setAlertFn(alert);
+    });
+    control.updateAlert();
+
+    expect(control.alert).toEqual('Very High');
+  });
+
+  it('should fall through to the next alert when earlier conditions do not match', () => {
+    const factory: AlertsFactory = TestBed.inject(AlertsFactory);
+
+    const model: QuestionBase = new QuestionBase({
+      type: 'obs',
+      key: 'temperature',
+      alert: [
+        {
+          alertWhenExpression: 'myValue >= 50',
+          message: 'Very High'
+        },
+        {
+          alertWhenExpression: 'myValue >= 40',
+          message: 'High'
+        }
+      ]
+    });
+
+    const control = new AfeFormControl(45);
+    control.uuid = 'temperature';
+
+    factory.getJsExpressionAlerts(model, control).forEach((alert) => {
+      control.setAlertFn(alert);
+    });
+    control.updateAlert();
+
+    expect(control.alert).toEqual('High');
+  });
+
+  it('should return an empty alert when no condition matches', () => {
+    const factory: AlertsFactory = TestBed.inject(AlertsFactory);
+
+    const model: QuestionBase = new QuestionBase({
+      type: 'obs',
+      key: 'temperature',
+      alert: [
+        { alertWhenExpression: 'myValue >= 50', message: 'Very High' },
+        { alertWhenExpression: 'myValue >= 40', message: 'High' }
+      ]
+    });
+
+    const control = new AfeFormControl(30);
+    control.uuid = 'temperature';
+
+    factory.getJsExpressionAlerts(model, control).forEach((alert) => {
+      control.setAlertFn(alert);
+    });
+    control.updateAlert();
+
+    expect(control.alert).toEqual('');
+  });
+
+  it('should handle a single object alert config without an array', () => {
+    const factory: AlertsFactory = TestBed.inject(AlertsFactory);
+
+    const model: QuestionBase = new QuestionBase({
+      type: 'obs',
+      key: 'temperature',
+      alert: { alertWhenExpression: 'true', message: 'Single alert' }
+    });
+
+    const control = new AfeFormControl(55);
+    control.uuid = 'temperature';
+
+    factory.getJsExpressionAlerts(model, control).forEach((alert) => {
+      control.setAlertFn(alert);
+    });
+    control.updateAlert();
+
+    expect(control.alert).toEqual('Single alert');
+  });
+
+  it('should return an empty alert and not throw when alert is an empty array', () => {
+    const factory: AlertsFactory = TestBed.inject(AlertsFactory);
+
+    const model: QuestionBase = new QuestionBase({
+      type: 'obs',
+      key: 'temperature',
+      alert: []
+    });
+
+    const control = new AfeFormControl(55);
+    control.uuid = 'temperature';
+
+    expect(() => {
+      factory.getJsExpressionAlerts(model, control).forEach((alert) => {
+        control.setAlertFn(alert);
+      });
+      control.updateAlert();
+    }).not.toThrow();
+
+    expect(control.alert).toEqual('');
+  });
 });
