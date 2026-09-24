@@ -8209,7 +8209,13 @@
                           "config": {
                             "endpointUrl": "https://jsonplaceholder.typicode.com/users",
                             "labelKey": "name",
-                            "valueKey": "id"
+                            "valueKey": "id",
+                             "extraParams":{
+                               "patientUuid": {
+                                     "source":  "dataSources",
+                                     "sourceKey": "patientUuid"
+                               }
+                            }
                           }
                         }
                       }
