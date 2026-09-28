@@ -42,7 +42,7 @@ Most data sources are registered by the host application in code. The engine als
     "datasource": {
       "name": "endpoint",
       "config": {
-        "endpointUrl": "/ws/rest/v1/provider",
+        "endpointUrl": "/openmrs/ws/rest/v1/provider",
         "labelKey": "display",
         "valueKey": "uuid",
         "searchParam": "q",
@@ -66,7 +66,7 @@ Configuration keys, all optional except `endpointUrl`:
 | `limitParam` | `limit` | Query parameter carrying the page size |
 | `resolveUrlTemplate` | `{endpointUrl}/{value}` | URL for resolving a saved value, with a `{value}` placeholder |
 
-Typing sends the term through `searchParam`; every request is bounded by `limit`. Reopening a saved form resolves the stored value through the resolution URL (the value is URL-encoded). Request failures surface as a visible error state distinct from "no matches". Prefer relative URLs so schemas stay portable across environments; the consuming application must provide Angular's `HttpClient` (the data source is skipped, without breaking anything else, when it doesn't). A host application can override the built-in by registering its own data source under the same name.
+Typing sends the term through `searchParam`; every request is bounded by `limit`. Reopening a saved form resolves the stored value through the resolution URL (the value is URL-encoded). Request failures surface as a visible error state distinct from "no matches". The `endpointUrl` is requested as written, so include the OpenMRS context path (for example, `/openmrs/ws/rest/v1/provider` in a standard O3 deployment) and omit the host so schemas stay portable across environments. The consuming application must provide Angular's `HttpClient` (the data source is skipped, without breaking anything else, when it doesn't). A host application can override the built-in by registering its own data source under the same name.
 
 ### Expression runner
 
