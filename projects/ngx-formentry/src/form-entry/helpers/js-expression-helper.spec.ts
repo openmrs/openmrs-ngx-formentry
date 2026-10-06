@@ -181,7 +181,9 @@ describe('JS Expression Helper Service:', () => {
 
   it('should throw when formatting an invalid date', () => {
     const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
-    expect(() => helper.formatDate('not-a-date', 'yyyy-MM-dd', '+0300')).toThrow();
+    expect(() =>
+      helper.formatDate('not-a-date', 'yyyy-MM-dd', '+0300')
+    ).toThrow();
   });
 
   it('should expose calcBSA and formatDate to runnable expressions', () => {
@@ -248,23 +250,41 @@ describe('JS Expression Helper Service:', () => {
     it('should return the correct z-score when height and weight are within range', () => {
       const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
 
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 45, 2.5)).toBe('0');
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 80, 14)).toBe('1');
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 60, 14)).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, 45, 2.5)
+      ).toBe('0');
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, 80, 14)
+      ).toBe('1');
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, 60, 14)
+      ).toBeNull();
     });
 
     it('should return null when height is outside the reference table (below 45 cm or above 110 cm)', () => {
       const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
 
       // Below 45 cm
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 44.9, 2)).toBeNull();
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 44.96, 2)).toBeNull();
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 30, 2)).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, 44.9, 2)
+      ).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, 44.96, 2)
+      ).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, 30, 2)
+      ).toBeNull();
 
       // Above 110 cm
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 110.04, 20)).toBeNull();
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 110.1, 20)).toBeNull();
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 112, 20)).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, 110.04, 20)
+      ).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, 110.1, 20)
+      ).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, 112, 20)
+      ).toBeNull();
     });
 
     it('should return null when weightForHeightRef is null, undefined, or empty', () => {
@@ -278,10 +298,18 @@ describe('JS Expression Helper Service:', () => {
     it('should return null when height or weight is missing or zero', () => {
       const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
 
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, null, 14)).toBeNull();
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 80, null)).toBeNull();
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 0, 14)).toBeNull();
-      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 80, 0)).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, null, 14)
+      ).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, 80, null)
+      ).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, 0, 14)
+      ).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightRef, 80, 0)
+      ).toBeNull();
     });
   });
 });
