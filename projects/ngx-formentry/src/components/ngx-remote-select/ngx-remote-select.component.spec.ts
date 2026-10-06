@@ -1,12 +1,14 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { of, throwError } from 'rxjs';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { of, Subject, throwError } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { NgxRemoteSelectModule } from './ngx-remote-select.module';
 
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
+import { SelectOption } from '../../form-entry/question-models/interfaces/select-option';
 import { RemoteSelectComponent } from './ngx-remote-select.component';
 
 describe('RemoteSelectComponent', () => {
@@ -87,6 +89,26 @@ describe('RemoteSelectComponent', () => {
     component.ngOnInit();
 
     expect(dataSource.searchOptions).toHaveBeenCalledWith('', options);
+  });
+
+  // --- options pushed by the data source ---
+
+  it('emits options the data source pushes after the initial load', () => {
+    const dataSource = createDataSource();
+    const changes = new Subject<SelectOption[]>();
+    dataSource.dataFromSourceChanged = changes;
+    const component = createComponent();
+    component.dataSource = dataSource;
+    component.ngOnInit();
+
+    let emitted: SelectOption[];
+    component.remoteOptions$.subscribe((options) => (emitted = options));
+    expect(emitted).toEqual([]);
+
+    const pushed = [{ value: 'fever-uuid', label: 'Persistent fever' }];
+    changes.next(pushed);
+
+    expect(emitted).toEqual(pushed);
   });
 
   // --- ControlValueAccessor contract ---
@@ -273,5 +295,37 @@ describe('RemoteSelectComponent template (error state)', () => {
     fixture.componentInstance.loadFailed = false;
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('[role="alert"]'))).toBeNull();
+  });
+});
+
+describe('RemoteSelectComponent template (options pushed by the data source)', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [NgxRemoteSelectModule, TranslateModule.forRoot()]
+    });
+  });
+
+  it('passes pushed options to the dropdown', () => {
+    const changes = new Subject<SelectOption[]>();
+    const dataSource = jasmine.createSpyObj<DataSource>('DataSource', [
+      'searchOptions',
+      'resolveSelectedValue',
+      'fileUpload',
+      'fetchFile'
+    ]);
+    dataSource.searchOptions.and.returnValue(of([]));
+    dataSource.dataFromSourceChanged = changes;
+    const fixture = TestBed.createComponent(RemoteSelectComponent);
+    fixture.componentInstance.dataSource = dataSource;
+    fixture.detectChanges();
+
+    const pushed = [{ value: 'fever-uuid', label: 'Persistent fever' }];
+    changes.next(pushed);
+    fixture.detectChanges();
+
+    const ngSelect: NgSelectComponent = fixture.debugElement.query(
+      By.directive(NgSelectComponent)
+    ).componentInstance;
+    expect(ngSelect.items()).toEqual(pushed);
   });
 });
