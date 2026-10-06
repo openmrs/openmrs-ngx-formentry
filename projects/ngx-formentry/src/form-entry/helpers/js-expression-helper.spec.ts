@@ -216,4 +216,72 @@ describe('JS Expression Helper Service:', () => {
     );
     expect(runnable.run()).toBe('2016-01-22');
   });
+
+  describe('calcWeightForHeightZscore', () => {
+    const mockWeightForHeightRef = [
+      {
+        Length: 45,
+        SD4neg: 1.71,
+        SD3neg: 1.877,
+        SD2neg: 2.043,
+        SD1neg: 2.23,
+        SD0: 2.441,
+        SD1: 2.68,
+        SD2: 2.951,
+        SD3: 3.261,
+        SD4: 3.571
+      },
+      {
+        Length: 80,
+        SD4neg: 8.5,
+        SD3neg: 9.3,
+        SD2neg: 10.2,
+        SD1neg: 11.2,
+        SD0: 12.3,
+        SD1: 13.6,
+        SD2: 15.1,
+        SD3: 16.8,
+        SD4: 18.7
+      }
+    ];
+
+    it('should return the correct z-score when height and weight are within range', () => {
+      const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 45, 2.5)).toBe('0');
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 80, 14)).toBe('1');
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 60, 14)).toBeNull();
+    });
+
+    it('should return null when height is outside the reference table (below 45 cm or above 110 cm)', () => {
+      const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+
+      // Below 45 cm
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 44.9, 2)).toBeNull();
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 44.96, 2)).toBeNull();
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 30, 2)).toBeNull();
+
+      // Above 110 cm
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 110.04, 20)).toBeNull();
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 110.1, 20)).toBeNull();
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 112, 20)).toBeNull();
+    });
+
+    it('should return null when weightForHeightRef is null, undefined, or empty', () => {
+      const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+
+      expect(helper.calcWeightForHeightZscore(null, 80, 14)).toBeNull();
+      expect(helper.calcWeightForHeightZscore(undefined, 80, 14)).toBeNull();
+      expect(helper.calcWeightForHeightZscore([], 80, 14)).toBeNull();
+    });
+
+    it('should return null when height or weight is missing or zero', () => {
+      const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, null, 14)).toBeNull();
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 80, null)).toBeNull();
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 0, 14)).toBeNull();
+      expect(helper.calcWeightForHeightZscore(mockWeightForHeightRef, 80, 0)).toBeNull();
+    });
+  });
 });
