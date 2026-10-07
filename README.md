@@ -12,7 +12,17 @@
 
 ### Form schema
 
-A form schema is a JSON object that describes the structure of a form. Schemas compatible with this library conform to the O3 form schema standard, which is defined [here](https://json.openmrs.org/form.schema.json). The form engine renders most of the field types defined in the standard, and it can be extended to support custom fields. Renderings the engine does not implement (such as `toggle`, `fixed-value`, `markdown`, and `content-switcher`) fall back to a plain text input.
+A form schema is a JSON object that describes the structure of a form. Schemas compatible with this library conform to the O3 form schema standard, which is defined [here](https://json.openmrs.org/form.schema.json). The form engine renders most of the field types defined in the standard, and it can be extended to support custom fields. Renderings the engine does not implement (such as `toggle`, `fixed-value`, and `content-switcher`) fall back to a plain text input.
+
+Markdown questions render display-only content from either a string or an array of strings. Array entries are separated by a blank line before rendering:
+
+```json
+{
+  "id": "markDownQuestion",
+  "questionOptions": { "rendering": "markdown" },
+  "value": ["## Heading", "A paragraph with **bold** text."]
+}
+```
 
 ### Question model
 

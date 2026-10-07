@@ -49,6 +49,7 @@ import { CustomControlWrapperModule } from '../components/custom-control-wrapper
 import { CustomComponentWrapperModule } from '../components/custom-component-wrapper/custom-component-wrapper.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.adapter';
+import { MarkdownComponent, provideMarkdown } from 'ngx-markdown';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -70,7 +71,8 @@ import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.ad
     CustomControlWrapperModule,
     CustomComponentWrapperModule,
     NgxTabSetModule.forRoot(),
-    TranslateModule
+    TranslateModule,
+    MarkdownComponent
   ],
   declarations: [
     FormRendererComponent,
@@ -102,7 +104,8 @@ import { PatientIdentifierAdapter } from './value-adapters/patient-identifier.ad
     OrderValueAdapter,
     DiagnosisValueAdapter,
     DebugModeService,
-    PatientIdentifierAdapter
+    PatientIdentifierAdapter,
+    ...provideMarkdown()
   ],
   exports: [
     FormRendererComponent,

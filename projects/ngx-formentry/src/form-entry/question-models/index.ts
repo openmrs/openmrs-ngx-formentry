@@ -6,6 +6,7 @@ export * from './file-upload-question';
 export * from './group-question';
 export * from './js-expression-validation.model';
 export * from './max-validation.model';
+export * from './markdown-question';
 export * from './min-validation.model';
 export * from './models';
 export * from './multi-select-question';

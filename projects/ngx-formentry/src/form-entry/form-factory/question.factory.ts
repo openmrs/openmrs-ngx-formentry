@@ -34,6 +34,7 @@ import { WorkspaceLauncherQuestion } from '../question-models';
 import { DecimalValidationModel } from '../question-models/decimal-validation.model';
 import { DisallowDecimalsValidationModel } from '../question-models/disallow-decimals-validation.model';
 import { RemoteSelectQuestion } from '../question-models/remote-select-question';
+import { MarkdownQuestion } from '../question-models/markdown-question';
 @Injectable()
 export class QuestionFactory {
   dataSources: any = {};
@@ -366,6 +367,22 @@ export class QuestionFactory {
     this.addAlertProperty(schemaQuestion, question);
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
+    return question;
+  }
+
+  toMarkDownQuestion(schemaQuestion: any): MarkdownQuestion {
+    const value = schemaQuestion.value;
+    const markdown = Array.isArray(value) ? value.join('\n\n') : value || '';
+    const question = new MarkdownQuestion({
+      key: schemaQuestion.id,
+      markdown
+    });
+    question.questionIndex = this.quetionIndex;
+    question.label = schemaQuestion.label;
+    question.prefix = schemaQuestion.prefix;
+    question.extras = schemaQuestion;
+    question.componentConfigs = schemaQuestion.componentConfigs || [];
+    this.addDisableOrHideProperty(schemaQuestion, question);
     return question;
   }
 
@@ -973,6 +990,8 @@ export class QuestionFactory {
         return this.toTextQuestion(schema);
       case 'textarea':
         return this.toTextAreaQuestion(schema);
+      case 'markdown':
+        return this.toMarkDownQuestion(schema);
       case 'select-concept-answers':
         return this.toConceptAnswerSelect(schema);
       case 'encounterLocation':
