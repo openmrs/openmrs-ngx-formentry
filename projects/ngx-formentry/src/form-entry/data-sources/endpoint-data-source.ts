@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 
 import { DataSource } from '../question-models/interfaces/data-source';
 import { Option } from '../question-models/select-option';
+import { DataSources } from './data-sources';
 
 const DEFAULT_LIMIT = 20;
 
@@ -33,6 +34,12 @@ export interface EndpointDataSourceOptions {
   /** Allows extra, endpoint-specific options and keeps the shape assignable to the
    * `Record<string, unknown>` used by the DataSource contract. */
   [key: string]: unknown;
+  extraParams?: {
+    [key: string]: {
+      source: string;
+      sourceKey: string;
+    };
+  };
 }
 
 interface ResolvedConfig {
@@ -44,6 +51,12 @@ interface ResolvedConfig {
   limitParam: string;
   limit: number;
   resolveUrlTemplate?: string;
+  extraParams?: {
+    [key: string]: {
+      source: string;
+      sourceKey: string;
+    };
+  };
 }
 
 /**
@@ -59,9 +72,15 @@ interface ResolvedConfig {
  */
 export class EndpointDataSource implements DataSource {
   public dataSourceOptions: EndpointDataSourceOptions;
+  private otherDataSources?:DataSources;
 
-  constructor(private http: HttpClient, options?: EndpointDataSourceOptions) {
+  constructor(
+    private http: HttpClient,
+    options?: EndpointDataSourceOptions,
+    otherDatasources?: DataSources
+  ) {
     this.dataSourceOptions = options ?? ({} as EndpointDataSourceOptions);
+    this.otherDataSources = otherDatasources;
   }
 
   /**
@@ -83,6 +102,15 @@ export class EndpointDataSource implements DataSource {
       params = params.set(config.searchParam, searchText);
     }
     params = params.set(config.limitParam, String(config.limit));
+
+    // add extra params from other data sources
+
+    const otherParams = this.getParamsFromOtherDataSources(config);
+    if (otherParams && Object.keys(otherParams).length > 0) {
+      Object.keys(otherParams).forEach((k) => {
+        params = params.set(k, String(otherParams[k]));
+      });
+    }
 
     return this.http.get(config.endpointUrl, { params }).pipe(
       map((response: any) => {
@@ -157,7 +185,8 @@ export class EndpointDataSource implements DataSource {
       resultsKey: merged.resultsKey ?? 'results',
       limitParam: merged.limitParam ?? 'limit',
       limit: this.sanitizeLimit(merged.limit),
-      resolveUrlTemplate: merged.resolveUrlTemplate
+      resolveUrlTemplate: merged.resolveUrlTemplate,
+      extraParams: merged.extraParams ?? {}
     };
   }
 
@@ -193,5 +222,25 @@ export class EndpointDataSource implements DataSource {
 
   private trimTrailingSlash(url: string): string {
     return url.endsWith('/') ? url.slice(0, -1) : url;
+  }
+  private getParamsFromOtherDataSources(config: ResolvedConfig) {
+    const params: Record<string, any> = {};
+    if (config.extraParams) {
+      const extraParams = Object.keys(config.extraParams);
+      for (let i = 0; i <= extraParams.length - 1; i++) {
+        const extraParamKey = extraParams[i];
+        const extraParamSource = config.extraParams[extraParamKey]?.source;
+        const extraParamSourceKey =
+          config.extraParams[extraParamKey]?.sourceKey;
+        if (extraParamSource === 'dataSources') {
+          const extraParamSourceValue =
+            this.otherDataSources?.dataSources[extraParamSourceKey] ?? null;
+          if (extraParamSourceValue) {
+            params[extraParamKey] = extraParamSourceValue;
+          }
+        }
+      }
+    }
+    return params;
   }
 }

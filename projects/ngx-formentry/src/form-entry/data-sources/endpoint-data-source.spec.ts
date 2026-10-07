@@ -9,7 +9,8 @@ import {
   provideHttpClientTesting
 } from '@angular/common/http/testing';
 
-import { EndpointDataSource } from './endpoint-data-source';
+import { EndpointDataSource, EndpointDataSourceOptions } from './endpoint-data-source';
+import { DataSources } from './data-sources';
 
 describe('EndpointDataSource', () => {
   const endpointUrl = 'https://example.org/ws/rest/v1/provider';
@@ -20,8 +21,8 @@ describe('EndpointDataSource', () => {
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting()
-      ]
+        provideHttpClientTesting(),
+      ],
     });
     http = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);
@@ -255,4 +256,72 @@ describe('EndpointDataSource', () => {
     expect(result).toBeUndefined();
     httpMock.expectNone(() => true);
   });
+  it('should fetch extra parameters from otherDataSources if configured', (done) => {
+      const mockOtherDataSources: DataSources = {
+        dataSources: {
+          locationUuid: '14265883-7f89-46ec-bf54-97d7ece56130'
+        }
+      } as any;
+
+      const mockOptions: EndpointDataSourceOptions = {
+          endpointUrl: 'https://api.example.com/patients',
+          valueKey: 'uuid',
+          labelKey: 'display',
+          searchParam: 'q',
+          resultsKey: 'results',
+          limitParam: 'limit',
+          limit: 10
+        };
+
+      const dsWithExtra = new EndpointDataSource(
+        http,
+        {
+          ...mockOptions,
+          extraParams: {
+            location: {
+              source: 'dataSources',
+              sourceKey: 'locationUuid'
+            }
+          }
+        },
+        mockOtherDataSources
+      );
+
+      dsWithExtra.searchOptions('').subscribe(() => done());
+
+      const req = httpMock.expectOne(`${mockOptions.endpointUrl}?limit=10&location=14265883-7f89-46ec-bf54-97d7ece56130`);
+      expect(req.request.params.get('location')).toBe('14265883-7f89-46ec-bf54-97d7ece56130');
+      req.flush([]);
+    });
+
+    it('should not add extra parameters from otherDataSources if extra params is not configured', (done) => {
+      const mockOtherDataSources: DataSources = {
+        dataSources: {
+          locationUuid: '14265883-7f89-46ec-bf54-97d7ece56130'
+        }
+      } as any;
+
+      const mockOptions: EndpointDataSourceOptions = {
+          endpointUrl: 'https://api.example.com/patients',
+          valueKey: 'uuid',
+          labelKey: 'display',
+          searchParam: 'q',
+          resultsKey: 'results',
+          limitParam: 'limit',
+          limit: 20
+        };
+
+      const dsWithExtra = new EndpointDataSource(
+        http,
+        {
+          ...mockOptions
+        },
+        mockOtherDataSources
+      );
+
+      dsWithExtra.searchOptions('').subscribe(() => done());
+
+      const req = httpMock.expectOne(`${mockOptions.endpointUrl}?limit=20`);
+      req.flush([]);
+    });
 });
