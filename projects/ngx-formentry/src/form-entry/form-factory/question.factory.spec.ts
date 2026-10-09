@@ -1113,4 +1113,52 @@ describe('Question Factory', () => {
     );
     expect((result.questions[1] as QuestionBase).renderingType).toBe('date');
   });
+
+  describe('toSectionQuestion', () => {
+    it('should set isExpanded to true when isExpanded is boolean true', () => {
+      const sectionSchema = {
+        label: 'Test Section',
+        isExpanded: true,
+        questions: []
+      };
+      const result = factory.toSectionQuestion(sectionSchema);
+      expect(result.isExpanded).toBe(true);
+    });
+
+    it('should set isExpanded to true when isExpanded is string "true"', () => {
+      const sectionSchema = {
+        label: 'Test Section',
+        isExpanded: 'true',
+        questions: []
+      };
+      const result = factory.toSectionQuestion(sectionSchema);
+      expect(result.isExpanded).toBe(true);
+    });
+
+    it('should set isExpanded to false when isExpanded is boolean false', () => {
+      const sectionSchema = {
+        label: 'Test Section',
+        isExpanded: false,
+        questions: []
+      };
+      const result = factory.toSectionQuestion(sectionSchema);
+      expect(result.isExpanded).toBe(false);
+    });
+
+    it('should set isExpanded to false when isExpanded is string "false"', () => {
+      const sectionSchema = {
+        label: 'Test Section',
+        isExpanded: 'false',
+        questions: []
+      };
+      const result = factory.toSectionQuestion(sectionSchema);
+      expect(result.isExpanded).toBe(false);
+    });
+
+    it('should set isExpanded to false when isExpanded is absent/undefined', () => {
+      const sectionSchema = { label: 'Test Section', questions: [] };
+      const result = factory.toSectionQuestion(sectionSchema);
+      expect(result.isExpanded).toBe(false);
+    });
+  });
 });
