@@ -9,7 +9,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { concat, Observable, of, Subject } from 'rxjs';
+import { concat, EMPTY, merge, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -39,7 +39,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class RemoteSelectComponent
   implements OnInit, ControlValueAccessor, OnDestroy {
-  // @Input() dataSource: DataSource;
+  @Input() dataSource: DataSource;
   remoteOptions$: Observable<SelectOption[]>;
   remoteOptionsLoading = false;
   remoteOptionInput$ = new Subject<string>();
@@ -67,18 +67,6 @@ export class RemoteSelectComponent
   // text, so ng-select must not re-filter results by label.
   keepServerResults = () => true;
 
-  private _dataSource: DataSource;
-  @Input()
-  public get dataSource(): DataSource {
-    return this._dataSource;
-  }
-  public set dataSource(v: DataSource) {
-    this._dataSource = v;
-    if (this._dataSource && this._dataSource.dataFromSourceChanged) {
-      this.subscribeToDataSourceDataChanges();
-    }
-  }
-
   constructor(
     private renderer: Renderer2,
     private translate: TranslateService
@@ -86,18 +74,6 @@ export class RemoteSelectComponent
 
   ngOnInit() {
     this.loadOptions();
-  }
-
-  subscribeToDataSourceDataChanges() {
-    this._dataSource.dataFromSourceChanged.subscribe((results) => {
-      if (results.length > 0) {
-        this.items = results;
-        this.notFoundMsg = '';
-      } else {
-        this.notFoundMsg = 'Match not found';
-        this.items = [];
-      }
-    });
   }
 
   // this is the initial value set to the component
@@ -186,7 +162,7 @@ export class RemoteSelectComponent
       this.remoteOptions$ = of([]);
       return;
     }
-    this.remoteOptions$ = concat(
+    const searchResults$ = concat(
       this.dataSource
         .searchOptions('', this.effectiveDataSourceOptions())
         // concat only subscribes to the typeahead stream once the initial
@@ -228,6 +204,12 @@ export class RemoteSelectComponent
             )
         )
       )
+    );
+    // Some data sources replace their options without a search, for example a
+    // cascading select whose options depend on another question's answer.
+    this.remoteOptions$ = merge(
+      searchResults$,
+      this.dataSource.dataFromSourceChanged ?? EMPTY
     );
   }
 
