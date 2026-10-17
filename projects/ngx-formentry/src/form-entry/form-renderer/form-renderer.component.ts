@@ -210,7 +210,6 @@ export class FormRendererComponent implements OnInit, OnChanges {
   public loadPreviousTab() {
     if (!this.isCurrentTabFirst()) {
       this.clickTab(this.activeTab - 1);
-      document.body.scrollTop = 0;
     }
   }
 
@@ -225,7 +224,6 @@ export class FormRendererComponent implements OnInit, OnChanges {
   public loadNextTab() {
     if (!this.isCurrentTabLast()) {
       this.clickTab(this.activeTab + 1);
-      document.body.scrollTop = 0;
     }
   }
   public tabSelected($event) {
@@ -235,7 +233,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
     setTimeout(() => {
       const sectionHeader = this.document.querySelector('div.pane > h4');
       if (sectionHeader) {
-        sectionHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        sectionHeader.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     }, this.TAB_SELECTION_DELAY_MS);
   }
