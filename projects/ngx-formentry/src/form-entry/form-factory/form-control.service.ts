@@ -158,13 +158,13 @@ export class FormControlService {
     control: AfeFormArray | AfeFormGroup | AfeFormControl,
     form?: Form
   ) {
-    if (question.alert && question.alert !== '') {
-      const alert = this.alertsFactory.getJsExpressionshowAlert(
+    if (question.alert && (Array.isArray(question.alert) ? question.alert.length > 0 : true)) {
+      const alerts = this.alertsFactory.getJsExpressionAlerts(
         question,
         control,
         form
       );
-      control.setAlertFn(alert);
+      alerts.forEach((alert) => control.setAlertFn(alert));
     }
   }
   private wireHidersDisablers(
