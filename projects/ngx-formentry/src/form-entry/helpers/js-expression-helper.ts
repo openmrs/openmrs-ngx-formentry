@@ -73,9 +73,18 @@ export class JsExpressionHelper {
       return null;
     }
 
-    const standardHeightMin = 45;
-    const standardMaxHeight = 110;
-    if (height < standardHeightMin || height > standardMaxHeight) {
+    // The valid height range is the range of the reference table: 45 to 110 cm
+    // for weight-for-length and 65 to 120 cm for weight-for-height
+    const referenceHeights = _.map(weightForHeightRef, (refObject) =>
+      parseFloat(refObject['Length'])
+    ).filter((length) => !isNaN(length));
+    const standardHeightMin = _.min(referenceHeights);
+    const standardMaxHeight = _.max(referenceHeights);
+    if (
+      standardHeightMin === undefined ||
+      height < standardHeightMin ||
+      height > standardMaxHeight
+    ) {
       return null;
     }
 
