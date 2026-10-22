@@ -319,6 +319,101 @@
               }
             },
             {
+              "type": "markdown",
+              "id": "assessmentInstructions",
+              "questionOptions": {
+                "rendering": "markdown"
+              },
+              "value": [
+                "# Heading level 1",
+                "## Heading level 2",
+                "### Heading level 3",
+                "#### Heading level 4",
+                "##### Heading level 5",
+                "###### Heading level 6",
+                "",
+                "This is a standard paragraph used to test Markdown rendering.",
+                "",
+                "This text contains **bold text**, *italic text*, and ***bold italic text***.",
+                "",
+                "This sentence contains `inline code` within a paragraph.",
+                "",
+                "### Unordered list",
+                "",
+                "- Confirm the patient's identity",
+                "- Record the presenting complaint",
+                "- Review previous encounters",
+                "  - Review previous diagnoses",
+                "  - Review current medications",
+                "- Document relevant clinical findings",
+                "",
+                "### Ordered list",
+                "",
+                "1. Assess the patient",
+                "2. Record vital signs",
+                "3. Document the clinical findings",
+                "   1. Record positive findings",
+                "   2. Record negative findings",
+                "4. Create a management plan",
+                "",
+                "### Links",
+                "",
+                "Read the [OpenMRS documentation](https://openmrs.org/).",
+                "",
+                "Visit the [OpenMRS O3 Form Engine repository](https://github.com/openmrs/openmrs-esm-form-engine-lib) for implementation details.",
+                "",
+                "### Blockquote",
+                "",
+                "> Escalate immediately if the patient has danger signs.",
+                "",
+                "> **Clinical warning:** Do not delay emergency treatment while completing this form.",
+                "",
+                "### Code block",
+                "",
+                "```javascript",
+                "const hasDangerSigns = temperature > 39 || oxygenSaturation < 90;",
+                "",
+                "if (hasDangerSigns) {",
+                "  escalatePatient();",
+                "}",
+                "```",
+                "",
+                "### Horizontal rule",
+                "",
+                "---",
+                "",
+                "### Line break",
+                "",
+                "First line.  ",
+                "Second line after an explicit Markdown line break.",
+                "",
+                "### Combined formatting",
+                "",
+                "1. Review the **presenting complaint**.",
+                "2. Check for *danger signs*.",
+                "3. Open the [clinical guidelines](https://www.who.int/publications/guidelines).",
+                "4. Record important values such as `temperature`, `pulse`, and `oxygenSaturation`.",
+                "",
+                "> For assistance, consult the **senior clinician** or review the [OpenMRS documentation](https://openmrs.org/)."
+              ]
+            },
+            {
+              "label": "All elements",
+              "isExpanded": "true",
+              "questions": [
+                {
+                  "id": "smokeIntro",
+                  "questionOptions": { "rendering": "markdown" },
+                  "value": [
+                    "## Heading 2\n\n### Heading 3\n\nA paragraph with **bold**, *italic*, and `inline code`.\n\n```json\n{ \"hide\": { \"hideWhenExpression\": \"isEmpty(answer)\" } }\n```\n\n- bulleted item with `code`\n- second item\n\n1. first\n2. second\n\nA [link](https://openmrs.org).\n\n> A blockquote.\n\n---\n\nAfter the rule."
+                  ],
+                  "hide":{
+                    "hideWhenExpression": "sex === 'F'"
+                  }
+                }
+              ]
+            },
+            {
               "id": "admitToLocation",
               "type": "obs",
               "required": true,
@@ -8188,16 +8283,16 @@
                     }
                   ]
                 },
-              {
-              "type": "obsGroup",
-              "label": "Consulting Doctors",
-              "required":"true",
-              "questionOptions": {
-                "concept": "a8a003a6-1350-11df-a1f1-0026b9348838",
-                "rendering": "repeating"
-              },
-                "questions": [
-                   {
+                {
+                  "type": "obsGroup",
+                  "label": "Consulting Doctors",
+                  "required": "true",
+                  "questionOptions": {
+                    "concept": "a8a003a6-1350-11df-a1f1-0026b9348838",
+                    "rendering": "repeating"
+                  },
+                  "questions": [
+                    {
                       "label": "Doctor",
                       "id": "doctor",
                       "type": "obs",
@@ -8214,8 +8309,8 @@
                         }
                       }
                     }
-                ]
-            }
+                  ]
+                }
               ]
             }
           ]
