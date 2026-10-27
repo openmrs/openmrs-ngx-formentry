@@ -282,7 +282,7 @@
     [class.critical]="alert.severity === 'critical'"
   >
     <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
-      width="16" height="16" viewBox="0 0 32 32" aria-hidden="true">
+      width="12" height="12" viewBox="0 0 32 32" aria-hidden="true">
       <path fill="none" d="M16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Zm-1.125-5h2.25V12h-2.25Z"
         data-icon-path="inner-path"></path>
       <path
@@ -295,7 +295,7 @@
     {{ referenceRangeMessage(alert) }}
   </div>
 </div>
-<label *ngIf="node.control && node.control.alert && node.control.alert !== ''" class="cds--label text-warn warning">
+<label *ngIf="node.control && node.control.alert && node.control.alert !== ''" class="cds--label warning">
   <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
     width="12" height="12" viewBox="0 0 32 32" aria-hidden="true">
     <path fill="none" d="M16,26a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,16,26Zm-1.125-5h2.25V12h-2.25Z"
