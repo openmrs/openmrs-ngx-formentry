@@ -132,11 +132,8 @@ export class FormRendererComponent implements OnInit, OnChanges {
 
   get conceptReferenceRangeAlerts(): Array<ConceptReferenceRangeAlert> {
     const control = this.node?.control;
-    // An absolute-limit error already explains the value, so a range warning would repeat it.
-    if (
-      !control ||
-      (this.hasErrors() && (control.hasError('min') || control.hasError('max')))
-    ) {
+    // A min or max error already explains the value, so a range warning would repeat it.
+    if (!control || control.hasError('min') || control.hasError('max')) {
       return [];
     }
     return (control.alerts ?? []).filter(

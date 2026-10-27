@@ -131,7 +131,8 @@ describe('Reference range warning rendering', () => {
     });
     const translate = TestBed.inject(TranslateService);
     translate.setTranslation('en', {
-      referenceRangeCriticalHigh: 'Critically high (limit: {limit})'
+      referenceRangeCriticalHigh: 'Critically high (limit: {limit})',
+      max: 'Max value should be {max}'
     });
     translate.use('en');
     const fixture = TestBed.createComponent(ReferenceRangeHostComponent);
@@ -150,10 +151,20 @@ describe('Reference range warning rendering', () => {
     expect(warning.parentElement.getAttribute('role')).toBe('status');
     expect(fixture.nativeElement.textContent).toContain('Call the clinician');
 
-    control.markAsTouched();
     control.setValue(44);
     fixture.detectChanges();
     expect(control.hasError('max')).toBe(true);
+    expect(
+      fixture.nativeElement.querySelector('.reference-range-warning')
+    ).toBeNull();
+
+    control.markAsTouched();
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement
+        .querySelector('.error .text-danger')
+        .textContent.trim()
+    ).toBe('Max value should be 43');
     expect(
       fixture.nativeElement.querySelector('.reference-range-warning')
     ).toBeNull();
