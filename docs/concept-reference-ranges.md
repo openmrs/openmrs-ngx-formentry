@@ -47,8 +47,8 @@ Changing a range replaces its absolute limits while keeping schema validators. T
 
 ## Historical measurements
 
-Age-dependent ranges should use age when the measurement was taken. The form entry app uses the date each answer will be saved with: its own observation date when it has one, otherwise the encounter date. It requests answers dated at the saved encounter date with the encounter context, saved answers with a different date with their observation context, and everything else with an explicit date. It refreshes ranges when an encounter or observation date changes, and holds a submission until pending requests finish.
+Age-dependent ranges should use age when the measurement was taken. The form entry app uses the date each answer will be saved with: its own observation date when it has a valid one, otherwise the encounter date. It requests answers dated at the saved encounter date with the encounter context, saved answers with a different date with their observation context, and everything else with an explicit date. It refreshes ranges when an encounter or observation date changes, and holds a submission until pending requests finish.
 
-Historical matching requires REST module 3.3.0 or later on Platform 2.7.9 or later in the 2.7 line, or Platform 2.8.5 and later. The configured criteria must also use the supplied date, for example `$patient.getAge($date)`. `$patient.getAge()` continues to use today's age. Supplying a date does not rewrite existing criteria or add historical support to older backends.
+Historical matching requires REST module 3.3.0 or later on Platform 2.8.5 or later. REST also declares this support for Platform 2.7.9 to 2.7.x, but those Platform versions don't include the API it relies on. The configured criteria must also use the supplied date, for example `$patient.getAge($date)`. `$patient.getAge()` continues to use today's age. Supplying a date does not rewrite existing criteria or add historical support to older backends.
 
 Range selection stays in the backend. The frontend does not evaluate age criteria or combine overlapping range definitions.
