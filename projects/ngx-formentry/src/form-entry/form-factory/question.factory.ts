@@ -1081,13 +1081,23 @@ export class QuestionFactory {
       case 'decimal':
       case 'number':
       case 'numeric':
-        if (questionOptions.max && questionOptions.min) {
+        if (
+          questionOptions.max !== undefined &&
+          questionOptions.max !== null &&
+          questionOptions.max !== ''
+        ) {
           validators.push(
             new MaxValidationModel({
               type: 'max',
               max: questionOptions.max
             })
           );
+        }
+        if (
+          questionOptions.min !== undefined &&
+          questionOptions.min !== null &&
+          questionOptions.min !== ''
+        ) {
           validators.push(
             new MinValidationModel({
               type: 'min',

@@ -22,6 +22,14 @@ import { FormErrorsService } from '../services/form-errors.service';
 import { QuestionGroup } from '../question-models/group-question';
 import { ValidationErrors } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { ConceptReferenceRangeAlert } from '../control-alerts/concept-reference-range-alert';
+
+const referenceRangeMessages: Record<string, string> = {
+  referenceRangeCriticalHigh: 'Critically high (limit: {limit})',
+  referenceRangeCriticalLow: 'Critically low (limit: {limit})',
+  referenceRangeHigh: 'Above normal range (limit: {limit})',
+  referenceRangeLow: 'Below normal range (limit: {limit})'
+};
 
 @Component({
   selector: 'ofe-form-renderer',
@@ -114,6 +122,38 @@ export class FormRendererComponent implements OnInit, OnChanges {
 
   public addChildComponent(child: FormRendererComponent) {
     this.childComponents.push(child);
+  }
+
+  get hasConceptReferenceRangeAlert(): boolean {
+    return (this.node?.control?.alerts ?? []).some(
+      (alert) => alert.source === 'conceptReferenceRange'
+    );
+  }
+
+  get conceptReferenceRangeAlerts(): Array<ConceptReferenceRangeAlert> {
+    const control = this.node?.control;
+    // An absolute-limit error already explains the value, so a range warning would repeat it.
+    if (
+      !control ||
+      (this.hasErrors() && (control.hasError('min') || control.hasError('max')))
+    ) {
+      return [];
+    }
+    return (control.alerts ?? []).filter(
+      (alert): alert is ConceptReferenceRangeAlert =>
+        alert.source === 'conceptReferenceRange' && alert.shown
+    );
+  }
+
+  referenceRangeMessage(alert: ConceptReferenceRangeAlert): string {
+    const key = alert.alertMessage;
+    const translated = this.translate.instant(key);
+    const message =
+      translated === key ? referenceRangeMessages[key] ?? key : translated;
+    return message.replace(
+      '{limit}',
+      `${alert.limit} ${alert.units ?? ''}`.trim()
+    );
   }
 
   public setUpRemoteSelect() {

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   provideHttpClient,
   withInterceptorsFromDi
@@ -64,13 +64,121 @@ class TestHostComponent {
   }
 }
 
+@Component({
+  template: `<form [formGroup]="form.rootNode.control">
+    <ofe-form-renderer
+      [node]="form.rootNode"
+      [labelMap]="{}"
+    ></ofe-form-renderer>
+  </form>`,
+  standalone: false
+})
+class ReferenceRangeHostComponent {
+  form: Form;
+  constructor(factory: FormFactory) {
+    this.form = factory.createForm({
+      name: 'Vitals',
+      pages: [
+        {
+          label: 'Vitals',
+          sections: [
+            {
+              label: 'Vitals',
+              isExpanded: 'true',
+              questions: [
+                {
+                  id: 'temperature',
+                  label: 'Temperature',
+                  type: 'obs',
+                  questionOptions: {
+                    rendering: 'number',
+                    conceptReferenceRange: {
+                      hiNormal: 37.5,
+                      hiCritical: 40,
+                      hiAbsolute: 43,
+                      units: '°C'
+                    }
+                  },
+                  alert: {
+                    useConceptReferenceRange: true,
+                    alertWhenExpression: 'myValue >= 40',
+                    message: 'Call the clinician'
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    });
+  }
+}
+
+describe('Reference range warning rendering', () => {
+  it('shows critical severity and units alongside the existing expression alert, defers to absolute-limit errors, then clears both', async () => {
+    TestBed.configureTestingModule({
+      declarations: [ReferenceRangeHostComponent],
+      imports: [
+        ReactiveFormsModule,
+        FormEntryModule,
+        TranslateModule.forRoot()
+      ],
+      providers: [provideHttpClient(), provideHttpClientTesting()]
+    });
+    const translate = TestBed.inject(TranslateService);
+    translate.setTranslation('en', {
+      referenceRangeCriticalHigh: 'Critically high (limit: {limit})'
+    });
+    translate.use('en');
+    const fixture = TestBed.createComponent(ReferenceRangeHostComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const control = fixture.componentInstance.form.searchNodeByQuestionId(
+      'temperature'
+    )[0].control;
+    control.setValue(40);
+    fixture.detectChanges();
+    const warning: HTMLElement = fixture.nativeElement.querySelector(
+      '.reference-range-warning'
+    );
+    expect(warning.textContent.trim()).toBe('Critically high (limit: 40 °C)');
+    expect(warning.classList.contains('critical')).toBe(true);
+    expect(warning.parentElement.getAttribute('role')).toBe('status');
+    expect(fixture.nativeElement.textContent).toContain('Call the clinician');
+
+    control.markAsTouched();
+    control.setValue(44);
+    fixture.detectChanges();
+    expect(control.hasError('max')).toBe(true);
+    expect(
+      fixture.nativeElement.querySelector('.reference-range-warning')
+    ).toBeNull();
+
+    control.setValue(37);
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement.querySelector('.reference-range-warning')
+    ).toBeNull();
+    expect(
+      fixture.nativeElement.querySelector('[role="status"]')
+    ).not.toBeNull();
+    expect(fixture.nativeElement.textContent).not.toContain(
+      'Call the clinician'
+    );
+  });
+});
+
 describe('FormRendererComponent', () => {
   let fixture: ComponentFixture<TestHostComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestHostComponent],
-      imports: [ReactiveFormsModule, FormEntryModule, TranslateModule.forRoot()],
+      imports: [
+        ReactiveFormsModule,
+        FormEntryModule,
+        TranslateModule.forRoot()
+      ],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()

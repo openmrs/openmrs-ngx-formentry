@@ -178,6 +178,33 @@ ng-select.form-control {
   }
 }
 
+.reference-range-warning {
+  @include type.type-style('label-01');
+  color: colors.$gray-100;
+
+  svg {
+    flex-shrink: 0;
+    fill: colors.$yellow-30;
+
+    [data-icon-path='inner-path'] {
+      fill: colors.$gray-100;
+    }
+  }
+
+  &.critical {
+    color: var(--cds-support-01, #da1e28);
+    font-weight: 600;
+
+    svg {
+      fill: var(--cds-support-01, #da1e28);
+
+      [data-icon-path='inner-path'] {
+        fill: colors.$white;
+      }
+    }
+  }
+}
+
 .afe-control {
   margin-bottom: 0.125rem;
 }

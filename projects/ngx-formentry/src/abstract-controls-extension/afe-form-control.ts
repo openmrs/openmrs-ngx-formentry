@@ -24,6 +24,7 @@ import { AlertHelper } from '../form-entry/control-alerts/alert-helpers';
 import { DisablerHelper } from '../form-entry/control-hiders-disablers/disabler-helper';
 import { CanCalculate } from '../form-entry/control-calculators/can-calculate';
 import { ExpressionRunner } from '../form-entry/expression-runner/expression-runner';
+import { ConceptReferenceRange } from '../form-entry/control-alerts/concept-reference-range-alert';
 
 class AfeFormControl
   extends UntypedFormControl
@@ -38,6 +39,7 @@ class AfeFormControl
   private _previousValue;
   public uuid: string;
   public pathFromRoot: string;
+  public conceptReferenceRange?: ConceptReferenceRange;
 
   hidden = false;
   hiders: Hider[];

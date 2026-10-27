@@ -16,6 +16,8 @@ A form schema is a JSON object that describes the structure of a form. Schemas c
 
 ### Question model
 
+Patient-specific normal/critical warnings and absolute validation are described in [Concept reference ranges](docs/concept-reference-ranges.md).
+
 The question model is borrowed from Angular's [dynamic forms](https://angular.dev/guide/forms/dynamic-forms) tutorial and adapted to support the O3 form schema standard.
 
 ### Data sources
