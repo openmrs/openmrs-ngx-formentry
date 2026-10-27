@@ -1,6 +1,6 @@
 # Patient-specific reference ranges
 
-The form entry app retrieves the reference range that applies to a patient and observation concept. It supplies the result to numeric questions as `questionOptions.conceptReferenceRange`. The library does not make its own requests.
+The form entry app retrieves the reference range that applies to a patient and observation concept, and sets it on each numeric question's control as `control.conceptReferenceRange` after the form is created. The library does not make its own requests, and it doesn't read reference ranges from the form schema.
 
 Absolute limits always validate the answer, including when only one bound is configured. Schema `min` and `max` validators still apply, so adding a reference range cannot widen a stricter schema limit. An answer equal to an absolute limit is allowed.
 

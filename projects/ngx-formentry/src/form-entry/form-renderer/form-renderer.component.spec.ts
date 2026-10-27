@@ -12,6 +12,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { FormEntryModule } from '../form-entry.module';
 import { Form } from '../form-factory/form';
 import { FormFactory } from '../form-factory/form.factory';
+import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { WorkspaceLauncherComponent } from '../../components/workspace-launcher/workspace-launcher.component';
 
 const schema: any = {
@@ -91,13 +92,7 @@ class ReferenceRangeHostComponent {
                   label: 'Temperature',
                   type: 'obs',
                   questionOptions: {
-                    rendering: 'number',
-                    conceptReferenceRange: {
-                      hiNormal: 37.5,
-                      hiCritical: 40,
-                      hiAbsolute: 43,
-                      units: '°C'
-                    }
+                    rendering: 'number'
                   },
                   alert: {
                     useConceptReferenceRange: true,
@@ -111,6 +106,15 @@ class ReferenceRangeHostComponent {
         }
       ]
     });
+    const control = this.form.searchNodeByQuestionId('temperature')[0].control;
+    if (control instanceof AfeFormControl) {
+      control.conceptReferenceRange = {
+        hiNormal: 37.5,
+        hiCritical: 40,
+        hiAbsolute: 43,
+        units: '°C'
+      };
+    }
   }
 }
 

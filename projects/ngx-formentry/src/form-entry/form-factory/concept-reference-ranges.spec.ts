@@ -3,12 +3,21 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
+import { ConceptReferenceRange } from '../control-alerts/concept-reference-range-alert';
 import { FormEntryModule } from '../form-entry.module';
 import { FormFactory } from './form.factory';
 import { Form } from './form';
 
 describe('Reference ranges in a form', () => {
   let factory: FormFactory;
+
+  const range: ConceptReferenceRange = {
+    lowNormal: 36,
+    hiNormal: 37.5,
+    lowCritical: 35,
+    hiCritical: 40,
+    units: '°C'
+  };
 
   function question(rendering = 'number', enabled?: boolean) {
     return {
@@ -18,14 +27,7 @@ describe('Reference ranges in a form', () => {
       questionOptions: {
         rendering,
         concept: 'temperature-uuid',
-        min: 0,
-        conceptReferenceRange: {
-          lowNormal: 36,
-          hiNormal: 37.5,
-          lowCritical: 35,
-          hiCritical: 40,
-          units: '°C'
-        }
+        min: 0
       },
       alert: {
         useConceptReferenceRange: enabled,
@@ -59,6 +61,12 @@ describe('Reference ranges in a form', () => {
     return control;
   }
 
+  function rangeAlertFor(control: AfeFormControl) {
+    return control.alerts.find(
+      (alert) => alert.source === 'conceptReferenceRange'
+    );
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FormEntryModule, TranslateModule.forRoot()],
@@ -70,11 +78,10 @@ describe('Reference ranges in a form', () => {
   ['number', 'decimal', 'numeric'].forEach((rendering) => {
     it(`updates warnings alongside the expression alert for ${rendering}`, () => {
       const control = controlFor(createForm([question(rendering, true)]));
+      control.conceptReferenceRange = range;
       control.setValue(40);
       expect(control.alert).toBe('Call the clinician');
-      const rangeAlert = control.alerts.find(
-        (alert) => alert.source === 'conceptReferenceRange'
-      );
+      const rangeAlert = rangeAlertFor(control);
       expect(rangeAlert.shown).toBe(true);
       expect(rangeAlert.alertMessage).toBe('referenceRangeCriticalHigh');
       expect(control.valid).toBe(true);
@@ -94,11 +101,10 @@ describe('Reference ranges in a form', () => {
   [undefined, false].forEach((enabled) => {
     it(`preserves expression alerts and absolute validation when the option is ${enabled}`, () => {
       const control = controlFor(createForm([question('number', enabled)]));
+      control.conceptReferenceRange = range;
       control.setValue(40);
       expect(control.alert).toBe('Call the clinician');
-      expect(
-        control.alerts.some((alert) => alert.source === 'conceptReferenceRange')
-      ).toBe(false);
+      expect(rangeAlertFor(control)).toBeUndefined();
       control.setValue(-1);
       expect(control.hasError('min')).toBe(true);
       control.setValue(0);
@@ -109,12 +115,50 @@ describe('Reference ranges in a form', () => {
   it('allows a reference-range-only alert when no range is available', () => {
     const schemaQuestion = question('number', true);
     delete schemaQuestion.alert.alertWhenExpression;
-    delete schemaQuestion.questionOptions.conceptReferenceRange;
     const control = controlFor(createForm([schemaQuestion]));
     control.setValue(40);
     expect(control.alerts.length).toBe(1);
     expect(control.alerts[0].shown).toBe(false);
     expect(control.valid).toBe(true);
+  });
+
+  it('ignores reference ranges written into the schema', () => {
+    const schemaQuestion = question('number', true);
+    const control = controlFor(
+      createForm([
+        {
+          ...schemaQuestion,
+          questionOptions: {
+            ...schemaQuestion.questionOptions,
+            conceptReferenceRange: { ...range, hiAbsolute: 39 }
+          }
+        }
+      ])
+    );
+    control.setValue(40);
+    expect(control.conceptReferenceRange).toBeUndefined();
+    expect(rangeAlertFor(control).shown).toBe(false);
+    expect(control.valid).toBe(true);
+  });
+
+  it('hides warnings while the question is disabled or hidden', () => {
+    const control = controlFor(createForm([question('number', true)]));
+    control.conceptReferenceRange = range;
+    control.setValue(40);
+    const rangeAlert = rangeAlertFor(control);
+    expect(rangeAlert.shown).toBe(true);
+
+    control.disable();
+    control.updateAlert();
+    expect(rangeAlert.shown).toBe(false);
+
+    control.enable();
+    control.updateAlert();
+    expect(rangeAlert.shown).toBe(true);
+
+    control.hidden = true;
+    control.updateAlert();
+    expect(rangeAlert.shown).toBe(false);
   });
 
   it('validates a single upper bound without requiring a lower bound', () => {
@@ -146,6 +190,24 @@ describe('Reference ranges in a form', () => {
     expect(control.hasError('min')).toBe(true);
   });
 
+  it('reports the stricter limit when a schema limit and an absolute limit are both broken', () => {
+    const control = controlFor(
+      createForm([
+        {
+          id: 'temperature',
+          type: 'obs',
+          questionOptions: { rendering: 'number', min: -10, max: 100 }
+        }
+      ])
+    );
+    control.conceptReferenceRange = { lowAbsolute: 0, hiAbsolute: 43 };
+
+    control.setValue(120);
+    expect(control.getError('max').requiredValue).toBe(43);
+    control.setValue(-20);
+    expect(control.getError('min').requiredValue).toBe(0);
+  });
+
   it('wires warnings for nested and newly added repeated questions', () => {
     const form = createForm([
       {
@@ -165,15 +227,15 @@ describe('Reference ranges in a form', () => {
     form.searchNodeByQuestionId('repeat')[0].createChildNode();
     const nested = controlFor(form);
     const repeated = controlFor(form, 'repeatTemperature', 1);
+    nested.conceptReferenceRange = range;
+    repeated.conceptReferenceRange = range;
     nested.setValue(40);
     repeated.setValue(34);
-    expect(
-      nested.alerts.find((alert) => alert.source === 'conceptReferenceRange')
-        .alertMessage
-    ).toBe('referenceRangeCriticalHigh');
-    expect(
-      repeated.alerts.find((alert) => alert.source === 'conceptReferenceRange')
-        .alertMessage
-    ).toBe('referenceRangeCriticalLow');
+    expect(rangeAlertFor(nested).alertMessage).toBe(
+      'referenceRangeCriticalHigh'
+    );
+    expect(rangeAlertFor(repeated).alertMessage).toBe(
+      'referenceRangeCriticalLow'
+    );
   });
 });

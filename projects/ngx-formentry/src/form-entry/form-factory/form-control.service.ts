@@ -138,12 +138,9 @@ export class FormControlService {
 
     const control = new AfeFormControl(value, validators);
     if (['number', 'decimal'].includes(question.renderingType)) {
-      control.conceptReferenceRange =
-        question.extras?.questionOptions?.conceptReferenceRange;
       control.addValidators(() =>
         validateConceptReferenceRange(control, question.extras?.questionOptions)
       );
-      control.updateValueAndValidity({ emitEvent: false });
     }
     control.uuid = question.key;
     this.wireHidersDisablers(question, control, form);
