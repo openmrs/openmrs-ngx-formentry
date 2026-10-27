@@ -1,11 +1,16 @@
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
 import { ConditionalValidationModel } from '../question-models/conditional-validation.model';
+import { isControlHidden } from './is-control-hidden';
 
 export class ConditionalAnsweredValidator {
   constructor() {}
 
   validate(model: ConditionalValidationModel) {
     return (control: AfeFormControl): { [key: string]: any } => {
+      if (isControlHidden(control)) {
+        return null;
+      }
+
       const value = control.value;
       let relationValue = null;
       const referenceQuestionId: string = model.referenceQuestionId;

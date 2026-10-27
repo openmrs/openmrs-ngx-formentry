@@ -195,6 +195,12 @@ export class FormRendererComponent implements OnInit, OnChanges {
 
   checkSection(node: NodeBase) {
     if (node.question.renderingType === 'section') {
+      // A section may declare its own hide/disable expression. When promoted to
+      // a control (see QuestionFactory.toSectionQuestion) hiding it removes the
+      // whole section regardless of its children's state.
+      if (node.control && node.control.hidden) {
+        return false;
+      }
       let groupChildrenHidden = false;
       const allSectionControlsHidden = Object.keys(node.children).every((k) => {
         const innerNode = node.children[k];
@@ -208,6 +214,40 @@ export class FormRendererComponent implements OnInit, OnChanges {
       return !allSectionControlsHidden;
     }
     return true;
+  }
+
+  // Whether the page at the given index is hidden (its page control's hidden
+  // flag is set — see QuestionFactory.toPageQuestion).
+  public isPageHidden(index: number): boolean {
+    const pages = this.node.question['questions'];
+    const page = pages && pages[index];
+    if (!page) {
+      return false;
+    }
+    const pageNode = this.node.children[page.key];
+    return !!(pageNode && pageNode.control && pageNode.control.hidden);
+  }
+
+  // Index of the nearest visible page before `index`, or -1 if none.
+  public previousVisiblePageIndex(index: number): number {
+    for (let i = index - 1; i >= 0; i--) {
+      if (!this.isPageHidden(i)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  // Index of the nearest visible page after `index`, or -1 if none.
+  public nextVisiblePageIndex(index: number): number {
+    const pages = this.node.question['questions'];
+    const length = pages ? pages.length : 0;
+    for (let i = index + 1; i < length; i++) {
+      if (!this.isPageHidden(i)) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   public clickTab(tabNumber: number) {

@@ -5,6 +5,7 @@
         ofeHoverClass="hover"
         class="tablinks completed"
         *ngFor="let tab of tabs"
+        [hidden]="tab.isHidden"
         (click)="selectTab(tab)"
         [class]="getStatusClasses(tab.active, tab.disabled)"
       >

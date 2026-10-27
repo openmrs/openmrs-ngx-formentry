@@ -1,4 +1,4 @@
-<div *ngIf="active" class="pane" [ngClass]="customPaneClass">
+<div *ngIf="active && !isHidden" class="pane" [ngClass]="customPaneClass">
   <h4>{{ tabTitle }}</h4>
   <div *ngIf="bypassDOM">
     <ng-container [ngTemplateOutlet]="template"></ng-container>

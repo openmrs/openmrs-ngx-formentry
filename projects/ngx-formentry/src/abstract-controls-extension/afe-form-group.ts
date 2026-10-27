@@ -111,6 +111,15 @@ export class AfeFormGroup
     this.AlertHelper.evaluateControlAlerts(this);
   }
   setValue(value: any, options?: { onlySelf?: boolean; emitEvent?: boolean }) {
+    // The hider helper clears a hidden control by calling setValue(null). A
+    // FormGroup cannot accept a null value, so interpret it as "clear every
+    // child" and reset descendant controls to empty (mirrors AfeFormArray's
+    // null guard). This is what lets a hidden section drop its fields from the
+    // generated payload instead of only being removed from the DOM.
+    if (value === null) {
+      this.reset(undefined, options);
+      return;
+    }
     super.setValue(value, options);
     if (this.alerts.length > 0) {
       this.updateAlert();

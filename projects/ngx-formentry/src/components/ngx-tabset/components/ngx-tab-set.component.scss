@@ -4,6 +4,13 @@
   top: 10rem;
 }
 
+/* `.tab button { display: block }` below out-specifies the browser's default
+   `[hidden] { display: none }`, so hidden nav buttons (e.g. a hidden
+   page/subform) would still show. Re-assert it for the nav column. */
+.tab button[hidden] {
+  display: none;
+}
+
 .tab button {
   font-family: inherit;
   display: block;

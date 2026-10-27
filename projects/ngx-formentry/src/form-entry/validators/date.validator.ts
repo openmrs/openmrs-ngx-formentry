@@ -1,10 +1,11 @@
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
+import { isControlHidden } from './is-control-hidden';
 
 export class DateValidator {
   constructor() {}
 
   validate(control: AfeFormControl) {
-    if (control.hidden) {
+    if (isControlHidden(control)) {
       return null;
     }
 

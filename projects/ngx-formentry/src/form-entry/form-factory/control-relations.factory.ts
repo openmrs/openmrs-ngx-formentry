@@ -21,6 +21,66 @@ export class ControlRelationsFactory {
         this.setRelations(controlsStore, nodeBase);
       }
     }
+
+    this.setGroupNodeRelations(rootNode, controlsStore);
+  }
+
+  // Section and page (subform) groups carry their own hide/disable expression
+  // but are not part of controlsStore (which only tracks leaf and array
+  // controls). Without wiring, their expressions would evaluate once and never
+  // react to field changes. For every such group control, subscribe it to each
+  // field it references so its hidden/disabled state re-evaluates whenever that
+  // field changes.
+  setGroupNodeRelations(rootNode: GroupNode, controlsStore: any) {
+    const groupNodes = this.collectHideableGroupNodes(rootNode, []);
+
+    groupNodes.forEach((groupNode) => {
+      const groupControl = groupNode.control as any;
+      if (!groupControl) {
+        return;
+      }
+
+      for (const key in controlsStore) {
+        if (controlsStore.hasOwnProperty(key)) {
+          const referenced: NodeBase = controlsStore[key];
+
+          if (this.hasRelation(referenced.question.key, groupNode.question)) {
+            this.addRelationToControl(
+              groupControl,
+              referenced.control as AfeFormControl | AfeFormArray
+            );
+          }
+        }
+      }
+    });
+  }
+
+  private collectHideableGroupNodes(
+    node: GroupNode,
+    store: GroupNode[]
+  ): GroupNode[] {
+    const children: any = node.children;
+
+    for (const key in children) {
+      if (children.hasOwnProperty(key)) {
+        const child: NodeBase = children[key];
+
+        if (child instanceof GroupNode) {
+          const renderingType = child.question.renderingType;
+          if (
+            (renderingType === 'section' || renderingType === 'page') &&
+            child.control &&
+            (child.question.hide || child.question.disable)
+          ) {
+            store.push(child);
+          }
+
+          this.collectHideableGroupNodes(child, store);
+        }
+      }
+    }
+
+    return store;
   }
 
   buildArrayNodeRelations(node: GroupNode) {

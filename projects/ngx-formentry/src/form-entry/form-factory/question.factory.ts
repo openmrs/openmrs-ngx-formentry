@@ -667,6 +667,14 @@ export class QuestionFactory {
     this.addHistoricalExpressions(schemaQuestion, question);
     this.addCalculatorProperty(schemaQuestion, question);
     question.componentConfigs = schemaQuestion.componentConfigs || [];
+    // Pages (including subform pages) are layout-only unless they declare a
+    // hide/disable expression. In that case we promote the page to a real form
+    // group so the expression has a control to live on; the renderer then hides
+    // the whole tab and the fields inside are cleared, disabled and skipped by
+    // validation (see ControlRelationsFactory and isControlHidden).
+    if (question.hide || question.disable) {
+      question.controlType = AfeControlType.AfeFormGroup;
+    }
     return question;
   }
 
@@ -696,10 +704,19 @@ export class QuestionFactory {
     question.prefix = schemaQuestion.prefix;
     question.key = schemaQuestion.label;
     question.renderingType = 'section';
-    question.controlType = AfeControlType.None;
     question.isExpanded = schemaQuestion.isExpanded === 'true' ? true : false;
     question.questions = this.getSchemaQuestions(schemaQuestion.questions);
     question.componentConfigs = schemaQuestion.componentConfigs || [];
+    this.addDisableOrHideProperty(schemaQuestion, question);
+    // Sections are layout-only and normally carry no control. When a section
+    // declares a hide/disable expression we promote it to a real form group so
+    // the expression has a control to live on; hiding it then clears and
+    // disables every field in the section (see AfeFormGroup.setValue and
+    // ControlRelationsFactory.setGroupNodeRelations).
+    question.controlType =
+      question.hide || question.disable
+        ? AfeControlType.AfeFormGroup
+        : AfeControlType.None;
     return question;
   }
 

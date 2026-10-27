@@ -7,6 +7,7 @@
   >
     <ofe-tab
       [tabTitle]="question.label | translate"
+      [isHidden]="node.children[question.key]?.control?.hidden === true"
       *ngFor="let question of node.question.questions; let i = index"
     >
       <ofe-form-renderer
@@ -22,35 +23,43 @@
         <div class="button-set">
           <button
             class="cds--btn cds--btn--ghost nav-button"
-            [disabled]="i === 0"
+            [disabled]="previousVisiblePageIndex(i) === -1"
             type="button"
           >
             <a
-              *ngIf="i > 0"
-              (click)="tabSelected(i - 1)"
+              *ngIf="previousVisiblePageIndex(i) !== -1"
+              (click)="tabSelected(previousVisiblePageIndex(i))"
               class="nav-link"
-              [title]="node.question.questions[i - 1].label | translate"
+              [title]="
+                node.question.questions[previousVisiblePageIndex(i)].label
+                  | translate
+              "
             >
               <label class="nav-label">{{ 'previous' | translate }}</label>
               <span class="nav-link-text">{{
-                node.question.questions[i - 1].label | translate
+                node.question.questions[previousVisiblePageIndex(i)].label
+                  | translate
               }}</span>
             </a>
           </button>
           <button
             class="cds--btn cds--btn--ghost nav-button"
-            [disabled]="i === node.question.questions.length - 1"
+            [disabled]="nextVisiblePageIndex(i) === -1"
             type="button"
           >
             <a
-              *ngIf="i < node.question.questions.length - 1"
-              (click)="tabSelected(i + 1)"
+              *ngIf="nextVisiblePageIndex(i) !== -1"
+              (click)="tabSelected(nextVisiblePageIndex(i))"
               class="nav-link"
-              [title]="node.question.questions[i + 1].label | translate"
+              [title]="
+                node.question.questions[nextVisiblePageIndex(i)].label
+                  | translate
+              "
             >
               <label class="nav-label">{{ 'next' | translate }}</label>
               <span class="nav-link-text">{{
-                node.question.questions[i + 1].label | translate
+                node.question.questions[nextVisiblePageIndex(i)].label
+                  | translate
               }}</span>
             </a>
           </button>
@@ -119,7 +128,7 @@
     *ngFor="let question of node.question.questions"
     [parentComponent]="this"
     [node]="node.children[question.key]"
-    [parentGroup]="parentGroup"
+    [parentGroup]="node.control || parentGroup"
     [labelMap]="labelMap"
   ></ofe-form-renderer>
 </div>
@@ -161,7 +170,7 @@
               *ngFor="let question of node.question.questions"
               [parentComponent]="this"
               [node]="node.children[question.key]"
-              [parentGroup]="parentGroup"
+              [parentGroup]="node.control || parentGroup"
               [labelMap]="labelMap"
             ></ofe-form-renderer>
           </div>

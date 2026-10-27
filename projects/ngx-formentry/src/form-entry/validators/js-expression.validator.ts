@@ -1,4 +1,5 @@
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
+import { isControlHidden } from './is-control-hidden';
 import { ExpressionRunner } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
 import { JsExpressionValidationModel } from '../question-models/js-expression-validation.model';
@@ -13,7 +14,7 @@ export class JsExpressionValidator {
       if (
         !Validations.JSExpressionValidatorsEnabled ||
         control.disabled ||
-        control.hidden
+        isControlHidden(control)
       ) {
         return null;
       }

@@ -11,6 +11,7 @@ export class TabComponent {
   @Input() public tabSubTitle: string;
   @Input() public active = false;
   @Input() public disabled = false;
+  @Input() public isHidden = false;
   @Input() public bypassDOM = false;
   @Input() public customPaneClass = '';
   @ContentChild(TemplateRef) template: TemplateRef<any>;

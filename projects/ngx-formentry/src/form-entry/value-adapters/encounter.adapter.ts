@@ -112,10 +112,14 @@ export class EncounterAdapter implements ValueAdapter {
    * @returns Array of encounter payloads
    */
   generateFormPayloadWithSubforms(form: Form): any[] {
-    const subforms = this.extractSubforms(form.schema);
-    
+    // Skip subforms whose page is hidden: a hidden subform has its fields
+    // cleared, so it would otherwise produce an empty encounter.
+    const subforms = this.extractSubforms(form.schema).filter(
+      (subform) => !this.isSubformHidden(form, subform)
+    );
+
     if (subforms.length === 0) {
-      // No subforms, return single encounter
+      // No (visible) subforms, return single encounter
       return [this.generateFormPayload(form)];
     }
 
@@ -166,6 +170,24 @@ export class EncounterAdapter implements ValueAdapter {
     }
 
     return subforms;
+  }
+
+  /**
+   * Determines whether a subform's page is currently hidden. The subform page
+   * node is keyed by the subform name; when the page declares a hide expression
+   * it is backed by a control whose `hidden` flag reflects the expression.
+   * @param form The form
+   * @param subform The subform information
+   * @returns True if the subform page is hidden
+   */
+  private isSubformHidden(form: Form, subform: any): boolean {
+    const rootNode = form.rootNode as GroupNode;
+    const pageNode =
+      rootNode && rootNode.children
+        ? (rootNode.children[subform.name] as NodeBase)
+        : null;
+
+    return !!(pageNode && pageNode.control && (pageNode.control as any).hidden);
   }
 
   /**

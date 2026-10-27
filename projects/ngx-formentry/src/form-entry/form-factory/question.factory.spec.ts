@@ -3,6 +3,7 @@ import { QuestionBase } from '../question-models/question-base';
 import { SelectQuestion } from '../question-models/select-question';
 import { QuestionFactory } from './question.factory';
 import { MarkdownQuestion } from '../question-models/markdown-question';
+import { AfeControlType } from '../../abstract-controls-extension/afe-control-type';
 
 describe('Question Factory', () => {
   it('should create a markdown question from an array value', () => {
@@ -1130,5 +1131,73 @@ describe('Question Factory', () => {
       expectedConvertedSchema.questions[1]
     );
     expect((result.questions[1] as QuestionBase).renderingType).toBe('date');
+  });
+
+  it('should leave a plain section as a layout-only group with no control', () => {
+    const converted = factory.toSectionQuestion({
+      label: 'Encounter Details',
+      questions: []
+    });
+
+    expect(converted.renderingType).toBe('section');
+    expect(converted.controlType).toBe(AfeControlType.None);
+    expect(converted.hide).toBeFalsy();
+  });
+
+  it('should promote a section with a hide expression to a form group and carry the hide', () => {
+    const hideExpression =
+      'onArt !== "a899b35c-1350-11df-a1f1-0026b9348838"';
+    const converted = factory.toSectionQuestion({
+      label: 'ART Details',
+      hide: { hideWhenExpression: hideExpression },
+      questions: []
+    });
+
+    expect(converted.renderingType).toBe('section');
+    expect(converted.controlType).toBe(AfeControlType.AfeFormGroup);
+    expect(converted.hide).toBe(hideExpression);
+  });
+
+  it('should promote a section with a disable expression to a form group', () => {
+    const converted = factory.toSectionQuestion({
+      label: 'Read-only Section',
+      disable: 'true',
+      questions: []
+    });
+
+    expect(converted.controlType).toBe(AfeControlType.AfeFormGroup);
+    expect(converted.disable).toBe('true');
+  });
+
+  it('should leave a plain page as a layout-only group with no control', () => {
+    const converted = factory.toPageQuestion({
+      label: 'Visit Details',
+      sections: []
+    });
+
+    expect(converted.renderingType).toBe('page');
+    expect(converted.controlType).toBe(AfeControlType.None);
+  });
+
+  it('should promote a subform page with a hide expression to a form group', () => {
+    const hideExpression =
+      "onArt !== 'a899b35c-1350-11df-a1f1-0026b9348838'";
+    const converted = factory.toPageQuestion({
+      isSubform: true,
+      hide: { hideWhenExpression: hideExpression },
+      subform: {
+        name: 'Vital Signs Assessment',
+        form: {
+          encounterType: '67a71486-1a54-468f-ac3e-7091a9a79584',
+          uuid: 'bb430e49-1696-47eb-a33a-fbfc49edc3fd',
+          pages: [{ sections: [] }]
+        }
+      }
+    });
+
+    expect(converted.renderingType).toBe('page');
+    expect(converted.key).toBe('Vital Signs Assessment');
+    expect(converted.controlType).toBe(AfeControlType.AfeFormGroup);
+    expect(converted.hide).toBe(hideExpression);
   });
 });

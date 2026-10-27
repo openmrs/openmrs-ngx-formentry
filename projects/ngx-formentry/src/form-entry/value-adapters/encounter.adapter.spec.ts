@@ -1,4 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import moment from 'moment';
 
@@ -48,7 +50,9 @@ describe('Encounter Value Adapter:', () => {
           QuestionFactory,
           ControlRelationsFactory,
           ObsAdapterHelper,
-          DebugModeService
+          DebugModeService,
+          provideHttpClient(withInterceptorsFromDi()),
+          provideHttpClientTesting()
         ]
       });
     })
@@ -358,6 +362,83 @@ describe('Encounter Value Adapter:', () => {
     const formUuids = subformPayloads.map(p => p.form);
     expect(formUuids).toContain('subform-1-uuid');
     expect(formUuids).toContain('subform-2-uuid');
+  });
+
+  it('should skip a hidden subform when generating payloads', () => {
+    const adapter = TestBed.inject(EncounterAdapter);
+    const factory: FormFactory = TestBed.inject(FormFactory);
+
+    const formWithHiddenSubform = {
+      name: 'Test Form with Hidden Subform',
+      pages: [
+        {
+          label: 'Main Page',
+          sections: [
+            {
+              label: 'Main Section',
+              questions: [
+                {
+                  label: 'Test Question',
+                  type: 'obs',
+                  questionOptions: {
+                    rendering: 'text',
+                    concept: 'test-concept'
+                  },
+                  id: 'test_question'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          isSubform: true,
+          // Always hidden, so this subform should be skipped entirely.
+          hide: { hideWhenExpression: 'true' },
+          subform: {
+            name: 'Hidden Subform',
+            form: {
+              name: 'Hidden Subform',
+              uuid: 'hidden-subform-uuid',
+              encounterType: 'hidden-encounter-type',
+              pages: []
+            }
+          }
+        },
+        {
+          isSubform: true,
+          subform: {
+            name: 'Visible Subform',
+            form: {
+              name: 'Visible Subform',
+              uuid: 'visible-subform-uuid',
+              encounterType: 'visible-encounter-type',
+              pages: []
+            }
+          }
+        }
+      ],
+      encounterType: { uuid: 'main-encounter-type', display: 'Main Encounter' },
+      uuid: 'main-form-uuid'
+    };
+
+    const form = factory.createForm(formWithHiddenSubform);
+    form.valueProcessingInfo = {
+      patientUuid: 'patientUuid',
+      visitUuid: 'visitUuid',
+      encounterTypeUuid: 'main-encounter-type',
+      formUuid: 'main-form-uuid',
+      encounterUuid: 'encounterUuid',
+      providerUuid: 'providerUuid',
+      utcOffset: '+0300'
+    };
+
+    const payloads = adapter.generateFormPayloadWithSubforms(form);
+
+    // main + the single visible subform (hidden one skipped)
+    expect(payloads.length).toBe(2);
+    const subformForms = payloads.slice(1).map((p) => p.form);
+    expect(subformForms).toContain('visible-subform-uuid');
+    expect(subformForms).not.toContain('hidden-subform-uuid');
   });
 
   it('should generate single encounter for form without subforms', () => {

@@ -1,9 +1,10 @@
 import { AfeFormControl } from '../../abstract-controls-extension/afe-form-control';
+import { isControlHidden } from './is-control-hidden';
 
 export class MaxLengthValidator {
   validate(maxLength: number) {
     return (control: AfeFormControl): { [key: string]: any } => {
-      if (control.hidden) {
+      if (isControlHidden(control)) {
         return null;
       }
 

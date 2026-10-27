@@ -2,6 +2,7 @@ import {
   Component,
   ContentChildren,
   AfterContentInit,
+  DoCheck,
   Input,
   Output,
   EventEmitter,
@@ -18,7 +19,7 @@ import { TabComponent } from './tab.component';
     templateUrl: 'ngx-tab-set.component.html',
     standalone: false
 })
-export class TabSetComponent implements AfterContentInit, OnChanges {
+export class TabSetComponent implements AfterContentInit, OnChanges, DoCheck {
   @ContentChildren(TabComponent) public tabs: QueryList<TabComponent>;
 
   @Input() public disableStyle = false;
@@ -37,21 +38,41 @@ export class TabSetComponent implements AfterContentInit, OnChanges {
 
   // contentChildren are set
   public ngAfterContentInit() {
-    // get all active tabs
-    const activeTabs = this.tabs.filter((tab: TabComponent) => tab.active);
+    // get all visible active tabs
+    const activeTabs = this.tabs.filter(
+      (tab: TabComponent) => tab.active && !tab.isHidden
+    );
 
-    // if there is no active tab set, activate the first
+    // if there is no visible active tab set, activate the first visible one
     setTimeout(() => {
       if (activeTabs.length === 0) {
-        this.selectTab(this.tabs.first);
+        this.selectTab(this.firstVisibleTab());
       }
     });
+  }
+
+  // If the active tab becomes hidden (e.g. its hide expression turned true),
+  // move focus to the first visible tab so the form never shows a blank pane.
+  public ngDoCheck() {
+    if (!this.tabs) {
+      return;
+    }
+    const activeTab = this.tabs.find((tab: TabComponent) => tab.active);
+    if (activeTab && activeTab.isHidden) {
+      activeTab.active = false;
+      this.selectTab(this.firstVisibleTab());
+    }
   }
 
   public onHover($event) {}
 
   public selectTab(tabToSelect: TabComponent): void {
-    if (tabToSelect.disabled === true || tabToSelect.active === true) {
+    if (
+      !tabToSelect ||
+      tabToSelect.disabled === true ||
+      tabToSelect.isHidden === true ||
+      tabToSelect.active === true
+    ) {
       return;
     }
 
@@ -62,6 +83,10 @@ export class TabSetComponent implements AfterContentInit, OnChanges {
     tabToSelect.active = true;
     this.tabSelect.emit(this.tabs.toArray().indexOf(tabToSelect));
   }
+  private firstVisibleTab(): TabComponent {
+    return this.tabs.find((tab: TabComponent) => !tab.isHidden);
+  }
+
   public getStatusClasses(active, disabled) {
     if (active) {
       return 'active';
