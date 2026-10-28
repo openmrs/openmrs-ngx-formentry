@@ -174,6 +174,17 @@ describe('Reference ranges in a form', () => {
     expect(control.valid).toBe(true);
   });
 
+  it('ignores blank or non-numeric schema limits', () => {
+    const schemaQuestion = {
+      id: 'pulse',
+      type: 'obs',
+      questionOptions: { rendering: 'number', min: ' ', max: 'abc' }
+    };
+    const control = controlFor(createForm([schemaQuestion]), 'pulse');
+    control.setValue(-1);
+    expect(control.valid).toBe(true);
+  });
+
   it('replaces reference limits without retaining an older limit or widening the schema limit', () => {
     const schemaQuestion = question('number', false);
     schemaQuestion.questionOptions.min = 10;

@@ -34,6 +34,7 @@ import { WorkspaceLauncherQuestion } from '../question-models';
 import { DecimalValidationModel } from '../question-models/decimal-validation.model';
 import { DisallowDecimalsValidationModel } from '../question-models/disallow-decimals-validation.model';
 import { RemoteSelectQuestion } from '../question-models/remote-select-question';
+import { numericBound } from '../validators/concept-reference-range.validator';
 @Injectable()
 export class QuestionFactory {
   dataSources: any = {};
@@ -1081,11 +1082,7 @@ export class QuestionFactory {
       case 'decimal':
       case 'number':
       case 'numeric':
-        if (
-          questionOptions.max !== undefined &&
-          questionOptions.max !== null &&
-          questionOptions.max !== ''
-        ) {
+        if (numericBound(questionOptions.max) !== undefined) {
           validators.push(
             new MaxValidationModel({
               type: 'max',
@@ -1093,11 +1090,7 @@ export class QuestionFactory {
             })
           );
         }
-        if (
-          questionOptions.min !== undefined &&
-          questionOptions.min !== null &&
-          questionOptions.min !== ''
-        ) {
+        if (numericBound(questionOptions.min) !== undefined) {
           validators.push(
             new MinValidationModel({
               type: 'min',

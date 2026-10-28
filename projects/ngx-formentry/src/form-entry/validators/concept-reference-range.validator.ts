@@ -45,7 +45,9 @@ export function validateConceptReferenceRange(
   return null;
 }
 
-function numericBound(value: number | string | undefined): number | undefined {
+export function numericBound(
+  value: number | string | undefined
+): number | undefined {
   return value !== undefined &&
     value !== null &&
     String(value).trim() !== '' &&
