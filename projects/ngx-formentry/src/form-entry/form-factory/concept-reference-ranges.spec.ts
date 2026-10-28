@@ -101,13 +101,13 @@ describe('Reference ranges in a form', () => {
   [undefined, false].forEach((enabled) => {
     it(`preserves expression alerts and absolute validation when the option is ${enabled}`, () => {
       const control = controlFor(createForm([question('number', enabled)]));
-      control.conceptReferenceRange = range;
+      control.conceptReferenceRange = { ...range, hiAbsolute: 43 };
       control.setValue(40);
       expect(control.alert).toBe('Call the clinician');
       expect(rangeAlertFor(control)).toBeUndefined();
-      control.setValue(-1);
-      expect(control.hasError('min')).toBe(true);
-      control.setValue(0);
+      control.setValue(44);
+      expect(control.hasError('max')).toBe(true);
+      control.setValue(43);
       expect(control.valid).toBe(true);
     });
   });
