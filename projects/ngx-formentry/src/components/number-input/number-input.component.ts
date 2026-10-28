@@ -132,6 +132,10 @@ export class NumberInputComponent implements ControlValueAccessor {
    */
   @Input() warnText: string | TemplateRef<any>;
   /**
+   * Sets the aria-describedby attribute on the `input` element.
+   */
+  @Input() ariaDescribedBy: string;
+  /**
    * Emits event notifying other classes when a change in state occurs in the input.
    */
   @Output() numberChange = new EventEmitter<NumberChangeEvent>();

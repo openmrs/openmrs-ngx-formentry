@@ -99,6 +99,14 @@ class ReferenceRangeHostComponent {
                     alertWhenExpression: 'myValue >= 40',
                     message: 'Call the clinician'
                   }
+                },
+                {
+                  id: 'pulse',
+                  label: 'Pulse',
+                  type: 'obs',
+                  questionOptions: {
+                    rendering: 'number'
+                  }
                 }
               ]
             }
@@ -149,6 +157,17 @@ describe('Reference range warning rendering', () => {
     expect(warning.textContent.trim()).toBe('Critically high (limit: 40 °C)');
     expect(warning.classList.contains('critical')).toBe(true);
     expect(warning.parentElement.getAttribute('role')).toBe('status');
+    expect(warning.parentElement.id).toMatch(/^reference-range-warning-\d+$/);
+    expect(
+      fixture.nativeElement
+        .querySelector('input#temperatureid')
+        .getAttribute('aria-describedby')
+    ).toBe(warning.parentElement.id);
+    expect(
+      fixture.nativeElement
+        .querySelector('input#pulseid')
+        .hasAttribute('aria-describedby')
+    ).toBe(false);
     expect(fixture.nativeElement.textContent).toContain('Call the clinician');
 
     control.setValue(44);

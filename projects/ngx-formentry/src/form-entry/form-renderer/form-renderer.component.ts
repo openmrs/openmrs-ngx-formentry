@@ -38,6 +38,11 @@ const referenceRangeMessages: Record<string, string> = {
   standalone: false
 })
 export class FormRendererComponent implements OnInit, OnChanges {
+  /**
+   * Variable used for creating unique ids for reference range warnings.
+   */
+  static referenceRangeWarningCount = 0;
+
   @Input() public formSubmissionTemplate: TemplateRef<unknown>;
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
@@ -46,6 +51,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
   @Input() public labelMap: Object;
   @Input() public controlId: String = '';
   public childComponents: FormRendererComponent[] = [];
+  public readonly referenceRangeWarningId = `reference-range-warning-${FormRendererComponent.referenceRangeWarningCount++}`;
   public showTime: boolean;
   public showWeeks: boolean;
   public activeTab: number;
