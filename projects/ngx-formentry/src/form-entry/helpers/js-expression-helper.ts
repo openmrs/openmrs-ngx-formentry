@@ -69,22 +69,24 @@ export class JsExpressionHelper {
     return bmi && refSectionObject ? formattedSDValue : null;
   }
   calcWeightForHeightZscore(weightForHeightRef, height, weight) {
-    let refSection;
-    let formattedSDValue;
-    if (height && weight) {
-      height = parseFloat(height).toFixed(1);
+    if (!height || !weight || !weightForHeightRef) {
+      return null;
     }
+
     const standardHeightMin = 45;
     const standardMaxHeight = 110;
     if (height < standardHeightMin || height > standardMaxHeight) {
-      formattedSDValue = -4;
-    } else {
-      refSection = _.filter(weightForHeightRef, (refObject) => {
-        return parseFloat(refObject['Length']).toFixed(1) === height;
-      });
+      return null;
     }
 
+    height = parseFloat(height).toFixed(1);
+
+    const refSection = _.filter(weightForHeightRef, (refObject) => {
+      return parseFloat(refObject['Length']).toFixed(1) === height;
+    });
+
     const refSectionObject = _.first(refSection);
+    let formattedSDValue;
     if (refSectionObject) {
       const refObjectValues = Object.keys(refSectionObject)
         .map((key) => refSectionObject[key])
@@ -121,7 +123,7 @@ export class JsExpressionHelper {
       }
     }
 
-    return height && weight ? formattedSDValue : null;
+    return refSectionObject ? formattedSDValue : null;
   }
 
   calcHeightForAgeZscore(heightForAgeRef, height, weight) {
