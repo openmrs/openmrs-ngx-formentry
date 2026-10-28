@@ -24,13 +24,6 @@ import { ValidationErrors } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ConceptReferenceRangeAlert } from '../control-alerts/concept-reference-range-alert';
 
-const referenceRangeMessages: Record<string, string> = {
-  referenceRangeCriticalHigh: 'Critically high (limit: {limit})',
-  referenceRangeCriticalLow: 'Critically low (limit: {limit})',
-  referenceRangeHigh: 'Above normal range (limit: {limit})',
-  referenceRangeLow: 'Below normal range (limit: {limit})'
-};
-
 @Component({
   selector: 'ofe-form-renderer',
   templateUrl: 'form-renderer.component.html',
@@ -149,14 +142,9 @@ export class FormRendererComponent implements OnInit, OnChanges {
   }
 
   referenceRangeMessage(alert: ConceptReferenceRangeAlert): string {
-    const key = alert.alertMessage;
-    const translated = this.translate.instant(key);
-    const message =
-      translated === key ? referenceRangeMessages[key] ?? key : translated;
-    return message.replace(
-      '{limit}',
-      `${alert.limit} ${alert.units ?? ''}`.trim()
-    );
+    return this.translate
+      .instant(alert.alertMessage)
+      .replace('{limit}', `${alert.limit} ${alert.units ?? ''}`.trim());
   }
 
   public setUpRemoteSelect() {

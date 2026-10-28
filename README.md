@@ -122,6 +122,8 @@ To also show normal and critical warnings, set `alert.useConceptReferenceRange` 
 
 An answer at or beyond a critical limit (`<= lowCritical` or `>= hiCritical`) gets a critical warning. Otherwise, an answer outside the normal range (`< lowNormal` or `> hiNormal`) gets a normal warning. Warnings don't block submission, show alongside any `alertWhenExpression` alert, and are hidden while the answer has a `min` or `max` error. Empty answers and missing ranges show no warning.
 
+The warning text comes from the host's translations, under the keys `referenceRangeCriticalHigh`, `referenceRangeCriticalLow`, `referenceRangeHigh` and `referenceRangeLow`. Each message uses `{limit}` for the limit and its units, for example `"referenceRangeHigh": "Above normal range (limit: {limit})"`.
+
 Ranges with age-based criteria should match the date the measurement was taken. With REST module 3.3.0 or later on Platform 2.8.5 or later, the `conceptreferencerange` resource accepts an `obs`, `encounter` or `date` context, and criteria can use `$patient.getAge($date)`. The O3 form entry app requests ranges this way.
 
 ### Custom components and controls
