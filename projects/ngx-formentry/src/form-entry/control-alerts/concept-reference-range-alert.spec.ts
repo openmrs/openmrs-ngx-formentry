@@ -88,4 +88,11 @@ describe('Concept reference range warnings', () => {
     expect(evaluateConceptReferenceRange(40, {})).toBeNull();
     expect(evaluateConceptReferenceRange(40)).toBeNull();
   });
+
+  it('trims whitespace around the units', () => {
+    expect(
+      evaluateConceptReferenceRange(38, { hiNormal: 37.5, units: ' °C ' })
+        ?.units
+    ).toBe('°C');
+  });
 });

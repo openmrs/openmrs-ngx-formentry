@@ -82,7 +82,7 @@ export function evaluateConceptReferenceRange(
         severity: warning.severity,
         alertMessage: warning.alertMessage,
         limit: warning.limit,
-        units: range.units ?? ''
+        units: range.units?.trim() ?? ''
       }
     : null;
 }
