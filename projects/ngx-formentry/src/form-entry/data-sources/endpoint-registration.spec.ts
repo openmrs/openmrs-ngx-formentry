@@ -163,7 +163,7 @@ describe('FormRendererComponent data source resolution', () => {
     const message = warnSpy.calls.mostRecent().args[0] as string;
     expect(message).toContain('Available data sources: (none)');
   });
-
+  
   it('warns with the available names when a data source is missing', () => {
     setUpWithHttp();
     const warnSpy = spyOn(console, 'warn');

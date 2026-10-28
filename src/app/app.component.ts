@@ -150,6 +150,8 @@ export class AppComponent implements OnInit {
       mui: '447062073-5',
       nid: '1234567'
     });
+    this.dataSources.registerDataSource('patientUuid', 'd4c05325-0279-4a8c-bf61-79b1e4b41c06');
+    this.dataSources.registerDataSource('visitUuid', '14265883-7f89-46ec-bf54-97d7ece56130');
 
     this.dataSources.registerDataSource('file', {
       fileUpload: (data) => {

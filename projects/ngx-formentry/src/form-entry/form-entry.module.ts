@@ -124,7 +124,7 @@ export class FormEntryModule {
     // keep working exactly as before, minus this one data source. A data source
     // a host has already registered under this name is left in place.
     if (dataSources && http && !dataSources.dataSources['endpoint']) {
-      dataSources.registerDataSource('endpoint', new EndpointDataSource(http));
+      dataSources.registerDataSource('endpoint', new EndpointDataSource(http,undefined,dataSources));
     }
   }
 }
