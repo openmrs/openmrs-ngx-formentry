@@ -10,9 +10,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 // Using similarity from AsyncPipe to avoid having to pipe |secure|async in HTML.
 @Pipe({
-    name: 'secure',
-    pure: false,
-    standalone: false
+  name: 'secure',
+  pure: false,
+  standalone: false
 })
 export class SecurePipe implements PipeTransform, OnDestroy {
   private _latestValue: any = null;
@@ -39,7 +39,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
   transform(url: string, getfile): any {
     this.getfile = getfile;
     const obj = this.internalTransform(url);
-    return this.asyncTrasnform(obj);
+    return this.asyncTransform(obj);
   }
 
   private internalTransform(url: string): Observable<any> {
@@ -58,7 +58,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
     return this.result;
   }
 
-  private asyncTrasnform(obj: Observable<any>): any {
+  private asyncTransform(obj: Observable<any>): any {
     if (!this._obj) {
       if (obj) {
         this._subscribe(obj);
@@ -68,7 +68,7 @@ export class SecurePipe implements PipeTransform, OnDestroy {
     }
     if (obj !== this._obj) {
       this._dispose();
-      return this.asyncTrasnform(obj);
+      return this.asyncTransform(obj);
     }
     if (this._latestValue === this._latestReturnedValue) {
       return this._latestReturnedValue;

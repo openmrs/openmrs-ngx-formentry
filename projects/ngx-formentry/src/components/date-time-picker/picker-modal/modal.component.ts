@@ -9,19 +9,13 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 
-// webpack1_
-declare let require: any;
-// const myDpStyles: string = require('./modal.component.css');
-// const myDpTpl: string = require('./modal.component.html');
-// webpack2_
-
 @Component({
-    selector: 'ofe-picker-modal',
-    templateUrl: './modal.component.html',
-    styleUrls: ['./modal.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [],
-    standalone: false
+  selector: 'ofe-picker-modal',
+  templateUrl: './modal.component.html',
+  styleUrls: ['./modal.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [],
+  standalone: false
 })
 export class ModalComponent {
   @Output() overlayClick = new EventEmitter<boolean>();

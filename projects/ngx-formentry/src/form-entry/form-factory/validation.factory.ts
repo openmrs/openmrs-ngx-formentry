@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
 

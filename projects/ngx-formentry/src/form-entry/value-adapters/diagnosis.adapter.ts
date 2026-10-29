@@ -273,21 +273,6 @@ export class DiagnosisValueAdapter implements ValueAdapter {
     }
   }
 
-  private _convert(diagnosis: Diagnosis): DiagnosisPayload {
-    return {
-      uuid: diagnosis.uuid,
-      encounter: diagnosis.encounter,
-      patient: diagnosis.patient,
-      diagnosis: {
-        coded: diagnosis.diagnosis.coded.uuid,
-        nonCoded: diagnosis.diagnosis.nonCoded
-      },
-      certainty: diagnosis.certainty,
-      rank: diagnosis.rank,
-      voided: diagnosis.voided
-    };
-  }
-
   hasDiagnosisNodeChanged(nodeAsGroup: GroupNode): boolean {
     const childrenNodes = Object.values(nodeAsGroup.children) as Array<
       LeafNode

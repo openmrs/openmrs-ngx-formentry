@@ -2,7 +2,6 @@
  * date-time.class
  */
 import {
-  Component,
   EventEmitter,
   Inject,
   Injectable,
