@@ -2,8 +2,26 @@ import { QuestionGroup } from '../question-models/group-question';
 import { QuestionBase } from '../question-models/question-base';
 import { SelectQuestion } from '../question-models/select-question';
 import { QuestionFactory } from './question.factory';
+import { MarkdownQuestion } from '../question-models/markdown-question';
 
 describe('Question Factory', () => {
+  it('should create a markdown question from an array value', () => {
+    const factory = new QuestionFactory();
+    const schemaQuestion = {
+      id: 'smokeIntro',
+      questionOptions: { rendering: 'markdown' },
+      value: ['## Heading 2', 'A paragraph with **bold** text.']
+    };
+
+    const question = factory.toModel(schemaQuestion, 'markdown');
+
+    expect(question instanceof MarkdownQuestion).toBeTrue();
+    expect(question.renderingType).toBe('markdown');
+    expect(question.markdown).toBe(
+      '## Heading 2\n\nA paragraph with **bold** text.'
+    );
+  });
+
   const selectSchemaQuestion: any = {
     label: 'Patient previous ART use',
     type: 'obs',
