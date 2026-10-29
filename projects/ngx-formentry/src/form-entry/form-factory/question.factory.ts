@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import moment from 'moment';
 
 import { TextInputQuestion } from '../question-models/text-input-question';

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import { LeafNode, GroupNode } from '../form-factory/form-node';
 import { Form } from '../form-factory/form';
@@ -91,14 +91,14 @@ export class ObsValueAdapter implements ValueAdapter {
 
   setObsValue(node, payload) {
     if (
-      (node.question &&
-        node.question.extras &&
-        (node.question.extras.type === 'obs' ||
-          (node.question.extras.type === 'complex-obs-child' &&
-            node.question.extras.questionOptions.obsField === 'value')) &&
-        node.question.extras.questionOptions.rendering !== 'multiCheckbox' &&
-        node.question.extras.questionOptions.rendering !== 'checkbox' &&
-        node.question.extras.questionOptions.rendering !== 'multi-select')
+      node.question &&
+      node.question.extras &&
+      (node.question.extras.type === 'obs' ||
+        (node.question.extras.type === 'complex-obs-child' &&
+          node.question.extras.questionOptions.obsField === 'value')) &&
+      node.question.extras.questionOptions.rendering !== 'multiCheckbox' &&
+      node.question.extras.questionOptions.rendering !== 'checkbox' &&
+      node.question.extras.questionOptions.rendering !== 'multi-select'
     ) {
       const obs = _.find(payload, (o: any) => {
         return o.concept.uuid === node.question.extras.questionOptions.concept;
