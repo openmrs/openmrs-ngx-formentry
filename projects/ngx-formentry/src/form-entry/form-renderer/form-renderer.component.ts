@@ -22,6 +22,7 @@ import { FormErrorsService } from '../services/form-errors.service';
 import { QuestionGroup } from '../question-models/group-question';
 import { ValidationErrors } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { ConceptReferenceRangeAlert } from '../control-alerts/concept-reference-range-alert';
 
 @Component({
   selector: 'ofe-form-renderer',
@@ -30,6 +31,11 @@ import { TranslateService } from '@ngx-translate/core';
   standalone: false
 })
 export class FormRendererComponent implements OnInit, OnChanges {
+  /**
+   * Variable used for creating unique ids for reference range warnings.
+   */
+  static referenceRangeWarningCount = 0;
+
   @Input() public formSubmissionTemplate: TemplateRef<unknown>;
   @Input() public parentComponent: FormRendererComponent;
   @Input() public node: NodeBase;
@@ -38,6 +44,7 @@ export class FormRendererComponent implements OnInit, OnChanges {
   @Input() public labelMap: Object;
   @Input() public controlId: String = '';
   public childComponents: FormRendererComponent[] = [];
+  public readonly referenceRangeWarningId = `reference-range-warning-${FormRendererComponent.referenceRangeWarningCount++}`;
   public showTime: boolean;
   public showWeeks: boolean;
   public activeTab: number;
@@ -114,6 +121,30 @@ export class FormRendererComponent implements OnInit, OnChanges {
 
   public addChildComponent(child: FormRendererComponent) {
     this.childComponents.push(child);
+  }
+
+  get hasConceptReferenceRangeAlert(): boolean {
+    return (this.node?.control?.alerts ?? []).some(
+      (alert) => alert.source === 'conceptReferenceRange'
+    );
+  }
+
+  get conceptReferenceRangeAlerts(): Array<ConceptReferenceRangeAlert> {
+    const control = this.node?.control;
+    // A min or max error already explains the value, so a range warning would repeat it.
+    if (!control || control.hasError('min') || control.hasError('max')) {
+      return [];
+    }
+    return (control.alerts ?? []).filter(
+      (alert): alert is ConceptReferenceRangeAlert =>
+        alert.source === 'conceptReferenceRange' && alert.shown
+    );
+  }
+
+  referenceRangeMessage(alert: ConceptReferenceRangeAlert): string {
+    return this.translate
+      .instant(alert.alertMessage)
+      .replace('{limit}', `${alert.limit} ${alert.units ?? ''}`.trim());
   }
 
   public setUpRemoteSelect() {
