@@ -21,7 +21,6 @@ import {
 import { SelectOption } from '../../form-entry/question-models/interfaces/select-option';
 
 import { DataSource } from '../../form-entry/question-models/interfaces/data-source';
-import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

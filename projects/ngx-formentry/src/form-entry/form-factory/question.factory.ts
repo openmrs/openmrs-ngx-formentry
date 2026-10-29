@@ -26,7 +26,6 @@ import { Form } from './form';
 import { CheckBoxQuestion } from '../question-models/models';
 import { RadioButtonQuestion } from '../question-models/models';
 import { Injectable } from '@angular/core';
-import { CustomControlQuestion } from '../question-models/custom-control-question.model';
 import { DiagnosisQuestion } from '../question-models/diagnosis-question';
 import { MaxLengthValidationModel } from '../question-models/max-length-validation.model';
 import { MinLengthValidationModel } from '../question-models/min-length-validation.model';

@@ -6,17 +6,11 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import _ from 'lodash';
 import moment, { Moment } from 'moment';
 
-// webpack1_
-declare let require: any;
-// const myDpStyles: string = require('./date-picker.component.css');
-// const myDpTpl: string = require('./date-picker.component.html');
-// webpack2_
-
 @Component({
-    selector: 'ofe-date-picker',
-    templateUrl: './date-picker.component.html',
-    styleUrls: ['./date-picker.component.css'],
-    standalone: false
+  selector: 'ofe-date-picker',
+  templateUrl: './date-picker.component.html',
+  styleUrls: ['./date-picker.component.css'],
+  standalone: false
 })
 export class DatePickerComponent implements OnInit {
   public dayNames: Array<string>;

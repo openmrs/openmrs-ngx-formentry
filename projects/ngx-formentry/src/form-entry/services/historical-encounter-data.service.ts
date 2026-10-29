@@ -136,13 +136,13 @@ export class HistoricalEncounterDataService {
     const obsRep: any = {};
     if (_.isArray(obs)) {
       _.each(obs, (singleObs) => {
-        this._augumentObs(obsRep, this._transformObs(singleObs));
+        this._augmentObs(obsRep, this._transformObs(singleObs));
       });
       return obsRep;
     } else if (obs.groupMembers) {
       const group: any = {};
       _.each(obs.groupMembers, (member) => {
-        this._augumentObs(group, this._transformObs(member));
+        this._augmentObs(group, this._transformObs(member));
       });
 
       // Handle already existing data
@@ -162,7 +162,7 @@ export class HistoricalEncounterDataService {
     }
   }
 
-  private _augumentObs(existing: any, toAdd: any): any {
+  private _augmentObs(existing: any, toAdd: any): any {
     for (const key in toAdd) {
       if (_.has(existing, key)) {
         // check if not an array yet
