@@ -118,6 +118,51 @@ describe('ValidationFactory Unit Tests', () => {
     expect(errorMessages.indexOf(expectedMsg)).not.toBe(-1);
   });
 
+  const textSchemaQuestion = (required: boolean | string): any => ({
+    label: 'Remarks',
+    id: 'remarks',
+    type: 'obs',
+    required,
+    questionOptions: {
+      concept: 'a8a1e3c4-1350-11df-a1f1-0026b9348838',
+      rendering: 'text'
+    },
+    validators: []
+  });
+
+  it('should require a value when required is the boolean true', () => {
+    const converted = questionFactory.toTextQuestion(textSchemaQuestion(true));
+    const validations = validationFactory.getValidators(converted);
+
+    const formControl = new AfeFormControl('', validations);
+
+    expect(formControl.errors?.required).toBe(true);
+  });
+
+  it('should require a value when required is the string "true"', () => {
+    const converted = questionFactory.toTextQuestion(
+      textSchemaQuestion('true')
+    );
+    const validations = validationFactory.getValidators(converted);
+
+    const formControl = new AfeFormControl('', validations);
+
+    expect(formControl.errors?.required).toBe(true);
+  });
+
+  it('should not require a value when required is false or "false"', () => {
+    [false, 'false'].forEach((required) => {
+      const converted = questionFactory.toTextQuestion(
+        textSchemaQuestion(required)
+      );
+      const validations = validationFactory.getValidators(converted);
+
+      const formControl = new AfeFormControl('', validations);
+
+      expect(formControl.errors).toBeNull();
+    });
+  });
+
   it('should have validator functions', () => {
     expect(validationFactory.requiredValidator).toBeDefined();
     expect(validationFactory.dateValidator).toBeDefined();
