@@ -31,6 +31,7 @@
       [disabled]="disabled"
       [required]="required"
       [attr.data-invalid]="invalid ? invalid : null"
+      [attr.aria-describedby]="ariaDescribedBy"
       [placeholder]="placeholder"
       (input)="onNumberInputChange($event)"
     />

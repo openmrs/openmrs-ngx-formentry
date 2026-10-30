@@ -10,6 +10,7 @@ export interface CanGenerateAlert {
 }
 
 export interface Alert {
+  source?: 'conceptReferenceRange';
   shown: boolean;
   alertWhenExpression: string;
   alertMessage: string;

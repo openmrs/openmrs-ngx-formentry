@@ -160,21 +160,38 @@ ng-select.form-control {
   color: var(--cds-support-01, #da1e28);
 }
 
-.text-warn {
-  color: #eea616;
-}
-
 .error {
+  @include type.type-style('label-01');
   margin-top: 0.25rem;
 }
 
 .warning {
+  @include type.type-style('label-01');
   display: flex;
   align-items: center;
   margin: 0 0.25rem 0.75rem;
+  color: colors.$gray-100;
 
   svg {
+    flex-shrink: 0;
     margin-right: 0.25rem;
+    fill: colors.$yellow-30;
+
+    [data-icon-path='inner-path'] {
+      fill: colors.$gray-100;
+    }
+  }
+}
+
+.reference-range-warning.critical {
+  color: var(--cds-support-01, #da1e28);
+
+  svg {
+    fill: var(--cds-support-01, #da1e28);
+
+    [data-icon-path='inner-path'] {
+      fill: colors.$white;
+    }
   }
 }
 
