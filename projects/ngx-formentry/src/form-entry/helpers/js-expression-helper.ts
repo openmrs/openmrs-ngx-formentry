@@ -73,8 +73,8 @@ export class JsExpressionHelper {
       return null;
     }
 
-    // The valid height range is the range of the reference table: 45 to 110 cm
-    // for weight-for-length and 65 to 120 cm for weight-for-height
+    // Check the height against the table's range before rounding, so values just
+    // outside it (like 120.04 cm) don't round onto a valid boundary row
     const referenceHeights = _.map(weightForHeightRef, (refObject) =>
       parseFloat(refObject['Length'])
     ).filter((length) => !isNaN(length));
