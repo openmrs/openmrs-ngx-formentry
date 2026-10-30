@@ -3,7 +3,7 @@
  */
 
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 import moment, { Moment } from 'moment';
 
 @Component({

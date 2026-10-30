@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 
 @Injectable()
 export class FormSchemaCompiler {
@@ -10,8 +10,8 @@ export class FormSchemaCompiler {
       typeof globalThis !== 'undefined'
         ? globalThis
         : typeof window !== 'undefined'
-          ? window
-          : {};
+        ? window
+        : {};
     return (
       typeof globalRef.jasmine !== 'undefined' ||
       typeof globalRef.__karma__ !== 'undefined'

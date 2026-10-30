@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import { Form } from '../form-factory/form';
 import { ValidationFactory } from '../form-factory/validation.factory';
@@ -8,10 +8,10 @@ import { QuestionGroup } from '../question-models/group-question';
 import { FormErrorsService } from '../services/form-errors.service';
 
 @Component({
-    selector: 'ofe-error-renderer',
-    templateUrl: 'error-renderer.component.html',
-    styleUrls: ['./error-renderer.component.css'],
-    standalone: false
+  selector: 'ofe-error-renderer',
+  templateUrl: 'error-renderer.component.html',
+  styleUrls: ['./error-renderer.component.css'],
+  standalone: false
 })
 export class ErrorRendererComponent {
   @Input() form: Form;
