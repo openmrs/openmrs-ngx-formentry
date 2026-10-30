@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
 
 import {
   AfeFormControl,
@@ -21,6 +20,7 @@ import {
   Runnable
 } from '../expression-runner/expression-runner';
 import { JsExpressionHelper } from '../helpers/js-expression-helper';
+import { validateConceptReferenceRange } from '../validators/concept-reference-range.validator';
 
 @Injectable()
 export class FormControlService {
@@ -136,6 +136,11 @@ export class FormControlService {
     const validators = this.validationFactory.getValidators(question, form);
 
     const control = new AfeFormControl(value, validators);
+    if (['number', 'decimal'].includes(question.renderingType)) {
+      control.addValidators(() =>
+        validateConceptReferenceRange(control, question.extras?.questionOptions)
+      );
+    }
     control.uuid = question.key;
     this.wireHidersDisablers(question, control, form);
     this.wireAlerts(question, control, form);
@@ -158,13 +163,22 @@ export class FormControlService {
     control: AfeFormArray | AfeFormGroup | AfeFormControl,
     form?: Form
   ) {
-    if (question.alert && question.alert !== '') {
+    if (question.alert?.alertWhenExpression) {
       const alert = this.alertsFactory.getJsExpressionshowAlert(
         question,
         control,
         form
       );
       control.setAlertFn(alert);
+    }
+    if (
+      question.alert?.useConceptReferenceRange === true &&
+      control instanceof AfeFormControl &&
+      ['number', 'decimal'].includes(question.renderingType)
+    ) {
+      control.setAlertFn(
+        this.alertsFactory.getConceptReferenceRangeAlert(control)
+      );
     }
   }
   private wireHidersDisablers(

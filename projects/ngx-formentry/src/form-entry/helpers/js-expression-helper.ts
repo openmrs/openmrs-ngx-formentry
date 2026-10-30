@@ -23,7 +23,6 @@ export class JsExpressionHelper {
 
   calcBMIForAgeZscore(bmiForAgeRef, height, weight) {
     let bmi;
-    const maxAgeInDays = 1856;
     if (height && weight) {
       bmi = (weight / (((height / 100) * height) / 100)).toFixed(1);
     }

@@ -9,7 +9,12 @@ module.exports = {
         tsconfigRootDir: __dirname,
         createDefaultProgram: true
       },
+      plugins: ['@typescript-eslint'],
       rules: {
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          { args: 'none', caughtErrors: 'none' }
+        ],
         '@angular-eslint/directive-selector': [
           'warn',
           {

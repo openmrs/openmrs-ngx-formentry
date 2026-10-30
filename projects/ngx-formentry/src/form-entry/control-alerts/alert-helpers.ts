@@ -21,6 +21,9 @@ export class AlertHelper {
     let messageValue = '';
     control.alerts.forEach((message) => {
       message.reEvaluateAlertExpression();
+      if (message.source === 'conceptReferenceRange') {
+        return;
+      }
       if (message.shown === true) {
         messageValue = message.alertMessage;
       } else {

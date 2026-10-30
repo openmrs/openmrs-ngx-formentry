@@ -143,7 +143,7 @@ export class ObsAdapterHelper {
 
   setComplexObsNodeValue(node: NodeBase, obs: Array<any>) {
     if (node && obs.length > 0) {
-      let valueField: LeafNode; // essential memmber
+      let valueField: LeafNode; // essential member
       let dateField: LeafNode; // other member to be manipulated by user
 
       const nodeAsGroup = node as GroupNode;
@@ -369,7 +369,7 @@ export class ObsAdapterHelper {
       return null;
     }
 
-    // check for exisiting, unchanged values
+    // check for existing, unchanged values
     if (node.initialValue && !this.simpleNodeValueChanged(node)) {
       return null;
     }
@@ -396,7 +396,7 @@ export class ObsAdapterHelper {
   }
 
   getComplexObsPayload(node: NodeBase) {
-    let valueField: LeafNode; // essential memmber
+    let valueField: LeafNode; // essential member
     let dateField: LeafNode; // other member to be manipulated by user
 
     const nodeAsGroup = node as GroupNode;
@@ -470,7 +470,7 @@ export class ObsAdapterHelper {
       });
     }
 
-    // add new obs i.e they didn't exisit originally
+    // add new obs i.e they didn't exist originally
     if (Array.isArray(node.control.value)) {
       _.each(node.control.value, (item) => {
         if (existingUuids.indexOf(item) < 0) {
@@ -541,14 +541,14 @@ export class ObsAdapterHelper {
 
     let childrenPayload = [];
 
-    const groupsUuidsAfterEditting = [];
+    const groupsUuidsAfterEditing = [];
     _.each(nodeAsArray.children, (child) => {
       const payload = this.getObsNodePayload(child);
       if (payload.length > 0) {
         childrenPayload = childrenPayload.concat(payload);
       }
       if (child.initialValue && child.initialValue.uuid) {
-        groupsUuidsAfterEditting.push(child.initialValue.uuid);
+        groupsUuidsAfterEditing.push(child.initialValue.uuid);
       }
     });
 
@@ -556,7 +556,7 @@ export class ObsAdapterHelper {
 
     if (nodeAsArray.initialValue && Array.isArray(nodeAsArray.initialValue)) {
       _.each(nodeAsArray.initialValue, (obs) => {
-        if (groupsUuidsAfterEditting.indexOf(obs.uuid) < 0) {
+        if (groupsUuidsAfterEditing.indexOf(obs.uuid) < 0) {
           const voidedGroup = {
             uuid: obs.uuid,
             voided: true
@@ -590,11 +590,14 @@ export class ObsAdapterHelper {
           const groupNode = node as GroupNode;
 
           for (const o in groupNode.children) {
-            const groupNodePayoad = this.getObsNodePayload(
+            const groupNodePayload = this.getObsNodePayload(
               groupNode.children[o]
             );
-            if (Array.isArray(groupNodePayoad) && groupNodePayoad.length > 0) {
-              payload = payload.concat(groupNodePayoad);
+            if (
+              Array.isArray(groupNodePayload) &&
+              groupNodePayload.length > 0
+            ) {
+              payload = payload.concat(groupNodePayload);
             }
           }
           break;

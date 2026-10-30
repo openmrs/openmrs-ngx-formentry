@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
 
@@ -99,9 +98,8 @@ export class ValidationFactory {
     }
 
     if (
-      question.required &&
-      typeof question.required === 'string' &&
-      question.required === 'true'
+      question.required === true ||
+      (typeof question.required === 'string' && question.required === 'true')
     ) {
       list.push(this.requiredValidator);
     } else {

@@ -5,17 +5,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import moment, { Moment } from 'moment';
 
-// webpack1_
-declare let require: any;
-// const myDpStyles: string = require('./time-picker.component.css');
-// const myDpTpl: string = require('./time-picker.component.html');
-// webpack2_
-
 @Component({
-    selector: 'ofe-time-picker',
-    templateUrl: './time-picker.component.html',
-    styleUrls: ['./time-picker.component.css'],
-    standalone: false
+  selector: 'ofe-time-picker',
+  templateUrl: './time-picker.component.html',
+  styleUrls: ['./time-picker.component.css'],
+  standalone: false
 })
 export class TimePickerComponent implements OnInit {
   @Input() initTime: any;
