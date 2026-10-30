@@ -220,7 +220,7 @@ describe('JS Expression Helper Service:', () => {
   });
 
   describe('calcWeightForHeightZscore', () => {
-    const mockWeightForHeightRef = [
+        const mockWeightForHeightRef = [
       {
         Length: 45,
         SD4neg: 1.71,
@@ -244,9 +244,20 @@ describe('JS Expression Helper Service:', () => {
         SD2: 15.1,
         SD3: 16.8,
         SD4: 18.7
+      },
+      {
+        Length: 110,
+        SD4neg: 12.0,
+        SD3neg: 13.5,
+        SD2neg: 15.0,
+        SD1neg: 16.8,
+        SD0: 18.7,
+        SD1: 21.0,
+        SD2: 23.5,
+        SD3: 26.5,
+        SD4: 30.0
       }
     ];
-
     it('should return the correct z-score when height and weight are within range', () => {
       const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
 
