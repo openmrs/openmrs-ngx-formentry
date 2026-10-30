@@ -244,6 +244,18 @@ describe('JS Expression Helper Service:', () => {
         SD2: 15.1,
         SD3: 16.8,
         SD4: 18.7
+      },
+      {
+        Length: 110,
+        SD4neg: 12.0,
+        SD3neg: 13.5,
+        SD2neg: 15.0,
+        SD1neg: 16.8,
+        SD0: 18.7,
+        SD1: 21.0,
+        SD2: 23.5,
+        SD3: 26.5,
+        SD4: 30.0
       }
     ];
 
@@ -284,6 +296,66 @@ describe('JS Expression Helper Service:', () => {
       ).toBeNull();
       expect(
         helper.calcWeightForHeightZscore(mockWeightForHeightRef, 112, 20)
+      ).toBeNull();
+    });
+
+    // Synthetic weight-for-height rows (65 to 120 cm), built from a median
+    const wfhRow = (length: number, median: number) => ({
+      Length: length,
+      SD4neg: median * 0.6,
+      SD3neg: median * 0.7,
+      SD2neg: median * 0.8,
+      SD1neg: median * 0.9,
+      SD0: median,
+      SD1: median * 1.12,
+      SD2: median * 1.25,
+      SD3: median * 1.4,
+      SD4: median * 1.55
+    });
+    const mockWeightForHeightTable = [
+      wfhRow(65, 7.4),
+      wfhRow(110.1, 18.5),
+      wfhRow(115, 20.5),
+      wfhRow(120, 22)
+    ];
+
+    it('should return a z-score for heights above 110 cm when the table covers them', () => {
+      const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightTable, 110.1, 19)
+      ).toBe('0');
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightTable, 115, 21)
+      ).toBe('0');
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightTable, 120, 22.5)
+      ).toBe('0');
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightTable, 120, 25)
+      ).toBe('1');
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightTable, 65, 7.5)
+      ).toBe('0');
+    });
+
+    it('should return null outside the range of the table (below 65 cm or above 120 cm)', () => {
+      const helper: JsExpressionHelper = TestBed.inject(JsExpressionHelper);
+
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightTable, 64.9, 7)
+      ).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightTable, 64.96, 7)
+      ).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightTable, 120.04, 22)
+      ).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightTable, 120.1, 22)
+      ).toBeNull();
+      expect(
+        helper.calcWeightForHeightZscore(mockWeightForHeightTable, 125, 22)
       ).toBeNull();
     });
 

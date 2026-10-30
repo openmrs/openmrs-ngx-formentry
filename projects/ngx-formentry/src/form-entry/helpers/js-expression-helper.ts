@@ -72,9 +72,18 @@ export class JsExpressionHelper {
       return null;
     }
 
-    const standardHeightMin = 45;
-    const standardMaxHeight = 110;
-    if (height < standardHeightMin || height > standardMaxHeight) {
+    // Check the height against the table's range before rounding, so values just
+    // outside it (like 120.04 cm) don't round onto a valid boundary row
+    const referenceHeights = _.map(weightForHeightRef, (refObject) =>
+      parseFloat(refObject['Length'])
+    ).filter((length) => !isNaN(length));
+    const standardHeightMin = _.min(referenceHeights);
+    const standardMaxHeight = _.max(referenceHeights);
+    if (
+      standardHeightMin === undefined ||
+      height < standardHeightMin ||
+      height > standardMaxHeight
+    ) {
       return null;
     }
 
