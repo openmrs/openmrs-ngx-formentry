@@ -14,7 +14,8 @@ export class OwlDateTimeIntl implements OnDestroy {
     this.setLabels();
     this.translationChangesSub = merge(
       translate.onLangChange,
-      translate.onTranslationChange
+      translate.onTranslationChange,
+      translate.onDefaultLangChange
     ).subscribe(() => {
       this.setLabels();
       this.changes.next();

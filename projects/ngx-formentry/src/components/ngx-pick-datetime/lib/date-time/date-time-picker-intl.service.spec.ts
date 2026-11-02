@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService
+} from '@ngx-translate/core';
+import { Subject } from 'rxjs';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 
 describe('OwlDateTimeIntl', () => {
@@ -50,6 +55,29 @@ describe('OwlDateTimeIntl', () => {
     expect(intl.upHourLabel).toBe('addHour');
 
     translate.use('en');
+
+    expect(intl.upHourLabel).toBe('Add an hour');
+  });
+});
+
+describe('OwlDateTimeIntl with a default language that loads asynchronously', () => {
+  it('updates its labels when the default language finishes loading', () => {
+    const englishTranslations = new Subject<Record<string, string>>();
+    TestBed.configureTestingModule({
+      imports: [
+        TranslateModule.forRoot({
+          defaultLanguage: 'en',
+          loader: {
+            provide: TranslateLoader,
+            useValue: { getTranslation: () => englishTranslations }
+          }
+        })
+      ]
+    });
+    const intl = TestBed.inject(OwlDateTimeIntl);
+    expect(intl.upHourLabel).toBe('addHour');
+
+    englishTranslations.next({ addHour: 'Add an hour' });
 
     expect(intl.upHourLabel).toBe('Add an hour');
   });
