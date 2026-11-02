@@ -507,8 +507,16 @@ export class ObsAdapterHelper {
                 (obs) => obs.uuid == obsPayload.uuid
               ).voided = true;
             } else {
-              childrenPayload.find((obs) => obs.uuid == obsPayload.uuid).value =
-                obsPayload.value;
+              const member = childrenPayload.find(
+                (obs) => obs.uuid == obsPayload.uuid
+              );
+              for (const property of ['value', 'obsDatetime']) {
+                if (
+                  Object.prototype.hasOwnProperty.call(obsPayload, property)
+                ) {
+                  member[property] = obsPayload[property];
+                }
+              }
             }
           } else {
             childrenPayload = childrenPayload.concat(obsPayload);
