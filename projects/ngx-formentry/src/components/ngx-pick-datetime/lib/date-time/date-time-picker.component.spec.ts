@@ -19,7 +19,6 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { ENTER, ESCAPE, RIGHT_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
 import { OverlayContainer } from '@angular/cdk/overlay';
 
@@ -36,8 +35,8 @@ import {
 } from '../../test-helpers';
 
 import { OwlDateTimeContainerComponent } from './date-time-picker-container.component';
+import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { OwlDateTimeTriggerDirective } from './date-time-picker-trigger.directive';
-import { OWL_DATE_TIME_FORMATS } from './adapter/date-time-format.class';
 import {
   TranslateLoader,
   TranslateModule,
@@ -48,15 +47,8 @@ import { HttpClient } from '@angular/common/http';
 
 const JAN = 0,
   FEB = 1,
-  MAR = 2,
-  APR = 3,
-  MAY = 4,
   JUN = 5,
   JUL = 6,
-  AUG = 7,
-  SEP = 8,
-  OCT = 9,
-  NOV = 10,
   DEC = 11;
 
 describe('OwlDateTimeComponent', () => {
@@ -1734,13 +1726,13 @@ describe('OwlDateTimeComponent', () => {
         const calendarElement = calendarDebugElement.nativeElement;
 
         const decreaseHourBtn = calendarElement.querySelector(
-          '[aria-label="Minus a hour"]'
+          `[aria-label="${TestBed.inject(OwlDateTimeIntl).downHourLabel}"]`
         );
         const decreaseMinuteBtn = calendarElement.querySelector(
-          '[aria-label="Minus a minute"]'
+          `[aria-label="${TestBed.inject(OwlDateTimeIntl).downMinuteLabel}"]`
         );
         const decreaseSecondBtn = calendarElement.querySelector(
-          '[aria-label="Minus a second"]'
+          `[aria-label="${TestBed.inject(OwlDateTimeIntl).downSecondLabel}"]`
         );
         expect(decreaseHourBtn.hasAttribute('disabled')).toBe(true);
         expect(decreaseMinuteBtn.hasAttribute('disabled')).toBe(true);
@@ -1763,13 +1755,13 @@ describe('OwlDateTimeComponent', () => {
         const calendarElement = calendarDebugElement.nativeElement;
 
         const increaseHourBtn = calendarElement.querySelector(
-          '[aria-label="Add a hour"]'
+          `[aria-label="${TestBed.inject(OwlDateTimeIntl).upHourLabel}"]`
         );
         const increaseMinuteBtn = calendarElement.querySelector(
-          '[aria-label="Add a minute"]'
+          `[aria-label="${TestBed.inject(OwlDateTimeIntl).upMinuteLabel}"]`
         );
         const increaseSecondBtn = calendarElement.querySelector(
-          '[aria-label="Add a second"]'
+          `[aria-label="${TestBed.inject(OwlDateTimeIntl).upSecondLabel}"]`
         );
         expect(increaseHourBtn.hasAttribute('disabled')).toBe(true);
         expect(increaseMinuteBtn.hasAttribute('disabled')).toBe(true);
@@ -1961,7 +1953,7 @@ describe('OwlDateTimeComponent', () => {
         ).not.toBeNull();
 
         const increaseHourBtn = document.querySelector(
-          '[aria-label="Add a hour"]'
+          `[aria-label="${TestBed.inject(OwlDateTimeIntl).upHourLabel}"]`
         );
         dispatchMouseEvent(increaseHourBtn, 'click');
         fixture.detectChanges();
@@ -1975,7 +1967,7 @@ describe('OwlDateTimeComponent', () => {
         fixture.detectChanges();
 
         const decreaseHourBtn = document.querySelector(
-          '[aria-label="Minus a hour"]'
+          `[aria-label="${TestBed.inject(OwlDateTimeIntl).downHourLabel}"]`
         );
         dispatchMouseEvent(decreaseHourBtn, 'click');
         fixture.detectChanges();
@@ -2005,7 +1997,7 @@ describe('OwlDateTimeComponent', () => {
         ).not.toBeNull();
 
         const increaseMinuteBtn = document.querySelector(
-          '[aria-label="Add a minute"]'
+          `[aria-label="${TestBed.inject(OwlDateTimeIntl).upMinuteLabel}"]`
         );
         dispatchMouseEvent(increaseMinuteBtn, 'click');
         fixture.detectChanges();
@@ -2019,7 +2011,7 @@ describe('OwlDateTimeComponent', () => {
         fixture.detectChanges();
 
         const decreaseMinuteBtn = document.querySelector(
-          '[aria-label="Minus a minute"]'
+          `[aria-label="${TestBed.inject(OwlDateTimeIntl).downMinuteLabel}"]`
         );
         dispatchMouseEvent(decreaseMinuteBtn, 'click');
         fixture.detectChanges();
@@ -2049,7 +2041,7 @@ describe('OwlDateTimeComponent', () => {
         ).not.toBeNull();
 
         const increaseSecondBtn = document.querySelector(
-          '[aria-label="Add a second"]'
+          `[aria-label="${TestBed.inject(OwlDateTimeIntl).upSecondLabel}"]`
         );
         dispatchMouseEvent(increaseSecondBtn, 'click');
         fixture.detectChanges();
@@ -2063,7 +2055,7 @@ describe('OwlDateTimeComponent', () => {
         fixture.detectChanges();
 
         const decreaseSecondBtn = document.querySelector(
-          '[aria-label="Minus a second"]'
+          `[aria-label="${TestBed.inject(OwlDateTimeIntl).downSecondLabel}"]`
         );
         dispatchMouseEvent(decreaseSecondBtn, 'click');
         fixture.detectChanges();
