@@ -1146,6 +1146,102 @@ describe('Obs Value Adapter Helper: ', () => {
     });
   });
 
+  it('should send the edited value and date of a dated member of a group obs node', () => {
+    const form: Form = formFactory.createForm({
+      name: 'Vitals',
+      pages: [
+        {
+          label: 'Vitals',
+          sections: [
+            {
+              label: 'Vitals',
+              isExpanded: 'true',
+              questions: [
+                {
+                  id: 'vitals',
+                  label: 'Vitals',
+                  type: 'obsGroup',
+                  questionOptions: {
+                    rendering: 'group',
+                    concept: 'vitals-uuid'
+                  },
+                  questions: [
+                    {
+                      id: 'temperature',
+                      label: 'Temperature',
+                      type: 'obs',
+                      questionOptions: {
+                        rendering: 'number',
+                        concept: 'temperature-uuid',
+                        showDate: true
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    });
+
+    const savedMember = {
+      uuid: 'temperature-obs-uuid',
+      obsDatetime: '2019-06-01T00:00:00.000+0000',
+      concept: { uuid: 'temperature-uuid' },
+      value: 37,
+      formFieldNamespace: 'saved-namespace',
+      formFieldPath: 'saved-path'
+    };
+    obsAdapterHelper.setNodeValue(form.rootNode, [
+      {
+        uuid: 'vitals-obs-uuid',
+        obsDatetime: '2019-06-01T00:00:00.000+0000',
+        concept: { uuid: 'vitals-uuid' },
+        groupMembers: [savedMember],
+        value: null
+      }
+    ]);
+
+    const groupNode = form.searchNodeByQuestionId('vitals')[0];
+    const valueNode = form.searchNodeByQuestionId('temperature')[0];
+    const dateNode = form.searchNodeByQuestionId('date_temperature')[0];
+
+    // Date changes only
+    dateNode.control.setValue('2018-01-01T00:00:00.000+0000');
+    let payload: any = obsAdapterHelper.getGroupPayload(groupNode);
+
+    expect(payload.groupMembers).toEqual([
+      {
+        uuid: savedMember.uuid,
+        concept: savedMember.concept,
+        value: 37,
+        obsDatetime: moment('2018-01-01T00:00:00.000+0000').format(
+          'YYYY-MM-DD HH:mm:ss'
+        ),
+        formFieldNamespace: 'saved-namespace',
+        formFieldPath: 'saved-path'
+      }
+    ]);
+
+    // Value and date change
+    valueNode.control.setValue(38);
+    payload = obsAdapterHelper.getGroupPayload(groupNode);
+
+    expect(payload.groupMembers).toEqual([
+      {
+        uuid: savedMember.uuid,
+        concept: savedMember.concept,
+        value: 38,
+        obsDatetime: moment('2018-01-01T00:00:00.000+0000').format(
+          'YYYY-MM-DD HH:mm:ss'
+        ),
+        formFieldNamespace: 'saved-namespace',
+        formFieldPath: 'saved-path'
+      }
+    ]);
+  });
+
   it('should generate payload obs for a repeating group obs node', () => {
     spyOn(window, 'confirm').and.callFake(() => true);
 
