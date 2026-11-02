@@ -563,8 +563,6 @@ describe('Obs Value Adapter Helper: ', () => {
     'should set the value for a repeating group obs node given ' +
       'the obs array representing its value',
     () => {
-      const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-      const ff: FormFactory = TestBed.inject(FormFactory);
       expect(formFactory).toBeDefined();
       const form: Form = formFactory.createForm(adultForm);
       expect(form).toBeDefined();
