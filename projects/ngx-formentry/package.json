@@ -26,6 +26,7 @@
   },
   "exports": {
     "./styles/ngx-formentry.css": "./styles/ngx-formentry.css",
-    "./styles/picker.min.css": "./styles/picker.min.css"
+    "./styles/picker.min.css": "./styles/picker.min.css",
+    "./translations/en.json": "./translations/en.json"
   }
 }
