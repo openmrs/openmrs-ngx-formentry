@@ -563,8 +563,6 @@ describe('Obs Value Adapter Helper: ', () => {
     'should set the value for a repeating group obs node given ' +
       'the obs array representing its value',
     () => {
-      const helper: ObsAdapterHelper = TestBed.inject(ObsAdapterHelper);
-      const ff: FormFactory = TestBed.inject(FormFactory);
       expect(formFactory).toBeDefined();
       const form: Form = formFactory.createForm(adultForm);
       expect(form).toBeDefined();
@@ -740,6 +738,104 @@ describe('Obs Value Adapter Helper: ', () => {
     expect(nodeInArray.control.value).toEqual(
       'a899f51a-1350-11df-a1f1-0026b9348838'
     );
+  });
+
+  it('should set the values for showDate questions from obs saved with a form field path', () => {
+    const form: Form = formFactory.createForm({
+      name: 'showDate form',
+      pages: [
+        {
+          label: 'Page 1',
+          sections: [
+            {
+              label: 'Section 1',
+              questions: [
+                {
+                  id: 'weight',
+                  label: 'Weight',
+                  type: 'obs',
+                  questionOptions: {
+                    rendering: 'number',
+                    concept: '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+                    showDate: true
+                  }
+                },
+                {
+                  id: 'vitals',
+                  label: 'Vital signs',
+                  type: 'obsGroup',
+                  questionOptions: {
+                    rendering: 'group',
+                    concept: '1114AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+                  },
+                  questions: [
+                    {
+                      id: 'temperature',
+                      label: 'Temperature',
+                      type: 'obs',
+                      questionOptions: {
+                        rendering: 'number',
+                        concept: '5088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+                        showDate: true
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    });
+
+    const obs = [
+      {
+        uuid: 'weight-obs-uuid',
+        obsDatetime: '2026-10-28T10:00:00.000+0000',
+        concept: { uuid: '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' },
+        value: 70,
+        formFieldNamespace: 'O3',
+        formFieldPath: 'weight~0'
+      },
+      {
+        uuid: 'vitals-obs-uuid',
+        obsDatetime: '2026-11-01T10:00:00.000+0000',
+        concept: { uuid: '1114AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' },
+        value: null,
+        formFieldNamespace: 'O3',
+        formFieldPath: 'vitals~2',
+        groupMembers: [
+          {
+            uuid: 'temperature-obs-uuid',
+            obsDatetime: '2026-10-30T10:00:00.000+0000',
+            concept: { uuid: '5088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' },
+            value: 37.5,
+            formFieldNamespace: 'O3',
+            formFieldPath: 'temperature~1'
+          }
+        ]
+      }
+    ];
+
+    obsAdapterHelper.setNodeValue(form.rootNode, obs);
+
+    const weightNode = form.searchNodeByQuestionId('complex_weight')[0];
+    expect(weightNode.initialValue).toBe(obs[0]);
+    expect(form.searchNodeByQuestionId('weight')[0].control.value).toEqual(70);
+    expect(form.searchNodeByQuestionId('date_weight')[0].control.value).toEqual(
+      '2026-10-28T10:00:00.000+0000'
+    );
+
+    const temperatureNode = form.searchNodeByQuestionId(
+      'complex_temperature'
+    )[0];
+    expect(temperatureNode.initialValue).toBe(obs[1].groupMembers[0]);
+    expect(form.searchNodeByQuestionId('temperature')[0].control.value).toEqual(
+      37.5
+    );
+    expect(
+      form.searchNodeByQuestionId('date_temperature')[0].control.value
+    ).toEqual('2026-10-30T10:00:00.000+0000');
   });
 
   // REGION: Payload Generation
