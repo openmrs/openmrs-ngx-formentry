@@ -422,35 +422,15 @@ export class JsExpressionHelper {
     mobilityChild?: string | null,
     mobilityAdult?: string | null,
     trauma?: string | null,
-    behaviourChangeAssessment?: string[] | string | null
+    mentalSelfHarmCurrent?: string | null
   ) {
     const UUID = {
       ROUTINE: '1115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
       URGENT: '1883AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
       VERY_URGENT: '159409AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
       EMERGENCY: '1882AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
-      TRAUMA_YES: '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
-    };
-
-    // Behaviour Change Assessment answers, scored so that the worst selected
-    // finding alone pushes the additive score into the matching SATS bracket:
-    // None -> no classification (stays 0, no alert banner shown),
-    // Stable -> Routine (Green), Semi-Urgent (Yellow) -> URGENT,
-    // Urgent (Orange) -> VERY_URGENT, Immediate (Red) -> EMERGENCY.
-    // Stable is scored 1 rather than 0 so it's distinguishable from "no
-    // classification"/untouched (both of which are 0) by the TEWS score
-    // alert banner, which only has the numeric score to work with.
-    const BEHAVIOUR_CHANGE_SCORE: Record<string, number> = {
-      '1107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 0, // None (no classification)
-      '1855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 1, // Stable (Routine/Green)
-      '115689AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 3, // Mood instability (Semi-Urgent/Yellow)
-      '128185AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Psychotic (Urgent/Orange)
-      '206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Recent convulsion (Urgent/Orange)
-      '114091AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 5, // Intoxicated (Urgent/Orange)
-      '112412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 7, // Actively suicidal or homicidal (Immediate/Red)
-      '13e69dbc-0bdc-42cb-a657-3175e66e9117': 7, // Severely agitated (Immediate/Red)
-      '164483AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 7, // Convulsing (Immediate/Red)
-      '146092AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA': 7 // Catatonic (Immediate/Red)
+      TRAUMA_YES: '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      SELF_HARM_CURRENT_YES: '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
     };
 
     const isValid = (num: any): boolean =>
@@ -459,19 +439,6 @@ export class JsExpressionHelper {
     const isValidCode = (val: any): boolean =>
       typeof val === 'string' && val.trim().length > 0;
 
-    const behaviourChangeAssessmentValues = Array.isArray(
-      behaviourChangeAssessment
-    )
-      ? behaviourChangeAssessment
-      : behaviourChangeAssessment
-      ? [behaviourChangeAssessment]
-      : [];
-
-    const behaviourChangeScore = behaviourChangeAssessmentValues.reduce(
-      (worst, val) => Math.max(worst, BEHAVIOUR_CHANGE_SCORE[val] ?? 0),
-      0
-    );
-
     const hasAnyInput =
       [respRate, heartRate, temperature, systolicBP].some(isValid) ||
       [
@@ -479,9 +446,9 @@ export class JsExpressionHelper {
         avpuLevelAdult,
         mobilityChild,
         mobilityAdult,
-        trauma
-      ].some(isValidCode) ||
-      behaviourChangeAssessmentValues.length > 0;
+        trauma,
+        mentalSelfHarmCurrent
+      ].some(isValidCode);
 
     if (!hasAnyInput) {
       return {
@@ -608,7 +575,11 @@ export class JsExpressionHelper {
         break;
     }
 
-    score += behaviourChangeScore;
+    // Current thoughts of ending one's life is an Immediate (Red) finding on
+    // its own, so force the score into the EMERGENCY bracket.
+    if (mentalSelfHarmCurrent === UUID.SELF_HARM_CURRENT_YES) {
+      score = Math.max(score, 7);
+    }
 
     // Priority Mapping
     const priority =
