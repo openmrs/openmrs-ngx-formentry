@@ -7,6 +7,7 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
+  OnDestroy,
   Optional,
   ViewChild
 } from '@angular/core';
@@ -18,7 +19,7 @@ import {
   SPACE,
   UP_ARROW
 } from '@angular/cdk/keycodes';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import { OwlCalendarComponent } from './calendar.component';
@@ -28,19 +29,19 @@ import { owlDateTimePickerAnimations } from './date-time-picker.animations';
 import { OwlTimerComponent } from './timer.component';
 
 @Component({
-    exportAs: 'owlDateTimeContainer',
-    selector: 'ofe-owl-date-time-container',
-    templateUrl: './date-time-picker-container.component.html',
-    styleUrls: ['./date-time-picker-container.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [
-        owlDateTimePickerAnimations.transformPicker,
-        owlDateTimePickerAnimations.fadeInPicker
-    ],
-    standalone: false
+  exportAs: 'owlDateTimeContainer',
+  selector: 'ofe-owl-date-time-container',
+  templateUrl: './date-time-picker-container.component.html',
+  styleUrls: ['./date-time-picker-container.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    owlDateTimePickerAnimations.transformPicker,
+    owlDateTimePickerAnimations.fadeInPicker
+  ],
+  standalone: false
 })
 export class OwlDateTimeContainerComponent<T>
-  implements AfterContentInit, AfterViewInit {
+  implements AfterContentInit, AfterViewInit, OnDestroy {
   @ViewChild(OwlCalendarComponent, { static: false })
   calendar: OwlCalendarComponent<T>;
 
@@ -197,12 +198,18 @@ export class OwlDateTimeContainerComponent<T>
     return this.elmRef.nativeElement;
   }
 
+  private intlChangesSub = Subscription.EMPTY;
+
   constructor(
     private cdRef: ChangeDetectorRef,
     private elmRef: ElementRef,
     private pickerIntl: OwlDateTimeIntl,
     @Optional() private dateTimeAdapter: DateTimeAdapter<T>
-  ) {}
+  ) {
+    this.intlChangesSub = this.pickerIntl.changes.subscribe(() => {
+      this.cdRef.markForCheck();
+    });
+  }
 
   public ngAfterContentInit(): void {
     this.initPicker();
@@ -210,6 +217,10 @@ export class OwlDateTimeContainerComponent<T>
 
   public ngAfterViewInit(): void {
     this.focusPicker();
+  }
+
+  public ngOnDestroy(): void {
+    this.intlChangesSub.unsubscribe();
   }
 
   public dateSelected(date: T): void {
