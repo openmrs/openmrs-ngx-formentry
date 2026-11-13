@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import { HistoricalFieldHelperService } from '../helpers/historical-field-helper-service';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { NodeBase } from '../form-factory/form-node';
 
 @Directive({
-    // eslint-disable-next-line @angular-eslint/directive-selector
-    selector: `[node]`,
-    standalone: false
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: `[node]`,
+  standalone: false
 })
 export class HistoricalValueDirective {
   @Input() _node: NodeBase;

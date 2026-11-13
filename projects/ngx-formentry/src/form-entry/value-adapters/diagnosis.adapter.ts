@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { Form } from '../form-factory/form';
 import { ValueAdapter } from './value.adapter';
 import { ArrayNode, GroupNode, LeafNode } from '../form-factory/form-node';
