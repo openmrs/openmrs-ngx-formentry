@@ -27,12 +27,21 @@ export class ObsAdapterHelper {
       node instanceof LeafNode ||
       (node instanceof GroupNode && node.question.extras.type === 'complex-obs')
     ) {
+      // Complex obs are saved under the form field path of their value field
+      const answeringNode =
+        node instanceof GroupNode
+          ? _.find(
+              node.children,
+              (child: NodeBase) =>
+                child.question.extras.questionOptions.obsField === 'value'
+            )
+          : node;
       _.each(obsArray, (item) => {
         let questionId = this.getQuestionIdFromFormFieldPath(
           item.formFieldPath
         );
         if (
-          (questionId && questionId === node?.question?.extras?.id) ||
+          (questionId && questionId === answeringNode?.question?.extras?.id) ||
           (!questionId &&
             item.concept &&
             item.concept.uuid === node.question.extras.questionOptions.concept)
@@ -507,8 +516,16 @@ export class ObsAdapterHelper {
                 (obs) => obs.uuid == obsPayload.uuid
               ).voided = true;
             } else {
-              childrenPayload.find((obs) => obs.uuid == obsPayload.uuid).value =
-                obsPayload.value;
+              const member = childrenPayload.find(
+                (obs) => obs.uuid == obsPayload.uuid
+              );
+              for (const property of ['value', 'obsDatetime']) {
+                if (
+                  Object.prototype.hasOwnProperty.call(obsPayload, property)
+                ) {
+                  member[property] = obsPayload[property];
+                }
+              }
             }
           } else {
             childrenPayload = childrenPayload.concat(obsPayload);
