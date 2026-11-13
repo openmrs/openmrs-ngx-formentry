@@ -6,10 +6,12 @@ import {
   EventEmitter,
   HostBinding,
   Input,
+  OnDestroy,
   Optional,
   Output,
   ViewChild
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 import {
   CalendarCell,
@@ -33,13 +35,14 @@ export const YEARS_PER_ROW = 3;
 export const YEAR_ROWS = 7;
 
 @Component({
-    selector: 'ofe-owl-date-time-multi-year-view',
-    templateUrl: './calendar-multi-year-view.component.html',
-    styleUrls: ['./calendar-multi-year-view.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'ofe-owl-date-time-multi-year-view',
+  templateUrl: './calendar-multi-year-view.component.html',
+  styleUrls: ['./calendar-multi-year-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
-export class OwlMultiYearViewComponent<T> implements AfterContentInit {
+export class OwlMultiYearViewComponent<T>
+  implements AfterContentInit, OnDestroy {
   @HostBinding('class.owl-dt-calendar-view') get owlDTCalendarView() {
     return true;
   }
@@ -240,16 +243,26 @@ export class OwlMultiYearViewComponent<T> implements AfterContentInit {
   @ViewChild(OwlCalendarBodyComponent, { static: true })
   calendarBodyElm: OwlCalendarBodyComponent;
 
+  private intlChangesSub = Subscription.EMPTY;
+
   constructor(
     private cdRef: ChangeDetectorRef,
     private pickerIntl: OwlDateTimeIntl,
     @Optional() private dateTimeAdapter: DateTimeAdapter<T>
-  ) {}
+  ) {
+    this.intlChangesSub = this.pickerIntl.changes.subscribe(() => {
+      this.cdRef.markForCheck();
+    });
+  }
 
   public ngAfterContentInit(): void {
     this._todayYear = this.dateTimeAdapter.getYear(this.dateTimeAdapter.now());
     this.generateYearList();
     this.initiated = true;
+  }
+
+  public ngOnDestroy(): void {
+    this.intlChangesSub.unsubscribe();
   }
 
   /**

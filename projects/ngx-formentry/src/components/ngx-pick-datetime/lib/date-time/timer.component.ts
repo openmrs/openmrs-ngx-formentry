@@ -7,22 +7,24 @@ import {
   HostBinding,
   Input,
   NgZone,
+  OnDestroy,
   Optional,
   Output
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OwlDateTimeIntl } from './date-time-picker-intl.service';
 import { DateTimeAdapter } from './adapter/date-time-adapter.class';
 
 @Component({
-    exportAs: 'owlDateTimeTimer',
-    selector: 'ofe-owl-date-time-timer',
-    templateUrl: './timer.component.html',
-    styleUrls: ['./timer.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  exportAs: 'owlDateTimeTimer',
+  selector: 'ofe-owl-date-time-timer',
+  templateUrl: './timer.component.html',
+  styleUrls: ['./timer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
-export class OwlTimerComponent<T> {
+export class OwlTimerComponent<T> implements OnDestroy {
   @HostBinding('attr.tabindex')
   get owlDTTimeTabIndex() {
     return -1;
@@ -176,13 +178,23 @@ export class OwlTimerComponent<T> {
   @Output()
   selectedChange = new EventEmitter<T>();
 
+  private intlChangesSub = Subscription.EMPTY;
+
   constructor(
     private ngZone: NgZone,
     private elmRef: ElementRef,
     private pickerIntl: OwlDateTimeIntl,
     private cdRef: ChangeDetectorRef,
     @Optional() private dateTimeAdapter: DateTimeAdapter<T>
-  ) {}
+  ) {
+    this.intlChangesSub = this.pickerIntl.changes.subscribe(() => {
+      this.cdRef.markForCheck();
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.intlChangesSub.unsubscribe();
+  }
 
   /**
    * Focus to the host element
