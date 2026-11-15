@@ -365,6 +365,9 @@ export class JsExpressionHelper {
   get helperFunctions() {
     const helper = this;
     return {
+      // Form schemas call _.isEmpty() in expressions. Only pass the lodash functions
+      // they use, because passing the whole namespace would bundle all of lodash-es.
+      _: { isEmpty: _.isEmpty },
       arrayContainsAny: helper.arrayContainsAny,
       calcBMI: helper.calcBMI,
       calcBSA: helper.calcBSA,
