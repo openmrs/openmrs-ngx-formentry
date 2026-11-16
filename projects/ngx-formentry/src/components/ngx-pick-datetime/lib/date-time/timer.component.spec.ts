@@ -12,20 +12,10 @@ import { OwlNativeDateTimeModule } from './adapter/native-date-time.module';
 import { OwlDateTimeModule } from './date-time.module';
 import { By } from '@angular/platform-browser';
 import { OwlTimerComponent } from './timer.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 const JAN = 0,
-  FEB = 1,
-  MAR = 2,
-  APR = 3,
-  MAY = 4,
-  JUN = 5,
-  JUL = 6,
-  AUG = 7,
-  SEP = 8,
-  OCT = 9,
-  NOV = 10,
-  DEC = 11;
+  FEB = 1;
 
 class MockNgZone extends NgZone {
   onStable: EventEmitter<any> = new EventEmitter(false);
@@ -44,8 +34,6 @@ class MockNgZone extends NgZone {
 }
 
 describe('OwlTimerComponent', () => {
-  let zone: MockNgZone;
-
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -57,7 +45,7 @@ describe('OwlTimerComponent', () => {
         declarations: [StandardTimer],
         providers: [
           OwlDateTimeIntl,
-          { provide: NgZone, useFactory: () => (zone = new MockNgZone()) }
+          { provide: NgZone, useFactory: () => new MockNgZone() }
         ]
       }).compileComponents();
     })
@@ -346,11 +334,25 @@ describe('OwlTimerComponent', () => {
       expect(arrowBtns[3].hasAttribute('disabled')).toBe(false);
       expect(arrowBtns[5].hasAttribute('disabled')).toBe(false);
     });
+
+    it('should update its arrow button labels when translations load after it renders', () => {
+      const upHourBtn = timerElement.querySelector<HTMLButtonElement>(
+        'button.owl-dt-control-arrow-button'
+      );
+      expect(upHourBtn.getAttribute('aria-label')).toBe('addHour');
+
+      const translate = TestBed.inject(TranslateService);
+      translate.setTranslation('en', { addHour: 'Add an hour' });
+      translate.use('en');
+      fixture.detectChanges();
+
+      expect(upHourBtn.getAttribute('aria-label')).toBe('Add an hour');
+    });
   });
 });
 
 @Component({
-    template: `
+  template: `
     <ofe-owl-date-time-timer
       [hour12Timer]="hour12Timer"
       [showSecondsTimer]="showSecondsTimer"
@@ -363,7 +365,7 @@ describe('OwlTimerComponent', () => {
       (selectedChange)="handleSelectedChange($event)"
     ></ofe-owl-date-time-timer>
   `,
-    standalone: false
+  standalone: false
 })
 class StandardTimer {
   stepHour = 1;

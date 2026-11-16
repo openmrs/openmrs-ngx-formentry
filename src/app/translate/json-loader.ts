@@ -9,6 +9,8 @@ export class JsonLoader implements TranslateLoader {
   constructor() {}
 
   getTranslation(lang: string): Observable<TranslationData> {
-    return of(require(`../../translations/${lang}.json`));
+    return of(
+      require(`../../../projects/ngx-formentry/translations/${lang}.json`)
+    );
   }
 }

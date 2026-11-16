@@ -176,6 +176,8 @@ Include the library's stylesheets, plus Carbon's styles (a peer dependency), in 
 @import '@openmrs/ngx-formentry/styles/picker.min.css';
 ```
 
+The engine translates its labels and messages with `@ngx-translate/core`, so the host provides the strings. The package ships the English source for every key the engine uses at `@openmrs/ngx-formentry/translations/en.json`.
+
 Then add the following code to your template:
 
 ```html
