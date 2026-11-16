@@ -32,7 +32,28 @@ module.exports = {
           }
         ],
         '@angular-eslint/prefer-standalone': 'off',
-        '@angular-eslint/prefer-inject': 'off'
+        '@angular-eslint/prefer-inject': 'off',
+        'no-restricted-imports': [
+          'error',
+          {
+            paths: [
+              {
+                name: 'lodash',
+                message: 'Use lodash-es so bundlers can tree-shake it.'
+              }
+            ]
+          }
+        ],
+        'no-restricted-syntax': [
+          'error',
+          {
+            // no-restricted-imports with importNames: ['default'] would also flag `import * as _`.
+            selector:
+              "ImportDeclaration[source.value='lodash-es'] > ImportDefaultSpecifier",
+            message:
+              "The lodash-es default export is all of lodash. Use `import * as _ from 'lodash-es'`."
+          }
+        ]
       }
     },
     {

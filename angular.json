@@ -22,7 +22,6 @@
               "core-js",
               "dompurify",
               "html2canvas",
-              "lodash",
               "moment",
               "raf",
               "rgbcolor"

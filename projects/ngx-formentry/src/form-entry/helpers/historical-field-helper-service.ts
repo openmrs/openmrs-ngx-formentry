@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { QuestionBase } from '../question-models/question-base';
 import { Injectable } from '@angular/core';
 

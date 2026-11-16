@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { Injectable } from '@angular/core';
 import { southEastAsiaCvdRiskTables } from './risk-dataset-table';
 import moment from 'moment';
@@ -365,6 +365,9 @@ export class JsExpressionHelper {
   get helperFunctions() {
     const helper = this;
     return {
+      // Form schemas call _.isEmpty() in expressions. Only pass the lodash functions
+      // they use, because passing the whole namespace would bundle all of lodash-es.
+      _: { isEmpty: _.isEmpty },
       arrayContainsAny: helper.arrayContainsAny,
       calcBMI: helper.calcBMI,
       calcBSA: helper.calcBSA,

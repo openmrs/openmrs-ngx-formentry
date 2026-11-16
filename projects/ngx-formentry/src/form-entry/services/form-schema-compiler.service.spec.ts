@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { FormSchemaCompiler } from './form-schema-compiler.service';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 
 describe('FormSchemaCompiler Service:', () => {
   const formSchemaAdult: any = require('../../mock/schema/adult-return.json');

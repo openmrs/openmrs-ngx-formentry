@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 
 import { DataSources } from '../data-sources/data-sources';
 import { EndpointDataSource } from '../data-sources/endpoint-data-source';
